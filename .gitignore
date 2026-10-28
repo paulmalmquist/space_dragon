@@ -1,0 +1,10 @@
+# Local tooling output and credentials; do not ignore reviewable source assets.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+.env
+.env.*
+!.env.example
+CLAUDE.local.md
+.claude/settings.local.json

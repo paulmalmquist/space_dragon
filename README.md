@@ -16,6 +16,24 @@ A family of five accidentally receives rescue equipment sent with an SOS. They r
 - [Implementation handoff](docs/IMPLEMENTATION_HANDOFF.md) — reading order, confirmed requirements, scope boundaries, and the evidence needed before building.
 - [Blender/MCP character handoff](docs/BLENDER_CHARACTER_HANDOFF.md) — character-reference workflow, suit design, and the separately documented photo-transfer status.
 
+## AI-assisted development
+
+Start with [AGENTS.md](AGENTS.md), then load only the contract for the task. [CLAUDE.md](CLAUDE.md) imports the same rules; it is not a second policy.
+
+- [Current milestone](docs/plans/CURRENT_MILESTONE.md): authorized foundation scope and the proposed First Contact playable increment.
+- [Architecture](docs/engineering/ARCHITECTURE.md), [interactions](docs/gameplay/INTERACTION_CONTRACTS.md), and [learning rules](docs/learning/LEARNING_RULES.md): implementation boundaries without inventing an existing runtime.
+- [Quality gates](docs/engineering/QUALITY_GATES.md) and [receipt template](docs/templates/VERIFICATION_RECEIPT.md): exact checks, honest status and review/release separation.
+
+Three canonical skills live in `.agents/skills/`, with generated Claude mirrors: `sd-build-feature`, `sd-blender-asset`, and `sd-playtest`. No assistant permissions or MCP configuration are changed.
+
+```sh
+python3 tools/check_foundation.py
+python3 -m unittest discover -s tests -p 'test_*.py' -v
+python3 tools/verify_family_references.py
+```
+
+After changing a canonical skill, run `python3 tools/check_foundation.py --sync-skills`. Python 3.10+ is sufficient; Windows users can use `python` or `py -3`. [Foundation CI](.github/workflows/foundation.yml) runs these checks without deployment. [Policy regression cases](tests/agent_policy_cases.json) require separate real-agent evaluation; validating their structure is not proof that an assistant passed them.
+
 ## The family
 
 | Character | Established suit or specialty |

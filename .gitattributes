@@ -1,0 +1,10 @@
+# Keep generated skill mirrors stable across Windows and Unix checkouts.
+*.md text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.jpeg binary
+*.jpg binary
+*.png binary
+*.blend binary
+*.glb binary
