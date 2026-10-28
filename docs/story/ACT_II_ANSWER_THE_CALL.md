@@ -30,9 +30,18 @@ This idea answers several OPEN questions from Act I at once.
 | --- | --- |
 | Why send an SOS *outside* their universe, to anyone in range? | Anyone from inside falls asleep in the Quiet. They needed someone from *elsewhere*, whose own universe's "sound" they carry with them. Earth was in range. That's all. |
 | Why is the SOS a melody? (refinement §3.1) | Song is how their world works. A song is the only kind of call they know how to make. |
-| Why is the rescue vehicle a *dragon*? | It's built in the shape of the star-dragons. The senders made a mechanical one because the living ones were asleep. **The design existed long before the family**, which fits Act I canon exactly. |
+| Why is the rescue vehicle a *dragon*? | It's grown in the shape of the star-dragons, from their own **living material** (see below). The senders made a new one because the living ones were asleep. **The design existed long before the family**, which fits Act I canon exactly. |
+| Why was the equipment so weak when it landed? | Its living material had already started falling asleep in the Quiet before it was sent. Crossing out of the Quiet and being around a noisy family is what woke it up. |
 | Why five seats/suits? | Star-dragon crews traditionally fly as a *pod* of five, one for each part of the song. This is proposed lore. It describes the senders' culture and makes no claim about the family. |
 | What help do they expect from unknown responders? | Not strength or genius. **Just someone who can still make a sound**, and who will choose to use it. |
+
+### The living material comes from here
+
+This builds on the owner's idea that the material is alive ([Act I refinements §3.4](ACT_I_CRITIQUE_AND_REFINEMENTS.md)); the details are PROPOSED. The living material is **shed star-dragon scale**. Star-dragons naturally shed it, the way a snake sheds skin, and it keeps a little of the dragons' life and song. The senders grew the Core, the suits and the mecha dragon from it.
+
+- **It's never harvested from a hurt or sleeping dragon.** Shedding is natural and painless. This guardrail is required for a family audience.
+- **Your dragon is family to the real ones.** When it meets a sleeping star-dragon, its material recognizes home. It hums, glows and pulls toward it. The waking scenes become reunions as much as rescues.
+- **The suits feel the Quiet first.** Suit glows dim and the hum goes flat on arrival. The family can *see* that their equipment is in danger here, and keeping it awake is part of the job.
 
 **Why it fits the family:** the thing this family does best is *noise*. Kids shouting, laughing, singing, stomping and arguing about whose turn it is all become the superpower. A five-year-old should understand it instantly: *"So being loud is GOOD here?"*
 
@@ -106,7 +115,8 @@ As in Act I, story beats are delivered by **number of dragons woken**, so order 
 
 With four dragons awake, the song is strong enough to reach the center of the universe, where the Elder Dragon sleeps and the Quiet is thickest.
 
-- The dragon flies in. The color drains away, and then **the dragon itself goes silent**. Its roar stops, its systems dim, and it settles on a dark plain. The suits' sounds fade too. The family is on foot, and every step is harder.
+- The dragon flies in. The color drains away, and then **the dragon itself goes silent**. It isn't a breakdown. Its living material is **falling asleep**, like the dragons it was made from. It lands gently on a dark plain, curls up and closes its eyes. The suits' sounds fade too. The family is on foot, and every step is harder.
+- **The stakes are personal now.** The family isn't only saving strangers. Their own dragon, the friend they grew in the cul-de-sac, needs waking. Maria can keep it breathing softly with her healing, but she can't wake it alone.
 - This is the low point, and it should be gentle rather than scary. Nobody is in danger of falling asleep yet, because they're still from somewhere else. But it's dark and quiet and far from home, and the toddlers are tired.
 - **Maria's beat:** she gathers everyone close, like Act I's "Everybody stay together." Lyla plays something from the Family Archive: not the SOS, but a recording **from home**, perhaps the install-party noise, the neighbors cheering, or the family's own bedtime song. The *home* sound is what pushes color back. They walk forward together inside its circle.
 
@@ -127,11 +137,12 @@ With four dragons awake, the song is strong enough to reach the center of the un
 **A2-10 The answering note.** The SOS melody from Act I has always ended on a question. Now the family, all five and maybe the neighbor too, **sing the answer**: a final note the senders never wrote, because it had to come from whoever answered.
 
 - *This is the payoff of the whole two-act arc.* The SOS was a call. The family's note is the answer. **They weren't chosen. They chose to help, and the help was something only they could add.**
-- The Elder Dragon wakes. Color floods outward from the center through every world. The woken dragons answer in chorus, and the Hush, comforted, becomes a soft, quiet place the song now flows *around* rather than through. Every song needs rests, and this is one. The Hush is not defeated or destroyed.
+- The Elder Dragon wakes, and so does *their* dragon. It wakes first, and it is the loudest. Color floods outward from the center through every world. The woken dragons answer in chorus, and the Hush, comforted, becomes a soft, quiet place the song now flows *around* rather than through. Every song needs rests, and this is one. The Hush is not defeated or destroyed.
 
 ### Coda — Home (A2-11)
 
 - The Caller and the senders thank the family. The passenger stays with its family and gives the kids a keepsake, perhaps a small glowing scale that hums the answering note.
+- **The dragon chooses too.** It's alive and among its own kind now, so it could stay. The Caller says it's the dragon's choice, and nobody makes it for the dragon. It looks at the star-dragons, then at the family, and lowers its wing for them to climb aboard. This echoes the family's own choice in Act I.
 - The Bridge stays open, and the way home and back is promised. **The return trip is shown on screen**, which confirms the Act I promise.
 - The cul-de-sac: the dragon lands to a block party. The baking neighbor has made the biggest cake yet. The neighbor walks back across the street, stops and says: *"…It's actually very peaceful up there."* Then she adds: *"Still not approving the dragon."*
 
@@ -158,7 +169,7 @@ The neighbor's two-act arc rhymes with the Hush. In Act I the family learns that
 | **Sound paints color** | A persistent world-restoration layer. Suit abilities, voices and the dragon's roar push color outward, and restored areas stay restored across saves. |
 | **Hush-moths** (enemy) | Small grey fluttering things that soak up sound and dim color. Noise, goo or a song-breath scatters them, and they flutter off harmlessly. Simple, readable, never scary. |
 | **Still-shells** (obstacle) | Things frozen in place by the Quiet. Each suit "wakes" them a different way: lift, heal, goo, climb to the resonator, or scan for the right note. |
-| **Ex-henchman iguana** | The neighbor's robot iguana, now a helper that fetches small items. It's a scripted helper, not a follower system. |
+| **Ex-henchman iguana** | The neighbor's robot iguana, now a helper that fetches small items. It changes sides because the living material inside it (from the Bridge piece) recognizes home. It's a scripted helper, not a follower system. |
 | **The answering note** | The finale's creative music moment. It's untimed, has no wrong answer, and works for every player age. |
 
 Racing (the Market Moon cart race, a dragon race through restored spires with the woken dragons) and playful combat (Hush-moth swarms, a Forge Ring set piece) stay fun in their own right, with learning moments kept separate and paused.
@@ -179,6 +190,7 @@ Racing (the Market Moon cart race, a dragon race through restored spires with th
 ## 9. Open decisions
 
 - Accept or reject the core premise (the Quiet, song as the senders' world-force, living star-dragons as the mecha's model).
+- Whether the living material is shed star-dragon scale, and whether the dragon's choice to stay with the family is part of the ending.
 - Whether the neighbor stows away, sends only a robot iguana, or stays home.
 - The Hush's nature: a creature, a phenomenon or a piece of the universe. Its look.
 - The Caller's design, name and species. Whether there are adult senders on-screen at all.

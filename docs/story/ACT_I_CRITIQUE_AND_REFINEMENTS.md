@@ -26,12 +26,12 @@ Every confirmed point in Act I is kept as it is. The SOS equipment was sent on p
 | C3 | **There is no midpoint turn.** The arc rises steadily with no setback or surprise. | Without a turn, the finale is just "the sixth part arrives." | After the sixth module the dragon *still* can't cross. A missing seventh piece has been in the neighbor's yard all along (§5). |
 | C4 | **The neighbor has no motive except dislike.** | A flat antagonist gets old and limits her role after Act I, which is flagged OPEN. | Give her a legitimate grievance and a source for her tech, and end Act I with a small moment of grace that keeps her grumpy (§5). |
 | C5 | **The Core has no personality.** It is the family's main companion for the whole act. | It is the obvious "voice" of the act, and right now it is a projector. | The Core starts out mute and learns words *from the family*, which ties it to the learning rules (§3.2). |
-| C6 | **The suit reveal is mechanical.** "Rescue equipment adapts" is correct but flat. | This is the act's emotional high point for kids. | Each suit forms around something that person was *already doing* to help (§3.3). |
+| C6 | **The suit reveal is mechanical.** "Rescue equipment adapts" is correct but flat. | This is the act's emotional high point for kids. | The suits are made of **living material** (owner idea, §3.4) that forms around something each person was *already doing* to help (§3.3). |
 | C7 | **The three-year-olds get no hero beats.** Luna and Lyla are three, and most of the big actions belong to Paul and Luke. | Two of the likely players need moments made for them. | Luna wakes the Core, Lyla plays the final message, and the preschool mission is theirs (§3–4). |
 | C8 | **The revelations are tied to specific modules.** | If missions can be played in any order, the story breaks. | Tie revelations to the *number* of modules installed, not to which one (§4.1). |
 | C9 | **There is no answer about home.** What happens to the house, school, and coming back? | Parents playing along will ask, and kids may worry about it. | The SOS promises a way home, the neighborhood promises to look after things, and the choice includes "Not yet" (§6). |
 | C10 | **Light speed and universe-crossing are only kept apart by a rule.** | The continuity rule is right, but nothing *in the story* makes the difference visible. | Propulsion gives the dragon light speed, and the seventh "Bridge" piece is what crosses universes. The two become different objects (§5). |
-| C11 | **The setting doesn't feel urgent.** There is no reason to hurry, and a real timer would be wrong for kids. | Without any pressure the stakes feel low. | A *story-only* clock: a new "star" that only the Core can see, which slowly fades. There is never a gameplay timer (§3.4). |
+| C11 | **The setting doesn't feel urgent.** There is no reason to hurry, and a real timer would be wrong for kids. | Without any pressure the stakes feel low. | A *story-only* clock: a new "star" that only the Core can see, which slowly fades. There is never a gameplay timer (§3.5). |
 
 ---
 
@@ -80,7 +80,40 @@ The suits adapt to their wearers. Show that by having each suit form *around a h
 
 This answers "why these powers?" without destiny. The suits read what each person does, and they don't know who they are. Each reveal should be **under ten seconds** and skippable after it's been seen once. Why there are exactly five suits is still OPEN. One option is that the Core carries one suit per dragon seat, and the dragon has five seats.
 
-### 3.4 The fading star (story-only urgency)
+### 3.4 The material is alive
+
+**Status:** owner idea, given in conversation on October 28, 2026 ("the material that makes the suits and dragon is alive"). It is **pending confirmation as canon**. All the elaborations below are PROPOSED.
+
+The suits, the Core, the modules and the dragon are made from one **living material** (provisional name *living starmetal*; final name OPEN). It isn't metal that someone programmed. It's a material that grows, rests, heals, gets tired and reacts. It is closer to coral or a tree than to a robot.
+
+**What this explains, without destiny:**
+
+| Act I question | How living material answers it |
+| --- | --- |
+| How do the suits adapt to unknown people? | The material *grows to fit* whoever it touches, and it shapes itself around what they're doing (§3.3). It would have done the same for anyone in range. |
+| How is the dragon "constructed according to a pre-existing design"? | The design lives *inside the material*, like a seed already holding the shape of its tree. The family reunites the pieces, and the material grows into the shape it always had. They didn't invent it, and they couldn't redesign it if they tried. |
+| Why is the Core weak, mute and hard to understand at first? | It's hurt and half-asleep after the crash, and alone without the rest of itself. It recovers as pieces come home (§3.2). |
+| Why do modules hide in odd places (the block bin, the gym roof)? | Dormant pieces curl up somewhere sheltered, like a scared animal. They didn't *choose* those places, which keeps the arrival accidental. Their faint glow and hum are the clues. |
+| How does Maria "restore suit energy"? | Literally: she heals the suits. Her healing works on people, plants and the living material. |
+| Where does the dragon's personality come from? | It's alive. It wakes up curious, a little clumsy and very attached to the people who brought it together. Its exact personality stays OPEN. |
+| Where does the neighbor's tech come from? (§5) | The Bridge piece's material crept into her machines and grew there. That's why her robot iguanas are a little *too* lively, and why one can later change sides (Act II). |
+
+**How it should feel:** warm to the touch, a faint slow pulse of light, and it hums the SOS melody when content. It's hurt but recoverable when damaged. Every install becomes a *reunion*: the module reaches toward the Core, the two knit together, and the hologram's section turns solid. Assembly is singing and growing, not bolting.
+
+**Song connection:** the material responds to the melody (§3.1). Each restored note lets it grow more of the stored design. This ties the install count, the song and the dragon's visible growth into one mechanism.
+
+**Guardrails (proposed):**
+- **Never body horror or a parasite.** The material never controls, overrides or hurts the wearer. Suits retract on request, and helmets open on request. A child's "off" always works.
+- **It offers and the family accepts.** It reaches out, but nothing joins without someone choosing to touch it. This fits Act I's rule against secret abduction.
+- **It can be hurt, but nothing dies in Act I.** Damage shows as dimming and slowness that healing reverses. No graphic damage.
+- **Separate state from animation:** a suit's "mood" glow and breathing pulse are presentation only. They are not health or progress state, per the [architecture](../engineering/ARCHITECTURE.md).
+
+**Gameplay notes:**
+- Paul's "repair" becomes *helping it knit back together*. The contextual action is the same, but the animation and sound read as healing rather than welding.
+- An optional care moment after each mission: comforting the dragon, patting a suit, humming with the Core. It's creative play with no failure state, and **never a recurring chore** (no feeding meters, no decay while away).
+- Lyla's scans show the material's mood (sleepy, happy, scared), which gives her another readable, non-text information role.
+
+### 3.5 The fading star (story-only urgency)
 
 When the Navigation module comes home, the planning station shows a **new point of light** in the night sky. Only Lyla's visor and the Core can see it. This is the opening to the other universe. Between missions it dims slightly, and the Core chirps worriedly at it.
 
@@ -105,7 +138,7 @@ Each mission has one **featured suit** (everyone still comes along), one signatu
 | # | Place (fictionalized) | Module | Featured | Verb | Twist | Home change |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Girls' preschool | Assembly | Luna & Lyla | **Sort** | The module shattered into glowing pieces that are now mixed in with the classroom's building blocks. Find which blocks are "space blocks" (shape matching), then chase the iguana that grabbed the last one. | The Core can now make **Builder Bugs**, tiny helper bots that do every later docking animation and can be sent to help neighbors. |
-| 2 | Luke's school | Navigation | Luke | **Climb** | The module landed on the gym roof and is projecting a strange star map onto the ceiling. Kids inside think it's a planetarium show. Luke has to reach it before recess ends (a story beat, not a timer). | The planning station becomes a **star map**, and the fading star appears (§3.4). |
+| 2 | Luke's school | Navigation | Luke | **Climb** | The module landed on the gym roof and is projecting a strange star map onto the ceiling. Kids inside think it's a planetarium show. Luke has to reach it before recess ends (a story beat, not a timer). | The planning station becomes a **star map**, and the fading star appears (§3.5). |
 | 3 | Big warehouse store | Power | Paul | **Lift / haul** | The pod is wedged among the giant pallets, and it's *heavy*. Paul lifts, then the family races it home on a flatbed cart while neighbors cheer from driveways. | The Core powers up fully. It now **glows at night**, and the street notices. |
 | 4 | Neighborhood grocery | Life Support | Maria | **Care** | The module was **carrying a passenger**: a small sleeping creature from the other universe in a stasis bubble, scared and weak. Maria's healing wakes it. (See §4.3.) | The creature now lives at the house, and it hums the SOS melody. |
 | 5 | Big-box store | Wing Control | Luke + Luna | **Chase / slip** | The neighbor's robot iguanas got there first. Mosquito drones run interference in the parking lot, and Luna's goo makes the getaway bots spin out. Lyla scans an iguana and sees **the Core's symbol glowing inside it**. | The wings on the half-built dragon flex for the first time, and the neighbor sees it. |
@@ -184,6 +217,8 @@ She hands it over. Then, in character: *"This doesn't mean I approve of the drag
 ---
 
 ## 7. Open decisions raised by these proposals
+
+- **Confirm as canon:** the material that makes the suits and dragon is alive (owner idea, §3.4). Once confirmed, record it in `docs/decisions/`. Also decide the material's name and look, and whether it has its own will or is purely responsive.
 
 - Accept or reject: the SOS melody, the talking Core, the passenger creature, the Bridge as a seventh piece, and the neighbor's grievance as her tech source.
 - The symbol's design; the melody (composition, number of notes); the creature's design and name; the Core's name.
