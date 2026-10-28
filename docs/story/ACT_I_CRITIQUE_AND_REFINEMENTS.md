@@ -78,6 +78,8 @@ The suits adapt to their wearers. Show that by having each suit form *around a h
 | Luna | Stomping in the sprinkler puddle near the pod | The water turns to pink goo, and she slides right up to the Core |
 | Lyla | Asking "why?" over and over and pointing at every symbol | A visor drops down and her questions start being *recorded* |
 
+Full scene beats and starting abilities: [Suit reveals and starting abilities](SUIT_REVEALS_AND_STARTING_ABILITIES.md).
+
 This answers "why these powers?" without destiny. The suits read what each person does, and they don't know who they are. Each reveal should be **under ten seconds** and skippable after it's been seen once. Why there are exactly five suits is still OPEN. One option is that the Core carries one suit per dragon seat, and the dragon has five seats.
 
 ### 3.4 The material is alive

@@ -238,7 +238,7 @@ Preserve the planned `/space-dragon` route and existing homepage. Keep the [Blen
 
 ### Related proposals (not canon)
 
-[Act I critique and refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) and the [Act II proposal](ACT_II_ANSWER_THE_CALL.md) suggest answers to several questions above. They remain PROPOSED until the owner accepts specific items and records them in `docs/decisions/`.
+[Act I critique and refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) the [Act II proposal](ACT_II_ANSWER_THE_CALL.md) and [suit reveals and starting abilities](SUIT_REVEALS_AND_STARTING_ABILITIES.md) suggest answers to several questions above. They remain PROPOSED until the owner accepts specific items and records them in `docs/decisions/`.
 
 ### Review before implementing or revising
 
