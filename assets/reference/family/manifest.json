@@ -1,0 +1,396 @@
+{
+  "schema_version": "1.0",
+  "prepared_on": "2026-10-28",
+  "destination_repository": "paulmalmquist/space_dragon",
+  "repository_visibility_at_check": "public",
+  "baseline_commit_observed": "f174f7c6aba05d65e2d0a886ee1125d2cb94b959",
+  "photo_count": 18,
+  "scope": "All 18 family-reference photos supplied across the three upload batches in this conversation.",
+  "user_authorization": "The user explicitly requested that these photos be pushed to space_dragon for Blender MCP character design.",
+  "processing": {
+    "exif_xmp_iptc_comments_removed": true,
+    "icc_color_profiles_preserved": true,
+    "jpeg_recompression": false,
+    "resized": false,
+    "pixel_identity_verified_for_every_photo": true,
+    "original_uploads_modified": false,
+    "visible_background_details_removed": false
+  },
+  "character_constraints": {
+    "paul": {
+      "confirmed": "Iron Man-inspired suit",
+      "palette_status": "red/graphite/gold is proposed, not confirmed"
+    },
+    "luke": {
+      "confirmed": "Iron Spider-inspired suit",
+      "palette_status": "red/blue/gold is proposed, not confirmed"
+    },
+    "maria": {
+      "confirmed": "Purple suit; family healer"
+    },
+    "luna": {
+      "confirmed": "Pink suit; slippery goo launcher"
+    },
+    "lyla": {
+      "confirmed": "Information gathering and storage",
+      "palette_status": "OPEN; teal and silver remain proposed"
+    }
+  },
+  "photos": [
+    {
+      "reference_id": "FAM-01",
+      "filename": "IMG_3790.jpeg",
+      "path": "assets/reference/family/photos/IMG_3790.jpeg",
+      "scene": "Three children at a wooden fence",
+      "use_notes": "Front-facing expressions and standing proportions; group framing.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 741998,
+      "sha256": "21bb59814e73a0cbc22efb3f6d94ba6454c10ae6527136664c6efb972369b0ac",
+      "git_blob_sha1": "4724ed9b18e58478311f76ffc71bac34e077fa1f",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-02",
+      "filename": "IMG_3687.jpeg",
+      "path": "assets/reference/family/photos/IMG_3687.jpeg",
+      "scene": "Two children holding sunflowers",
+      "use_notes": "Standing proportions, hair, and outdoor expressions.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 727952,
+      "sha256": "4779c651b5ce5271b837838bccbe3144ace38e06b2fdf8c44cdf92300d918a08",
+      "git_blob_sha1": "935d1dc109b88c1d8ba0bfe9640f478a22f72129",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-03",
+      "filename": "IMG_3616.jpeg",
+      "path": "assets/reference/family/photos/IMG_3616.jpeg",
+      "scene": "Three children on an autumn-decorated bench",
+      "use_notes": "Seated proportions and expressions. Do not assume the center child is a crew member.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 959189,
+      "sha256": "560f3acb9857c5ec10b9401ecf8b69a93c41325d6492f202609adb7105bdcbc4",
+      "git_blob_sha1": "7b347d9ebf5d2d184a6a67d5d487f8cfd95a0748",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-04",
+      "filename": "IMG_3600.jpeg",
+      "path": "assets/reference/family/photos/IMG_3600.jpeg",
+      "scene": "Adult and child in a pale patterned dress on a bench",
+      "use_notes": "Adult front-facing expression and child three-quarter expression.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 931433,
+      "sha256": "d173ea4db7fc931605d3c323f0eb7f90c542fc2d6e510a299b13e82cc4f13a93",
+      "git_blob_sha1": "c3e2523b238dde5e91e41cf023387b3779f90c46",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-05",
+      "filename": "IMG_3597.jpeg",
+      "path": "assets/reference/family/photos/IMG_3597.jpeg",
+      "scene": "Adult and child in a burgundy floral dress on a bench",
+      "use_notes": "Front-facing expressions and seated proportions.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 650799,
+      "sha256": "49973db95109b137c9c272fc96ccdb3e82686709e4547952ddca2fed95005635",
+      "git_blob_sha1": "f133698d6c58087ad472428ff91c64e0d4091e1f",
+      "metadata_removed": {
+        "APP1": 1,
+        "APP13": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-06",
+      "filename": "IMG_3576.jpeg",
+      "path": "assets/reference/family/photos/IMG_3576.jpeg",
+      "scene": "Two children on an autumn-decorated bench",
+      "use_notes": "Paired front-facing expressions and seated proportions.",
+      "width_px": 1266,
+      "height_px": 1536,
+      "bytes": 1031767,
+      "sha256": "1330108462957546c3eeaf41607eed6a36d90816a9bb8c5198c1ffd7626cfddc",
+      "git_blob_sha1": "8b4e398bb3cb36500f2c35771333ad672008d555",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-07",
+      "filename": "IMG_3355.jpeg",
+      "path": "assets/reference/family/photos/IMG_3355.jpeg",
+      "scene": "Adult holding a child indoors",
+      "use_notes": "Close facial detail; unobstructed adult eyes; child hair and expression.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 506660,
+      "sha256": "c9a849c43de69d390f8249069435fea4d14708de23954becfdf6c8b20ee43a09",
+      "git_blob_sha1": "87d86ee589c324a4b1fe9928e86015eac65c261f",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-08",
+      "filename": "IMG_3351.jpeg",
+      "path": "assets/reference/family/photos/IMG_3351.jpeg",
+      "scene": "Five-person group beside a sports field",
+      "use_notes": "Group scale and standing proportions; some faces partly obscured.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 576480,
+      "sha256": "4d1ea8a26fa1dc7023d9d71b48d95d97df33fe846ec55fd9a81bcc97b5df0062",
+      "git_blob_sha1": "8007e71cb8b576eea76198e3bd436852ca2813df",
+      "metadata_removed": {
+        "APP1": 1,
+        "APP13": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-09",
+      "filename": "IMG_3346.jpeg",
+      "path": "assets/reference/family/photos/IMG_3346.jpeg",
+      "scene": "Group beside a sports field with a gray-haired adult",
+      "use_notes": "Standing proportions; some faces partly obscured. Do not assume every subject is a crew member.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 650947,
+      "sha256": "6c60057591b04315518d41561f5977150cffcfd2bb59bd3a2a86b0a173c662d3",
+      "git_blob_sha1": "62f3acb2bcd25d2039aad28aa07188b683761272",
+      "metadata_removed": {
+        "APP1": 1,
+        "APP13": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-10",
+      "filename": "IMG_3277.jpeg",
+      "path": "assets/reference/family/photos/IMG_3277.jpeg",
+      "scene": "Two children indoors: strawberry shirt left, blue shirt right",
+      "use_notes": "User-confirmed anchor: the child on the viewer's left is Lyla. No cross-photo identity matching was performed.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 609310,
+      "sha256": "572311140baa9602d1c810a119661abf4ecf6249982df3b8a28dc958362e9a28",
+      "git_blob_sha1": "d2bd169666a48961b18414168fc9e30bb99b47fe",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": [
+        {
+          "character_id": "lyla",
+          "position": "viewer-left",
+          "clothing_anchor": "pink strawberry-print shirt",
+          "source": "User explicitly said the left child in the two-girl photo is Lyla."
+        }
+      ],
+      "unconfirmed_subject_notes": "The prior assistant called the viewer-right child Luna; that is not separately confirmed by the user. Do not infer other photo identities from this label."
+    },
+    {
+      "reference_id": "FAM-11",
+      "filename": "IMG_5494.jpeg",
+      "path": "assets/reference/family/photos/IMG_5494.jpeg",
+      "scene": "Child in a black track-club jersey",
+      "use_notes": "Clear near-frontal expression, hair shape, and upper-body proportions.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 414361,
+      "sha256": "678b33ff48e34b5487e45e95e03c08733b401ea49e4d1c5b8496b0ed5c8981bf",
+      "git_blob_sha1": "818f14c771338687b73846f00691a184eb022479",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-12",
+      "filename": "IMG_0228.jpeg",
+      "path": "assets/reference/family/photos/IMG_0228.jpeg",
+      "scene": "Child in pink swimwear at a splash area",
+      "use_notes": "Face, expression, and natural child proportions; clothing is not a costume-design reference.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 871408,
+      "sha256": "b11b1299a80fb642da449414f3f8b35384ca3e674091c4ddfe152848b60809cb",
+      "git_blob_sha1": "a3181d90767e32726e740e9961924b001aac388a",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-13",
+      "filename": "IMG_0240.jpeg",
+      "path": "assets/reference/family/photos/IMG_0240.jpeg",
+      "scene": "Child in blue swimwear at a splash area",
+      "use_notes": "Face, expression, and natural child proportions; clothing is not a costume-design reference.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 870909,
+      "sha256": "fc90acf7fec56c9fd26993022eee4e4b446ad06b40c7f264813e77417dafac81",
+      "git_blob_sha1": "4ade5fe2af71bda3352a004e2f2029f1985bf836",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-14",
+      "filename": "IMG_9138.jpeg",
+      "path": "assets/reference/family/photos/IMG_9138.jpeg",
+      "scene": "Five-person group in coordinated character-print clothing",
+      "use_notes": "Family-scale reference and standing proportions; one adult wears sunglasses.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 645711,
+      "sha256": "960333a5f17082470d72f0bc7db3d58d2c052546f87d4fcfaef17fc6565232f5",
+      "git_blob_sha1": "25f9f34be1623cbfb528e8278f5245d60121c38a",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-15",
+      "filename": "IMG_9101.jpeg",
+      "path": "assets/reference/family/photos/IMG_9101.jpeg",
+      "scene": "Seated group watching an outdoor event",
+      "use_notes": "Side and three-quarter views; some faces partly obscured.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 657629,
+      "sha256": "94aecc2b3356f2fd08d5684f34bb2fce1fac3e89804fde04b0f017b1bec2fd2c",
+      "git_blob_sha1": "2419f841584d3f1e42e0fd7889e79f3a485b4e0c",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-16",
+      "filename": "IMG_9060.jpeg",
+      "path": "assets/reference/family/photos/IMG_9060.jpeg",
+      "scene": "Three children in pajamas beside a pool",
+      "use_notes": "Standing proportions, hair shapes, and relaxed expressions.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 730805,
+      "sha256": "53a9c5432db0bc208b608144433d98b745377aa5929481514670bf102f06180d",
+      "git_blob_sha1": "25f77de677201fee7b6d6021afa1b5173a340d7a",
+      "metadata_removed": {
+        "APP1": 1,
+        "APP13": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-17",
+      "filename": "IMG_5265.jpeg",
+      "path": "assets/reference/family/photos/IMG_5265.jpeg",
+      "scene": "Adult and three children on a dock, first view",
+      "use_notes": "Standing group scale and expressions in outdoor light.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 669053,
+      "sha256": "9997de81e90ec396014093c9c74957bc2e471aec19d5b46ce13e824d240fe3be",
+      "git_blob_sha1": "11f2bb0f2ed5d60a9d2ea81d6bada38b5b36d7bb",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    },
+    {
+      "reference_id": "FAM-18",
+      "filename": "IMG_5263.jpeg",
+      "path": "assets/reference/family/photos/IMG_5263.jpeg",
+      "scene": "Adult and three children on a dock, second view",
+      "use_notes": "Alternate expressions and head angles; retain as a separate reference.",
+      "width_px": 1152,
+      "height_px": 1536,
+      "bytes": 644138,
+      "sha256": "cbe8645c15a76e358598f16d3d79e575054eff37275280a534a8d40fc2d5b4ed",
+      "git_blob_sha1": "24c0708e00c6f965ac8e35aa13510c3710dd9554",
+      "metadata_removed": {
+        "APP1": 1
+      },
+      "pixel_identity_verified": true,
+      "color_profile_preserved": true,
+      "reference_only": true,
+      "confirmed_subject_labels": []
+    }
+  ],
+  "publication_status_at_package_creation": "prepared_locally_not_pushed"
+}

@@ -4,7 +4,7 @@
 
 **Current narrative baseline:** [Prologue & Act I — Build the Dragon](story/ACT_I_BUILD_THE_DRAGON.md), October 28, 2026. This supersedes conflicting origin and opening-sequence assumptions in the initial specification. The dragon is pre-designed rescue equipment sent with an SOS, not the family's invention. The first backyard arrival supplies the suits; the family recovers other components around town and combines them to construct the dragon. Earth was the closest planet in range, and this family received the equipment accidentally. The completed message leads to a choice to help in another universe.
 
-**Current handoff status:** documentation only. No application code, assets, infrastructure changes, deployment, or gameplay test results are supplied by this narrative update.
+**Current handoff status:** planning documents and 18 verified character-photo references are available. See the [context index](context/RAILWAY_GAME_SUPPORT.md) and [reference collection](../assets/reference/family/README.md). No application code, completed character models, infrastructure changes, deployment, or gameplay test results are supplied.
 
 ## Read before implementation
 
@@ -24,7 +24,7 @@ Preserve the distinction between **CONFIRMED**, **PROPOSED**, **BOOKMARKED**, an
 - The neighborhood supports the dragon except for the fictionalized antagonist inspired by the across-the-street neighbor. Her schemes involve Florida-themed antagonists, including iguanas and alligators.
 - Learning, racing, and playful combat coexist. Supported completion of a learning challenge must not block a child from receiving a suit or a required story component. Detailed challenge mechanics remain proposals.
 - Future expeditions use the **Line Leader**: one directly controlled person, automatic followers, and eventually smaller groups. Networked multiplayer is not implied.
-- Recognizable family likenesses are a creative goal. The Blender handoff separately documents the supplied photo collection and its pending repository transfer; this story update supplies no reference images or approved final character assets.
+- Recognizable family likenesses are a creative goal. The 18 supplied photo references, manifest, gallery, and verification tool are now imported. The Blender handoff explains their use; no final character assets have been approved.
 
 ## First implementation task, when authorized
 
@@ -50,7 +50,7 @@ Performance values in the specification are provisional goals, not existing benc
 
 ## Privacy and publication boundary
 
-The repository is public. Keep source family photos, voice recordings, original likeness references, precise home or school details, real neighbor identification, and credentials out of commits unless a specific publication decision authorizes them. The Blender handoff records the owner's narrow exception for the supplied 18-photo collection and separately records that transfer as pending; this narrative commit does not transfer that collection or authorize other media. Use a fictional villain name and fictionalized school and workplace environments. A public code/documentation repository is not permission to publish the family-likeness game.
+The repository is public. Keep source family photos, voice recordings, original likeness references, precise home or school details, real neighbor identification, and credentials out of commits unless a specific publication decision authorizes them. The [publication decision](decisions/2026-10-28-family-photo-references.md) records the owner's narrow exception and completed import of the supplied 18-photo collection. It does not authorize other media. Use a fictional villain name and fictionalized school and workplace environments. A public code/documentation repository is not permission to publish the family-likeness game.
 
 ## Original import receipt
 

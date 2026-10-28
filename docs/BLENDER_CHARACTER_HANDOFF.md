@@ -5,9 +5,9 @@
 
 ## Transfer status
 
-This document has been prepared for repository publication. The 18 cleaned photo references are in the conversation attachment `Space_Dragon_Character_References.zip`; they have **not yet been committed to this repository**. Do not interpret this document's presence as proof that photo transfer succeeded. Import and verify the reference collection before executing steps that require its files.
+The 18 cleaned photo references from `Space_Dragon_Character_References.zip` are now imported into [assets/reference/family/](../assets/reference/family/README.md), together with the local gallery, manifest, publication decision, and verification tool. All 18 passed inventory, size, SHA-256, and Git blob checks and were decoded at their manifest dimensions. See [the publication decision](decisions/2026-10-28-family-photo-references.md) for the import receipt.
 
-The package includes `assets/reference/family/README.md`, a local gallery, `manifest.json`, `photos/`, `tools/verify_family_references.py`, and a narrow photo-publication decision. Follow `UPLOAD_TO_GITHUB.md` in that package, preserve existing repository work, and do not overwrite this updated handoff with an older packaged copy.
+The current repository handoff was preserved during import; the older handoff bundled in the ZIP was not copied over it. Start with the [planning-chat context index](context/RAILWAY_GAME_SUPPORT.md) and current Act I narrative for the latest story direction.
 
 ## 1. Read the existing foundation
 
@@ -21,7 +21,7 @@ Inspect the available MCP tools, Blender version, active scene, project director
 
 Before editing an existing scene, save a versioned copy. Do not run arbitrary downloaded scripts, buy assets, upload photographs to an external generation service, or enable additional integrations merely because a tool offers them.
 
-After the photo package is imported, run `python3 tools/verify_family_references.py` from the repository root. Open `assets/reference/family/index.html` and the manifest. Load selected images as reference-only objects or boards, separate from game geometry. Use project-relative paths. Do not unintentionally pack reference photographs into exported character assets.
+Run `python3 tools/verify_family_references.py` from the repository root. Open `assets/reference/family/index.html` and the manifest. Load selected images as reference-only objects or boards, separate from game geometry. Use project-relative paths. Do not unintentionally pack reference photographs into exported character assets.
 
 ## 3. Preserve these character requirements
 
@@ -59,14 +59,14 @@ Treat the pictures as visual references, not as calibrated scans or measured ana
 ## 6. Proposed repository layout
 
 ```text
-assets/reference/family/             # Photo references, manifest and local gallery; transfer pending
+assets/reference/family/             # Imported photo references, manifest and local gallery
 art/blender/characters/<id>/         # Editable, versioned Blender sources
 art/renders/characters/<id>/         # Review renders; no automatic publication
 art/exports/characters/<id>/         # Candidate game exports
 art/reports/characters/<id>/         # Measured counts, tests and approval receipts
 ```
 
-These are intended destinations, not existing deliverables. Do not add large `.blend` files to Git without first agreeing on storage strategy. Use stable IDs `paul`, `maria`, `luke`, `luna`, and `lyla`; avoid filenames containing unrelated personal information.
+The reference directory exists. The art directories are intended destinations, not existing deliverables. Do not add large `.blend` files to Git without first agreeing on storage strategy. Use stable IDs `paul`, `maria`, `luke`, `luna`, and `lyla`; avoid filenames containing unrelated personal information.
 
 Do not put source references under a web framework's `public/` directory or automatically include them in a game build. A reference directory in a public repository is still publicly accessible. Do not apply an open-source code license to family photos by assumption.
 
