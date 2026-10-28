@@ -348,6 +348,8 @@ The full treatment above is the target, not a requirement for the first build.
 | **Luna** | Slip 'n Slide, Unstick | Splat (enemy slip) | — | Sticky bubble goo |
 | **Lyla** | Scan, Holo Replay | — | Record | (open) |
 
+How these abilities combine in fights, including tandem attacks and the dragon's crew stations: [combat system](../gameplay/COMBAT_SYSTEM.md).
+
 ## 9. Control and accessibility rules (all suits)
 
 - **One move control, one context action and one suit ability.** Abilities fire on marked targets. No combos, no button holding and no rapid tapping (v0.1 and the quality rules).
