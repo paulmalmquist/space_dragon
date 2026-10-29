@@ -5,7 +5,7 @@
 
 ## Verified versus unverified
 
-The target route remains `/space-dragon` on the existing site. A standalone Babylon.js/TypeScript/Vite prototype, exact lockfile, local checkpoints and Playwright flows now exist; Three.js was an earlier proposal, not a runtime being replaced. [Local development](../DEVELOPMENT.md) records the actual commands/modules and [the inventory](../REPO_INVENTORY.md) records machine/public-site evidence. Website source/deployment, Railway services, player devices, Blender MCP connection and real-device performance remain unverified. The development prefix is a local preparation choice, not proof of host-site integration. No reviewed GLB game asset is supplied yet.
+The target route remains `/space-dragon` on the existing site. A standalone Babylon.js/TypeScript/Vite game, exact lockfile, pure story-state module, v2 checkpoints with migration/recovery, spoken placeholder prompts and Playwright flows now exist; Three.js was an earlier proposal, not a runtime being replaced. The first pod is an actual Blender GLB/KTX2 candidate with a technical browser check and same-origin decoders; human art review remains pending. [Local development](../DEVELOPMENT.md) records commands/modules and [the current decision](../decisions/2026-10-29-first-contact-v2.md) records boundaries. Website source/deployment, Railway services, Blender MCP and real-device performance remain unverified. The selected family-test target is Lenovo 82XM / Chrome / keyboard. The development prefix is local preparation, not proof of host-site integration.
 
 ## Keep these boundaries even in a small implementation
 

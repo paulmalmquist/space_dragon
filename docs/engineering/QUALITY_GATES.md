@@ -23,7 +23,9 @@ python3 tools/verify_family_references.py
 
 The first check validates required documents, local inline Markdown link targets, supported skill metadata, byte-identical Claude mirrors, the single shared instruction import and policy-case structure. It does not validate external URLs or heading anchors, execute policy prompts, audit arbitrary prose, or test the game. The unit suite deliberately breaks inputs to test the checker. The existing photo verifier checks its manifest/inventory; do not describe it as a likeness or runtime-publication check.
 
-`.github/workflows/foundation.yml` runs these checks with read-only repository permissions. It has no deployment step, writes no commits and uses no secrets. Workflow configuration is not proof a run passed; read the actual run result.
+`.github/workflows/foundation.yml` retains these checks and adds a separate Node 24 game job: exact npm install, pure TypeScript state/save tests, build, Chromium interaction tests, and production-artifact tests. The game checkout fetches LFS models; failure traces/screenshots exclude the fixture inbox. Both jobs have read-only repository permissions, no deployment step, no commit writes and no secrets. Workflow configuration is not proof a run passed; read the actual run result.
+
+Locally, `npm run check` runs unit tests, build, development browser checks, production browser checks, and the photo verifier. Browser speech mocks establish calls/captions/error recovery, not audible output or a human suitability review. See [the ten-minute keyboard playtest](../PLAYTEST_FIRST_CONTACT.md).
 
 ## Skill authoring and discovery
 

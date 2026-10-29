@@ -1,28 +1,26 @@
 # What comes next
 
-This is an adjustable production order, separate from story chronology. New ideas can join at any point; agents link them to this sequence without requiring Paul to sort them first.
+This is an adjustable production order, separate from story chronology. Agents route unordered ideas into it; Paul does not have to sort them first. The current owner request prioritizes finishing First Contact and testing it with the family before expanding the game.
 
 | Stage | Useful result | Exit evidence | Current state |
 | --- | --- | --- | --- |
-| 0. Foundation | One idea inbox, reliable agent memory, repo inventory, local browser/tool setup. | Files exist, documented commands work, checks and limitations recorded in [status](STATUS.md). | Verified locally: SD-001, SD-003, SD-004. |
-| 1. First Contact | Living-room computer → interrupted signal → backyard pod → one interaction → versioned local checkpoint. Clearly labeled placeholders are acceptable during development. | Keyboard-completable flow, browser screenshot, reload restores checkpoint, invalid/unavailable storage handled. Follow [current milestone](../plans/CURRENT_MILESTONE.md) for spoken help, suit introduction, and remaining acceptance; scripts remain proposals. | Guided placeholder prototype verified; fuller milestone acceptance, polished art, feel, and owner review remain: SD-005. |
-| 2. Establish the look | One reviewed pilot character and one pod/component move from editable Blender source to efficient browser assets. | Neutral review views; recorded export size, materials, animations, and browser result; no reference media in runtime output. | Proposed: SD-006. Can proceed alongside stage 1. |
-| 3. Prove on actual devices | A named computer/browser completes the slice on keyboard with appropriate quality. | Real-device loading/frame-time notes and a short recorded playthrough; revise budgets from measurements. Xbox is checked only when plug-and-play is available, with its result recorded separately. | Keyboard confirmed; computer/browser still open. Xbox not tested; touch deferred: SD-008. |
-| 4. Integrate the existing site | A reviewed `/space-dragon` integration that preserves the homepage and respects asset publication decisions. | Inspect actual website source/config first; verify base paths, refresh, unrelated pages, and deployment access. | Not yet audited. Prepare locally before integration. |
-| 5. Expand one adventure at a time | One town retrieval, component progress, and return-home payoff; later family alley-oops, single-pilot jet-like flight, and Line Leader when in scope. | Playtests show supported learning and enjoyable action, reliable saves, and readable progression. Review draft story dependencies before implementing them. | Confirmed later gameplay direction is distinct from proposed mechanics and scripts; no automatic commitment to all missions: SD-010–SD-012. |
-| 6. Add backend when useful | Authenticated Railway save synchronization or other services with a concrete requirement. | Account/project audit, budget and access decisions, save ownership/conflict handling, end-to-end verification. | Parked until needed: SD-009. |
+| 0. Foundation | One inbox, agent memory, local runtime/tooling and preserved story/photo references. | Original checks and merge recorded in [status](STATUS.md) and historical receipts. | Verified foundation: SD-001, SD-003, SD-004. |
+| 1. Protect the actual game | CI installs Node 24 and Chromium, then runs pure-state tests, build, development and production browser flows. | Observe the new GitHub job passing; prove a game failure fails the job. | Workflow implemented; execution verification in progress: SD-014. |
+| 2. Complete First Contact | Scripted launch/signal → backyard → five suit cards → Lyla's supported scan → archive → town map, with keyboard, speech placeholder, hints and durable v2 progress. | Unit and browser checks; v1 migration/recovery; no repeated rewards; clear help and speech fallback; actual results in the current receipt. | State/save 17 unit cases and build pass; final browser checks in progress: SD-015–SD-016. |
+| 3. Establish one real asset | Editable rescue pod → GLB → compressed texture → actual scene with preserved component/animation structure. | Source/export reopen, validation, in-scene review and measured inventory; human art approval separate. | Technical pipeline verified; provisional pod design: SD-017. Pilot character and final family artwork remain SD-006. |
+| 4. Family keyboard playtest | Ten minutes on this Lenovo 82XM in Chrome; children can follow prompts, get help and finish. | Confirm sound is audible, note every help point, observe keyboard feel/loading and the actual renderer; fix blockers and record adult review. | Target confirmed; human playtest pending: SD-018 / SD-008. Xbox not tested; touch deferred. |
+| 5. Space Blocks | Mission 1's learning activity, robot iguana, first alley-oop and first install party. | Implement its [existing script](../story/scripts/A1-04-M1_SPACE_BLOCKS.md) as a bounded increment after First Contact's human gate; verify help, learning observations, rewards and return-home payoff. | Queued after First Contact passes; script details remain proposed. |
+| 6. Separate flight experiment | Cadet and Pilot controls establish the one-pilot fighter-jet feel without adding a whole campaign. | Independent keyboard flight playtest, forgiving recovery and measured input/renderer behavior. | Separate later risk track after the First Contact gate; SD-011 direction, detailed mechanics proposed. |
+| 7. Integrations and later systems | Host-site integration, Railway when local saves become limiting, Line Leader and later acts when selected. | Actual source/account audit and explicit bounded need, followed by end-to-end evidence. | Held: site repo missing; backend SD-009; Line Leader SD-010; Act II and broader treatment SD-012. |
 
-## Creative inputs that can arrive whenever you have them
+## Creative inputs can arrive whenever you have them
 
-Each is optional now. A single annotated example is useful; do not wait to assemble a perfect package.
+A single example with “I like this part because…” is useful. Do not wait to make a perfect package. Existing [story](../story/README.md) and [script](../story/scripts/README.md) indexes provide drafts to refine; the `new characters` source attachment still needs to be supplied (SD-013).
 
-The [story](../story/README.md) and [script](../story/scripts/README.md) indexes already contain substantial proposed writing. Refine those existing drafts as ideas arrive rather than restarting the story. The additional names in `new characters` await their actual source attachment; do not fill in missing character material by assumption.
+- **Look/motion:** armor, faces, lighting, dragon silhouette, camera behavior, or one useful timestamp.
+- **Assembly:** rough views of wings folded/open, recovered parts, hinges and a family-scale comparison.
+- **Characters:** filename plus position for remaining reference identities; Lyla's color when a direction occurs.
+- **Sound:** editable sketches/layers for SOS, pod, suits, attachment, power-up or adventure theme.
+- **Playtest:** where a child needs help, whether narration is audible, and whether the keys feel comfortable. Keep identifying child observations out of public commits.
 
-- **Look:** a few images with “I like this part because…” for faces, armor, dragon silhouette, environment, or lighting.
-- **Movement and camera:** a short clip or link with a timestamp and the specific action or camera behavior to borrow.
-- **Dragon assembly:** rough sketches of overall views, wings folded/open, recovered parts, connections, and family-scale comparison.
-- **Characters:** filename plus position for the remaining reference identities; Lyla's suit color when a direction occurs to you.
-- **Sound:** an SOS, pod, suit activation, attachment, power-up, or adventure-theme sketch. Preserve editable music sources and export useful layers when applicable.
-- **Play:** which computer/browser the family uses and where a child needs help during keyboard play. An Xbox controller can be tried if it works immediately; touch is deferred.
-
-References guide the stated aspect only. Agents should not adopt an entire reference's story, style, or mechanism without a reason. New family video or audio needs its own publication decision before it enters this public repo.
+The language question is tracked as SD-019: keep the existing TypeScript game/Python tooling split; revisit Rust/C++ only for a specific profiled need. No rewrite, cloud-save service, multiplayer, Line Leader or Act II expansion is a prerequisite for this slice.

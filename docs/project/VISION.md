@@ -1,39 +1,39 @@
 # What we are making
 
-Space Dragon is a browser family adventure about Paul, Maria, Luke, Luna, and Lyla. Familiar Florida surroundings open into a much larger rescue story. Exploration, early learning, racing, playful combat, and family teamwork all contribute to the experience.
+Space Dragon is a browser family adventure about Paul, Maria, Luke, Luna, and Lyla. Familiar Florida surroundings open into a larger rescue story. Exploration, early learning, racing, playful combat, and family teamwork all contribute to the experience.
 
-Paul wants to contribute creative ideas without organizing them into technical requirements. The repo should let agents remember decisions, connect ideas received out of order, choose practical implementation steps, and show a playable result that can be adjusted.
+Paul supplies creative ideas without organizing technical requirements. Agents preserve those thoughts, connect them to decisions, maintain dependencies, make routine engineering choices, and show a playable result that can be adjusted.
 
-## Current creative foundation
+## Creative foundation and authority
 
-The [Act I story](../story/ACT_I_BUILD_THE_DRAGON.md) is the canonical opening. The family is at the living-room computer when an interrupted signal and a backyard arrival introduce rescue equipment. The arrival supplies their suits; other components are recovered around town. Combining them assembles a pre-existing dragon design. The equipment was sent deliberately with an SOS, reached this family accidentally, and ultimately leads them to choose to help in another universe.
+The [Act I story](../story/ACT_I_BUILD_THE_DRAGON.md) remains the canonical opening: living-room computer, interrupted signal, backyard arrival and suits, scattered town components, assembly of a pre-existing dragon design, and a choice to answer an SOS in another universe. The equipment was deliberately sent, reached this family accidentally, and did not select them in advance. They did not invent the dragon.
 
-The [implementation handoff](../IMPLEMENTATION_HANDOFF.md) retains confirmed suit identities, supported learning, the future Line Leader, route constraints, and publication boundaries. The initial [v0.1 specification](../space-dragon-spec-v0.1.md) remains historical context; its flight-first opening does not replace Act I.
+The [story index](../story/README.md) and [production scripts](../story/scripts/README.md) organize the later writing. Act I refinements, suit-reveal details, Act II, music/empathy/pacing, the talking Core, passenger, Bridge, Quiet, Caller, Hush and other dependent lore remain at their recorded proposal/owner-idea status. The selected short-form First Contact implementation does not approve every treatment detail. Living material is an owner idea with proposed explanations.
 
-The [story index](../story/README.md) maps the later writing. [Act I refinements](../story/ACT_I_CRITIQUE_AND_REFINEMENTS.md), [suit reveals](../story/SUIT_REVEALS_AND_STARTING_ABILITIES.md), [Act II](../story/ACT_II_ANSWER_THE_CALL.md), [music/empathy/pacing](../story/MUSIC_EMPATHY_AND_PACING.md), and the [production scripts](../story/scripts/README.md) are available for review. Their talking Core, passenger, Bridge piece, musical SOS, Quiet, Caller, Elder Dragon, Hush, and stowaway treatment remain proposals. Living material is recorded as an owner idea whose detailed explanation is proposed. These documents provide possible answers to open lore; their presence does not settle those answers or authorize implementing all scenes.
+The root `new characters` file only mentions Mox, Tavi, Captain Nera, Rook and a Hush clue. Their referenced attachment and dialogue are missing. Do not assign them roles or invent that source.
 
-The root `new characters` file mentions Mox, Tavi, Captain Nera, Rook, and a Hush clue as proposed. It is a download-note stub; the referenced character/story attachment and its dialogue are not present in this checkout. Do not assign those names to existing roles or invent the missing details.
+**Confirmed later gameplay direction:** on-foot tandems are family alley-oops; dragon flight has a fighter-jet/simulator feel with one pilot and no crew roles. [The gameplay decision](../decisions/2026-10-29-alley-oops-and-jet-flight.md) owns that direction. Detailed combat, assist tiers and timing remain proposed and outside First Contact.
 
-**Confirmed later gameplay direction:** on-foot tandems are family alley-oops; the dragon has fighter-jet/flight-simulator feel with one pilot and no crew roles. See [the decision](../decisions/2026-10-29-alley-oops-and-jet-flight.md). Detailed combat, ability names, assist tiers, and timing stay proposed unless separately confirmed. These are later production directions, not added scope for the current guided pod prototype.
+## Current production direction
 
-## Visual and technical direction
+**Confirmed goal:** rich cinematic presentation, as close to AAA style as practical in a browser, with Railway intended for later backend services. Recognizable family characters, engineered armor, strong lighting, animation and sound should create quality. Current placeholders and a technical pod candidate are not that final visual standard.
 
-**CONFIRMED goal, October 29:** rich, cinematic presentation, as close to AAA style as is practical in a browser, with Railway intended for backend services. Recognizable and expressive family characters, engineered armor, strong lighting, satisfying animation, and sound should create the sense of quality. The detailed material palette and final designs still need creative review.
+**Authorized increment:** follow the First Contact script through living-room signal, backyard, five placeholder suit introductions, Lyla's supported scan, symbol archive and town map. It should work without reading through spoken placeholder prompts, pictured targets, Kid Keys and an escalating help path. Assisted completion advances the same story; the scan is not a reading assessment or mastery claim. Checkpoints and one-time rewards belong to a pure state module.
 
-**Selected local foundation under the owner's setup authorization:** Babylon.js and TypeScript; Blender source assets with GLB runtime exports; a tested WebGL2 starting point; versioned local checkpoints; browser checks and screenshots. The engine choice is an implementation decision that can be revised if the existing-site audit uncovers a strong reason. WebGPU and Havok are options to evaluate when a scene or mechanic needs them.
+**Confirmed first target:** this Lenovo 82XM with Chrome, on keyboard. Arrows point; Space/Enter acts. An Xbox controller is opportunistic only if it works with no setup; that behavior is untested. Touch is deferred. The next gate is a ten-minute family keyboard playtest, including actual audibility and points needing help. Automated browser and speech-mock evidence does not replace it.
 
-The player's browser renders and runs the game. Railway is intended for later services such as authenticated save synchronization. The actual website framework, Railway project, storage provider, access model, and deployment integration have not been established by this repo. Preserve `paulmalmquist.com/space-dragon` and the existing homepage when integrating.
+**Engineering split:** TypeScript/Babylon runs the browser game; Python runs small repository/asset tools. Retain that existing split for this increment. The owner's Rust/C++ question is not a request to rewrite the game. A Rust/C++ WebAssembly module can be evaluated later for a measured compute bottleneck; changing tooling language alone does not improve visuals. WebGPU and Havok also await a concrete measured need.
 
-**PROPOSED first quality benchmark:** the First Contact slice—living-room computer, interrupted signal, backyard pod, one satisfying interaction, and a local checkpoint that survives reload. Start with clear placeholders and establish the whole Blender-to-browser loop with one reviewed asset before producing the entire family and town.
+**Asset proof:** the original rescue-pod candidate now passes Blender → GLB → ETC1S KTX2 → actual browser loading with preserved lid/clip names and self-hosted decoding. [Its receipt](../reports/2026-10-29-pod-asset.md) records technical results; human art approval and real-GPU performance remain separate. Family characters still need their reference and likeness reviews.
 
-**Confirmed inputs:** [keyboard first](../decisions/2026-10-29-keyboard-first-input.md). Every required interaction must be completable on keyboard. An Xbox controller is opportunistic only when it works with no setup; plug-and-play behavior is not tested. Touch is deferred. The narrow touch smoke check is supplemental layout evidence, not a commitment to touch support.
+The player's browser renders and runs the game. Keep the planned `paulmalmquist.com/space-dragon` prefix and existing homepage when integration becomes possible. Actual website source/routing/deployment and Railway services remain unverified. Local saves come first; backend expansion needs a concrete requirement.
 
 ## What remains open
 
-- The specific player computer/browser and keyboard playtest acceptance. Controller compatibility remains untested; touch is deferred. Desktop 60 fps is a suggested goal, not a measurement; the earlier reduced mobile 30 fps idea is a future option rather than a current acceptance target.
-- Dragon silhouette, scale, access/cockpit, hinges, recovered parts, and assembly states.
-- Lyla's suit color, remaining photo identity assignments, and final character/suit reviews.
-- Approval or revision of the proposed SOS sender, emergency, crossing mechanism, additional cast, and fictional antagonist identity. The later treatments do not make these canon by themselves.
-- Exact town mission count/order and the future Line Leader implementation schedule.
+- Ten-minute Lenovo/Chrome playtest, actual audible narration, child-friendly controls/feel and measured hardware budgets. Desktop 60 fps remains a goal, not an achieved result.
+- Final dragon silhouette, scale, cockpit/access, hinges, recovered parts and assembly states.
+- Lyla's final suit color, remaining photo labels, and family likeness/suit approvals.
+- Approval or revision of proposed SOS sender/emergency/crossing and additional cast.
+- Exact town mission count/order, future Line Leader schedule and site/backend integration.
 
-Agents should make progress on the current slice without inventing those answers as established canon. Refer to the [ledger](IDEA_LEDGER.md) for sources and the [roadmap](ROADMAP.md) for sequencing.
+[Status](STATUS.md) owns actual evidence; [the ledger](IDEA_LEDGER.md) owns traceability; [the roadmap](ROADMAP.md) sequences work without requiring Paul to sort new ideas first.

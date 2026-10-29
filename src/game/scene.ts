@@ -6,7 +6,9 @@ import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight';
 import { PointLight } from '@babylonjs/core/Lights/pointLight';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
-import type { Step } from './checkpoint';
+import { createInitialState } from './state';
+import type { GameState } from './state';
+import { loadPodAsset } from './pod-asset';
 
 export function createFirstContact(canvas: HTMLCanvasElement) {
   const engine = new Engine(canvas, true, { stencil: true }, true);
@@ -85,38 +87,93 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     panel.position.x += Math.sin(panel.rotation.y) * 1.2;
     panel.position.z += Math.cos(panel.rotation.y) * 1.2;
   }
-  let step: Step = 'computer';
+  const projection = MeshBuilder.CreateLines('core.stored-dragon-design', { points: [
+    new Vector3(1.4, 2.3, 0), new Vector3(2, 2.7, 0), new Vector3(2.4, 2.5, 0),
+    new Vector3(2.8, 3, 0), new Vector3(3, 3.4, 0), new Vector3(3.3, 3.2, 0),
+    new Vector3(2.8, 3, 0), new Vector3(2.4, 2.5, 0), new Vector3(1.4, 3.1, -0.8),
+    new Vector3(1.8, 2.5, -0.4), new Vector3(2.4, 2.5, 0), new Vector3(3.2, 3.1, 0.8),
+    new Vector3(2.9, 2.5, 0.4),
+  ] }, scene);
+  projection.color = new Color3(0.3, 0.9, 1);
+  const markers = [0, 1, 2].map(index => {
+    const mesh = MeshBuilder.CreateBox(`scan.target.${index}`, { size: index === 1 ? 0.2 : 0.12 }, scene);
+    mesh.position.set(1.8 + index * 0.7, 0.8, -0.9);
+    mesh.rotation.z = index === 1 ? Math.PI / 4 : 0;
+    mesh.material = index === 1 ? cyan : gold;
+    return mesh;
+  });
+  let state: GameState = createInitialState();
+  let selected = 0;
+  let paused = false;
+  let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let podAsset: Awaited<ReturnType<typeof loadPodAsset>> | undefined;
+  let assetError = '';
+  canvas.dataset.assetLoaded = 'loading';
+  void loadPodAsset(scene).then(asset => {
+    podAsset = asset;
+    asset.root.position.set(2.5, 0, 0);
+    pod.setEnabled(false);
+    ring.setEnabled(false);
+    beacon.setEnabled(false);
+    asset.setOpen(!['living-room', 'signal', 'backyard'].includes(state.phase));
+    canvas.dataset.assetLoaded = 'true';
+  }).catch(error => {
+    assetError = error instanceof Error ? error.message : 'Pod asset failed to load';
+    canvas.dataset.assetLoaded = 'false';
+    console.error('Pod asset load failed:', assetError);
+  });
   let frames = 0;
   let elapsed = 0;
   const frameTimes: number[] = [];
   let rendered = false;
   scene.onBeforeRenderObservable.add(() => {
-    const delta = engine.getDeltaTime();
+    const delta = Math.min(engine.getDeltaTime(), 50);
     elapsed += delta / 1000;
-    ring.rotation.y = elapsed * 0.35;
-    glow.intensity = (step === 'pod' ? 2.4 : 1.6) + Math.sin(elapsed * 2) * 0.25;
-    screen.scaling.x = step === 'computer' ? 1 + Math.sin(elapsed * 7) * 0.015 : 1;
+    ring.rotation.y = reducedMotion ? 0 : elapsed * 0.35;
+    glow.intensity = 2.1 + (reducedMotion ? 0 : Math.sin(elapsed * 2) * 0.2);
+    screen.scaling.x = state.phase === 'signal' && !reducedMotion ? 1 + Math.sin(elapsed * 7) * 0.015 : 1;
+    markers.forEach((marker, index) => {
+      marker.isVisible = state.phase === 'scan';
+      marker.scaling.setAll(index === selected ? 1.7 + (reducedMotion ? 0 : Math.sin(elapsed * 3) * 0.1) : 1);
+    });
+    projection.isVisible = ['scan', 'archive', 'map'].includes(state.phase);
+    projection.alpha = reducedMotion ? 0.8 : 0.7 + Math.sin(elapsed * 3) * 0.12;
     frames++;
-    frameTimes.push(delta);
+    frameTimes.push(engine.getDeltaTime());
     if (frameTimes.length > 120) frameTimes.shift();
   });
-  scene.onAfterRenderObservable.addOnce(() => { rendered = true; });
-  engine.runRenderLoop(() => scene.render());
+  scene.onAfterRenderObservable.addOnce(() => { rendered = true; canvas.dataset.rendered = 'true'; });
+  engine.runRenderLoop(() => { if (!paused) scene.render(); });
   const resize = () => engine.resize();
   window.addEventListener('resize', resize);
   return {
-    setStep(value: Step) {
-      step = value;
-      camera.setTarget(value === 'computer' ? new Vector3(-3.3, 1.1, 0) : new Vector3(2, 1.3, 0));
-      camera.radius = value === 'computer' ? 11 : 8;
+    setStoryState(value: GameState, target = 0) {
+      const changedPhase = value.phase !== state.phase;
+      state = value;
+      selected = target;
+      const home = ['living-room', 'signal'].includes(state.phase);
+      camera.setTarget(home ? new Vector3(-3.3, 1.1, 0) : new Vector3(2.5, 1.1, 0));
+      camera.radius = home ? 11 : 7;
+      if (changedPhase) { camera.alpha = -Math.PI / 2.6; camera.beta = 1.05; }
+      podAsset?.setOpen(!['living-room', 'signal', 'backyard'].includes(state.phase));
+    },
+    setReducedMotion(value: boolean) { reducedMotion = value; },
+    setPaused(value: boolean) { paused = value; },
+    point(key: string) {
+      if (paused) return;
+      if (key === 'ArrowLeft') camera.alpha -= 0.12;
+      if (key === 'ArrowRight') camera.alpha += 0.12;
+      if (key === 'ArrowUp') camera.beta = Math.max(0.35, camera.beta - 0.08);
+      if (key === 'ArrowDown') camera.beta = Math.min(1.45, camera.beta + 0.08);
     },
     snapshot: () => ({
-      rendered, scene: 'first-contact', step, frames,
+      rendered, scene: 'first-contact', phase: state.phase, frames, paused, reducedMotion,
+      pod: podAsset?.metrics ?? { loaded: false, error: assetError },
       meanFrameMs: frameTimes.length ? frameTimes.reduce((a, b) => a + b, 0) / frameTimes.length : 0,
       meshes: scene.meshes.length, activeMeshes: scene.getActiveMeshes().length,
       triangles: scene.meshes.reduce((total, mesh) => total + mesh.getTotalIndices(), 0) / 3,
       renderer: `WebGL ${engine.webGLVersion}`,
     }),
-    dispose() { window.removeEventListener('resize', resize); scene.dispose(); engine.dispose(); },
+    dispose() { window.removeEventListener('resize', resize); podAsset?.dispose(); scene.dispose(); engine.dispose(); },
   };
 }

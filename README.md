@@ -2,7 +2,7 @@
 
 A family of five accidentally receives rescue equipment sent with an SOS. They recover its scattered components around their familiar Florida town, assemble a giant mecha dragon, and choose to answer the call in another universe. Their supportive neighborhood cheers them on; a fictional across-the-street neighbor wants the dragon gone.
 
-**Status:** story foundation, 18 verified character-photo references, an idea workflow, and a local First Contact prototype. The prototype uses placeholder geometry and guided interactions; final art and a deployed game are still ahead.
+**Status:** First Contact now has keyboard play, spoken placeholder prompts, a hint ladder, five provisional suit cards, Lyla's scan, a town-map checkpoint, and an actual Blender/KTX2 pod asset. Home/suit art remains provisional; the Lenovo/Chrome family playtest and a deployed game are still ahead.
 
 **Planned game location:** `paulmalmquist.com/space-dragon`. The existing homepage must remain intact. This is a target route, not a claim that the game is live.
 
@@ -15,6 +15,8 @@ A family of five accidentally receives rescue equipment sent with an SOS. They r
 - **For setup/art work:** [toolchain](docs/TOOLCHAIN.md), [repo inventory](docs/REPO_INVENTORY.md), [asset pipeline](docs/ASSET_PIPELINE.md), and [local development](docs/DEVELOPMENT.md).
 
 The game starts at [http://127.0.0.1:5173/space-dragon/](http://127.0.0.1:5173/space-dragon/). You can also run `npm start` from a terminal. Ideas added to the notebook are saved locally for the next agent session; no agent runs automatically. No technical template is required.
+
+For the first playtest, open that address in **Chrome on this Lenovo laptop**, choose **Start adventure with sound**, and use **arrows** to point, **Space/Enter** to act, **H** to repeat speech, **F1** for help, and **Escape** to pause. The narrator is a temporary computer voice. [The ten-minute playtest sheet](docs/PLAYTEST_FIRST_CONTACT.md) keeps feedback simple.
 
 ## Story and references
 
@@ -43,6 +45,8 @@ python3 tools/verify_family_references.py
 ```
 
 After changing a canonical skill, run `python3 tools/check_foundation.py --sync-skills`. Python 3.10+ is sufficient; Windows users can use `python` or `py -3`. [Foundation CI](.github/workflows/foundation.yml) runs these checks without deployment. [Policy regression cases](tests/agent_policy_cases.json) require separate real-agent evaluation; validating their structure is not proof that an assistant passed them.
+
+The same workflow also runs **game CI** with Node 24, TypeScript state/save unit tests, a build, and real development/production Chromium tests. Run the full local game check with `npm run check`. The game is TypeScript/Babylon.js; Python supports checks and Blender automation. See [the state, speech and language decision](docs/decisions/2026-10-29-first-contact-v2.md).
 
 ## The family
 
