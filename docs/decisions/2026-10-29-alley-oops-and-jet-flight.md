@@ -17,9 +17,19 @@
 
 ## Superseded guidance
 
-- The earlier combat proposal's status-pair tandems (Decoy Slide, Lights Out and others) and dragon station tandems are replaced by alley-oops and crew combos.
+- The earlier combat proposal's status-pair tandems (Decoy Slide, Lights Out and others) and dragon station tandems are replaced by alley-oops on foot.
 - v0.1's "assisted flight" and Act II's "assisted chase-cam flight" now describe the Cadet tier, not the whole flight design.
 
 ## Not decided here
 
 Input devices, the depth of Ace tier, local co-op, exact names, and implementation timing. No implementation scope is authorized by this record.
+
+## Update — no crew roles in the dragon (October 29, 2026)
+
+**Owner direction:** "We don't need roles in the dragon to keep it simple."
+
+- The dragon has **one pilot**. There are no crew stations, crew buttons, crew combos or family-member-specific dragon abilities.
+- The flight kit is a standard fighter-jet set: Breath Cannon (gun), Seeker Sparks (missiles), afterburner and flares, plus Song-breath (an Act II upgrade) and the Dragon Roar finisher.
+- The family still rides along as passengers in cockpit view, with reactions and occasional lines. This is presentation only.
+- This supersedes the combat doc's earlier crew backseater design, its station abilities (Afterburner Overdrive, Holo Flares, Slick Cloud, Wing Shield, Tail Grapple) and its crew combos.
+
