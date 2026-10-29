@@ -34,6 +34,10 @@ Local screenshots are in ignored `artifacts/first-contact-{desktop,suit,scan,map
 
 The workflow adds a read-only Node 24 game job alongside Python foundation checks: `npm ci`, state tests, build, Chromium with Linux dependencies, development tests and production tests. Checkout fetches LFS models. Failure screenshots/traces exclude inbox captures. Actual hosted run evidence is recorded on the feature PR; workflow configuration alone does not establish a pass. No job deploys the game.
 
+Observed **PASS** on code commit `46ae2a4046be6a580f25c93c82f3d76356f72a3f`: [GitHub run 40958262541](https://github.com/paulmalmquist/space_dragon/actions/runs/40958262541), both foundation and game jobs. Hosted output records **17 state tests**, **17 development tests** (1.5 minutes), and **4 production tests** (9.1 seconds). [Draft PR #13](https://github.com/paulmalmquist/space_dragon/pull/13) holds the published work for the human playtest; subsequent documentation updates do not change the tested game code.
+
+The installed target **Chrome 156.0.8078.48** also completed and reloaded First Contact with all five suits and no page errors, using a new temporary headless profile. `artifacts/check-installed-chrome.mjs` and its JSON result retain this local smoke evidence. The model loaded in about 340 ms in that sample; no speaker, family-playtest or AMD-GPU acceptance is inferred.
+
 ## Remaining gates and next action
 
 - Local software coverage implements the M1-01–05 / M1-07 scenarios; M1-03 still needs human audibility/comprehension confirmation. M1-06 remains local-route evidence only because the host website repository is unavailable.

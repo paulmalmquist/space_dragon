@@ -20,12 +20,13 @@ The owner authorized closing the First Contact gaps: game CI, a pure state/save 
 | --- | --- |
 | Pure state and save tests | **PASS: 17 tests** on Node 24.15.0; transition/duplicate/replay/skip, help, interrupted suit sequence, v1 migration, invalid/future saves, backup recovery and blocked writes. |
 | TypeScript and production build | **PASS** in the current work session; final artifact identity belongs in the task receipt. The original foundation's approximately 1.07 MB main bundle is historical, not the current output. |
-| Development/production browser tests | **PASS:** full initial development run plus affected regressions cover the final 17-case suite; all 4 production tests passed after the final build. See the receipt for exact execution scope. |
+| Development/production browser tests | **PASS:** hosted run on code commit `46ae2a4` executed all 17 development and 4 production tests; local full/affected runs also passed. |
 | Pod pipeline | **PASS, bounded:** source reopen/export, GLB checks, embedded KTX2 validation, hierarchy/clip, in-game load and same-origin decoding; human art approval pending. |
-| GitHub game CI | **NOT YET OBSERVED** for the new job; read its actual run after publication. |
+| GitHub game CI | **PASS:** [run 40958262541](https://github.com/paulmalmquist/space_dragon/actions/runs/40958262541), code commit `46ae2a4`: Node 24, 17 state tests, build, actual Chromium development/production tests. Foundation job also passed. |
+| Installed target Chrome smoke | **PASS:** Chrome **156.0.8078.48**, fresh temporary headless profile, completed map and reloaded with all five suits; no page errors. This is not human listening or GPU acceptance. |
 | Ten-minute Lenovo/Chrome family playtest | **NOT TESTED:** confirm audible speech, keyboard usability, points needing help and performance on the actual AMD renderer. |
 
-The [current receipt](../reports/2026-10-29-first-contact-v2.md) records source/artifact identity and executed checks. The feature branch is `feat/first-contact-playable`, based on merged foundation `ea89a05`; read its PR for publication and actual GitHub job evidence. The game has not been deployed by this work.
+The [current receipt](../reports/2026-10-29-first-contact-v2.md) records source/artifact identity and executed checks. The feature branch `feat/first-contact-playable` is published in [draft PR #13](https://github.com/paulmalmquist/space_dragon/pull/13), based on merged foundation `ea89a05`. The draft remains available for the selected family playtest; it is not merged or deployed. Check the PR for subsequent run results.
 
 ## What remains open
 
