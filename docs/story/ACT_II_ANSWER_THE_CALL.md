@@ -165,7 +165,7 @@ The neighbor's two-act arc rhymes with the Hush. In Act I the family learns that
 
 | Element | Notes |
 | --- | --- |
-| **Flight between worlds** | Finally the dragon's real playground: assisted chase-cam flight, boost and a skippable light-speed transition. This reuses the v0.1 flight design. |
+| **Flight between worlds** | Finally the dragon's real playground: **fighter-jet flight** with Cadet, Pilot and Ace assist tiers, dogfights, strike runs, formation flight with woken star-dragons, and a skippable light-speed transition. See the [combat system](../gameplay/COMBAT_SYSTEM.md) §6. |
 | **Sound paints color** | A persistent world-restoration layer. Suit abilities, voices and the dragon's roar push color outward, and restored areas stay restored across saves. |
 | **Hush-moths** (enemy) | Small grey fluttering things that soak up sound and dim color. Noise, goo or a song-breath scatters them, and they flutter off harmlessly. Simple, readable, never scary. |
 | **Still-shells** (obstacle) | Things frozen in place by the Quiet. Each suit "wakes" them a different way: lift, heal, goo, climb to the resonator, or scan for the right note. |
