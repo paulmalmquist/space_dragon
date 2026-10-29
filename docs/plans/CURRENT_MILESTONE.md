@@ -30,7 +30,7 @@ No whole town, all retrieval missions, complete combat/racing systems, full drag
 
 ## Before application work
 
-Inspect the actual website repository, route ownership, runtime/package versions, lockfile, build/deploy commands and existing tests. Record evidence in the architecture document. Select the initial real device and supported inputs; do not infer a child's reading level from age. Local implementation can proceed with reversible placeholders once authorized; deployment and paid infrastructure remain separate decisions.
+Inspect the actual website repository, route ownership, runtime/package versions, lockfile, build/deploy commands and existing tests. Record evidence in the architecture document. **Inputs (owner decision, 2026-10-29):** keyboard first. An Xbox controller is supported only if it works with no setup, and touch is deferred; see [the decision](../decisions/2026-10-29-keyboard-first-input.md). Still to select: the specific computer and browser. Do not infer a child's reading level from age. Local implementation can proceed with reversible placeholders once authorized; deployment and paid infrastructure remain separate decisions.
 
 ## Next increments, not promises
 

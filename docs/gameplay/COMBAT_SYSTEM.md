@@ -50,15 +50,22 @@ Enemies have no health bars. Each enemy has **1–3 sparks**, small glowing pips
 
 ### Controls
 
-| Input | Touch (proposed) | Keyboard (proposed) | Function |
-| --- | --- | --- | --- |
-| Move | Left-thumb pad | WASD / arrows | Move, with auto-targeting of the nearest relevant enemy. |
-| **Action** | Big button | Space / J | The suit's basic move against the current target (goo blob, tether, punch, scan, pulse). |
-| **Suit power** | Second button | K | The suit's special: Family Shield, Slip 'n Slide, Dragon Punch and so on. A clear cooldown ring shows when it's ready again. |
-| **Tandem** | Pulsing family portrait, which appears only when available | L | Triggers an alley-oop (§4). |
-| Switch avatar | Tap a portrait in the corner | 1–5 | Change who you control. Cooldowns and statuses **persist**, per the interaction contracts. |
+**Input decision (October 29, 2026):** **keyboard first**. An Xbox controller is supported only if it works with no setup (see §6 and [the decision](../decisions/2026-10-29-keyboard-first-input.md)). Touch is deferred.
 
-Three buttons plus movement. There are no combos, no held buttons and no rapid tapping. Touch targets are large and spaced apart.
+| Function | Keyboard (default) | Kid Keys (also always active) | Xbox controller (if detected) |
+| --- | --- | --- | --- |
+| Move (auto-targets the nearest relevant enemy) | WASD | Arrow keys | Left stick |
+| **Action** (the suit's basic move) | J | **Space** | A |
+| **Suit power** (Family Shield, Slip 'n Slide, Dragon Punch… with a cooldown ring) | K | Right Shift | X |
+| **Tandem** (alley-oop, §4) | L | **Enter** | Y |
+| Answer a companion's "Throw me!" (be the setter) | L | Enter | Y |
+| Switch avatar (cooldowns and statuses persist) | 1–5 | Tab (cycles) | LB / RB |
+| Hear the prompt again | H | H | View button |
+| Pause | Esc / P | Esc | Menu button |
+
+- **Both keyboard layouts work at the same time**, with no setting to change. A parent can use WASD + J/K/L while a child on their lap uses the arrows, Space and Enter.
+- **Kid Keys** keep a young player's hands on the biggest keys: arrows to move, Space to act, Enter for the alley-oop. *Optional idea:* icon stickers on those keys that match the on-screen prompts.
+- Three actions plus movement, with no combos, no held buttons and no rapid tapping (on foot). On-screen prompts show **the key or button glyph of whichever device was used last**, plus the action's icon. They never show text alone.
 
 ### The companions
 
@@ -255,11 +262,41 @@ Whoever you're controlling is the **pilot**. The other four sit in the remaining
 
 The dragon has **wing energy**. At zero it **doesn't crash**: it tumbles, Maria's station reboots it, and it rejoins at the start of the current wave with progress kept. In Cadet tier hitting the ground is impossible. In Pilot and Ace, terrain contact is a bounce that costs some wing energy.
 
+### Flight controls
+
+Keyboard is the primary flight input. Digital keys are made to feel like a stick through **input ramping**: holding a key eases the control surface toward full deflection over about 0.2–0.3 seconds, and releasing eases it back. Tapping gives small corrections. Pitch inversion is a setting.
+
+| Function | Cadet (keyboard) | Pilot / Ace (keyboard) | Xbox controller |
+| --- | --- | --- | --- |
+| Steer | Arrows or WASD: the dragon banks and climbs toward the pressed direction | W/S pitch, A/D roll, Q/E yaw | Left stick (pitch and roll; direction in Cadet), LB/RB yaw |
+| Throttle | Automatic | R / F (up / down) | RT / LT |
+| Afterburner (Paul) | **Shift**: Boost | Shift, held | RT fully pressed (click) or right stick press |
+| Breath Cannon (gun) | **Space**: Breath with auto-lock | Space, held for continuous fire | X, held |
+| Seeker Sparks (missiles) | Automatic, with Breath | E fires at the current lock (with a lock tone). T cycles targets. | A fires, Y cycles targets |
+| Holo Flares (Lyla) | Crew does it automatically | X | B |
+| Wing Shield (Maria) | Crew does it automatically | C | D-pad up |
+| Slick Cloud (Luna) | Crew does it automatically | Z | D-pad down |
+| Tail Grapple (Luke) | Crew does it automatically | G | D-pad left |
+| Crew combo / Five-Seat Roar | **Enter** | Enter | D-pad right |
+| Camera (chase / cockpit) | V | V | View button |
+| Flight assist off (Ace, space only) | — | Y | Left stick press |
+| Pause | Esc | Esc | Menu button |
+
+- **Cadet on keyboard uses the same three big keys as on foot:** arrows, Space and Enter, plus Shift to boost. A five-year-old can fly with one hand on the arrows and one on Space.
+- **Ace tier is where the keyboard's limits show.** Fine analog control is hard with on/off keys. Ramping and a precision modifier help (holding Ctrl halves control rates). An Xbox controller gives the real stick feel when it works. Mouse-aim flight is a possible later option, not part of the plan now.
+
+### Xbox controller: "works out of the gate" rules
+
+- **No setup screen.** Use the browser's standard gamepad layout. If the controller reports the standard layout, it simply works.
+- **Wake prompt.** Browsers typically don't reveal a gamepad to a page until a button on it is pressed. When the game starts, a small controller icon and the voice line "Press any button on your controller" appear. It's dismissible and never blocks play.
+- **The keyboard always keeps working**, at the same time as the controller.
+- **If the controller is unrecognized or non-standard,** ignore it and show a small "keyboard still works" icon. Never block the game on it.
+- **If the controller disconnects mid-play,** pause automatically and release held inputs (interaction contracts).
+- **Whether it actually works out of the gate is NOT TESTED.** Check it on the real computer, browser and controller before claiming support. Record the result on a [verification receipt](../templates/VERIFICATION_RECEIPT.md).
+
 ### Production caution
 
-The flight model is the **riskiest system in the game** to get right. Build it first as the separately labeled **flight prototype** that Act I already permits: Cadet tier plus one Pilot-tier setup, flight school and one small dogfight. Input matters a lot here. A gamepad suits Pilot and Ace. Touch suits Cadet with a virtual stick. Keyboard and mouse need a mouse-aim scheme. The target devices are still OPEN.
-
----
+The flight model is the **riskiest system in the game** to get right. Build it first as the separately labeled **flight prototype** that Act I already permits: Cadet tier plus one Pilot-tier setup, flight school and one small dogfight, **on keyboard**, with Xbox support added if it works out of the gate. The specific computer and browser are still to be named.
 
 ## 7. Enemy rosters
 
@@ -360,7 +397,7 @@ Because missions 2–5 can be played in any order (Act I refinements §4.1), **n
 
 - **Local co-op.** A second player on the same device, such as a parent controlling a second family member or a child tapping crew portraits, fits this design naturally. It's **not** currently approved, and it must never require a network.
 - Final names for alley-oops, launches and finishers (the kids could name them), the Family Spark name and visuals, and the preset names.
-- **Flight:** the target input device (a gamepad suits Pilot and Ace tiers), how deep Ace tier goes (stalls, G-limits, flight-assist off), whether cockpit view ships early, and whether a Cadet-tier child flies solo or with a parent as backseater.
+- **Flight:** how deep Ace tier goes (stalls, G-limits, flight-assist off), whether cockpit view ships early, and whether a Cadet-tier child flies solo or with a parent as backseater.
 - Whether real-animal moments (soothing, never fighting) need any extra handling.
 - Spark counts and status durations, which should be set by playtesting with the actual players, not decided in advance.
 - Whether the Swamp Blimp boss and the leftover-drones callback are in.
@@ -411,6 +448,6 @@ The smallest slice that proves the system is fun:
 - Bonk and revive, no game over, one assist preset.
 - Test it with the actual players. Watch whether a three-year-old finds the alley-oop prompt without help, and whether the five-year-old wants more.
 
-A **separate flight prototype** should prove the fighter-jet feel: Cadet tier and Pilot tier, flight school, and one Mosquito Squadron dogfight on the chosen input device.
+A **separate flight prototype** should prove the fighter-jet feel: Cadet tier and Pilot tier, flight school, and one Mosquito Squadron dogfight **on keyboard**, then with the Xbox controller if it's detected without setup.
 
 Record results with the [verification receipt](../templates/VERIFICATION_RECEIPT.md). Expand to more suits and alley-oops only after this slice is fun.
