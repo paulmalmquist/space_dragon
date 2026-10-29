@@ -348,7 +348,7 @@ The full treatment above is the target, not a requirement for the first build.
 | **Luna** | Slip 'n Slide, Unstick | Splat (enemy slip) | — | Sticky bubble goo |
 | **Lyla** | Scan, Holo Replay | — | Record | (open) |
 
-How these abilities combine in fights, including alley-oop tandems and the dragon's fighter-jet crew systems: [combat system](../gameplay/COMBAT_SYSTEM.md).
+How these abilities combine in fights, including alley-oop tandems and the dragon's fighter-jet flight: [combat system](../gameplay/COMBAT_SYSTEM.md).
 
 ## 9. Control and accessibility rules (all suits)
 

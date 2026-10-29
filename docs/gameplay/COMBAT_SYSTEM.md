@@ -8,7 +8,7 @@
 
 1. **Depth comes from combinations, not execution.** A three-year-old can win by tapping glowing things. A parent can play smart by setting up alley-oops. Neither needs fast fingers.
 2. **Every combat verb is also an exploration verb.** Goo, tether, lift, scan and shield do the same thing in a fight as in a puzzle, so there's nothing extra to learn.
-3. **Alley-oops are the heart of it.** On foot, one family member launches another into the air for a finishing move (§4). In the air, the dragon flies like a fighter jet with the family as its crew (§6). The family is stronger together *mechanically*, not just thematically.
+3. **Alley-oops are the heart of it.** On foot, one family member launches another into the air for a finishing move (§4). In the air, the dragon flies like a fighter jet with one pilot and the family along for the ride (§6). The family is stronger together *mechanically*, not just thematically.
 4. **Nobody gets hurt and nobody "dies."** Enemies slip, get captured, get disarmed, power down, get calmed or run away (Act I §6). Family members get **bonked**, never injured.
 5. **There is never a game over in story fights.** Losing costs a few seconds, never progress.
 6. **Combat never requires reading,** and learning never happens mid-fight (learning rules).
@@ -165,9 +165,9 @@ When the **Family Spark** meter (§5) is full, all five portraits glow. Tapping 
 
 A shared meter shown as the Core's emblem filling with light.
 
-- **It fills from helping:** applying a status (a little), alley-oops (a lot, and more for a "perfect" tap), reviving a bonked family member, Maria healing someone, being the setter for a companion, and crew combos in the dragon.
+- **It fills from helping:** applying a status (a little), alley-oops (a lot, and more for a "perfect" tap), reviving a bonked family member, Maria healing someone, being the setter for a companion, and in the dragon, hits and close dodges.
 - **It never drains** from being hit, bonked or slow. Failure never takes anything away.
-- **When full,** it enables Five Together on foot or the Five-Seat Roar in the dragon. It refills over the course of a fight, so roughly one per standard encounter.
+- **When full,** it enables Five Together on foot or the Dragon Roar in the dragon. It refills over the course of a fight, so roughly one per standard encounter.
 - It isn't saved between encounters. Each fight starts fresh, which avoids hoarding and confusing state.
 
 ---
@@ -202,7 +202,7 @@ The tier is an **action-assistance setting**, kept separate from the learner pro
 ### Camera and HUD
 
 - **Chase camera** by default. An optional **cockpit view** shows the five-seat cockpit with the family visible around you. An optional horizon-locked camera reduces motion.
-- **The HUD is symbolic, so no reading is needed:** a horizon line (and a pitch ladder in Pilot and above), speed and altitude as bars or tapes, target brackets, a lock-on tone, and a warning tone plus a direction arrow for incoming seekers. Crew callouts are spoken (§ crew, below).
+- **The HUD is symbolic, so no reading is needed:** a horizon line (and a pitch ladder in Pilot and above), speed and altitude as bars or tapes, target brackets, a lock-on tone, and a warning tone plus a direction arrow for incoming seekers.
 
 ### Takeoff and landing
 
@@ -210,29 +210,20 @@ The dragon can hover, so it can **take off vertically from the cul-de-sac** and 
 
 ### Weapons and defenses (non-lethal)
 
-| System | Jet equivalent | Run by | Function |
-| --- | --- | --- | --- |
-| **Breath Cannon** | Gun | Pilot | Rapid short-range energy pulses, with aim assist by tier. |
-| **Seeker Sparks** | Missiles | Pilot | Hold the target in the reticle until the lock tone, then fire homing sparks. Cadet locks automatically. |
-| **Afterburner Overdrive** | Afterburner | **Paul** (engines) | A burst of speed and a sharper turn. |
-| **Holo Flares** | Flares / chaff | **Lyla** (sensors) | Decoy dragons pull incoming seekers away. Lyla also runs radar and the threat warnings. |
-| **Slick Cloud** | Rear mine | **Luna** | A goo cloud dropped behind the dragon. Chasing drones spin out. |
-| **Wing Shield** | — | **Maria** (wings and life support) | A short barrier that blocks one telegraphed hit and repairs wing energy. |
-| **Tail Grapple** | — | **Luke** (tail) | Snag a target or debris, whip it, or swing around an asteroid. |
-| **Song-breath** | — | Upgrade (Act II Forge Ring) | Restores color and scatters the Quiet. |
+**Owner direction (October 29, 2026):** no crew roles in the dragon. One pilot flies and fights, and the kit is a small, standard fighter-jet set.
 
-### The crew are backseaters
+| System | Jet equivalent | Function |
+| --- | --- | --- |
+| **Breath Cannon** | Gun | Rapid short-range energy pulses, with aim assist by tier. |
+| **Seeker Sparks** | Missiles | Hold the target in the reticle until the lock tone, then fire homing sparks. Cadet locks automatically. |
+| **Afterburner** | Afterburner | A burst of speed and a sharper turn. |
+| **Flares** | Flares | Pull incoming seekers away. Cadet fires them automatically. |
+| **Song-breath** | — | An upgrade (Act II, the Forge Ring) that restores color and scatters the Quiet. |
+| **Dragon Roar** | — | The finisher. With Family Spark full, the dragon roars and every bandit on screen powers down. In Act II it's also the story's weapon against the Quiet. |
 
-Whoever you're controlling is the **pilot**. The other four sit in the remaining seats and run their systems like a jet's weapons officer.
+### The family on board
 
-- They **call out** threats and readiness with voice plus an icon, never text alone. Lyla: *"Bandit behind us!"* with a rear arrow. Maria: *"Shield ready!"* Paul: *"Burner's hot!"*
-- Crew abilities trigger from the **crew buttons**, or the crew fire them automatically when it obviously helps (on in Cadet tier, optional in Pilot, off in Ace).
-- **Crew combos** are the in-flight cousin of the alley-oop:
-  - **Lock-All Volley** (Lyla + pilot): Lyla's radar locks every bandit in view, and one press fires a Seeker Spark at each.
-  - **Slingshot Reversal** (Luke + Paul): the tail grapple hooks an asteroid or tower, and the afterburner whips the dragon around it into a 180° turn behind the chaser. It's a fighter-jet trick made dragon-shaped.
-  - **Goo Wake** (Luna + Maria): a Slick Cloud spread wide by a wing-shield gust, so the whole chasing squadron spins out.
-- **Five-Seat Roar** (finisher): with Family Spark full, all five seats light up and the dragon roars, and every bandit on screen powers down. In Act II this is also the story's weapon against the Quiet.
-- Since a second player could naturally take a backseat role, **local co-op** fits here well. It's OPEN (§10).
+The whole family rides in the dragon, but **only the pilot has controls**. Everyone else is a passenger: they appear in cockpit view, cheer at hits, gasp at near-misses, and say an occasional flavor line ("Again!"). That's presentation only, with no abilities, buttons or stations. Threat warnings come from the HUD (a tone plus a direction arrow), not from a crew role.
 
 ### Sorties (mission types)
 
@@ -260,7 +251,7 @@ Whoever you're controlling is the **pilot**. The other four sit in the remaining
 
 ### Bonked, dragon edition
 
-The dragon has **wing energy**. At zero it **doesn't crash**: it tumbles, Maria's station reboots it, and it rejoins at the start of the current wave with progress kept. In Cadet tier hitting the ground is impossible. In Pilot and Ace, terrain contact is a bounce that costs some wing energy.
+The dragon has **wing energy**. At zero it **doesn't crash**: it tumbles, rights itself, and rejoins at the start of the current wave with progress kept. In Cadet tier hitting the ground is impossible. In Pilot and Ace, terrain contact is a bounce that costs some wing energy.
 
 ### Flight controls
 
@@ -270,19 +261,16 @@ Keyboard is the primary flight input. Digital keys are made to feel like a stick
 | --- | --- | --- | --- |
 | Steer | Arrows or WASD: the dragon banks and climbs toward the pressed direction | W/S pitch, A/D roll, Q/E yaw | Left stick (pitch and roll; direction in Cadet), LB/RB yaw |
 | Throttle | Automatic | R / F (up / down) | RT / LT |
-| Afterburner (Paul) | **Shift**: Boost | Shift, held | RT fully pressed (click) or right stick press |
+| Afterburner | **Shift**: Boost | Shift, held | RT fully pressed (click) or right stick press |
 | Breath Cannon (gun) | **Space**: Breath with auto-lock | Space, held for continuous fire | X, held |
 | Seeker Sparks (missiles) | Automatic, with Breath | E fires at the current lock (with a lock tone). T cycles targets. | A fires, Y cycles targets |
-| Holo Flares (Lyla) | Crew does it automatically | X | B |
-| Wing Shield (Maria) | Crew does it automatically | C | D-pad up |
-| Slick Cloud (Luna) | Crew does it automatically | Z | D-pad down |
-| Tail Grapple (Luke) | Crew does it automatically | G | D-pad left |
-| Crew combo / Five-Seat Roar | **Enter** | Enter | D-pad right |
+| Flares | Automatic | X | B |
+| Dragon Roar (when Family Spark is full) | **Enter** | Enter | D-pad up |
 | Camera (chase / cockpit) | V | V | View button |
 | Flight assist off (Ace, space only) | — | Y | Left stick press |
 | Pause | Esc | Esc | Menu button |
 
-- **Cadet on keyboard uses the same three big keys as on foot:** arrows, Space and Enter, plus Shift to boost. A five-year-old can fly with one hand on the arrows and one on Space.
+- **Cadet on keyboard uses the same three big keys as on foot:** arrows, Space and Enter (Roar), plus Shift to boost. A five-year-old can fly with one hand on the arrows and one on Space.
 - **Ace tier is where the keyboard's limits show.** Fine analog control is hard with on/off keys. Ramping and a precision modifier help (holding Ctrl halves control rates). An Xbox controller gives the real stick feel when it works. Mouse-aim flight is a possible later option, not part of the plan now.
 
 ### Xbox controller: "works out of the gate" rules
@@ -316,8 +304,8 @@ The flight model is the **riskiest system in the game** to get right. Build it f
 
 | Enemy | Tier | Behavior | Weak to | Resolution |
 | --- | --- | --- | --- | --- |
-| **Hush-moths** | Swarm, 1 spark | Grey fluttering things that soak up sound. Nearby colors dim. | Any noise: Song-breath, Goo Bomb splashes, Five-Seat Roar | Flutter off in a puff of returning color. |
-| **Dimmer Clouds** | Standard, 2 sparks, also in space | Moth clouds that block vision and dim the dragon's lights. | Slipped (Slick Cloud scatters them), Song-breath | Disperse into sparkles. |
+| **Hush-moths** | Swarm, 1 spark | Grey fluttering things that soak up sound. Nearby colors dim. | Any noise: Song-breath, Goo Bomb splashes, Dragon Roar | Flutter off in a puff of returning color. |
+| **Dimmer Clouds** | Standard, 2 sparks, also in space | Moth clouds that block vision and dim the dragon's lights. | Song-breath, Breath Cannon (in the air), and Slipped on foot | Disperse into sparkles. |
 | **Still Guardians** | Elite, 3 sparks | Old crystal guardians sleepwalking in the Quiet, confusedly defending their worlds. Slow and huge. | Exposed (a muffled "ear" crystal), then a tandem | **They wake up.** They blink, apologize in chimes and become allies who open the way. |
 | **The neighbor's leftover drones** (option) | Swarm or standard | Her mosquito drones followed the dragon through the crossing on autopilot, and now the Quiet's moths are riding them. | As in Act I | As in Act I. A comedy callback, and she's mortified. |
 | **The Hush** | **Not a fight** | — | — | The climax is an empathy scene, not combat ([Act II](../story/ACT_II_ANSWER_THE_CALL.md) §5). The game should make clear that fighting it doesn't work. |
@@ -358,8 +346,8 @@ Each boss has **2–3 phases**, and each phase teaches or needs one teamwork pat
 | 4. Grocery | **Bubble Bounce** (Maria), **Bubble Rocket** marquee | Maria's mission |
 | 5. Big-box store | **Tiny Launch** marquee, Spider Pounce, more **oop spots** in traversal | Chase and slip mission |
 | 6. Rocket facility | The **Five Together** chain alley-oop | The first full-teamwork set piece |
-| Act I finale | **Flight school**, Cadet/Pilot/Ace tiers, Breath Cannon, Seeker Sparks, all crew systems, and the Mosquito Squadron dogfight | The dragon is complete |
-| Act II worlds | Crew combos (one per world), Song-breath, Five-Seat Roar, wingman formation flight | Act II progression |
+| Act I finale | **Flight school**, Cadet/Pilot/Ace tiers, Breath Cannon, Seeker Sparks, afterburner, flares, Dragon Roar, and the Mosquito Squadron dogfight | The dragon is complete |
+| Act II worlds | Song-breath, wingman formation flight, and new sortie types per world | Act II progression |
 
 Because missions 2–5 can be played in any order (Act I refinements §4.1), **no mission can require a launch from a different mission**. Paul's Power Toss can't be required at the grocery, for example. Required alley-oops in each mission use launches that are guaranteed to be unlocked by then.
 
@@ -395,9 +383,9 @@ Because missions 2–5 can be played in any order (Act I refinements §4.1), **n
 
 ## 10. Open decisions
 
-- **Local co-op.** A second player on the same device, such as a parent controlling a second family member or a child tapping crew portraits, fits this design naturally. It's **not** currently approved, and it must never require a network.
+- **Local co-op.** A second player on the same device, such as a parent controlling a second family member on foot, fits this design naturally. It's **not** currently approved, and it must never require a network.
 - Final names for alley-oops, launches and finishers (the kids could name them), the Family Spark name and visuals, and the preset names.
-- **Flight:** how deep Ace tier goes (stalls, G-limits, flight-assist off), whether cockpit view ships early, and whether a Cadet-tier child flies solo or with a parent as backseater.
+- **Flight:** how deep Ace tier goes (stalls, G-limits, flight-assist off), whether cockpit view ships early, and whether a Cadet-tier child flies solo or on a parent's lap.
 - Whether real-animal moments (soothing, never fighting) need any extra handling.
 - Spark counts and status durations, which should be set by playtesting with the actual players, not decided in advance.
 - Whether the Swamp Blimp boss and the leftover-drones callback are in.
@@ -407,7 +395,7 @@ Because missions 2–5 can be played in any order (Act I refinements §4.1), **n
 **Content definitions** (data, not code):
 
 - `StatusDefinition`: id, duration, stacking rule, cue references.
-- `AbilityDefinition`: already in v0.1. Adds the status applied, the target tags and the station mapping.
+- `AbilityDefinition`: already in v0.1. Adds the status applied and the target tags.
 - `LaunchDefinition`: setter ID, arc profile, slow-motion window, cooldown and animation reference.
 - `FinisherDefinition`: finisher ID, effect, area, status bonuses and animation reference.
 - `MarqueeOopDefinition`: setter, finisher, override animation and reduced-motion reference.
