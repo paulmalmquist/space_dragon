@@ -308,7 +308,7 @@ The flight model is the **riskiest system in the game** to get right. Build it f
 | **Dimmer Clouds** | Standard, 2 sparks, also in space | Moth clouds that block vision and dim the dragon's lights. | Song-breath, Breath Cannon (in the air), and Slipped on foot | Disperse into sparkles. |
 | **Still Guardians** | Elite, 3 sparks | Old crystal guardians sleepwalking in the Quiet, confusedly defending their worlds. Slow and huge. | Exposed (a muffled "ear" crystal), then a tandem | **They wake up.** They blink, apologize in chimes and become allies who open the way. |
 | **The neighbor's leftover drones** (option) | Swarm or standard | Her mosquito drones followed the dragon through the crossing on autopilot, and now the Quiet's moths are riding them. | As in Act I | As in Act I. A comedy callback, and she's mortified. |
-| **The Hush** | **Not a fight** | — | — | The climax is an empathy scene, not combat ([Act II](../story/ACT_II_ANSWER_THE_CALL.md) §5). The game should make clear that fighting it doesn't work. |
+| **The Hush** | **Not a fight** | — | — | The climax is *Listen → Shelter → Home Note* ([Act II](../story/ACT_II_ANSWER_THE_CALL.md) §5). In Shelter, suits and alley-oops **protect** the Hush from noisy echoes, which are tucked away rather than defeated. Nothing attacks it. |
 
 ### Space and sky encounters
 

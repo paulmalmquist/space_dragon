@@ -109,6 +109,8 @@ Several drifting worlds each hold a **sleeping star-dragon** and a stilled commu
 
 As in Act I, story beats are delivered by **number of dragons woken**, so order doesn't matter. Each world needs only one compact explorable area. This is a production shrink lever: two worlds can carry the act if needed.
 
+**Introducing the Hush:** each world shows the Hush a little before the climax: a huge soft shape drifting away from noise, an old bedtime story, its sigh in Lyla's archive. By the end the player knows it's shy, gentle and hurting. The full list is in [music, empathy and pacing](MUSIC_EMPATHY_AND_PACING.md) §3.
+
 **Running gag:** the neighbor's complaints get less sincere. On the Market Moon she haggles. In the Hatchery she's caught knitting a tiny scarf for a cold egg and denies it furiously.
 
 ### Movement 4 — The Silent Center (A2-07, the low point)
@@ -120,28 +122,54 @@ With four dragons awake, the song is strong enough to reach the center of the un
 - This is the low point, and it should be gentle rather than scary. Nobody is in danger of falling asleep yet, because they're still from somewhere else. But it's dark and quiet and far from home, and the toddlers are tired.
 - **Maria's beat:** she gathers everyone close, like Act I's "Everybody stay together." Lyla plays something from the Family Archive: not the SOS, but a recording **from home**, perhaps the install-party noise, the neighbors cheering, or the family's own bedtime song. The *home* sound is what pushes color back. They walk forward together inside its circle.
 
+- **Pacing:** play slows here. Walking eases, and the music thins to almost nothing. But **control never stops**, and the beat is short: about a minute of walking before the home recording starts.
+- **No separation:** the family stays together for the entire low point. No child is alone and no parent is absent.
+- **Music:** the home recording is the only real music in the scene. Then the family's instruments rejoin one at a time as they walk.
+
 *Design note:* this is the natural place for the BOOKMARKED Line Leader system if it exists by then: walking as a party, one leader, everyone close. It **must not** require split parties. If Line Leader isn't built, this works as a guided walk.
 
 ### Movement 5 — The Hush and the Answer (A2-08 → A2-10)
 
-**A2-08 The Hush.** At the center, curled around the sleeping Elder Dragon, is **the Hush**. It's enormous, soft and cloud-like, with its "hands" over its "ears." It isn't attacking. It's *hiding*.
+This version draws on the [research](../research/2026-10-29-empathy-music-pacing.md). The climax has **three phases, Listen, Shelter and Home Note**, and each has a different verb. None of them is an attack. The research offered three separate options: a group-harmony puzzle, empathetic dialogue, and a "lullaby defense." This combines them in the order understanding, then protection, then song. Music details are in [music, empathy and pacing](MUSIC_EMPATHY_AND_PACING.md).
 
-**What it is (proposed):** a creature, or a part of the universe itself, that the song overwhelmed. The music got too loud and too much, all the time, everywhere, and like a small child with too much noise, it pulled a blanket of silence over everything. It didn't mean to put everyone to sleep. It just wanted it to stop.
+**A2-08 Listen (understanding).**
+- At the center, curled around the sleeping Elder Dragon, is **the Hush**. It's enormous, soft and cloud-like, with its "hands" over its "ears." It isn't attacking. It's *hiding*.
+- **The family does what has worked all act: they get loud.** Luke yells and the suits flare. The Hush curls tighter, the Quiet thickens and color drains. The game lets the player try this (Roar is available). It simply doesn't work, and nothing is lost. This is the turn, because loud was the answer everywhere else.
+- **Lyla's Listen:** Lyla scans the Hush, and her visor lets the family **hear what it hears**. For a few seconds the player hears the universe through the Hush's ears: every song from every world at once, far too loud, *including the dragons the family just woke*. Then it cuts to the Hush's silence. Understanding someone else's point of view is made literal, in sound, with no words needed.
+- **The Caller explains** what the Hush is: the rest in the universe's song, the pause between notes. When the song stopped taking rests, there was no room left for it.
+- **The neighbor steps forward.** *"I know that feeling."* She sits down next to it. Sometimes everything is too loud, and nobody asks if you're okay. *(This echoes Act I: nobody asked her whether she was okay when the piece fell in her yard.)* Her theme plays slow and soft, and the Hush's low drone harmonizes with it. That's the first sign it's listening.
+- **Gesture choices, with no reading.** The player picks how to approach from picture icons with spoken labels: *sit down*, *wave hello*, *hum softly*, *give it space*. Every choice is kind, and every choice works. Each gets its own small reaction from the Hush. The loud option already happened, and that was the lesson.
 
-**A2-09 Not a fight.** The family's instinct, and the player's, is to get loud. It works on Hush-moths, but here it makes the Hush curl tighter and the Quiet spread. **Loud is the wrong answer here.** This reverses the act's own rule, and it's the turn.
+**A2-09 Shelter (protection).**
+- The Hush uncovers one ear, and the waking universe rushes in. Bright, noisy **echoes** of every song fly at it like a crowd all talking at once. The dragons the family woke are part of the noise. Helping one place has overwhelmed another, and the answer is balance, not silence and not noise.
+- **The family protects the Hush.** Nobody attacks. The echoes are just bundles of noise that need tucking away:
+  - Maria's Family Shield shelters it.
+  - Luna's goo **muffles** echoes. It turns out to be wonderful soundproofing.
+  - Luke tethers high echoes, and Paul braces a wall.
+  - Lyla records each echo into the archive, "putting it away for later."
+  - **Alley-oops** reach the high-flying echoes, for example Maria bubble-bouncing Luke up to Web Dive a cluster.
+- Each echo tucked away lets a little color back, and the Hush uncurls more. **Failure moves the story forward:** an echo that reaches the Hush only makes it flinch and the music thin. Nothing resets, and nobody gets bonked. The phase ends when the Hush is calm, not when a counter is perfect.
+- This is the last use of the on-foot system. Every suit and every alley-oop is used *to protect*, which reframes the whole combat kit as care.
 
-- **The neighbor steps forward.** She's the one person here who knows exactly how the Hush feels. She sits down next to it and, in her own grumpy way, says she gets it. Sometimes everything is too loud and nobody asks if you're okay. *(This echoes Act I's refinement: nobody asked her whether she was okay when the piece fell in her yard.)*
-- The family realizes the song doesn't need to be **loud**. It needs to be **gentle**.
-- **Interaction:** a calm, untimed music moment. Each family member plays one soft note, chosen from a few, with no wrong answer: a creative, not graded, activity per the learning rules. The Hush uncovers its ears.
+**A2-10 The Home Note (song).**
+- It's calm now. The family's sleeping dragon is curled nearby, and so is the Elder Dragon.
+- **Each family member plays one soft note.** The choices come from the family's instruments and are all notes that harmonize, so **there are no wrong notes**. It's one tap each, or one tap for everyone at the highest assist level, and it's untimed.
+- Then the SOS plays one last time, all seven notes, ending on its question. **The family sings the home note**, the one the senders never wrote. Musically it's the note that resolves the melody. In music it's literally the "home" note (the tonic).
+- If the player gets loud or mashes buttons here, the Hush curls slightly and the music thins. That's feedback, never failure, and it reopens as soon as things calm down.
+- **Payoff:**
+  - Their dragon wakes first, and it's the loudest, but now it knows when to rest.
+  - The Elder Dragon wakes, and color floods outward through every world. The woken dragons answer in chorus.
+  - The song now **includes rests**, so the Hush becomes the pause between notes: a soft, quiet place the music flows around. It's not defeated and not destroyed. It has been given back its place.
+- *This is the payoff of the whole two-act arc.* The SOS was a call, and the family's note is the answer. **They weren't chosen. They chose to help, and the help was something only they could add.**
 
-**A2-10 The answering note.** The SOS melody from Act I has always ended on a question. Now the family, all five and maybe the neighbor too, **sing the answer**: a final note the senders never wrote, because it had to come from whoever answered.
-
-- *This is the payoff of the whole two-act arc.* The SOS was a call. The family's note is the answer. **They weren't chosen. They chose to help, and the help was something only they could add.**
-- The Elder Dragon wakes, and so does *their* dragon. It wakes first, and it is the loudest. Color floods outward from the center through every world. The woken dragons answer in chorus, and the Hush, comforted, becomes a soft, quiet place the song now flows *around* rather than through. Every song needs rests, and this is one. The Hush is not defeated or destroyed.
+**Alternatives considered:**
+- A single group-harmony puzzle in which wrong or loud notes cause dissonance. Pass/fail pitch matching contradicts the learning rules and would frustrate a three-year-old.
+- Dialogue choices alone. That version loses the protective action and the song.
 
 ### Coda — Home (A2-11)
 
 - The Caller and the senders thank the family. The passenger stays with its family and gives the kids a keepsake, perhaps a small glowing scale that hums the answering note.
+- **The Encore** (optional flight): the dragon carries the new song, rests included, out across every world in formation with the star-dragons. It's a ring and canyon run with no enemies, the fighter-jet system's victory lap.
 - **The dragon chooses too.** It's alive and among its own kind now, so it could stay. The Caller says it's the dragon's choice, and nobody makes it for the dragon. It looks at the star-dragons, then at the family, and lowers its wing for them to climb aboard. This echoes the family's own choice in Act I.
 - The Bridge stays open, and the way home and back is promised. **The return trip is shown on screen**, which confirms the Act I promise.
 - The cul-de-sac: the dragon lands to a block party. The baking neighbor has made the biggest cake yet. The neighbor walks back across the street, stops and says: *"…It's actually very peaceful up there."* Then she adds: *"Still not approving the dragon."*
@@ -189,6 +217,7 @@ Racing (the Market Moon cart race, a dragon race through restored spires with th
 
 ## 9. Open decisions
 
+- The climax structure (Listen → Shelter → Home Note) versus one of the research's single variants. Whether the Hush is "the rest in the song." Whether the Shelter echoes include the dragons the family woke.
 - Accept or reject the core premise (the Quiet, song as the senders' world-force, living star-dragons as the mecha's model).
 - Whether the living material is shed star-dragon scale, and whether the dragon's choice to stay with the family is part of the ending.
 - Whether the neighbor stows away, sends only a robot iguana, or stays home.
