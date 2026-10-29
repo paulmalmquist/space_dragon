@@ -78,12 +78,12 @@ Music is built from layers (stems) that fade in and out with **game state**. Thi
 
 ### 2.5 Repetition with variation: the SOS grows
 
-The SOS plays after every install, so it never sounds the same twice. Each layer is added by **install count**, which keeps it consistent with Act I's any-order missions.
+The SOS plays after every install, so it never sounds the same twice. **Each install restores one note** and adds one instrument layer, by **install count**, which keeps it consistent with Act I's any-order missions.
 
 | Installs | Presentation |
 | --- | --- |
-| 0 (arrival) | A broken music box: one clear note in static |
-| 1 | Music box, two notes |
+| 0 (arrival) | A broken music box: static and a hum, no clear notes yet |
+| 1 | Music box, the first note |
 | 2 | + celesta |
 | 3 | + marimba |
 | 4 | + plucked strings |
