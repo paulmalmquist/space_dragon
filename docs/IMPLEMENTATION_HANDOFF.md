@@ -4,7 +4,9 @@
 
 **Current narrative baseline:** [Prologue & Act I — Build the Dragon](story/ACT_I_BUILD_THE_DRAGON.md), October 28, 2026. This supersedes conflicting origin and opening-sequence assumptions in the initial specification. The dragon is pre-designed rescue equipment sent with an SOS, not the family's invention. The first backyard arrival supplies the suits; the family recovers other components around town and combines them to construct the dragon. Earth was the closest planet in range, and this family received the equipment accidentally. The completed message leads to a choice to help in another universe.
 
-**Current handoff status:** planning documents and 18 verified character-photo references are available. See the [context index](context/RAILWAY_GAME_SUPPORT.md) and [reference collection](../assets/reference/family/README.md). No application code, completed character models, infrastructure changes, deployment, or gameplay test results are supplied.
+**Current handoff update — October 29, 2026:** the owner has now authorized useful tool installation, unordered idea intake, and a local development foundation. Start with [AGENTS.md](../AGENTS.md) and [current project status](project/STATUS.md). A Babylon/TypeScript guided prototype, local checkpoints, development idea notebook, asset helpers, and browser checks are now supplied; see [the implementation decision](decisions/2026-10-29-local-foundation.md). Final character assets, site integration, backend services, and deployment remain pending. Earlier authorization/status language below records the original documentation task and does not block the owner's later local-setup request.
+
+**Original starting status:** planning documents and 18 verified character-photo references were available, with no application runtime or deployment supplied. The [context index](context/RAILWAY_GAME_SUPPORT.md) and [reference collection](../assets/reference/family/README.md) preserve that foundation.
 
 ## Read before implementation
 

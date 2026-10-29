@@ -1,3 +1,4 @@
+* text=auto
 # Keep generated skill mirrors stable across Windows and Unix checkouts.
 *.md text eol=lf
 *.py text eol=lf
@@ -6,5 +7,14 @@
 *.jpeg binary
 *.jpg binary
 *.png binary
-*.blend binary
-*.glb binary
+*.cmd text eol=crlf
+*.blend filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.kra filter=lfs diff=lfs merge=lfs -text
+*.spp filter=lfs diff=lfs merge=lfs -text
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.flac filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.glb filter=lfs diff=lfs merge=lfs -text
+*.ktx2 filter=lfs diff=lfs merge=lfs -text

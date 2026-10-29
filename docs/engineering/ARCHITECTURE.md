@@ -1,11 +1,11 @@
 # Architecture contract
 
-**Status:** development constraints and proposed boundaries; not an implemented architecture.  
+**Status:** development constraints plus a local prototype; full game/site architecture remains in development. See [the October 29 decision](../decisions/2026-10-29-local-foundation.md) and [current status](../project/STATUS.md).
 **Inspected baseline:** `82e2610be1a23ad238e9ac67884adc777aa10cbc` (2026-10-28): planning documents, photo references and a reference verifier. No application manifest, game runtime or deployment configuration was present in that tree.
 
 ## Verified versus unverified
 
-The repository and reference files exist. The target route is `/space-dragon` on the existing site. The site's current framework, Vercel/Railway configuration, target hardware, Blender connection, application test commands and performance are UNVERIFIED. Three.js/TypeScript, GLB assets and local checkpoint saves are proposals, not established dependencies. Inspect before selecting versions or installing packages; reuse the actual lockfile and conventions.
+The target route remains `/space-dragon` on the existing site. A standalone Babylon.js/TypeScript/Vite prototype, exact lockfile, local checkpoints and Playwright flows now exist; Three.js was an earlier proposal, not a runtime being replaced. [Local development](../DEVELOPMENT.md) records the actual commands/modules and [the inventory](../REPO_INVENTORY.md) records machine/public-site evidence. Website source/deployment, Railway services, player devices, Blender MCP connection and real-device performance remain unverified. The development prefix is a local preparation choice, not proof of host-site integration. No reviewed GLB game asset is supplied yet.
 
 ## Keep these boundaries even in a small implementation
 

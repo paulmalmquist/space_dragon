@@ -2,7 +2,7 @@
 
 ## Start with the task, not the entire archive
 
-Read [the current milestone](docs/plans/CURRENT_MILESTONE.md) and inspect the actual files, commands, branch and working-tree changes before editing. This is a planning/reference repository until application code proves otherwise. Do not invent a package manager, dev server, connected Blender session or hosting configuration.
+Read [project status](docs/project/STATUS.md), [the vision](docs/project/VISION.md), [the idea inbox](ideas/INBOX.md), and [the current milestone](docs/plans/CURRENT_MILESTONE.md); inspect actual files, commands, branch and working-tree changes before editing. A local Babylon/TypeScript prototype now exists; finished art, website integration and backend services remain pending. Do not invent a connected Blender session or hosting configuration.
 
 Load only the relevant contract:
 - Story or missions: [Act I](docs/story/ACT_I_BUILD_THE_DRAGON.md).
@@ -11,9 +11,21 @@ Load only the relevant contract:
 - Art: [Blender handoff](docs/BLENDER_CHARACTER_HANDOFF.md).
 - Verification/release: [quality gates](docs/engineering/QUALITY_GATES.md).
 
+## Turn unordered ideas into changes
+
+Paul supplies creative ideas; agents maintain the structure and routine technical choices. Chat, the local Idea notebook, and `ideas/INBOX.md` are equivalent inputs. No technical brief or user-maintained form is required. Notebook capture does not run agents automatically.
+
+- Preserve the source wording and date in the inbox. Notebook `NOTE-...` IDs identify raw captures; connect them to the next unused `SD-###` in [the ledger](docs/project/IDEA_LEDGER.md). Search for duplicates and coordinate ID allocation.
+- Track authority (`CONFIRMED`, `PROPOSED`, `BOOKMARKED`, `OPEN`) separately from work state (`captured`, `planned`, `in-progress`, `verified`, `parked`). Confirmed direction is not verified implementation.
+- Identify affected canonical documents/code, dependencies, and the smallest useful next action. Keep a routing receipt with the original thought; do not silently delete it or copy entire specs into the ledger.
+- Implement authorized useful work; park later ideas with a reason and revisit trigger. Record contradictions and their practical effect. Resolve routine engineering choices; ask only for consequential creative intent that cannot be inferred, and continue independent work.
+- Update canonical documents and code together, plus the [roadmap](docs/project/ROADMAP.md), ledger and status when their state changes. Finish with actual checks, limitations and the next useful action.
+
 ## Authority and scope
 
 Preserve CONFIRMED, PROPOSED, BOOKMARKED and OPEN labels. Current Act I supersedes conflicting origins in the historical v0.1 spec; it does not approve every treatment detail. Explicit owner decisions supersede proposals. Record material changes in `docs/decisions/` with rationale, scope and superseded guidance. Do not turn an assistant suggestion into approved canon.
+
+The October 29 owner request authorizes useful tool installation and a local First Contact foundation under agent judgment; it supersedes earlier documentation-only authorization limits for that work. Purchases, added personal media, hosting changes and production deployment retain separate boundaries. Keyboard is primary; Xbox is opportunistic and touch deferred per [the input decision](docs/decisions/2026-10-29-keyboard-first-input.md).
 
 The family receives deliberately sent SOS equipment accidentally. Earth was in range; the family was not preselected and did not invent the dragon. The backyard arrival supplies the suits; recovered components assemble the pre-existing dragon design. Preserve the living-room opening and other-universe destination. Lyla's suit color remains OPEN.
 
@@ -30,6 +42,8 @@ Preserve user changes. No destructive resets, force-pushes, unrelated rewrites o
 Keep authoritative game state separate from animation and rendering. Rewards must survive reloads and repeated triggers without duplication. Separate learner profile, selected avatar and action-assistance settings. Help must advance required story challenges without recording independent mastery. Do not demand reading while steering at speed.
 
 The 18-photo publication approval is narrow; see [the decision](docs/decisions/2026-10-28-family-photo-references.md). Repository access is not approval to ship references in the game, use new external generators or clone voices. Keep reference boards out of exported assets. Use only owner-assigned photo labels; never infer identity across photos. Fictionalize sensitive school/workplace layouts and the neighbor. Never commit secrets or child learning records.
+
+Use [the asset pipeline](docs/ASSET_PIPELINE.md) for source/reference/export destinations. Preserve the dragon's component names, pivots and attachment structure. Only Lyla at viewer-left in `IMG_3277.jpeg` has a confirmed per-image label. Keep actual device/export measurements separate from targets.
 
 ## Reusable skills
 
@@ -51,7 +65,7 @@ After editing a canonical skill:
 python3 tools/check_foundation.py --sync-skills
 ```
 
-These validate the repository foundation and reference inventory, not gameplay. Use actual application checks once they exist; record missing browser/device/Blender tests as NOT TESTED.
+Also run `npm.cmd run check` (or `npm run check`) for TypeScript/build, actual browser flows and photo inventory. `npm start` runs the local workspace; see [development](docs/DEVELOPMENT.md) and [toolchain](docs/TOOLCHAIN.md). Browser tests use an isolated fixture inbox and a separate port; never reuse the real notebook server. Foundation checks do not test gameplay or agent behavior; Chromium/SwiftShader and a narrow touch viewport do not establish hardware performance or touch support. Record missing device/Blender tests as NOT TESTED.
 
 ## Completion and communication
 

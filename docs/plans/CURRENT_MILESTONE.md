@@ -1,16 +1,17 @@
 # Current milestone
 
-**ID:** SD-M0 — AI-assisted development foundation  
-**Authorized scope:** repository rules, contracts, initial skills and their checks.  
-**Game status:** NOT IMPLEMENTED. This change does not authorize gameplay development or deployment.
+**ID:** SD-M1 — First Contact local foundation
+
+**Authorized scope:** the owner's October 29 setup request now includes idea intake, useful tools and a small local runtime. The earlier SD-M0 covered rules/contracts/skills only; it did not authorize gameplay by itself.
+**Game status:** guided placeholder prototype IMPLEMENTED and browser-verified. A polished SD-M1, reviewed art, and public deployment are not complete. See [status](../project/STATUS.md) and [the implementation decision](../decisions/2026-10-29-local-foundation.md).
 
 ## SD-M0 acceptance
 
 The root guidance routes tasks to relevant documents; the current Act I and photo-publication decision remain authoritative. Three usable skills cover feature building, Blender work and playtesting. Claude mirrors are reproducible. Static checks and their negative tests run without application dependencies. Manual agent-regression scenarios exist and are not misrepresented as executed agent evaluations. Existing story and photo content stays intact.
 
-## Next candidate: SD-M1 — First Contact
+## SD-M1 — First Contact acceptance
 
-**Status:** PROPOSED, NOT STARTED. This is a smaller candidate increment, not the whole Act I or an approved release plan. An authorized implementation task may select or revise it.
+**Status:** local foundation authorized and verified within its bounded scope. The acceptance checks below still describe the fuller polished slice: replayable speech/help, suit introduction, host-site integration and human play review remain pending. A prototype pass is not completion of every M1 check.
 
 Player outcome: open the game, see the family at the living-room computer, receive the interrupted signal, investigate the backyard pod, complete one supported interaction, and resume from a saved checkpoint.
 
@@ -28,9 +29,9 @@ Player outcome: open the game, see the family at the living-room computer, recei
 
 No whole town, all retrieval missions, complete combat/racing systems, full dragon flight, split parties, follower navigation, multiplayer, cloud accounts, telemetry platform, all five finished avatars, or public release of likeness assets. A placeholder is acceptable when labeled; it must not be presented as finished art.
 
-## Before application work
+## Before expansion and site integration
 
-Inspect the actual website repository, route ownership, runtime/package versions, lockfile, build/deploy commands and existing tests. Record evidence in the architecture document. **Inputs (owner decision, 2026-10-29):** keyboard first. An Xbox controller is supported only if it works with no setup, and touch is deferred; see [the decision](../decisions/2026-10-29-keyboard-first-input.md). Still to select: the specific computer and browser. Do not infer a child's reading level from age. Local implementation can proceed with reversible placeholders once authorized; deployment and paid infrastructure remain separate decisions.
+The local package/lockfile, browser checks and machine inventory are now documented. The actual host website repository and deployment remain unidentified; inspect their routing and existing tests before integration. **Inputs (owner decision, 2026-10-29):** keyboard first. An Xbox controller is supported only if it works with no setup, and touch is deferred; see [the decision](../decisions/2026-10-29-keyboard-first-input.md). Still to select: the actual player computer/browser. Do not infer a child's reading level from age. Further work can use authorized reversible placeholders; deployment and paid infrastructure remain separate decisions.
 
 ## Next increments, not promises
 

@@ -2,11 +2,21 @@
 
 A family of five accidentally receives rescue equipment sent with an SOS. They recover its scattered components around their familiar Florida town, assemble a giant mecha dragon, and choose to answer the call in another universe. Their supportive neighborhood cheers them on; a fictional across-the-street neighbor wants the dragon gone.
 
-**Status:** concept, specification, and verified character-photo references. No playable game or deployment is supplied.
+**Status:** story foundation, 18 verified character-photo references, an idea workflow, and a local First Contact prototype. The prototype uses placeholder geometry and guided interactions; final art and a deployed game are still ahead.
 
 **Planned game location:** `paulmalmquist.com/space-dragon`. The existing homepage must remain intact. This is a target route, not a claim that the game is live.
 
 ## Start here
+
+- **Give us an idea:** say it in chat, paste it into [the idea inbox](ideas/INBOX.md), or use the local notebook. Unfinished thoughts and changes of mind are welcome. Agents keep the plan and technical details organized; [here is how](ideas/README.md).
+- **Try it:** double-click **`Start Space Dragon.cmd`** in this folder. It opens the local game and its **Idea notebook** button. Leave the launcher running while you use it. The notebook saves to this repo; ask your agent to process the inbox to turn those thoughts into changes.
+- **See where things stand:** [current status](docs/project/STATUS.md), [vision](docs/project/VISION.md), and [roadmap](docs/project/ROADMAP.md).
+- **For agents:** read [AGENTS.md](AGENTS.md) before making changes. Track ideas in [the ledger](docs/project/IDEA_LEDGER.md).
+- **For setup/art work:** [toolchain](docs/TOOLCHAIN.md), [repo inventory](docs/REPO_INVENTORY.md), [asset pipeline](docs/ASSET_PIPELINE.md), and [local development](docs/DEVELOPMENT.md).
+
+The game starts at [http://127.0.0.1:5173/space-dragon/](http://127.0.0.1:5173/space-dragon/). You can also run `npm start` from a terminal. Ideas added to the notebook are saved locally for the next agent session; no agent runs automatically. No technical template is required.
+
+## Story and references
 
 - [Railway Game Support context](docs/context/RAILWAY_GAME_SUPPORT.md) — consolidated decisions, source map, reading-game goals, photo references, and remaining work from the planning chat.
 - [Family photo references](assets/reference/family/README.md) — 18 verified photos, a local gallery, and the reference manifest for Blender character design.
@@ -20,8 +30,8 @@ A family of five accidentally receives rescue equipment sent with an SOS. They r
 
 Start with [AGENTS.md](AGENTS.md), then load only the contract for the task. [CLAUDE.md](CLAUDE.md) imports the same rules; it is not a second policy.
 
-- [Current milestone](docs/plans/CURRENT_MILESTONE.md): authorized foundation scope and the proposed First Contact playable increment.
-- [Architecture](docs/engineering/ARCHITECTURE.md), [interactions](docs/gameplay/INTERACTION_CONTRACTS.md), and [learning rules](docs/learning/LEARNING_RULES.md): implementation boundaries without inventing an existing runtime.
+- [Current milestone](docs/plans/CURRENT_MILESTONE.md): verified local foundation and the remaining First Contact quality work.
+- [Architecture](docs/engineering/ARCHITECTURE.md), [interactions](docs/gameplay/INTERACTION_CONTRACTS.md), and [learning rules](docs/learning/LEARNING_RULES.md): implementation boundaries and remaining integration requirements.
 - [Quality gates](docs/engineering/QUALITY_GATES.md) and [receipt template](docs/templates/VERIFICATION_RECEIPT.md): exact checks, honest status and review/release separation.
 
 Three canonical skills live in `.agents/skills/`, with generated Claude mirrors: `sd-build-feature`, `sd-blender-asset`, and `sd-playtest`. No assistant permissions or MCP configuration are changed.
@@ -60,7 +70,7 @@ The bookmarked **Line Leader** system allows the family to leave the dragon toge
 
 Story chronology and implementation order are separate. The original specification's flight-first **Launch Day** loop is not the current story opening. It can still serve as a separately labeled technical prototype.
 
-Before building, audit the existing website and deployment. Then agree on the smallest playable milestone. The Act I document proposes a living-room/backyard sequence, one town retrieval, and a return-home payoff as a possible story-first prototype. It does not authorize implementing a whole town, all missions, full walking, or split parties now.
+The October 29 setup request authorizes the local foundation described in [the implementation decision](docs/decisions/2026-10-29-local-foundation.md). It starts with the computer, signal, backyard pod, one guided interaction, and a local checkpoint. Website integration remains pending identification of the actual host source and deployment. The broader Act I town retrieval and return-home payoff remain later work.
 
 Uploading documentation does not start implementation or deployment. Preserve confirmed, proposed, bookmarked, and open decision labels.
 
