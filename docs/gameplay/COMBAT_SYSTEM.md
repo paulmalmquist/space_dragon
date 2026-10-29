@@ -6,9 +6,9 @@
 
 ## 1. Design goals
 
-1. **Depth comes from combinations, not execution.** A three-year-old can win by tapping glowing things. A parent can play smart by setting up tandems. Neither needs fast fingers.
+1. **Depth comes from combinations, not execution.** A three-year-old can win by tapping glowing things. A parent can play smart by setting up alley-oops. Neither needs fast fingers.
 2. **Every combat verb is also an exploration verb.** Goo, tether, lift, scan and shield do the same thing in a fight as in a puzzle, so there's nothing extra to learn.
-3. **Tandem attacks are the heart of it.** One suit sets up a state on an enemy, and a second suit cashes it in. The family is stronger together *mechanically*, not just thematically.
+3. **Alley-oops are the heart of it.** On foot, one family member launches another into the air for a finishing move (§4). In the air, the dragon flies like a fighter jet with the family as its crew (§6). The family is stronger together *mechanically*, not just thematically.
 4. **Nobody gets hurt and nobody "dies."** Enemies slip, get captured, get disarmed, power down, get calmed or run away (Act I §6). Family members get **bonked**, never injured.
 5. **There is never a game over in story fights.** Losing costs a few seconds, never progress.
 6. **Combat never requires reading,** and learning never happens mid-fight (learning rules).
@@ -18,7 +18,7 @@
 
 ## 2. The shared status system
 
-Every suit applies one main **status**. A status is a visible state on an enemy that other suits can exploit. This is the foundation that tandems build on.
+Every suit applies one main **status**. A status is a visible state on an enemy that other suits can exploit. Statuses make alley-oop finishers stronger (§4).
 
 | Status | Applied by | What it does | Readable cue (never color alone) |
 | --- | --- | --- | --- |
@@ -55,7 +55,7 @@ Enemies have no health bars. Each enemy has **1–3 sparks**, small glowing pips
 | Move | Left-thumb pad | WASD / arrows | Move, with auto-targeting of the nearest relevant enemy. |
 | **Action** | Big button | Space / J | The suit's basic move against the current target (goo blob, tether, punch, scan, pulse). |
 | **Suit power** | Second button | K | The suit's special: Family Shield, Slip 'n Slide, Dragon Punch and so on. A clear cooldown ring shows when it's ready again. |
-| **Tandem** | Pulsing family portrait, which appears only when available | L | Triggers the suggested tandem (§4). |
+| **Tandem** | Pulsing family portrait, which appears only when available | L | Triggers an alley-oop (§4). |
 | Switch avatar | Tap a portrait in the corner | 1–5 | Change who you control. Cooldowns and statuses **persist**, per the interaction contracts. |
 
 Three buttons plus movement. There are no combos, no held buttons and no rapid tapping. Touch targets are large and spaced apart.
@@ -89,40 +89,68 @@ Every enemy is defined by:
 
 ---
 
-## 4. Tandem attacks
+## 4. Tandems are alley-oops
 
-A **tandem** is a short, flashy two-person move (about 1.5–3 seconds) that cashes in a status. When the controlled character's target has a status that pairs with another nearby family member, that partner's portrait **pulses** with a two-face icon. Tapping it plays the tandem.
+**Owner direction (October 29, 2026):** a tandem means the family **alley-oops one another** on foot. A **setter** launches a **finisher** into the air, and the finisher lands the big move from above. See [the decision](../decisions/2026-10-29-alley-oops-and-jet-flight.md).
 
-**Rules:**
-- **One tap.** No timing or button sequence is required. For older players, an *optional* timing flourish (tapping again at the shine) adds a cosmetic sparkle and a bit of Family Spark (§5), and never anything required.
-- **Tandems always succeed** once triggered.
-- **They resolve the target fully**, or remove several sparks from a group.
-- **They can't be spammed:** each pair has a short shared cooldown after use.
-- **Skipping or reducing the animation** (a reduced-motion setting) gives the identical result. The outcome is computed first and the animation plays it back (the interaction contracts' "cinematics are not the database").
-- The game **suggests** the best tandem for the situation. On a higher assist level it suggests more often and holds the prompt longer.
+### How an alley-oop plays
 
-### All ten family pairs
+1. **Get close to a family member.** When an alley-oop is available, their portrait pulses with an up-arrow icon and the setter visibly gets ready: Paul cups his hands, Maria puffs up a bubble, Luke anchors a tether, Luna lays a ramp, Lyla projects a pad.
+2. **Tap Tandem.** The setter launches you, and the camera follows you up.
+3. **Slow motion at the top of the arc** (about 1 second, longer on easier assist settings). Targets below glow.
+4. **Tap Action, or tap a glowing target, to finish.** If you don't tap, the finisher automatically picks the best target when the slow motion ends. **One tap in total is enough.**
+5. **Land** with a soft suit-cushioned landing, a pose and a family high-five sound.
 
-| # | Pair | Name (working) | Setup status | What happens | Best against |
-| --- | --- | --- | --- | --- | --- |
-| 1 | **Luna + Lyla** | **Decoy Slide** | — (no setup) | Lyla projects a harmless holo decoy (a robot-shaped treat, or a hologram of the neighbor yelling "Over here!"). Enemies chase it straight onto Luna's goo and slide into a pile. | Groups and swarms. **The easiest tandem**, designed for the two three-year-olds. |
-| 2 | **Luke + Lyla** | **Net Catch** | Exposed | Lyla tags every enemy in view. Luke fires a branching tether net that catches all the tagged ones at once, and they dangle in a bundle. | Swarms, especially flying mosquito drones. |
-| 3 | **Paul + Luna** | **Splash Slam** | Slipped | Paul ground-pounds the goo puddle. The splash wave sends every slipped enemy bowling into each other, *strike!* | Groups standing on goo. |
-| 4 | **Paul + Luke** | **Rocket Toss** | Tethered | Paul throws Luke like a rocket. Luke flies along his own tether, bounces off the target and lands in a pose. | A single tough enemy, and out-of-reach or flying targets. |
-| 5 | **Maria + Luna** | **Bubble Bath** | Bubbled | Maria's bubble fills with Luna's foamy goo, and the enemy is gently **captured** in a pink bubble that floats away. | Thieves (it captures the stolen item too). A completely non-violent capture. |
-| 6 | **Maria + Lyla** | **Lullaby** | — (no setup) | Lyla replays a recorded calming sound and Maria's Soothe amplifies it. Creatures calm and wander off, and robots go to "sleep mode." | Animal-like and Act II creatures, and Hush-moths. |
-| 7 | **Maria + Luke** | **Bubble Toss** | Bubbled | Luke tethers Maria's bubble and swings it like a hammer, bowling down other enemies before it pops harmlessly far away. | Clearing a path. Mixed groups. |
-| 8 | **Luke + Luna** | **Slingshot Slide** | Slipped (a lane) | Luke anchors a tether while Luna lays a slide lane. Luna slingshots down it, bumping every enemy in the lane over. | Lines of enemies, corridors, guards. |
-| 9 | **Paul + Lyla** | **Lights Out** | Exposed | Lyla's scan locks on the weak point and Paul lands one precise Dragon Punch on it. The machine powers down instantly. | Armored elites (the alligator's core). |
-| 10 | **Paul + Maria** | **Guardian Charge** | — (no setup) | Maria shields Paul and Paul charges in the shield, pushing everything in front of them back into a heap. | Breaking through a wall of enemies, and rescuing a bonked family member. |
+- **An optional "perfect" tap** at the shine at the very top gives a bigger finish and extra Family Spark. It's never required.
+- **You're usually the finisher.** Tapping Tandem launches *you*, so the player gets the dunk.
+- **You can be the setter too.** Companions sometimes ask for a launch with a voice line and a cupped-hands icon on their portrait, like *"Throw me, Dad!"* or *"Bounce me, Mama!"*. Tapping it launches them, and they finish automatically. A child playing Paul gets to throw their siblings, and a child playing Lyla gets to launch Dad.
+- **Anyone can launch anyone.** The living-material suits do the heavy lifting, so a three-year-old launching Dad works, and it's a joke the game leans into.
+- **There are no failures.** Launches always land safely. If a target is gone by the top of the arc, the finisher lands an area move anyway.
+- **Each setter has a short cooldown** while they catch their breath, so alley-oops can't be spammed but come around often.
+- **No setup is needed:** a nearby partner is enough, so a big move is always available to a struggling player. Statuses (§2) make alley-oops *stronger*. A finisher that lands on a matching status resolves that enemy outright.
 
-Every family member appears in exactly four pairs. Three tandems (1, 6, 10) need **no setup**. They're always reachable, so a struggling player always has a big move available.
+### Built from parts: five launches × five finishers
 
-### The five-person finisher: "Five Together"
+All 20 setter/finisher combinations work in both directions for every pair. They're built from **5 launches + 5 finishers** plus shared transitions, not 20 bespoke animations, which keeps production sane. A few marquee combinations get their own animation (below).
 
-The name is reused from the first joint scene in the suit reveals. When the **Family Spark** meter (§5) is full, all five portraits glow. Tapping triggers a short cinematic: the family links up and forms the shape of the Core's emblem in light, and every enemy on screen resolves. Bosses lose one phase.
+**Launches (what the setter does):**
 
-- Before the dragon exists in Act I, it forms the emblem. After the dragon is complete, the dragon's silhouette roars in light behind them.
+| Setter | Launch | Arc | Character |
+| --- | --- | --- | --- |
+| **Paul** | **Power Toss**: cupped hands, a heave, and *up you go* | The highest and farthest. Reaches flying targets. | The classic. Kids thrown by Dad. |
+| **Maria** | **Bubble Bounce**: a shield bubble becomes a trampoline | Straight up, very high. **The finisher is shielded the whole flight.** | The safest launch, good for cautious players. |
+| **Luke** | **Tether Sling**: anchors a tether and slingshots his partner | Long, fast and flat. It can curve around an anchor point to reach odd angles. | For far-away targets. |
+| **Luna** | **Goo Ramp**: a pink slide ramp | Low and fast. The finisher slides first, **bowling over ground enemies**, then launches off the lip. | Great against lines of enemies. |
+| **Lyla** | **Holo Pad**: a holographic springboard, plus a landing marker | A medium arc that lands **exactly on her marker**: perfect aim. | Precise. The smallest member launches anyone, which is great comedy. |
+
+**Finishers (what the flyer does at the top):**
+
+| Finisher | Move | Effect | Strongest on |
+| --- | --- | --- | --- |
+| **Paul** | **Meteor Slam**: a ground pound from height | A big shockwave that Stuns everything nearby. Slipped enemies go bowling. | Slipped groups |
+| **Luke** | **Web Dive**: tethers several targets on the way down and pins them | Pins several targets, and **snatches stolen items mid-air**. | Exposed targets and thieves |
+| **Luna** | **Goo Bomb**: a goo cannonball | A huge splash that makes the whole area Slipped, so enemies spin into each other. | Anything. The easiest, biggest-feeling finisher. |
+| **Maria** | **Shield Drop**: lands inside a dome | The dome Bubbles enemies in it, protects the family and **revives bonked members** inside. | Rescues |
+| **Lyla** | **Sky Scan**: scans from the top of the arc | **Exposes everything in the area**, including hidden things, and her finish marks targets for instant follow-up. | Elites and bosses |
+
+### Marquee alley-oops (named, with unique animation)
+
+| Setter → Finisher | Name (working) | What makes it special |
+| --- | --- | --- |
+| Paul → Luke | **Rocket Toss** | Luke rides his own tether out of Dad's throw and flips into a Web Dive. The signature move. |
+| Paul → Luna | **Pink Cannonball** | Luna curls into a ball mid-air for a Goo Bomb the size of the arena. |
+| Maria → Paul | **Bubble Rocket** | Maria bounces Paul sky-high in a bubble, and his Meteor Slam is the biggest shockwave in the game. |
+| Lyla → Paul | **Tiny Launch** | A three-year-old launches Dad with a holo pad. Paul: *"How did you—"* and then Meteor Slam. |
+| Luna → Lyla | **Slide and Spy** | The three-year-olds' own move. Lyla zooms up Luna's ramp and Sky Scans everything. **Unlocked first.** |
+| Luke → Maria | **Sling Shield** | Luke slings Maria into the middle of trouble, and her Shield Drop rescues everyone there. |
+
+### Alley-oops outside fights
+
+The same move is a **traversal tool**. Marked **oop spots** (a glowing up-arrow on the ground) let the family boost each other onto high ledges, across gaps and up to high switches. It's the same input and the same animation, which serves design goal 2.
+
+### The five-person finisher: "Five Together", the chain alley-oop
+
+When the **Family Spark** meter (§5) is full, all five portraits glow. Tapping it triggers a **chain alley-oop**: Lyla's Holo Pad launches Maria, whose bubble bounces Luke, who slings Luna, who goo-ramps Paul, who comes down with the biggest Meteor Slam of the fight. Every enemy on screen resolves, and a boss loses one phase. After Act I, the dragon's silhouette roars in light behind the landing.
 
 ---
 
@@ -130,59 +158,106 @@ The name is reused from the first joint scene in the suit reveals. When the **Fa
 
 A shared meter shown as the Core's emblem filling with light.
 
-- **It fills from helping:** applying a status (a little), tandems (a lot), reviving a bonked family member, Maria healing someone, and switching characters to set up a tandem.
+- **It fills from helping:** applying a status (a little), alley-oops (a lot, and more for a "perfect" tap), reviving a bonked family member, Maria healing someone, being the setter for a companion, and crew combos in the dragon.
 - **It never drains** from being hit, bonked or slow. Failure never takes anything away.
-- **When full,** it enables Five Together. It refills over the course of a fight, so roughly one Five Together per standard encounter.
+- **When full,** it enables Five Together on foot or the Five-Seat Roar in the dragon. It refills over the course of a fight, so roughly one per standard encounter.
 - It isn't saved between encounters. Each fight starts fresh, which avoids hoarding and confusing state.
 
 ---
 
-## 6. Dragon combat (in space and in the sky)
+## 6. The dragon: fighter-jet flight and combat
+
+**Owner direction (October 29, 2026):** the dragon flies like a **flight simulator / fighter jet**. See [the decision](../decisions/2026-10-29-alley-oops-and-jet-flight.md).
+
+### Reconciling a jet sim with young pilots
+
+The v0.1 spec said the *first* control scheme should not require independent pitch, yaw, roll, throttle, weapon selection and camera management. That still holds for the **default tier for young pilots**. The full fighter-jet experience comes from **flight-assist tiers**: the same dragon and the same missions with different control layers. A five-year-old and a parent fly the same sortie, and each gets the jet they can handle.
 
 ### Flight model
 
-Assisted third-person chase camera, per v0.1. Dragon fights take place in **bounded arenas or guided corridors**: auto-forward flight along a path with free steering within a wide lane (like a gentle, forgiving rail shooter). Free-roam dogfighting is out at first.
+It should feel like a real fighter jet: **speed and energy matter**. Bank to turn, pull to climb, use throttle and afterburner, and fly high-G turns, loops, barrel rolls and split-S reversals. There is **momentum**, and in the hardest tier, stalls.
 
-| Input | Function |
-| --- | --- |
-| Move | Steer within the lane. Auto-leveling and gentle collision bumps, never crashes. |
-| **Breath** | The dragon's main attack, aimed automatically at the nearest target in front. Act I: **energy breath** (v0.1). Act II upgrade: **Song-breath** (Forge Ring), which also restores color. |
-| **Boost** | A short speed burst that also *barrels through* small enemies. |
-| **Crew portraits** (five buttons, or one "crew" button that cycles) | Trigger a family member's **dragon station** ability (below). |
+- **The dragon animates the flight:** wings sweep back at high speed like a swing-wing jet, the tail works as a rudder, and the wings beat for hover and vertical takeoff.
+- **In atmosphere** there's lift and gravity. Climbing costs speed, diving gains it, and stalls matter in Ace tier.
+- **In space** the flight assist keeps the dragon handling like a jet (like a space sim with flight assist on). Ace tier can turn flight assist off for drifting, Newtonian-lite flight. The living wings "swim" through space visually.
+- **Light speed** stays a short, skippable transition between authored locations (v0.1). It isn't flown.
 
-### Crew stations: each suit powers part of the dragon
+### Flight-assist tiers
 
-The suits link into the dragon's five seats, which shows the living material and the five seats working together. Each family member operates the dragon version of their own suit ability, so the system has nothing new to learn.
-
-| Seat | Dragon ability | What it does | Status applied |
+| Tier | For | Controls | Assists |
 | --- | --- | --- | --- |
-| **Paul** (engines and claws) | **Claw Strike** | The dragon lunges and swipes with its claws or tail. A heavy hit. | Stunned |
-| **Luke** (tail and grapple) | **Tail Grapple** | Grab an enemy, debris or an asteroid with the tail tether, and pull or swing it. | Tethered |
-| **Maria** (wings and life support) | **Wing Shield** | Wings fold forward into a glowing barrier that blocks a telegraphed attack and slowly repairs the dragon. | — (shield) / Bubbled on contact |
-| **Luna** (breath mixing) | **Slick Cloud** | The dragon breathes a pink goo cloud. Enemy ships and drones in it spin out and drift. | Slipped |
-| **Lyla** (sensors) | **Star Scan** | A sensor pulse that marks every enemy and reveals weak points and hidden routes. | Exposed |
+| **Cadet** | Young pilots (Luke) | **One stick:** push the way you want to go, and the dragon banks and climbs there by itself. One Breath button (auto-lock) and one Boost button. | Auto-level, auto-throttle, no stalls, **can't hit the ground or buildings** (gentle bounce-up), strong aim assist, slower enemies and optional auto-evade rolls. |
+| **Pilot** (default for adults; arcade-jet feel) | Most players | Pitch and roll on the stick, yaw on shoulder buttons, throttle up and down, gun, lock-on seekers, afterburner and countermeasures. | Optional auto-level, a stall warning with gentle recovery, and collision bounce. |
+| **Ace** (sim) | Paul, or anyone who wants it | Full control: pitch, roll, yaw, throttle, energy management, stalls, G-limits, manual aim, and optional flight-assist off in space. | Minimal. There's still **no fatal crash** (see Bonked, below). |
 
-- Station abilities have **cooldowns** shown as rings on the portraits.
-- When the player isn't triggering them, crew members do the **obvious helpful thing** at a slow pace: Maria shields telegraphed big hits (assist setting) and Lyla scans when new enemies appear. The player can always do it first.
-- This layout also suits a possible **co-pilot** arrangement later (§10): one child flies while another taps crew portraits.
+The tier is an **action-assistance setting**, kept separate from the learner profile and the selected avatar. It can be changed at any time without penalty.
 
-### Dragon tandems
+### Camera and HUD
 
-The same idea as on foot: one station sets up a status and another cashes it in. The game suggests them with paired portraits.
+- **Chase camera** by default. An optional **cockpit view** shows the five-seat cockpit with the family visible around you. An optional horizon-locked camera reduces motion.
+- **The HUD is symbolic, so no reading is needed:** a horizon line (and a pitch ladder in Pilot and above), speed and altitude as bars or tapes, target brackets, a lock-on tone, and a warning tone plus a direction arrow for incoming seekers. Crew callouts are spoken (§ crew, below).
 
-| Stations | Name (working) | Effect |
+### Takeoff and landing
+
+The dragon can hover, so it can **take off vertically from the cul-de-sac** and land on a spot. Cadet tier has guided takeoffs and landings. Pilot and Ace can fly a manual runway-style landing down the street as an optional challenge.
+
+### Weapons and defenses (non-lethal)
+
+| System | Jet equivalent | Run by | Function |
+| --- | --- | --- | --- |
+| **Breath Cannon** | Gun | Pilot | Rapid short-range energy pulses, with aim assist by tier. |
+| **Seeker Sparks** | Missiles | Pilot | Hold the target in the reticle until the lock tone, then fire homing sparks. Cadet locks automatically. |
+| **Afterburner Overdrive** | Afterburner | **Paul** (engines) | A burst of speed and a sharper turn. |
+| **Holo Flares** | Flares / chaff | **Lyla** (sensors) | Decoy dragons pull incoming seekers away. Lyla also runs radar and the threat warnings. |
+| **Slick Cloud** | Rear mine | **Luna** | A goo cloud dropped behind the dragon. Chasing drones spin out. |
+| **Wing Shield** | — | **Maria** (wings and life support) | A short barrier that blocks one telegraphed hit and repairs wing energy. |
+| **Tail Grapple** | — | **Luke** (tail) | Snag a target or debris, whip it, or swing around an asteroid. |
+| **Song-breath** | — | Upgrade (Act II Forge Ring) | Restores color and scatters the Quiet. |
+
+### The crew are backseaters
+
+Whoever you're controlling is the **pilot**. The other four sit in the remaining seats and run their systems like a jet's weapons officer.
+
+- They **call out** threats and readiness with voice plus an icon, never text alone. Lyla: *"Bandit behind us!"* with a rear arrow. Maria: *"Shield ready!"* Paul: *"Burner's hot!"*
+- Crew abilities trigger from the **crew buttons**, or the crew fire them automatically when it obviously helps (on in Cadet tier, optional in Pilot, off in Ace).
+- **Crew combos** are the in-flight cousin of the alley-oop:
+  - **Lock-All Volley** (Lyla + pilot): Lyla's radar locks every bandit in view, and one press fires a Seeker Spark at each.
+  - **Slingshot Reversal** (Luke + Paul): the tail grapple hooks an asteroid or tower, and the afterburner whips the dragon around it into a 180° turn behind the chaser. It's a fighter-jet trick made dragon-shaped.
+  - **Goo Wake** (Luna + Maria): a Slick Cloud spread wide by a wing-shield gust, so the whole chasing squadron spins out.
+- **Five-Seat Roar** (finisher): with Family Spark full, all five seats light up and the dragon roars, and every bandit on screen powers down. In Act II this is also the story's weapon against the Quiet.
+- Since a second player could naturally take a backseat role, **local co-op** fits here well. It's OPEN (§10).
+
+### Sorties (mission types)
+
+| Sortie | Description |
+| --- | --- |
+| **Dogfight** | Enemy drone fighters that tail, break and evade. Get behind them and lock on. |
+| **Intercept** | Catch the thief drone carrying a stolen part before it escapes. |
+| **Escort** | Protect a flock of hatchlings or a slow ship. |
+| **Strike run** | A trench-run-style dive along the Forge Ring to disable sleepwalking sentry turrets. |
+| **Ring and canyon run** | Aerobatics and racing through rings, canyons and restored spires. No enemies. |
+| **Formation flight** | Fly in formation with woken star-dragons as wingmen ("break left!"). |
+| **Flight school** | Builder Bug target drones and rings. Teaches each tier with no failure. |
+
+### Air enemies (all unmanned)
+
+**No living pilot is ever shot down.** Disabled drones power down, pop a tiny parachute and drift away, which is also funny.
+
+| Enemy | Where | Behavior |
 | --- | --- | --- |
-| Lyla + Paul | **Weak-Point Dive** | Star Scan reveals a weak point, then a Claw Strike dive disables the target instantly. |
-| Luke + Paul | **Asteroid Pitch** | Tail Grapple catches a drifting rock and Claw Strike throws it into an enemy formation. |
-| Luna + Maria | **Goo Storm** | A Slick Cloud is blown outward by a wing gust, and every enemy in range spins out. |
-| Maria + Lyla | **Mirror Wing** | The Wing Shield shows Lyla's holo decoy, and enemies attack the decoy dragon instead. |
-| Luke + Luna | **Spin-Out Sling** | Tail Grapple hooks a slipped enemy and whips it into the others like a bowling ball. |
-
-**Dragon finisher, "Five-Seat Roar":** with Family Spark full, all five seats light up and the dragon roars. Every enemy on screen resolves. In Act II this is also the story's main weapon against the Quiet, because sound brings things back.
+| **Mosquito Squadron** | Act I finale | The neighbor's drone fighters. Fast and nimble, they come in pairs and tail you. |
+| **Swamp Blimp** | Act I finale boss (option) | The neighbor's airborne command blimp. It launches drones and has weak points Lyla can find. |
+| **Leftover autopilot drones** | Act II (option) | Her drones followed the dragon through the crossing, and now Hush-moths are riding them. |
+| **Dimmer Clouds** | Act II | A hazard rather than a fighter. They block vision and dim lights, and Song-breath clears them. |
+| **Sleepwalking Sentries** | Act II, the Forge Ring | Automated interceptors running haywire in the Quiet. They wake up friendly once disabled. |
 
 ### Bonked, dragon edition
 
-The dragon has **wing energy**. At zero it doesn't crash. It tumbles gently, Maria's station automatically reboots it, and flight resumes after a couple of seconds at the start of the current wave, with progress kept.
+The dragon has **wing energy**. At zero it **doesn't crash**: it tumbles, Maria's station reboots it, and it rejoins at the start of the current wave with progress kept. In Cadet tier hitting the ground is impossible. In Pilot and Ace, terrain contact is a bounce that costs some wing energy.
+
+### Production caution
+
+The flight model is the **riskiest system in the game** to get right. Build it first as the separately labeled **flight prototype** that Act I already permits: Cadet tier plus one Pilot-tier setup, flight school and one small dogfight. Input matters a lot here. A gamepad suits Pilot and Ace. Touch suits Cadet with a virtual stick. Keyboard and mouse need a mouse-aim scheme. The target devices are still OPEN.
 
 ---
 
@@ -192,19 +267,19 @@ The dragon has **wing energy**. At zero it doesn't crash. It tumbles gently, Mar
 
 | Enemy | Tier | Telegraph / behavior | Weak to | Resolution | First appears |
 | --- | --- | --- | --- | --- | --- |
-| **Mosquito Drones** | Swarm, 1 spark | They whine louder before diving. They interrupt Lyla's scans and drain a little suit energy (v0.1). | Exposed (Net Catch), Family Shield reflects | Drops, buzzes sadly and flies home. | Mission 5 (big-box store) |
+| **Mosquito Drones** | Swarm, 1 spark | They whine louder before diving. They interrupt Lyla's scans and drain a little suit energy (v0.1). | Exposed, then a Web Dive alley-oop. Family Shield reflects them. | Drops, buzzes sadly and flies home. | Mission 5 (big-box store) |
 | **Robo-Iguanas** | Standard, 2 sparks | Climbers. A little "hiss" before they grab. They steal parts and then run. | Slipped, Tethered | Tips over, drops the loot and scuttles back across the street. | Mission 1 (preschool). The real iguana in that mission is soothed, never fought. |
 | **Mow-Bot** (lawn-equipment robot) | Standard, 2 sparks | Revs its engine before charging in a straight line. | Slipped (spins out comically) | Sputters, stalls and the grass catcher pops off. | Mission 3 (warehouse store) |
 | **Flamingo Decoys** | Trick, 1 spark | Fake flamingos hide a real robot among them. They do nothing until you get near. | Exposed (Lyla spots the real one) | The fake flamingos fall over, and the real one pops out with a "boing." | Mission 4 (grocery) |
 | **Sprinkler Turret** | Standard, 2 sparks, static | Ticks before spraying water arcs that push the family back. | Bubbled (shield blocks), Tethered (pull it around) | Fizzles into a harmless dribble. | Mission 4 or 5 |
-| **Armored Alligator** | Elite or boss | A slow tail wag, then a long, clearly telegraphed charge. Armor protects its core. | Slipped → Exposed → Lights Out (the v0.1 example) | Rolls onto its back, legs paddling, and powers down. | Mission 6 (rocket facility). Upgraded for the Bridge fight. |
+| **Armored Alligator** | Elite or boss | A slow tail wag, then a long, clearly telegraphed charge. Armor protects its core. | Slipped → Exposed → an alley-oop finisher on the core (adapted from the v0.1 example) | Rolls onto its back, legs paddling, and powers down. | Mission 6 (rocket facility). Upgraded for the Bridge fight. |
 | *Later Florida additions* (v0.1) | — | Python grappler (grabs a family member, and a partner frees them), airboat raider (vehicle fights). | — | — | Only if a mission needs them. |
 
 ### Act II: creatures of the Quiet (fantasy, never "evil")
 
 | Enemy | Tier | Behavior | Weak to | Resolution |
 | --- | --- | --- | --- | --- |
-| **Hush-moths** | Swarm, 1 spark | Grey fluttering things that soak up sound. Nearby colors dim. | Any noise: Lullaby, breath, Five-Seat Roar | Flutter off in a puff of returning color. |
+| **Hush-moths** | Swarm, 1 spark | Grey fluttering things that soak up sound. Nearby colors dim. | Any noise: Song-breath, Goo Bomb splashes, Five-Seat Roar | Flutter off in a puff of returning color. |
 | **Dimmer Clouds** | Standard, 2 sparks, also in space | Moth clouds that block vision and dim the dragon's lights. | Slipped (Slick Cloud scatters them), Song-breath | Disperse into sparkles. |
 | **Still Guardians** | Elite, 3 sparks | Old crystal guardians sleepwalking in the Quiet, confusedly defending their worlds. Slow and huge. | Exposed (a muffled "ear" crystal), then a tandem | **They wake up.** They blink, apologize in chimes and become allies who open the way. |
 | **The neighbor's leftover drones** (option) | Swarm or standard | Her mosquito drones followed the dragon through the crossing on autopilot, and now the Quiet's moths are riding them. | As in Act I | As in Act I. A comedy callback, and she's mortified. |
@@ -212,40 +287,44 @@ The dragon has **wing energy**. At zero it doesn't crash. It tumbles gently, Mar
 
 ### Space and sky encounters
 
-| Encounter | Where | Content |
+The sortie types and air enemies are in §6. Where they fall in the story:
+
+| Encounter | Where | Sortie |
 | --- | --- | --- |
-| **Flight test** (training) | Act I finale or "Not yet" free play | Builder Bug target drones teach Breath, Boost and one station at a time. No failure. |
-| **Drone swarm chase** | Act I finale (optional) | The neighbor's last mosquito fleet chases the dragon's first flight around the neighborhood sky. A lighthearted send-off. |
-| **Dimmer fields** | Act II, between worlds | Fly through moth clouds and restore color with Song-breath. |
-| **Sleepwalking sentries** | Act II, the Forge Ring | Automated defense engines running haywire in the Quiet. Weak-Point Dive set pieces. |
+| **Flight school** | Act I finale, or "Not yet" free play | Builder Bug targets and rings. Each assist tier is taught with no failure. |
+| **First dogfight** | Act I finale (optional) | The Mosquito Squadron chases the dragon's first flight over the neighborhood. A lighthearted send-off, with the Swamp Blimp as an optional boss. |
+| **Dimmer fields** | Act II, between worlds | A ring and canyon run through moth clouds, restoring color with Song-breath. |
+| **Forge Ring** | Act II | A strike run against Sleepwalking Sentries. |
+| **Hatchling escort** | Act II, the Hatchery | An escort sortie. |
+| **Wingmen** | Act II, after each dragon wakes | Formation flight with the star-dragons. |
 
 ### Bosses (structure)
 
-Each boss has **2–3 phases**, and each phase teaches or needs one tandem pattern. Between phases there's a short breather with no enemies. Phase progress is **saved**, so a full-family bonk never sends the player back to phase one. Example, the Act I Bridge fight with the upgraded Armored Alligator:
+Each boss has **2–3 phases**, and each phase teaches or needs one teamwork pattern. Between phases there's a short breather with no enemies. Phase progress is **saved**, so a full-family bonk never sends the player back to phase one. Example, the Act I Bridge fight with the upgraded Armored Alligator:
 
 1. **Phase 1: Slip it.** It charges, and Luna's goo makes it overshoot into a wall. It becomes Stunned.
 2. **Phase 2: Find the glow.** The armor opens briefly when it's stunned. Lyla scans the glowing Bridge piece inside.
-3. **Phase 3: Lights Out.** Paul + Lyla tandem. It powers down, and the story continues with the empathy beat (Act I refinements §5).
+3. **Phase 3: Bubble Rocket.** Maria bubble-bounces Paul over the alligator's armor, and his Meteor Slam lands on the exposed core. It powers down, and the story continues with the empathy beat (Act I refinements §5).
 
 ---
 
 ## 8. Unlock schedule
 
-New tandems arrive at a steady pace, one or two per mission, so each fight adds something.
+**All five finishers** are available as soon as the first launch unlocks. **Launches** unlock one per mission, so each mission adds a new way to throw someone.
 
 | Act I mission | Unlocks | Why there |
 | --- | --- | --- |
 | Backyard ("Five Together" scene) | Basic Actions for all five suits | Suit reveals |
-| 1. Preschool | **Decoy Slide** (Luna + Lyla) | It's the girls' mission. Their tandem comes first. |
-| 2. Luke's school | **Net Catch** (Luke + Lyla) | Luke's mission |
-| 3. Warehouse store | **Splash Slam** (Paul + Luna), **Rocket Toss** (Paul + Luke), Dragon Punch | Paul's mission |
-| 4. Grocery | **Bubble Bath** (Maria + Luna), **Lullaby** (Maria + Lyla) | Maria's mission |
-| 5. Big-box store | **Bubble Toss** (Maria + Luke), **Slingshot Slide** (Luke + Luna), Spider Pounce | Chase and slip mission |
-| 6. Rocket facility | **Lights Out** (Paul + Lyla), **Guardian Charge** (Paul + Maria), **Five Together** finisher | The first full-teamwork set piece |
-| Act I finale | Dragon flight, Breath, Boost, all five crew stations | The dragon is complete |
-| Act II worlds | Dragon tandems (one or two per world), Song-breath, Five-Seat Roar | Act II progression |
+| 1. Preschool | **Goo Ramp** (Luna) and **Holo Pad** (Lyla) launches, all five finishers, and the **Slide and Spy** marquee | It's the girls' mission. Their alley-oop comes first. |
+| 2. Luke's school | **Tether Sling** (Luke), **Sling Shield** marquee | Luke's mission |
+| 3. Warehouse store | **Power Toss** (Paul), **Rocket Toss** and **Pink Cannonball** marquees, Dragon Punch | Paul's mission |
+| 4. Grocery | **Bubble Bounce** (Maria), **Bubble Rocket** marquee | Maria's mission |
+| 5. Big-box store | **Tiny Launch** marquee, Spider Pounce, more **oop spots** in traversal | Chase and slip mission |
+| 6. Rocket facility | The **Five Together** chain alley-oop | The first full-teamwork set piece |
+| Act I finale | **Flight school**, Cadet/Pilot/Ace tiers, Breath Cannon, Seeker Sparks, all crew systems, and the Mosquito Squadron dogfight | The dragon is complete |
+| Act II worlds | Crew combos (one per world), Song-breath, Five-Seat Roar, wingman formation flight | Act II progression |
 
-Because missions 2–5 can be played in any order (Act I refinements §4.1), every tandem should be **useful but never required** for a mission other than the one that introduces it.
+Because missions 2–5 can be played in any order (Act I refinements §4.1), **no mission can require a launch from a different mission**. Paul's Power Toss can't be required at the grocery, for example. Required alley-oops in each mission use launches that are guaranteed to be unlocked by then.
 
 ---
 
@@ -280,11 +359,11 @@ Because missions 2–5 can be played in any order (Act I refinements §4.1), eve
 ## 10. Open decisions
 
 - **Local co-op.** A second player on the same device, such as a parent controlling a second family member or a child tapping crew portraits, fits this design naturally. It's **not** currently approved, and it must never require a network.
-- Final tandem names (the kids could name them), the Family Spark name and visuals, and the preset names.
-- Whether the neighbor's hologram in Decoy Slide is too much, or just right.
+- Final names for alley-oops, launches and finishers (the kids could name them), the Family Spark name and visuals, and the preset names.
+- **Flight:** the target input device (a gamepad suits Pilot and Ace tiers), how deep Ace tier goes (stalls, G-limits, flight-assist off), whether cockpit view ships early, and whether a Cadet-tier child flies solo or with a parent as backseater.
 - Whether real-animal moments (soothing, never fighting) need any extra handling.
 - Spark counts and status durations, which should be set by playtesting with the actual players, not decided in advance.
-- Whether dragon combat ever goes free-roam, or stays in corridors and arenas.
+- Whether the Swamp Blimp boss and the leftover-drones callback are in.
 
 ## 11. Engineering contract (when implemented)
 
@@ -292,14 +371,18 @@ Because missions 2–5 can be played in any order (Act I refinements §4.1), eve
 
 - `StatusDefinition`: id, duration, stacking rule, cue references.
 - `AbilityDefinition`: already in v0.1. Adds the status applied, the target tags and the station mapping.
-- `TandemDefinition`: id, the two member IDs, a required status (or none), effect, cooldown, cinematic reference and reduced-motion reference.
+- `LaunchDefinition`: setter ID, arc profile, slow-motion window, cooldown and animation reference.
+- `FinisherDefinition`: finisher ID, effect, area, status bonuses and animation reference.
+- `MarqueeOopDefinition`: setter, finisher, override animation and reduced-motion reference.
+- `FlightAssistTier`: input mapping, assists enabled, and aim/stall/collision rules. Stored as an action-assistance setting.
+- `SortieDefinition`: id, sortie type, waves, airspace bounds and checkpoint boundaries.
 - `EnemyDefinition`: id, tier, sparks, telegraph timings, behavior reference, weakness, resolution reference.
 - `EncounterDefinition`: id, waves and phases, checkpoint boundaries, rewards.
 
 **Invariants:**
 
 - Combat state (statuses, sparks, cooldowns, energy, Family Spark) lives in **game state**. Presentation only observes it.
-- A tandem's result is **applied once** when it's triggered. The animation plays back the result, and skipping, reduced motion or interruption give the same result.
+- An alley-oop's result is **applied once**, when the finish resolves (by tap or by auto-target). The animation plays back the result, and skipping, reduced motion or interruption give the same result.
 - Switching avatar, opening the pause menu or reloading **cannot reset** cooldowns or duplicate rewards (interaction contracts).
 - Encounter rewards, such as a recovered component, are awarded once, by stable ID, and survive a reload mid-fight.
 - Pause freezes all combat timers and releases held inputs.
@@ -307,7 +390,8 @@ Because missions 2–5 can be played in any order (Act I refinements §4.1), eve
 
 **Minimum tests:**
 
-- Each tandem resolves once, including under a double-tap.
+- Each alley-oop resolves once, including under a double-tap, a pause during slow motion and an avatar switch mid-air.
+- Changing flight tier mid-sortie keeps progress, and no tier can crash the dragon fatally.
 - Statuses expire on schedule and pause correctly.
 - A full-family bonk keeps phase progress and rewards.
 - An avatar switch keeps cooldowns.
@@ -323,8 +407,10 @@ The smallest slice that proves the system is fun:
 - **Two** playable family members, for example Luna and Lyla or Paul and Luna, with companion assists.
 - Two enemy types: **robo-iguanas** and **mosquito drones**.
 - Statuses: **Slipped** and **Exposed**.
-- **One** tandem: **Decoy Slide** (no setup) or **Splash Slam** (setup).
+- **One** alley-oop: **Power Toss → Goo Bomb** (Paul launches Luna), or the reverse, plus one oop spot for traversal.
 - Bonk and revive, no game over, one assist preset.
-- Test it with the actual players. Watch whether a three-year-old finds the tandem prompt without help, and whether the five-year-old wants more.
+- Test it with the actual players. Watch whether a three-year-old finds the alley-oop prompt without help, and whether the five-year-old wants more.
 
-Record results with the [verification receipt](../templates/VERIFICATION_RECEIPT.md). Expand to more suits and tandems only after this slice is fun.
+A **separate flight prototype** should prove the fighter-jet feel: Cadet tier and Pilot tier, flight school, and one Mosquito Squadron dogfight on the chosen input device.
+
+Record results with the [verification receipt](../templates/VERIFICATION_RECEIPT.md). Expand to more suits and alley-oops only after this slice is fun.
