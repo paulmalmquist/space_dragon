@@ -4,6 +4,8 @@
 **Status:** PROPOSED design for owner review. Not implemented and not current scope: [the current milestone](../plans/CURRENT_MILESTONE.md) explicitly excludes complete combat systems from SD-M1. Treat this as the target the first combat prototype is built toward.  
 **Builds on:** [suit reveals and starting abilities](../story/SUIT_REVEALS_AND_STARTING_ABILITIES.md), the [interaction contracts](INTERACTION_CONTRACTS.md), the [learning rules](../learning/LEARNING_RULES.md), the [architecture](../engineering/ARCHITECTURE.md), and the [Act I](../story/ACT_I_BUILD_THE_DRAGON.md) / [Act II](../story/ACT_II_ANSWER_THE_CALL.md) story docs.
 
+**Companion notebook:** the [combat notebook](../combat/README.md) turns this design into numbered experiments and 43 Given/When/Then test specifications. These include an **optional** precision-parry profile (CB-002) and a pilot-controlled dragon deflection experiment (CB-004). Neither is required for children or for story progress, and neither restores dragon crew roles.
+
 ## 1. Design goals
 
 1. **Depth comes from combinations, not execution.** A three-year-old can win by tapping glowing things. A parent can play smart by setting up alley-oops. Neither needs fast fingers.
