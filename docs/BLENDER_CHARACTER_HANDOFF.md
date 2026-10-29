@@ -83,3 +83,13 @@ Reserve support for the future **Line Leader** system: one directly controlled c
 Report the source `.blend` path, render paths, exported asset path, actual MCP actions performed, and Blender/export versions observed. Include reference IDs used, identity-label status, likeness/suit approval status, geometry and texture counts, animation checks, and runtime test results where performed.
 
 Use **completed**, **proposed**, **blocked**, and **not tested** accurately. A written description, generated concept picture, or placeholder mesh is not a finished rigged character. No character is approved merely because the tool produced a file.
+
+## 9. Repeatable agent operations
+
+Use [the shared rules](../AGENTS.md) and the `sd-blender-asset` skill for authorized asset work. This adds workflow discipline, not new character canon or a claim that Blender is connected.
+
+One writer owns a shared `.blend` at a time. Save a versioned copy before editing; other agents should use separate assets or scripts. Name collections and objects with stable asset IDs. A script rerun should update its intended objects, not duplicate them or delete unrelated work. Keep reference-only collections out of all exports.
+
+Record an export manifest in the task receipt: source/export hashes, units, transforms, object names, skeleton and clip names, material/texture counts, geometry counts and file size. Separate measured values from proposed budgets. Reopen the source and exported model; verify required motion and the actual browser load when a runtime exists. Without a runtime, mark browser verification NOT TESTED.
+
+Use [the verification receipt](templates/VERIFICATION_RECEIPT.md). Likeness review, suit approval, technical export verification and public release approval are separate decisions. Do not let a successful export advance all four statuses automatically.

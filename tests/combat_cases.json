@@ -1,0 +1,669 @@
+{
+  "schema_version": 1,
+  "scope": "combat-specifications-only",
+  "notes": [
+    {
+      "id": "CB-001",
+      "path": "docs/combat/CB-001-core-loop.md",
+      "authority": "PROPOSED",
+      "maturity": "SPECIFIED",
+      "test_ids": [
+        "CB-001-T01",
+        "CB-001-T02",
+        "CB-001-T03",
+        "CB-001-T04"
+      ]
+    },
+    {
+      "id": "CB-002",
+      "path": "docs/combat/CB-002-parry.md",
+      "authority": "PROPOSED",
+      "maturity": "SPECIFIED",
+      "test_ids": [
+        "CB-002-T01",
+        "CB-002-T02",
+        "CB-002-T03",
+        "CB-002-T04",
+        "CB-002-T05",
+        "CB-002-T06"
+      ]
+    },
+    {
+      "id": "CB-003",
+      "path": "docs/combat/CB-003-counter-posture.md",
+      "authority": "PROPOSED",
+      "maturity": "SPECIFIED",
+      "test_ids": [
+        "CB-003-T01",
+        "CB-003-T02",
+        "CB-003-T03",
+        "CB-003-T04"
+      ]
+    },
+    {
+      "id": "CB-004",
+      "path": "docs/combat/CB-004-dragon.md",
+      "authority": "PROPOSED",
+      "maturity": "SPECIFIED",
+      "test_ids": [
+        "CB-004-T01",
+        "CB-004-T02",
+        "CB-004-T03",
+        "CB-004-T04",
+        "CB-004-T05",
+        "CB-004-T06"
+      ]
+    },
+    {
+      "id": "CB-005",
+      "path": "docs/combat/CB-005-encounters.md",
+      "authority": "PROPOSED",
+      "maturity": "SPECIFIED",
+      "test_ids": [
+        "CB-005-T01",
+        "CB-005-T02",
+        "CB-005-T03",
+        "CB-005-T04"
+      ]
+    },
+    {
+      "id": "CB-006",
+      "path": "docs/combat/CB-006-contact-feedback.md",
+      "authority": "PROPOSED",
+      "maturity": "SPECIFIED",
+      "test_ids": [
+        "CB-006-T01",
+        "CB-006-T02",
+        "CB-006-T03",
+        "CB-006-T04"
+      ]
+    },
+    {
+      "id": "CB-007",
+      "path": "docs/combat/CB-007-browser-assistance.md",
+      "authority": "PROPOSED",
+      "maturity": "SPECIFIED",
+      "test_ids": [
+        "CB-007-T01",
+        "CB-007-T02",
+        "CB-007-T03",
+        "CB-007-T04"
+      ]
+    },
+    {
+      "id": "CB-008",
+      "path": "docs/combat/CB-008-family.md",
+      "authority": "PROPOSED",
+      "maturity": "SPECIFIED",
+      "test_ids": [
+        "CB-008-T01",
+        "CB-008-T02",
+        "CB-008-T03",
+        "CB-008-T04",
+        "CB-008-T05",
+        "CB-008-T06",
+        "CB-008-T07",
+        "CB-008-T08",
+        "CB-008-T09",
+        "CB-008-T10",
+        "CB-008-T11"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "CB-001-T01",
+      "note_id": "CB-001",
+      "kind": "logic",
+      "given": "A move has startup/active/recovery and a 120 ms legal-next-action buffer.",
+      "when": "Attempt allowed and forbidden cancels; submit next actions 119, 120 and 121 ms before eligibility.",
+      "then": [
+        "Only declared cancels occur.",
+        "With a half-open buffer [0,120), 119 ms-old input executes once; 120/121 ms-old input expires."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-001-T02",
+      "note_id": "CB-001",
+      "kind": "logic",
+      "given": "One attack hit group overlaps several hurtboxes on one target.",
+      "when": "Deliver the same contact repeatedly and in reversed collider order.",
+      "then": [
+        "Exactly one defense outcome and one damage/posture transaction occur for the attack/hit-group/target key."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-001-T03",
+      "note_id": "CB-001",
+      "kind": "integration",
+      "given": "The same semantic attack is available through each supported input adapter.",
+      "when": "Replay the same action sequence through each adapter.",
+      "then": [
+        "Combat events match; button labels may differ; no adapter has separate damage or defense rules."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-001-T04",
+      "note_id": "CB-001",
+      "kind": "playtest",
+      "given": "An adult has completed a tutorial and three graybox bouts.",
+      "when": "Ask for threat recognition, reasons for hits, alternative responses and replay interest.",
+      "then": [
+        "Record actual answers and 1-5 readability/responsiveness scores.",
+        "Do not report fun or acceptance from unit-test success."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-002-T01",
+      "note_id": "CB-002",
+      "kind": "logic",
+      "given": "Standard parry profile; eligible front strike; guard held; sufficient resource; an unused press at t=1000 ms.",
+      "when": "Resolve separate fixtures at contact ages -1, 0, 79, 80, 179, 180 and 181 ms.",
+      "then": [
+        "No retroactive parry at -1.",
+        "Perfect at 0 and 79; ordinary parry at 80 and 179; guard fallback at 180 and 181.",
+        "Each fixture emits exactly one outcome."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-002-T02",
+      "note_id": "CB-002",
+      "kind": "logic",
+      "given": "A valid parry window and front-cone limit of 60 degrees.",
+      "when": "Test angles 59.9, 60 and 60.1 degrees, plus rear attacks, blockable-only strikes and unblockable/unparryable strikes.",
+      "then": [
+        "Eligible contacts at 59.9 and 60 can parry; 60.1 and rear contacts cannot.",
+        "Blockable-only strikes can block when guard rules allow; unblockable/unparryable strikes cannot block or parry."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-002-T03",
+      "note_id": "CB-002",
+      "kind": "logic",
+      "given": "One accepted press at t=1000 ms; release required; 300 ms rearm interval.",
+      "when": "Hold with key-repeat, release/repress at 1299, and separately release/repress at 1300; deliver two contacts during one window.",
+      "then": [
+        "Hold/repeat and the 1299 press do not rearm.",
+        "A released-and-pressed input at 1300 may rearm.",
+        "One press produces at most one parry; duplicates do not issue extra counters."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-002-T04",
+      "note_id": "CB-002",
+      "kind": "integration",
+      "given": "Standard and assisted profiles are selectable independently of avatar and learner settings.",
+      "when": "Compare a contact at age 220 ms, then switch avatar without changing assistance.",
+      "then": [
+        "Standard falls back to valid guard; assisted can ordinary-parry.",
+        "Avatar switching does not change timing settings or learner records."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-002-T05",
+      "note_id": "CB-002",
+      "kind": "playtest",
+      "given": "The enemy alternates a slow parryable strike and a visibly distinct dodge-required strike.",
+      "when": "Compare deliberate timing, held guard and repeated tapping in recorded adult trials.",
+      "then": [
+        "Record success, damage and mistaken cue interpretations per strategy.",
+        "Do not promote the design if repeated tapping dominates deliberate play or threat types remain confusing."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-002-T06",
+      "note_id": "CB-002",
+      "kind": "playtest",
+      "given": "An assisted story profile with simple tap controls, auto-shield and recoverable bonk/revive.",
+      "when": "Complete the encounter without performing a successful timed parry.",
+      "then": [
+        "Story progress and rewards remain obtainable without precision timing, held-button skill or reading during combat.",
+        "A failed attempt does not cause story game over or erase earned progress."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-003-T01",
+      "note_id": "CB-003",
+      "kind": "logic",
+      "given": "A counter opportunity starts at t=1000 and expires at t=1600 ms.",
+      "when": "Attempt independent counters at 1599 and 1600; replay a consumed opportunity ID.",
+      "then": [
+        "1599 is eligible, 1600 is expired, and a consumed ID cannot execute again."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-003-T02",
+      "note_id": "CB-003",
+      "kind": "logic",
+      "given": "An enemy is just below its posture-break threshold.",
+      "when": "Apply the crossing event twice, then more hits during the same break.",
+      "then": [
+        "One break transition is emitted for that crossing.",
+        "Duplicated events do not extend the break or grant repeated rewards."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-003-T03",
+      "note_id": "CB-003",
+      "kind": "integration",
+      "given": "A counter target resolves or becomes invalid before consumption.",
+      "when": "Press counter and switch targets.",
+      "then": [
+        "The stale opportunity is rejected or explicitly cancelled; no teleport, crash or inherited counter against another enemy."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-003-T04",
+      "note_id": "CB-003",
+      "kind": "playtest",
+      "given": "The same opening permits a counterattack or escape.",
+      "when": "Ask a tester to use both, then face an enemy with a declared break-resistance rule.",
+      "then": [
+        "Both choices are understandable and executable.",
+        "Record infinite-stagger attempts and whether resistance is explained by observable feedback."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-004-T01",
+      "note_id": "CB-004",
+      "kind": "logic",
+      "given": "A dragon with a defined local forward defense arc.",
+      "when": "Pitch and roll it through several orientations; test equivalent local-front and local-rear incoming vectors.",
+      "then": [
+        "Equivalent local angles produce equivalent eligibility; roll/pitch do not accidentally grant a global shield."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-004-T02",
+      "note_id": "CB-004",
+      "kind": "logic",
+      "given": "One eligible bolt crosses multiple dragon hurt zones during a single step.",
+      "when": "Deflect it and replay the contact/event; test immediate overlap with the new owner.",
+      "then": [
+        "One ownership change and one reflection occur.",
+        "No immediate self-hit or reflection recursion occurs."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-004-T03",
+      "note_id": "CB-004",
+      "kind": "integration",
+      "given": "A reflectable bolt, a nonreflectable sustained beam and an area blast approach the dragon.",
+      "when": "Use defend, evade and the chosen counter path in separate trials.",
+      "then": [
+        "Only the declared bolt can reflect; other threats follow their explicit rules.",
+        "The selected reflection/return-aim policy is documented and observed."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-004-T04",
+      "note_id": "CB-004",
+      "kind": "playtest",
+      "given": "The three-drone flight arena with a selectable target and brake/turn assistance.",
+      "when": "Ask an adult tester to pursue, defend and re-engage; destroy the locked target during a separate trial.",
+      "then": [
+        "Record time spent reacquiring versus engaging, control confusion and discomfort.",
+        "Destroyed targets release safely; progression does not require advanced manual roll control."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-004-T05",
+      "note_id": "CB-004",
+      "kind": "integration",
+      "given": "One sortie with shared progress and Cadet/Pilot/Ace assistance profiles.",
+      "when": "Switch tiers mid-sortie; exercise declared stall, terrain-contact and wing-energy recovery cases.",
+      "then": [
+        "Progress, rewards and cooldowns persist across tier changes.",
+        "Cadet does not demand independent pitch/yaw/roll/throttle/camera control; declared assistance prevents fatal collision.",
+        "No tier crashes the dragon fatally; recovery follows the recorded profile rather than deleting progress."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-004-T06",
+      "note_id": "CB-004",
+      "kind": "playtest",
+      "given": "Cadet and Pilot versions of the same flight-school and bounded dogfight scene on the selected input device.",
+      "when": "Perform banked turns, climbs, throttle/boost changes and a pursuit/reversal; compare atmosphere and assisted-space profiles.",
+      "then": [
+        "Record whether speed, banking, momentum and turning communicate fighter-jet feel rather than corridor-only steering.",
+        "The chosen profile documents its energy/stall/assist policy; advanced controls are not required for the Cadet test."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-005-T01",
+      "note_id": "CB-005",
+      "kind": "logic",
+      "given": "A one-token high-threat encounter with three enemies.",
+      "when": "Request attacks simultaneously, then cancel, resolve and despawn the current token holder in separate fixtures.",
+      "then": [
+        "At most one high-threat attack is committed at a time.",
+        "The token is released on every exit path and another enemy can act."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-005-T02",
+      "note_id": "CB-005",
+      "kind": "integration",
+      "given": "An enemy has declared wind-up, target-commitment and recovery intervals.",
+      "when": "Move across its aim before and after commitment; interrupt it before the active phase.",
+      "then": [
+        "Tracking follows the declared policy rather than snapping late.",
+        "An interrupted attack cannot later deal a ghost hit."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-005-T03",
+      "note_id": "CB-005",
+      "kind": "playtest",
+      "given": "A high-threat enemy begins outside the camera view.",
+      "when": "Trigger its warning and attack while a tester engages a visible enemy.",
+      "then": [
+        "A directional non-text-only warning or delayed attack gives a meaningful response opportunity.",
+        "Record reaction/cue failures; no readability pass is inferred from the event log alone."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-005-T04",
+      "note_id": "CB-005",
+      "kind": "integration",
+      "given": "A seeded encounter or boss phase transition and a recorded input trace.",
+      "when": "Replay it twice and cross a phase threshold during an attack.",
+      "then": [
+        "State/event traces match for the same seed and inputs.",
+        "Phase policy explicitly finishes or cancels the attack without duplicated damage or unexplained invulnerability."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-006-T01",
+      "note_id": "CB-006",
+      "kind": "logic",
+      "given": "A fast projectile crosses a thin hurtbox between adjacent simulation positions.",
+      "when": "Run the declared sweep/continuous-contact test and report repeated contact callbacks.",
+      "then": [
+        "The crossing is detected once; repeated callbacks do not duplicate the combat transaction."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-006-T02",
+      "note_id": "CB-006",
+      "kind": "logic",
+      "given": "A two-hit move has two explicit hit-group IDs and the target has overlapping hurtboxes.",
+      "when": "Deliver both groups repeatedly.",
+      "then": [
+        "Exactly two intended hit transactions occur, one per group, not one per collider."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-006-T03",
+      "note_id": "CB-006",
+      "kind": "integration",
+      "given": "A target is occluded, destroyed or out of selection range; a wall obstructs the follow camera.",
+      "when": "Lock, cycle targets, move toward the wall and remove the target.",
+      "then": [
+        "The documented occlusion policy is applied; invalid locks clear safely.",
+        "The camera does not remain inside geometry or snap to an arbitrary distant target."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-006-T04",
+      "note_id": "CB-006",
+      "kind": "integration",
+      "given": "An identical input trace with effects on, reduced motion on, and effects off.",
+      "when": "Replay all three settings with the same simulation step and seed.",
+      "then": [
+        "Combat state and outcomes match.",
+        "Presentation differences do not change damage, parry eligibility or counter expiry."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-007-T01",
+      "note_id": "CB-007",
+      "kind": "integration",
+      "given": "A fixed-step combat simulation, seeded scene and timestamped input recording.",
+      "when": "Render the same replay at 30, 60 and 120 FPS with one injected rendering stall.",
+      "then": [
+        "The combat event/state sequence matches across render schedules.",
+        "Any time clamping policy is explicit; no silent skipped damage or extra parries."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-007-T02",
+      "note_id": "CB-007",
+      "kind": "integration",
+      "given": "A held guard, buffered action and active counter opportunity.",
+      "when": "Lose focus, suspend the tab and resume after a long gap.",
+      "then": [
+        "Held/buffered input is safely cleared; no catch-up burst or stuck control occurs.",
+        "Counter expiry follows the documented paused-simulation policy."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-007-T03",
+      "note_id": "CB-007",
+      "kind": "integration",
+      "given": "The single-player graybox scene with an optional service unavailable.",
+      "when": "Perform attack, dodge, parry and counter with network access blocked.",
+      "then": [
+        "Immediate local combat still resolves; any save/sync error is reported separately.",
+        "This test does not claim multiplayer correctness."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-007-T04",
+      "note_id": "CB-007",
+      "kind": "device",
+      "given": "A named real device/browser/input combination and a fixed scene/build/profile.",
+      "when": "Record performance and control trials with assistance and reduced motion toggled.",
+      "then": [
+        "Store actual p50/p95/p99 frame times, input latency method, sample duration and failures.",
+        "No device PASS without that device being exercised and an agreed budget.",
+        "Assistance changes do not mutate learner identity or mastery records."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T01",
+      "note_id": "CB-008",
+      "kind": "integration",
+      "given": "Two party members in a separately authorized later prototype.",
+      "when": "Switch leader while movement/guard is held.",
+      "then": [
+        "Exactly one actor receives direct control; old held actions and invalid references are cleared."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T02",
+      "note_id": "CB-008",
+      "kind": "logic",
+      "given": "One parry-linked assist opportunity with a unique ID.",
+      "when": "Trigger the assist repeatedly and switch leader before replaying the ID.",
+      "then": [
+        "At most one assist transaction is granted; switching cannot duplicate it."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T03",
+      "note_id": "CB-008",
+      "kind": "integration",
+      "given": "A leader and follower separated by an obstacle.",
+      "when": "Move, stop and return through a narrow passage.",
+      "then": [
+        "The declared catch-up policy avoids permanent blocking or uncontrolled repeated teleporting.",
+        "A failure is recorded, not hidden by disabling the obstacle."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T04",
+      "note_id": "CB-008",
+      "kind": "playtest",
+      "given": "A two-member scene with one clearly signaled optional assist.",
+      "when": "Ask an adult tester to fight, switch leader and use or ignore the assist.",
+      "then": [
+        "Record whether support is understandable without extra micromanagement.",
+        "No multiplayer, all-five-character or split-party completion claim follows from this test."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T05",
+      "note_id": "CB-008",
+      "kind": "logic",
+      "given": "One valid alley-oop with a setter, finisher and setter cooldown; result is committed on finish resolution.",
+      "when": "Double-tap, pause during apex slow motion, switch avatar mid-air, and separately skip/reduce/interrupt presentation.",
+      "then": [
+        "Exactly one finish result and the declared setter cooldown are applied; launch alone does not prematurely apply the final result.",
+        "Presentation variants preserve the resolved outcome; auto-finish and explicit tap cannot both cash in the same launch."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T06",
+      "note_id": "CB-008",
+      "kind": "logic",
+      "given": "An enemy can carry one main status plus Exposed, with simulation-time expiry.",
+      "when": "Apply competing main statuses and Exposed; pause across the expiry time, then resume.",
+      "then": [
+        "The declared replacement/stacking policy keeps at most one main status plus Exposed.",
+        "Pause freezes remaining duration; status expires once after the remaining active simulation time."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T07",
+      "note_id": "CB-008",
+      "kind": "integration",
+      "given": "A phase has earned items, removed sparks and already resolved enemies.",
+      "when": "Bonk all family members and resume the phase.",
+      "then": [
+        "Earned items, removed sparks and resolved enemies remain accounted for.",
+        "The family recovers without story game over or duplicated awards; assistance is offered without penalty."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T08",
+      "note_id": "CB-008",
+      "kind": "integration",
+      "given": "Enemies have targets, including one family member who becomes bonked or begins reviving.",
+      "when": "Retarget and resolve pending attacks.",
+      "then": [
+        "Bonked/reviving members are not selected or hit by stale targeted attacks.",
+        "A valid safe alternative or idle behavior is used."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T09",
+      "note_id": "CB-008",
+      "kind": "integration",
+      "given": "Active setter/ability cooldowns and a component reward keyed by stable ID.",
+      "when": "Switch avatar, pause/resume, reload mid-fight and repeat the reward/tandem trigger.",
+      "then": [
+        "Cooldowns do not reset and the component is awarded once.",
+        "No extra Family Spark is generated by replay, reload or avatar switching alone."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T10",
+      "note_id": "CB-008",
+      "kind": "integration",
+      "given": "An alley-oop can launch the player or a companion and has an automatic finish.",
+      "when": "Trigger once with no second tap; remove the target at the apex; test player-as-setter and player-as-finisher.",
+      "then": [
+        "One safe automatic finish occurs, using the declared area fallback when the target is gone.",
+        "No failed landing or required perfect timing; the result is applied once."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    },
+    {
+      "id": "CB-008-T11",
+      "note_id": "CB-008",
+      "kind": "logic",
+      "given": "Five member IDs with shared LaunchDefinition and FinisherDefinition records.",
+      "when": "Enumerate distinct ordered setter/finisher pairs; trigger after avatar switching while the setter is on cooldown.",
+      "then": [
+        "Exactly 20 distinct non-self pairs are valid, without requiring 20 bespoke implementations.",
+        "Setter cooldown persists through avatar switching; no status setup is required for a valid basic alley-oop."
+      ],
+      "status": "NOT_TESTED",
+      "evidence": []
+    }
+  ]
+}

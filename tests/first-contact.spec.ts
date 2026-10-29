@@ -19,6 +19,10 @@ test('renders a real 3D scene; complete, reload and restart the checkpoint', asy
   await page.reload();
   await expect(page.getByRole('heading', { name: 'The message is only the beginning.' })).toBeVisible();
   await expect(page.getByRole('status').first()).toContainText('restored');
+  page.once('dialog', dialog => dialog.dismiss());
+  await page.getByRole('button', { name: 'Start again' }).click();
+  await expect(page.getByRole('button', { name: 'Checkpoint reached' })).toBeDisabled();
+  page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: 'Start again' }).click();
   await expect(page.getByRole('button', { name: 'Follow the signal' })).toBeEnabled();
   expect(errors).toEqual([]);

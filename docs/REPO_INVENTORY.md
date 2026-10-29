@@ -43,7 +43,7 @@ Railway account configuration, existing services, public asset hosting, credenti
 ## Decisions still needing creative or integration input
 
 - The intended host site/repository, given the unexpected public titles and missing route.
-- Named player devices and the first input method; desktop/tablet performance must be measured on the actual hardware.
+- Named player computer/browser and measured performance. The concurrent [owner decision](decisions/2026-10-29-keyboard-first-input.md) confirms keyboard first; Xbox is opportunistic and not tested, and touch is deferred.
 - Remaining photo subject labels, expressed as filename plus position; agents must not infer identities across photos.
 - Lyla's suit color, final dragon design/assembly joints, and which visual/movement references should govern each feature.
 - Exact SOS sender/emergency/crossing lore and later town mission count; setup does not decide these.

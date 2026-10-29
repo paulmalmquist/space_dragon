@@ -62,7 +62,7 @@ No extra sculpting suite, GPU purchase, paid subscription, or system-wide Node/P
 
 ## Hardware context
 
-This is a Lenovo 82XM with an AMD Ryzen 7 5825U (8 cores / 16 logical processors), about **13.84 GiB of visible RAM**, and integrated AMD Radeon Graphics. Windows reports a 2 GiB adapter value; that is not a reliable dedicated-VRAM budget for this shared-memory GPU. Treat this machine as an important practical benchmark and start with compact scenes and scalable effects. Desktop 60 fps and reduced-quality mobile 30 fps remain **targets to measure**, not achieved results. A named phone/tablet and preferred first control scheme remain open.
+This is a Lenovo 82XM with an AMD Ryzen 7 5825U (8 cores / 16 logical processors), about **13.84 GiB of visible RAM**, and integrated AMD Radeon Graphics. Windows reports a 2 GiB adapter value; that is not a reliable dedicated-VRAM budget for this shared-memory GPU. Treat this machine as an important practical benchmark and start with compact scenes and scalable effects. Desktop 60 fps remains a **target to measure**, not an achieved result. The [confirmed first input is keyboard](decisions/2026-10-29-keyboard-first-input.md); Xbox support is opportunistic and untested, and touch is deferred. The named player computer/browser still needs confirmation. A reduced mobile 30 fps goal can be revisited if mobile enters scope.
 
 ## Official references
 

@@ -72,6 +72,7 @@ $('action').addEventListener('click', () => {
   render();
 });
 $('restart').addEventListener('click', () => {
+  if (checkpoint.step !== 'computer' && !window.confirm('Start First Contact again? Your current checkpoint will be replaced.')) return;
   checkpoint = { version: 1, step: 'computer' };
   $('save-status').textContent = saveCheckpoint(checkpoint);
   render();

@@ -47,6 +47,8 @@ During development, `window.__SPACE_DRAGON__.snapshot()` returns the current ste
 
 Save schema v1 is `{ "version": 1, "step": "computer" | "backyard" | "pod" }` in `space-dragon.checkpoint.v1`. Invalid/unsupported saves restart the short sequence with a notice; blocked storage falls back to the current visit. There is no cloud synchronization, migration, or backup-save recovery yet. Notebook drafts use a separate localStorage key and remain in the form when a write fails.
 
+Restarting a progressed sequence requires confirmation; cancel preserves the current checkpoint. Keyboard is the confirmed first input. The automated narrow touch check is extra layout/input evidence, not a change to the owner's deferred-touch decision or a physical-device support claim.
+
 ## Integration still to resolve
 
 Keep the `/space-dragon` URL prefix. This is a standalone local client, not a replacement homepage. The public host currently returns unexpected content and the game route was 404 during inspection; the website's actual source, routing, deployment, and Railway services remain unidentified. Audit them before integrating. Keep frontend engine decisions separate from the host UI framework; Babylon does not require replacing an existing site framework.

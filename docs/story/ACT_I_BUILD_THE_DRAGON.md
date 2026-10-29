@@ -236,6 +236,10 @@ Preserve the planned `/space-dragon` route and existing homepage. Keep the [Blen
 - The neighbor's fictional identity, the source of her technology, and her role beyond Act I.
 - The production milestone that should be built first and the exact transition into Act II.
 
+### Related proposals (not canon)
+
+[Act I critique and refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) the [Act II proposal](ACT_II_ANSWER_THE_CALL.md) and [suit reveals and starting abilities](SUIT_REVEALS_AND_STARTING_ABILITIES.md) suggest answers to several questions above. They remain PROPOSED until the owner accepts specific items and records them in `docs/decisions/`.
+
 ### Review before implementing or revising
 
 - Does the opening remain at the living-room computer without making the family the dragon's inventors?

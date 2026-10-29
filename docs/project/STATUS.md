@@ -13,7 +13,17 @@ Updated: **October 29, 2026**. Agents update this file after each meaningful wor
 
 - [Idea inbox](../../ideas/INBOX.md): plain-language intake with preserved source thoughts and routing receipts.
 - [Agent instructions](../../AGENTS.md): read order, idea processing, decision authority, story constraints, and verification expectations.
-- [Vision](VISION.md), [roadmap](ROADMAP.md), and [ledger](IDEA_LEDGER.md): current direction, production order, and traceability for SD-001 through SD-010.
+- [Vision](VISION.md), [roadmap](ROADMAP.md), and [ledger](IDEA_LEDGER.md): current direction, production order, and traceability for SD-001 through SD-013, including the reconciled remote directions and proposals.
+
+## Reconciled remote planning work
+
+The publication branch incorporates the newer `origin/main` history through `0474b97` alongside the local foundation. The starting inventory above is the original checkout snapshot, not a claim that the combined repository lacks the later work.
+
+- Shared contracts, canonical `.agents/skills/` and Claude mirrors, `CLAUDE.md`, static foundation/combat checks and unit fixtures, and a read-only GitHub Actions workflow are now present. Their existing receipts record earlier static results; the combined merge needs its own current verification receipt. Manual agent-behavior cases remain unexecuted unless a receipt says otherwise.
+- The [story index](../story/README.md) and [scripts index](../story/scripts/README.md) organize Act I refinements, suit reveals, Act II, music/empathy/pacing, and proposed production scripts. These are writing deliverables, not implemented scenes. The Caller, Hush, passenger, musical SOS, Bridge, and other dependent lore remain proposed; living material is an owner idea with proposed details.
+- The root `new characters` stub mentions Mox, Tavi, Captain Nera, and Rook as proposed names, but does not contain the referenced attachment or dialogue. Their complete designs and roles remain unavailable here.
+- [Keyboard-first input](../decisions/2026-10-29-keyboard-first-input.md) and [on-foot alley-oops / single-pilot jet-like flight](../decisions/2026-10-29-alley-oops-and-jet-flight.md) are confirmed direction. Xbox support is opportunistic and not tested; touch is deferred. The detailed later combat systems are not part of the current runtime.
+- [The current milestone](../plans/CURRENT_MILESTONE.md) defines the bounded next work. The short guided prototype below is a foundation, not completion of the fuller proposed First Contact script or all SD-M1 acceptance checks.
 
 ## Completed local foundation
 
@@ -24,12 +34,14 @@ Updated: **October 29, 2026**. Agents update this file after each meaningful wor
 - FFmpeg/FFprobe 9.0.1 and Khronos KTX/toktx 4.4.2 were installed for the current user. All ten tools in `npm.cmd run doctor` report Ready, including existing Blender 5.2.1. This does not establish a live Blender MCP connection.
 - Git LFS is initialized for this repo, with attributes for future large source/model/media files. Existing photos and Git history were preserved. Asset source/reference/candidate folders, read-only GLB inspection, safe reference-frame extraction, and repeatable setup helpers are ready.
 
-## Verification — October 29, 2026
+## Original local-foundation verification — October 29, 2026
+
+These results describe the local foundation before integration of the newer remote planning files. The merge verification receipt records checks against the combined work; do not infer that earlier results prove the later merge.
 
 | Check | Actual result |
 | --- | --- |
 | `npm.cmd run check` | Passed: TypeScript/build, **9 browser tests**, and all **18 photo references**. |
-| Browser flows | Actual WebGL 2 render; keyboard, pointer and narrow touch interaction; completion/reload/reset; malformed/unsupported/invalid-type saves; blocked storage; notebook file append and draft preservation; cross-origin rejection; reference-source access denied. Tests wrote only to the ignored fixture inbox. |
+| Browser flows | Actual WebGL 2 render; keyboard, pointer and supplemental narrow touch interaction; completion/reload/reset; malformed/unsupported/invalid-type saves; blocked storage; notebook file append and draft preservation; cross-origin rejection; reference-source access denied. Tests wrote only to the ignored fixture inbox. Touch remains deferred by the later input decision. |
 | Built app preview | Passed at the prefixed route: checkpoint reload, no notebook button/development state API, notebook POST returns 404, no page errors. Artifact inventory excludes source/reference media and project docs. |
 | Screenshots | Desktop and 390-pixel touch layout captured and visually reviewed in `artifacts/first-contact-desktop.png` and `artifacts/first-contact-mobile.png`. |
 | Asset helpers | Valid/malformed GLB checks and unchanged input bytes passed. Synthetic FFmpeg clip produced four frames; an existing output directory was refused without overwriting. |
@@ -39,16 +51,16 @@ Updated: **October 29, 2026**. Agents update this file after each meaningful wor
 
 The browser run used **Chromium with SwiftShader software rendering**. It is compatibility evidence, not an actual-device performance benchmark. The observed scene has 32 meshes and 5,222 triangles; its frame sample is recorded in ignored `artifacts/browser-smoke-state.json`. The build emits an approximately 1.07 MB main JavaScript chunk (259 KB gzip) and a size warning; production download/renderer optimization remains work for the asset benchmark. No desktop 60 fps or mobile 30 fps claim is established.
 
-Changes are local and uncommitted; nothing was pushed or deployed. The original story/specification/photo files remain intact apart from the handoff's dated foundation update.
+The owner authorized pushing and merging this foundation on October 29. Use Git history and the pull request for the resulting publication state; this document does not claim a deployed game. Existing story updates from remote are retained, while the original specification and authorized photo bytes are preserved. The [combined-tree verification receipt](../reports/2026-10-29-local-foundation.md) records the merge-base/artifact identity, 9 browser passes, 39 Python passes with 2 host-related skips, production isolation, and preserved remote files. Restarting a progressed checkpoint now requires confirmation.
 
 ## Boundaries and open evidence
 
 - The actual `paulmalmquist.com` website source and deployment remain unidentified. Public inspection returned unexpected homepage content and a 404 at `/space-dragon`; see [inventory](../REPO_INVENTORY.md). The homepage must be preserved during eventual integration.
 - Railway connection, services, capacity, budget, and save synchronization are unverified. Local setup does not establish a backend.
 - Blender 5.2.1 is installed. The Blender MCP connection was unavailable during this setup check; the active scene and live export path remain unverified. No finished character/dragon asset is claimed.
-- Named player devices, touch/controller priorities, measured graphics budgets, approved final art, and the major open lore decisions remain unresolved.
+- The specific player computer/browser, measured graphics budgets, approved final art, and major open lore approvals remain unresolved. Keyboard is primary; Xbox plug-and-play is not tested and touch is deferred.
 - The older handoff's no-implementation language records earlier documentation work. Today's owner instruction authorizes useful local setup and reversible implementation choices; it does not establish public deployment or new paid services.
 
 ## Next useful action
 
-Process new inbox thoughts first. Then open Blender with its existing MCP add-on running, inspect/save the scene, and take one reviewed pod/component through GLB export, validation, browser loading, and visual review. Establish the first real asset measurements on this computer and identify the family's player devices. The Lyla pilot character can follow the existing handoff once the next art review is useful; additional reference labels can arrive incrementally.
+Process new inbox thoughts first and use the current milestone's keyboard-first acceptance scope. Inspect the proposed First Contact script for the next spoken-help/suit-introduction increment without treating its unconfirmed lore as settled. In parallel, open Blender with its existing MCP add-on running, inspect/save the scene, and take one reviewed pod/component through GLB export, validation, browser loading, and visual review. Establish measurements on a named computer/browser. The Lyla pilot character can follow the existing handoff once the next art review is useful; additional reference labels can arrive incrementally. Obtain the actual character/story attachment before expanding the `new characters` stub into designs or dialogue.
