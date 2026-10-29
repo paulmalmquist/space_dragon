@@ -52,7 +52,7 @@ Act I in four movements, with the existing scene IDs placed in them:
 
 ### 3.1 The SOS is a song
 
-The damaged transmission's clearest part is a **short melody**, five to seven notes, that loops and breaks off. Each module that comes home restores one more note, plus a fragment of image and voice. Kids too young to follow dialogue can still *hear* the story progress, and humming it becomes a family in-joke.
+The damaged transmission's clearest part is a **short melody**, seven notes (one per recovered piece, as detailed in [music, empathy and pacing](MUSIC_EMPATHY_AND_PACING.md)), that loops and breaks off. Each module that comes home restores one more note, plus a fragment of image and voice. Kids too young to follow dialogue can still *hear* the story progress, and humming it becomes a family in-joke.
 
 - The melody is an **unfinished musical phrase**. It ends on a note that sounds like a question. This sets up Act II, where the family supplies the answering note (see the [Act II proposal](ACT_II_ANSWER_THE_CALL.md)).
 - Lyla's archive shows the notes as colored *and shaped* tiles (never color alone). An optional, assisted activity lets a child put recovered fragments in order. This is pattern and sequence practice, and it is never required for progress. If skipped, it is auto-arranged.
