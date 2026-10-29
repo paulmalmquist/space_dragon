@@ -17,6 +17,15 @@ Draft production scripts: dialogue, music and sound cues, interactions with hint
 | 8 | [A1-06b Across the Street](A1-06B_ACROSS_THE_STREET.md) | The Bridge: the backyard boss, then empathy, and the march becomes a waltz | Fixed |
 | 9 | [A1-07 The Answer](A1-07_THE_ANSWER.md) | Assembly, first flight and the send-off dogfight, the full message, the decision, liftoff | Fixed |
 
+## Act II, in play order
+
+| # | Script | Covers | Order |
+| --- | --- | --- | --- |
+| 1 | [A2-00 The Crossing](A2-00_THE_CROSSING.md) | Flight out, light speed, the crossing, the stowaway, the arrival in the Quiet, meeting the Caller, the bedtime story | Fixed |
+| 2 | [A2-03 Waking the Worlds](A2-03_WAKING_THE_WORLDS.md) | Market Moon, Hatchery Nebula (the passenger's reunion), Climbing Spires, Forge Ring (the blueprints, Song-breath), plus waking beats by **dragons-awake count** | Any order |
+| 3 | [A2-07 The Silent Center](A2-07_THE_SILENT_CENTER.md) | The low point, then **Listen → Shelter → Home Note** | Fixed, after 4 dragons are awake |
+| 4 | [A2-11 Encore and Home](A2-11_ENCORE_AND_HOME.md) | The Encore flight, goodbyes, the dragon chooses, the way home, the block party, the post-game | Fixed |
+
 ## Learning challenges in Act I
 
 | ID | Mission | Skill | Notes |
@@ -27,6 +36,8 @@ Draft production scripts: dialogue, music and sound cues, interactions with hint
 | `a1m4_produce_sort_v1` | 4 | `category_sorting` (proposed ID) | |
 | — | 5 | None | A pure-action mission, by design |
 | — | 6 | None graded | Countdown participation only |
+
+**Act II:** `a2w1_stall_glyphs_v1` (`letter_matching`), `a2w2_count_hatchlings_v1` (`counting_objects`) and `a2w3_resonator_pattern_v1` (`pattern_repeat`, a proposed ID). The Forge Ring has none, by design. The glyph cards from waking beats are optional `letter_matching` practice.
 
 Proposed skill IDs need parent/educator review before any claims about learning, per the [learning rules](../../learning/LEARNING_RULES.md). Every challenge has an assisted path that gives the identical story reward.
 
