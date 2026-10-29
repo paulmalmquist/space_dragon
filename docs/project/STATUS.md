@@ -1,0 +1,54 @@
+# Current project state
+
+Updated: **October 29, 2026**. Agents update this file after each meaningful work session. See [the ledger](IDEA_LEDGER.md) for why work exists and [the roadmap](ROADMAP.md) for dependencies.
+
+## Verified starting inventory
+
+- Existing story/specification, implementation handoff, Blender handoff, context summary, and a photo-publication decision.
+- Eighteen family-reference JPEGs, manifest, local gallery, and `tools/verify_family_references.py`. The previous import's checks are recorded in the publication decision; repeat the verifier when changing this collection.
+- At initial inspection today: no game runtime, package manifest, completed models, build pipeline, backend configuration, deployment configuration, or gameplay-test results in this checkout.
+- Development machine inventory: Lenovo 82XM, approximately 13.8 GiB usable physical RAM, AMD Radeon graphics; Windows reports approximately 2 GiB adapter RAM. Integrated-GPU shared memory is not fully described by that adapter field. Node 24.15.0, npm 11.12.1, Python 3.14.4, Git, Git LFS, and winget are present.
+
+## Added project memory
+
+- [Idea inbox](../../ideas/INBOX.md): plain-language intake with preserved source thoughts and routing receipts.
+- [Agent instructions](../../AGENTS.md): read order, idea processing, decision authority, story constraints, and verification expectations.
+- [Vision](VISION.md), [roadmap](ROADMAP.md), and [ledger](IDEA_LEDGER.md): current direction, production order, and traceability for SD-001 through SD-010.
+
+## Completed local foundation
+
+- Babylon.js 9.33.0, TypeScript 7.0.2, Vite 8.3.5, Playwright 1.64.1 with its Chromium browser, and glTF Transform 4.5.1 are installed as exact-pinned project dependencies.
+- The guided First Contact prototype renders a living-room computer and backyard pod, advances through the short interaction, and stores a versioned checkpoint. Geometry, story staging, and materials are placeholders; there are no family character models or finished dragon assets.
+- `Start Space Dragon.cmd` starts the local workspace. The development server was left running at `http://127.0.0.1:5173/space-dragon/` at handoff; the launcher can restart it in a later session.
+- The local **Idea notebook** appends original thoughts to `ideas/INBOX.md`, preserves failed/new drafts, and assigns capture IDs. Agents process those captures when invoked; capture does not automatically run an agent.
+- FFmpeg/FFprobe 9.0.1 and Khronos KTX/toktx 4.4.2 were installed for the current user. All ten tools in `npm.cmd run doctor` report Ready, including existing Blender 5.2.1. This does not establish a live Blender MCP connection.
+- Git LFS is initialized for this repo, with attributes for future large source/model/media files. Existing photos and Git history were preserved. Asset source/reference/candidate folders, read-only GLB inspection, safe reference-frame extraction, and repeatable setup helpers are ready.
+
+## Verification — October 29, 2026
+
+| Check | Actual result |
+| --- | --- |
+| `npm.cmd run check` | Passed: TypeScript/build, **9 browser tests**, and all **18 photo references**. |
+| Browser flows | Actual WebGL 2 render; keyboard, pointer and narrow touch interaction; completion/reload/reset; malformed/unsupported/invalid-type saves; blocked storage; notebook file append and draft preservation; cross-origin rejection; reference-source access denied. Tests wrote only to the ignored fixture inbox. |
+| Built app preview | Passed at the prefixed route: checkpoint reload, no notebook button/development state API, notebook POST returns 404, no page errors. Artifact inventory excludes source/reference media and project docs. |
+| Screenshots | Desktop and 390-pixel touch layout captured and visually reviewed in `artifacts/first-contact-desktop.png` and `artifacts/first-contact-mobile.png`. |
+| Asset helpers | Valid/malformed GLB checks and unchanged input bytes passed. Synthetic FFmpeg clip produced four frames; an existing output directory was refused without overwriting. |
+| KTX tools | FFmpeg-generated PNG → ETC1S KTX2 → `ktx validate` passed. |
+| Windows setup | Exact npm doctor command and idempotent setup passed under Windows PowerShell 5.1. |
+| Dependency/source hygiene | `npm.cmd audit`: zero known vulnerabilities. `git diff --check`: passed. Existing photo checksums unchanged. |
+
+The browser run used **Chromium with SwiftShader software rendering**. It is compatibility evidence, not an actual-device performance benchmark. The observed scene has 32 meshes and 5,222 triangles; its frame sample is recorded in ignored `artifacts/browser-smoke-state.json`. The build emits an approximately 1.07 MB main JavaScript chunk (259 KB gzip) and a size warning; production download/renderer optimization remains work for the asset benchmark. No desktop 60 fps or mobile 30 fps claim is established.
+
+Changes are local and uncommitted; nothing was pushed or deployed. The original story/specification/photo files remain intact apart from the handoff's dated foundation update.
+
+## Boundaries and open evidence
+
+- The actual `paulmalmquist.com` website source and deployment remain unidentified. Public inspection returned unexpected homepage content and a 404 at `/space-dragon`; see [inventory](../REPO_INVENTORY.md). The homepage must be preserved during eventual integration.
+- Railway connection, services, capacity, budget, and save synchronization are unverified. Local setup does not establish a backend.
+- Blender 5.2.1 is installed. The Blender MCP connection was unavailable during this setup check; the active scene and live export path remain unverified. No finished character/dragon asset is claimed.
+- Named player devices, touch/controller priorities, measured graphics budgets, approved final art, and the major open lore decisions remain unresolved.
+- The older handoff's no-implementation language records earlier documentation work. Today's owner instruction authorizes useful local setup and reversible implementation choices; it does not establish public deployment or new paid services.
+
+## Next useful action
+
+Process new inbox thoughts first. Then open Blender with its existing MCP add-on running, inspect/save the scene, and take one reviewed pod/component through GLB export, validation, browser loading, and visual review. Establish the first real asset measurements on this computer and identify the family's player devices. The Lyla pilot character can follow the existing handoff once the next art review is useful; additional reference labels can arrive incrementally.
