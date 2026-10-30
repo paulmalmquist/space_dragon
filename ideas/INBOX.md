@@ -114,3 +114,29 @@ Source: owner's immediate follow-ups.
 > “i dont see myself getting an entire new machine for this project but potentially down the road if that becomes the moat”
 
 Receipt: **SD-023** · CONFIRMED resource direction and hardware preference · Owner reports Railway is available and cloud tools can be connected when needed; actual project/service access remains to be inspected for a concrete task. Keep this Lenovo/Chrome as the initial development and playtest target. Consider cloud production jobs for a measured bottleneck before assuming a replacement machine. No hardware purchase or new cloud service is needed for the current navigation work. Routed to [vision](../docs/project/VISION.md), [quality bar](../docs/engineering/GAME_FEEL.md), and [roadmap](../docs/project/ROADMAP.md).
+
+### October 29, 2026 — a compact, recognizable neighborhood map
+
+Source: owner's follow-ups while the walking increment was being completed.
+
+> “id like a map the size of a small neighborhood and a microcosm of winsotn trails / lake worth all the way to target home depot, lake worth christian and manatee elementary. its ok to use real places”
+>
+> “wellington target
+> home depot on lantana and jog
+> you can put a few of those restaurants there too”
+
+Receipt: **SD-024** · CONFIRMED map direction · Build toward a compressed Winston Trails/Lake Worth neighborhood with the named public landmarks. The store clarification identifies Wellington South Target and Lake Worth II Home Depot at Lantana/Jog. A few restaurants are allowed; specific proposed picks are in [the map plan](../docs/world/NEIGHBORHOOD_MAP.md). [The decision](../docs/decisions/2026-10-29-neighborhood-map.md) records the change from the generic blockout and earlier fictional-place guidance. Real names/public landmarks are permitted; scale, road layout and travel times remain design choices to review. The current runtime still covers the living room and yard, not this planned neighborhood.
+
+### October 29, 2026 — Google Maps references
+
+Source: owner's same follow-up.
+
+> “feel free to log images from google maps”
+
+Receipt: **SD-025** · CONFIRMED reference permission · [The reference log](../docs/world/REFERENCE_LOG.md) records Google Maps links, verified public addresses and what each image should inform. Captures belong in ignored `assets/reference/local/neighborhood/`. No Google Maps screenshot was captured in this session: the browser-access host was unavailable, and Computer Use stopped when it could not verify Chrome's current URL. Source links and capture notes are ready for a later capture session; no image is represented as collected or packaged in the game.
+
+### October 29, 2026 — home surroundings and the nearby lake
+
+Source: the owner supplied the exact home address and asked to “just get the surrounding area and the lake too while youre at it.” The complete source wording/address is preserved in ignored local `assets/reference/local/home/OWNER_LOCATION.md`.
+
+Receipt: **SD-026** · CONFIRMED reference scope · Use the supplied home anchor to gather the surrounding neighborhood and nearby lake as local references. [The map plan](../docs/world/NEIGHBORHOOD_MAP.md) now includes the residential surroundings and lake as anchors, with game distances still compressed. The exact address/query and derived vicinity files stay local; the tracked plan records the design intent. No lake name, shoreline, screenshot or new runtime geometry is assumed from the address alone.

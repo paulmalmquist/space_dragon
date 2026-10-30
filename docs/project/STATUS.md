@@ -1,6 +1,6 @@
 # Current project state
 
-Updated: **October 29, 2026**. Read this file, [the vision](VISION.md), [inbox](../../ideas/INBOX.md), and [current milestone](../plans/CURRENT_MILESTONE.md) before changing the project. Ideas SD-001–SD-023 are indexed in [the ledger](IDEA_LEDGER.md).
+Updated: **October 29, 2026**. Read this file, [the vision](VISION.md), [inbox](../../ideas/INBOX.md), and [current milestone](../plans/CURRENT_MILESTONE.md) before changing the project. Ideas SD-001–SD-026 are indexed in [the ledger](IDEA_LEDGER.md).
 
 ## Current increment
 
@@ -11,8 +11,12 @@ The latest owner request authorizes a **third-person walking slice** and records
 - Pause, blur, mode switches and notebook entry clear held movement. The prior First Contact story remains selectable, with its speech/help/suits/scan/map and save-v2 features below.
 - [Home/yard/garage video reference](../REFERENCE_HOME_VIDEO.md) is recorded as SD-020. No footage has arrived; the room/yard are a generic blockout and the garage is only a backdrop. Source clips will stay in ignored local references.
 - The owner reinforced **AAA-like feel in a bounded world** (SD-022), with Railway/cloud options and no new computer planned now (SD-023). [The quality bar](../engineering/GAME_FEEL.md) records the next review priorities. This navigation foundation is not a claim that the finished feel has been achieved; actual Railway/cloud access remains unverified.
+- A **compact Winston Trails/Lake Worth neighborhood** is now confirmed direction (SD-024), using real public landmarks: Wellington South Target, Home Depot at Lantana/Jog, Lake Worth Christian, Manatee Elementary and a few restaurant choices. [The map plan](../world/NEIGHBORHOOD_MAP.md) is prepared; the neighborhood is not implemented yet. [Google Maps reference links](../world/REFERENCE_LOG.md) are logged (SD-025); image capture is pending because browser access could not verify Chrome's URL and stopped.
+- The owner supplied a home anchor and requested the surrounding streets and nearby lake (SD-026). An ignored local Census/OpenStreetMap vicinity reference now contains 366 road ways and 20 water ways, source data/attribution and precision notes. The home point is approximate and water candidates are unnamed; the intended lake is not conclusively identified. Original address/query and map files remain local. The game plan includes a compressed residential/lake area; actual home footage remains pending.
 
 Navigation evidence: **36 unit tests, 21 development browser tests, 5 production browser tests, and 18 photo checks passed** in the full `npm.cmd run check`. Installed Chrome **156.0.8078.48** also completed the real keyboard route and exact pickup/position reload with no page errors. [The navigation receipt](../reports/2026-10-29-third-person-navigation.md) identifies the artifact, checks and remaining limitations. The game workflow includes the new tests; [PR #13 checks](https://github.com/paulmalmquist/space_dragon/pull/13/checks) own its latest hosted result.
+
+Hosted game and foundation jobs **passed on runtime/test commit `3fb24a1`** in [run 40980602065](https://github.com/paulmalmquist/space_dragon/actions/runs/40980602065) and [run 40980595929](https://github.com/paulmalmquist/space_dragon/actions/runs/40980595929). The later neighborhood/reference records change documentation only; they do not implement the broader map.
 
 ## First Contact foundation retained
 
