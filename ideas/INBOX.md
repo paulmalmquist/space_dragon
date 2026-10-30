@@ -143,3 +143,11 @@ Source: owner, Space Dragon chat.
 
 Receipt: **SD-037** · CONFIRMED · Supersedes the translation details from SD-033 and SD-034. [Decision update](../docs/decisions/2026-10-30-translation.md) and [language](../docs/story/LANGUAGE_AND_TRANSLATION.md): everything is in English; the suits, made from the same living material as the Core, are why the family understands everyone, said once at Lantern Rock. The sung language, mistranslations, Glyph Book, dropped words and gift of tongues are retired, and glyph puzzles became plain English letters, numbers and words. SD-035 and SD-036 were skipped because draft PR #13 uses them.
 
+
+### October 30, 2026 — PlayStation controller input
+
+Source: owner's Space Dragon request.
+
+> “Can we get this to work plugging in a PlayStation controller”
+
+Receipt: **SD-038** · CONFIRMED request · Routed to [controller input decision](../docs/decisions/2026-10-30-playstation-controller.md), a standard Gamepad API input adapter, a First Contact camera/story UI integration and simulated controller browser tests. Keyboard remains available. Physical USB/Bluetooth behavior is not yet tested; character movement, combat and dragon flight are later systems.
