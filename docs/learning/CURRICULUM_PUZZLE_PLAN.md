@@ -122,10 +122,14 @@ Learning stops come from the current scripts and treatments, each given both tra
 | The Drift: **Count Them Home** | The convoy grows | Count the ships, then find the numeral | "Four ships, three more join. How many now?" | Find It / How Many |
 | Outfitters' Row: **Pattern Fit** | Tune each suit upgrade | Put the numbered parts in order, 1 to 5 | Read the label word on each part to fit it | Find It / Read It |
 | Departure Halls: **The Big Board** | Find the gate to the Roosts | Find gate **R** (match, then by name) | Read the short destination words: find the gate that says **nest** | Find It / Read It |
-| Rest Garden: **The Home Note** | Sing the answer | Creative, no right answer | Creative, no right answer | — |
+| Rest Garden: **The Heartnote** | Sing the answer | Creative, no right answer | Creative, no right answer | — |
 | Final landing: **lane books** | Every stamp collected | Optional: count your stamps | Optional: read each world's name with the Core's help | — |
 
 Existing challenge contracts (`a1m1_space_blocks_v1`, `a1m2_trail_flags_v1`, `a1m3_power_cells_v1`, `a1m4_produce_sort_v1`, `a2w1_stall_glyphs_v1`, `a2w2_count_hatchlings_v1`, `a2w3_resonator_pattern_v1`) stay as written. The two-track versions would ship as new versions (`_v2`), so old observations keep their meaning.
+
+### How the puzzles reach the kids off Earth
+
+In Acts II and III, most Find It and Read It stops run through the **Glyph Book**, the family's dictionary of Vieran writing ([language and translation](../story/LANGUAGE_AND_TRANSLATION.md)). Each glyph pairs with a letter, numeral or word from the This Week list, and once a child matches it, it's readable everywhere in the game. From Landfall the Core falls silent, so the kids' own matching and reading carry the family through Farport. Spoken help is always available, and help is recorded as assisted.
 
 ## 7. What gets recorded
 

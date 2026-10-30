@@ -8,7 +8,7 @@
 
 | Research recommendation | What this design does with it |
 | --- | --- |
-| A nonviolent climax built on understanding and care | **Adopted.** The Act II climax is rewritten as three phases, *Listen → Shelter → Home Note* ([Act II](ACT_II_ANSWER_THE_CALL.md), Movement 5). |
+| A nonviolent climax built on understanding and care | **Adopted.** The Act II climax is rewritten as three phases, *Listen → Shelter → Heartnote* ([Act II](ACT_II_ANSWER_THE_CALL.md), Movement 5). |
 | Make the "antagonist" someone before the climax, with a name, personality and backstory | **Adopted.** The Hush gets lore and is introduced gradually across Act II (§3). |
 | Music as a mechanic, not only a soundtrack | **Adopted for story mechanics** (restoration and the climax). **On-beat play is optional:** a bonus only, never required (§2.6), because the players are very young and on a keyboard. |
 | Dynamic music to guide emotion | **Adopted:** adaptive music states (§2.4), and character themes that change as the characters do (§2.3). |
@@ -22,13 +22,13 @@
 
 ## 2. The song system
 
-### 2.1 The SOS melody and the home note
+### 2.1 The SOS melody and the Heartnote
 
 - **Seven notes, one for each piece.** Six modules plus the Bridge. This replaces the earlier "five to seven notes."
 - **Every scale note except home.** The melody uses the notes of a major scale *other than the first one*, the tonic. In music, the tonic is the note a tune feels "at home" on. The melody **ends on the seventh note** (the "leading tone"), which in music sounds like it's leaning toward home and can't get there.
-- **Why it's missing (proposed lore):** the senders left the home note out on purpose. An answer has to come from whoever answers.
-- **The payoff:** at the climax of Act III, in Viera's Rest Garden, the family sings the home note and the melody resolves. "We chose to help" becomes something you *hear* ([A3-08](scripts/A3-04_THE_REST_GARDEN.md)).
-- **Placeholder contour, not a composition:** *sol – mi – la – sol – fa – re – ti … (do)*. A composer may rearrange it, as long as it stays hummable by a three-year-old, never uses the home note, and ends unresolved. Test it by whether the kids hum it unprompted.
+- **Why it's missing (proposed lore):** Morrow holds it. The Heartnote is the note every song in the senders' universe comes home to, and he closed his jaws on it ([villain arc](VILLAIN_ARC.md)). Nobody there can sing it, so an answer has to come from whoever answers, from someone with a home of their own.
+- **The payoff:** at the climax of Act III, in Viera's Rest Garden, the family sings the Heartnote and the melody resolves. "We chose to help" becomes something you *hear* ([A3-08](scripts/A3-04_THE_REST_GARDEN.md)).
+- **Placeholder contour, not a composition:** *sol – mi – la – sol – fa – re – ti … (do)*. A composer may rearrange it, as long as it stays hummable by a three-year-old, never uses the Heartnote, and ends unresolved. Test it by whether the kids hum it unprompted.
 - **Optional learning echo:** the seven notes plus home make a full do–re–mi scale. It can appear as an optional music toy in the archive. Not tested and never graded.
 
 ### 2.2 The family's instruments
@@ -51,12 +51,14 @@ Every family member has an instrument **voice**. Every action their suit perform
 
 | Theme | Sound | How it transforms |
 | --- | --- | --- |
-| **Family / home** | Acoustic guitar and piano, warm | Opens the game in the living room. It's the "home recording" at the Act II low point, and after Act II it includes the home note. |
+| **Family / home** | Acoustic guitar and piano, warm | Opens the game in the living room. It's the "home recording" at the Act II low point, and after Act II it includes the Heartnote. |
 | **SOS** | Starts as a broken music box | Grows one instrument per install (§2.5). |
 | **The neighbor** | A comic swamp march: banjo, accordion, washboard, oompah tuba | Louder and sillier with each scheme. **When she hands over the Bridge it slows into a gentle waltz.** In the Act II climax it plays softly alongside the Hush's drone. Her change of heart is told in music. |
+| **Morrow, the Long Note** | The Heartnote itself, bent very slightly flat and held so long it's become a drone under everything. First heard as the hum in the living-room static. | It *is* the Quiet. When he speaks, it shapes into a voice. It breaks at the Heartnote, returns enormous and furious in the Last Hold, and resolves, when he becomes the Lodestar, into one high, pure, sustained tone: the same held note, finally beautiful. It plays softly under every night scene on Viera after that. See the [villain arc](VILLAIN_ARC.md). |
 | **The Hush** | A very low, breathy drone, felt more than heard (optional controller rumble) | Ends as a warm sustained pad under the restored song: the "rest." |
 | **The Caller** | A lone, hoarse whistle singing the SOS | Gains backing instruments as worlds wake. |
-| **The Quiet** | Not music: a muffling filter over everything | Pulls back as color returns. |
+| **The Quiet** | A muffling filter over everything, with Morrow's held note underneath | Pulls back as color returns. |
+| **The family's powers** | Each instrument voice morphs into synth (SD-022) | A new song: sounds the old song never had, which Morrow can't hold. |
 
 ### 2.4 Adaptive music states
 
@@ -72,7 +74,7 @@ Music is built from layers (stems) that fade in and out with **game state**. Thi
 | Quiet zone | A muffling filter, with layers dropping out one by one. **The family's instruments stay clear,** because they carry their own sound. |
 | Restoration | Layers return in sync with the color ripple |
 | Low point | Near silence, then only the home recording playing in the scene, then family instruments rejoin one at a time |
-| Climax | Silence → the Hush heard through its own ears → the neighbor-and-Hush duet → the full SOS → the home note |
+| Climax | Silence → the Hush heard through its own ears → the neighbor-and-Hush duet → the full SOS → the Heartnote |
 
 **Transition rule:** change on musical boundaries with crossfades. **Sudden stingers are reserved** for moments that matter: the crash, the dragon that won't wake, the Listen beat. The research's point is that a sudden shift signals importance, so it shouldn't be spent cheaply.
 
@@ -117,7 +119,7 @@ A player who is hard of hearing, or playing muted, can finish everything. Music,
 
 ### What it is (proposed lore)
 
-The Hush is **the rest in the song**: the living pause between notes, where things catch their breath and hatchlings sleep. For a long time the star-dragons sang without ever stopping. *Why* is OPEN; one option is a celebration that never ended. With no rests left, the Hush was squeezed until it couldn't bear it, and it pulled silence over everything. It was overwhelm, not malice.
+The Hush is **the rest in the song**: the living pause between notes, where things catch their breath and hatchlings sleep. Long ago, when Morrow first held the Heartnote, the Lanemother called the Hush to wrap him in a rest, because a rest is the only thing that can end a held note. The travelers kept it strong by resting in the garden built over him. When they stopped, it thinned, and he woke. Now his note is crushing it, which is why it covers its ears. It never pulled the silence over anything: the Quiet is Morrow's. The Hush is his old jailer and his first victim. See the [villain arc](VILLAIN_ARC.md).
 
 ### Personality
 
@@ -128,7 +130,7 @@ It's shy, gentle and enormous, and a little embarrassed by its size. It collects
 | Where | What the player sees |
 | --- | --- |
 | A2-01 Arrival | Far on the horizon, a huge soft shape drifts away when Luke yells "HELLO?" |
-| A2-02 The Caller | An old bedtime story: *"The Hush keeps the rests."* It goes into the archive and can be replayed. |
+| A2-02 The Caller | The Old Song: the Hush is the rest the Lanemother wrapped around Morrow. It goes into the archive and can be replayed. |
 | Market Moon | The loudest world, so the Hush's trail is strongest here. After the joyful restoration, Lyla's visor shows the Hush flinching far away. Helping has a cost, set up gently. |
 | Hatchery | Hatchlings sleep best where the Hush passed. Maria: *"It was keeping them calm."* |
 | Climbing Spires | Lyla records the Hush's sigh, a sound too low to hear that her visor shows as a slow ripple. |
@@ -146,7 +148,7 @@ Intensity runs from **1 (cozy)** to **5 (peak)**. The rules:
 - Never put two intensity-4 beats back to back without a relief beat between them.
 - Every Act I mission ends at home with a hearth beat (a short, warm scene).
 - Spooky moments are capped at "a bit spooky" and resolved within about a minute.
-- **The most emotional moment (A3-08, the Home Note) is the least demanding to play.**
+- **The most emotional moment (A3-08, the Heartnote) is the least demanding to play.**
 
 ### Act I
 
@@ -173,7 +175,8 @@ Intensity runs from **1 (cozy)** to **5 (peak)**. The rules:
 | The lanes and worlds | Adventure, dogfights | 3–4 | World themes and restoration | Hearth beats: camp aboard the dragon, the hatchlings |
 | The passenger's reunion (Hatchery) | Joy and a little bittersweet; the emotional midpoint | 2 | The creature hums the SOS with the family | — |
 | Forge Ring strike run | Biggest action of the act | 4 | Full fight music | The hangar night |
-| A2-07 The Lane to Viera | Quiet resolve, a cliffhanger | 2 | The Caller's theme with full orchestra, then an unresolved chord | — |
+| A2-05 Morrow's voice at the Spires | A chill | 3 | Everything drops out; the held note shaped into words | Luke's "No thank you" |
+| A2-07 The Temptation | Dread, then a real loss | 4 emotionally, 1 to play | No music at all, only the held note and his voice; then the robot iguana's beep; then solo guitar | The family's choice to go on |
 
 ### Act III
 
@@ -183,14 +186,14 @@ Moved from the Act II beat map on October 30, 2026; scene IDs follow [Act III](A
 | --- | --- | --- | --- | --- |
 | A3-00 to A3-02 The lane, the Waystation, the Drift | Adventure, comedy | 3–4 | The house band, then flight music | The convoy |
 | A3-03 Battle of the Mooring Ring | Biggest action yet | 4 | Full fight music | Landfall |
-| A3-04 Landfall, the low point | Lonely and tired: **sad, not scary** | 2 | Near silence, then the home recording | Walking forward together |
-| A3-05 Farport on foot | Wonder, warming up | 2–3 | Instruments rejoin as districts wake | — |
-| A3-06 Listen | Surprise, understanding | 3 | Noise heard through the Hush's ears, then silence, then the duet | — |
+| A3-04 Landfall, the low point | Lonely and tired: **sad, not scary**. A chill when Morrow calls the dragon *brother*. | 2–3 | Near silence, his voice, then the home recording | Walking forward together |
+| A3-05 Farport on foot | Wonder, warming up; tension in the Departure Halls | 2–3 | Instruments rejoin as districts wake; the held note swells when his gaze passes | — |
+| A3-06 Listen | Awe, then understanding | 3–4 | His note at full weight through the Hush's ears, then Lyla's celesta alone, then the neighbor's waltz | The neighbor's turn |
 | A3-07 Shelter | Protective action | 4 | Building | — |
-| A3-08 The Home Note | Catharsis | 5 emotionally, 1 to play | The full SOS, then the home note | Your Own Note |
+| A3-08 The Heartnote | Catharsis | 5 emotionally, 1 to play | The full SOS, then the Heartnote, then a rest, then every world's part. Then real silence as Morrow opens his eyes. | Your Own Note |
 | A3-09 Your Own Note | Joy, wonder | 2–3 | Each instrument blooms, then Five Powers resolves | — |
-| A3-10 The Great Launch | Joyful battle | 4 | The full song with rests, every world's theme | The re-tune |
-| A3-11 Formation home and the final landing | Joy, then home and warmth | 3 → 1 | The full song with rests, then the family theme with the home note | — |
+| A3-10 The Last Hold | Epic battle, then grief and grace | 5 | The completed answer and the family's synth voices against his note; then only the Old Song; then his note resolving into the Lodestar's tone | Formation home |
+| A3-11 Formation home and the final landing | Joy, then home and warmth | 3 → 1 | The full song with rests, then the family theme with the Heartnote | — |
 
 ---
 
@@ -240,7 +243,7 @@ The sortie types vary the same way: dogfight, intercept, escort, strike run, rin
 - **Perspective-taking:** will the *Listen* beat land with a three- or five-year-old? Prototype just that moment, in sound only, and watch them.
 - **Repetition** in preschool media specifically, plus children seeing themselves as characters and learning by teaching. These were in the original brief and the research didn't cover them.
 - **Decisions for you:**
-  - Adopt the seven-note melody and the missing home note.
+  - Adopt the seven-note melody and the missing Heartnote.
   - Adopt the Hush as "the rest."
   - Approve the neighbor's musical arc.
   - Keep the three-phase climax, or pick one of the research's single variants instead.

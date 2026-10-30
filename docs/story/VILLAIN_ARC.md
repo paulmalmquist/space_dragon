@@ -1,15 +1,15 @@
 # The Villain — Morrow, the Long Note
 
 **Date:** October 30, 2026  
-**Status:** PROPOSED treatment for owner review. CONFIRMED owner direction ([decision](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md)): the story has a villain, the villain is the reason for the SOS, and the arc is told at a mythic, "not kiddy" scale. Who the villain is, everything below, and every name are proposals.  
+**Status:** CONFIRMED owner direction ([decision](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md)): the story has a villain who is the reason for the SOS, told at a mythic, "not kiddy" scale, and that villain is **Morrow**, with the arc below (owner: *"Yes I like it"*, October 30). Dialogue, mechanics, look and names other than Morrow's stay PROPOSED.  
 **Source:** owner, Space Dragon chat, October 30, 2026: *"We need a villain arc, the reason for the SOS. Not kiddy please, this can be biblical or DC studios level"*  
-**If accepted:** the integration list is in §10. No act treatment or script has been rewritten yet.
+**Integrated:** October 30, 2026, into the act treatments and scripts listed in §10. The "home note" is now called **the Heartnote**, at the owner's request.
 
 > He was the first of them, and the brightest, and he was chosen. That was the beginning of the trouble.
 
 ## 1. The pitch
 
-Morrow is the Lanemother's firstborn: the eldest star-dragon, the brightest voice in the universe, chosen at the dawn of the song to carry its **home note** so travelers could always find their way back. Every Vieran steered by him. Then they kept leaving — farther, faster, for longer — and he could not bear it. So he closed his jaws on the home note and **held** it, and the whole universe stopped where it stood: every traveler, every dragon, every song, held mid-step and mid-goodbye inside one endless note.
+Morrow is the Lanemother's firstborn: the eldest star-dragon, the brightest voice in the universe, chosen at the dawn of the song to carry its **Heartnote** so travelers could always find their way back. Every Vieran steered by him. Then they kept leaving — farther, faster, for longer — and he could not bear it. So he closed his jaws on the Heartnote and **held** it, and the whole universe stopped where it stood: every traveler, every dragon, every song, held mid-step and mid-goodbye inside one endless note.
 
 That held note is the Quiet. He is the reason for the SOS.
 
@@ -26,7 +26,7 @@ Morrow is the other half of that line. **He was chosen.** He was named and given
 | Chosen? | Yes, from birth | No. In range. |
 | What love does | Holds on so nothing can leave | Lets go, and trusts it to come back |
 | Home is | A place nobody is allowed to leave | A place you come back to |
-| The home note | Held forever | Sung, then followed by a rest |
+| The Heartnote | Held forever | Sung, then followed by a rest |
 | The dragon | The first dragon to carry five travelers | A dragon built in that dragon's image, carrying five travelers |
 
 The last row is the twist: **the family's dragon is built in Morrow's likeness.** The pre-existing design in Act I canon is him, as he was before he fell, carrying the first five travelers. The shipwrights built it so the universe would still have a dragon that remembered who he used to be.
@@ -37,18 +37,18 @@ The last row is the twist: **the family's dragon is built in Morrow's likeness.*
 | --- | --- |
 | **Name** | **Morrow.** The Lanemother named him for tomorrow, because he hatched in the first morning of the world. He became the one who would not let tomorrow come. |
 | **What Vierans call him** | **The Long Note.** Nobody says his name. |
-| **What he was** | The eldest star-dragon and keeper of the home note. The first dragon to carry travelers: five of them, on the first voyage. Every traveler steered by his light. |
+| **What he was** | The eldest star-dragon and keeper of the Heartnote. The first dragon to carry travelers: five of them, on the first voyage. Every traveler steered by his light. |
 | **What he became** | The holder of a single note that has stopped the universe. |
-| **Look** | The largest creature in the game. Once white-gold like sunrise; now tarnished gold, cracked with black where light can no longer move. Wings that eclipse a sun when they open. In his throat the stolen home note burns like a trapped star, the one light he can never put down. |
+| **Look** | The largest creature in the game. Once white-gold like sunrise; now tarnished gold, cracked with black where light can no longer move. Wings that eclipse a sun when they open. In his throat the stolen Heartnote burns like a trapped star, the one light he can never put down. |
 | **Presence** | Utterly still. His eyes stay closed for almost the whole game, because he is holding. When he moves for the first time, in the finale, it should feel like a mountain standing up. |
 | **Voice** | Warm, slow, beautiful and close. He never shouts until the very end. He is always reasonable and always kind, which is the frightening part. |
-| **Music** | The home note itself, bent very slightly flat and held so long it has become a drone under everything. It's in the static in the living room in Act I. It's what the Quiet *is*. |
+| **Music** | The Heartnote itself, bent very slightly flat and held so long it has become a drone under everything. It's in the static in the living room in Act I. It's what the Quiet *is*. |
 
 ### What he wants, and why
 
 - **The wound:** everything he loved left him. The travelers he carried left, the siblings who sang new lanes left, and one day, he knew, his own mother would grow old and go still.
 - **The sin:** he decided that being chosen made the song his. *"I was the first. I carried them first. I carried them farthest. They should not leave me."*
-- **The act:** a held note never ends, never resolves and never leaves. He held the home note, and the song stopped.
+- **The act:** a held note never ends, never resolves and never leaves. He held the Heartnote, and the song stopped.
 - **What he tells himself:** that he is saving them. In his song nothing ends, nobody grows old, and nobody ever says goodbye.
 
 ### Lines that define him
@@ -71,19 +71,19 @@ The myth as the Caller tells it at Lantern Rock (A2-02), replacing the bedtime s
 >
 > In the first morning of the world she laid an egg, and from it came her firstborn, bright as that morning. She named him Morrow, because he was tomorrow.
 >
-> To Morrow she gave the home note, the note every song comes back to. "Carry it," she said. "Wherever they wander, sing it, so they will always know the way back."
+> To Morrow she gave the Heartnote, the note every song comes back to. "Carry it," she said. "Wherever they wander, sing it, so they will always know the way back."
 >
 > And Morrow carried the first travelers, five of them on his back, to the first star and home again. They steered by his light, and they loved him.
 >
 > And the Lanemother laid more eggs, and more dragons sang more roads, and the travelers went farther, and farther, and came home less, and less.
 >
-> And Morrow sat on Viera with the home note and watched them go.
+> And Morrow sat on Viera with the Heartnote and watched them go.
 >
 > And he said in his heart: I was the first. I was chosen. They should not leave me.
 >
 > And he said in his heart: every song ends. Every egg hatches and flies away. Even my mother will be still one day. I will not let it end.
 >
-> So he closed his jaws on the home note, and he held it, and he did not let it go.
+> So he closed his jaws on the Heartnote, and he held it, and he did not let it go.
 >
 > And everything that sang the song stopped where it stood — mid-step, mid-word, mid-goodbye — held in his one long note. And in a single night, a third of the roads went dark.
 >
@@ -109,9 +109,9 @@ The myth as the Caller tells it at Lantern Rock (A2-02), replacing the bedtime s
 
 | Open question | Answer |
 | --- | --- |
-| **Why the SOS?** | Morrow woke and took the home note again. This time nobody was resting, and nobody was ready. |
-| **Why send it outside the universe?** | Everything in this universe shares the Great Song's home note, and he holds it, so he can hold everything that sings it. Only someone whose home note lives somewhere else can move inside his note. The family's home is Earth. |
-| **Why does the SOS never reach its home note?** | Because he has it. Nobody in this universe can sing it. The answer has to come from someone with a home of their own. This replaces "the senders left it out on purpose." |
+| **Why the SOS?** | Morrow woke and took the Heartnote again. This time nobody was resting, and nobody was ready. |
+| **Why send it outside the universe?** | Everything in this universe shares the Great Song's Heartnote, and he holds it, so he can hold everything that sings it. Only someone whose Heartnote lives somewhere else can move inside his note. The family's home is Earth. |
+| **Why does the SOS never reach its Heartnote?** | Because he has it. Nobody in this universe can sing it. The answer has to come from someone with a home of their own. This replaces "the senders left it out on purpose." |
 | **What is the Quiet?** | Not silence: one note held so long and so loud it swallows every other sound, the way you stop hearing a hum. Everything in it is **held**, not asleep: frozen mid-moment and unharmed. When released it resumes mid-sentence, as the scripts already show. |
 | **What is the Hush?** | The Lanemother's rest, the silence that once bound him. When the travelers stopped resting, it thinned, the seal cracked, and he woke. Now his note is crushing it, which is why it covers its ears. It was never a villain: it's his old jailer and his first victim. |
 | **Why the Rest Garden?** | It was built over his binding, and resting there kept the seal strong. "The travelers forgot to rest" stays true: it's how he got out, not why he exists. |
@@ -138,13 +138,13 @@ He escalates from a sound, to a story, to a voice, to a presence, to the final b
 | **A2-04** Hatchery | The eggs went cold because their keepers are held, but the eggs themselves aren't: what hasn't begun yet isn't in his song. MARIA: *"He can't hold what hasn't happened yet."* | His limit, revealed |
 | **A2-05** Spires | He speaks for the first time, through the resonators, to Luke at the top. MORROW: *"Little climber. Why go so high? Come down. Stay."* LUKE: *"No thank you. I'm not done."* | A voice |
 | **A2-06** Forge Ring | Lyla finds the oldest blueprint: their dragon, five seats, and his name. The Sweeper's rewritten rule: "Bring everyone home." | The mirror |
-| **A2-07** The Lane to Viera | **The Temptation.** He comes down the newly lit lane as light and voice. The family refuses. The neighbor accepts, and takes the Bridge with her. | His first victory: the way home is gone |
+| **A2-07** The Temptation | **The Temptation.** He comes down the newly lit lane as light and voice. The family refuses. The neighbor accepts, and takes the Bridge with her. | His first victory: the way home is gone |
 | **A3-00 → A3-03** The road | His gold bands lash along the lanes. The Mooring Ring turns out to be his collection: every ship in the universe, brought home and held. | Pressure everywhere |
 | **A3-04** Landfall | The family's dragon, built in his image, hears him: *"Brother. Come home."* It falls still. | Personal |
 | **A3-05** Farport | A whole city frozen mid-goodbye, because he couldn't bear goodbyes. His gaze sweeps the Departure Halls. | His world, seen whole |
-| **A3-06 → A3-08** The Rest Garden | He lies coiled over the broken seal, holding his own mother still, with the Hush crushed beneath him and the neighbor in a lawn chair at his side. Listen, Shelter, Home Note. His note breaks, and he opens his eyes. | Defeated in song, not yet ended |
+| **A3-06 → A3-08** The Rest Garden | He lies coiled over the broken seal, holding his own mother still, with the Hush crushed beneath him and the neighbor in a lawn chair at his side. Listen, Shelter, Heartnote. His note breaks, and he opens his eyes. | Defeated in song, not yet ended |
 | **A3-10** The Great Launch | Every traveler on Viera wakes and leaves at once, the thing he feared most. He rises. The final battle. | The last hold |
-| **A3-10 → A3-11** The Lodestar | He lets go of the home note, but not of himself, and becomes a fixed star. | His ending |
+| **A3-10 → A3-11** The Lodestar | He lets go of the Heartnote, but not of himself, and becomes a fixed star. | His ending |
 
 ## 7. Key scenes
 
@@ -230,7 +230,7 @@ During Shelter, Morrow throws shards of his note at the Hush, and the family she
 
 > NEIGHBOR: "I believe this is yours." *(beat)* "This still doesn't mean I approve of the dragon."
 
-Then the Home Note. The family sings Earth's home note, a note he doesn't own, and after it, a rest. The Hush rises into the rest. **A held note can't survive a rest.** His note breaks, the universe resumes mid-sentence, and the Lanemother wakes.
+Then the Heartnote. The family sings Earth's Heartnote, a note he doesn't own, and after it, a rest. The Hush rises into the rest. **A held note can't survive a rest.** His note breaks, the universe resumes mid-sentence, and the Lanemother wakes.
 
 Morrow opens his eyes.
 
@@ -244,7 +244,7 @@ Every traveler on Viera wakes and does what Vierans do: they go. The sky fills w
 
 **Phase 1 — The sky.** He hurls gold Holds across the sky, catching ships mid-launch. The family's dragon, newly woken with Lane Wings, leads the four star-dragons, the hatchlings, the re-tuned Sweeper and every traveler ship. Song-breath breaks each Hold, and every ship freed is one more that gets to leave.
 
-**Phase 2 — His back.** The dragon lands on him, and on foot, with their new powers, the family climbs toward his throat, where the stolen home note burns. Paul's Anchor holds a wing still. Luke's Lane Weaver rails them across a gap. Luna's Splashdown surfs them up his spine. Maria's Sanctuary shelters them from his gaze. Lyla's Echo copies whichever power the moment needs.
+**Phase 2 — His back.** The dragon lands on him, and on foot, with their new powers, the family climbs toward his throat, where the stolen Heartnote burns. Paul's Anchor holds a wing still. Luke's Lane Weaver rails them across a gap. Luna's Splashdown surfs them up his spine. Maria's Sanctuary shelters them from his gaze. Lyla's Echo copies whichever power the moment needs.
 
 **Phase 3 — The choice.** At his throat, nobody strikes. Lyla plays the Old Song from her archive. Then Luke steps forward.
 
@@ -264,7 +264,7 @@ The Lanemother rises beside them, enormous and awake, and says his name for the 
 >
 > LANEMOTHER: "I know. Let go."
 
-He opens his jaws. The home note flies free, up and out into every lane at once, and the Great Song **resolves** across the whole universe.
+He opens his jaws. The Heartnote flies free, up and out into every lane at once, and the Great Song **resolves** across the whole universe.
 
 But he has held for so long that he can no longer move. His scales stiffen into light. Slowly he rises off Viera into the sky and becomes a single star that never moves.
 
@@ -303,14 +303,14 @@ What stays, because the players are three and five:
 
 Adults will read Morrow as possessive love, grief and the fear of children growing up. Kids will read him as a sad, enormous dragon who didn't want anyone to leave, and who learned too late that coming home is different from never going.
 
-## 10. What changes if this is accepted
+## 10. Where he now lives in the story
 
-Nothing below has been rewritten yet; this is the integration list.
+Integrated October 30, 2026, after the owner's approval.
 
 | Document | Change |
 | --- | --- |
 | [Act I](ACT_I_BUILD_THE_DRAGON.md) and its scripts | A1-00: the held note under the static. A1-08: the golden eye and the Caller's cut-off warning, before the decision. The fading star is him closing the opening. Proposed answer to why the equipment scattered. |
-| [Act I refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) §3.1 | The SOS lacks its home note because he holds it, not by design. |
+| [Act I refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) §3.1 | The SOS lacks its Heartnote because he holds it, not by design. |
 | [Act II](ACT_II_ANSWER_THE_CALL.md) and [A2-00](scripts/A2-00_THE_CROSSING.md) | The Old Song replaces the bedtime story. The Quiet is his note. |
 | [A2-03](scripts/A2-03_WAKING_THE_WORLDS.md) | Gold rings on each dragon; Maria's Hatchery line; his voice at the Spires; his name on the blueprint; the Sweeper's rewritten rule. **A2-07 becomes the Temptation** and the neighbor's fall. |
 | [Act III](ACT_III_THE_ROAD_TO_VIERA.md) and [A3-04](scripts/A3-04_THE_REST_GARDEN.md) | He replaces "the travelers forgot to rest" as the cause. The Garden scene adds him, the held Lanemother and the neighbor's turn. |
@@ -338,10 +338,8 @@ The owner's character document, summarized on draft PR #15 in `docs/story/RECENT
 
 ## 13. Open decisions
 
-- Accept Morrow as the villain, or redirect.
-- His name, and what Vierans call him.
-- The neighbor's betrayal at the Forge, or the Caller taken instead.
-- The Lodestar ending (he lets go and becomes a star) or the darker one (he's consumed).
-- The family's dragon as his likeness.
+Settled by the owner's approval of this treatment on October 30: Morrow is the villain; the neighbor takes his offer at the Forge and turns back in the Garden; he ends as the Lodestar; the family's dragon is his likeness. Still open:
+
+- What Vierans call him ("the Long Note" is a placeholder).
 - Rook as his herald.
-- When to integrate (§10).
+- His final look, voice and leitmotif.

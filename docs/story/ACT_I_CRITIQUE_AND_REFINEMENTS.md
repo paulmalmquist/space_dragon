@@ -54,15 +54,16 @@ Act I in four movements, with the existing scene IDs placed in them:
 
 The damaged transmission's clearest part is a **short melody**, seven notes (one per recovered piece, as detailed in [music, empathy and pacing](MUSIC_EMPATHY_AND_PACING.md)), that loops and breaks off. Each module that comes home restores one more note, plus a fragment of image and voice. Kids too young to follow dialogue can still *hear* the story progress, and humming it becomes a family in-joke.
 
-- The melody is an **unfinished musical phrase**. It ends on a note that sounds like a question. This sets up Act II, where the family supplies the answering note (see the [Act II proposal](ACT_II_ANSWER_THE_CALL.md)).
+- The melody is an **unfinished musical phrase**. It ends on a note that sounds like a question. Its missing last note is the **Heartnote**, the note every song comes home to, and it's missing because Morrow holds it ([villain arc](VILLAIN_ARC.md)). The family supplies their own at the climax of Act III.
 - Lyla's archive shows the notes as colored *and shaped* tiles (never color alone). An optional, assisted activity lets a child put recovered fragments in order. This is pattern and sequence practice, and it is never required for progress. If skipped, it is auto-arranged.
-- The recurring **symbol** from the opening is a simple, traceable shape (open design). It is the icon on the town map, the mark on every pod and the dragon's chest emblem. It also gives kids an easy find-the-shape task in every mission.
+- The recurring **symbol** from the opening is a simple, traceable shape (open design). It is the icon on the town map, the mark on every pod and the dragon's chest emblem. It also gives kids an easy find-the-shape task in every mission. Proposed meaning: it's the Vieran glyph for the Heartnote, a small circle with a line curving back into it ([language and translation](LANGUAGE_AND_TRANSLATION.md)).
 
 ### 3.2 The Core learns to talk
 
 The Core arrives damaged and can't speak our language. At first it communicates with chimes, light and gestures, like a pet. As modules return and Lyla's archive grows, it picks up words **from the family**. It starts by repeating the kids' names and simple words, and by the finale it speaks in short sentences.
 
 - This gives the act a companion with a visible arc, and it explains why the Core can't simply tell them everything at the start.
+- It also sets up the whole translation system: the English the kids teach the Core is what lets it interpret Vieran for them later ([language and translation](LANGUAGE_AND_TRANSLATION.md)).
 - **Learning tie-in (optional):** a child can "teach" the Core a letter, a word or a shape. Kids often engage more when they are the teacher. Per the [learning rules](../learning/LEARNING_RULES.md), this is supported and assisted, and it is never a gate. Teaching the Core counts as practice, not as mastery.
 - The Core's final name stays OPEN. One option is to let the family name it in-game once it can speak, with a default if they skip. That would be a stored setting, not canon.
 
@@ -117,7 +118,7 @@ The suits, the Core, the modules and the dragon are made from one **living mater
 
 ### 3.5 The fading star (story-only urgency)
 
-When the Navigation module comes home, the planning station shows a **new point of light** in the night sky. Only Lyla's visor and the Core can see it. This is the opening to the other universe. Between missions it dims slightly, and the Core chirps worriedly at it.
+When the Navigation module comes home, the planning station shows a **new point of light** in the night sky. Only Lyla's visor and the Core can see it. This is the opening to the other universe. Between missions it dims slightly, and the Core chirps worriedly at it. It's dimming because it's the last gap in Morrow's note, and he is filling it ([villain arc](VILLAIN_ARC.md)).
 
 - It gives the act a gentle reason to keep going.
 - **There is never a gameplay timer.** The star cannot close during Act I, however long the player takes. It's mood, not a fail state.

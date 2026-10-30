@@ -118,3 +118,12 @@ Source: owner, Space Dragon chat.
 
 Receipt: **SD-031** · CONFIRMED direction (a villain exists, causes the SOS, mythic tone); identity and lore PROPOSED · [Decision](../docs/decisions/2026-10-30-villain-is-the-reason-for-the-sos.md) and [villain treatment](../docs/story/VILLAIN_ARC.md): Morrow, the Lanemother's firstborn, holds the home note and has stopped the universe. Next: owner review, then integrate the beats listed in the treatment's §10 into the acts and scripts.
 
+### October 30, 2026 — Morrow approved, rename the home note, translation
+
+Source: owner, Space Dragon chat, in reply to the villain treatment.
+
+> “Yes I like it. “Home note” should be called something else.
+> We need: a way to translate language”
+
+Receipt: **SD-032** · CONFIRMED Morrow and his arc as presented; "home note" retired, replacement **the Heartnote** PROPOSED · [Decision update](../docs/decisions/2026-10-30-villain-is-the-reason-for-the-sos.md); Morrow integrated across the acts and scripts. **SD-033** · CONFIRMED need; design PROPOSED · [Translation decision](../docs/decisions/2026-10-30-translation.md) and [language and translation](../docs/story/LANGUAGE_AND_TRANSLATION.md). Next: owner reaction to the Heartnote name and the translation design.
+

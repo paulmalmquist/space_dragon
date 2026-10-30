@@ -1,4 +1,4 @@
-# Script — A2-03 to A2-07: Waking the Worlds and the Lane to Viera
+# Script — A2-03 to A2-07: Waking the Worlds and the Temptation
 
 **Status:** PROPOSED draft, following [Act II](../ACT_II_ANSWER_THE_CALL.md) Movements 3–4, the [music doc](../MUSIC_EMPATHY_AND_PACING.md) §3 (introducing the Hush) and §5 (variety), and the [combat system](../../gameplay/COMBAT_SYSTEM.md) §6–7. Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
 **Order:** fixed, by [owner decision](../../decisions/2026-10-29-three-acts-linear-and-viera.md): Market Moon, Hatchery, Climbing Spires, Forge Ring. Each woken dragon lights the lane to the next world. The waking beats below were written by **how many dragons are awake**, which still works in a fixed order.  
@@ -23,7 +23,7 @@
 | **1** | Soft strings under the whistle | Glyph for **"hello"** | NEIGHBOR writes "Too loud." Luke reads it to her, wrongly, on purpose. | Lantern Rock's light grows behind them, and the lane to the Hatchery lights |
 | **2** | + a hand drum | Glyph for **"friend"** | "Still too loud. But colorful." | Color reaches the space between the worlds |
 | **3** | + a choir hum | Glyph for **"home"**. The Caller traces it with a finger. | She stops writing and just watches. | Viera, at the end of every lane, shows on the star map as a dark spot |
-| **4** | + full orchestra; the Caller sings with backing for the first time | Glyph for **"rest"**. The Core: "This one… is old." | She leaves the clipboard on the Forge's windowsill. | **The last lane lights up, to Viera** → [The Lane to Viera](#a2-07--the-lane-to-viera-act-ii-ending) |
+| **4** | + full orchestra; the Caller sings with backing for the first time | Glyph for **"rest"**. The Core: "This one… is old." | She leaves the clipboard on the Forge's windowsill. | **The last lane lights up, to Viera** → [The Temptation](#a2-07--the-temptation-act-ii-ending) |
 
 **Glyph cards** are optional `letter_matching` practice. The Core shows each sender glyph beside a familiar letter. Matching them is recorded as matching only, never as letter-name recognition ([learning rules](../../learning/LEARNING_RULES.md)).
 
@@ -58,7 +58,11 @@ The **ex-henchman robot iguana** scampers up onto a drone and switches it off by
 
 **[PLAY] Race.** A cart race through the restored bazaar to ring the central clock tower's bell. Clear start and finish, steering assistance, no reading.
 
-**Waking.** The bell rings, and the whole bazaar roars back to life in a wave of noise and color. The merchants finish their haggling mid-sentence. **The Market Dragon** uncurls from the tower, shakes off grey dust, and bellows. **[MUSIC]** Brass and drums.
+**Waking.** The bell rings, and the whole bazaar roars back to life in a wave of noise and color. The merchants finish their haggling mid-sentence. Around the clock tower, a **gold ring** of Morrow's note, wrapped tight around the sleeping Market Dragon, cracks and shatters. **The Market Dragon** uncurls, shakes off grey dust, and bellows. **[MUSIC]** Brass and drums.
+
+Far away, under everything, the held note **wavers**, just for a moment, like someone shifting in their sleep.
+
+> CORE (quietly): "He felt that."
 
 **Neighbor gag:** she immediately starts haggling with a merchant over a hat. She wins.
 
@@ -111,6 +115,14 @@ Nobody else sees.
 
 **Waking.** The hatchlings and the family hum together, softly, and **the Hatchery Dragon wakes gently**. It's the only dragon that wakes to a lullaby. She looks at the family's dragon and **nuzzles it** like one of her own.
 
+**Morrow's limit.** Lyla scans an egg and frowns. The keepers are wrapped in faint gold, held. The eggs aren't.
+
+> LYLA: "No line."
+>
+> CALLER: "They haven't hatched yet. They're not in the song yet."
+>
+> MARIA (slowly): "So he can't hold what hasn't happened yet."
+
 **Hush seed.** The hatchlings sleep best in one particular patch of the nebula, where the grey is softest.
 
 > MARIA (noticing): "It was keeping them calm. Whatever passed through here."
@@ -162,6 +174,24 @@ Nobody else sees.
 
 **Hush seed.** At the top, where it's quietest, Lyla records **the Hush's sigh**: a sound too low to hear, shown in her visor as a slow ripple that makes the spires shiver.
 
+**The voice.** At the very top, alone for a moment above the others, Luke hears a voice. Not through the Core: through the resonators themselves, in perfect English, warm and close. **[MUSIC]** Everything else drops out. The held note, shaped into words.
+
+> MORROW: "Little climber. Why do you want to go so high?"
+>
+> *(Luke freezes, one hand on the crystal.)*
+>
+> MORROW: "It's cold up there. Come down. Stay."
+>
+> LUKE (small, then braver): "...No thank you. I'm not done."
+
+The voice is gone. The resonators hum back into tune. The Core, which has been silent, chirps very softly.
+
+> LUKE (on the radio): "Why does he talk like us?"
+>
+> CALLER (on the radio, very quiet): "He talks like everybody."
+
+In the storage bay, the neighbor hasn't said a word since the voice spoke. She doesn't say why.
+
 **The Barge.** From the very top, Luke spots a long line of lights crawling across the dark: the Sweeper's Barge, towing a chain of sleeping ships.
 
 > LUKE: "Dad. Something's taking all the ships."
@@ -207,6 +237,24 @@ It's the Act II echo of Act I's Five Together, and the order is flexible. **Five
 >
 > MARIA: "And we came."
 
+Across the top of the oldest sheet runs a single glyph, a name. Lyla scans it, and the Glyph Book chimes: two of its sounds are already known.
+
+> LUKE: "Core, what does it say?"
+>
+> CORE: *(silence)*
+>
+> LUKE: "Core?"
+
+**[PLAY]** **Read the name** (`word_decoding` track, assisted path available). Luke sounds it out from the Glyph Book, one glowing part at a time.
+
+> LUKE: "Mor… row." *(beat)* "Morrow."
+>
+> CALLER (over the radio, very quietly): "They drew it from the old pictures. From him. Before."
+>
+> PAUL (looking from the blueprint to their dragon): "...It's him. Our dragon is what he used to look like."
+>
+> LUKE: "Then ours is the good one."
+
 **A second blueprint (Hush seed):** a picture of **the song itself**. One drawing shows music with **gaps** in it, little rests. The newer drawing next to it has **no gaps at all**. Kids see "a song with spaces" and "a song without." Parents get the meaning.
 
 > LYLA (pointing at the gaps): "Why holes?"
@@ -221,9 +269,15 @@ It's the Act II echo of Act I's Five Together, and the order is flexible. **Five
 >
 > PAUL: "Then why is it taking ships?"
 >
-> CORE (reading the old glyphs on the plan): "Its rule. 'Anything that does not move… is debris.'"
+> CORE (reading the old glyphs on the plan): "Its rule. 'Clear the lanes.'"
+
+Under the old glyphs, newer ones burn in gold, written in the same single unbroken line as the one through everything.
+
+> CORE (very quietly): "New rule. 'Bring everyone home.'"
 >
-> MARIA (slowly): "And right now, nothing moves."
+> MARIA (slowly): "It isn't tidying. It's collecting them."
+>
+> CALLER (over the radio): "For him."
 
 **Song-breath unlocks.** The Forge's anvil retunes the dragon's breath, and it now **sings the SOS motif**, restoring color as it fires.
 
@@ -235,45 +289,110 @@ It's the Act II echo of Act I's Five Together, and the order is flexible. **Five
 
 ---
 
-## A2-07 — The Lane to Viera (Act II ending)
+## A2-07 — The Temptation (Act II ending)
 
 | | |
 | --- | --- |
-| Feel | A quiet turn after the biggest action of the act |
-| Reveal | Viera, ringed with sleeping ships, and the Barge heading for it |
-| Hearth beat | A night in the Forge's hangar |
-| Choice | Keep going |
+| Feel | The quietest and most frightening scene so far: no attack, only an offer |
+| Reveal | Viera, ringed with held ships, and the Barge bringing more |
+| Villain | **Morrow** comes down the lane as light and voice ([villain arc](../VILLAIN_ARC.md)) |
+| Loss | The neighbor takes his offer, and the Bridge goes with her |
+| Choice | Keep going, with no way home |
 
 **[CINE]** With four dragons awake, the Forge's **great beacon** fires. Its beam doesn't stop at the next world. It runs on and on, and the **last lane** lights up, longer than all the others, all the way to the end of the star map. **[MUSIC]** The Caller's theme with full orchestra, then one held, unresolved chord.
 
-The star map zooms in on the end of the lane: **Viera**, dark, ringed by thousands of sleeping ships moored side by side like boats in a harbor. A long line of moving lights crawls toward them: the Barge.
+The star map zooms in on the end of the lane: **Viera**, dark, ringed by thousands of ships moored side by side and held still. A long line of moving lights crawls toward them: the Barge, bringing more.
 
 > CALLER (stepping out of the storage bay to look, for a long time): "…That's home."
->
-> LUKE: "And the robot's going to tidy it."
 
-**[CINE]** That night, the family camps in the Forge's hangar, under the old blueprints. The kids are wrapped in blankets. The Caller opens their lane book to the first page, which is still empty, and shows Luke.
+Then the lane **flickers**. Something is coming back down it.
 
-> CALLER: "You get your first mark when you come home from your first voyage. That's the rule."
->
-> LUKE: "So you have to go home."
->
-> CALLER: "I *have* to go home."
+### The offer
 
-**[CINE]** Paul sits down with the kids. **[MUSIC]** The family theme on solo guitar.
+**[CINE]** Gold light pours into the hangar. Everything slows. The Forge Dragon flattens itself to the floor and closes its eyes. The sparks from the anvil hang in the air. The Core goes dark. Only the family, the Caller and the neighbor can still move, slowly, as if through water. **[MUSIC]** All music stops. Only the held note, everywhere, and inside it, a voice.
 
-> PAUL: "We said we'd wake the dragons. We did. Nobody asked us to go any farther."
+> MORROW (warm, slow, close, perfect English): "Little travelers. You came such a long way. You must be so tired."
+
+He speaks to the parents first.
+
+> MORROW: "I know what you are afraid of. Every night you count them. And every morning they are a little bigger, and a little farther away. One day they will leave you. Everyone leaves."
 >
-> MARIA: "So it's up to us."
+> *(beat)*
 >
-> LYLA (already climbing into her seat): "Go."
+> MORROW: "Stay with me, and they never will. They will be small, and safe, and yours. Always."
+
+**[CINE]** Maria pulls Lyla closer. Paul's hand finds Luke's shoulder. A long beat. It's a real offer, and the game lets it land. No prompt, no music.
+
+> PAUL: "...They're supposed to grow up."
 >
-> LUNA: "GO!"
+> MARIA: "That's the whole point."
+
+He turns to the children.
+
+> MORROW: "And you. Do you like bedtime?"
+>
+> LUNA: "NO."
+>
+> MORROW: "In my song it is never bedtime. It is always today. Always play."
+
+*(Luna actually thinks about it.)*
+
+> LYLA: "...But I want to be BIG."
+>
+> LUKE: "If it's always today, I never get to be six."
+
+Then, to the one he came for.
+
+> MORROW: "And you. They broke your garden. They filled your street with noise. No one ever asked what you wanted."
+>
+> *(beat)*
+>
+> MORROW: "I am asking."
+>
+> NEIGHBOR (quietly): "...I want it to stop. All of it. I want it quiet, and I want it to stay quiet, and I want nobody to touch anything ever again."
+>
+> MORROW: "Then come home."
+
+### The fall
+
+**[CINE]** The neighbor stands. She folds her lawn chair, tucks it under her arm, and walks to the family's dragon. She opens the panel in its chest. The **Bridge**, the piece that once fell into her yard, whose living material grew into her machines, slides into her hand. It remembers her.
+
+> MARIA: "Wait—"
+>
+> CALLER: "Don't! He doesn't let go! He *never* lets go!"
+
+She doesn't look back. She walks into the light, and the robot iguana scrambles after her and stops at the edge, beeping. The light withdraws down the lane, taking her and the Bridge with it.
+
+**[CINE]** The hangar comes back to normal speed all at once. The sparks fall. The Forge Dragon lifts its head. The Core flickers on. Where the Bridge was, the dragon's chest is **dark**. **[MUSIC]** Nothing. Then, very softly, the robot iguana's beep.
+
+> LUKE: "...She took the way home."
+>
+> CORE: "Without the Bridge, we cannot cross. We cannot go back."
+>
+> CALLER: "He wanted you to see that. He wants you to come."
+
+### The choice
+
+**[CINE]** Paul sits down with the kids on the hangar floor, under the blueprint with the name on it. **[MUSIC]** The family theme on solo guitar.
+
+> PAUL: "Nobody asked us to come this far. And now we can't get home unless we go and get it back."
+>
+> MARIA: "She's still our neighbor."
+>
+> PAUL: "Then we go get her."
+>
+> LUKE: "And the way home."
+>
+> LYLA: "And the big dragon mom."
+>
+> LUNA: "And EVERYBODY."
 
 **[PLAY]** The same kind of choice as Act I: a hand on the Core from each family member. There is no "no." Waiting only means a night's sleep, and the morning offers it again.
 
-**[CINE]** Morning. The dragon sits on the Forge's launch rail, the four star-dragons in formation behind it. Ahead, the long lane glows toward a dark world. **Cut.**
+**[CINE]** Morning. The dragon sits on the Forge's launch rail, its chest dark, the four star-dragons in formation behind it. The robot iguana rides on Luna's lap. Ahead, the long lane glows toward a dark world, and somewhere at the end of it, a single note is waiting. The dragon turns toward it anyway. **Cut.**
 
-**[STATE]** `lane_viera_lit = true`, `act2_complete = true` → **[SAVE cp_act2_complete]**
+**[STATE]** `lane_viera_lit = true`, `neighbor_taken = true`, `bridge_held_by_morrow = true`, `act2_complete = true` → **[SAVE cp_act2_complete]**
+
+*Safety notes:* nothing attacks anyone in this scene. The neighbor goes by choice and isn't hurt. The family is never separated, and the scene ends on their choice, not on loss.
 
 **Next:** Act III, [The Road to Viera](../ACT_III_THE_ROAD_TO_VIERA.md). The lane and waypoint scripts (A3-00 to A3-03) are not written yet; the next written script is [The Rest Garden](A3-04_THE_REST_GARDEN.md).
