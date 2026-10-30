@@ -2,7 +2,7 @@
 
 A family of five accidentally receives rescue equipment sent with an SOS. They recover its scattered components around their familiar Florida town, assemble a giant mecha dragon, and choose to answer the call in another universe. Their supportive neighborhood cheers them on; a fictional across-the-street neighbor wants the dragon gone.
 
-**Status:** First Contact now has keyboard play, spoken placeholder prompts, a hint ladder, five provisional suit cards, Lyla's scan, a town-map checkpoint, and an actual Blender/KTX2 pod asset. Home/suit art remains provisional; the Lenovo/Chrome family playtest and a deployed game are still ahead.
+**Status:** a third-person walking slice now sits alongside First Contact: a visible person, room/backyard navigation, a follow camera, nearby interactions, and one saved practice pickup. First Contact retains its narrated/help/suit/scan/map flow and Blender/KTX2 pod. Home/character art remains provisional; the Lenovo/Chrome family playtest and a deployed game are still ahead.
 
 **Planned game location:** `paulmalmquist.com/space-dragon`. The existing homepage must remain intact. This is a target route, not a claim that the game is live.
 
@@ -16,7 +16,9 @@ A family of five accidentally receives rescue equipment sent with an SOS. They r
 
 The game starts at [http://127.0.0.1:5173/space-dragon/](http://127.0.0.1:5173/space-dragon/). You can also run `npm start` from a terminal. Ideas added to the notebook are saved locally for the next agent session; no agent runs automatically. No technical template is required.
 
-For the first playtest, open that address in **Chrome on this Lenovo laptop**, choose **Start adventure with sound**, and use **arrows** to point, **Space/Enter** to act, **H** to repeat speech, **F1** for help, and **Escape** to pause. The narrator is a temporary computer voice. [The ten-minute playtest sheet](docs/PLAYTEST_FIRST_CONTACT.md) keeps feedback simple.
+Open that address in **Chrome on this Lenovo laptop** and choose **Walk around**. Use **WASD/arrows** to walk, **Space/Enter** to interact nearby, **mouse drag or Q/E** to turn the camera, **R** to recenter, and **Escape** to pause. Visit the computer, walk through the doorway to the pod, and find the practice module. Your place and pickup save separately from the story.
+
+Choose **First Contact** for the existing story, or **Start adventure with sound** from the welcome. **H** repeats speech and **F1** helps; the narrator is a temporary computer voice. [The ten-minute playtest sheet](docs/PLAYTEST_FIRST_CONTACT.md) keeps story feedback simple. Your future [house/yard/garage video reference](docs/REFERENCE_HOME_VIDEO.md) is on the list; the current layout is a generic blockout.
 
 ## Story and references
 

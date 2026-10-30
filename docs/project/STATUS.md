@@ -1,10 +1,19 @@
 # Current project state
 
-Updated: **October 29, 2026**. Read this file, [the vision](VISION.md), [inbox](../../ideas/INBOX.md), and [current milestone](../plans/CURRENT_MILESTONE.md) before changing the project. Ideas SD-001–SD-019 are indexed in [the ledger](IDEA_LEDGER.md).
+Updated: **October 29, 2026**. Read this file, [the vision](VISION.md), [inbox](../../ideas/INBOX.md), and [current milestone](../plans/CURRENT_MILESTONE.md) before changing the project. Ideas SD-001–SD-021 are indexed in [the ledger](IDEA_LEDGER.md).
 
 ## Current increment
 
-The owner authorized closing the First Contact gaps: game CI, a pure state/save module, keyboard prompts/help/suit introductions, a playable scan and town-map checkpoint, and the first pod asset. The chosen family-playtest target is **this Lenovo 82XM with Chrome, using keyboard**. The requested ten-minute human playtest is still pending.
+The latest owner request authorizes a **third-person walking slice** and records future video of the actual house, yard and garage as reference. **Walk around** is now the primary welcome action. The chosen family-playtest target is **this Lenovo 82XM with Chrome, using keyboard**; human movement feel, audible narration and the ten-minute family review remain pending.
+
+- A visible, originally modeled provisional person walks with WASD/arrows through the living-room doorway into the fenced yard. A damped third-person camera follows, supports mouse/Q/E orbit and R recenter, and avoids visible obstacles. Walls, furniture, pod and yard limits stop walking.
+- Nearby computer/pod actions require reaching the object and pressing Space/Enter. One practice module can be picked up once and restored with position/facing after reload. It is not a canonical dragon component. Exploration has a separate validated save/backup and reset; First Contact progress is preserved.
+- Pause, blur, mode switches and notebook entry clear held movement. The prior First Contact story remains selectable, with its speech/help/suits/scan/map and save-v2 features below.
+- [Home/yard/garage video reference](../REFERENCE_HOME_VIDEO.md) is recorded as SD-020. No footage has arrived; the room/yard are a generic blockout and the garage is only a backdrop. Source clips will stay in ignored local references.
+
+Navigation evidence: **36 unit tests, 21 development browser tests, 5 production browser tests, and 18 photo checks passed** in the full `npm.cmd run check`. Installed Chrome **156.0.8078.48** also completed the real keyboard route and exact pickup/position reload with no page errors. [The navigation receipt](../reports/2026-10-29-third-person-navigation.md) identifies the artifact, checks and remaining limitations. The game workflow includes the new tests; [PR #13 checks](https://github.com/paulmalmquist/space_dragon/pull/13/checks) own its latest hosted result.
+
+## First Contact foundation retained
 
 - The flow now covers living-room launch night → interrupted signal → backyard → five placeholder suit cards → Lyla's scan → symbol archive → town map. Arrow keys point; Space/Enter acts; H repeats speech; F1 advances help; Escape pauses. Family recordings are not used.
 - Browser speech is a clearly labeled computer-narrator placeholder, with captions, sound-off play, repeat controls and a three-level hint ladder ending in one-action help together. API calls/error paths can be automated; audible output on the family's speakers remains to be checked.
@@ -14,7 +23,7 @@ The owner authorized closing the First Contact gaps: game CI, a pure state/save 
 - The pod runtime file is **463,644 bytes**, with **6,376 triangles**, **38 mesh objects**, five materials and one 256 × 256 ETC1S albedo. Same-origin decoders are included. A local Chromium/SwiftShader load sample was **623.2 ms**; it is not an AMD-GPU benchmark or download budget. Decoder transfer makes the first compressed load larger than the original PNG GLB alone.
 - The idea notebook still appends original thoughts to the inbox for the next invoked agent session. It does not run agents automatically. No new family-reference media, missing character attachment or final likeness asset has been supplied.
 
-## Verification for this increment
+## First Contact software evidence
 
 | Check | Current evidence |
 | --- | --- |
@@ -26,7 +35,7 @@ The owner authorized closing the First Contact gaps: game CI, a pure state/save 
 | Installed target Chrome smoke | **PASS:** Chrome **156.0.8078.48**, fresh temporary headless profile, completed map and reloaded with all five suits; no page errors. This is not human listening or GPU acceptance. |
 | Ten-minute Lenovo/Chrome family playtest | **NOT TESTED:** confirm audible speech, keyboard usability, points needing help and performance on the actual AMD renderer. |
 
-The [current receipt](../reports/2026-10-29-first-contact-v2.md) records source/artifact identity and executed checks. The feature branch `feat/first-contact-playable` is published in [draft PR #13](https://github.com/paulmalmquist/space_dragon/pull/13), based on merged foundation `ea89a05`. The draft remains available for the selected family playtest; it is not merged or deployed. Check the PR for subsequent run results.
+The [First Contact receipt](../reports/2026-10-29-first-contact-v2.md) records the previous implementation's source/artifact identity and checks. The feature branch `feat/first-contact-playable` is published in [draft PR #13](https://github.com/paulmalmquist/space_dragon/pull/13), based on merged foundation `ea89a05`, and now also carries walking work. It is not merged or deployed; check the PR for subsequent run results.
 
 ## What remains open
 
@@ -37,6 +46,6 @@ The [current receipt](../reports/2026-10-29-first-contact-v2.md) records source/
 
 ## Next useful action and history
 
-Finish the automated evidence, then run the requested **ten-minute keyboard playtest on this Lenovo in Chrome** with the children. Note each point needing adult help without committing identifying child observations. Use that review to fix First Contact before expanding scope. Space Blocks is next after that gate; the Cadet/Pilot flight experiment has its own later track. Line Leader, Act II and backend expansion remain held.
+Try **Walk around** in Chrome on this Lenovo and review walking, camera comfort and nearby interactions. Use the requested **ten-minute keyboard family playtest** for the story/audio/help path, keeping identifying child observations local. When the house/yard/garage video arrives, revise geometry, collision targets and camera proxies together, then walk the route again. Space Blocks follows the First Contact human gate; the Cadet/Pilot flight experiment has its own later track. Line Leader, Act II and backend expansion remain held.
 
 The original story/photo foundation, tools and unordered-idea workflow were merged in [PR #12](https://github.com/paulmalmquist/space_dragon/pull/12). Historical evidence remains in [the original merge receipt](../reports/2026-10-29-local-foundation.md), [toolchain](../TOOLCHAIN.md), [repo inventory](../REPO_INVENTORY.md), and [pod receipt](../reports/2026-10-29-pod-asset.md). Existing photo bytes, proposed story labels and publication boundaries are preserved.

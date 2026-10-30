@@ -4,11 +4,31 @@ import { ArcRotateCamera } from '@babylonjs/core/Cameras/arcRotateCamera';
 import { Vector3, Color3, Color4 } from '@babylonjs/core/Maths/math';
 import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight';
 import { PointLight } from '@babylonjs/core/Lights/pointLight';
+import { DirectionalLight } from '@babylonjs/core/Lights/directionalLight';
+import { ShadowGenerator } from '@babylonjs/core/Lights/Shadows/shadowGenerator';
+import '@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
+import { Mesh } from '@babylonjs/core/Meshes/mesh';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import { createInitialState } from './state';
 import type { GameState } from './state';
 import { loadPodAsset } from './pod-asset';
+import { createPlayerAvatar } from './player-avatar';
+import { createThirdPersonCamera } from './third-person-camera';
+import { copyExplorationState, createExplorationState, moveExploration, nearestInteraction, interact, INTERACTION_TARGETS } from './navigation';
+import type { ExplorationState, InteractionTarget } from './navigation';
+
+export interface NavigationInput { forward: number; right: number }
+export interface NavigationSnapshot {
+  enabled: boolean;
+  state: ExplorationState;
+  target: InteractionTarget | null;
+  cameraYaw: number;
+  cameraPosition: { x: number; y: number; z: number };
+  focusPosition: { x: number; y: number; z: number };
+  cameraClipped: boolean;
+  moving: boolean;
+}
 
 export function createFirstContact(canvas: HTMLCanvasElement) {
   const engine = new Engine(canvas, true, { stencil: true }, true);
@@ -23,18 +43,28 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   camera.attachControl(canvas, true);
   camera.inputs.removeByType('ArcRotateCameraKeyboardMoveInput');
   camera.wheelPrecision = 30;
+  const follow = createThirdPersonCamera(scene);
+  scene.activeCamera = camera;
   const sky = new HemisphericLight('moonlight', new Vector3(0.2, 1, 0.4), scene);
-  sky.intensity = 0.65;
+  sky.intensity = 0.72;
   sky.diffuse = new Color3(0.55, 0.7, 1);
   sky.groundColor = new Color3(0.12, 0.2, 0.3);
-  const glow = new PointLight('arrival.light', new Vector3(2.5, 2.5, -3), scene);
+  const glow = new PointLight('arrival.light', new Vector3(3.5, 2.5, -1.5), scene);
   glow.diffuse = new Color3(0.25, 0.8, 1);
-  glow.intensity = 2;
+  glow.intensity = 0.95;
   glow.range = 12;
   const warm = new PointLight('home.light', new Vector3(-3, 3, 0), scene);
   warm.diffuse = new Color3(1, 0.64, 0.4);
-  warm.intensity = 1.4;
+  warm.intensity = 0.8;
   warm.range = 10;
+  const moon = new DirectionalLight('moon.key', new Vector3(-0.4, -1, 0.3), scene);
+  moon.position.set(0, 10, -6);
+  moon.intensity = 0.35;
+  moon.diffuse = new Color3(0.7, 0.82, 1);
+  const shadows = new ShadowGenerator(512, moon);
+  shadows.usePercentageCloserFiltering = true;
+  shadows.filteringQuality = ShadowGenerator.QUALITY_LOW;
+  shadows.darkness = 0.32;
   const material = (name: string, color: string, emissive?: string) => {
     const mat = new StandardMaterial(name, scene);
     mat.diffuseColor = Color3.FromHexString(color);
@@ -42,47 +72,78 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     if (emissive) mat.emissiveColor = Color3.FromHexString(emissive);
     return mat;
   };
-  const groundMat = material('yard.grass', '#122b32');
-  const floorMat = material('home.floor', '#50454a');
-  const wallMat = material('home.wall', '#373d50');
+  const groundMat = material('yard.grass', '#294b42');
+  const floorMat = material('home.floor', '#8c6950');
+  const wallMat = material('home.wall', '#89928e');
   const armor = material('pod.armor', '#788c9c');
   armor.emissiveColor = new Color3(0.025, 0.045, 0.065);
   const dark = material('pod.joints', '#101b2d');
   const cyan = material('signal.energy', '#61d9ef', '#2589a0');
   const gold = material('home.warm', '#d8aa79', '#493125');
+  const patioMat = material('yard.patio', '#747d80');
+  const trim = material('home.trim', '#d1c6af');
+  const sofaMat = material('home.sofa-fabric', '#4e6771');
+  const glass = material('home.window', '#305f72', '#133848');
+  const staticBoxes: Mesh[] = [];
   const box = (name: string, size: [number, number, number], pos: [number, number, number], mat: StandardMaterial) => {
     const mesh = MeshBuilder.CreateBox(name, { width: size[0], height: size[1], depth: size[2] }, scene);
     mesh.position.set(...pos);
     mesh.material = mat;
+    mesh.receiveShadows = true;
+    staticBoxes.push(mesh);
     return mesh;
   };
   box('yard.ground', [28, 0.2, 22], [0, -0.2, 0], groundMat);
   box('home.floor', [7, 0.16, 6], [-4, 0, 0], floorMat);
-  box('home.back-wall', [7, 3.5, 0.2], [-4, 1.75, 3], wallMat);
-  box('home.side-wall', [0.2, 3.5, 6], [-7.5, 1.75, 0], wallMat);
+  // Dollhouse cutaway: the boundary remains solid, while low walls keep the person visible.
+  box('home.back-wall.cutaway', [7, 0.65, 0.2], [-4, 0.325, 3], wallMat);
+  box('home.front-wall.cutaway', [7, 0.65, 0.2], [-4, 0.325, -3], wallMat);
+  box('home.side-wall.cutaway', [0.2, 0.65, 6], [-7.5, 0.325, 0], wallMat);
+  for (const z of [-2, 2]) {
+    box(`home.yard-wall.${z}`, [0.2, 0.65, 2], [-0.5, 0.325, z], wallMat);
+    box(`door.jamb.${z}`, [0.22, 2.6, 0.15], [-0.5, 1.3, z / 2], trim);
+  }
+  box('door.header', [0.25, 0.18, 2.15], [-0.5, 2.65, 0], trim);
+  box('door.threshold', [0.55, 0.04, 1.85], [-0.5, 0.09, 0], gold);
+  box('yard.patio', [3.2, 0.08, 3], [1.1, -0.07, 0], patioMat);
+  for (let i = 0; i < 5; i++) box(`yard.path.${i}`, [0.6, 0.045, 0.9], [1.4 + i * 1.25, -0.08, -2.7], patioMat);
+  for (let i = 0; i < 10; i++) box(`floor.plank.${i}`, [0.025, 0.003, 5.8], [-7.2 + i * 0.66, 0.082, 0], gold);
   box('computer.desk', [2.6, 0.18, 1.1], [-4, 1.1, 1], gold);
   for (const x of [-5, -3]) box(`desk.leg.${x}`, [0.12, 1.1, 0.8], [x, 0.55, 1], dark);
   box('computer.display-frame', [1.6, 1, 0.14], [-4, 1.8, 1.3], dark);
   const screen = box('computer.signal-screen', [1.4, 0.8, 0.03], [-4, 1.8, 1.21], cyan);
   box('computer.stand', [0.16, 0.45, 0.18], [-4, 1.3, 1.3], dark);
   box('computer.keyboard', [1, 0.06, 0.35], [-4, 1.23, 0.7], dark);
-  box('home.sofa', [2.8, 0.6, 1.1], [-4.6, 0.4, -1.8], wallMat);
-  box('home.sofa-back', [2.8, 0.9, 0.28], [-4.6, 0.8, -2.3], wallMat);
-  for (let i = 0; i < 13; i++) box(`fence.${i}`, [0.9, 1.4, 0.12], [i - 3, 0.6, 5.6], wallMat);
+  box('home.sofa', [2.8, 0.6, 1.1], [-4.6, 0.4, -1.8], sofaMat);
+  box('home.sofa-back', [2.8, 0.9, 0.28], [-4.6, 0.8, -2.22], sofaMat);
+  for (const x of [-5.85, -3.35]) box(`home.sofa-arm.${x}`, [0.22, 0.4, 1.05], [x, 0.8, -1.8], sofaMat);
+  for (const x of [-5.2, -4.1]) box(`home.sofa-cushion.${x}`, [0.72, 0.12, 0.7], [x, 0.73, -1.62], trim);
+  for (const z of [-5.2, 5.2]) {
+    for (let i = 0; i < 15; i++) box(`fence.${z}.${i}`, [0.59, 1.4, 0.12], [0 + i * 0.69, 0.6, z], wallMat);
+    for (const y of [0.3, 1]) box(`fence.rail.${z}.${y}`, [10.7, 0.12, 0.15], [4.7, y, z], trim);
+  }
+  for (let i = 0; i < 15; i++) box(`fence.east.${i}`, [0.12, 1.4, 0.59], [10, 0.6, -4.8 + i * 0.69], wallMat);
+  for (const z of [-4.1, 4.1]) box(`fence.west.${z}`, [0.12, 1.4, 2.15], [-0.5, 0.6, z], wallMat);
+  // Generic background garage. Real home footage has not been supplied or used.
+  box('garage.background', [4, 3.4, 2.8], [7.7, 1.6, 7.1], wallMat);
+  box('garage.door', [3, 2.5, 0.06], [7.7, 1.16, 5.66], trim);
+  for (let i = 0; i < 7; i++) box(`garage.door-slat.${i}`, [3, 0.025, 0.075], [7.7, 0.15 + i * 0.36, 5.62], wallMat);
+  box('garage.window', [1.5, 0.32, 0.08], [7.7, 2, 5.58], glass);
+  box('garage.roof', [4.5, 0.2, 3.3], [7.7, 3.36, 7.1], dark);
   const pod = MeshBuilder.CreateCylinder('pod.shell', { height: 2.2, diameterTop: 1.15, diameterBottom: 1.75, tessellation: 8 }, scene);
-  pod.position.set(2.5, 1.25, 0);
+  pod.position.set(3.5, 1.25, 0);
   pod.scaling.set(1, 1.25, 1);
   pod.material = armor;
   pod.rotation.z = 0.2;
   const ring = MeshBuilder.CreateTorus('pod.energy-ring', { diameter: 2, thickness: 0.065, tessellation: 48 }, scene);
-  ring.position.set(2.5, 1.25, 0);
+  ring.position.set(3.5, 1.25, 0);
   ring.rotation.z = 0.2;
   ring.material = cyan;
   const beacon = MeshBuilder.CreateCylinder('pod.beacon', { height: 2.4, diameter: 0.045, tessellation: 10 }, scene);
-  beacon.position.set(2.5, 3.2, 0);
+  beacon.position.set(3.5, 3.2, 0);
   beacon.material = cyan;
   for (let i = 0; i < 3; i++) {
-    const panel = box(`pod.panel.${i}`, [0.55, 0.15, 1.4], [2.5, 0.18, 0], dark);
+    const panel = box(`pod.panel.${i}`, [0.55, 0.15, 1.4], [3.5, 0.18, 0], dark);
     panel.rotation.y = i * Math.PI * 2 / 3;
     panel.position.x += Math.sin(panel.rotation.y) * 1.2;
     panel.position.z += Math.cos(panel.rotation.y) * 1.2;
@@ -95,14 +156,52 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     new Vector3(2.9, 2.5, 0.4),
   ] }, scene);
   projection.color = new Color3(0.3, 0.9, 1);
+  projection.position.x = 1;
   const markers = [0, 1, 2].map(index => {
     const mesh = MeshBuilder.CreateBox(`scan.target.${index}`, { size: index === 1 ? 0.2 : 0.12 }, scene);
-    mesh.position.set(1.8 + index * 0.7, 0.8, -0.9);
+    mesh.position.set(2.8 + index * 0.7, 0.8, -0.9);
     mesh.rotation.z = index === 1 ? Math.PI / 4 : 0;
     mesh.material = index === 1 ? cyan : gold;
     return mesh;
   });
+  // Furniture and fencing are static. Batch by material; retain individually controlled props.
+  for (const mat of [groundMat, floorMat, wallMat, armor, dark, cyan, gold, patioMat, trim, sofaMat, glass]) {
+    const batch = staticBoxes.filter(mesh => mesh.material === mat && mesh !== screen);
+    if (batch.length < 2) continue;
+    const merged = Mesh.MergeMeshes(batch, true, true);
+    if (merged) {
+      merged.name = `environment.${mat.name}`;
+      merged.receiveShadows = true;
+      merged.isPickable = false;
+    }
+  }
+  const avatar = createPlayerAvatar(scene);
+  avatar.meshes.forEach(mesh => shadows.addShadowCaster(mesh));
+  avatar.setEnabled(false);
+  const practiceRoot = box('practice.module', [0.48, 0.48, 0.48], [6, 0.6, -2.8], gold);
+  practiceRoot.rotation.z = Math.PI / 4;
+  const practiceCore = box('practice.module-core', [0.19, 0.19, 0.19], [6, 0.92, -2.8], cyan);
+  const practicePlinth = box('practice.module-plinth', [0.85, 0.12, 0.85], [6, -0.02, -2.8], dark);
+  const navigationMarkers = INTERACTION_TARGETS.map(target => {
+    const marker = MeshBuilder.CreateTorus(`navigation.target.${target.id}`, { diameter: target.id === 'training-module' ? 1.15 : 2.5, thickness: 0.045, tessellation: 36 }, scene);
+    marker.position.set(target.x, target.id === 'computer' ? 0.105 : -0.045, target.id === 'computer' ? 0 : target.z);
+    marker.material = cyan;
+    marker.isPickable = false;
+    marker.setEnabled(false);
+    return { target, marker };
+  });
+  practiceRoot.setEnabled(false);
+  practiceCore.setEnabled(false);
+  practicePlinth.setEnabled(false);
   let state: GameState = createInitialState();
+  let exploration = createExplorationState();
+  let navigationEnabled = false;
+  let navigationInput: NavigationInput = { forward: 0, right: 0 };
+  let moving = false;
+  let navigationListener: ((state: ExplorationState, target: InteractionTarget | null) => void) | undefined;
+  let navigationPodOpen = false;
+  let computerSignalUntil = 0;
+  let drag: { id: number; x: number; y: number } | undefined;
   let selected = 0;
   let paused = false;
   let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -111,11 +210,12 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   canvas.dataset.assetLoaded = 'loading';
   void loadPodAsset(scene).then(asset => {
     podAsset = asset;
-    asset.root.position.set(2.5, 0, 0);
+    asset.root.position.set(3.5, -0.09, 0);
+    asset.container.meshes.forEach(mesh => shadows.addShadowCaster(mesh));
     pod.setEnabled(false);
     ring.setEnabled(false);
     beacon.setEnabled(false);
-    asset.setOpen(!['living-room', 'signal', 'backyard'].includes(state.phase));
+    asset.setOpen(navigationEnabled ? navigationPodOpen : !['living-room', 'signal', 'backyard'].includes(state.phase));
     canvas.dataset.assetLoaded = 'true';
   }).catch(error => {
     assetError = error instanceof Error ? error.message : 'Pod asset failed to load';
@@ -126,17 +226,74 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   let elapsed = 0;
   const frameTimes: number[] = [];
   let rendered = false;
+  const emitNavigation = () => navigationListener?.(copyExplorationState(exploration), nearestInteraction(exploration));
+  const refreshNavigationProps = () => {
+    const hasModule = exploration.collected.includes('training-module');
+    practiceRoot.setEnabled(navigationEnabled && !hasModule);
+    practiceCore.setEnabled(navigationEnabled && !hasModule);
+    practicePlinth.setEnabled(navigationEnabled);
+    const nearest = navigationEnabled ? nearestInteraction(exploration) : null;
+    for (const { target, marker } of navigationMarkers) marker.setEnabled(nearest?.id === target.id);
+  };
+  const getNavigationSnapshot = (): NavigationSnapshot => {
+    const value = follow.snapshot();
+    return {
+      enabled: navigationEnabled, state: copyExplorationState(exploration), target: nearestInteraction(exploration),
+      cameraYaw: value.yaw, cameraPosition: value.position, focusPosition: value.focus, cameraClipped: value.clipped, moving,
+    };
+  };
+  const pointerDown = (event: PointerEvent) => {
+    if (!navigationEnabled || paused || event.button !== 0) return;
+    drag = { id: event.pointerId, x: event.clientX, y: event.clientY };
+    canvas.setPointerCapture(event.pointerId);
+    canvas.focus({ preventScroll: true });
+  };
+  const pointerMove = (event: PointerEvent) => {
+    if (!drag || drag.id !== event.pointerId || !navigationEnabled || paused) return;
+    follow.rotate((event.clientX - drag.x) * 0.007, (event.clientY - drag.y) * 0.005);
+    drag.x = event.clientX;
+    drag.y = event.clientY;
+  };
+  const pointerUp = (event: PointerEvent) => {
+    if (drag?.id !== event.pointerId) return;
+    drag = undefined;
+    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+  };
+  const cancelDrag = () => {
+    const id = drag?.id;
+    drag = undefined;
+    if (id !== undefined && canvas.hasPointerCapture(id)) canvas.releasePointerCapture(id);
+  };
+  canvas.addEventListener('pointerdown', pointerDown);
+  canvas.addEventListener('pointermove', pointerMove);
+  canvas.addEventListener('pointerup', pointerUp);
+  canvas.addEventListener('pointercancel', pointerUp);
+  canvas.addEventListener('lostpointercapture', pointerUp);
   scene.onBeforeRenderObservable.add(() => {
     const delta = Math.min(engine.getDeltaTime(), 50);
+    const dt = delta / 1000;
     elapsed += delta / 1000;
+    if (navigationEnabled) {
+      const previous = exploration;
+      exploration = moveExploration(exploration, navigationInput, follow.yaw, dt);
+      const speed = Math.hypot(exploration.player.x - previous.player.x, exploration.player.z - previous.player.z) / Math.max(dt, 0.001);
+      const wasMoving = moving;
+      moving = speed > 0.05;
+      avatar.update(exploration.player, speed, dt, reducedMotion);
+      follow.update(exploration.player, dt);
+      refreshNavigationProps();
+      if (exploration !== previous || wasMoving !== moving) emitNavigation();
+      practiceRoot.rotation.y = reducedMotion ? 0 : elapsed * 0.7;
+      practiceCore.position.y = reducedMotion ? 0.92 : 0.92 + Math.sin(elapsed * 2) * 0.06;
+    }
     ring.rotation.y = reducedMotion ? 0 : elapsed * 0.35;
-    glow.intensity = 2.1 + (reducedMotion ? 0 : Math.sin(elapsed * 2) * 0.2);
-    screen.scaling.x = state.phase === 'signal' && !reducedMotion ? 1 + Math.sin(elapsed * 7) * 0.015 : 1;
+    glow.intensity = 0.95 + (reducedMotion ? 0 : Math.sin(elapsed * 2) * 0.1);
+    screen.scaling.x = (navigationEnabled ? elapsed < computerSignalUntil : state.phase === 'signal') && !reducedMotion ? 1 + Math.sin(elapsed * 7) * 0.035 : 1;
     markers.forEach((marker, index) => {
-      marker.isVisible = state.phase === 'scan';
+      marker.isVisible = !navigationEnabled && state.phase === 'scan';
       marker.scaling.setAll(index === selected ? 1.7 + (reducedMotion ? 0 : Math.sin(elapsed * 3) * 0.1) : 1);
     });
-    projection.isVisible = ['scan', 'archive', 'map'].includes(state.phase);
+    projection.isVisible = !navigationEnabled && ['scan', 'archive', 'map'].includes(state.phase);
     projection.alpha = reducedMotion ? 0.8 : 0.7 + Math.sin(elapsed * 3) * 0.12;
     frames++;
     frameTimes.push(engine.getDeltaTime());
@@ -152,13 +309,65 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       state = value;
       selected = target;
       const home = ['living-room', 'signal'].includes(state.phase);
-      camera.setTarget(home ? new Vector3(-3.3, 1.1, 0) : new Vector3(2.5, 1.1, 0));
+      camera.setTarget(home ? new Vector3(-3.3, 1.1, 0) : new Vector3(3.5, 1.1, 0));
       camera.radius = home ? 11 : 7;
       if (changedPhase) { camera.alpha = -Math.PI / 2.6; camera.beta = 1.05; }
-      podAsset?.setOpen(!['living-room', 'signal', 'backyard'].includes(state.phase));
+      if (!navigationEnabled) podAsset?.setOpen(!['living-room', 'signal', 'backyard'].includes(state.phase));
     },
+    setNavigationEnabled(value: boolean) {
+      navigationEnabled = value;
+      navigationInput = { forward: 0, right: 0 };
+      moving = false;
+      cancelDrag();
+      avatar.setEnabled(value);
+      if (value) {
+        camera.detachControl();
+        scene.activeCamera = follow.camera;
+        follow.recenter(exploration.player);
+        follow.update(exploration.player, 0, true);
+        avatar.update(exploration.player, 0, 0, reducedMotion, true);
+      } else {
+        scene.activeCamera = camera;
+        camera.attachControl(canvas, true);
+      }
+      podAsset?.setOpen(value ? navigationPodOpen : !['living-room', 'signal', 'backyard'].includes(state.phase));
+      refreshNavigationProps();
+      emitNavigation();
+    },
+    setExplorationState(value: ExplorationState) {
+      exploration = copyExplorationState(value);
+      navigationInput = { forward: 0, right: 0 };
+      moving = false;
+      follow.recenter(exploration.player);
+      follow.update(exploration.player, 0, true);
+      avatar.update(exploration.player, 0, 0, reducedMotion, true);
+      refreshNavigationProps();
+      emitNavigation();
+    },
+    setNavigationInput(value: NavigationInput) { navigationInput = navigationEnabled && !paused ? { ...value } : { forward: 0, right: 0 }; },
+    rotateNavigationCamera(deltaYaw: number, deltaPitch = 0) { if (navigationEnabled && !paused) follow.rotate(deltaYaw, deltaPitch); },
+    recenterNavigationCamera() { if (navigationEnabled) follow.recenter(exploration.player); },
+    interactNavigation() {
+      const target = nearestInteraction(exploration);
+      const result = interact(exploration, navigationEnabled && !paused ? target?.id ?? '' : '');
+      exploration = result.state;
+      if (result.status === 'success' && target?.id === 'pod') { navigationPodOpen = true; podAsset?.setOpen(true); }
+      if (result.status === 'success' && target?.id === 'computer') computerSignalUntil = elapsed + 4;
+      refreshNavigationProps();
+      emitNavigation();
+      return { ...result, state: copyExplorationState(result.state) };
+    },
+    onNavigationUpdate(listener: (state: ExplorationState, target: InteractionTarget | null) => void) {
+      navigationListener = listener;
+      emitNavigation();
+      return () => { if (navigationListener === listener) navigationListener = undefined; };
+    },
+    getNavigationSnapshot,
     setReducedMotion(value: boolean) { reducedMotion = value; },
-    setPaused(value: boolean) { paused = value; },
+    setPaused(value: boolean) {
+      paused = value;
+      if (value) { navigationInput = { forward: 0, right: 0 }; cancelDrag(); moving = false; }
+    },
     point(key: string) {
       if (paused) return;
       if (key === 'ArrowLeft') camera.alpha -= 0.12;
@@ -173,7 +382,17 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       meshes: scene.meshes.length, activeMeshes: scene.getActiveMeshes().length,
       triangles: scene.meshes.reduce((total, mesh) => total + mesh.getTotalIndices(), 0) / 3,
       renderer: `WebGL ${engine.webGLVersion}`,
+      navigation: getNavigationSnapshot(),
     }),
-    dispose() { window.removeEventListener('resize', resize); podAsset?.dispose(); scene.dispose(); engine.dispose(); },
+    dispose() {
+      window.removeEventListener('resize', resize);
+      canvas.removeEventListener('pointerdown', pointerDown);
+      canvas.removeEventListener('pointermove', pointerMove);
+      canvas.removeEventListener('pointerup', pointerUp);
+      canvas.removeEventListener('pointercancel', pointerUp);
+      canvas.removeEventListener('lostpointercapture', pointerUp);
+      navigationListener = undefined;
+      podAsset?.dispose(); scene.dispose(); engine.dispose();
+    },
   };
 }

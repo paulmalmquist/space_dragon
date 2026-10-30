@@ -3,7 +3,7 @@ import { defineConfig } from '@playwright/test';
 /** Exercises the static artifact, where development tools must not exist. */
 export default defineConfig({
   testDir: './tests',
-  testMatch: 'production.spec.ts',
+  testMatch: ['production.spec.ts', 'navigation.production.spec.ts'],
   fullyParallel: false,
   workers: 1,
   timeout: 45_000,

@@ -45,6 +45,14 @@ The home environment and suit silhouettes are provisional. The pod now uses an a
 
 During development, `window.__SPACE_DRAGON__.snapshot()` returns the current step, checkpoint, frame sample, mesh/triangle counts, and WebGL version. This is an observation interface, not a remote control or a performance acceptance result. It is absent from production builds.
 
+## Third-person exploration
+
+**Walk around** starts a separate practice mode; First Contact remains selectable. WASD/arrows move, Space/Enter interacts nearby, left-drag or Q/E orbits, R recenters and Escape pauses. A provisional articulated person walks through the open doorway into a fenced yard. Walls, desk, sofa, pod and boundaries block walking; the low cutaway walls let the camera see the person. The garage is a backdrop, not an accessible interior.
+
+`src/game/navigation.ts` owns position, collision/sliding, proximity and once-only practice collection; `src/game/exploration-save.ts` validates and recovers its independent save. The scene presents state and emits updates; the UI persists movement boundaries and periodic progress. The exploration key is `space-dragon.exploration.v1`, with a `.backup` predecessor. The prototype pickup is not a story reward. First Contact saves remain untouched by exploration/reset.
+
+`tests/navigation.test.ts` adds pure navigation/persistence cases, `tests/navigation.spec.ts` drives real movement and interactions, and `tests/navigation.production.spec.ts` checks the built mode without developer APIs. Both Playwright configs include the new tests, so the existing GitHub game job exercises them. The debug snapshot's `navigation` field exposes state, nearby target, camera/focus positions and movement; it offers no teleport setter. See [the navigation decision](decisions/2026-10-29-third-person-navigation.md) and [future video guide](REFERENCE_HOME_VIDEO.md).
+
 Save schema v2 lives in `space-dragon.checkpoint.v2`, with its last valid predecessor at `space-dragon.checkpoint.v2.backup`. It holds script phase, ordered suit IDs, validated flags, hint/scan-assistance state and the checkpoint ID. [state.ts](../src/game/state.ts) is authoritative and has no DOM/renderer/storage dependency; [checkpoint.ts](../src/game/checkpoint.ts) owns validation/migration/recovery. V1 saves at `space-dragon.checkpoint.v1` are upgraded conservatively and retained. Future-version saves are preserved until deliberate reset; unavailable/quota-limited storage falls back to the current visit with an honest notice. Notebook drafts use a separate key and remain in the form when a write fails. There is no cloud synchronization or learning assessment.
 
 Restarting a progressed sequence requires confirmation; cancel preserves the current checkpoint. Keyboard is the confirmed first input. The automated narrow touch check is extra layout/input evidence, not a change to the owner's deferred-touch decision or a physical-device support claim.
