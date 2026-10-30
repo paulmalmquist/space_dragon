@@ -2,7 +2,7 @@
 
 **Date:** October 30, 2026; revised the same day for Morrow  
 **Status:** PROPOSED narrative treatment for owner review. Not CONFIRMED canon, not current implementation scope. All names are placeholders. The final landing on Viera, suit upgrades becoming powers by the end, and dogfights and asteroid fields between planets are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)). So is Morrow as the villain who caused the SOS ([decision](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md), [villain arc](VILLAIN_ARC.md)). How this act delivers them is proposed.  
-**Builds on:** [Act II](ACT_II_ANSWER_THE_CALL.md), the [villain arc](VILLAIN_ARC.md), [language and translation](LANGUAGE_AND_TRANSLATION.md) and the [Acts II & III overview](ACTS_II_III_THE_ROAD_TO_VIERA.md).  
+**Builds on:** [Act II](ACT_II_ANSWER_THE_CALL.md), the [villain arc](VILLAIN_ARC.md) and the [Acts II & III overview](ACTS_II_III_THE_ROAD_TO_VIERA.md).  
 **Scripts:** [Landfall and the Rest Garden](scripts/A3-04_THE_REST_GARDEN.md) and [The Last Hold and the Final Landing](scripts/A3-09_THE_FINAL_LANDING.md). The lane and waypoint scripts (A3-00 to A3-03) are not written yet.
 
 ## 1. What Act III must do
@@ -41,10 +41,10 @@ Viera is the largest world in the game. Farport is crossed in a fixed order, but
 | --- | --- |
 | **Morrow** | Coiled over the broken seal in the Rest Garden, eyes closed, holding everything. His voice reaches the family's dragon at Landfall; his gaze sweeps Farport. Defeated in song at the Heartnote; faced in the Last Hold; becomes the Lodestar. |
 | **The neighbor** | Gone to Morrow since the Forge, with the Bridge. Found in her lawn chair at his side, held by her own choice. Turns back in the Garden, sits with the Hush, and returns the Bridge. |
-| **The Caller** | On their first voyage, and by now speaking broken English. When the suits start dropping words in Farport, the Caller fills the gaps. Deep in the Quiet they start to doze, so they stay inside the family's sound, holding Maria's hand. Reunited with their family in Farport; first mark at the final landing. |
+| **The Caller** | On their first voyage. Deep in the Quiet they start to doze, so they stay inside the family's sound, holding Maria's hand. Reunited with their family in Farport; first mark at the final landing. |
 | **The robot iguana** | Left behind when the neighbor went, it rides with Luna and won't stop looking for her. Talks the Sweeper down, machine to machine. |
 | **The passenger** | Returns from the Hatchery with the hatchlings to fly in the Last Hold. Gives the kids a keepsake. |
-| **The suits** | Translate throughout. On the road they start dropping the odd word; in Farport they leave gaps. They shiver whenever Morrow speaks. After he lets go, nobody needs them to translate. |
+| **The suits** | Still the quiet reason everyone understands everyone ([language](LANGUAGE_AND_TRANSLATION.md)), never mentioned again. They shiver whenever Morrow speaks. |
 | **The Core** | Falls silent with the dragon at Landfall and wakes with it at the Heartnote. Whether it stays on Viera is OPEN. |
 | **The dragon** | Built in Morrow's likeness. Falls still at Landfall when Morrow calls it *brother*. Wakes first at the Heartnote, loudest, then rests. Gains Lane Wings. At the end, among its makers and its kind, and face to face with what it was modeled on, it chooses the family. |
 | **The Hush** | The Lanemother's rest, Morrow's old jailer. Found crushed beneath his coils with its hands over its ears. Listened to, sheltered, and given back its place. |
@@ -71,7 +71,7 @@ The dragon flies with its chest dark. The robot iguana sits on Luna's lap, looki
 - Free the stacked ships, then beat **the Crane**, the depot's foreman bot (on-foot boss, 2–3 phases, slip–expose–alley-oop).
 - In the Crane's office, a crate labeled in gold: the neighbor's old clipboard, from the Forge windowsill, collected and filed. The robot iguana won't leave it behind.
 - The dragon learns **Tow-line**. The exit flight tows freed ships out through the hangar.
-- Learning stop: **Dock Match** (`shape_matching`, with Glyph Book bay numbers).
+- Learning stop: **Dock Match** (`shape_matching`, with numbered bays).
 
 **A3-02 The Drift.** A huge asteroid field around Viera's moon, full of ships that tumbled when their pilots were held.
 - Thread the field. Dock with held ships, and wake their pilots in short on-foot boarding scenes.
@@ -84,7 +84,7 @@ Squadron dogfights above Viera, then a trench run along the Barge to disable its
 
 **The re-tune.** With the Barge crippled, the Sweeper's core is exposed on its bridge. The robot iguana trots up to it first: a long, gentle beep. The Caller gives it the rule it was missing, the one Morrow's rewrite buried: *"Some things that are still are only resting. And when they're moving, they're going somewhere. You don't collect them. You help them get there."* The gold line through its rule flickers and breaks. The Sweeper powers down, then back up, very politely. It is on the family's side from now on.
 
-The dragon gave everything. Its glow is dim, its wings beat slower, and the held note is so loud here that the suits are dropping every few words.
+The dragon gave everything. Its glow is dim, its wings beat slower, and the held note is so loud here that the family has to shout to hear each other.
 
 *Pacing:* the biggest action yet (intensity 4), followed straight away by the act's quietest stretch.
 
@@ -98,14 +98,14 @@ The dragon was built in his likeness, from his own kind's scales, and it hears h
 - **It isn't a breakdown.** Its living material is held, like the dragons it was made from. Maria can keep it breathing softly, but she can't wake it alone.
 - **The stakes are personal.** Their own dragon, the friend they grew in the cul-de-sac, has been taken by the thing it was modeled on.
 - **Gentle, not scary.** The family is together, the toddlers are tired, and it's very far from home. The Caller starts to doze.
-- **Maria's beat:** *"Everybody stay together."* Lyla plays a recording **from home**, and the home sound pushes color back in a warm circle. They walk on inside it. The Caller stays awake inside the circle, and when the suits drop words, the Caller fills the gaps.
+- **Maria's beat:** *"Everybody stay together."* Lyla plays a recording **from home**, and the home sound pushes color back in a warm circle. They walk on inside it, and the Caller stays awake inside the circle.
 - **Pacing:** about a minute of slow walking before the recording, control never stops, and no one is ever separated.
 
-**A3-05 Farport on foot.** The biggest world in the game, crossed in a fixed order inside the warm circle, which grows as districts wake. The suits translate what they hear, with gaps the Caller fills, but they can't read, so the family reads its own way through with the **Glyph Book** ([translation](LANGUAGE_AND_TRANSLATION.md)).
+**A3-05 Farport on foot.** The biggest world in the game, crossed in a fixed order inside the warm circle, which grows as districts wake. Every sign is in plain English with a picture beside it, so nobody has to read to find the way.
 - **Outfitters' Row:** the family wakes the outfitters with sound, and each suit gets its big **Farport upgrade**, enough to go deeper into the Quiet. Meanwhile the Dragonwrights armor the still dragon (Scale Armor). Learning stop: **Pattern Fit** (`pattern_repeat`).
 - **The Departure Halls:** a giant terminal of travelers held mid-goodbye, arms half-raised to wave, suitcases floating. A whole city stopped at the moment of leaving, because he couldn't bear goodbyes. **Morrow's gaze**, a slow sweep of gold light, moves through the halls; the family slips past it in a hide-and-seek section. Being caught means being held for a moment until someone frees you. No failure. Learning stop: **The Big Board** (`letter_matching`, matching only, plus the reading track).
 - **The Roosts:** star-dragon nests, empty and cold, and the path down to the center.
-- **The Rest Garden gate:** the Glyph Book reads its old words: *Always rest before you go. Always come home.*
+- **The Rest Garden gate:** old words cut in the stone, which Luke reads slowly, with help: *Always rest before you go. Always come home.*
 
 *Design note:* the warm-circle walk is the natural home for the BOOKMARKED Line Leader system: one leader, everyone close. It **must not** require split parties. Without Line Leader it works as a guided walk.
 
@@ -151,7 +151,6 @@ This is the last action beat of the game and its biggest, with every friend the 
 
 ### Movement 6 — The Final Landing (A3-11)
 
-- **The gift of tongues.** When Morrow let go, his gift of every language went back into the song with the Heartnote. From now on, everyone understands everyone ([translation](LANGUAGE_AND_TRANSLATION.md)).
 - **Formation home.** The dragon leads the whole fleet down to Farport under the new star. It's the victory lap: no enemies, formation calls, every ring adding an instrument.
 - **Lane books.** On the landing field, every family member's book gets Viera's mark. The Caller's family finds them, and the Caller gets their very first mark, because they came home from their first voyage. On the last page of every lane book, a small star has appeared.
 - **The dragon chooses.** It's home among its makers and its kind, under the star of the dragon it was modeled on. It could stay. It looks at the star-dragons, at the Lanemother, at the Lodestar, then at the family, and lowers its wing.
@@ -196,14 +195,14 @@ This is the last action beat of the game and its biggest, with every friend the 
 
 ## 7. Learning in Act III (proposed, follows [learning rules](../learning/LEARNING_RULES.md))
 
-Two tracks per stop, as in the [curriculum puzzle plan](../learning/CURRICULUM_PUZZLE_PLAN.md). The suits can't read, so from Landfall on, Glyph Book reading carries the family through Farport.
+Two tracks per stop, as in the [curriculum puzzle plan](../learning/CURRICULUM_PUZZLE_PLAN.md). Signs, boards and bays use plain English letters, numbers and words.
 
 | Where | Activity | Skill (proposed ID) |
 | --- | --- | --- |
 | Waystation | **Dock Match:** match each ship's badge to its docking bay | `shape_matching`, numerals or words |
 | The Drift | **Count Them Home:** count the rescued ships joining the convoy | `counting_objects`, addition |
 | Outfitters' Row | **Pattern Fit:** repeat a color-and-shape pattern to tune an upgrade | `pattern_repeat` |
-| Departure Halls | **The Big Board:** find the gate by matching its glyph to a letter, or reading its word | `letter_matching` (matching only), reading |
+| Departure Halls | **The Big Board:** find the gate by matching its letter, or reading its word | `letter_matching` (matching only), reading |
 | Rest Garden | **The Heartnote:** creative, no right answer | — |
 
 Each is paused and untimed, has an assisted path, and gives the same story reward. None happen during flight or in the Last Hold. No power replaces or gates a learning challenge.

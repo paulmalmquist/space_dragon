@@ -135,3 +135,11 @@ Source: owner, Space Dragon chat.
 
 Receipt: **SD-034** · CONFIRMED · [Translation decision update](../docs/decisions/2026-10-30-translation.md) and [language and translation](../docs/story/LANGUAGE_AND_TRANSLATION.md): the suits replace the Core as the translator. Proposed details: they translate both ways, singing the family's words in Vieran in each wearer's instrument voice; they translate what they hear, not what they see, so the kids still decode writing in the Glyph Book; near Viera they drop words and the Caller fills the gaps; the neighbor's robot iguana translates for her. Scripts updated.
 
+### October 30, 2026 — just English, with the suits as the hand-wave
+
+Source: owner, Space Dragon chat.
+
+> “The game just needs to be in English with the suit core hand waiving why we can understand”
+
+Receipt: **SD-037** · CONFIRMED · Supersedes the translation details from SD-033 and SD-034. [Decision update](../docs/decisions/2026-10-30-translation.md) and [language](../docs/story/LANGUAGE_AND_TRANSLATION.md): everything is in English; the suits, made from the same living material as the Core, are why the family understands everyone, said once at Lantern Rock. The sung language, mistranslations, Glyph Book, dropped words and gift of tongues are retired, and glyph puzzles became plain English letters, numbers and words. SD-035 and SD-036 were skipped because draft PR #13 uses them.
+

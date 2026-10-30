@@ -87,15 +87,15 @@ The Core turns to Lyla.
 - **Prompt:** "Lyla, play the whole message."
 - One tap. **[HINT 2]** LYLA: "Me? …Okay!"
 
-**[CINE]** The SOS plays **complete for the first time**, image and voice together, translated by the Core in short sentences. **[MUSIC]** The full arrangement, all seven notes, **ending on its question.**
+**[CINE]** The SOS plays **complete for the first time**, image and voice together, voiced by the Core in short sentences. **[MUSIC]** The full arrangement, all seven notes, **ending on its question.**
 
-> CORE (translating, over images of a fading, silent sky): "We need help. Anyone who can hear. Our world is going quiet. This dragon can come to us. **This dragon can bring you home.**"
+> CORE (over images of a fading, silent sky): "We need help. Anyone who can hear. Our world is going quiet. This dragon can come to us. **This dragon can bring you home.**"
 
 The image shows the **other universe**, the opening (the fading star) as a ring, and a sleeping star-dragon. Then **a path back**: the dragon returning to a small blue planet. The promise of a way home is shown on screen, so the departure is never a secret.
 
 Then one more image, the last one, that Lyla's archive has never shown before: a world ringed with thousands of still ships, and at its heart, in the dark, **a vast golden eye, opening**. **[MUSIC]** The SOS cuts out, and for a heartbeat there's only one low held note, the hum from the living room. **[SFX]** A young voice, the one from the very first transmission, close and frightened:
 
-> CALLER (recorded, untranslated, then the Core): "He's holding everything—"
+> CALLER (recorded): "He's holding everything—"
 
 The message ends. The Core's light dims for a moment. *(This is Morrow. See the [villain arc](../VILLAIN_ARC.md). The family learns there is danger before they choose.)*
 

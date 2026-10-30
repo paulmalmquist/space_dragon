@@ -139,7 +139,7 @@ The [treatment](ACTS_II_III_THE_ROAD_TO_VIERA.md) proposes an answer to each; no
 
 Repo changes follow the repo's own rules: the owner's words go in the inbox, and canon changes go through `docs/decisions/`.
 
-**Since this plan (October 30):** the owner approved a villain, [Morrow](VILLAIN_ARC.md), as the reason for the SOS; renamed the "home note" (now the Heartnote); and asked for a [translation system](LANGUAGE_AND_TRANSLATION.md). All three are integrated into the act treatments and scripts. Hole 12 is answered by Morrow.
+**Since this plan (October 30):** the owner approved a villain, [Morrow](VILLAIN_ARC.md), as the reason for the SOS; renamed the "home note" (now the Heartnote); and settled language: the game is in English, with the suits as a one-line hand-wave ([language](LANGUAGE_AND_TRANSLATION.md)). All three are integrated into the act treatments and scripts. Hole 12 is answered by Morrow.
 
 1. ~~Log the direction in `ideas/INBOX.md` and the idea ledger.~~ Done: SD-014 to SD-018.
 2. ~~Record a decision file for what the owner confirmed.~~ Done: [decision](../decisions/2026-10-29-three-acts-linear-and-viera.md).

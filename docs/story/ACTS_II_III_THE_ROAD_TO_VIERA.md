@@ -98,7 +98,7 @@ Act II keeps the drafted worlds in a fixed order, adds a flight level on every l
 >
 > LUNA: "And EVERYBODY."
 
-**What carries over unchanged:** the waking beats keyed to "dragons awake" now just happen in this order. The glyph cards (hello, friend, home, rest), the Caller's growing theme and the neighbor's clipboard gag stay as written.
+**What carries over unchanged:** the waking beats keyed to "dragons awake" now just happen in this order. The word cards (HELLO, FRIEND, HOME, REST), the Caller's growing theme and the neighbor's clipboard gag stay as written.
 
 ## Act III — The Road to Viera
 
@@ -242,8 +242,8 @@ Every off-world character now has an arc that ends on Viera, and five roles are 
 | **The neighbor** | Stowaway with a clipboard. The Caller's odd-couple seatmate. Takes Morrow's offer at the Forge, with the Bridge. | Held at his side by her own choice; turns back, sits with the Hush, returns the Bridge. | Her folding chair stays in the Rest Garden, and Vierans start sitting in it. "Still not approving the dragon." |
 | **The robot iguana** | Her ex-henchman, now a helper. | Talks the Sweeper down, machine to machine. | The Sweeper's first friend. |
 | **The passenger** | Finds its family at the Hatchery, the midpoint. | Returns with the hatchlings to fly in the Great Launch. | Gives the kids a scale that hums the Heartnote. |
-| **The suits** | Translate for the family ([translation](LANGUAGE_AND_TRANSLATION.md)). | Drop words near Viera; the Caller fills the gaps. | Not needed once everyone understands everyone. |
-| **The Core** | Rides in the dragon, reads glyphs aloud, won't say Morrow's name. | Falls silent with the dragon at Landfall. | Open: it stays with the dragon or stays home. |
+| **The suits** | The one-line reason everyone understands everyone; the game is in English ([language](LANGUAGE_AND_TRANSLATION.md)). | Shiver whenever Morrow speaks. | Grow into powers. |
+| **The Core** | Rides in the dragon, reads signs aloud, won't say Morrow's name. | Falls silent with the dragon at Landfall. | Open: it stays with the dragon or stays home. |
 | **The dragon** | Gains wingmen and Song-breath. Turns out to be Morrow's likeness. | Goes still at Landfall when Morrow calls it *brother*. Wakes at the Heartnote with Lane Wings. | Among its makers and its kind, it chooses the family. |
 | **The Hush** | Glimpsed on every world; its place in the Old Song. | Found crushed beneath Morrow in the Rest Garden. | It becomes the rest in the song again, and Vierans start resting. |
 | **The Lanemother** | A figure in the Old Song. | Held by her own son in the Rest Garden; calls him by name in the Last Hold. | Sings a permanent lane to Earth as thanks, and tells Paul and Maria what the whole song is. |

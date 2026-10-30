@@ -49,7 +49,7 @@ The Core projects  → LYLA asks "why?"        → her visor records everything 
 - **Retracted state:** when the suit isn't needed, it shrinks to a **cuff** on the wrist, like a bracelet that pulses gently. This solves "do they wear suits to the store?" Suiting up is a tap on the cuff.
 - **Mood glow:** the seam light brightens when the wearer is excited and dims when they're sleepy. This is **presentation only**, never health or progress state.
 - **Kids' proportions:** the suits fit the kids' real bodies. No muscle sculpting and no adult silhouettes on children.
-- **Translation (Acts II and III, owner direction):** every suit, even retracted to its cuff, translates spoken Vieran into its wearer's ear and sings its wearer's words back out in Vieran, in their own instrument voice. In Act I it just listens and learns. It's a passive ability with no button. See [language and translation](LANGUAGE_AND_TRANSLATION.md).
+- **Why everyone understands everyone (owner direction):** the game is in English, and off Earth the suits are the reason the family understands everyone and is understood. It's a one-line hand-wave, not an ability, with no button or meter. See [language](LANGUAGE_AND_TRANSLATION.md).
 
 ---
 

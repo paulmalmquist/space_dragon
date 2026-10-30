@@ -10,7 +10,7 @@
 | New world rule | **Sound paints color** |
 | New cast | **The Caller** (design and name OPEN) |
 | Seeds | The Hush on the horizon, Morrow's gold line through the Quiet, and **the Old Song** |
-| Translation | **The suits translate** for the first time; the Glyph Book opens ([language and translation](../LANGUAGE_AND_TRANSLATION.md)) |
+| Language | Everyone speaks English. The suits are why, said once ([language](../LANGUAGE_AND_TRANSLATION.md)) |
 
 ---
 
@@ -141,7 +141,7 @@ They turn, see five people and a dragon at the window… and **stop singing**. T
 
 The Caller sways, and their eyes start to droop. Then Luna squeals "HI!", and the Caller blinks wide awake. **The family's noise is holding the Quiet back now.** For the first time in ages, the Caller can rest their voice.
 
-> CALLER (voice cracking, through the Core's translation): "…Someone came?"
+> CALLER (voice cracking): "…Someone came?"
 >
 > PAUL: "We heard you."
 >
@@ -155,25 +155,25 @@ The Caller sways, and their eyes start to droop. Then Luna squeals "HI!", and th
 
 ### What happened
 
-**[CINE]** The Caller sings in Vieran, a little tune for every sentence. Then something nobody expected: **the suits start translating.** Each one hums the Caller's words into its wearer's ear in English, a beat behind ([language and translation](../LANGUAGE_AND_TRANSLATION.md)). They learned their English from this family, and it starts a little wrong:
+**[CINE]** Luke has been frowning at something.
 
-> CALLER (singing three rising notes): "Fair lanes!"
+> LUKE: "Wait. How can we understand you?"
 >
-> THE SUITS (five small voices, in five helmets): "Nice… roads."
+> CALLER (just as puzzled): "...How can I understand *you*?"
 >
-> LUKE: "My suit's *talking*!"
+> MARIA (tapping the cuff of her suit): "I think it's these."
+>
+> LUKE: "Cool."
 
-And when Luke talks, his suit sings his words back out in Vieran, in quick bright plucked strings. The Caller's eyes go wide.
+That's the only time anyone asks ([language](../LANGUAGE_AND_TRANSLATION.md)).
 
-> CALLER (amazed): "You *sing*!"
+> CALLER (three rising notes, a little shy): "Fair lanes, then!"
 >
-> CALLER (laughing): "No, it's *fair lanes*! It means hello. And good luck. And… be safe out there."
+> LUKE: "What's fair lanes?"
 >
-> THE SUITS: "...Hello-good-luck-be-safe."
+> CALLER: "It means hello. And good luck. And… be safe out there."
 >
-> LUKE: "Fair lanes!" *(His suit sings it perfectly, three rising notes.)*
->
-> CORE (from the dragon, a little put out): "I was going to do that."
+> LUKE: "Fair lanes!"
 
 Then the Caller explains, the crystal projecting pictures. There's no reading, and the pictures carry it all:
 - **"Our worlds run on song."** The star-dragons sing lanes between the worlds, and ships ride them like currents. The music keeps everything bright and moving.
@@ -203,9 +203,8 @@ The stamp is the **symbol** from the first transmission in the living room: a sm
 >
 > CALLER: "It's the Heartnote. The note every song comes home to. Every traveler carries it."
 
-Lyla's visor chimes and opens a new page beside the lane books: the **Glyph Book**. The Heartnote glyph is its first entry, with the family's own home drawn next to it. *Ding.*
+Lyla's visor chimes: it's the same symbol as her very first archive card. *Ding.*
 
->
 > LUKE: "What's in yours?"
 >
 > CALLER (showing it, empty): "…Nothing yet."
@@ -214,11 +213,9 @@ Lyla's visor chimes and opens a new page beside the lane books: the **Glyph Book
 
 ### The complaint
 
-The neighbor has no suit. But the robot iguana on her shoulder has a little living material inside it, from the Bridge, and it turns out it translates too: tinny, flat and slightly sarcastic, straight into her ear.
-
 > NEIGHBOR (stepping forward with her clipboard): "Excuse me. Are you in charge here?"
 >
-> ROBOT IGUANA (translating, in a tinny monotone): "…I am the only one awake?"
+> CALLER (looking around the empty tower): "…I'm the only one awake?"
 >
 > NEIGHBOR: "Then I'd like to file a complaint."
 >
@@ -259,7 +256,7 @@ Everyone goes quiet. Under the Quiet, the single held note goes on and on.
 
 > MARIA (gathering the kids in): "That's enough story for tonight."
 
-Lyla's visor, half-closed, records it. *Ding.* It goes into the archive and can be replayed. The Glyph Book gains its second entry: one straight line that never ends.
+Lyla's visor, half-closed, records it. *Ding.* It goes into the archive and can be replayed. Its card shows one straight line that never ends.
 
 **[STATE]** `story_old_song = true`
 
