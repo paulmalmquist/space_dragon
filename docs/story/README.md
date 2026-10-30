@@ -22,6 +22,7 @@ Change canon only through `docs/decisions/`.
 | [Three-act plan](THREE_ACT_PLAN.md) | Where the story stood, the narrative holes the new structure opens, and proposed fills | PROPOSED |
 | [Acts II & III: The Road to Viera](ACTS_II_III_THE_ROAD_TO_VIERA.md) | Viera and Farport, song-lanes, why the Quiet happened, the Sweeper, both acts in order, lane levels, suits to powers, cast arcs | PROPOSED |
 | [Act II: Answer the Call](ACT_II_ANSWER_THE_CALL.md) | The Quiet, star-dragons, the Caller, the stowaway neighbor, Listen → Shelter → Home Note | PROPOSED; being restructured by the treatment above |
+| [Music production plan](../audio/MUSIC_PLAN.md) | Actual audio status, motif/asset brief, browser music design, milestones and verification | Planning delivered; music not implemented |
 | [Music, empathy and pacing](MUSIC_EMPATHY_AND_PACING.md) | The song system, the Hush's lore, beat maps, the variety plan, peril rules | PROPOSED |
 | [Scripts](scripts/) | Production scripts with dialogue, cues, interactions and checkpoints | PROPOSED drafts |
 | [Combat system](../gameplay/COMBAT_SYSTEM.md) and [combat notebook](../combat/README.md) | Alley-oops, fighter-jet flight, enemies, test specifications | Direction CANON, details PROPOSED |

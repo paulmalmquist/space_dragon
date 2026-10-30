@@ -12,6 +12,10 @@ This is an adjustable production order, separate from story chronology. New idea
 | 5. Expand one adventure at a time | One town retrieval, component progress, and return-home payoff; later family alley-oops, single-pilot jet-like flight, and Line Leader when in scope. | Playtests show supported learning and enjoyable action, reliable saves, and readable progression. Review draft story dependencies before implementing them. | Confirmed later gameplay direction is distinct from proposed mechanics and scripts; no automatic commitment to all missions: SD-010–SD-012. |
 | 6. Add backend when useful | Authenticated Railway save synchronization or other services with a concrete requirement. | Account/project audit, budget and access decisions, save ownership/conflict handling, end-to-end verification. | Parked until needed: SD-009. |
 
+## Music workstream
+
+[Music production plan](../audio/MUSIC_PLAN.md), SD-021: start with audible motif candidates and the existing First Contact slice (MUS-01/02), then prove one rescue-driven arrangement choice (MUS-03) before composing full planet packs and the Viera resolution (MUS-04/05). No music assets or playback engine currently exist. Planning is complete; implementation and listening review remain pending.
+
 ## Creative inputs that can arrive whenever you have them
 
 Each is optional now. A single annotated example is useful; do not wait to assemble a perfect package.

@@ -4,6 +4,8 @@
 **Status:** PROPOSED design for owner review. It is informed by [owner-supplied research](../research/2026-10-29-empathy-music-pacing.md), whose citations are unverified. Nothing here is canon.  
 **Builds on:** [Act I refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) (the SOS melody), [Act II](ACT_II_ANSWER_THE_CALL.md) (the Quiet and the Hush, with its climax revised alongside this document), the [suit reveals](SUIT_REVEALS_AND_STARTING_ABILITIES.md) and the [combat system](../gameplay/COMBAT_SYSTEM.md).
 
+> **Current production guidance (October 29):** this earlier treatment contains Act II-final resolution, free-order missions and note-count assumptions. Follow the [music production plan](../audio/MUSIC_PLAN.md) for the current audit, linear three-act/Viera alignment, motif development and implementation milestones. The text below is retained as proposed source material; its “adopted” labels describe that draft, not owner canon approval.
+
 ## 1. What the research changes
 
 | Research recommendation | What this design does with it |

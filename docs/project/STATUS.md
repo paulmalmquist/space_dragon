@@ -70,6 +70,10 @@ The v2 checkpoint validates progress and assistance, preserves valid v1 checkpoi
 
 This does not implement a town expedition, free movement, combat, flight, planetary visits, later powers or the SOS arrangement. The source reconciliation preserves these future directions instead of presenting them as completed gameplay.
 
+## Music status — October 29, 2026
+
+The [music plan](../audio/MUSIC_PLAN.md) audits the repository and turns the existing concept into five production milestones. There are no composed music assets, MIDI files, cue manifest or music engine in the audited runtime; device speech is the only implemented audio feature. Start with three audible motif candidates and a small adaptive First Contact cue pack. Plan documents are delivered; musical gameplay and audio quality remain NOT TESTED.
+
 ## Next useful action
 
 Build the first bounded Space Blocks retrieval and return-home installation using the guarded state/save loop, with supported shape matching and a single unique Assembly Module. Retain the fictional preschool setting and record assistance separately from mastery. Reviewed GLB art, actual local speech audibility, named-device performance and owner play review remain separate quality work. Integrating the website still requires its actual source and deployment context.
