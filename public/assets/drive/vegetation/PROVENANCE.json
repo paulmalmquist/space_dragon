@@ -1,0 +1,146 @@
+{
+  "date": "2026-10-30",
+  "status": "IMPLEMENTED; agent visual review in installed Chrome/AMD completed; owner final art/feel approval pending",
+  "sources": [
+    {
+      "id": "palm",
+      "name": "Mature date palm tree",
+      "author": "Innerscene (original model)",
+      "page": "https://www.innerscene.com/tools/library/3d-parts/mature-date-palm-tree-af8bdc6f",
+      "download": "https://www.innerscene.com/api/library/mature-date-palm-tree-af8bdc6f/download",
+      "license": "CC0-1.0",
+      "licensePage": "https://www.innerscene.com/tools/library/terms",
+      "originalLocal": "assets/source/local/town-drive/vegetation-v001/mature-date-palm-tree.glb",
+      "sourceSha256": "d398cf43a4f69f03dcc00e321d5f7130f93d700245c7e9fcccf599de2fbfb528"
+    },
+    {
+      "id": "canopy",
+      "name": "Island Tree 02",
+      "author": "Rob Tuytel (scanning, processing); Rico Cilliers (cleanup, processing) / Poly Haven",
+      "page": "https://polyhaven.com/a/island_tree_02",
+      "filesAPI": "https://api.polyhaven.com/files/island_tree_02",
+      "license": "CC0-1.0",
+      "licensePage": "https://polyhaven.com/license",
+      "originalLocal": "assets/source/local/town-drive/vegetation-v001/island_tree_02/island_tree_02.gltf"
+    }
+  ],
+  "processing": {
+    "script": "tools/prepare-drive-vegetation.mjs",
+    "tool": "@gltf-transform 4.5.1 + meshoptimizer + sharp (existing dependencies)",
+    "steps": [
+      "Center geometry at ground level; preserve original downloads unchanged in ignored source folder.",
+      "Join by material and weld. Simplify structural trunk/branch geometry into near/far LODs.",
+      "Fit alpha-textured quads to connected photographic leaves using UV/position covariance. Preserve the spatial leaf distribution: near canopy samples one in two source leaves with 1.45x card coverage, far samples one in six with 2.1x coverage. This avoids destroying foliage mass during global simplification.",
+      "Derive a compact hedge from the source coastal-tree leaf distribution with flattened vertical scale. Near hedge samples one leaf in six with 2.2x card coverage; far one in eighteen with 3.7x coverage. Matched camera review confirms full-looking foliage.",
+      "Resize images to at most 1024px; pack the supplied photographic alpha mask into foliage albedo. Retain bark/leaf textures.",
+      "Combine both LODs in one GLB with deduplicated embedded textures. All runtime requests use local files.",
+      "Use matte foliage PBR with specular antialiasing, a subdued normal map and thin-leaf translucency; retain detailed branching trunks. Palm crown spread is increased 25% without stretching its trunk."
+    ],
+    "privacy": "No owner footage, frame, real house layout or people used in these vegetation assets."
+  },
+  "files": [
+    {
+      "path": "assets/drive/vegetation/palm.glb",
+      "bytes": 1880156,
+      "sha256": "23e603ca7014fa25302f8fc1d740a2eb5efedefce7a2c53cab2bcb3a551c9bec",
+      "id": "palm",
+      "sourceTriangles": 56000,
+      "nearTriangles": 28000,
+      "farTriangles": 13848,
+      "bounds": {
+        "min": [
+          -3.455992856260764,
+          0,
+          -3.4003799909426107
+        ],
+        "max": [
+          3.455992856260764,
+          11.99999998298867,
+          3.4003799909426107
+        ]
+      }
+    },
+    {
+      "path": "assets/drive/vegetation/canopy.glb",
+      "bytes": 5877592,
+      "sha256": "1d8ab04dc39c6be4d6b128a55541b3631bb51d2f03861b9ee0b0777de62bef92",
+      "id": "canopy",
+      "sourceTriangles": 1072213,
+      "nearTriangles": 44826,
+      "farTriangles": 12775,
+      "bounds": {
+        "min": [
+          -2.1038726568222046,
+          0,
+          -2.0353487133979797
+        ],
+        "max": [
+          2.1038726568222046,
+          3.4066057968884706,
+          2.0353487133979797
+        ]
+      }
+    },
+    {
+      "path": "assets/drive/vegetation/hedge.glb",
+      "bytes": 1807724,
+      "sha256": "da7f1926e1c19b329ebcee8161e16e7c50719bf21e077bdfc9bff01001ce41eb",
+      "id": "hedge",
+      "sourceTriangles": 714744,
+      "nearTriangles": 9928,
+      "farTriangles": 3310,
+      "bounds": {
+        "min": [
+          -1.5472270965576174,
+          0,
+          -1.6282789707183838
+        ],
+        "max": [
+          1.5472270965576171,
+          0.8569412708282471,
+          1.628278970718384
+        ]
+      }
+    }
+  ],
+  "runtime": {
+    "lodDistanceMeters": {
+      "palm": 95,
+      "canopy": 72,
+      "hedge": 48
+    },
+    "cullDistanceMeters": 390,
+    "shadowCasterDistanceMeters": 55,
+    "instances": "Native GPU instancing, per-instance distance LOD and chunk disposal; shadow filtering every 200ms. One hedge mesh instance replaces the earlier six-branch assembly."
+  },
+  "candidateRejected": {
+    "name": "Shrub 01 by Rico Cilliers / Poly Haven",
+    "page": "https://polyhaven.com/a/shrub_01",
+    "license": "CC0-1.0",
+    "reason": "The glTF export is a horizontal botanical branch, not a dense hedge. Retained only in ignored local sources; no material from this candidate is in the final runtime."
+  },
+  "verification": {
+    "command": "npm.cmd run typecheck",
+    "result": "PASS",
+    "gltfValidation": "PASS: final optimized canopy and hedge passed gltf-transform validate with exit 0 and no hints; unchanged palm passed.",
+    "browser": "Installed Chrome, headless, ANGLE AMD Radeon Graphics,1440x900",
+    "visualReview": "Matched local vegetation-performance-v005 screenshots preserve green dense broadleaf crowns, detailed branching trunks and irregular hedge mass. A/B uses preserved v004 geometry and the lighter v005 candidate, both under the new 1024px/LOW world shadows and 55m plant-caster radius. No page/console errors. Owner final appearance review remains separate.",
+    "shortFrameSampleFps": 60.0096,
+    "performanceCaveat": "20-second active keyboard drive, installed Chrome/AMD1440x900, actual scene-render timing. A brief canopy screenshot visit warmed materials before the drive. This is not thermal/endurance or full-loop performance; root records final fresh-load hardware sample.",
+    "candidateSample": {
+      "seconds": 20,
+      "frames": 1201,
+      "fps": 60.0096,
+      "p50Ms": 16.7,
+      "p95Ms": 17.8,
+      "meanCpuFrameMs": 7.9077,
+      "meanGpuFrameMs": 12.0654,
+      "meanDrawCalls": 301.3963,
+      "meanActiveIndices": 4967294,
+      "previousGeometryMeanActiveIndices": 7184339,
+      "previousGeometryFps": 59.8078,
+      "errors": 0
+    },
+    "preservedPreviousCandidate": "assets/source/local/town-drive/vegetation-v004-runtime/"
+  }
+}

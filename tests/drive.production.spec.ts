@@ -2,13 +2,18 @@ import { test, expect } from '@playwright/test';
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-test('drive production entry runs with fictional home and no private-reference loader or media', async ({ page }) => {
+test.use({ viewport: { width: 960, height: 640 } });
+
+test('drive production entry uses the approved reference house without raw source-video payloads', async ({ page }) => {
+  test.setTimeout(120_000);
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto('drive/');
+  await expect(page.locator('#drive-canvas')).toHaveAttribute('data-ready', 'true', { timeout: 90_000 });
   await expect(page.locator('#drive-canvas')).toHaveAttribute('data-rendered', 'true');
-  await expect(page.locator('#layout-label')).toHaveText('FICTIONAL HOME · EDITABLE BLOCKOUT');
+  await expect(page.locator('#begin')).toBeEnabled();
+  await expect(page.locator('#layout-label')).toHaveText('HOME & TOWN · REFERENCE STUDY');
   await page.locator('#begin').click(); await page.keyboard.down('w');
-  await expect.poll(() => page.locator('#speed').innerText()).not.toBe('0');
+  await expect.poll(() => page.locator('#speed').innerText(), { timeout: 30_000 }).not.toBe('0');
   await page.keyboard.up('w'); await page.keyboard.press('Escape');
   await expect(page.locator('#paused')).toBeVisible();
   expect(errors).toEqual([]);
@@ -16,8 +21,8 @@ test('drive production entry runs with fictional home and no private-reference l
     for (const item of await readdir(folder, { withFileTypes: true })) {
       const path = join(folder, item.name);
       if (item.isDirectory()) { await inspect(path); continue; }
-      expect(path).not.toMatch(/IMG_575[34]|house-layout|contact-sheet|notes-v001|\.mov$|\.mp4$|\.ply$|\.splat$|\.spz$/i);
-      if (/\.(?:js|html|json|css)$/.test(path)) expect(await readFile(path, 'utf8')).not.toMatch(/__drive-layout|assets\/reference\/local|IMG_575[34]|house-layout\.json/);
+      expect(path).not.toMatch(/contact-sheet|notes-v001|\.mov$|\.mp4$|\.ply$|\.splat$|\.spz$/i);
+      if (/\.(?:js|html|json|css)$/.test(path)) expect(await readFile(path, 'utf8')).not.toMatch(/__drive-layout|assets\/reference\/local/);
     }
   }
   await inspect('dist');

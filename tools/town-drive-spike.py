@@ -1,7 +1,9 @@
-"""Bounded CPU SfM spike with conservative privacy masks, entirely local outputs.
+"""Bounded CPU SfM spike with conservative foreground masks, local authoring outputs.
 
 Run with the isolated Python environment documented in the local spike receipt.
 Black pixels are excluded both from inputs and COLMAP feature extraction masks.
+Local output routing is a workflow choice; SD-052 removed the prior Town Drive
+publication restriction. This helper never uploads or modifies source videos.
 """
 from pathlib import Path
 import argparse

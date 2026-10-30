@@ -1,4 +1,4 @@
-/** A deliberately compressed, invented route. No geographic coordinates or private layout. */
+/** A compressed reference-inspired route with invented connectors; distances are estimates. */
 export interface RouteSample { x: number; z: number; yaw: number; s: number; sectionIndex: number; }
 export interface RouteSection {
   id: string; label: string; invented: boolean; startS: number; endS: number;

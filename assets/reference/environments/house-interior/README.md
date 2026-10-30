@@ -16,7 +16,7 @@ Consult the walkthrough for visible room connections, openings, furniture placem
 
 Begin environment production with a useful opening-scene area. Keep walls, doors, furnishings, the computer, and gameplay interactions editable. Follow the [asset pipeline](../../../../docs/ASSET_PIPELINE.md) and [Seele intake procedure](../../../../seeles-assets/README.md) when generated or captured assets become available. Creating this reference folder does not create a 3D environment or select a reconstruction service.
 
-Keep the video and extracted reference imagery outside the runtime build. This intake records use as an authoring reference; it does not publish the footage in this public repository or send it to Seele or another generation service.
+The initial intake kept video and extracted imagery outside the runtime build. That Town Drive publication restriction is superseded by [SD-052](../../../../docs/decisions/2026-10-30-town-drive-detail-override.md): the real estimated layout and reference-derived runtime assets may be promoted without another privacy approval. Large source videos remain in local storage for size/workflow reasons. This does not authorize cloud-service uploads or purchases.
 
 ## Intake receipt — SD-029
 
@@ -33,7 +33,7 @@ Owner wording and routing are preserved in [the inbox](../../../../ideas/INBOX.m
 
 ## October 30 phone-original follow-up — SD-046
 
-The owner supplied higher-resolution `.MOV` originals in ignored `assets/reference/videos/`. They are separate sources from the older MP4 receipts above, with new hashes/metadata in the ignored local source receipts. The older MP4 authoring path is absent in this checkout. No source or derivative is promoted to runtime assets.
+The owner supplied higher-resolution `.MOV` originals in ignored `assets/reference/videos/`. They are separate sources from the older MP4 receipts above, with new hashes/metadata in local source receipts. The older MP4 authoring path is absent in this checkout. At the original SD-046 capture stage no source or derivative was promoted; SD-052 now authorizes reference-derived runtime assets and the estimated downstairs layout.
 
 The [Town Drive decision](../../../../docs/decisions/2026-10-30-town-drive-lab.md) records the bounded lab and provenance-ID differences between branches. Timestamped observations, 5-second contact sheets, masks and CPU SfM evidence are in the corresponding `assets/reference/local/environments/` folder. [Verification](../../../../docs/reports/2026-10-30-town-drive-lab.md) distinguishes observed reference evidence from estimated geometry and human approval.
-Next: review the estimated downstairs dollhouse locally; the owner must explicitly approve committing any real house-derived layout. The public build retains a fictional house. House SfM registered 32% of frames, all from the patio; use the editable blockout and revisit a slower, overlapping indoor capture before a splat.
+The owner removed the privacy/publication rule in [SD-052](../../../../docs/decisions/2026-10-30-town-drive-detail-override.md). The estimated real downstairs layout may be committed and shipped without another approval gate. House SfM registered 32% of frames, all from the patio; use the editable blockout and revisit a slower, overlapping indoor capture before a splat.

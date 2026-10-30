@@ -1,6 +1,7 @@
 import './style.css';
 import { createDriveWorld } from './world';
 import { parseHouseLayout, FICTIONAL_HOUSE } from './house';
+import referenceHouse from './reference-house.json';
 import { DEFAULT_DRIVE_CONFIG, DRIVE_STEP, validDriveConfig } from './config';
 import type { DriveConfig } from './config';
 import { ROUTE, lanePoseAt, nearestRoutePoint } from './route';
@@ -8,44 +9,47 @@ import { stepDrive, resetDrive } from './simulation';
 import type { DriveInput } from './simulation';
 import { loadDrive, saveDrive } from './checkpoint';
 import { createDriveInput } from './input';
+import { createTrafficState, stepTraffic, trafficPose, nearbyTraffic, TRAFFIC_SIGNALS, signalPhase } from './traffic';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 document.querySelector('#app')!.innerHTML = `<div class="drive-shell">
   <canvas id="drive-canvas" aria-label="Town Drive Lab road and car" tabindex="0"></canvas>
   <header class="drive-top"><a class="drive-brand" href="${import.meta.env.BASE_URL}">✧ SPACE DRAGON</a><div class="drive-title"><h1>Town Drive Lab</h1><p id="route-label">INVENTED NEIGHBORHOOD CONNECTOR</p></div><span class="spacer"></span><button class="drive-button" id="camera">Chase · C</button><button class="drive-button" id="pause">Ⅱ Pause</button></header>
-  <div class="drive-local" id="layout-label">FICTIONAL HOME · EDITABLE BLOCKOUT</div>
+  <div class="drive-local" id="layout-label">HOME & TOWN · REFERENCE STUDY</div>
   <div class="drive-toast" id="toast" hidden role="status"></div>
   <div class="drive-bottom"><div class="speed-cluster"><div class="speed-reading"><strong id="speed">0</strong><span>MPH</span></div><div class="speed-track"><i id="speed-fill"></i></div><div class="drive-sub" id="gear">READY TO ROLL</div><div class="drive-stamp" id="save-status"></div></div><div class="drive-cue"><span class="arrow" id="turn-arrow" aria-label="Straight ahead">↑</span><div><strong id="turn-distance">—</strong><small id="turn-label">FOLLOW THE ROAD</small></div></div></div>
   <div class="drive-map" id="map" role="img" aria-label="Invented compressed road loop"><span class="drive-map-label">THE LOOP · M</span><svg viewBox="-1520 -760 1740 980"><path id="route-path"/><g id="map-checkpoints"></g><path id="map-car" class="car-marker" d="M0 -10L7 7L0 4L-7 7Z"/></svg></div>
   <div class="drive-controls">WASD / ARROWS · DRIVE &nbsp; SPACE · SLIDE &nbsp; R · RESET &nbsp; M · MAP &nbsp; F2 · TUNE</div>
-  <div class="drive-overlay" id="welcome"><div class="drive-card"><div class="eyebrow">TOWN DRIVE LAB / 01</div><h2>Take the long<br>way home.</h2><p>A leafy neighborhood, wide palm-lined roads and three turns. Leave the driveway and follow the arrows back home.</p><div class="key-row"><kbd>W / ↑ Go</kbd><kbd>S / ↓ Brake + reverse</kbd><kbd>A D / ← → Steer</kbd><kbd>Space Slide</kbd></div><label><input type="checkbox" id="assist"> Assist · gentler speed and lane guidance</label><label><input type="checkbox" id="sound"> Turn chimes</label><label><input type="checkbox" id="motion"> Less camera motion</label><button class="primary" id="begin">Start driving →</button><p class="small">Controller: R2 go · L2 brake · left stick steer · Cross slide · Triangle reset · R1 camera · Options pause.</p><p class="small">A reference-inspired prototype. Connectors and distances are invented. No story progress changes.</p></div></div>
+  <div class="drive-overlay" id="welcome"><div class="drive-card"><div class="eyebrow">TOWN DRIVE LAB / 01</div><h2>Take the long<br>way home.</h2><p>A leafy neighborhood, palm-lined roads, passing traffic and three turns. Leave the driveway and follow the arrows back home.</p><div class="key-row"><kbd>W / ↑ Go</kbd><kbd>S / ↓ Brake + reverse</kbd><kbd>A D / ← → Steer</kbd><kbd>Space Slide</kbd></div><label><input type="checkbox" id="assist"> Assist · gentler speed and lane guidance</label><label><input type="checkbox" id="sound"> Turn chimes</label><label><input type="checkbox" id="motion"> Less camera motion</label><button class="primary" id="begin">Start driving →</button><p class="small">Controller: R2 go · L2 brake · left stick steer · Cross slide · Triangle reset · R1 camera · Options pause.</p><p class="small">A reference-inspired prototype. Connectors and distances are invented. No story progress changes.</p></div></div>
   <div class="drive-overlay" id="paused" hidden><div class="drive-card"><div class="eyebrow">TAKE YOUR TIME</div><h2>Parked for a moment.</h2><p id="pause-notice">Release the controls, then carry on.</p><button class="primary" id="resume">Continue driving →</button><button class="drive-button" id="reset">Back to checkpoint · R</button><p class="small" id="checkpoint-label"></p><a class="drive-button" href="${import.meta.env.BASE_URL}">Return to First Contact</a></div></div>
   <aside class="drive-tuning" id="tuning" hidden><h2>Handling · F2</h2><div id="tuning-fields"></div><p class="drive-stamp">Session tuning · no learner profile</p><button class="drive-button" id="close-tuning">Return to road</button></aside>
   <div id="drive-error" class="drive-error" role="alert" hidden></div>
 </div>`;
 
 async function launch() {
-  let layout = FICTIONAL_HOUSE;
-  let localHouse = false;
-  if (import.meta.env.DEV) {
-    try {
-      const response = await fetch(`${import.meta.env.BASE_URL}__drive-layout`);
-      if (response.ok) {
-        const candidate = parseHouseLayout(await response.json());
-        if (candidate) { layout = candidate; localHouse = true; }
-      }
-    } catch { /* Fictional fallback keeps the lab playable without private files. */ }
-  }
-  $('layout-label').textContent = localHouse ? 'LOCAL HOUSE STUDY · ESTIMATED BLOCKOUT' : 'FICTIONAL HOME · EDITABLE BLOCKOUT';
+  const layout = parseHouseLayout(referenceHouse) ?? FICTIONAL_HOUSE;
+  const referenceLayout = layout !== FICTIONAL_HOUSE;
+  $('layout-label').textContent = 'HOME & TOWN · REFERENCE STUDY';
   const canvas = $<HTMLCanvasElement>('drive-canvas');
-  const world = createDriveWorld(canvas, { houseLayout: layout });
+  $<HTMLButtonElement>('begin').disabled = true;
+  $('begin').textContent = 'Loading the neighborhood…';
+  const world = await createDriveWorld(canvas, { houseLayout: layout });
   const loaded = loadDrive();
   let state = loaded.state;
+  let traffic = createTrafficState(state.elapsedSeconds);
+  world.update(state, 0, traffic);
+  world.render();
+  await world.scene.whenReadyAsync().catch(error => { world.dispose(); throw error; });
+  world.render();
+  canvas.dataset.ready = 'true';
+  $<HTMLButtonElement>('begin').disabled = false;
+  $('begin').textContent = 'Start driving →';
   let paused = true;
   let begun = false;
   let config: DriveConfig = { ...DEFAULT_DRIVE_CONFIG };
   let accumulator = 0;
   let lastTime = performance.now();
+  let lastRenderedAt = 0;
   let toastUntil = 0;
   let lastChime = -1;
   let audio: AudioContext | null = null;
@@ -120,6 +124,8 @@ async function launch() {
   function tick(semantic: DriveInput) {
     const previousCheckpoint = state.checkpointId;
     const completed = state.completed;
+    traffic = stepTraffic(traffic, state);
+    world.setTraffic(traffic, state);
     state = stepDrive(state, semantic, config, world.obstacles);
     if (state.checkpointId !== previousCheckpoint || state.completed !== completed) {
       const saved = persist();
@@ -158,12 +164,13 @@ async function launch() {
   }
   world.cameraRig.snap(state);
   const debug = {
-    snapshot: () => ({ state: { ...state, visited: [...state.visited] }, controls: { ...controls }, paused, begun, camera: world.cameraRig.mode, config: { ...config }, localHouse, metrics: world.metrics(), frameMs: frames.slice(-600) }),
+    snapshot: () => ({ state: { ...state, visited: [...state.visited] }, controls: { ...controls }, paused, begun, camera: world.cameraRig.mode, config: { ...config }, referenceLayout, traffic:{count:traffic.vehicles.length,elapsedSeconds:traffic.elapsedSeconds,vehicles:nearbyTraffic(traffic,state.x,state.z,450).map(vehicle=>({...vehicle,...trafficPose(vehicle)})),signals:TRAFFIC_SIGNALS.map(signal=>({...signal,phase:signalPhase(signal,traffic.elapsedSeconds)}))}, metrics: world.metrics(), frameMs: frames.slice(-600) }),
     ...(import.meta.env.DEV ? {
+      scene: world.scene,
       advance: (semantic: DriveInput, steps: number) => { if (!paused) for (let i = 0; i < Math.min(36000, Math.max(0, steps)); i++) tick(semantic); },
       inspectAt: (s: number, mode: 'chase' | 'dashboard' | 'orbit' = 'dashboard') => {
         const pose = lanePoseAt(s); state = { ...state, ...pose, routeS: pose.s, speed: 0, velocityX: 0, velocityZ: 0 };
-        paused = true; input.release(); world.cameraRig.setMode(mode); world.cameraRig.snap(state); world.update(state, 1); world.render();
+        paused = true; input.release(); world.cameraRig.setMode(mode); world.cameraRig.snap(state); world.update(state, 1, traffic); world.render();
       },
     } : {}),
   };
@@ -179,8 +186,11 @@ async function launch() {
       accumulator = Math.min(.1, accumulator + dt);
       while (accumulator >= DRIVE_STEP) { tick(semantic); accumulator -= DRIVE_STEP; }
     } else accumulator = 0;
+    // Paused scenes are static; avoid spending a full GPU budget behind menus or another window.
+    if (paused && world.cameraRig.mode !== 'orbit' && now - lastRenderedAt < 100) return;
+    lastRenderedAt = now;
     world.cameraRig.setReducedMotion($<HTMLInputElement>('motion').checked);
-    world.update(state, dt);
+    world.update(state, dt, traffic);
     world.render(); hud(); canvas.dataset.rendered = 'true';
   });
   window.addEventListener('pagehide', () => {

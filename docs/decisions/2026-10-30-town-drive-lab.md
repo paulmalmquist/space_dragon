@@ -20,13 +20,11 @@ Use an editable Babylon blockout for the actual deliverable. Keep any future spl
 - Chase, dashboard and debug orbit cameras observe car state. Big arrows, a route minimap, speed readout and optional synthesized chime provide guidance. No reading challenge is attached to driving.
 - Ordered leg checkpoints and an idempotent home-completion flag live in state. `space-dragon.drive.v1` has its own validated backup/future-version protections; Earth/learning saves are untouched. R recovers to the last checkpoint without erasing progress.
 
-## Privacy boundary
+## Superseded privacy boundary
 
-Originals, contact sheets, masked SfM inputs, sparse models, route observations, comparisons and the real house-derived JSON remain under ignored local folders. `assets/reference/videos/` is now explicitly ignored. Originals are never rewritten or uploaded. No cloud service, purchase or deployment was used.
+**REMOVED by the owner under [SD-052](2026-10-30-town-drive-detail-override.md).** The original pasted task supplied this restriction; the owner's later explicit override supersedes it. Real house-derived layout, geometry and reference textures can be committed and used in Town Drive without another approval request. The previous fictional-only production fallback and dev-only layout loader are retired. Original clips/intermediate solves can stay local for size and workflow reasons.
 
-The tracked house schema ships a **fictional** layout. On the loopback development server only, a fixed-path middleware can return `assets/reference/local/environments/house-interior/house-layout.json`; it rejects foreign origins/hosts and is disabled in isolated tests. No arbitrary path is accepted. Production compilation removes the loader and uses the fictional layout. Reference frames are never requested by game code. The two-level walkthrough and unseen room details are recorded in the private notes; the P0 local dollhouse deliberately covers an estimated downstairs subset, not a measured complete floor plan.
-
-Committing the real house-derived layout/geometry remains **OPEN** and requires the owner's explicit answer. The current review PR contains only the fictional schema/data and procedural kit. The local reference-compare script writes a new ignored HTML sheet, dashboard captures and links to nearest local frames. Matching times/distances are estimates and invented connectors have no footage counterpart.
+The estimated downstairs layout is not a measured complete floor plan; the two-level walkthrough includes upstairs areas that have not been reconstructed. Reference comparisons and invented connectors remain estimates.
 
 ## Branch reconciliation and source authority
 
@@ -36,4 +34,4 @@ The existing controller adapter was recovered from that remote head and extended
 
 ## Recovery
 
-Revert the Town Drive commit to remove its entry/link, drive source, dev middleware and scoped documentation. Keep the private originals and all prior Earth/Dogfight work. Deleting only the drive save keys resets this lab; ordinary R does not. If a private layout is missing/invalid, the fictional fallback remains playable. No public asset promotion or real-layout publication is implied by technical checks.
+Revert the Town Drive commit to remove its entry/link, drive source, dev middleware and scoped documentation. Keep the original videos and all prior Earth/Dogfight work. Deleting only the drive save keys resets this lab; ordinary R does not. The real estimated layout is authorized by SD-052; technical checks still do not imply final visual or production release approval.

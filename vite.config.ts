@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath } from 'node:url';
 import { ideaInboxPlugin } from './tools/dev-idea-inbox.ts';
-import { driveLayoutPlugin } from './tools/dev-drive-layout.ts';
 
 const portArgument = process.argv.indexOf('--port');
 const cacheSuffix = process.env.SPACE_DRAGON_TESTING === '1' ? 'test' : portArgument >= 0 ? process.argv[portArgument + 1] : 'local';
@@ -15,7 +14,7 @@ export default defineConfig({
   plugins: [ideaInboxPlugin(fileURLToPath(new URL(
     process.env.SPACE_DRAGON_TESTING === '1' ? './artifacts/test-inbox.md' : './ideas/INBOX.md',
     import.meta.url,
-  ))), driveLayoutPlugin(fileURLToPath(new URL('./assets/reference/local/environments/house-interior/house-layout.json', import.meta.url)))],
+  )))],
   server: {
     port: 5173, strictPort: true,
     fs: {

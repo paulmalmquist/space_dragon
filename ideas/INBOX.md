@@ -227,3 +227,21 @@ Receipt: **SD-036** · CONFIRMED production direction · [The prototype integrat
 Supplied local originals: `assets/reference/videos/IMG_5753.MOV` and `assets/reference/videos/IMG_5754.MOV`. The accompanying Town Drive Lab task authorizes source verification, local-only analysis and reconstruction spike, a separate drivable lab, checks and a PR.
 
 Receipt: **SD-046** · CONFIRMED drivable reference-based environment; lab structure, car tuning, invented connectors and distance factor PROPOSED · [Decision](../docs/decisions/2026-10-30-town-drive-lab.md), [verification](../docs/reports/2026-10-30-town-drive-lab.md). Private footage, derivatives and the real house layout stay local. Production uses a fictional layout. This does not add an Act I mission or settle who drives, the canonical car or town geography. Incoming main reference IDs SD-029/030 and controller SD-038 are source provenance, not replacements for this branch's existing entries.
+
+## October 30, 2026 — Town Drive realism and rule removal (SD-052)
+
+Owner source wording:
+
+> i am overriding privacy rule. i dont know who put that. also this looks too basic. i want pretty close to photorealistic and detailed
+
+> remove the rule
+
+Routing receipt: **CONFIRMED**, technically verified. [Decision](../docs/decisions/2026-10-30-town-drive-detail-override.md) removes the original task’s Town Drive privacy/publication gate. The estimated house layout is bundled; materials, vegetation, lighting, road detail and car are upgraded while retaining driving behavior. [Verification](../docs/reports/2026-10-30-town-drive-detail.md) records passed checks and remaining human review.
+
+## October 30, 2026 — Town Drive traffic and details (SD-055)
+
+Owner source wording:
+
+> fill the world with NPC cars, traffic and a few more details also. dealers choice on details
+
+Routing receipt: **CONFIRMED**, technically verified. [Decision](../docs/decisions/2026-10-30-town-drive-traffic.md) adds traffic previously held outside the first lab increment. Bidirectional NPC vehicles, signal/following behavior and agent-selected street details are implemented; driving/save boundaries remain intact. [Combined verification](../docs/reports/2026-10-30-town-drive-detail.md).

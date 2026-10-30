@@ -37,14 +37,14 @@ export function createDriveCamera(scene: Scene, canvas: HTMLCanvasElement, reduc
     const speed = Math.min(1, Math.abs(pose.speed) / 25);
     if (mode === 'orbit') { orbit.target.set(pose.x, 0.6, pose.z); return; }
     const dashboard = mode === 'dashboard';
-    const distance = dashboard ? -0.35 : 8.6 + (reducedMotion ? 0 : speed * 2);
-    const height = dashboard ? 1.48 : 5.5;
+    const distance = dashboard ? -0.35 : 7.5 + (reducedMotion ? 0 : speed * 1.4);
+    const height = dashboard ? 1.37 : 3.55;
     const desired = new Vector3(pose.x - forwardX * distance, height, pose.z - forwardZ * distance);
-    const look = new Vector3(pose.x + forwardX * (dashboard ? 20 : 8), dashboard ? 1.45 : 0.8, pose.z + forwardZ * (dashboard ? 20 : 8));
+    const look = new Vector3(pose.x + forwardX * (dashboard ? 20 : 8), dashboard ? 1.34 : 1.05, pose.z + forwardZ * (dashboard ? 20 : 8));
     const weight = dashboard || snap || !initialized ? 1 : 1 - Math.exp(-Math.min(dt, 0.1) * 7);
     Vector3.LerpToRef(follow.position, desired, weight, follow.position);
     Vector3.LerpToRef(target, look, weight, target);
-    follow.fov = dashboard ? 1.05 : 0.86 + (reducedMotion ? 0 : speed * 0.12);
+    follow.fov = dashboard ? 1.05 : 0.88 + (reducedMotion ? 0 : speed * 0.08);
     follow.setTarget(target);
     initialized = true;
   }

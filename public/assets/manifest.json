@@ -125,6 +125,150 @@
           "sha256": "8095da18e8be0ced6d01db0c8ef2387d1eb7303ab3fa49303803398c7fcc360e"
         }
       ]
+    },
+    {
+      "id": "town-drive-detail",
+      "version": "v001",
+      "status": "runtime candidate; owner visual review pending",
+      "runtimePath": "assets/drive/vegetation/palm.glb",
+      "provenance": "CC0 sources and processing recorded beside materials, sky and vegetation; car and house geometry are original TypeScript. Owner reference layout authorized under SD-052.",
+      "files": [
+        {
+          "path": "assets/drive/materials/asphalt-albedo.webp",
+          "bytes": 170562,
+          "sha256": "c438a2a5f607c1103081580040ef711299456d19c50652b994dfd61d8f407ef9"
+        },
+        {
+          "path": "assets/drive/materials/asphalt-normal.webp",
+          "bytes": 611256,
+          "sha256": "5d511c278ac5dcae80855cfc24d0f730874281d8c51b5a04ba3fa5f5d196f3ce"
+        },
+        {
+          "path": "assets/drive/materials/asphalt-roughness.webp",
+          "bytes": 3684,
+          "sha256": "c6480a4df033dcff06003ec6c2ad960efacf51b70ce9f9d4e8240db59cd99975"
+        },
+        {
+          "path": "assets/drive/materials/bark-albedo.webp",
+          "bytes": 680368,
+          "sha256": "464bcfde42c51508ce0c8be3453da51cfe523b7b50d4abea639b68deb8678c9a"
+        },
+        {
+          "path": "assets/drive/materials/bark-normal.webp",
+          "bytes": 592966,
+          "sha256": "124e2cb02617820f70edaef20c2f44c81b6161236b0dfa541eaf47b3483a33ff"
+        },
+        {
+          "path": "assets/drive/materials/bark-roughness.webp",
+          "bytes": 382728,
+          "sha256": "1a5a051804fd1aa075122b3a0f4677a84d08da4ed168eb93cbe673e505eda6f7"
+        },
+        {
+          "path": "assets/drive/materials/concrete-albedo.webp",
+          "bytes": 436894,
+          "sha256": "6c51f70cbb540f8270ca38bb058a9fbbd563438bfe01617657eacd578059cc08"
+        },
+        {
+          "path": "assets/drive/materials/concrete-normal.webp",
+          "bytes": 296628,
+          "sha256": "1e3ddc380eebe8337507524bee860fb7a5e9e83f8e6106428885306208390c24"
+        },
+        {
+          "path": "assets/drive/materials/concrete-roughness.webp",
+          "bytes": 118528,
+          "sha256": "c9cc4d74f9d92241f59f395d8c4c9f3c3e38279a3eb64186a88f1b5ab023cd18"
+        },
+        {
+          "path": "assets/drive/materials/fabric-albedo.webp",
+          "bytes": 267702,
+          "sha256": "c67c1a105370e9c0729cabf9bece0d91071cb1d7d815a778789baef1b4ede6d0"
+        },
+        {
+          "path": "assets/drive/materials/fabric-normal.webp",
+          "bytes": 480492,
+          "sha256": "b7e5f830e3c968ee35a5ee107616caed5c121e2a7258db6ea824deab750466fe"
+        },
+        {
+          "path": "assets/drive/materials/fabric-roughness.webp",
+          "bytes": 469840,
+          "sha256": "2244c18aebab88f2a8bf98f2b7855ec4eeff708597a8e3087236dbb6896beeaf"
+        },
+        {
+          "path": "assets/drive/materials/grass-albedo.webp",
+          "bytes": 246742,
+          "sha256": "230f49f8223d0d5ffc21cce7341a65973fd305503fe2d99f78b6394345859d18"
+        },
+        {
+          "path": "assets/drive/materials/grass-normal.webp",
+          "bytes": 650494,
+          "sha256": "0053db8d49aade03533c75bf21eb2376dac76dcc7ee40779a015e23e0307a450"
+        },
+        {
+          "path": "assets/drive/materials/grass-roughness.webp",
+          "bytes": 5308,
+          "sha256": "e4a82cfa0e4a5d7db42324a903bb62b697a1dad7e4d753e383b1c4eec17a0a7c"
+        },
+        {
+          "path": "assets/drive/materials/plaster-albedo.webp",
+          "bytes": 189218,
+          "sha256": "bb3c2e4a4c780158967ea3654741f524152e26993868f1c10b2cb318bbf3c046"
+        },
+        {
+          "path": "assets/drive/materials/plaster-normal.webp",
+          "bytes": 438484,
+          "sha256": "ec0ba189cbe3f9bd07b4bb396de298fa5659076f654cc702512e7f0a1e6adafd"
+        },
+        {
+          "path": "assets/drive/materials/plaster-roughness.webp",
+          "bytes": 7890,
+          "sha256": "1e0f678ef9a439656232594182fed88b907902c28a3f0204e53e015fd8a9079b"
+        },
+        {
+          "path": "assets/drive/materials/PROVENANCE.json",
+          "bytes": 16545,
+          "sha256": "aad3cf38832f2461b9d23d8030a4ff911ee4fee0785b3a64d13d80611296fde7"
+        },
+        {
+          "path": "assets/drive/materials/wood-albedo.webp",
+          "bytes": 116882,
+          "sha256": "f834f2b30095a046ca78a5bfec502d76f6e6c1a04afaaf4f7f6931cbb9765804"
+        },
+        {
+          "path": "assets/drive/materials/wood-normal.webp",
+          "bytes": 100538,
+          "sha256": "6f512676f720950229582c236c07c9140aaac5abd093143e2e6b61c8346d01e6"
+        },
+        {
+          "path": "assets/drive/materials/wood-roughness.webp",
+          "bytes": 324282,
+          "sha256": "a057c4d6a97896e02217953de01a74ef9caa2c2c4a5cac7f782032f2d668d77a"
+        },
+        {
+          "path": "assets/drive/sky/daylight-512.env",
+          "bytes": 2610301,
+          "sha256": "b153789f97d720500cca435e8bd963c672dfda6b46db90d814aa577a1d736a5f"
+        },
+        {
+          "path": "assets/drive/vegetation/canopy.glb",
+          "bytes": 5877592,
+          "sha256": "1d8ab04dc39c6be4d6b128a55541b3631bb51d2f03861b9ee0b0777de62bef92"
+        },
+        {
+          "path": "assets/drive/vegetation/hedge.glb",
+          "bytes": 1807724,
+          "sha256": "da7f1926e1c19b329ebcee8161e16e7c50719bf21e077bdfc9bff01001ce41eb"
+        },
+        {
+          "path": "assets/drive/vegetation/palm.glb",
+          "bytes": 1880156,
+          "sha256": "23e603ca7014fa25302f8fc1d740a2eb5efedefce7a2c53cab2bcb3a551c9bec"
+        },
+        {
+          "path": "assets/drive/vegetation/PROVENANCE.json",
+          "bytes": 6563,
+          "sha256": "e842ca5a1514704ef8bb5b205adfd61f247f9f69e411e751c911416453ecb684"
+        }
+      ]
     }
   ],
   "decoder": {

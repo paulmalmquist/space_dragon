@@ -65,3 +65,5 @@ Keep gameplay-relevant parts independently addressable and preserve transforms, 
 Record file/download size, loaded geometry/material counts, texture dimensions, load duration, frame timing, and device/browser for a representative view. Define budgets after testing the first asset on named target devices. The current desktop's integrated GPU is useful for an early compatibility check, not proof of mobile performance or final AAA fidelity.
 
 Keep original exported geometry and optimized candidates until the browser comparison passes. A passing format validator, screenshot, or successful file load alone is not a finished animation or performance milestone. No asset is deployed by this pipeline.
+
+For Town Drive, [SD-052](decisions/2026-10-30-town-drive-detail-override.md) removes the earlier privacy/publication restriction. The supplied video-derived layout, geometry and textures may be promoted into tracked runtime assets without another approval gate.

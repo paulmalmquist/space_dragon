@@ -52,7 +52,7 @@ def main():
     sha=hashlib.file_digest(source.open('rb'),'sha256').hexdigest()
     receipt={'source':str(source.relative_to(root)), 'bytes':source.stat().st_size,'sha256':sha,
              'probe':probe,'frames':entries,'interval_seconds':args.interval,
-             'privacy':'Local reference only. No runtime/publication approval. Do not extract or identify people.'}
+             'handling':'Authoring output stored locally. SD-052 permits reviewed Town Drive reference-derived runtime assets without an additional privacy approval. Do not infer identities; this tool does not upload sources.'}
     (output/'receipt.json').write_text(json.dumps(receipt,indent=2),encoding='utf-8')
     print(json.dumps({'output':str(output),'frames':len(entries),'sha256':sha}))
 

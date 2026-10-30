@@ -1,5 +1,7 @@
 # Town Drive Lab verification — October 30, 2026
 
+Historical verification receipt. Its privacy/publication restriction is **REMOVED** by the owner’s later [SD-052 override](../decisions/2026-10-30-town-drive-detail-override.md).
+
 ## Scope
 
 - **Authorization:** owner's attached Town Drive Lab task and two supplied phone-original paths; SD-046. Separate technical prototype, not town missions. [Decision](../decisions/2026-10-30-town-drive-lab.md).

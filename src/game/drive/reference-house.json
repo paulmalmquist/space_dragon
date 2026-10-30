@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "label": "Walkthrough house study \u00b7 estimated ground floor",
+  "notes": "Owner approved for Town Drive under SD-052. Dimensions and axes are estimates, downstairs only. Desk in living area is fictional staging; the observed desk is upstairs.",
+  "rooms": [
+    {
+      "id": "entry-hall",
+      "x": -4,
+      "z": -1,
+      "width": 2.4,
+      "depth": 7,
+      "floorColor": "#b89671"
+    },
+    {
+      "id": "dining",
+      "x": -0.6,
+      "z": -2.5,
+      "width": 4.4,
+      "depth": 4,
+      "floorColor": "#b89671"
+    },
+    {
+      "id": "living",
+      "x": 0,
+      "z": 2,
+      "width": 5.6,
+      "depth": 5,
+      "floorColor": "#b89671"
+    },
+    {
+      "id": "kitchen",
+      "x": 4.4,
+      "z": 1.5,
+      "width": 3.2,
+      "depth": 4,
+      "floorColor": "#b89671"
+    },
+    {
+      "id": "covered-patio",
+      "x": 2,
+      "z": 6.4,
+      "width": 8,
+      "depth": 3,
+      "floorColor": "#d4c4ad"
+    }
+  ],
+  "walls": [
+    {
+      "x": -5.3,
+      "z": -1,
+      "width": 0.18,
+      "depth": 7,
+      "height": 2.6
+    },
+    {
+      "x": -1.8,
+      "z": -4.6,
+      "width": 7,
+      "depth": 0.18,
+      "height": 2.6
+    },
+    {
+      "x": 6.1,
+      "z": 1.5,
+      "width": 0.18,
+      "depth": 4.2,
+      "height": 2.6
+    },
+    {
+      "x": -2.8,
+      "z": 1.7,
+      "width": 0.18,
+      "depth": 3.2,
+      "height": 1.1
+    },
+    {
+      "x": -1.8,
+      "z": 4.6,
+      "width": 2.2,
+      "depth": 0.18,
+      "height": 2.6
+    },
+    {
+      "x": 5,
+      "z": 4.6,
+      "width": 2.2,
+      "depth": 0.18,
+      "height": 2.6
+    }
+  ],
+  "openings": [
+    {
+      "x": -4,
+      "z": -4.6,
+      "width": 1,
+      "orientation": "x",
+      "label": "Entry (estimated)"
+    },
+    {
+      "x": -2.7,
+      "z": -2.5,
+      "width": 1.5,
+      "orientation": "z",
+      "label": "Hall to dining"
+    },
+    {
+      "x": 0,
+      "z": -0.5,
+      "width": 3,
+      "orientation": "x",
+      "label": "Dining to living"
+    },
+    {
+      "x": 2.8,
+      "z": 1.5,
+      "width": 2.4,
+      "orientation": "z",
+      "label": "Open kitchen"
+    },
+    {
+      "x": 1.6,
+      "z": 4.6,
+      "width": 3.2,
+      "orientation": "x",
+      "label": "Backyard glazing (estimated)"
+    }
+  ],
+  "furniture": [
+    {
+      "kind": "table",
+      "x": -0.6,
+      "z": -2.5,
+      "width": 1.6,
+      "depth": 2.3
+    },
+    {
+      "kind": "sofa",
+      "x": -1.7,
+      "z": 1.8,
+      "width": 1.1,
+      "depth": 3.2
+    },
+    {
+      "kind": "sofa",
+      "x": -0.2,
+      "z": 0.7,
+      "width": 2.4,
+      "depth": 1.1
+    },
+    {
+      "kind": "cabinet",
+      "x": 4.6,
+      "z": 0,
+      "width": 2.7,
+      "depth": 0.65
+    },
+    {
+      "kind": "cabinet",
+      "x": 5.7,
+      "z": 1.6,
+      "width": 0.65,
+      "depth": 2.7
+    },
+    {
+      "kind": "desk",
+      "x": 1.2,
+      "z": 3.8,
+      "width": 1.3,
+      "depth": 0.7
+    },
+    {
+      "kind": "cabinet",
+      "x": -3.1,
+      "z": 1.7,
+      "width": 0.65,
+      "depth": 3.2
+    },
+    {
+      "kind": "sofa",
+      "x": 4.8,
+      "z": 6.4,
+      "width": 0.8,
+      "depth": 1.6
+    },
+    {
+      "kind": "table",
+      "x": 3,
+      "z": 6.4,
+      "width": 0.7,
+      "depth": 0.7
+    }
+  ]
+}
