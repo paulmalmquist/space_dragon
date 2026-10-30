@@ -14,6 +14,8 @@ The [story index](../story/README.md) maps the later writing. [Act I refinements
 
 The root `new characters` file mentions Mox, Tavi, Captain Nera, Rook, and a Hush clue as proposed. It is a download-note stub; the referenced character/story attachment and its dialogue are not present in this checkout. Do not assign those names to existing roles or invent the missing details.
 
+**Confirmed story structure (October 29):** the story is linear across a large world or set of worlds, in three acts. Act I is on Earth; then the dragon carries the family planet to planet, and the final landing is on planet Viera, where everyone is a space traveler. Suits grow from upgrades into powers by the end, and the dragon dogfights and navigates asteroid fields between planets. See [the decision](../decisions/2026-10-29-three-acts-linear-and-viera.md). The [three-act plan](../story/THREE_ACT_PLAN.md) and [Acts II & III treatment](../story/ACTS_II_III_THE_ROAD_TO_VIERA.md) propose how to fill it in, including Viera's lore, the Sweeper rival and draft powers; those stay proposals.
+
 **Confirmed later gameplay direction:** on-foot tandems are family alley-oops; the dragon has fighter-jet/flight-simulator feel with one pilot and no crew roles. See [the decision](../decisions/2026-10-29-alley-oops-and-jet-flight.md). Detailed combat, ability names, assist tiers, and timing stay proposed unless separately confirmed. These are later production directions, not added scope for the current guided pod prototype.
 
 ## Visual and technical direction

@@ -44,3 +44,28 @@ Source: the recommended technology setup pasted by the owner. These are recommen
 - **SD-009:** Railway save synchronization and asset hosting when the first prototype establishes a need. PROPOSED later work; account state, cost, authentication, and site integration remain unverified.
 
 Receipt: linked entries are in [the ledger](../docs/project/IDEA_LEDGER.md). Paid art software, subscriptions, generated likeness uploads, additional infrastructure, and an entire game production are not prerequisites for this local setup.
+
+### October 29, 2026 — three acts, linear, ending on Viera
+
+Source: owner, in a Claude chat in the Space Dragon project.
+
+> “Read the current state of the repo and start to make a plan to fill in narrative holes .
+> We are staying linear but we have a large 3d world or set of worlds. I’d like 3 major acts where the first is on earth and then the dragon allows us to move from planet to planet.”
+
+> “Final landing place is on planet viera where everyone is space travelers”
+
+Receipt: **SD-014** (linear, large worlds, three acts) and **SD-015** (Viera as the final landing) · CONFIRMED direction · Recorded in [the decision](../docs/decisions/2026-10-29-three-acts-linear-and-viera.md). The assistant's [three-act plan](../docs/story/THREE_ACT_PLAN.md) lists the narrative holes this opens.
+
+### October 29, 2026 — fill the holes: upgrades to powers, dogfights between planets
+
+Source: owner, same chat.
+
+> “Ok start filling those narrative holes please. Be creative .
+>
+> Leave room for suit upgrades and powers when we get to viera. At the start it’s just suit upgrades but then it’s power by the ends
+>
+> Dragon needs dog fights en route to planets and navigating asteroid Fields etc. feel free ro borrow from something that would be at home in Star Wars and starfield”
+
+> “Can you put those in my space_dragon repo”
+
+Receipt: **SD-016** (suit upgrades, then powers by the end) and **SD-017** (dogfights and asteroid fields between planets) · CONFIRMED direction, details PROPOSED · Recorded in [the decision](../docs/decisions/2026-10-29-three-acts-linear-and-viera.md). **SD-018** · PROPOSED · The assistant's fills are in [Acts II & III: The Road to Viera](../docs/story/ACTS_II_III_THE_ROAD_TO_VIERA.md), awaiting owner review. The last message authorized adding both documents to this repo.

@@ -4,6 +4,8 @@
 **Status:** PROPOSED narrative treatment for owner review. Not CONFIRMED canon, not current implementation scope. All names are placeholders.  
 **Builds on:** [Act I](ACT_I_BUILD_THE_DRAGON.md) (authoritative) and the [Act I refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) (proposed). Where Act II relies on a refinement, such as the SOS melody, the passenger creature, the Bridge or the neighbor's grievance, it says so. If a refinement is rejected, the dependent beat needs revisiting.
 
+> **Restructure in progress (October 29, 2026).** The owner [confirmed](../decisions/2026-10-29-three-acts-linear-and-viera.md) a linear, three-act story that ends with a final landing on planet Viera. "Any order" below is superseded, and this document's coda no longer ends the game. The [Acts II & III treatment](ACTS_II_III_THE_ROAD_TO_VIERA.md) proposes ending Act II at the Forge Ring and moving the Silent Center, the Hush climax and the coda into Act III on Viera. Until this document is rewritten, read it alongside that treatment.
+
 ## 1. What Act II must do
 
 From Act I: *"Travel to the source of the SOS and discover who called, what happened, and what help is needed. Do not add an unrelated sightseeing campaign between assembly and answering the signal."*

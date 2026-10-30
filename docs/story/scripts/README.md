@@ -2,16 +2,18 @@
 
 Draft production scripts: dialogue, music and sound cues, interactions with hint ladders, state changes and checkpoints. All **PROPOSED**. See the [story index](../README.md) for status and placeholder names.
 
+**Order update (October 29, 2026):** the story is now linear by [owner decision](../../decisions/2026-10-29-three-acts-linear-and-viera.md). The "any order" labels below are superseded; the proposed fixed order follows the table numbering. The [Acts II & III treatment](../ACTS_II_III_THE_ROAD_TO_VIERA.md) proposes moving A2-07 and A2-11 into Act III on Viera. Count-based beats (install count, dragons awake) still work in a fixed order, so the scripts need relabeling rather than rewriting.
+
 ## Act I, in play order
 
 | # | Script | Covers | Order |
 | --- | --- | --- | --- |
 | 1 | [A1-00 First Contact](A1-00_FIRST_CONTACT.md) | Living room → backyard → five suits → Five Together → town map → bedtime. Marks the SD-M1 beats. | Fixed |
 | 2 | [Mission 1: Space Blocks](A1-04-M1_SPACE_BLOCKS.md) | The preschool: shape matching, the robot iguana, the first alley-oop, Builder Bugs | Fixed (1st install) |
-| 3 | [Mission 2: Rooftop Stars](A1-04-M2_ROOFTOP_STARS.md) | Luke's school (outside only): trail flags, the climb, the fading star | Any order, 2nd–5th |
-| 4 | [Mission 3: Heavy Haul](A1-04-M3_HEAVY_HAUL.md) | The warehouse store: the pallet-ramp puzzle, power cells, Mow-Bot, cart race | Any order, 2nd–5th |
-| 5 | [Mission 4: The Passenger](A1-04-M4_THE_PASSENGER.md) | The grocery: sorting, hide-and-seek, the passenger, flamingo decoys | Any order, 2nd–5th |
-| 6 | [Mission 5: Parking Lot Chase](A1-04-M5_PARKING_LOT_CHASE.md) | The big-box store: pure action, mosquito drones, Tiny Launch, the symbol inside the iguana | Any order, 2nd–5th |
+| 3 | [Mission 2: Rooftop Stars](A1-04-M2_ROOFTOP_STARS.md) | Luke's school (outside only): trail flags, the climb, the fading star | Fixed (2nd; was any order) |
+| 4 | [Mission 3: Heavy Haul](A1-04-M3_HEAVY_HAUL.md) | The warehouse store: the pallet-ramp puzzle, power cells, Mow-Bot, cart race | Fixed (3rd; was any order) |
+| 5 | [Mission 4: The Passenger](A1-04-M4_THE_PASSENGER.md) | The grocery: sorting, hide-and-seek, the passenger, flamingo decoys | Fixed (4th; was any order) |
+| 6 | [Mission 5: Parking Lot Chase](A1-04-M5_PARKING_LOT_CHASE.md) | The big-box store: pure action, mosquito drones, Tiny Launch, the symbol inside the iguana | Fixed (5th; was any order) |
 | 7 | [Mission 6: Countdown](A1-04-M6_COUNTDOWN.md) | The fictional rocket facility: the test sequence, the countdown reaching zero, the Armored Alligator | Always 6th |
 | — | [Install parties](A1-05_INSTALL_PARTIES.md) | Shared, by **install count**: the SOS layers, Core vocabulary, the baker gag, the neighbor's escalation | Used by every mission |
 | 8 | [A1-06b Across the Street](A1-06B_ACROSS_THE_STREET.md) | The Bridge: the backyard boss, then empathy, and the march becomes a waltz | Fixed |
@@ -22,7 +24,7 @@ Draft production scripts: dialogue, music and sound cues, interactions with hint
 | # | Script | Covers | Order |
 | --- | --- | --- | --- |
 | 1 | [A2-00 The Crossing](A2-00_THE_CROSSING.md) | Flight out, light speed, the crossing, the stowaway, the arrival in the Quiet, meeting the Caller, the bedtime story | Fixed |
-| 2 | [A2-03 Waking the Worlds](A2-03_WAKING_THE_WORLDS.md) | Market Moon, Hatchery Nebula (the passenger's reunion), Climbing Spires, Forge Ring (the blueprints, Song-breath), plus waking beats by **dragons-awake count** | Any order |
+| 2 | [A2-03 Waking the Worlds](A2-03_WAKING_THE_WORLDS.md) | Market Moon, Hatchery Nebula (the passenger's reunion), Climbing Spires, Forge Ring (the blueprints, Song-breath), plus waking beats by **dragons-awake count** | Fixed: Market Moon, Hatchery, Spires, Forge Ring (was any order) |
 | 3 | [A2-07 The Silent Center](A2-07_THE_SILENT_CENTER.md) | The low point, then **Listen → Shelter → Home Note** | Fixed, after 4 dragons are awake |
 | 4 | [A2-11 Encore and Home](A2-11_ENCORE_AND_HOME.md) | The Encore flight, goodbyes, the dragon chooses, the way home, the block party, the post-game | Fixed |
 
