@@ -15,7 +15,7 @@ Act I is canon and fully scripted on Earth; the Act II drafts leave Earth but en
 | III | Not started | 0 | — |
 
 - **Canon:** the living-room opening, the backyard Core and suits, components scattered around town, the neighbor, a dragon design that already existed, an SOS from another galaxy, a mission into another universe. Fighter-jet flight, alley-oops and keyboard-first play are confirmed too.
-- **Proposed, not canon:** the SOS as a seven-note song, the talking Core, the passenger creature, the Bridge piece in the neighbor's yard, the Quiet, the Caller, four star-dragon worlds, the Hush and the Home Note.
+- **Proposed, not canon:** the SOS as a seven-note song, the talking Core, the passenger creature, the Bridge piece in the neighbor's yard, the Quiet, the Caller, four star-dragon worlds, the Hush and the Heartnote.
 - **Built around free order:** Act I missions 2–5 and all four Act II worlds were written "play in any order", with story beats keyed to how many pieces you've collected.
 - **Missing:** the `new characters` file (Mox, Tavi, Captain Nera, Rook and a new Hush clue) is only a download stub in the repo. Its dialogue never arrived.
 
@@ -74,7 +74,7 @@ One fixed route, Earth to the Quiet worlds to Viera, with the drafted Hush clima
 3. Arrival at Viera: the dragon falls asleep and lands in a silent spaceport city, the low point
 4. Listen: the Hush, curled around Viera's Elder Dragon
 5. Shelter: protect the Hush from the noise of a waking universe
-6. Home Note: the family sings the note the SOS never had
+6. Heartnote: the family sings the note the SOS never had
 7. Viera wakes: every traveler launches at once; the Encore flight with the whole fleet
 8. Final landing on Viera: the homecoming, the dragon's choice, the family made travelers
 
@@ -138,6 +138,8 @@ The [treatment](ACTS_II_III_THE_ROAD_TO_VIERA.md) proposes an answer to each; no
 ## Next steps
 
 Repo changes follow the repo's own rules: the owner's words go in the inbox, and canon changes go through `docs/decisions/`.
+
+**Since this plan (October 30):** the owner approved a villain, [Morrow](VILLAIN_ARC.md), as the reason for the SOS; renamed the "home note" (now the Heartnote); and asked for a [translation system](LANGUAGE_AND_TRANSLATION.md). All three are integrated into the act treatments and scripts. Hole 12 is answered by Morrow.
 
 1. ~~Log the direction in `ideas/INBOX.md` and the idea ledger.~~ Done: SD-014 to SD-018.
 2. ~~Record a decision file for what the owner confirmed.~~ Done: [decision](../decisions/2026-10-29-three-acts-linear-and-viera.md).

@@ -12,7 +12,7 @@
 | --- | --- |
 | Beats | Assembly → first flight → the full message → the decision → the goodbye → liftoff |
 | Unlocks | **Flight**: Cadet/Pilot/Ace tiers, Breath Cannon, Seeker Sparks, afterburner, flares, Dragon Roar, flight school, the first dogfight |
-| SOS | **Seven notes, ending on its question** (the home note is still missing) |
+| SOS | **Seven notes, ending on its question** (the Heartnote is still missing) |
 
 ---
 
@@ -93,6 +93,16 @@ The Core turns to Lyla.
 
 The image shows the **other universe**, the opening (the fading star) as a ring, and a sleeping star-dragon. Then **a path back**: the dragon returning to a small blue planet. The promise of a way home is shown on screen, so the departure is never a secret.
 
+Then one more image, the last one, that Lyla's archive has never shown before: a world ringed with thousands of still ships, and at its heart, in the dark, **a vast golden eye, opening**. **[MUSIC]** The SOS cuts out, and for a heartbeat there's only one low held note, the hum from the living room. **[SFX]** A young voice, the one from the very first transmission, close and frightened:
+
+> CALLER (recorded, untranslated, then the Core): "He's holding everything—"
+
+The message ends. The Core's light dims for a moment. *(This is Morrow. See the [villain arc](../VILLAIN_ARC.md). The family learns there is danger before they choose.)*
+
+> LUKE: "...Who's holding everything?"
+>
+> CORE: "Long Note." *(It won't say more.)*
+
 The passenger hears it, sits up and **sings back**: a few notes, wobbly, longing. It wants to go home.
 
 The family is quiet.
@@ -108,6 +118,10 @@ The family is quiet.
 > LYLA: "…Why us?"
 >
 > MARIA: "Not *why* us, sweetheart. It just came. What we do now is up to us."
+>
+> PAUL (quietly, to Maria): "Whoever that is, it's big."
+>
+> MARIA: "I know."
 
 ## A1-08b — The Decision
 
@@ -156,4 +170,4 @@ Up ahead, the **fading star** grows bright, and then it **opens into a ring of l
 
 - **The decision is real.** "Not yet" exists so that "Answer" means something. It also protects a child who isn't ready to "leave home," even in a game.
 - **Home is promised before departure:** the message shows the way back. That keeps Act I's rule against hidden departures.
-- **Five instruments, no home note.** The chord the family makes with their hands on the Core is still unresolved. The resolution waits for Act II's Home Note.
+- **Five instruments, no Heartnote.** The chord the family makes with their hands on the Core is still unresolved. The resolution waits for Act III's Heartnote.

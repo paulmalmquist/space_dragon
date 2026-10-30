@@ -310,7 +310,19 @@ The flight model is the **riskiest system in the game** to get right. Build it f
 | **Dimmer Clouds** | Standard, 2 sparks, also in space | Moth clouds that block vision and dim the dragon's lights. | Song-breath, Breath Cannon (in the air), and Slipped on foot | Disperse into sparkles. |
 | **Still Guardians** | Elite, 3 sparks | Old crystal guardians sleepwalking in the Quiet, confusedly defending their worlds. Slow and huge. | Exposed (a muffled "ear" crystal), then a tandem | **They wake up.** They blink, apologize in chimes and become allies who open the way. |
 | **The neighbor's leftover drones** (option) | Swarm or standard | Her mosquito drones followed the dragon through the crossing on autopilot, and now the Quiet's moths are riding them. | As in Act I | As in Act I. A comedy callback, and she's mortified. |
-| **The Hush** | **Not a fight** | — | — | The climax is *Listen → Shelter → Home Note* ([Act III](../story/ACT_III_THE_ROAD_TO_VIERA.md) §4, Movement 4; moved from Act II). In Shelter, suits and alley-oops **protect** the Hush from noisy echoes, which are tucked away rather than defeated. Nothing attacks it. |
+| **The Hush** | **Not a fight** | — | — | The climax is *Listen → Shelter → Heartnote* ([Act III](../story/ACT_III_THE_ROAD_TO_VIERA.md) §4, Movement 4; moved from Act II). In Shelter, suits and alley-oops **protect** the Hush from noisy echoes, which are tucked away rather than defeated. Nothing attacks it. |
+
+### Acts II and III: Morrow and his hands (PROPOSED)
+
+The villain is **Morrow, the Long Note** (owner-approved villain; mechanics PROPOSED). See the [villain arc](../story/VILLAIN_ARC.md). He fits the confirmed rules: unmanned enemy aircraft, no fatal crashes, and every attack against him targets his **hold**, never his body.
+
+| Enemy | Tier | Behavior | Weak to | Resolution |
+| --- | --- | --- | --- | --- |
+| **The Sweeper's drones** | Swarm to elite, in the air | Sweeps (fighters), Gnats (swarms), Hooks (grapplers), Haulers (shielded gunships), the Snag Net and the Barge, all running Morrow's rewritten rule, "Bring everyone home." | As in the [Acts II & III overview](../story/ACTS_II_III_THE_ROAD_TO_VIERA.md) § Flight between planets | Power down and parachute away. The Sweeper itself is re-tuned at the Mooring Ring. |
+| **Holds** | Hazard, air and foot | Gold bands of Morrow's note that freeze a ship, dragon or family member for a few seconds. | Song-breath in the air; Maria's Sanctuary, or any family member's touch, on foot | Shatter. Nothing is lost while held. |
+| **Hold-shards** | Swarm, Shelter phase only | Fragments of his note thrown at the Hush, never at the family. | Shield, goo, tether, Heavy Lift barriers, Lyla's Record, alley-oops | Tucked away, as the drafted echoes were. |
+| **Morrow's gaze** | Stealth hazard, the Departure Halls | A slow gold sweep. Caught means held for a moment until another family member frees you. | Cover, timing, a family member's touch | No failure; the gaze moves on. |
+| **Morrow** | **Final boss, the Last Hold** | Phase 1, the sky: Holds across the fleeing fleet. Phase 2, his back: on foot with the new powers. Phase 3, the choice: no attack at all. | Song-breath and the Heartnote Roar on his Holds; powers on his back | He lets go of the Heartnote and becomes the Lodestar. He is never struck. |
 
 ### Space and sky encounters
 

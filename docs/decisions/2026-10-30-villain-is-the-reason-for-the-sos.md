@@ -31,3 +31,11 @@ These were proposals, now replaced by owner direction:
 Who the villain is, their name, lore and look; the neighbor's role in the arc; which existing beats change; and how the arc ends. The [villain treatment](../story/VILLAIN_ARC.md) proposes Morrow, the Long Note, with an integration list; it stays PROPOSED until confirmed here.
 
 No implementation scope is authorized by this record. Story order is not implementation order.
+
+## Update — Morrow approved, and the Heartnote (October 30, 2026)
+
+**Owner direction:** *"Yes I like it. 'Home note' should be called something else."* Given in reply to the [villain treatment](../story/VILLAIN_ARC.md) and its summary. Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-032.
+
+- **Morrow, the Long Note, is the villain**, with the arc as presented: the Lanemother's chosen firstborn who held the note every song comes home to; the Temptation at the Forge, where the neighbor takes his offer and the Bridge; her return in the Rest Garden; and the Lodestar ending. The family's dragon is his likeness.
+- **"Home note" is renamed.** The term is retired. Its replacement, **the Heartnote**, is proposed and applied throughout the story documents; the owner can rename it again.
+- The treatment was integrated into the act treatments and scripts the same day. Dialogue, mechanics, his look and every other name stay PROPOSED.
