@@ -69,3 +69,16 @@ Source: owner, same chat.
 > “Can you put those in my space_dragon repo”
 
 Receipt: **SD-016** (suit upgrades, then powers by the end) and **SD-017** (dogfights and asteroid fields between planets) · CONFIRMED direction, details PROPOSED · Recorded in [the decision](../docs/decisions/2026-10-29-three-acts-linear-and-viera.md). **SD-018** · PROPOSED · The assistant's fills are in [Acts II & III: The Road to Viera](../docs/story/ACTS_II_III_THE_ROAD_TO_VIERA.md), awaiting owner review. The last message authorized adding both documents to this repo.
+
+### October 30, 2026 — puzzles that follow the kids' curriculum
+
+Source: owner, Space Dragon chat.
+
+> “We also need to plan puzzles that coincide with my kids curriculum”
+
+> “The girls are learning to recognize numbers and letters and Luke is learning addition/subtraction and how to read”
+
+Receipt: **SD-027** · CONFIRMED curriculum focus; puzzle designs and skill IDs PROPOSED · [Curriculum puzzle plan](../docs/learning/CURRICULUM_PUZZLE_PLAN.md) gives every learning stop in Acts I–III a numbers-and-letters track and a math-and-reading track, driven by a parent's local This Week list. SD-019 to SD-026 were skipped because concurrent draft branches already use them. Next: the owner's current letter, number, word and math lists, then one implemented template inside the first built town mission.
+
+Owner request on the same day, “Go ahead and rewrite”, authorized the Act II/III rewrite merged in PR #16 (SD-018).
+

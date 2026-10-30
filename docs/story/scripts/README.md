@@ -50,6 +50,8 @@ Draft production scripts: dialogue, music and sound cues, interactions with hint
 
 **Act III:** Dock Match (`shape_matching`), Count Them Home (`counting_objects`), Pattern Fit (`pattern_repeat`) and The Big Board (`letter_matching`, matching only), as drafted in [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) §7. Challenge IDs are not assigned yet.
 
+The [curriculum puzzle plan](../../learning/CURRICULUM_PUZZLE_PLAN.md) proposes a numbers-and-letters track and a math-and-reading track for each of these stops, as `_v2` versions.
+
 Proposed skill IDs need parent/educator review before any claims about learning, per the [learning rules](../../learning/LEARNING_RULES.md). Every challenge has an assisted path that gives the identical story reward.
 
 ## Conventions
