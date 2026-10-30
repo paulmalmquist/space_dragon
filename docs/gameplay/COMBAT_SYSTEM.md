@@ -1,10 +1,13 @@
 # Combat System — on foot and in the dragon
 
-**Date:** October 28, 2026  
-**Status:** PROPOSED design for owner review. Not implemented and not current scope: [the current milestone](../plans/CURRENT_MILESTONE.md) explicitly excludes complete combat systems from SD-M1. Treat this as the target the first combat prototype is built toward.  
+**Date:** October 28, 2026; party constraints updated October 30, 2026.
+
+**Status:** PROPOSED combat design for owner review, constrained by the **CONFIRMED** mission-party direction below. Not implemented and not current scope: [the current milestone](../plans/CURRENT_MILESTONE.md) explicitly excludes complete combat systems from SD-M1. Treat the compatible proposals as candidates for a future combat prototype.
 **Builds on:** [suit reveals and starting abilities](../story/SUIT_REVEALS_AND_STARTING_ABILITIES.md), the [interaction contracts](INTERACTION_CONTRACTS.md), the [learning rules](../learning/LEARNING_RULES.md), the [architecture](../engineering/ARCHITECTURE.md), and the [Act I](../story/ACT_I_BUILD_THE_DRAGON.md) / [Act II](../story/ACT_II_ANSWER_THE_CALL.md) story docs.
 
 **Companion notebook:** the [combat notebook](../combat/README.md) turns this design into numbered experiments and 43 Given/When/Then test specifications. These include an **optional** precision-parry profile (CB-002) and a pilot-controlled dragon deflection experiment (CB-004). Neither is required for children or for story progress, and neither restores dragon crew roles.
+
+**Governing mission-party rule:** the [campaign structure](../story/CAMPAIGN_STRUCTURE.md) and [October 30 decision](../decisions/2026-10-30-campaign-and-mission-party.md) allow **at most three active family members per mission**: one directly controlled leader, one designated mostly autonomous sidekick with a sidekick action button, and possibly one autonomous support member. The cast remains five. No extra support-member button or character swap is confirmed; exact bindings, cooldowns and AI behavior are OPEN. Missions must be completable with an available, compatible party of up to three suits, without requiring all five or an absent family member. Earlier conflicting examples below are explicitly superseded; none is implementation evidence. Single-pilot dragon flight remains unchanged.
 
 ## 1. Design goals
 
@@ -14,7 +17,7 @@
 4. **Nobody gets hurt and nobody "dies."** Enemies slip, get captured, get disarmed, power down, get calmed or run away (Act I §6). Family members get **bonked**, never injured.
 5. **There is never a game over in story fights.** Losing costs a few seconds, never progress.
 6. **Combat never requires reading,** and learning never happens mid-fight (learning rules).
-7. **It's single-player first.** Family members not under player control act as **companion assists**, which needs no network or backend. Local couch co-op is OPEN (§10).
+7. **It's single-player first.** Only the selected mission party is active: one controlled leader, the designated sidekick and optional third support member. Autonomous companion help needs no network or backend. Local couch co-op is OPEN (§10).
 
 ---
 
@@ -44,7 +47,7 @@ Enemies have no health bars. Each enemy has **1–3 sparks**, small glowing pips
 | --- | --- |
 | Robots (the neighbor's swamp tech) | Powers down with a sad "boop", tips over, drops what it stole and scuttles home. |
 | Fantasy creatures (Act II) | Calms down, wakes up, flutters away or becomes friendly. |
-| Real animals | **Never fought.** They're soothed or avoided, and Maria's Soothe handles them (suit reveals §3). |
+| Real animals | **Never fought.** They're soothed or avoided; Maria's proposed Soothe can help when she is active (suit reveals §3). A safe route must remain available without her. |
 
 ---
 
@@ -54,35 +57,39 @@ Enemies have no health bars. Each enemy has **1–3 sparks**, small glowing pips
 
 **Input decision (October 29, 2026):** **keyboard first**. An Xbox controller is supported only if it works with no setup (see §6 and [the decision](../decisions/2026-10-29-keyboard-first-input.md)). Touch is deferred.
 
+**October 30 constraint:** the table retains an earlier combat input proposal for discussion. The sidekick action button is confirmed as a concept; its binding and relationship to the proposed Tandem input are OPEN. The optional third member has no confirmed extra action button. The table does not approve a character-swapping system or freeze final combat bindings.
+
 | Function | Keyboard (default) | Kid Keys (also always active) | Xbox controller (if detected) |
 | --- | --- | --- | --- |
 | Move (auto-targets the nearest relevant enemy) | WASD | Arrow keys | Left stick |
 | **Action** (the suit's basic move) | J | **Space** | A |
 | **Suit power** (Family Shield, Slip 'n Slide, Dragon Punch… with a cooldown ring) | K | Right Shift | X |
+| **Sidekick action** (request help from the designated sidekick) | OPEN | OPEN | OPEN |
 | **Tandem** (alley-oop, §4) | L | **Enter** | Y |
 | Answer a companion's "Throw me!" (be the setter) | L | Enter | Y |
-| Switch avatar (cooldowns and statuses persist) | 1–5 | Tab (cycles) | LB / RB |
 | Hear the prompt again | H | H | View button |
 | Pause | Esc / P | Esc | Menu button |
 
 - **Both keyboard layouts work at the same time**, with no setting to change. A parent can use WASD + J/K/L while a child on their lap uses the arrows, Space and Enter.
 - **Kid Keys** keep a young player's hands on the biggest keys: arrows to move, Space to act, Enter for the alley-oop. *Optional idea:* icon stickers on those keys that match the on-screen prompts.
-- Three actions plus movement, with no combos, no held buttons and no rapid tapping (on foot). On-screen prompts show **the key or button glyph of whichever device was used last**, plus the action's icon. They never show text alone.
+- The earlier three-action layout is a **proposal**, to reconcile with the sidekick action button before implementation; it does not confirm an additional fourth action. Keep the proposed simplicity goal: no combos, held buttons or rapid tapping on foot. On-screen prompts should show a device glyph plus an icon, never text alone.
 
-### The companions
+### The mission sidekick and optional support
 
-The four family members you aren't controlling follow and help (**companion assists**). This is scripted, local behavior and it's *not* the Line Leader system, which stays BOOKMARKED.
+The leader has one designated, mostly autonomous sidekick, plus a possible third autonomous support member: **at most two companions**, not four. The player can request a sidekick action with its button. Exact request selection, binding, cooldowns and AI behavior are OPEN; no support-member button or character swap is confirmed. This supersedes the earlier four-followers proposal. The bookmarked Line Leader idea must fit the same party limit if developed; companion navigation is not implemented by this design update.
+
+The following are **earlier proposed behavior options**, to review for the selected party rather than rules already approved for its AI:
 
 - They use their **Action** on enemies near you at a **slow, readable pace**. They mostly *set up* statuses so the player gets to finish them, which keeps the player the hero.
-- They **don't** use big suit powers on their own, except Maria's auto-shield against a telegraphed hit when the assist setting is on.
+- They **don't** use big suit powers on their own, except a proposed Maria auto-shield when she is in the active party and the assist setting is on. A mission cannot depend on absent Maria providing this ability.
 - They **never** take a tandem away from the player. A tandem fires only when the player taps it.
 - In encounter arenas they stay within a short distance of the player and teleport back if stuck. No family member is ever lost (v0.1 invariant).
 
 ### Bonked, not beaten
 
 - Each family member has **suit energy**, shown as a ring around their portrait, never as hearts or blood.
-- At zero they're **bonked**: they sit down dizzy inside a little purple bubble for about 3 seconds. Then Maria's drones revive them automatically at partial energy. Maria herself is revived by any family member walking over to her.
-- If **everyone** is bonked at once, which should be rare, the screen does a gentle "family huddle" fade. The encounter resumes from the start of its current phase, with all collected items, removed sparks and resolved enemies kept. The game then offers (spoken, not text-only) to turn up assistance. **Nothing is ever lost.**
+- At zero they're **bonked**: a proposed brief dizzy recovery replaces injury. The earlier Maria-drone revival is an option only when Maria is active; the recovery path must also work for parties without her. Exact revival behavior and timings remain OPEN.
+- If the **whole active party** is bonked at once, which should be rare, the proposed screen treatment is a gentle "family huddle" fade. The encounter resumes from the start of its current phase, with all collected items, removed sparks and resolved enemies kept. The game then offers (spoken, not text-only) to turn up assistance. **Nothing is ever lost.**
 
 ### Enemy anatomy
 
@@ -104,8 +111,8 @@ Every enemy is defined by:
 
 ### How an alley-oop plays
 
-1. **Get close to a family member.** When an alley-oop is available, their portrait pulses with an up-arrow icon and the setter visibly gets ready: Paul cups his hands, Maria puffs up a bubble, Luke anchors a tether, Luna lays a ramp, Lyla projects a pad.
-2. **Tap Tandem.** The setter launches you, and the camera follows you up.
+1. **Get close to an available member of the active mission party.** When an alley-oop is available, their portrait pulses with an up-arrow icon and the setter visibly gets ready: Paul cups his hands, Maria puffs up a bubble, Luke anchors a tether, Luna lays a ramp, Lyla projects a pad. Only participating members appear as available actions.
+2. **Request the alley-oop.** The setter launches you, and the camera follows you up. The earlier dedicated Tandem input is proposed; how this maps to the confirmed sidekick action button remains OPEN.
 3. **Slow motion at the top of the arc** (about 1 second, longer on easier assist settings). Targets below glow.
 4. **Tap Action, or tap a glowing target, to finish.** If you don't tap, the finisher automatically picks the best target when the slow motion ends. **One tap in total is enough.**
 5. **Land** with a soft suit-cushioned landing, a pose and a family high-five sound.
@@ -120,7 +127,7 @@ Every enemy is defined by:
 
 ### Built from parts: five launches × five finishers
 
-All 20 setter/finisher combinations work in both directions for every pair. They're built from **5 launches + 5 finishers** plus shared transitions, not 20 bespoke animations, which keeps production sane. A few marquee combinations get their own animation (below).
+The proposed library covers all 20 ordered setter/finisher pairings across the **five-person cast**, using **5 launches + 5 finishers** plus shared transitions rather than 20 bespoke animations. A mission exposes only pairings available within its selected party of up to three. The library is not a requirement to bring every suit, and required alley-oops must have a compatible available partner. A few marquee combinations are proposed to get their own animation (below).
 
 **Launches (what the setter does):**
 
@@ -157,9 +164,11 @@ All 20 setter/finisher combinations work in both directions for every pair. They
 
 The same move is a **traversal tool**. Marked **oop spots** (a glowing up-arrow on the ground) let the family boost each other onto high ledges, across gaps and up to high switches. It's the same input and the same animation, which serves design goal 2.
 
-### The five-person finisher: "Five Together", the chain alley-oop
+### Superseded mission proposal: the five-person "Five Together" finisher
 
-When the **Family Spark** meter (§5) is full, all five portraits glow. Tapping it triggers a **chain alley-oop**: Lyla's Holo Pad launches Maria, whose bubble bounces Luke, who slings Luna, who goo-ramps Paul, who comes down with the biggest Meteor Slam of the fight. Every enemy on screen resolves, and a boss loses one phase. After Act I, the dragon's silhouette roars in light behind the landing.
+**The October 30 party decision overrides this as an active-mission mechanic.** A required finisher cannot summon or require all five suits. Any replacement using the selected party, or a separately staged full-cast story presentation, is OPEN and needs design review.
+
+Earlier proposal retained for context: a full **Family Spark** meter made all five portraits glow, then Lyla's Holo Pad launched Maria, whose bubble bounced Luke, who slung Luna, who goo-ramped Paul into a Meteor Slam. It resolved every enemy on screen and removed a boss phase, with a dragon silhouette after Act I. Do not implement that five-person mission chain as a current requirement.
 
 ---
 
@@ -169,7 +178,7 @@ A shared meter shown as the Core's emblem filling with light.
 
 - **It fills from helping:** applying a status (a little), alley-oops (a lot, and more for a "perfect" tap), reviving a bonked family member, Maria healing someone, being the setter for a companion, and in the dragon, hits and close dodges.
 - **It never drains** from being hit, bonked or slow. Failure never takes anything away.
-- **When full,** it enables Five Together on foot or the Dragon Roar in the dragon. It refills over the course of a fight, so roughly one per standard encounter.
+- **When full,** the on-foot payoff must work with the active party of up to three; its replacement for the superseded five-person chain is OPEN. Dragon Roar remains the proposed dragon payoff. Roughly one refill per standard encounter is a tuning proposal.
 - It isn't saved between encounters. Each fight starts fresh, which avoids hoarding and confusing state.
 
 ---
@@ -327,7 +336,9 @@ The sortie types and air enemies are in §6. Where they fall in the story:
 
 ### Bosses (structure)
 
-Each boss has **2–3 phases**, and each phase teaches or needs one teamwork pattern. Between phases there's a short breather with no enemies. Phase progress is **saved**, so a full-family bonk never sends the player back to phase one. Example, the Act I Bridge fight with the upgraded Armored Alligator:
+Each proposed boss has **2–3 phases**, and each phase teaches or needs one teamwork pattern. Between phases there's a short breather with no enemies. Phase progress is **saved**, so an active-party bonk never sends the player back to phase one. Each phase must be completable by the selected party of up to three suits.
+
+**Older example requiring redesign:** the Act I Bridge fight below requires Luna, Lyla, Maria and Paul across its phases. That four-suit requirement is superseded by the October 30 party rule; it is not an approved mission gate. Choose a compatible party of up to three and provide suitable alternatives before using this encounter. The sequence is preserved as a proposal:
 
 1. **Phase 1: Slip it.** It charges, and Luna's goo makes it overshoot into a wall. It becomes Stunned.
 2. **Phase 2: Find the glow.** The armor opens briefly when it's stunned. Lyla scans the glowing Bridge piece inside.
@@ -337,7 +348,7 @@ Each boss has **2–3 phases**, and each phase teaches or needs one teamwork pat
 
 ## 8. Unlock schedule
 
-**All five finishers** are available as soon as the first launch unlocks. **Launches** unlock one per mission, so each mission adds a new way to throw someone.
+**Proposed unlock library:** all five cast members' finishers become available as soon as the first launch unlocks, but a mission can use only its active party's compatible moves. This does not require five simultaneous suits. Launches unlocking one per mission is an older pacing proposal; assignments must fit the [campaign structure](../story/CAMPAIGN_STRUCTURE.md), guaranteed unlocks and selected party.
 
 | Act I mission | Unlocks | Why there |
 | --- | --- | --- |
@@ -347,11 +358,11 @@ Each boss has **2–3 phases**, and each phase teaches or needs one teamwork pat
 | 3. Warehouse store | **Power Toss** (Paul), **Rocket Toss** and **Pink Cannonball** marquees, Dragon Punch | Paul's mission |
 | 4. Grocery | **Bubble Bounce** (Maria), **Bubble Rocket** marquee | Maria's mission |
 | 5. Big-box store | **Tiny Launch** marquee, Spider Pounce, more **oop spots** in traversal | Chase and slip mission |
-| 6. Rocket facility | The **Five Together** chain alley-oop | The first full-teamwork set piece |
+| 6. Rocket facility | A party-compatible teamwork payoff remains OPEN; the five-person **Five Together** chain is superseded for active missions | No five-suit simultaneous gate |
 | Act I finale | **Flight school**, Cadet/Pilot/Ace tiers, Breath Cannon, Seeker Sparks, afterburner, flares, Dragon Roar, and the Mosquito Squadron dogfight | The dragon is complete |
 | Act II worlds | Song-breath, wingman formation flight, and new sortie types per world | Act II progression |
 
-Because missions 2–5 can be played in any order (Act I refinements §4.1), **no mission can require a launch from a different mission**. Paul's Power Toss can't be required at the grocery, for example. Required alley-oops in each mission use launches that are guaranteed to be unlocked by then.
+The earlier explanation that missions 2–5 could be played in any order came from the Act I refinements proposal. Use the governing campaign structure for current progression rather than treating that older ordering as confirmed. Every required alley-oop must use a launch guaranteed to be unlocked and a suit available in the selected party; supply a compatible route when a family member is unavailable. Introducing all five suits in the backyard does not require all five to be active in later missions.
 
 ---
 
@@ -364,7 +375,7 @@ Because missions 2–5 can be played in any order (Act I refinements §4.1), **n
 | Auto-aim strength | How generously actions snap to targets. Very high by default for young players. |
 | Telegraph time | How long enemies wind up. |
 | Status duration | How long statuses last. |
-| Auto-shield | Maria shields telegraphed big hits automatically. |
+| Auto-shield | Proposed Maria shield when she is active; another available recovery/assistance route must cover parties without her. Exact behavior OPEN. |
 | Tandem suggestion | How often and how long the tandem prompt appears. |
 | Enemy count | Fewer enemies per wave. |
 | Reduced motion and shake | Shorter, calmer tandem animations with the same results. |
@@ -385,6 +396,8 @@ Because missions 2–5 can be played in any order (Act I refinements §4.1), **n
 
 ## 10. Open decisions
 
+- Exact sidekick action binding, its relationship to the proposed Tandem input, cooldowns, request selection and autonomous AI behavior. A possible third member has no confirmed separate button; character swapping remains OPEN.
+- The on-foot Family Spark payoff compatible with a party of up to three; the earlier five-person chain is superseded as a mission requirement.
 - **Local co-op.** A second player on the same device, such as a parent controlling a second family member on foot, fits this design naturally. It's **not** currently approved, and it must never require a network.
 - Final names for alley-oops, launches and finishers (the kids could name them), the Family Spark name and visuals, and the preset names.
 - **Flight:** how deep Ace tier goes (stalls, G-limits, flight-assist off), whether cockpit view ships early, and whether a Cadet-tier child flies solo or on a parent's lap.
@@ -405,23 +418,27 @@ Because missions 2–5 can be played in any order (Act I refinements §4.1), **n
 - `SortieDefinition`: id, sortie type, waves, airspace bounds and checkpoint boundaries.
 - `EnemyDefinition`: id, tier, sparks, telegraph timings, behavior reference, weakness, resolution reference.
 - `EncounterDefinition`: id, waves and phases, checkpoint boundaries, rewards.
+- Mission-party definitions must identify one leader, the designated sidekick and optional autonomous support, with no more than three active family IDs. Exact schema and sidekick AI/action definitions remain OPEN until implementation is authorized.
 
 **Invariants:**
 
 - Combat state (statuses, sparks, cooldowns, energy, Family Spark) lives in **game state**. Presentation only observes it.
+- The active mission party has at most three members: one directly controlled leader, one designated mostly autonomous sidekick with its action button, and optional autonomous support. No absent suit or five-person simultaneous action can be a required gate.
 - An alley-oop's result is **applied once**, when the finish resolves (by tap or by auto-target). The animation plays back the result, and skipping, reduced motion or interruption give the same result.
-- Switching avatar, opening the pause menu or reloading **cannot reset** cooldowns or duplicate rewards (interaction contracts).
+- Opening the pause menu or reloading **cannot reset** cooldowns or duplicate rewards (interaction contracts). If character swapping is later approved, it must preserve these too; the invariant is not approval to add swapping now.
 - Encounter rewards, such as a recovered component, are awarded once, by stable ID, and survive a reload mid-fight.
 - Pause freezes all combat timers and releases held inputs.
-- A full-family bonk restores the **phase** start state and keeps everything already earned.
+- An active-party bonk restores the **phase** start state and keeps everything already earned, including when Maria is absent.
 
 **Minimum tests:**
 
-- Each alley-oop resolves once, including under a double-tap, a pause during slow motion and an avatar switch mid-air.
+- Each alley-oop resolves once, including under a double-tap and a pause during slow motion. If swapping is later approved, interruption by a swap must be tested too.
+- Mission selection never activates more than three family members. Sidekick requests use only the designated sidekick; optional support gains no unconfirmed extra action button.
+- A mission, its boss phases and recovery remain completable with their selected compatible party; no absent member or all-five-suits requirement blocks progress.
 - Changing flight tier mid-sortie keeps progress, and no tier can crash the dragon fatally.
 - Statuses expire on schedule and pause correctly.
-- A full-family bonk keeps phase progress and rewards.
-- An avatar switch keeps cooldowns.
+- An active-party bonk keeps phase progress and rewards without requiring absent Maria.
+- A future approved avatar switch keeps cooldowns; swapping is not currently confirmed.
 - Reduced motion produces the same result.
 - Enemies never target a bonked character.
 - Reloading mid-fight doesn't duplicate rewards.
@@ -431,7 +448,7 @@ Because missions 2–5 can be played in any order (Act I refinements §4.1), **n
 The smallest slice that proves the system is fun:
 
 - One small arena, such as the backyard or a parking lot.
-- **Two** playable family members, for example Luna and Lyla or Paul and Luna, with companion assists.
+- **Two** active family members, for example Luna and Lyla or Paul and Luna: one directly controlled leader and one designated mostly autonomous sidekick. Use the sidekick action concept; settle the OPEN binding/AI details for that bounded prototype rather than adding character swapping.
 - Two enemy types: **robo-iguanas** and **mosquito drones**.
 - Statuses: **Slipped** and **Exposed**.
 - **One** alley-oop: **Power Toss → Goo Bomb** (Paul launches Luna), or the reverse, plus one oop spot for traversal.

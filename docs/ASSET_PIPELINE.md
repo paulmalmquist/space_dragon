@@ -4,6 +4,10 @@ The first asset milestone is one reviewed model that loads correctly in the actu
 
 ## Work locations
 
+Seele also supplies prototype games, starting with dragon dogfighting. [The prototype integration plan](engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](../seeles-assets/README.md) extend this asset process to source code, controls and mechanics. Keep raw deliveries separate, choose a bounded migration after inspection, and promote reviewed assets through the same source/export/runtime boundaries below.
+
+The existing local `assets/reference/seele/` delivery path is ignored as raw intake, alongside the canonical `seeles-assets/incoming/` drop folder. Preserve files in place while delivery/inspection is ongoing; source references do not become runtime assets or committed dependencies merely by being in the workspace.
+
 Use [assets/source/](../assets/source/README.md) for editable sources, [assets/game/](../assets/game/README.md) for exports, and [assets/reference/](../assets/README.md) for references. New unpublished media starts in the ignored `local/` subfolders described there. These paths replace the uncreated `art/` layout proposed in the earlier Blender handoff. The existing family-photo directory and verification manifest stay where they are.
 
 Store a short receipt beside each candidate: stable asset ID, source `.blend` version, reference IDs, author/license or publication decision, Blender/exporter versions, design-review status, export settings, validation result, and browser-review evidence. A receipt can begin as a few lines; agents maintain the technical details.

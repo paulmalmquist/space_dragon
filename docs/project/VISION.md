@@ -6,11 +6,15 @@ Paul supplies creative ideas without organizing technical requirements. Agents p
 
 ## Creative foundation and authority
 
+**Latest confirmed structure — October 30:** [the campaign contract](../story/CAMPAIGN_STRUCTURE.md) and [decision](../decisions/2026-10-30-campaign-and-mission-party.md) govern older treatments. Earth uses the suits to recover parts and assemble the dragon. The dragon then carries the family to four exploration planets in other universes, five missions each, with travel interrupted by dogfights. Viera is the fifth and final off-Earth planet, also with five missions, and the family moves there: **25 off-Earth missions plus the Earth opening**. The first four planet names, detailed missions and universe assignments remain open/proposed.
+
+**Mission party:** at most three family members; one is directly controlled and one is a mostly autonomous sidekick with a sidekick button. An optional third member's exact support/control behavior remains open. The five-person family cast does not require five participants in every mission. Earlier five-person mission gates and extra full-planet routes must be adapted to this contract.
+
 The [Act I story](../story/ACT_I_BUILD_THE_DRAGON.md) remains the canonical opening: living-room computer, interrupted signal, backyard arrival and suits, scattered town components, assembly of a pre-existing dragon design, and a choice to answer an SOS in another universe. The equipment was deliberately sent, reached this family accidentally, and did not select them in advance. They did not invent the dragon.
 
 The [story index](../story/README.md) and [production scripts](../story/scripts/README.md) organize the later writing. Act I refinements, suit-reveal details, Act II, music/empathy/pacing, the talking Core, passenger, Bridge, Quiet, Caller, Hush and other dependent lore remain at their recorded proposal/owner-idea status. The selected short-form First Contact implementation does not approve every treatment detail. Living material is an owner idea with proposed explanations.
 
-The root `new characters` file only mentions Mox, Tavi, Captain Nera, Rook and a Hush clue. Their referenced attachment and dialogue are missing. Do not assign them roles or invent that source.
+The root `new characters` file is still a download-note stub. The filed [planet-missions/composition proposal](../story/PLANET_MISSIONS_AND_SOS_COMPOSITION.md) supplies proposed Tavi/Mox/Captain Nera/Rook roles, dialogue and Hush clues, plus a six-world composition campaign. Its named companion `SPACE_DRAGON_NEW_CHARACTERS_AND_STORY_BEATS.md` remains absent from this checkout. Preserve the source as a proposal; its selectable middle group and Stillheart/Earth ending do not override the confirmed linear/Viera direction below. The incoming Act II/III treatments already incorporate collaborative composition in their proposed route. [The reconciliation receipt](../reports/2026-10-29-planet-missions-filing.md) tracks remaining differences; Caller/passenger names are not silently replaced and Rook is not the Sweeper.
 
 **Confirmed later gameplay direction:** on-foot tandems are family alley-oops; dragon flight has a fighter-jet/simulator feel with one pilot and no crew roles. [The gameplay decision](../decisions/2026-10-29-alley-oops-and-jet-flight.md) owns that direction. Detailed combat, assist tiers and timing remain proposed and outside First Contact.
 
@@ -19,6 +23,8 @@ The root `new characters` file only mentions Mox, Tavi, Captain Nera, Rook and a
 **Confirmed curriculum focus (October 30):** numbers/letters for the girls and addition/subtraction/reading for Luke inform [the curriculum puzzle plan](../learning/CURRICULUM_PUZZLE_PLAN.md). The proposed puzzle tracks use a parent's local content list; no learning implementation or assessment claim follows from the plan.
 
 ## Current production direction
+
+**Confirmed workflow — Seele prototypes:** use Seele to generate prototype games and combine selected systems, assets and game feel into one Space Dragon game. The first prototype track is dragon dogfighting (SD-036). [The integration plan](../engineering/PROTOTYPE_INTEGRATION.md) starts with actual source/dependency inspection and one representative slice; it preserves the campaign, party/single-pilot rules, shared progress and browser target. Prototype order can begin with flight while the story still begins on Earth. The current runtime remains the baseline until an inspected export justifies a migration choice.
 
 **Confirmed goal:** rich cinematic presentation, as close to AAA style as practical in a browser, with Railway intended for later backend services. Recognizable family characters, engineered armor, strong lighting, animation and sound should create quality. Current placeholders and a technical pod candidate are not that final visual standard.
 

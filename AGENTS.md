@@ -5,15 +5,18 @@
 Read [project status](docs/project/STATUS.md), [the vision](docs/project/VISION.md), [the idea inbox](ideas/INBOX.md), and [the current milestone](docs/plans/CURRENT_MILESTONE.md); inspect actual files, commands, branch and working-tree changes before editing. A local Babylon/TypeScript prototype now exists; finished art, website integration and backend services remain pending. Do not invent a connected Blender session or hosting configuration.
 
 Load only the relevant contract:
-- Story or missions: [Act I](docs/story/ACT_I_BUILD_THE_DRAGON.md).
+- Story or missions: [current campaign structure](docs/story/CAMPAIGN_STRUCTURE.md), then [Act I](docs/story/ACT_I_BUILD_THE_DRAGON.md) or the relevant act draft.
 - Runtime or saves: [architecture](docs/engineering/ARCHITECTURE.md) and [interactions](docs/gameplay/INTERACTION_CONTRACTS.md).
 - Learning: [learning rules](docs/learning/LEARNING_RULES.md).
 - Art: [Blender handoff](docs/BLENDER_CHARACTER_HANDOFF.md).
+- Seele or prototype imports: [prototype integration](docs/engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](seeles-assets/README.md); the first track is dragon dogfighting.
 - Verification/release: [quality gates](docs/engineering/QUALITY_GATES.md).
 
 ## Turn unordered ideas into changes
 
 Paul supplies creative ideas; agents maintain the structure and routine technical choices. Chat, the local Idea notebook, and `ideas/INBOX.md` are equivalent inputs. No technical brief or user-maintained form is required. Notebook capture does not run agents automatically.
+
+A fresh chat attached to this repo follows the same intake rules without needing the earlier transcript. Read [fresh-chat guidance](docs/project/FRESH_CHAT.md) and the current decisions before proposing changes. Canon now uses Earth to build the dragon, then five off-Earth planets with five missions each, ending with the family moving to Viera. Active mission parties contain at most three family members: one controlled leader and one mostly autonomous sidekick with a sidekick button; see the campaign contract for the optional third member and open control details.
 
 - Preserve the source wording and date in the inbox. Notebook `NOTE-...` IDs identify raw captures; connect them to the next unused `SD-###` in [the ledger](docs/project/IDEA_LEDGER.md). Search for duplicates and coordinate ID allocation.
 - Track authority (`CONFIRMED`, `PROPOSED`, `BOOKMARKED`, `OPEN`) separately from work state (`captured`, `planned`, `in-progress`, `verified`, `parked`). Confirmed direction is not verified implementation.

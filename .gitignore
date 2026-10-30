@@ -20,6 +20,8 @@ playwright-report/
 *.blend2
 assets/source/local/
 assets/reference/local/
+# Raw Seele prototype deliveries retained at the owner's current local drop path.
+assets/reference/seele/
 assets/game/local/
 art/local/
 .tools/

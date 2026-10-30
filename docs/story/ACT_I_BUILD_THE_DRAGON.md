@@ -1,5 +1,7 @@
 # Space Dragon — Prologue & Act I: Build the Dragon
 
+**Latest campaign/party constraint (October 30):** [CAMPAIGN_STRUCTURE.md](CAMPAIGN_STRUCTURE.md) preserves Earth suit-assisted recovery/dragon assembly and sets the later 25-mission route ending in relocation to Viera. Mission parties have at most three family members, with one controlled leader and a designated mostly autonomous sidekick/button. The cast remains five; older full-family playable set pieces must be restaged to respect the cap. Six-part treatment details below do not fix the Earth mission count.
+
 **Version:** 0.1  
 **Date:** October 28, 2026  
 **Owner:** Paul Malmquist  

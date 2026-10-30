@@ -8,6 +8,8 @@
 
 ## Decision
 
+**Subsequent clarification (October 30):** [the campaign/party decision](2026-10-30-campaign-and-mission-party.md) fixes four exploration planets plus final Viera, five missions per planet, relocation to Viera and a three-family-member mission cap with leader/sidekick roles. This record's open questions and older summaries yield to that newer direction where they conflict.
+
 1. **The story is linear.** The game follows one fixed route. Missions and worlds are not chosen in a player-selected order.
 2. **The play space is a large 3D world or a set of worlds.**
 3. **There are three major acts.** Act I takes place on Earth. After it, the dragon lets the family travel from planet to planet.

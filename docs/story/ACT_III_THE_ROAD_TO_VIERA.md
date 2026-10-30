@@ -1,5 +1,7 @@
 # Space Dragon — Act III: The Road to Viera (proposal)
 
+**Governing structure (October 30):** [the campaign contract](CAMPAIGN_STRUCTURE.md) gives Viera exactly five missions, ending with the family moving there. The numbered scenes below are proposed beat material, not extra mission slots. Waystation/Drift ideas must fit travel or the existing campaign slots, without adding another campaign planet. Active mission parties have at most three family members, one controlled leader and a mostly autonomous sidekick/button; full-family playable gates must be adapted.
+
 **Date:** October 30, 2026  
 **Status:** PROPOSED narrative treatment for owner review. Not CONFIRMED canon, not current implementation scope. All names are placeholders. The final landing on Viera, suit upgrades becoming powers by the end, and dogfights and asteroid fields between planets are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)); how this act delivers them is proposed.  
 **Builds on:** [Act II](ACT_II_ANSWER_THE_CALL.md) and the [Acts II & III overview](ACTS_II_III_THE_ROAD_TO_VIERA.md). The low point and the Listen → Shelter → Home Note climax were drafted for Act II and have moved here, set on Viera.  

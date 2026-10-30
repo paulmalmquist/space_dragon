@@ -22,6 +22,10 @@
 
 ## 2. The song system
 
+**Mission-party constraint:** [the campaign contract](CAMPAIGN_STRUCTURE.md) caps active family participation at three. Five family instrument voices can remain part of an authored score, but the musical title “Five Together” never requires five active mission participants or five simultaneous controls. Older five-person playable cues need adaptation; bindings and sidekick assistance remain open.
+
+**Retained composition source:** [Planet missions and SOS composition](PLANET_MISSIONS_AND_SOS_COMPOSITION.md) develops mission-created contributions, compatible phrase choices, an optional song constellation and a final rearrangement with rests. The current Act II/III treatments already incorporate contributions and compatible choices on their linear route. [The filing receipt](../reports/2026-10-29-planet-missions-filing.md) tracks remaining source alternatives, music-state/asset reconciliation and the unimplemented constellation. No music implementation is implied.
+
 ### 2.1 The SOS melody and the home note
 
 - **Seven notes, one for each piece.** Six modules plus the Bridge. This replaces the earlier "five to seven notes."

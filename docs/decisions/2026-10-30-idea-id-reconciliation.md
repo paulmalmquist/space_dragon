@@ -29,6 +29,6 @@ The `PR #15` entries are provenance references to a separate concurrent branch, 
 - The local SD-001–SD-026 meanings remain unchanged. SD-027 is reserved for the preserved planet-missions filing, rather than curriculum.
 - Source quotes in [the inbox](../../ideas/INBOX.md) remain intact. Routing receipts, ledger rows and document references use the combined IDs above.
 - Confirmed owner directions remain confirmed; treatments, puzzle designs, skill IDs, individual powers and lore retain their proposal/open labels. A tracking repair does not verify gameplay or approve a release.
-- The next unused local ID is **SD-034**. Search the combined ledger before allocating it.
+- At reconciliation, the next unused local ID was **SD-034**. The current [ledger](../project/IDEA_LEDGER.md) owns subsequent allocation; consult it rather than reusing this historical number.
 
 Future readers can use this crosswalk to interpret older commits, PR descriptions and receipts without rewriting historical evidence. Update current cross-references by meaning, not by globally replacing every occurrence of a reused number.

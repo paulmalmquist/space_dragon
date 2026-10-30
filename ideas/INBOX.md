@@ -178,4 +178,43 @@ Receipt: **SD-033** · CONFIRMED curriculum focus; puzzle designs and skill IDs 
 
 Owner request on the same day, “Go ahead and rewrite”, authorized the Act II/III rewrite merged in PR #16 (SD-032).
 
-ID receipt: imported `origin/main` IDs were remapped to **SD-028–SD-033** during the October 30 merge. Original owner wording above is unchanged; [the crosswalk](../docs/decisions/2026-10-30-idea-id-reconciliation.md) preserves the incoming IDs and provenance. Local SD-014–SD-026 retain their existing meanings, and SD-027 remains reserved for the preserved planet-missions filing.
+ID receipt: imported `origin/main` IDs were remapped to **SD-028–SD-033** during the October 30 merge. Original owner wording above is unchanged; [the crosswalk](../docs/decisions/2026-10-30-idea-id-reconciliation.md) preserves the incoming IDs and provenance. Local SD-014–SD-026 retain their existing meanings, and SD-027 records the preserved planet-missions filing.
+
+### October 29, 2026 — account for the planet missions and SOS-composition draft
+
+Source: owner's supplied root Markdown file and cleanup request.
+
+> “SPACE_DRAGON_PLANET_MISSIONS_AND_SOS_COMPOSITION.md
+> has this been accounted for? if not file it and if so delete it”
+
+Receipt: **SD-027** · CONFIRMED filing instruction; source campaign content PROPOSED · The source was only partly covered when filed; the newly merged Act II/III rewrites now incorporate some composition ideas. Moved the complete source, byte-for-byte, to [the story folder](../docs/story/PLANET_MISSIONS_AND_SOS_COMPOSITION.md); no duplicate root copy remains. Its shared composition system, six-world development, additional worlds, named-character beats and revisits are now indexed. [The filing receipt](../docs/reports/2026-10-29-planet-missions-filing.md) maps overlaps and unresolved differences against the current linear Act II/Act III/Viera treatment and earlier scripts. This filing does not approve every proposal, update game behavior or supply the absent companion character document.
+
+### October 30, 2026 — three-member missions and the five-planet campaign
+
+Source: owner, IDE chat. Original wording:
+
+> here are some ideas and make sure i can do this from a fresh chat too.
+>
+> maxium family members in a given mission is 3. you control one and 1 has a sidekick button and largely operates autonomously.
+>
+> let's lay out the structure of the story as:
+> earth, use suits to find parts of dragon
+>
+> explore planets in other universes by traveling by dragon, interupted by dogfights
+>
+> 4 planets 5 missions per planet and then 5th and final planet viera where the family moves to
+> commit all that structure to the story stuff
+
+Clarification: the agent asked whether Viera also has five missions or a shorter final chapter. Owner answer:
+
+> Viera also has five missions
+
+Receipt: **SD-034** · CONFIRMED active-party maximum and leader/sidekick direction · **SD-035** · CONFIRMED campaign, mission count and Viera relocation · [The campaign contract](../docs/story/CAMPAIGN_STRUCTURE.md) and [decision](../docs/decisions/2026-10-30-campaign-and-mission-party.md) now govern older outlines. Five off-Earth planets × five missions = 25; Earth is additional and its mission count is open. Exact first-four planet names, missions, universe assignments and third-member controls remain proposed/open. [Fresh-chat guidance](../docs/project/FRESH_CHAT.md), AGENTS.md and the CLAUDE.md import preserve the intake path without requiring this conversation. This request records story/party structure; it does not claim a built campaign or autonomous companions.
+
+### October 30, 2026 — Seele prototype games, starting with dragon dogfighting
+
+Source: owner, same IDE session.
+
+> also we are using seele as a way to generate prototype games. this game with be a combo of several games, and i am starting with the dragon dog-fight games
+
+Receipt: **SD-036** · CONFIRMED production direction · [The prototype integration plan](../docs/engineering/PROTOTYPE_INTEGRATION.md) records several prototype games feeding one Space Dragon game, with dragon dogfighting first. [Seele intake](../seeles-assets/README.md) preserves raw exports and routes inspection/migration; the existing upstream intake instructions were reused. A parallel flight prototype does not reorder the Earth-first campaign or prove an export has been integrated. Agents inspect source, dependencies, controls/assets and shared-state boundaries, then choose one useful slice under normal build/playtest checks.

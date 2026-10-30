@@ -1,5 +1,7 @@
 # Space Dragon — Three-Act Story Plan
 
+**Current authority — October 30:** [CAMPAIGN_STRUCTURE.md](CAMPAIGN_STRUCTURE.md) fixes the structure: Earth builds the dragon; four exploration planets have five missions each; fifth/final Viera also has five missions and becomes the family's home. Mission parties have at most three family members, one controlled leader and a designated mostly autonomous sidekick/button. The earlier planning notes below are beat material to fit into those 25 off-Earth slots, not alternative counts, extra full planets or five-person mission exceptions.
+
 **Date:** October 29, 2026  
 **Status:** PROPOSED planning document. The owner's structure (linear, large worlds, three acts, Earth first, Viera as the final landing) is CONFIRMED direction in the [decision record](../decisions/2026-10-29-three-acts-linear-and-viera.md). The holes, fills and recommendations below are proposals.  
 **Companion:** [Acts II & III: The Road to Viera](ACTS_II_III_THE_ROAD_TO_VIERA.md), which fills the holes listed here.
@@ -32,9 +34,9 @@ Four rules from October 29 split the off-world story into two acts and move the 
 
 The owner's words are preserved in the [idea inbox](../../ideas/INBOX.md) and recorded in the [decision](../decisions/2026-10-29-three-acts-linear-and-viera.md).
 
-## The three-act spine (recommended)
+## Earlier proposed beats to fit into the current campaign
 
-One fixed route, Earth to the Quiet worlds to Viera, with the drafted Hush climax moved to Viera so the final landing is also the finale. Everything below is a proposal; most of Acts I and II reuses drafts already in the repo.
+Use the canonical slot structure above. The following earlier fixed-route outline supplies proposed beat material; one numbered scene is not automatically a full mission. The Hush climax remains a proposed Viera payoff, and the family moving to Viera is confirmed. Names, individual missions and the placement of waypoint settings still need mapping into the five missions on each planet.
 
 ### Act I — Build the Dragon (Earth)
 

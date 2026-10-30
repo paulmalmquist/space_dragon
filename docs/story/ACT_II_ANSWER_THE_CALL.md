@@ -1,11 +1,15 @@
 # Space Dragon — Act II: Answer the Call (proposal)
 
+**Governing structure (October 30):** [the current campaign](CAMPAIGN_STRUCTURE.md) requires four exploration planets with five missions each, followed by five missions on Viera. This treatment supplies proposed settings/beats to distribute across those slots, not one complete mission per planet. Active missions use at most three family members with one leader and a mostly autonomous sidekick/button; older five-suit sequences need adaptation. Planet names and detailed missions remain proposals.
+
 **Date:** October 28, 2026; rewritten October 30, 2026 for the three-act structure  
 **Status:** PROPOSED narrative treatment for owner review. Not CONFIRMED canon, not current implementation scope. All names are placeholders. The linear three-act structure and Viera as the final landing are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)); how this act serves them is proposed.  
 **Builds on:** [Act I](ACT_I_BUILD_THE_DRAGON.md) (authoritative), the [Act I refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) (proposed) and the [Acts II & III overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) (proposed). Where Act II relies on a refinement, such as the SOS melody, the passenger creature, the Bridge or the neighbor's grievance, it says so. If a refinement is rejected, the dependent beat needs revisiting.  
 **Continues in:** [Act III: The Road to Viera](ACT_III_THE_ROAD_TO_VIERA.md), which now holds the low point, the Hush climax and the ending that earlier versions of this document carried.
 
 ## 1. What Act II must do
+
+**Retained source proposal:** [Planet missions and SOS composition](PLANET_MISSIONS_AND_SOS_COMPOSITION.md) describes six restoration worlds and named character arcs. This revised Act II already incorporates collaborative musical choices on a fixed four-world route toward Viera; the source's selectable middle group and Stillheart finale are alternate proposals. [The reconciliation receipt](../reports/2026-10-29-planet-missions-filing.md) records the remaining differences and latest authority.
 
 From Act I: *"Travel to the source of the SOS and discover who called, what happened, and what help is needed. Do not add an unrelated sightseeing campaign between assembly and answering the signal."*
 
@@ -208,7 +212,7 @@ Racing (the Market Moon cart race, the Shardstorm) and playful combat (Sweeper s
 
 ## 10. Production boundaries
 
-- **Nothing here is current scope.** [The current milestone](../plans/CURRENT_MILESTONE.md) is unchanged. Act II depends on flight, walking exploration and possibly Line Leader, none of which exist.
+- **Nothing here is current implementation scope.** [The current milestone](../plans/CURRENT_MILESTONE.md) is unchanged. A provisional room/yard walking slice exists; Act II still needs its broader exploration, flight and any selected Line Leader work.
 - The cheapest high-value slice to prototype early is **A2-00 The Crossing**, as the separately labeled flight prototype that Act I already permits.
 - No multiplayer, backend or new external service is implied. The neighbor, the Caller, the passenger and the iguana are scripted scene characters, not followers or network players.
 - All destination and character names are placeholders. The neighbor must stay fictional per existing rules.

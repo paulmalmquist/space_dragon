@@ -1,5 +1,7 @@
 # Space Dragon — Acts II & III: The Road to Viera
 
+**Latest owner structure (October 30):** [CAMPAIGN_STRUCTURE.md](CAMPAIGN_STRUCTURE.md) now governs this overview: four exploration planets × five missions, then Viera × five missions and family relocation. Earth is additional. Existing scene numbers/settings below are proposal material to map into those 25 slots; Waystation/Drift do not authorize extra campaign planets. Mission participation is capped at three family members with one controlled leader and a designated mostly autonomous sidekick/button; older five-suit gates need adaptation.
+
 **Date:** October 29, 2026  
 **Status:** PROPOSED treatment for owner review. The linear three-act structure, Viera as the final landing, suit upgrades becoming powers by the end, and dogfights between planets are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)). Everything else here, including every name, is a proposal.  
 **Builds on:** [Act I](ACT_I_BUILD_THE_DRAGON.md) (authoritative), the [three-act plan](THREE_ACT_PLAN.md) and the [combat system](../gameplay/COMBAT_SYSTEM.md).  

@@ -1,6 +1,14 @@
 # Current project state
 
-Updated: **October 29, 2026**. Read this file, [the vision](VISION.md), [inbox](../../ideas/INBOX.md), and [current milestone](../plans/CURRENT_MILESTONE.md) before changing the project. Ideas SD-001–SD-026 are indexed in [the ledger](IDEA_LEDGER.md).
+Updated: **October 30, 2026**. Read this file, [the vision](VISION.md), [inbox](../../ideas/INBOX.md), and [current milestone](../plans/CURRENT_MILESTONE.md) before changing the project. Ideas SD-001–SD-036 are indexed in [the ledger](IDEA_LEDGER.md).
+
+## Latest confirmed story and party structure
+
+The owner's latest direction is recorded in [the campaign contract](../story/CAMPAIGN_STRUCTURE.md) and [decision](../decisions/2026-10-30-campaign-and-mission-party.md): Earth uses suits to find dragon parts; dragon travel leads through four exploration planets and then Viera, with dogfights en route. Each of the five off-Earth planets has five missions: **25 missions plus Earth**, ending with the family moving to Viera. Active mission parties contain at most three family members: one directly controlled leader and a designated mostly autonomous sidekick with a sidekick button; an optional third member's detailed behavior is open. These are confirmed design rules, not implemented party/campaign features (SD-034–035).
+
+[Fresh-chat guidance](FRESH_CHAT.md), `AGENTS.md` and the shared `CLAUDE.md` import route a new repo-attached chat to these decisions. The 25 mission slots are planning structure; current game implementation remains the walking/First Contact slice below. Older five-person mission gates and extra full-planet treatments need adaptation before implementation.
+
+**Seele production direction (SD-036):** the owner is generating prototype games in Seele and combining useful parts into Space Dragon, starting with dragon dogfighting. [Prototype integration](../engineering/PROTOTYPE_INTEGRATION.md) and [intake instructions](../../seeles-assets/README.md) route that work. The flight prototype can be developed in parallel with the Earth slice; narrative order remains Earth-first. No Seele prototype, combat flight or shared campaign integration is claimed by these planning changes.
 
 ## Current increment
 
@@ -49,6 +57,8 @@ Hosted game and foundation jobs **passed on runtime/test commit `3fb24a1`** in [
 The [First Contact receipt](../reports/2026-10-29-first-contact-v2.md) records the previous implementation's source/artifact identity and checks. The feature branch `feat/first-contact-playable` is published in [draft PR #13](https://github.com/paulmalmquist/space_dragon/pull/13), based on merged foundation `ea89a05`, and now also carries walking work. It is not merged or deployed; check the PR for subsequent run results.
 
 ## What remains open
+
+- **Preserved story input (SD-027):** [Planet missions and SOS composition](../story/PLANET_MISSIONS_AND_SOS_COMPOSITION.md) is preserved byte-for-byte. The newly merged Act II/III treatments already incorporate parts of its collaborative composition idea; Whisperwood/Tideglass and named-character arcs remain proposals. Its selectable middle worlds and Stillheart/Earth ending do not override the confirmed linear/Viera direction. [Updated reconciliation notes](../reports/2026-10-29-planet-missions-filing.md) explain the overlap; no campaign or music implementation follows from these documents. The named companion character file remains absent from this checkout.
 
 - Real family playtest and adult review, audible browser narration, AMD hardware performance and final art approval. Automated speech mocks and SwiftShader runs do not close these gates. Xbox remains opportunistic and untested; touch is deferred.
 - The intended host website's repo/deployment and Railway services remain unidentified/unverified. Site integration waits for that source; cloud saves wait for a concrete need.

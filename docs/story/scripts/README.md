@@ -1,5 +1,7 @@
 # Scripts
 
+**Current campaign contract (October 30):** [the canonical structure](../CAMPAIGN_STRUCTURE.md) fixes 25 off-Earth mission slots: five missions on each of four exploration planets, then five on Viera ending in relocation. Script scene IDs below are beat references, not one-to-one mission IDs. Every mission must respect the three-family-member cap, one controlled leader and one mostly autonomous sidekick/button. Existing full-family sequences and planet-sized set pieces need adaptation into those slots before implementation; they are not exceptions or a completed 25-mission script set.
+
 Draft production scripts: dialogue, music and sound cues, interactions with hint ladders, state changes and checkpoints. All **PROPOSED**. See the [story index](../README.md) for status and placeholder names.
 
 **Order update (October 29–30, 2026):** the story is linear by [owner decision](../../decisions/2026-10-29-three-acts-linear-and-viera.md), in three acts. The proposed fixed order follows the table numbering. Count-based beats (install count, dragons awake) still work in a fixed order. On October 30 the Silent Center and Encore and Home scripts moved to Act III on Viera and were renamed; Act II now ends with A2-07 The Lane to Viera.
@@ -20,6 +22,8 @@ Draft production scripts: dialogue, music and sound cues, interactions with hint
 | 9 | [A1-07 The Answer](A1-07_THE_ANSWER.md) | Assembly, first flight and the send-off dogfight, the full message, the decision, liftoff | Fixed |
 
 ## Act II, in play order
+
+These revised scripts follow the confirmed linear structure: four proposed Act II restoration worlds lead to the Forge Ring, then Act III continues to Viera and the Rest Garden. The retained [planet-missions source](../PLANET_MISSIONS_AND_SOS_COMPOSITION.md) has candidate extra worlds and different prerequisites; its selectable order is superseded. Composition is partly incorporated, but its full six-world route/constellation is not implemented or adopted wholesale. Consult [the reconciliation receipt](../../reports/2026-10-29-planet-missions-filing.md) before adding campaign state/checkpoints.
 
 | # | Script | Covers | Order |
 | --- | --- | --- | --- |

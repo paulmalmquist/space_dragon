@@ -10,6 +10,8 @@
 
 ## Read before implementation
 
+**Latest structure — October 30:** first read [CAMPAIGN_STRUCTURE.md](story/CAMPAIGN_STRUCTURE.md) and [the campaign/party decision](decisions/2026-10-30-campaign-and-mission-party.md). They supersede older mission-count, extra-planet and full-family mission assumptions: Earth builds the dragon; five off-Earth planets have five missions each, with Viera the final home; active mission parties have at most three family members, one controlled leader and one mostly autonomous sidekick/button. [Fresh-chat guidance](project/FRESH_CHAT.md) makes this independent of previous transcripts. The five-person family remains the story cast; the campaign and companions are design, not supplied runtime systems.
+
 Read the Act I narrative first for current story direction and its explicit confirmed/proposed/open distinctions. Then read the complete initial specification: section 1 for the earlier canon baseline, sections 4–6 for suit and Line Leader design, section 7 for the historical first-playable proposal, section 8 for likeness/privacy requirements, and sections 9–13 for engineering, acceptance, delivery, and open decisions.
 
 For character work, also read [BLENDER_CHARACTER_HANDOFF.md](BLENDER_CHARACTER_HANDOFF.md). Its photo-publication decision and transfer status are separate from narrative approval.
@@ -25,7 +27,7 @@ Preserve the distinction between **CONFIRMED**, **PROPOSED**, **BOOKMARKED**, an
 - Paul has Iron Man-inspired armor; Luke has Iron Spider-inspired armor. Maria is the healer in purple. Luna wears pink and sprays slippery goo. Lyla gathers and stores information; her color remains open.
 - The neighborhood supports the dragon except for the fictionalized antagonist inspired by the across-the-street neighbor. Her schemes involve Florida-themed antagonists, including iguanas and alligators.
 - Learning, racing, and playful combat coexist. Supported completion of a learning challenge must not block a child from receiving a suit or a required story component. Detailed challenge mechanics remain proposals.
-- Future expeditions use the **Line Leader**: one directly controlled person, automatic followers, and eventually smaller groups. Networked multiplayer is not implied.
+- Future expeditions use one directly controlled leader within an active mission roster of at most three, including a designated mostly autonomous sidekick with a sidekick button. A third member's exact support/control behavior is open; older full-family Line Leader assumptions are superseded by the latest campaign/party contract. Networked multiplayer is not implied.
 - Recognizable family likenesses are a creative goal. The 18 supplied photo references, manifest, gallery, and verification tool are now imported. The Blender handoff explains their use; no final character assets have been approved.
 
 ## First implementation task, when authorized

@@ -4,6 +4,8 @@ Date: October 29, 2026. Source: the owner's request to implement game CI, a test
 
 ## Selected increment
 
+**Subsequent production direction (October 30, SD-036):** [Seele dragon-dogfight prototypes](../engineering/PROTOTYPE_INTEGRATION.md) may proceed in parallel with Earth/First Contact validation. That later direction supersedes this record's earlier scheduling hold on a separate flight prototype. The First Contact human gate still applies to calling the slice reviewed and to the queued Space Blocks increment; campaign chronology remains Earth-first.
+
 Implement the local First Contact slice: launch-night computer → interrupted signal → backyard → five provisional suit introductions → Lyla's scan → symbol archive → town map. The [production script](../story/scripts/A1-00_FIRST_CONTACT.md) supplies this implementation treatment; its unselected dialogue, later musical/lore systems and the rest of Act I/II retain their existing proposal labels. Lyla's final suit color remains open.
 
 - A pure TypeScript state module owns allowed transitions, stable suit IDs, once-only grants, hint state and checkpoints. Rendering/UI observes it. Captured semantic intents reject stale phase/suit events; archive replay never grants inventory.

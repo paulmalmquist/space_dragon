@@ -2,6 +2,10 @@
 
 **ID:** SD-M1 — First Contact local foundation
 
+**Story planning update — October 30:** [the campaign contract](../story/CAMPAIGN_STRUCTURE.md) now fixes Earth plus five off-Earth planets with five missions each, Viera relocation, and an active mission roster of at most three family members with one leader and a designated mostly autonomous sidekick/button. This is authoritative planning; no 25-mission campaign or party AI is implemented here. Preserve the existing five-person cast/suit introductions while adapting future mission participation to the roster cap. Fresh chats use [the repo guidance](../project/FRESH_CHAT.md).
+
+**Prototype production update — SD-036:** the owner starts with Seele-generated dragon dogfight games, then combines useful parts of several prototypes into Space Dragon. [This parallel track](../engineering/PROTOTYPE_INTEGRATION.md) may precede the Earth slice in production while the narrative remains Earth-first. Inspect actual deliveries and select a bounded integration before changing runtime/engine or claiming flight completion.
+
 **Authorized scope:** the owner's October 29 follow-up selects game CI, pure story state/save v2, the scripted keyboard/speech/help/suit/scan/map slice, and the first pod asset. The earlier SD-M0 covered rules/contracts/skills only.
 **Game status:** First Contact IMPLEMENTED with automated browser/state coverage and a technically verified Blender pod. Human audibility/usability, final art, and public deployment are not complete. See [status](../project/STATUS.md) and [the current implementation decision](../decisions/2026-10-29-first-contact-v2.md).
 

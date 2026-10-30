@@ -32,6 +32,10 @@ Choose **First Contact** for the existing story, or **Start adventure with sound
 
 ## AI-assisted development
 
+[Seele prototype intake](seeles-assets/README.md) supports building Space Dragon from several prototypes, starting with dragon dogfighting. Agents use [the integration plan](docs/engineering/PROTOTYPE_INTEGRATION.md) to inspect exports and bring selected parts into the shared game.
+
+You can add ideas from a new chat attached to this repo. [Fresh-chat guidance](docs/project/FRESH_CHAT.md) provides a short starter; agents maintain the inbox and plan. [The current campaign](docs/story/CAMPAIGN_STRUCTURE.md) records Earth → four planets → Viera, five missions per off-Earth planet, the family's move and the three-member mission rules.
+
 Start with [AGENTS.md](AGENTS.md), then load only the contract for the task. [CLAUDE.md](CLAUDE.md) imports the same rules; it is not a second policy.
 
 - [Current milestone](docs/plans/CURRENT_MILESTONE.md): verified local foundation and the remaining First Contact quality work.
