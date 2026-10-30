@@ -27,3 +27,7 @@ The [story](../story/README.md) and [script](../story/scripts/README.md) indexes
 - **Play:** which computer/browser the family uses and where a child needs help during keyboard play. An Xbox controller can be tried if it works immediately; touch is deferred.
 
 References guide the stated aspect only. Agents should not adopt an entire reference's story, style, or mechanism without a reason. New family video or audio needs its own publication decision before it enters this public repo.
+
+## Cross-cutting audio milestone — SD-039
+
+The original 16-cue [preview bank](../../assets/game/audio/starter/) and [sound plan](../audio/SOUND_BANK.md) are now available as *technical candidates*, independent of the current First Contact completion criteria. Prioritize the opening SOS, pod arrival/impact and Core activation for listening and later scene synchronization. Follow with suit identities and dragon flight cues as those interactions become playable. Before calling the audio cinematic-quality or release-ready: audition on real devices, layer legally acquired professional effects in a controlled source location, verify licenses, build the event mixer with user-gesture unlock and accessible volume controls, and measure browser size/performance. Do not upload raw licensed sound packs to this public repo.

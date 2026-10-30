@@ -1,6 +1,11 @@
 # Current project state
 
-Updated: **October 30, 2026**. Agents update this file after each meaningful work session. See [the ledger](IDEA_LEDGER.md) for why work exists and [the roadmap](ROADMAP.md) for dependencies.
+Updated: **October 30, 2026**.
+
+## Audio bank — October 30 (SD-039)
+
+A rights-safe starter sound bank is committed under `assets/game/audio/starter/`: **16 original procedural mono WAV effects**, `manifest.json`, a deterministic generator and a local audition page. Every committed WAV was read back from GitHub and compared byte-for-byte to its generator output. [Sound sourcing, licenses and integration plan](../audio/SOUND_BANK.md); [verification receipt](../reports/2026-10-30-original-audio-bank.md). The Google Drive `Cinematic SFX Bank` folder was empty; no Sonniss or BOOM audio was obtained or redistributed. This is **not** an in-game sound implementation or an approved high-fidelity final mix. Listening, browser QA, and replacement/layering with legal professional effects are next.
+ Agents update this file after each meaningful work session. See [the ledger](IDEA_LEDGER.md) for why work exists and [the roadmap](ROADMAP.md) for dependencies.
 
 ## Verified starting inventory
 

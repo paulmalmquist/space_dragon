@@ -151,3 +151,15 @@ Source: owner's Space Dragon request.
 > “Can we get this to work plugging in a PlayStation controller”
 
 Receipt: **SD-038** · CONFIRMED request · Routed to [controller input decision](../docs/decisions/2026-10-30-playstation-controller.md), a standard Gamepad API input adapter, a First Contact camera/story UI integration and simulated controller browser tests. Keyboard remains available. Physical USB/Bluetooth behavior is not yet tested; character movement, combat and dragon flight are later systems.
+
+### October 30, 2026 — cinematic game sound effects bank
+
+Source: owner, Space Dragon chat.
+
+> “Need high quality, cinematic sound effects bank for this project”
+>
+> “Put a bunch of that in my Google Drive please”
+>
+> “Ok now transfer them to GitHub repo space_dragon”
+
+Receipt: **SD-039** · CONFIRMED request · The Drive folder was created but contained zero audio files. An original 16-cue synthesized starter bank, manifest, source generator, sound preview and licensing workflow were committed to [the audio bank](../assets/game/audio/starter/). Those files were checked for byte-for-byte reproduction. This is **not** a transfer of Sonniss/BOOM recordings and **not** final cinematic-quality sound design; professional sourcing, listening QA and game integration remain open.
