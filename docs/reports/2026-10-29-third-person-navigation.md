@@ -27,6 +27,8 @@ Date: October 29, 2026. Owner authorization: “begin with coding the the next s
 
 The complete development suite passed in **3.9 minutes** locally; production checks passed in **23.7 seconds**. These are test-run durations, not graphics benchmarks. Hosted CI uses the same commands and updated Playwright test lists; [draft PR #13](https://github.com/paulmalmquist/space_dragon/pull/13) records the published head and actual hosted results.
 
+Hosted runs [40979156870](https://github.com/paulmalmquist/space_dragon/actions/runs/40979156870) and [40979161747](https://github.com/paulmalmquist/space_dragon/actions/runs/40979161747) on navigation commit `b464f05` exposed time limits in the long keyboard route. In the first trace the player was still moving at x=1.512 toward the 1.66 threshold when the ten-second axis budget expired; mean software-rendered frame time was 222.87 ms. The second run completed collection/reload before its 45-second total test budget expired. This is evidence of test timing on SwiftShader, not a hardware-performance pass. The follow-up keeps the real-keyboard route and every behavior assertion, allows 20 seconds per axis and 90 seconds for that long case, and reports actual coordinates on failure. Its affected local rerun passed in 26.7 seconds, with typecheck and diff checks passing. Hosted confirmation is recorded by the subsequent PR checks.
+
 ## Behavior and artifacts
 
 **Walk around** is the primary entry. WASD/arrows move; left-drag or Q/E orbits; R recenters; Space/Enter interacts nearby; Escape pauses. The original humanoid has articulated legs/arms and a walking cycle. It is not an approved family likeness or final suit. The room uses cutaway walls to keep the player visible while collision boundaries remain solid.

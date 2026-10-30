@@ -39,10 +39,14 @@ async function walkAxis(page: Page, axis: 'x' | 'z', destination: number) {
   const key = axis === 'x' ? (direction > 0 ? 'd' : 'a') : (direction > 0 ? 'w' : 's');
   await page.keyboard.down(key);
   try {
-    await expect.poll(async () => {
-      const value = (await navigation(page)).state.player[axis];
-      return direction > 0 ? value >= destination - 0.14 : value <= destination + 0.14;
-    }, { timeout: 10_000, intervals: [30, 50, 80] }).toBe(true);
+    // Software-rendered CI advances capped simulation frames more slowly than wall time.
+    // Keep the spatial assertion and real held key; allow the observed movement to finish.
+    const coordinate = expect.poll(async () => (await navigation(page)).state.player[axis], {
+      message: `Holding ${key}: move ${axis} from ${initial.toFixed(3)} toward ${destination}`,
+      timeout: 20_000, intervals: [30, 50, 80],
+    });
+    if (direction > 0) await coordinate.toBeGreaterThanOrEqual(destination - 0.14);
+    else await coordinate.toBeLessThanOrEqual(destination + 0.14);
   } finally { await page.keyboard.up(key); }
 }
 
@@ -101,6 +105,9 @@ test('third-person movement stops at a wall and passes through the actual doorwa
 });
 
 test('nearby actions and one practice pickup persist independently of the story checkpoint', async ({ page }) => {
+  // This route includes two scene loads and a screenshot; hosted SwiftShader needs more
+  // time than the short interaction cases. This remains a behavior test, not an FPS gate.
+  test.setTimeout(90_000);
   const story = JSON.stringify(createInitialState());
   await page.addInitScript(({ key, value }) => {
     if (!sessionStorage.getItem('navigation-story-seeded')) {

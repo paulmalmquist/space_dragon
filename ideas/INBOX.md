@@ -96,3 +96,21 @@ Source: owner's IDE conversation, following the discussion of moving beyond the 
 Receipt: **SD-020** · CONFIRMED future reference input · Routed to [the home-video guide](../docs/REFERENCE_HOME_VIDEO.md) and [roadmap](../docs/project/ROADMAP.md). No video has been supplied. New home footage belongs in ignored `assets/reference/local/home/`; the current space is a generic blockout. Video can guide the feeling and relationships between the living room, yard and garage without becoming a public reference asset or an exact home reconstruction.
 
 Receipt: **SD-021** · CONFIRMED bounded implementation scope · A controllable humanoid placeholder, camera-relative WASD/arrows, third-person follow camera, collisions, a living-room doorway/backyard route, nearby computer/pod interactions on Space/Enter, and one training-module pickup that persists on reload. Exploration has its own local save and retains the existing First Contact story flow. The module is a test prop, not a newly approved dragon component or story reward. Implementation and software checks are recorded in [the navigation receipt](../docs/reports/2026-10-29-third-person-navigation.md) and [current milestone](../docs/plans/CURRENT_MILESTONE.md); human keyboard review remains pending. This new owner instruction authorizes the navigation increment before that review; the earlier review gate still applies before treating the slice as polished or expanding into Mission 1.
+
+### October 29, 2026 — high expectations for feel, with a bounded world
+
+Source: owner's follow-up while navigation was being verified.
+
+> “i do have high expectations for this to at least feel like a AAA game. we wont go crazy with customizationsor open world, but it needs to feel right. just a note. so if we need to bring in some beefy compute or new language then so be it”
+
+Receipt: **SD-022** · CONFIRMED quality direction · Reinforces SD-002 with particular emphasis on feel and restrained scope. [The quality bar](../docs/engineering/GAME_FEEL.md) makes movement, camera, animation, interaction feedback, sound and responsiveness explicit review priorities. The navigation blockout is a foundation, not an achieved AAA-quality result. Change tools or implementation language when evidence shows a useful improvement; this does not select a rewrite now.
+
+### October 29, 2026 — available backend/cloud options and current hardware
+
+Source: owner's immediate follow-ups.
+
+> “we also have railway backend and can connect to some cloud computing tools if necessary”
+>
+> “i dont see myself getting an entire new machine for this project but potentially down the road if that becomes the moat”
+
+Receipt: **SD-023** · CONFIRMED resource direction and hardware preference · Owner reports Railway is available and cloud tools can be connected when needed; actual project/service access remains to be inspected for a concrete task. Keep this Lenovo/Chrome as the initial development and playtest target. Consider cloud production jobs for a measured bottleneck before assuming a replacement machine. No hardware purchase or new cloud service is needed for the current navigation work. Routed to [vision](../docs/project/VISION.md), [quality bar](../docs/engineering/GAME_FEEL.md), and [roadmap](../docs/project/ROADMAP.md).
