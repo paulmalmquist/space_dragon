@@ -99,3 +99,13 @@ Source: owner, Space Dragon chat, with uploaded `IMG_5753.mp4`.
 > Put this video in a folder and label it house interior. It’s reference for 3d environment of initial house
 
 Receipt: **SD-029** · CONFIRMED label and reference purpose · [House interior](../assets/reference/environments/house-interior/README.md) records the original, the saved `house-interior.mp4`, the ignored local authoring path, source checksum, and initial inspection. The video was organized in the owner's files and copied unchanged into the local reference workspace. Next: consult it when building the opening environment. A finished house model, a measured scan, a Seele upload, and public-video publication are not established by this intake.
+
+### October 30, 2026 — Car driving video reference
+
+Source: owner, Space Dragon chat; `IMG_5754.mp4` arrived after the initial labeling request.
+
+> Label this video car driving West on Hypoluxo north on jog West on Lantana south on Hagen Ranch
+
+> Ok is this saved in repo
+
+Receipt: **SD-030** · CONFIRMED route label · [Car driving source and receipt](../assets/reference/environments/car-driving/README.md) records the saved video, source checksum and metadata, sampled-frame observations, and retrieval instructions. The notes are tracked in Git; the original MP4 is saved separately in the owner's `Space Dragon/Car driving/` files. The route is the owner's label, not an independently verified GPS track. Next: retrieve the source when exterior-environment work needs it; no road model or runtime change is claimed.

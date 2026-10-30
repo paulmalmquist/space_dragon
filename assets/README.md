@@ -7,6 +7,7 @@ Keep editable artwork, references, and browser exports separate. Nothing in this
 | `reference/family/` | The existing 18 authorized photos, gallery, and manifest. Preserve these files. |
 | `reference/motion/` | Instructions for useful movement and camera references. |
 | `reference/environments/house-interior/` | [House interior](reference/environments/house-interior/README.md): source notes for the initial house's 3D environment. The video is kept in the ignored local reference path. |
+| `reference/environments/car-driving/` | [Car driving](reference/environments/car-driving/README.md): route label, source metadata, and retrieval instructions for the Hypoluxo → Jog → Lantana → Hagen Ranch exterior reference. The original video is saved separately from Git. |
 | `reference/local/` | Ignored local videos, boards, photos, and other unapproved reference media. |
 | `source/` | Approved editable artwork and source conventions. |
 | `source/local/` | Ignored working Blender projects, paint files, and review renders. |

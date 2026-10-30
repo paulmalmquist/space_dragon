@@ -35,6 +35,10 @@ The publication branch incorporates the newer `origin/main` history through `047
 
 The owner's video is labeled **House interior** and saved as `house-interior.mp4` under the owner's `Space Dragon/House interior/` folder. A matching local copy is at `assets/reference/local/environments/house-interior/house-interior.mp4`; this ignored source does not travel with Git. [Source notes and the intake receipt](../../assets/reference/environments/house-interior/README.md), SD-029, record its purpose for the initial house's 3D environment, metadata, and verified byte preservation. Sampled frames were inspected. No house model, scan, external-generation upload, or runtime change is claimed.
 
+## Car driving reference — October 30
+
+The owner's `IMG_5754.mp4` is labeled **Car driving — West on Hypoluxo → North on Jog → West on Lantana → South on Hagen Ranch** and saved under the owner's `Space Dragon/Car driving/` files. [Source notes and the intake receipt](../../assets/reference/environments/car-driving/README.md), SD-030, now make the reference discoverable in the repo. The notes include metadata, checksum, sampled-frame observations, and retrieval instructions; the MP4 itself is not in Git. Its route is an owner-supplied label. Exterior reconstruction and runtime integration remain future work.
+
 ## Completed local foundation
 
 - Babylon.js 9.33.0, TypeScript 7.0.2, Vite 8.3.5, Playwright 1.64.1 with its Chromium browser, and glTF Transform 4.5.1 are installed as exact-pinned project dependencies.
