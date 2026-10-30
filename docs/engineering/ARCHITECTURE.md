@@ -9,6 +9,8 @@ The target route remains `/space-dragon` on the existing site. A standalone Baby
 
 ## Keep these boundaries even in a small implementation
 
+**October 30 owner direction (SD-028):** evaluate early refactoring around more refined imported environments/assets when that lowers total development effort. [Seele migration](../../seeles-assets/README.md) compares selected asset import, scene-layer replacement, and broader runtime/repo changes against an actual export. Babylon is the current baseline, not a permanent engine constraint. Preserve the behavior contracts below; record consequential architecture changes and update their tests rather than retaining placeholder structure for its own sake. No runtime change has been made by adding this intake process.
+
 | Area | Owns | Must not own |
 | --- | --- | --- |
 | Content | Stable mission, component, character and challenge definitions | Rendering objects or network credentials |

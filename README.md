@@ -13,6 +13,7 @@ A family of five accidentally receives rescue equipment sent with an SOS. They r
 - **See where things stand:** [current status](docs/project/STATUS.md), [vision](docs/project/VISION.md), and [roadmap](docs/project/ROADMAP.md).
 - **For agents:** read [AGENTS.md](AGENTS.md) before making changes. Track ideas in [the ledger](docs/project/IDEA_LEDGER.md).
 - **For setup/art work:** [toolchain](docs/TOOLCHAIN.md), [repo inventory](docs/REPO_INVENTORY.md), [asset pipeline](docs/ASSET_PIPELINE.md), and [local development](docs/DEVELOPMENT.md).
+- **Bring in a Seele export:** use [seeles-assets](seeles-assets/README.md). Drop downloads in its local `incoming/` folder; agents inspect them, decide whether importing or refactoring is easier, and continue in the existing asset workflow. Raw downloads are ignored by Git.
 
 The game starts at [http://127.0.0.1:5173/space-dragon/](http://127.0.0.1:5173/space-dragon/). You can also run `npm start` from a terminal. Ideas added to the notebook are saved locally for the next agent session; no agent runs automatically. No technical template is required.
 

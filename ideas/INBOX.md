@@ -82,3 +82,13 @@ Receipt: **SD-027** · CONFIRMED curriculum focus; puzzle designs and skill IDs 
 
 Owner request on the same day, “Go ahead and rewrite”, authorized the Act II/III rewrite merged in PR #16 (SD-018).
 
+### October 30, 2026 — Seele intake and early refactoring
+
+Source: owner, Space Dragon chat, after discussing exported assets and continued refinement with coding agents.
+
+> Shall I make a folder in the repo called “seeles assets” and put instructions for migration
+
+> At the beginning, we may want to refactor the repo around the more refined 3d environments and assets if it’s easier
+
+Receipt: **SD-028** · CONFIRMED intake direction and conditional refactor evaluation; the actual migration/engine choice remains OPEN until an export is inspected. [Seele intake and migration](../seeles-assets/README.md) provides a local drop folder and agent procedure. It compares asset import, scene-layer replacement, and broader refactoring before implementation, while reusing the existing asset workflow. No paid generation, asset import, engine change, or deployment is claimed.
+

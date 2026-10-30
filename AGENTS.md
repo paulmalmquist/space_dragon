@@ -8,7 +8,7 @@ Load only the relevant contract:
 - Story or missions: [Act I](docs/story/ACT_I_BUILD_THE_DRAGON.md).
 - Runtime or saves: [architecture](docs/engineering/ARCHITECTURE.md) and [interactions](docs/gameplay/INTERACTION_CONTRACTS.md).
 - Learning: [learning rules](docs/learning/LEARNING_RULES.md).
-- Art: [Blender handoff](docs/BLENDER_CHARACTER_HANDOFF.md).
+- Art: [Blender handoff](docs/BLENDER_CHARACTER_HANDOFF.md); external Seele exports: [intake and migration](seeles-assets/README.md), including an initial import-versus-refactor assessment.
 - Verification/release: [quality gates](docs/engineering/QUALITY_GATES.md).
 
 ## Turn unordered ideas into changes

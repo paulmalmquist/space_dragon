@@ -1,0 +1,7 @@
+# Track the intake instructions and empty drop folder, not unreviewed downloads.
+*
+!.gitignore
+!README.md
+!incoming/
+incoming/*
+!incoming/.gitkeep

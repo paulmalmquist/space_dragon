@@ -1,6 +1,6 @@
 # Current project state
 
-Updated: **October 29, 2026**. Agents update this file after each meaningful work session. See [the ledger](IDEA_LEDGER.md) for why work exists and [the roadmap](ROADMAP.md) for dependencies.
+Updated: **October 30, 2026**. Agents update this file after each meaningful work session. See [the ledger](IDEA_LEDGER.md) for why work exists and [the roadmap](ROADMAP.md) for dependencies.
 
 ## Verified starting inventory
 
@@ -26,6 +26,10 @@ The publication branch incorporates the newer `origin/main` history through `047
 - **Story structure, October 29:** the owner confirmed a linear, three-act story ending with a final landing on planet Viera ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md), SD-014 to SD-017). A [three-act plan](../story/THREE_ACT_PLAN.md) and a proposed [Acts II & III treatment](../story/ACTS_II_III_THE_ROAD_TO_VIERA.md) (SD-018) were added. On October 30 the Act II treatment was rewritten to end at the Forge Ring, an Act III treatment was added, and the Silent Center and Encore and Home scripts moved to Act III as [The Rest Garden](../story/scripts/A3-04_THE_REST_GARDEN.md) and [The Final Landing](../story/scripts/A3-09_THE_FINAL_LANDING.md). Lane levels and A3-00 to A3-03 are not scripted yet. Documentation only; no runtime change.
 - **Curriculum puzzles, October 30:** a proposed [curriculum puzzle plan](../learning/CURRICULUM_PUZZLE_PLAN.md) (SD-027) gives each learning stop a numbers-and-letters track and a math-and-reading track, fed by a parent's local This Week list. Documentation only; no learning feature is implemented.
 - [The current milestone](../plans/CURRENT_MILESTONE.md) defines the bounded next work. The short guided prototype below is a foundation, not completion of the fuller proposed First Contact script or all SD-M1 acceptance checks.
+
+## Seele intake guidance — October 30
+
+[seeles-assets](../../seeles-assets/README.md) now provides a local incoming folder, scoped Git ignore rules, and agent migration instructions (SD-028). The first decision compares importing selected assets, replacing/refactoring the scene layer, and broader runtime/repo changes when a stronger export lowers total work. Existing source/candidate destinations remain the processing paths. The [verification receipt](../reports/2026-10-30-seele-intake.md) records foundation checks, 41 existing unit checks, local-link review, and nine Git-ignore cases. This is intake guidance only: no Seele export, model, engine change, Blender session, or deployment has been verified in this work. The next evidence is a real export running and accepting a further agent edit outside Seele.
 
 ## Completed local foundation
 
