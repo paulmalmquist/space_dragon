@@ -2,7 +2,8 @@
 
 **Date:** October 29, 2026  
 **Status:** PROPOSED treatment for owner review. The linear three-act structure, Viera as the final landing, suit upgrades becoming powers by the end, and dogfights between planets are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)). Everything else here, including every name, is a proposal.  
-**Builds on:** [Act I](ACT_I_BUILD_THE_DRAGON.md) (authoritative), the [Act II proposal](ACT_II_ANSWER_THE_CALL.md), the [three-act plan](THREE_ACT_PLAN.md) and the [combat system](../gameplay/COMBAT_SYSTEM.md).
+**Builds on:** [Act I](ACT_I_BUILD_THE_DRAGON.md) (authoritative), the [three-act plan](THREE_ACT_PLAN.md) and the [combat system](../gameplay/COMBAT_SYSTEM.md).  
+**Developed in:** the act treatments [Act II: Answer the Call](ACT_II_ANSWER_THE_CALL.md) and [Act III: The Road to Viera](ACT_III_THE_ROAD_TO_VIERA.md), and the scripts [The Rest Garden](scripts/A3-04_THE_REST_GARDEN.md) and [The Final Landing](scripts/A3-09_THE_FINAL_LANDING.md). This overview stays the summary of the fills; the act documents carry the detail.
 
 The off-world story in one line: the family wakes four star-dragons to light a path across a sleeping universe, races a robot that thinks sleeping ships are junk, and lands on Viera to give a planet of travelers back its rest. This fills the holes listed in the [three-act plan](THREE_ACT_PLAN.md).
 
@@ -218,7 +219,7 @@ These are placeholders to react to, not decisions.
 ### Rules that keep it right for the family
 
 - The three-year-olds' powers are as big and as fun as anyone's.
-- Every power sounds in its owner's instrument, so the finale is a song.
+- Every power sounds in its owner's voice, which morphs from instrument into synth as the power arrives (owner direction, SD-022), so the finale is a song.
 - Five Together becomes **Five Powers**, and its chord finally resolves to the home note, as the [music doc](MUSIC_EMPATHY_AND_PACING.md) already planned.
 - The living-material guardrails hold: powers always switch off, helmets always open, and the suit never controls its wearer.
 - No power ever replaces a learning challenge or makes one required.

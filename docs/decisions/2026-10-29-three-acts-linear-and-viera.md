@@ -25,7 +25,7 @@
 
 - The Act I refinements §4.1 ordering rule (missions 2–5 in any order, mission 6 after any four). Missions now follow a fixed order. Delivering beats by install count still works but is no longer needed for coherence.
 - "Any order" for the Act II worlds in the [Act II proposal](../story/ACT_II_ANSWER_THE_CALL.md) §5 and [A2-03](../story/scripts/A2-03_WAKING_THE_WORLDS.md), and the "Any order" labels in the [scripts index](../story/scripts/README.md).
-- The drafted [Encore and Home](../story/scripts/A2-11_ENCORE_AND_HOME.md) coda as the end of the game. The game's final landing is on Viera.
+- The drafted Encore and Home coda as the end of the game. The game's final landing is on Viera. (On October 30 that script was rewritten as [The Final Landing](../story/scripts/A3-09_THE_FINAL_LANDING.md).)
 - The Act II open question "What Act III, if any, would be." There is an Act III.
 - The [combat system](../gameplay/COMBAT_SYSTEM.md) §8 constraint that no mission may require a launch unlocked in a different mission. With a fixed order, later missions may rely on earlier unlocks.
 - "One compact explorable area" per world as the Act II default. Large worlds are the direction; shrinking a world remains a production option.
