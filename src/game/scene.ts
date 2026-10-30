@@ -7,6 +7,7 @@ import { PointLight } from '@babylonjs/core/Lights/pointLight';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import type { Step } from './checkpoint';
+import type { CameraInput } from './gamepad';
 
 export function createFirstContact(canvas: HTMLCanvasElement) {
   const engine = new Engine(canvas, true, { stencil: true }, true);
@@ -86,6 +87,8 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     panel.position.z += Math.cos(panel.rotation.y) * 1.2;
   }
   let step: Step = 'computer';
+  let cameraAnchor = new Vector3(-3.3, 1.1, 0);
+  const cameraPan = new Vector3(0, 0, 0);
   let frames = 0;
   let elapsed = 0;
   const frameTimes: number[] = [];
@@ -107,8 +110,28 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   return {
     setStep(value: Step) {
       step = value;
-      camera.setTarget(value === 'computer' ? new Vector3(-3.3, 1.1, 0) : new Vector3(2, 1.3, 0));
+      cameraAnchor = value === 'computer' ? new Vector3(-3.3, 1.1, 0) : new Vector3(2, 1.3, 0);
+      cameraPan.set(0, 0, 0);
+      camera.setTarget(cameraAnchor);
       camera.radius = value === 'computer' ? 11 : 8;
+    },
+    controlCamera(input: CameraInput, deltaSeconds: number) {
+      if (!Number.isFinite(deltaSeconds) || deltaSeconds <= 0) return;
+      const dt = Math.min(deltaSeconds, 0.05);
+      camera.alpha += input.lookX * 1.8 * dt;
+      camera.beta = Math.max(0.35, Math.min(1.45, camera.beta + input.lookY * 1.25 * dt));
+      camera.radius = Math.max(5, Math.min(20, camera.radius - input.zoom * 5 * dt));
+      if (input.panX || input.panY) {
+        // Camera-relative pan for the current static prototype. Left-stick walking
+        // will replace this when the first playable family avatar exists.
+        const rightAngle = camera.alpha + Math.PI / 2;
+        const speed = 3 * dt;
+        cameraPan.x += (Math.cos(rightAngle) * input.panX + Math.cos(camera.alpha) * input.panY) * speed;
+        cameraPan.z += (Math.sin(rightAngle) * input.panX + Math.sin(camera.alpha) * input.panY) * speed;
+        const distance = cameraPan.length();
+        if (distance > 2.5) cameraPan.scaleInPlace(2.5 / distance);
+        camera.setTarget(cameraAnchor.add(cameraPan));
+      }
     },
     snapshot: () => ({
       rendered, scene: 'first-contact', step, frames,
@@ -116,6 +139,8 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       meshes: scene.meshes.length, activeMeshes: scene.getActiveMeshes().length,
       triangles: scene.meshes.reduce((total, mesh) => total + mesh.getTotalIndices(), 0) / 3,
       renderer: `WebGL ${engine.webGLVersion}`,
+      camera: { alpha: camera.alpha, beta: camera.beta, radius: camera.radius,
+        target: { x: camera.target.x, y: camera.target.y, z: camera.target.z } },
     }),
     dispose() { window.removeEventListener('resize', resize); scene.dispose(); engine.dispose(); },
   };
