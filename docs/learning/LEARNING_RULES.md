@@ -2,6 +2,8 @@
 
 **Status:** proposed product rules adopted as development guardrails; not a validated curriculum, diagnostic assessment or mastery algorithm. The owner wants early reading and other learning alongside enjoyable exploration, racing and combat. Age is context, not a measured skill level.
 
+The [curriculum puzzle plan](CURRICULUM_PUZZLE_PLAN.md) (PROPOSED) applies these rules to the children's current schoolwork: number and letter recognition, and addition, subtraction and reading.
+
 ## One adventure, independent learner profiles
 
 Store a local learner ID separately from avatar and action-assistance settings. Do not use a selected suit or inferred age to set educational difficulty. Begin with supported, low-pressure activities; allow an adult to adjust practice and reset only the intended profile. Do not publish learner data, collect voice recordings or add remote analytics by default.
