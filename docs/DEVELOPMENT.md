@@ -27,6 +27,8 @@ This type-checks, builds, runs the browser flows, and verifies all 18 family-pho
 
 Browser checks exercise actual WebGL rendering with Chromium/SwiftShader, checkpoint completion/reload/reset, malformed and unsupported saves, unavailable storage, idea persistence/error recovery, origin rejection, source-reference serving restrictions, and a narrow touch viewport. Screenshots, retained failure traces, and a development state sample are written under ignored `artifacts/`. SwiftShader timing and viewport emulation are not physical-device GPU results.
 
+`npm run test:production` builds and verifies the production flow, checkpoint reload and development-feature isolation on its own preview port 4177. It accepts the same optional browser override and writes a local receipt under `artifacts/`.
+
 For a production artifact, run `npm.cmd run build`, then `npm.cmd run preview` and open `http://127.0.0.1:4173/space-dragon/`. The notebook button and file-writing endpoint are development-only. `dist/` is an isolated static game build; it does not contain the idea inbox, reference photos, or editable sources. Do not copy the repo root to a public web directory.
 
 ## Runtime layout
@@ -35,7 +37,9 @@ For a production artifact, run `npm.cmd run build`, then `npm.cmd run preview` a
 | --- | --- |
 | `src/main.ts` | Guided First Contact UI and development notebook |
 | `src/game/scene.ts` | Small Babylon scene and rendering lifecycle |
-| `src/game/checkpoint.ts` | Versioned local save validation and recovery |
+| `src/game/checkpoint.ts` | Versioned local persistence, v1 migration and restart backup |
+| `src/game/firstContact.ts` | Story content, guarded transitions, checkpoint validation and derived unique rewards |
+| `src/game/narration.ts` | Opt-in local-device speech, replay/cancel and text fallback |
 | `tools/dev-idea-inbox.ts` | Loopback/origin-checked development append endpoint |
 | `vite.config.ts` | `/space-dragon/` base path, private-source deny rules, isolated test inbox |
 | `public/` | Explicitly promoted browser assets only |
@@ -45,7 +49,13 @@ The first scene uses primitives; importing the loader dependency is not evidence
 
 During development, `window.__SPACE_DRAGON__.snapshot()` returns the current step, checkpoint, frame sample, mesh/triangle counts, and WebGL version. This is an observation interface, not a remote control or a performance acceptance result. It is absent from production builds.
 
-Save schema v1 is `{ "version": 1, "step": "computer" | "backyard" | "pod" }` in `space-dragon.checkpoint.v1`. Invalid/unsupported saves restart the short sequence with a notice; blocked storage falls back to the current visit. There is no cloud synchronization, migration, or backup-save recovery yet. Notebook drafts use a separate localStorage key and remain in the form when a write fails.
+Save schema v2 uses `space-dragon.checkpoint.v2`: `{version: 2, step, demonstrated, scan, scanHelp}`. Steps are computer, backyard, pod, suits, scan and map. Validation rejects impossible cross-field combinations. All five stable suit rewards derive from entry to the suits stage, and the symbol archive reward derives from the completed scan; demonstrations cannot grant duplicates. `scan` distinguishes direct from assisted interaction only, **not learning mastery**. No learner profiles or observations are created by this slice.
+
+When no v2 save exists, valid v1 computer/backyard/pod saves resume at the same step. The original v1 bytes remain intact; the next accepted action writes v2. Unsupported/malformed saves show a notice; storage failure retains progress for this visit. Confirmed restart writes the previous state to `space-dragon.checkpoint.before-restart` before replacing v2. Recovery is manual for now: restore that JSON to the v2 key. Notebook drafts stay separate.
+
+Hear instruction (or H) uses an available local English device voice, on request. Remote voices are not selected. Unsupported or not-yet-loaded voices fall back to the visible instruction and Help together. Actual audibility/accent on the player's device still needs review. Pause, tab hiding, notebook opening and scene changes cancel speech. Reduced motion respects the initial OS preference and can be toggled. Story controls settle for 350 ms after accepted input to prevent a double click hitting a different control as the card moves; no game-state reward depends on that timer.
+
+For a host with an already installed compatible Chromium, set `SPACE_DRAGON_BROWSER_PATH` to its executable when running Playwright. The default still uses the pinned Playwright browser. Record the actual browser/version; compatibility tests do not establish GPU performance.
 
 Restarting a progressed sequence requires confirmation; cancel preserves the current checkpoint. Keyboard is the confirmed first input. The automated narrow touch check is extra layout/input evidence, not a change to the owner's deferred-touch decision or a physical-device support claim.
 

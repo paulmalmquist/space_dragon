@@ -1,5 +1,7 @@
 # Space Dragon — Three-Act Story Plan
 
+> **Source update:** the previously missing character attachment and the planet/SOS treatment are now read. See [recent story integration](RECENT_STORY_INTEGRATION.md). Missing-source statements below describe this draft’s original evidence; the new source supplies proposed roles, not automatic canon approval.
+
 **Date:** October 29, 2026  
 **Status:** PROPOSED planning document. The owner's structure (linear, large worlds, three acts, Earth first, Viera as the final landing) is CONFIRMED direction in the [decision record](../decisions/2026-10-29-three-acts-linear-and-viera.md). The holes, fills and recommendations below are proposals.  
 **Companion:** [Acts II & III: The Road to Viera](ACTS_II_III_THE_ROAD_TO_VIERA.md), which fills the holes listed here.

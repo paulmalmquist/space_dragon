@@ -14,6 +14,7 @@ Change canon only through `docs/decisions/`.
 
 | Document | What it holds | Status |
 | --- | --- | --- |
+| [Recent story integration](RECENT_STORY_INTEGRATION.md) | Source-grounded Mox/Tavi/Nera/Rook roles, SOS composition, conflicts with linear order and Viera, current coding scope | Confirmed direction and labeled proposals |
 | [Act I: Build the Dragon](ACT_I_BUILD_THE_DRAGON.md) | The authoritative premise, scene order and open questions | CANON, with labeled proposals |
 | [Act I critique and refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) | The SOS melody, the talking Core, the passenger creature, the seventh Bridge piece, the neighbor's grievance, the finale | PROPOSED, plus the living-material OWNER IDEA |
 | [Suit reveals and starting abilities](SUIT_REVEALS_AND_STARTING_ABILITIES.md) | Scene A1-02 in detail, starting kits, "Five Together" | PROPOSED |

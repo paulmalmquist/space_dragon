@@ -2,7 +2,7 @@
 
 A family of five accidentally receives rescue equipment sent with an SOS. They recover its scattered components around their familiar Florida town, assemble a giant mecha dragon, and choose to answer the call in another universe. Their supportive neighborhood cheers them on; a fictional across-the-street neighbor wants the dragon gone.
 
-**Status:** story foundation, 18 verified character-photo references, an idea workflow, and a local First Contact prototype. The prototype uses placeholder geometry and guided interactions; final art and a deployed game are still ahead.
+**Status:** story foundation, 18 verified character-photo references, an idea workflow, and a local First Contact prototype. The prototype now continues through five suit demonstrations, a supported signal scan and a saved town-map briefing. It uses placeholder geometry and guided interactions; final art and a deployed game are still ahead.
 
 **Planned game location:** `paulmalmquist.com/space-dragon`. The existing homepage must remain intact. This is a target route, not a claim that the game is live.
 

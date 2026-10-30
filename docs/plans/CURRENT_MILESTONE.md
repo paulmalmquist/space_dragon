@@ -11,7 +11,7 @@ The root guidance routes tasks to relevant documents; the current Act I and phot
 
 ## SD-M1 — First Contact acceptance
 
-**Status:** local foundation authorized and verified within its bounded scope. The acceptance checks below still describe the fuller polished slice: replayable speech/help, suit introduction, host-site integration and human play review remain pending. A prototype pass is not completion of every M1 check.
+**Status:** local foundation authorized and verified within its bounded scope. The acceptance checks below still describe the fuller polished slice: speech audibility on the player’s device, host-site integration and human play review remain pending. The current increment implements local speech replay/fallback, supported scanning and suit introductions. A prototype pass is not completion of every M1 check.
 
 Player outcome: open the game, see the family at the living-room computer, receive the interrupted signal, investigate the backyard pod, complete one supported interaction, and resume from a saved checkpoint.
 
@@ -38,3 +38,15 @@ The local package/lockfile, browser checks and machine inventory are now documen
 A single town retrieval and return-home reveal can follow First Contact; expand only after its interaction and save loop works. The old flight-first Launch Day proposal may be a separate technical prototype, not a replacement for the narrative opening.
 
 For every increment, record the request, bounded outcome, exclusions, acceptance checks and evidence. Close it with a receipt before expanding scope.
+
+
+## SD-019 — suits and the first-mission handoff
+
+**Status:** IMPLEMENTED and VERIFIED for the bounded scope; see the receipt for browser/version and untested device/audio limitations.
+
+**Authorization:** owner, October 29: “Continue coding based on the recent updates to the story”.
+**Bounded outcome:** extend the existing pod endpoint through brief contextual suit demonstrations, a supported Lyla scan, and the saved town-map briefing. No playable town mission, later power tree or planet selection is added.
+
+Acceptance: all five suits arrive together; each contribution changes the visible scene; skip preserves suits; direct/helped scans earn the same unique archive card; help survives reload without becoming an independent result; v1 saves migrate; pause/replay/repeated input cannot advance hidden work; all story actions work on keyboard; unavailable audio/storage/renderer retain the story fallback. Runtime props and colors remain placeholders.
+
+The proposed town route is a briefing, with Space Blocks clearly marked as the next unbuilt chapter. The broader linear three-act/Viera direction and source-grounded cast/SOS proposals are reconciled in [recent story integration](../story/RECENT_STORY_INTEGRATION.md). Verification is recorded in the [increment receipt](../reports/2026-10-29-first-contact-suits.md).

@@ -1,5 +1,7 @@
 # Space Dragon — Acts II & III: The Road to Viera
 
+> **Source update:** the previously missing character attachment and the planet/SOS treatment are now read. See [recent story integration](RECENT_STORY_INTEGRATION.md). Missing-source statements below describe this draft’s original evidence; the new source supplies proposed roles, not automatic canon approval.
+
 **Date:** October 29, 2026  
 **Status:** PROPOSED treatment for owner review. The linear three-act structure, Viera as the final landing, suit upgrades becoming powers by the end, and dogfights between planets are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)). Everything else here, including every name, is a proposal.  
 **Builds on:** [Act I](ACT_I_BUILD_THE_DRAGON.md) (authoritative), the [Act II proposal](ACT_II_ANSWER_THE_CALL.md), the [three-act plan](THREE_ACT_PLAN.md) and the [combat system](../gameplay/COMBAT_SYSTEM.md).

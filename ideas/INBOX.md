@@ -69,3 +69,16 @@ Source: owner, same chat.
 > “Can you put those in my space_dragon repo”
 
 Receipt: **SD-016** (suit upgrades, then powers by the end) and **SD-017** (dogfights and asteroid fields between planets) · CONFIRMED direction, details PROPOSED · Recorded in [the decision](../docs/decisions/2026-10-29-three-acts-linear-and-viera.md). **SD-018** · PROPOSED · The assistant's fills are in [Acts II & III: The Road to Viera](../docs/story/ACTS_II_III_THE_ROAD_TO_VIERA.md), awaiting owner review. The last message authorized adding both documents to this repo.
+
+### October 29, 2026 — continue coding from the recent story
+
+Source: owner, Space Dragon chat.
+
+> “Continue coding based on the recent updates to the story”
+
+Earlier owner direction preserved with the supplied mission document:
+
+> “Keep going on missions
+> I want it to evolve to planet to planet composing the sos”
+
+Receipt: **SD-019** · CONFIRMED coding authorization · Extend the actual First Contact runtime through the suits, supported scan and saved town-map handoff. **SD-020** · CONFIRMED composition direction; detailed treatment PROPOSED · The two current story attachments were read and reconciled in [recent story integration](../docs/story/RECENT_STORY_INTEGRATION.md). This also resolves SD-013's missing character-source blocker. Viera and linear progression remain owner direction; optional world order and the earlier Earth ending do not supersede them. No full planetary campaign or production deployment is implied.
