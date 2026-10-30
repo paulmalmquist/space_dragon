@@ -109,3 +109,12 @@ Source: owner, Space Dragon chat; `IMG_5754.mp4` arrived after the initial label
 > Ok is this saved in repo
 
 Receipt: **SD-030** · CONFIRMED route label · [Car driving source and receipt](../assets/reference/environments/car-driving/README.md) records the saved video, source checksum and metadata, sampled-frame observations, and retrieval instructions. The notes are tracked in Git; the original MP4 is saved separately in the owner's `Space Dragon/Car driving/` files. The route is the owner's label, not an independently verified GPS track. Next: retrieve the source when exterior-environment work needs it; no road model or runtime change is claimed.
+
+### October 30, 2026 — a villain, and the reason for the SOS
+
+Source: owner, Space Dragon chat.
+
+> “We need a villain arc, the reason for the SOS. Not kiddy please, this can be biblical or DC studios level”
+
+Receipt: **SD-031** · CONFIRMED direction (a villain exists, causes the SOS, mythic tone); identity and lore PROPOSED · [Decision](../docs/decisions/2026-10-30-villain-is-the-reason-for-the-sos.md) and [villain treatment](../docs/story/VILLAIN_ARC.md): Morrow, the Lanemother's firstborn, holds the home note and has stopped the universe. Next: owner review, then integrate the beats listed in the treatment's §10 into the acts and scripts.
+

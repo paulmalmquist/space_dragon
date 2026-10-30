@@ -40,6 +40,8 @@ This is why the route is linear. A lane only lights up when the dragon at its fa
 
 ### Why the Quiet happened
 
+> **Villain proposal (October 30, 2026):** the owner [confirmed](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md) that a villain is the reason for the SOS. The proposed villain, Morrow, the Long Note, is in the [villain treatment](VILLAIN_ARC.md), which would replace the cause of the Quiet described here. This section is unchanged until that treatment is accepted.
+
 The Vierans loved traveling so much they stopped coming home to rest. The dragons sang the lanes without stopping, and the Rest Garden went empty.
 
 The Hush is the rest in the song, the pause between notes. With no room left, it covered its ears and pulled a silence over everything, spreading outward from Viera. Nobody meant it, just as nobody meant for the Bridge piece to wreck the neighbor's garden.
