@@ -1,4 +1,4 @@
-name: Foundation checks
+name: Foundation and game checks
 
 on:
   push:
@@ -23,3 +23,40 @@ jobs:
         run: python3 -m unittest discover -s tests -p 'test_*.py' -v
       - name: Verify approved reference inventory
         run: python3 tools/verify_family_references.py
+
+  game:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+          lfs: true
+      - name: Set up Node 24
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install exact project dependencies
+        run: npm ci
+      - name: Test story state and persistence
+        run: npm run test:unit
+      - name: Type-check and build the game
+        run: npm run build
+      - name: Install Chromium and Linux browser dependencies
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Test development gameplay and notebook isolation
+        run: npm test
+      - name: Test the built game and production boundaries
+        run: npx --no-install playwright test --config playwright.production.config.ts
+      - name: Retain browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: browser-failure-evidence
+          path: |
+            artifacts/test-results/
+            artifacts/production-test-results/
+          if-no-files-found: ignore
+          retention-days: 7

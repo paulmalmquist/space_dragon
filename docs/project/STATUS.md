@@ -1,66 +1,56 @@
 # Current project state
 
-Updated: **October 29, 2026**. Agents update this file after each meaningful work session. See [the ledger](IDEA_LEDGER.md) for why work exists and [the roadmap](ROADMAP.md) for dependencies.
+Updated: **October 29, 2026**. Read this file, [the vision](VISION.md), [inbox](../../ideas/INBOX.md), and [current milestone](../plans/CURRENT_MILESTONE.md) before changing the project. Ideas SD-001–SD-026 are indexed in [the ledger](IDEA_LEDGER.md).
 
-## Verified starting inventory
+## Current increment
 
-- Existing story/specification, implementation handoff, Blender handoff, context summary, and a photo-publication decision.
-- Eighteen family-reference JPEGs, manifest, local gallery, and `tools/verify_family_references.py`. The previous import's checks are recorded in the publication decision; repeat the verifier when changing this collection.
-- At initial inspection today: no game runtime, package manifest, completed models, build pipeline, backend configuration, deployment configuration, or gameplay-test results in this checkout.
-- Development machine inventory: Lenovo 82XM, approximately 13.8 GiB usable physical RAM, AMD Radeon graphics; Windows reports approximately 2 GiB adapter RAM. Integrated-GPU shared memory is not fully described by that adapter field. Node 24.15.0, npm 11.12.1, Python 3.14.4, Git, Git LFS, and winget are present.
+The latest owner request authorizes a **third-person walking slice** and records future video of the actual house, yard and garage as reference. **Walk around** is now the primary welcome action. The chosen family-playtest target is **this Lenovo 82XM with Chrome, using keyboard**; human movement feel, audible narration and the ten-minute family review remain pending.
 
-## Added project memory
+- A visible, originally modeled provisional person walks with WASD/arrows through the living-room doorway into the fenced yard. A damped third-person camera follows, supports mouse/Q/E orbit and R recenter, and avoids visible obstacles. Walls, furniture, pod and yard limits stop walking.
+- Nearby computer/pod actions require reaching the object and pressing Space/Enter. One practice module can be picked up once and restored with position/facing after reload. It is not a canonical dragon component. Exploration has a separate validated save/backup and reset; First Contact progress is preserved.
+- Pause, blur, mode switches and notebook entry clear held movement. The prior First Contact story remains selectable, with its speech/help/suits/scan/map and save-v2 features below.
+- [Home/yard/garage video reference](../REFERENCE_HOME_VIDEO.md) is recorded as SD-020. No footage has arrived; the room/yard are a generic blockout and the garage is only a backdrop. Source clips will stay in ignored local references.
+- The owner reinforced **AAA-like feel in a bounded world** (SD-022), with Railway/cloud options and no new computer planned now (SD-023). [The quality bar](../engineering/GAME_FEEL.md) records the next review priorities. This navigation foundation is not a claim that the finished feel has been achieved; actual Railway/cloud access remains unverified.
+- A **compact Winston Trails/Lake Worth neighborhood** is now confirmed direction (SD-024), using real public landmarks: Wellington South Target, Home Depot at Lantana/Jog, Lake Worth Christian, Manatee Elementary and a few restaurant choices. [The map plan](../world/NEIGHBORHOOD_MAP.md) is prepared; the neighborhood is not implemented yet. [Google Maps reference links](../world/REFERENCE_LOG.md) are logged (SD-025); image capture is pending because browser access could not verify Chrome's URL and stopped.
+- The owner supplied a home anchor and requested the surrounding streets and nearby lake (SD-026). An ignored local Census/OpenStreetMap vicinity reference now contains 366 road ways and 20 water ways, source data/attribution and precision notes. The home point is approximate and water candidates are unnamed; the intended lake is not conclusively identified. Original address/query and map files remain local. The game plan includes a compressed residential/lake area; actual home footage remains pending.
 
-- [Idea inbox](../../ideas/INBOX.md): plain-language intake with preserved source thoughts and routing receipts.
-- [Agent instructions](../../AGENTS.md): read order, idea processing, decision authority, story constraints, and verification expectations.
-- [Vision](VISION.md), [roadmap](ROADMAP.md), and [ledger](IDEA_LEDGER.md): current direction, production order, and traceability for SD-001 through SD-013, including the reconciled remote directions and proposals.
+Navigation evidence: **36 unit tests, 21 development browser tests, 5 production browser tests, and 18 photo checks passed** in the full `npm.cmd run check`. Installed Chrome **156.0.8078.48** also completed the real keyboard route and exact pickup/position reload with no page errors. [The navigation receipt](../reports/2026-10-29-third-person-navigation.md) identifies the artifact, checks and remaining limitations. The game workflow includes the new tests; [PR #13 checks](https://github.com/paulmalmquist/space_dragon/pull/13/checks) own its latest hosted result.
 
-## Reconciled remote planning work
+Hosted game and foundation jobs **passed on runtime/test commit `3fb24a1`** in [run 40980602065](https://github.com/paulmalmquist/space_dragon/actions/runs/40980602065) and [run 40980595929](https://github.com/paulmalmquist/space_dragon/actions/runs/40980595929). The later neighborhood/reference records change documentation only; they do not implement the broader map.
 
-The publication branch incorporates the newer `origin/main` history through `0474b97` alongside the local foundation. The starting inventory above is the original checkout snapshot, not a claim that the combined repository lacks the later work.
+## First Contact foundation retained
 
-- Shared contracts, canonical `.agents/skills/` and Claude mirrors, `CLAUDE.md`, static foundation/combat checks and unit fixtures, and a read-only GitHub Actions workflow are now present. Their existing receipts record earlier static results; the combined merge needs its own current verification receipt. Manual agent-behavior cases remain unexecuted unless a receipt says otherwise.
-- The [story index](../story/README.md) and [scripts index](../story/scripts/README.md) organize Act I refinements, suit reveals, Act II, music/empathy/pacing, and proposed production scripts. These are writing deliverables, not implemented scenes. The Caller, Hush, passenger, musical SOS, Bridge, and other dependent lore remain proposed; living material is an owner idea with proposed details.
-- The root `new characters` stub mentions Mox, Tavi, Captain Nera, and Rook as proposed names, but does not contain the referenced attachment or dialogue. Their complete designs and roles remain unavailable here.
-- [Keyboard-first input](../decisions/2026-10-29-keyboard-first-input.md) and [on-foot alley-oops / single-pilot jet-like flight](../decisions/2026-10-29-alley-oops-and-jet-flight.md) are confirmed direction. Xbox support is opportunistic and not tested; touch is deferred. The detailed later combat systems are not part of the current runtime.
-- [The current milestone](../plans/CURRENT_MILESTONE.md) defines the bounded next work. The short guided prototype below is a foundation, not completion of the fuller proposed First Contact script or all SD-M1 acceptance checks.
+- The flow now covers living-room launch night → interrupted signal → backyard → five placeholder suit cards → Lyla's scan → symbol archive → town map. Arrow keys point; Space/Enter acts; H repeats speech; F1 advances help; Escape pauses. Family recordings are not used.
+- Browser speech is a clearly labeled computer-narrator placeholder, with captions, sound-off play, repeat controls and a three-level hint ladder ending in one-action help together. API calls/error paths can be automated; audible output on the family's speakers remains to be checked.
+- A pure [state module](../../src/game/state.ts) owns phases, ordered one-time suit rewards, flags, hints and semantic transitions. [Save v2](../../src/game/checkpoint.ts) validates progress, upgrades all three v1 steps conservatively, retains v1 bytes, recovers a prior checkpoint, and protects unsupported future saves. Restart requires confirmation.
+- The [workflow](../../.github/workflows/foundation.yml) now declares Node 24, dependency/browser installation, the build, unit tests, and development/production browser tests alongside the Python foundation checks. A workflow edit alone is not a passing GitHub run.
+- An original pod candidate was built in a separate Blender 5.2.1 background process because live MCP did not connect. Its GLB/KTX2 pipeline, opening lid, source hierarchy and actual browser load are technically verified; [the asset receipt](../reports/2026-10-29-pod-asset.md) records evidence and pending human art review.
+- The pod runtime file is **463,644 bytes**, with **6,376 triangles**, **38 mesh objects**, five materials and one 256 × 256 ETC1S albedo. Same-origin decoders are included. A local Chromium/SwiftShader load sample was **623.2 ms**; it is not an AMD-GPU benchmark or download budget. Decoder transfer makes the first compressed load larger than the original PNG GLB alone.
+- The idea notebook still appends original thoughts to the inbox for the next invoked agent session. It does not run agents automatically. No new family-reference media, missing character attachment or final likeness asset has been supplied.
 
-## Completed local foundation
+## First Contact software evidence
 
-- Babylon.js 9.33.0, TypeScript 7.0.2, Vite 8.3.5, Playwright 1.64.1 with its Chromium browser, and glTF Transform 4.5.1 are installed as exact-pinned project dependencies.
-- The guided First Contact prototype renders a living-room computer and backyard pod, advances through the short interaction, and stores a versioned checkpoint. Geometry, story staging, and materials are placeholders; there are no family character models or finished dragon assets.
-- `Start Space Dragon.cmd` starts the local workspace. The development server was left running at `http://127.0.0.1:5173/space-dragon/` at handoff; the launcher can restart it in a later session.
-- The local **Idea notebook** appends original thoughts to `ideas/INBOX.md`, preserves failed/new drafts, and assigns capture IDs. Agents process those captures when invoked; capture does not automatically run an agent.
-- FFmpeg/FFprobe 9.0.1 and Khronos KTX/toktx 4.4.2 were installed for the current user. All ten tools in `npm.cmd run doctor` report Ready, including existing Blender 5.2.1. This does not establish a live Blender MCP connection.
-- Git LFS is initialized for this repo, with attributes for future large source/model/media files. Existing photos and Git history were preserved. Asset source/reference/candidate folders, read-only GLB inspection, safe reference-frame extraction, and repeatable setup helpers are ready.
-
-## Original local-foundation verification — October 29, 2026
-
-These results describe the local foundation before integration of the newer remote planning files. The merge verification receipt records checks against the combined work; do not infer that earlier results prove the later merge.
-
-| Check | Actual result |
+| Check | Current evidence |
 | --- | --- |
-| `npm.cmd run check` | Passed: TypeScript/build, **9 browser tests**, and all **18 photo references**. |
-| Browser flows | Actual WebGL 2 render; keyboard, pointer and supplemental narrow touch interaction; completion/reload/reset; malformed/unsupported/invalid-type saves; blocked storage; notebook file append and draft preservation; cross-origin rejection; reference-source access denied. Tests wrote only to the ignored fixture inbox. Touch remains deferred by the later input decision. |
-| Built app preview | Passed at the prefixed route: checkpoint reload, no notebook button/development state API, notebook POST returns 404, no page errors. Artifact inventory excludes source/reference media and project docs. |
-| Screenshots | Desktop and 390-pixel touch layout captured and visually reviewed in `artifacts/first-contact-desktop.png` and `artifacts/first-contact-mobile.png`. |
-| Asset helpers | Valid/malformed GLB checks and unchanged input bytes passed. Synthetic FFmpeg clip produced four frames; an existing output directory was refused without overwriting. |
-| KTX tools | FFmpeg-generated PNG → ETC1S KTX2 → `ktx validate` passed. |
-| Windows setup | Exact npm doctor command and idempotent setup passed under Windows PowerShell 5.1. |
-| Dependency/source hygiene | `npm.cmd audit`: zero known vulnerabilities. `git diff --check`: passed. Existing photo checksums unchanged. |
+| Pure state and save tests | **PASS: 17 tests** on Node 24.15.0; transition/duplicate/replay/skip, help, interrupted suit sequence, v1 migration, invalid/future saves, backup recovery and blocked writes. |
+| TypeScript and production build | **PASS** in the current work session; final artifact identity belongs in the task receipt. The original foundation's approximately 1.07 MB main bundle is historical, not the current output. |
+| Development/production browser tests | **PASS:** hosted run on code commit `46ae2a4` executed all 17 development and 4 production tests; local full/affected runs also passed. |
+| Pod pipeline | **PASS, bounded:** source reopen/export, GLB checks, embedded KTX2 validation, hierarchy/clip, in-game load and same-origin decoding; human art approval pending. |
+| GitHub game CI | **PASS:** [run 40958262541](https://github.com/paulmalmquist/space_dragon/actions/runs/40958262541), code commit `46ae2a4`: Node 24, 17 state tests, build, actual Chromium development/production tests. Foundation job also passed. |
+| Installed target Chrome smoke | **PASS:** Chrome **156.0.8078.48**, fresh temporary headless profile, completed map and reloaded with all five suits; no page errors. This is not human listening or GPU acceptance. |
+| Ten-minute Lenovo/Chrome family playtest | **NOT TESTED:** confirm audible speech, keyboard usability, points needing help and performance on the actual AMD renderer. |
 
-The browser run used **Chromium with SwiftShader software rendering**. It is compatibility evidence, not an actual-device performance benchmark. The observed scene has 32 meshes and 5,222 triangles; its frame sample is recorded in ignored `artifacts/browser-smoke-state.json`. The build emits an approximately 1.07 MB main JavaScript chunk (259 KB gzip) and a size warning; production download/renderer optimization remains work for the asset benchmark. No desktop 60 fps or mobile 30 fps claim is established.
+The [First Contact receipt](../reports/2026-10-29-first-contact-v2.md) records the previous implementation's source/artifact identity and checks. The feature branch `feat/first-contact-playable` is published in [draft PR #13](https://github.com/paulmalmquist/space_dragon/pull/13), based on merged foundation `ea89a05`, and now also carries walking work. It is not merged or deployed; check the PR for subsequent run results.
 
-The owner authorized pushing and merging this foundation on October 29. Use Git history and the pull request for the resulting publication state; this document does not claim a deployed game. Existing story updates from remote are retained, while the original specification and authorized photo bytes are preserved. The [combined-tree verification receipt](../reports/2026-10-29-local-foundation.md) records the merge-base/artifact identity, 9 browser passes, 39 Python passes with 2 host-related skips, production isolation, and preserved remote files. Restarting a progressed checkpoint now requires confirmation.
+## What remains open
 
-## Boundaries and open evidence
+- Real family playtest and adult review, audible browser narration, AMD hardware performance and final art approval. Automated speech mocks and SwiftShader runs do not close these gates. Xbox remains opportunistic and untested; touch is deferred.
+- The intended host website's repo/deployment and Railway services remain unidentified/unverified. Site integration waits for that source; cloud saves wait for a concrete need.
+- Lyla's final suit color, other photo labels, approved family assets, final dragon design and open lore decisions retain their existing status. The `new characters` stub still lacks its source attachment (SD-013).
+- First Contact uses a selected short-form script implementation. Broader Act I/II treatments, the Hush/Caller/Bridge and other proposed lore do not become confirmed canon through implementation.
 
-- The actual `paulmalmquist.com` website source and deployment remain unidentified. Public inspection returned unexpected homepage content and a 404 at `/space-dragon`; see [inventory](../REPO_INVENTORY.md). The homepage must be preserved during eventual integration.
-- Railway connection, services, capacity, budget, and save synchronization are unverified. Local setup does not establish a backend.
-- Blender 5.2.1 is installed. The Blender MCP connection was unavailable during this setup check; the active scene and live export path remain unverified. No finished character/dragon asset is claimed.
-- The specific player computer/browser, measured graphics budgets, approved final art, and major open lore approvals remain unresolved. Keyboard is primary; Xbox plug-and-play is not tested and touch is deferred.
-- The older handoff's no-implementation language records earlier documentation work. Today's owner instruction authorizes useful local setup and reversible implementation choices; it does not establish public deployment or new paid services.
+## Next useful action and history
 
-## Next useful action
+Try **Walk around** in Chrome on this Lenovo and review walking, camera comfort and nearby interactions. Use the requested **ten-minute keyboard family playtest** for the story/audio/help path, keeping identifying child observations local. When the house/yard/garage video arrives, revise geometry, collision targets and camera proxies together, then walk the route again. Space Blocks follows the First Contact human gate; the Cadet/Pilot flight experiment has its own later track. Line Leader, Act II and backend expansion remain held.
 
-Process new inbox thoughts first and use the current milestone's keyboard-first acceptance scope. Inspect the proposed First Contact script for the next spoken-help/suit-introduction increment without treating its unconfirmed lore as settled. In parallel, open Blender with its existing MCP add-on running, inspect/save the scene, and take one reviewed pod/component through GLB export, validation, browser loading, and visual review. Establish measurements on a named computer/browser. The Lyla pilot character can follow the existing handoff once the next art review is useful; additional reference labels can arrive incrementally. Obtain the actual character/story attachment before expanding the `new characters` stub into designs or dialogue.
+The original story/photo foundation, tools and unordered-idea workflow were merged in [PR #12](https://github.com/paulmalmquist/space_dragon/pull/12). Historical evidence remains in [the original merge receipt](../reports/2026-10-29-local-foundation.md), [toolchain](../TOOLCHAIN.md), [repo inventory](../REPO_INVENTORY.md), and [pod receipt](../reports/2026-10-29-pod-asset.md). Existing photo bytes, proposed story labels and publication boundaries are preserved.
