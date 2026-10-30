@@ -129,7 +129,7 @@ Existing challenge contracts (`a1m1_space_blocks_v1`, `a1m2_trail_flags_v1`, `a1
 
 ### How the puzzles reach the kids off Earth
 
-In Acts II and III, most Find It and Read It stops run through the **Glyph Book**, the family's dictionary of Vieran writing ([language and translation](../story/LANGUAGE_AND_TRANSLATION.md)). Each glyph pairs with a letter, numeral or word from the This Week list, and once a child matches it, it's readable everywhere in the game. From Landfall the Core falls silent, so the kids' own matching and reading carry the family through Farport. Spoken help is always available, and help is recorded as assisted.
+In Acts II and III, most Find It and Read It stops run through the **Glyph Book**, the family's dictionary of Vieran writing ([language and translation](../story/LANGUAGE_AND_TRANSLATION.md)). Each glyph pairs with a letter, numeral or word from the This Week list, and once a child matches it, it's readable everywhere in the game. The suits translate speech but can't read, so the kids' own matching and reading carry the family through Farport. Spoken help is always available, and help is recorded as assisted.
 
 ## 7. What gets recorded
 

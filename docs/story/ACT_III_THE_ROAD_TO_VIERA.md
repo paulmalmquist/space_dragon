@@ -41,10 +41,11 @@ Viera is the largest world in the game. Farport is crossed in a fixed order, but
 | --- | --- |
 | **Morrow** | Coiled over the broken seal in the Rest Garden, eyes closed, holding everything. His voice reaches the family's dragon at Landfall; his gaze sweeps Farport. Defeated in song at the Heartnote; faced in the Last Hold; becomes the Lodestar. |
 | **The neighbor** | Gone to Morrow since the Forge, with the Bridge. Found in her lawn chair at his side, held by her own choice. Turns back in the Garden, sits with the Hush, and returns the Bridge. |
-| **The Caller** | On their first voyage, and by now speaking broken English. When the Core falls silent at Landfall, the Caller becomes the family's interpreter. Deep in the Quiet they start to doze, so they stay inside the family's sound, holding Maria's hand. Reunited with their family in Farport; first mark at the final landing. |
+| **The Caller** | On their first voyage, and by now speaking broken English. When the suits start dropping words in Farport, the Caller fills the gaps. Deep in the Quiet they start to doze, so they stay inside the family's sound, holding Maria's hand. Reunited with their family in Farport; first mark at the final landing. |
 | **The robot iguana** | Left behind when the neighbor went, it rides with Luna and won't stop looking for her. Talks the Sweeper down, machine to machine. |
 | **The passenger** | Returns from the Hatchery with the hatchlings to fly in the Last Hold. Gives the kids a keepsake. |
-| **The Core** | Shrinks to short phrases on the road, then falls silent with the dragon at Landfall. Restored when Morrow lets go of the Heartnote, and freed from translating, because by then everyone understands everyone. Whether it stays on Viera is OPEN. |
+| **The suits** | Translate throughout. On the road they start dropping the odd word; in Farport they leave gaps. They shiver whenever Morrow speaks. After he lets go, nobody needs them to translate. |
+| **The Core** | Falls silent with the dragon at Landfall and wakes with it at the Heartnote. Whether it stays on Viera is OPEN. |
 | **The dragon** | Built in Morrow's likeness. Falls still at Landfall when Morrow calls it *brother*. Wakes first at the Heartnote, loudest, then rests. Gains Lane Wings. At the end, among its makers and its kind, and face to face with what it was modeled on, it chooses the family. |
 | **The Hush** | The Lanemother's rest, Morrow's old jailer. Found crushed beneath his coils with its hands over its ears. Listened to, sheltered, and given back its place. |
 | **The Lanemother** | Held by her son until the Heartnote. Wakes, and in the Last Hold calls him by his name. Sings a permanent lane to Earth as thanks. |
@@ -61,7 +62,7 @@ Act III in six movements, in a fixed order.
 
 ### Movement 1 — The Long Lane (A3-00 → A3-02)
 
-The dragon flies with its chest dark. The robot iguana sits on Luna's lap, looking out the back. The Core's translations grow shorter the closer they get.
+The dragon flies with its chest dark. The robot iguana sits on Luna's lap, looking out the back. The closer they get, the more often the suits drop a word.
 
 **A3-00 The Snag Net.** Mid-jump, the Sweeper's interdictor net yanks the dragon out of light speed. Dogfight the guard drones and cut the net's four anchors to break free. As the last anchor snaps, gold bands of Morrow's note lash along the lane, just missing. *Feel:* being pulled out of hyperspace into an ambush.
 
@@ -83,7 +84,7 @@ Squadron dogfights above Viera, then a trench run along the Barge to disable its
 
 **The re-tune.** With the Barge crippled, the Sweeper's core is exposed on its bridge. The robot iguana trots up to it first: a long, gentle beep. The Caller gives it the rule it was missing, the one Morrow's rewrite buried: *"Some things that are still are only resting. And when they're moving, they're going somewhere. You don't collect them. You help them get there."* The gold line through its rule flickers and breaks. The Sweeper powers down, then back up, very politely. It is on the family's side from now on.
 
-The dragon gave everything. Its glow is dim, its wings beat slower, and the held note is so loud here that the Core can only manage single words.
+The dragon gave everything. Its glow is dim, its wings beat slower, and the held note is so loud here that the suits are dropping every few words.
 
 *Pacing:* the biggest action yet (intensity 4), followed straight away by the act's quietest stretch.
 
@@ -93,14 +94,14 @@ The dragon gave everything. Its glow is dim, its wings beat slower, and the held
 
 > MORROW: "Brother. You came home."
 
-The dragon was built in his likeness, from his own kind's scales, and it hears him. It glides down onto a Farport landing field among the held ships, curls up, and **goes still**. The Core goes silent with it.
+The dragon was built in his likeness, from his own kind's scales, and it hears him. It glides down onto a Farport landing field among the held ships, curls up, and **goes still**. The Core in its chest goes silent with it.
 - **It isn't a breakdown.** Its living material is held, like the dragons it was made from. Maria can keep it breathing softly, but she can't wake it alone.
 - **The stakes are personal.** Their own dragon, the friend they grew in the cul-de-sac, has been taken by the thing it was modeled on.
 - **Gentle, not scary.** The family is together, the toddlers are tired, and it's very far from home. The Caller starts to doze.
-- **Maria's beat:** *"Everybody stay together."* Lyla plays a recording **from home**, and the home sound pushes color back in a warm circle. They walk on inside it. The Caller stays awake inside the circle and, with the Core silent, becomes the family's interpreter.
+- **Maria's beat:** *"Everybody stay together."* Lyla plays a recording **from home**, and the home sound pushes color back in a warm circle. They walk on inside it. The Caller stays awake inside the circle, and when the suits drop words, the Caller fills the gaps.
 - **Pacing:** about a minute of slow walking before the recording, control never stops, and no one is ever separated.
 
-**A3-05 Farport on foot.** The biggest world in the game, crossed in a fixed order inside the warm circle, which grows as districts wake. With the Core silent, the family reads its own way through, using the **Glyph Book** and the Caller's broken English ([translation](LANGUAGE_AND_TRANSLATION.md)).
+**A3-05 Farport on foot.** The biggest world in the game, crossed in a fixed order inside the warm circle, which grows as districts wake. The suits translate what they hear, with gaps the Caller fills, but they can't read, so the family reads its own way through with the **Glyph Book** ([translation](LANGUAGE_AND_TRANSLATION.md)).
 - **Outfitters' Row:** the family wakes the outfitters with sound, and each suit gets its big **Farport upgrade**, enough to go deeper into the Quiet. Meanwhile the Dragonwrights armor the still dragon (Scale Armor). Learning stop: **Pattern Fit** (`pattern_repeat`).
 - **The Departure Halls:** a giant terminal of travelers held mid-goodbye, arms half-raised to wave, suitcases floating. A whole city stopped at the moment of leaving, because he couldn't bear goodbyes. **Morrow's gaze**, a slow sweep of gold light, moves through the halls; the family slips past it in a hide-and-seek section. Being caught means being held for a moment until someone frees you. No failure. Learning stop: **The Big Board** (`letter_matching`, matching only, plus the reading track).
 - **The Roosts:** star-dragon nests, empty and cold, and the path down to the center.
@@ -195,7 +196,7 @@ This is the last action beat of the game and its biggest, with every friend the 
 
 ## 7. Learning in Act III (proposed, follows [learning rules](../learning/LEARNING_RULES.md))
 
-Two tracks per stop, as in the [curriculum puzzle plan](../learning/CURRICULUM_PUZZLE_PLAN.md). With the Core silent from Landfall on, Glyph Book reading carries the family through Farport.
+Two tracks per stop, as in the [curriculum puzzle plan](../learning/CURRICULUM_PUZZLE_PLAN.md). The suits can't read, so from Landfall on, Glyph Book reading carries the family through Farport.
 
 | Where | Activity | Skill (proposed ID) |
 | --- | --- | --- |

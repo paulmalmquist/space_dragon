@@ -1,7 +1,7 @@
 # Script — A3-04 to A3-08: Landfall, Farport and the Rest Garden
 
 **Status:** PROPOSED draft, following [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) Movements 3–4 (Landfall, Farport, then Listen → Shelter → Heartnote), the [villain arc](../VILLAIN_ARC.md), [language and translation](../LANGUAGE_AND_TRANSLATION.md) and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
-**History:** moved from `A2-07_THE_SILENT_CENTER.md` on October 30, 2026, then revised the same day for Morrow. The neighbor is with Morrow until A3-06; the Caller interprets once the Core falls silent.  
+**History:** moved from `A2-07_THE_SILENT_CENTER.md` on October 30, 2026, then revised the same day for Morrow. The neighbor is with Morrow until A3-06. The suits start dropping words this deep in the Quiet, and the Caller fills the gaps.  
 **Resumes from:** the Battle of the Mooring Ring (A3-03, not yet scripted). The Sweeper has just been re-tuned.
 
 **Rules for this whole script:**
@@ -76,19 +76,21 @@ Nothing. Its chest still glows faintly. It's breathing, slowly.
 >
 > CALLER (awake again, amazed): "Your home has a *sound*."
 >
-> MARIA: "Can you help us? The Core's asleep. We can't understand anyone here without you."
+> THE SUITS (in every helmet, patchy, words missing): "Your… ___ has a… ___."
 >
-> CALLER (standing up, very serious): "I can talk for you. I learned. Luke taught me." *(to Luke)* "*Fair lanes.*"
+> MARIA: "They're losing words. It's too close to him."
+>
+> CALLER (standing up, very serious): "I can fill in. I learned. Luke taught me." *(to Luke)* "*Fair lanes.*"
 >
 > LUKE: "Fair lanes."
 
-**[STATE]** `warm_circle = true`, `core_silent = true`, `caller_interprets = true`. The circle moves with the family and grows as Farport wakes. The Caller stays awake inside it. **[SAVE cp_a3_landfall]**
+**[STATE]** `warm_circle = true`, `suits_dropping_words = true`, `caller_fills_gaps = true`. The circle moves with the family and grows as Farport wakes. The Caller stays awake inside it. **[SAVE cp_a3_landfall]**
 
 ---
 
 ## A3-05 — Farport on foot
 
-**[PLAY]** Walk **together, inside the circle**, through Farport in a fixed order. Each district restored by sound widens the circle and wakes a few locals. With the Core silent, the family reads its own way through with the **Glyph Book**: every glyph the kids learned in Acts I and II now shows its letter, numeral or word on the signs. The Caller interprets everything spoken.
+**[PLAY]** Walk **together, inside the circle**, through Farport in a fixed order. Each district restored by sound widens the circle and wakes a few locals. The suits still translate what they hear, but this deep in the Quiet they drop words, and the Caller fills the gaps. The suits can't read at all, so the family reads its own way through with the **Glyph Book**: every glyph the kids learned in Acts I and II now shows its letter, numeral or word on the signs.
 
 *Design note:* if the BOOKMARKED Line Leader system exists by then, this walk is its natural home: one leader, everyone close. It must not need split parties. Otherwise it's a guided walk with explorable edges.
 
@@ -98,7 +100,9 @@ Rows of workshops, each with an outfitter held at the bench mid-fitting. The fam
 
 > OUTFITTER (placeholder, waking, singing in Vieran)
 >
-> CALLER (interpreting, proudly): "She says: fair lanes. Who made these? They're half asleep. Hold still."
+> THE SUITS (patchy): "Fair lanes. Who ___ these? They're half ___. Hold still."
+>
+> CALLER (filling in, proudly): "*Made.* Who *made* these. And *asleep*. She says they're half asleep."
 
 - **[PLAY]** One **Farport upgrade** per suit, fitted on the spot, enough to go deeper into the Quiet. Draft upgrades are in the [overview](../ACTS_II_III_THE_ROAD_TO_VIERA.md) § Suits to powers. One extra slot per suit stays open.
 - **[PLAY] Learning: Pattern Fit** (`pattern_repeat`, proposed ID). Repeat a short color-and-shape pattern to tune each upgrade. Untimed, with the usual hint ladder, and assisted completion fits the same upgrade.

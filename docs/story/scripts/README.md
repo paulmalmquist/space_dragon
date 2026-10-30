@@ -23,7 +23,7 @@ Draft production scripts: dialogue, music and sound cues, interactions with hint
 
 | # | Script | Covers | Order |
 | --- | --- | --- | --- |
-| 1 | [A2-00 The Crossing](A2-00_THE_CROSSING.md) | Flight out, light speed, the crossing, the stowaway, arrival in the Quiet and Morrow's gold line, meeting the Caller with the Core interpreting, the star map, lane books and the Glyph Book, **the Old Song**, the Caller's first voyage | Fixed |
+| 1 | [A2-00 The Crossing](A2-00_THE_CROSSING.md) | Flight out, light speed, the crossing, the stowaway, arrival in the Quiet and Morrow's gold line, meeting the Caller as the suits translate for the first time, the star map, lane books and the Glyph Book, **the Old Song**, the Caller's first voyage | Fixed |
 | 2 | [A2-03 Waking the Worlds](A2-03_WAKING_THE_WORLDS.md) | Market Moon, Hatchery (the passenger's reunion), Climbing Spires (**Morrow's voice**), Forge Ring (his name on the blueprints, the Sweeper's rewritten rule, Song-breath), waking beats by **dragons-awake count**, and **A2-07 The Temptation**, the Act II ending | Fixed: Market Moon, Hatchery, Spires, Forge Ring |
 | — | Lane levels between worlds | The Gravel Run, the Fog, hatchling escort and Shardstorm, the Sweeper Picket | Drafted in the [overview](../ACTS_II_III_THE_ROAD_TO_VIERA.md); not scripted yet |
 
@@ -32,7 +32,7 @@ Draft production scripts: dialogue, music and sound cues, interactions with hint
 | # | Script | Covers | Order |
 | --- | --- | --- | --- |
 | — | A3-00 to A3-03 | The Snag Net, the Waystation, the Drift, the Battle of the Mooring Ring | Drafted in [Act III](../ACT_III_THE_ROAD_TO_VIERA.md); not scripted yet |
-| 1 | [A3-04 The Rest Garden](A3-04_THE_REST_GARDEN.md) | Landfall (Morrow calls the dragon *brother*; the Caller interprets), Farport on foot with the Farport upgrades and Morrow's gaze, then **Listen → Shelter → Heartnote** in the Rest Garden with Morrow, the neighbor's turn and the Bridge returned | Fixed |
+| 1 | [A3-04 The Rest Garden](A3-04_THE_REST_GARDEN.md) | Landfall (Morrow calls the dragon *brother*; the suits drop words and the Caller fills the gaps), Farport on foot with the Farport upgrades and Morrow's gaze, then **Listen → Shelter → Heartnote** in the Rest Garden with Morrow, the neighbor's turn and the Bridge returned | Fixed |
 | 2 | [A3-09 The Final Landing](A3-09_THE_FINAL_LANDING.md) | Your Own Note (powers and synth voices), the Great Launch and **the Last Hold** against Morrow, the Lodestar, formation home, lane books, the dragon chooses, the Bridge and the lane home, "Hold them," the post-credits block party, the post-game | Fixed |
 
 ## Learning challenges in Act I

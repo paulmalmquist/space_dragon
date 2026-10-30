@@ -10,7 +10,7 @@
 | New world rule | **Sound paints color** |
 | New cast | **The Caller** (design and name OPEN) |
 | Seeds | The Hush on the horizon, Morrow's gold line through the Quiet, and **the Old Song** |
-| Translation | The Core interprets; the Glyph Book opens ([language and translation](../LANGUAGE_AND_TRANSLATION.md)) |
+| Translation | **The suits translate** for the first time; the Glyph Book opens ([language and translation](../LANGUAGE_AND_TRANSLATION.md)) |
 
 ---
 
@@ -155,17 +155,25 @@ The Caller sways, and their eyes start to droop. Then Luna squeals "HI!", and th
 
 ### What happened
 
-**[CINE]** The Caller sings in Vieran, a little tune for every sentence, and the Core interprets in its small voice, a beat behind ([language and translation](../LANGUAGE_AND_TRANSLATION.md)). It starts a little wrong:
+**[CINE]** The Caller sings in Vieran, a little tune for every sentence. Then something nobody expected: **the suits start translating.** Each one hums the Caller's words into its wearer's ear in English, a beat behind ([language and translation](../LANGUAGE_AND_TRANSLATION.md)). They learned their English from this family, and it starts a little wrong:
 
 > CALLER (singing three rising notes): "Fair lanes!"
 >
-> CORE: "Nice… roads."
+> THE SUITS (five small voices, in five helmets): "Nice… roads."
 >
-> CALLER (laughing): "No! *Fair lanes!* It means hello. And good luck. And… be safe out there."
+> LUKE: "My suit's *talking*!"
+
+And when Luke talks, his suit sings his words back out in Vieran, in quick bright plucked strings. The Caller's eyes go wide.
+
+> CALLER (amazed): "You *sing*!"
 >
-> CORE: "...Hello-good-luck-be-safe."
+> CALLER (laughing): "No, it's *fair lanes*! It means hello. And good luck. And… be safe out there."
 >
-> LUKE: "Fair lanes!"
+> THE SUITS: "...Hello-good-luck-be-safe."
+>
+> LUKE: "Fair lanes!" *(His suit sings it perfectly, three rising notes.)*
+>
+> CORE (from the dragon, a little put out): "I was going to do that."
 
 Then the Caller explains, the crystal projecting pictures. There's no reading, and the pictures carry it all:
 - **"Our worlds run on song."** The star-dragons sing lanes between the worlds, and ships ride them like currents. The music keeps everything bright and moving.
@@ -206,13 +214,15 @@ Lyla's visor chimes and opens a new page beside the lane books: the **Glyph Book
 
 ### The complaint
 
+The neighbor has no suit. But the robot iguana on her shoulder has a little living material inside it, from the Bridge, and it turns out it translates too: tinny, flat and slightly sarcastic, straight into her ear.
+
 > NEIGHBOR (stepping forward with her clipboard): "Excuse me. Are you in charge here?"
 >
-> CALLER: "…I'm the only one awake?"
+> ROBOT IGUANA (translating, in a tinny monotone): "…I am the only one awake?"
 >
 > NEIGHBOR: "Then I'd like to file a complaint."
 >
-> CALLER (to the Core): "What is a complaint?"
+> CALLER (puzzled, to Luke): "What is a complaint?"
 >
 > NEIGHBOR: "It's — when something is bothering you, and you tell someone, so it can be fixed."
 >
