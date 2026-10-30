@@ -1,6 +1,6 @@
 # Script — A3-09 to A3-11: Your Own Note, the Last Hold and the Final Landing
 
-**Status:** PROPOSED draft, following [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) Movements 5–6, the [villain arc](../VILLAIN_ARC.md), [language and translation](../LANGUAGE_AND_TRANSLATION.md) and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
+**Status:** PROPOSED draft, following [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) Movements 5–6, the [villain arc](../VILLAIN_ARC.md) and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
 **History:** rewritten from `A2-11_ENCORE_AND_HOME.md` on October 30, 2026, then revised the same day for Morrow. The final battle is now against Morrow; the Sweeper was re-tuned at the Mooring Ring and flies with the family. The game ends on Viera, and the block party is the post-credits scene.  
 **Resumes from:** `cp_a3_heartnote` ([The Rest Garden](A3-04_THE_REST_GARDEN.md)). Morrow has just opened his eyes.
 
@@ -106,17 +106,17 @@ Morrow's eyes close for a moment.
 >
 > MORROW: "If I let go, they leave."
 
-**[CINE]** The Lanemother rises beside them, enormous and awake, and sings his name for the first time since the first night. The suits translate it softly, in five voices at once: a mother's words to her son, carried by the scales of her own kind.
+**[CINE]** The Lanemother rises beside them, enormous and awake, and says his name for the first time since the first night.
 
-> LANEMOTHER (sung; THE SUITS, softly): "Morrow."
+> LANEMOTHER (softly): "Morrow."
 >
 > MORROW: "...Mother."
 >
-> LANEMOTHER (THE SUITS): "They always leave. And they always come home. That is what home is *for*."
+> LANEMOTHER: "They always leave. And they always come home. That is what home is *for*."
 >
 > MORROW: "...I only wanted them to come home."
 >
-> LANEMOTHER (THE SUITS): "I know. Let go."
+> LANEMOTHER: "I know. Let go."
 
 **[PLAY]** One prompt, and it waits as long as the player needs: **"Let him choose."** The player doesn't press anything to make him; holding still is the choice. *(After a few seconds of stillness, it happens. Pressing a button just makes the family move closer.)*
 
@@ -134,15 +134,9 @@ Slowly, Morrow rises off Viera into the sky. He doesn't fight it. He looks down 
 >
 > LANEMOTHER: "Now they will."
 
-*(She says it herself, and the suits don't translate. They don't need to. Everyone understands her.)*
-
-> LUKE (popping his helmet open): "...I understood that. Without my suit."
->
-> CORE (from the dragon): "So did I." *(beat)* "I would like to keep talking, though."
-
 **[MUSIC]** Morrow's drone resolves into one high, pure, sustained tone: **the same held note, finally beautiful**. It will play softly under every night scene on Viera from now on.
 
-**[STATE]** `morrow_released = true`, `heartnote_freed = true`, `gift_of_tongues = true` → **[SAVE cp_a3_last_hold]**
+**[STATE]** `morrow_released = true`, `heartnote_freed = true` → **[SAVE cp_a3_last_hold]**
 
 ---
 
@@ -159,7 +153,7 @@ Skipping the flight leads straight to A3-11b with the same state.
 
 ### A3-11b — Fair Lanes (the homecoming)
 
-**[CINE]** The main landing field, packed with travelers. Everyone understands everyone now. **[MUSIC]** The Caller's theme, with a whole crowd singing it.
+**[CINE]** The main landing field, packed with travelers, every one of them awake. **[MUSIC]** The Caller's theme, with a whole crowd singing it.
 
 A pair of travelers pushes through the crowd, then runs. It's **the Caller's family**.
 
@@ -294,7 +288,6 @@ Above the cul-de-sac, very faint, if you know where to look: one new star that d
 ## After the ending (the post-game, proposed)
 
 - **The lanes stay open.** Free travel between every world, Earth and Viera included, with lane-book stamps left to find. This reconciles with v0.1's canon C02, "explores the universe," as a **post-game mode** that only arrives after the SOS has been answered. That keeps Act I's rule: no sightseeing campaign between assembly and answering.
-- **Everyone understands everyone** ([translation](../LANGUAGE_AND_TRANSLATION.md)). The Glyph Book stays as a collection.
 - **Five Powers resolves** to the Heartnote everywhere ([music doc](../MUSIC_EMPATHY_AND_PACING.md) §2.2).
 - **Wingmen** can be called on flights: the star-dragons, the hatchlings, or the Sweeper as a very slow tow.
 - **Open hooks** (OPEN): a second power per family member; another call from another universe; the Hush visiting Earth for some peace and quiet *in the neighbor's garden*; and the Lodestar, which on certain nights, very faintly, flickers.

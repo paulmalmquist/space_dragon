@@ -56,14 +56,14 @@ The damaged transmission's clearest part is a **short melody**, seven notes (one
 
 - The melody is an **unfinished musical phrase**. It ends on a note that sounds like a question. Its missing last note is the **Heartnote**, the note every song comes home to, and it's missing because Morrow holds it ([villain arc](VILLAIN_ARC.md)). The family supplies their own at the climax of Act III.
 - Lyla's archive shows the notes as colored *and shaped* tiles (never color alone). An optional, assisted activity lets a child put recovered fragments in order. This is pattern and sequence practice, and it is never required for progress. If skipped, it is auto-arranged.
-- The recurring **symbol** from the opening is a simple, traceable shape (open design). It is the icon on the town map, the mark on every pod and the dragon's chest emblem. It also gives kids an easy find-the-shape task in every mission. Proposed meaning: it's the Vieran glyph for the Heartnote, a small circle with a line curving back into it ([language and translation](LANGUAGE_AND_TRANSLATION.md)).
+- The recurring **symbol** from the opening is a simple, traceable shape (open design). It is the icon on the town map, the mark on every pod and the dragon's chest emblem. It also gives kids an easy find-the-shape task in every mission. Proposed meaning: it's the Heartnote's mark, a small circle with a line curving back into it ([language](LANGUAGE_AND_TRANSLATION.md)).
 
 ### 3.2 The Core learns to talk
 
 The Core arrives damaged and can't speak our language. At first it communicates with chimes, light and gestures, like a pet. As modules return and Lyla's archive grows, it picks up words **from the family**. It starts by repeating the kids' names and simple words, and by the finale it speaks in short sentences.
 
 - This gives the act a companion with a visible arc, and it explains why the Core can't simply tell them everything at the start.
-- It also sets up translation. The suits are made of the same living material, and they've been learning the family's voices the same way since the backyard, which is how they translate Vieran in Acts II and III ([language and translation](LANGUAGE_AND_TRANSLATION.md)).
+- It also sets up the hand-wave for Acts II and III. The suits are made of the same living material, which is why the family understands everyone off Earth and is understood. The game stays in English, and the hand-wave is said once ([language](LANGUAGE_AND_TRANSLATION.md)).
 - **Learning tie-in (optional):** a child can "teach" the Core a letter, a word or a shape. Kids often engage more when they are the teacher. Per the [learning rules](../learning/LEARNING_RULES.md), this is supported and assisted, and it is never a gate. Teaching the Core counts as practice, not as mastery.
 - The Core's final name stays OPEN. One option is to let the family name it in-game once it can speak, with a default if they skip. That would be a stored setting, not canon.
 
@@ -204,7 +204,7 @@ She hands it over. Then, in character: *"This doesn't mean I approve of the drag
 
 ### A1-08 The full message
 
-- Install count is complete, so the SOS plays **in full** for the first time. Image, voice and the whole melody come through, translated by the Core in its now-short sentences. The melody still ends on its question.
+- Install count is complete, so the SOS plays **in full** for the first time. Image, voice and the whole melody come through, voiced by the Core in its now-short sentences. The melody still ends on its question.
 - **Lyla plays it.** It's her archive, and the full message is a three-year-old's hero beat.
 - The message includes, in some form: *we need help; anyone who can hear this; this is how to come; this is how to get home.* **The promise of a way home is new and proposed.** It answers C9 and keeps the departure from feeling like abduction.
 - The passenger creature hears the full song and sings back, and it plainly wants to go home.

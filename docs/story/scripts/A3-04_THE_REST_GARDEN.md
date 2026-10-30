@@ -1,7 +1,7 @@
 # Script — A3-04 to A3-08: Landfall, Farport and the Rest Garden
 
-**Status:** PROPOSED draft, following [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) Movements 3–4 (Landfall, Farport, then Listen → Shelter → Heartnote), the [villain arc](../VILLAIN_ARC.md), [language and translation](../LANGUAGE_AND_TRANSLATION.md) and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
-**History:** moved from `A2-07_THE_SILENT_CENTER.md` on October 30, 2026, then revised the same day for Morrow. The neighbor is with Morrow until A3-06. The suits start dropping words this deep in the Quiet, and the Caller fills the gaps.  
+**Status:** PROPOSED draft, following [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) Movements 3–4 (Landfall, Farport, then Listen → Shelter → Heartnote), the [villain arc](../VILLAIN_ARC.md) and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
+**History:** moved from `A2-07_THE_SILENT_CENTER.md` on October 30, 2026, then revised the same day for Morrow. The neighbor is with Morrow until A3-06. Translation beats were removed later the same day: the game is in English ([language](../LANGUAGE_AND_TRANSLATION.md)).  
 **Resumes from:** the Battle of the Mooring Ring (A3-03, not yet scripted). The Sweeper has just been re-tuned.
 
 **Rules for this whole script:**
@@ -19,7 +19,7 @@
 
 As they descend, the formation **thins**. One by one the star-dragons slow, then hang back at the edge of the grey: this deep in the Quiet they would be held again.
 
-> CALLER (from the storage bay, yawning, in careful English): "They can't come. Too close. Too… loud-quiet. It's… home."
+> CALLER (from the storage bay, yawning): "They can't come. Too close. Too… loud-quiet. It's… home."
 >
 > CORE: "Home. Danger. Stay… together." *(It's managing only a word at a time now.)*
 
@@ -76,21 +76,17 @@ Nothing. Its chest still glows faintly. It's breathing, slowly.
 >
 > CALLER (awake again, amazed): "Your home has a *sound*."
 >
-> THE SUITS (in every helmet, patchy, words missing): "Your… ___ has a… ___."
->
-> MARIA: "They're losing words. It's too close to him."
->
-> CALLER (standing up, very serious): "I can fill in. I learned. Luke taught me." *(to Luke)* "*Fair lanes.*"
+> CALLER (standing up, very serious): "Then I'm staying right next to it." *(to Luke)* "*Fair lanes.*"
 >
 > LUKE: "Fair lanes."
 
-**[STATE]** `warm_circle = true`, `suits_dropping_words = true`, `caller_fills_gaps = true`. The circle moves with the family and grows as Farport wakes. The Caller stays awake inside it. **[SAVE cp_a3_landfall]**
+**[STATE]** `warm_circle = true`. The circle moves with the family and grows as Farport wakes. The Caller stays awake inside it. **[SAVE cp_a3_landfall]**
 
 ---
 
 ## A3-05 — Farport on foot
 
-**[PLAY]** Walk **together, inside the circle**, through Farport in a fixed order. Each district restored by sound widens the circle and wakes a few locals. The suits still translate what they hear, but this deep in the Quiet they drop words, and the Caller fills the gaps. The suits can't read at all, so the family reads its own way through with the **Glyph Book**: every glyph the kids learned in Acts I and II now shows its letter, numeral or word on the signs.
+**[PLAY]** Walk **together, inside the circle**, through Farport in a fixed order. Each district restored by sound widens the circle and wakes a few locals. Every sign is in plain English with a picture beside it, so nobody has to read to find the way.
 
 *Design note:* if the BOOKMARKED Line Leader system exists by then, this walk is its natural home: one leader, everyone close. It must not need split parties. Otherwise it's a guided walk with explorable edges.
 
@@ -98,11 +94,7 @@ Nothing. Its chest still glows faintly. It's breathing, slowly.
 
 Rows of workshops, each with an outfitter held at the bench mid-fitting. The family's noise wakes them one at a time, and each one blinks, sees the suits, and gets to work.
 
-> OUTFITTER (placeholder, waking, singing in Vieran)
->
-> THE SUITS (patchy): "Fair lanes. Who ___ these? They're half ___. Hold still."
->
-> CALLER (filling in, proudly): "*Made.* Who *made* these. And *asleep*. She says they're half asleep."
+> OUTFITTER (placeholder, waking, squinting at the suits): "Fair lanes. Who made these? They're half asleep. Hold still."
 
 - **[PLAY]** One **Farport upgrade** per suit, fitted on the spot, enough to go deeper into the Quiet. Draft upgrades are in the [overview](../ACTS_II_III_THE_ROAD_TO_VIERA.md) § Suits to powers. One extra slot per suit stays open.
 - **[PLAY] Learning: Pattern Fit** (`pattern_repeat`, proposed ID). Repeat a short color-and-shape pattern to tune each upgrade. Untimed, with the usual hint ladder, and assisted completion fits the same upgrade.
@@ -127,14 +119,14 @@ The Caller walks slowly down the rows, looking at every face.
 - **No failure.** Nothing resets; the gaze just moves on. On easier assist levels it moves slower and pauses longer.
 - **[MUSIC]** As the gaze passes, the held note swells; when it moves away, the family's instruments creep back in.
 
-- **[PLAY] Learning: The Big Board.** The way to the Roosts is gate "R." The board shows each gate as a glyph beside a letter and a picture. The girls find the gate whose letter matches the one the Caller shows (`letter_matching`, matching only); Luke can read the gate's word instead (`word_decoding`). Assisted completion opens the same gate.
+- **[PLAY] Learning: The Big Board.** The way to the Roosts is gate "R." The board shows each gate as a big letter beside a picture and a short word. The girls find the gate whose letter matches the one the Caller shows (`letter_matching`, matching only); Luke can read the gate's word instead (`word_decoding`). Assisted completion opens the same gate.
 - The family doesn't find the Caller's family here. Not yet.
 
 ### The Roosts
 
 Star-dragon nests, empty and cold, spiraling down into a sunken garden. At the bottom, in the dark, something enormous is glowing gold.
 
-At the garden gate, old glyphs are cut into the stone. The Glyph Book lights them up one by one.
+At the garden gate, old words are cut into the stone, worn almost smooth.
 
 > LUKE (reading slowly, with help): "Always… rest… before you go." *(beat)* "Always… come… home."
 >

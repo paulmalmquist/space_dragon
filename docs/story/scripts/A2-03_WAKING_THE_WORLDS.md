@@ -18,14 +18,14 @@
 
 ## Waking beats (by number of dragons awake)
 
-| Awake | The Caller's theme gains | The Core teaches (archive glyph card) | The neighbor's clipboard | The Quiet |
+| Awake | The Caller's theme gains | The Core's word card (archive) | The neighbor's clipboard | The Quiet |
 | --- | --- | --- | --- | --- |
-| **1** | Soft strings under the whistle | Glyph for **"hello"** | NEIGHBOR writes "Too loud." Luke reads it to her, wrongly, on purpose. | Lantern Rock's light grows behind them, and the lane to the Hatchery lights |
-| **2** | + a hand drum | Glyph for **"friend"** | "Still too loud. But colorful." | Color reaches the space between the worlds |
-| **3** | + a choir hum | Glyph for **"home"**. The Caller traces it with a finger. | She stops writing and just watches. | Viera, at the end of every lane, shows on the star map as a dark spot |
-| **4** | + full orchestra; the Caller sings with backing for the first time | Glyph for **"rest"**. The Core: "This one… is old." | She leaves the clipboard on the Forge's windowsill. | **The last lane lights up, to Viera** → [The Temptation](#a2-07--the-temptation-act-ii-ending) |
+| **1** | Soft strings under the whistle | **HELLO** | NEIGHBOR writes "Too loud." Luke reads it to her, wrongly, on purpose. | Lantern Rock's light grows behind them, and the lane to the Hatchery lights |
+| **2** | + a hand drum | **FRIEND** | "Still too loud. But colorful." | Color reaches the space between the worlds |
+| **3** | + a choir hum | **HOME**. The Caller traces it with a finger. | She stops writing and just watches. | Viera, at the end of every lane, shows on the star map as a dark spot |
+| **4** | + full orchestra; the Caller sings with backing for the first time | **REST**. The Core: "This one… is old." | She leaves the clipboard on the Forge's windowsill. | **The last lane lights up, to Viera** → [The Temptation](#a2-07--the-temptation-act-ii-ending) |
 
-**Glyph cards** are optional `letter_matching` practice. The Core shows each sender glyph beside a familiar letter. Matching them is recorded as matching only, never as letter-name recognition ([learning rules](../../learning/LEARNING_RULES.md)).
+**Word cards** are optional practice in plain English. The girls find the word's first letter (`letter_matching`), and Luke can sound out the whole word with help (`word_decoding`; help is recorded as assisted). Matching is recorded as matching only, never as letter-name recognition ([learning rules](../../learning/LEARNING_RULES.md)).
 
 **Wingmen.** Every woken dragon joins the family's flights in **formation** afterward ("Break left!"). At four awake, the family flies with a whole flock.
 
@@ -37,7 +37,7 @@
 | --- | --- |
 | Feel | Noisy, joyful chaos, once it's restored |
 | Set piece | Righting the giant stalls, a goo-slide crate rush, a cart race through the bazaar |
-| Learning | `a2w1_stall_glyphs_v1`, `letter_matching` |
+| Learning | `a2w1_stall_letters_v1`, `letter_matching` |
 | Encounter | **Hush-moths**, plus the neighbor's **leftover autopilot drones** with moths riding them |
 | Dragon | **The Market Dragon**, heavy and gold, curled around the central clock tower |
 
@@ -48,7 +48,7 @@
 - **Luna's Slip 'n Slide** sends crates of spilled fruit sliding back into their stalls.
 - **Optional alley-oop:** Pink Cannonball onto a stuck awning pops it back up.
 
-**[PLAY] Learning: stall glyphs** (`letter_matching`). Each stall has a glyph sign. The Core shows a glyph-and-letter card, and the player finds the stall with the **identical** glyph to restart its music box. The hint ladder applies, and assisted completion gives the same result.
+**[PLAY] Learning: stall letters** (`letter_matching`). Each stall has a big letter on its sign. The Core shows a letter card, and the player finds the stall with the **same** letter to restart its music box. The hint ladder applies, and assisted completion gives the same result.
 
 **[PLAY] Encounter.** **Hush-moths** (Swarm) dim the colors back down. Noise scatters them, so Goo Bomb splashes, Meteor Slam bells and shouting all work. Then **the neighbor's drones** zip in, still on autopilot from Act I, with moths riding them like ponies. Behind them, **Tidy-bots** from the Sweeper trundle between the stalls, bagging sleeping merchants' wares as "debris." A Splat or a slip sends them spinning, and they drop what they took.
 
@@ -174,7 +174,7 @@ Nobody else sees.
 
 **Hush seed.** At the top, where it's quietest, Lyla records **the Hush's sigh**: a sound too low to hear, shown in her visor as a slow ripple that makes the spires shiver.
 
-**The voice.** At the very top, alone for a moment above the others, Luke hears a voice. Not through the Core: through the resonators themselves, in perfect English, warm and close. **[MUSIC]** Everything else drops out. The held note, shaped into words.
+**The voice.** At the very top, alone for a moment above the others, Luke hears a voice. Not through the Core: through the resonators themselves, warm and close. **[MUSIC]** Everything else drops out. The held note, shaped into words.
 
 > MORROW: "Little climber. Why do you want to go so high?"
 >
@@ -184,11 +184,13 @@ Nobody else sees.
 >
 > LUKE (small, then braver): "...No thank you. I'm not done."
 
-The voice is gone. The resonators hum back into tune. Luke's suit, which shivered the whole time he spoke and translated nothing, warms up again and chirps very softly.
+The voice is gone. The resonators hum back into tune. Luke's suit, which shivered the whole time he spoke, warms up again and chirps very softly.
 
-> LUKE (on the radio): "Why does he talk like us?"
+> LUKE (on the radio): "Somebody talked to me up here."
 >
-> CALLER (on the radio, very quiet): "He talks like everybody."
+> CALLER (on the radio, very quiet): "...What did he say?"
+>
+> LUKE: "He said stay."
 
 In the storage bay, the neighbor hasn't said a word since the voice spoke. She doesn't say why.
 
@@ -237,7 +239,7 @@ It's the Act II echo of Act I's Five Together, and the order is flexible. **Five
 >
 > MARIA: "And we came."
 
-Across the top of the oldest sheet runs a single glyph, a name. Lyla scans it, and the Glyph Book chimes: two of its sounds are already known.
+Across the top of the oldest sheet runs a single word in big, old letters: a name. Lyla scans it. *Ding.*
 
 > LUKE: "Core, what does it say?"
 >
@@ -245,7 +247,7 @@ Across the top of the oldest sheet runs a single glyph, a name. Lyla scans it, a
 >
 > LUKE: "Core?"
 
-**[PLAY]** **Read the name** (`word_decoding` track, assisted path available). Luke sounds it out from the Glyph Book, one glowing part at a time.
+**[PLAY]** **Read the name** (`word_decoding` track, assisted path available). Luke sounds it out, one glowing part at a time: M-O-R… R-O-W.
 
 > LUKE: "Mor… row." *(beat)* "Morrow."
 >
@@ -269,9 +271,9 @@ Across the top of the oldest sheet runs a single glyph, a name. Lyla scans it, a
 >
 > PAUL: "Then why is it taking ships?"
 >
-> CORE (reading the old glyphs on the plan): "Its rule. 'Clear the lanes.'"
+> CORE (reading the old words on the plan): "Its rule. 'Clear the lanes.'"
 
-Under the old glyphs, newer ones burn in gold, written in the same single unbroken line as the one through everything.
+Under the old words, newer ones burn in gold, every letter joined in one unbroken line, like the one through everything.
 
 > CORE (very quietly): "New rule. 'Bring everyone home.'"
 >
@@ -311,7 +313,7 @@ Then the lane **flickers**. Something is coming back down it.
 
 **[CINE]** Gold light pours into the hangar. Everything slows. The Forge Dragon flattens itself to the floor and closes its eyes. The sparks from the anvil hang in the air. The Core goes dark. Every suit shivers, its seams flickering, and goes quiet: they know this voice. Only the family, the Caller and the neighbor can still move, slowly, as if through water. **[MUSIC]** All music stops. Only the held note, everywhere, and inside it, a voice.
 
-> MORROW (warm, slow, close, perfect English): "Little travelers. You came such a long way. You must be so tired."
+> MORROW (warm, slow, close): "Little travelers. You came such a long way. You must be so tired."
 
 He speaks to the parents first.
 
