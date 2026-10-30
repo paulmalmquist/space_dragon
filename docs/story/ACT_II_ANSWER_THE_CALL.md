@@ -35,6 +35,8 @@ From later owner direction (October 29–30, recorded as SD-020 and SD-022):
 
 ## 2. The central idea: the Quiet
 
+> **Villain proposal (October 30, 2026):** the owner [confirmed](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md) that a villain is the reason for the SOS. The proposed villain, Morrow, the Long Note, is in the [villain treatment](VILLAIN_ARC.md), which would replace the cause of the Quiet described here. This section is unchanged until that treatment is accepted.
+
 **What happened (proposed):** the senders' universe is held together by **song**. Living star-dragons sing **song-lanes** between worlds, and that music keeps light, color and motion going. Something pulled a silence over it all, called **the Quiet**. Anything alive inside it slowly stills: color drains, sound goes flat, and people and creatures fall into a deep, gently glowing sleep. Machines keep running.
 
 Act II shows the Quiet and fights it world by world. Its cause, the Hush and the overworked travelers of Viera, is uncovered in [Act III](ACT_III_THE_ROAD_TO_VIERA.md).

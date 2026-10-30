@@ -22,6 +22,8 @@
 
 ## 2. Viera
 
+> **Villain proposal (October 30, 2026):** the owner [confirmed](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md) that a villain is the reason for the SOS. The proposed villain, Morrow, the Long Note, is in the [villain treatment](VILLAIN_ARC.md), which would replace the cause of the Quiet described here. This section is unchanged until that treatment is accepted.
+
 Viera's lore is drafted in the [overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) § Viera, the lanes and the Quiet. In short:
 
 - Every Vieran is a traveler with a **lane book** of marks from the worlds they've reached. Greeting: "Fair lanes!" Farewell: "Light your way home."

@@ -18,6 +18,8 @@ Change canon only through `docs/decisions/`.
 | [Act I critique and refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) | The SOS melody, the talking Core, the passenger creature, the seventh Bridge piece, the neighbor's grievance, the finale | PROPOSED, plus the living-material OWNER IDEA |
 | [Suit reveals and starting abilities](SUIT_REVEALS_AND_STARTING_ABILITIES.md) | Scene A1-02 in detail, starting kits, "Five Together" | PROPOSED |
 | [Three-act structure and Viera](../decisions/2026-10-29-three-acts-linear-and-viera.md) | Linear, large worlds, three acts, Earth first, final landing on Viera, upgrades then powers, dogfights between planets | CANON (decision) |
+| [A villain is the reason for the SOS](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md) | A villain with a full arc causes the emergency; mythic, not kiddy, tone | CANON (decision) |
+| [The villain: Morrow, the Long Note](VILLAIN_ARC.md) | The Lanemother's firstborn, who holds the home note and stopped the universe; the Old Song; his arc across three acts; the Temptation, the Garden and the Lodestar ending | PROPOSED |
 | [Three-act plan](THREE_ACT_PLAN.md) | Where the story stood, the narrative holes the new structure opens, and proposed fills | PROPOSED |
 | [Acts II & III: The Road to Viera](ACTS_II_III_THE_ROAD_TO_VIERA.md) | Viera and Farport, song-lanes, why the Quiet happened, the Sweeper, both acts in order, lane levels, suits to powers, cast arcs | PROPOSED |
 | [Act II: Answer the Call](ACT_II_ANSWER_THE_CALL.md) | The Quiet, song-lanes, the Caller, the stowaway neighbor, four worlds in order, the Sweeper, ending at the Forge Ring with the lane to Viera | PROPOSED |
