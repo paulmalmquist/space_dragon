@@ -130,7 +130,8 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
         cameraPan.z += (Math.sin(rightAngle) * input.panX + Math.sin(camera.alpha) * input.panY) * speed;
         const distance = cameraPan.length();
         if (distance > 2.5) cameraPan.scaleInPlace(2.5 / distance);
-        camera.setTarget(cameraAnchor.add(cameraPan));
+        // setTarget() recomputes ArcRotateCamera radius; copy the target to preserve trigger zoom.
+        camera.target.copyFrom(cameraAnchor.add(cameraPan));
       }
     },
     snapshot: () => ({
