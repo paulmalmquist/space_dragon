@@ -1,5 +1,6 @@
 import './style.css';
 import { createFirstContact } from './game/scene';
+import { createControllerInput } from './game/gamepad';
 import { loadCheckpoint, saveCheckpoint } from './game/checkpoint';
 import type { Step } from './game/checkpoint';
 
@@ -18,7 +19,8 @@ app.innerHTML = `
     <section class="play-area" aria-label="First Contact prototype">
       <canvas id="game" aria-label="3D view of the living-room computer and backyard arrival" tabindex="0"></canvas>
       <div class="scene-label"><span class="live-dot"></span> <span id="location">HOME / LIVING ROOM</span></div>
-      <div class="scene-hint">Drag to look around · Scroll to move closer</div>
+      <div class="scene-hint">Drag to look around · Scroll to zoom</div>
+      <div class="controller-status" id="controller-status" aria-live="polite">Plug in a PlayStation controller, then press ✕ to connect.</div>
       <div class="story-panel"><p class="eyebrow" id="chapter">01 / THE SIGNAL</p><h2 id="story-title"></h2>
         <p id="story-copy"></p><button class="primary" id="action"></button>
       </div>
@@ -66,10 +68,18 @@ function render() {
   view?.setStep(checkpoint.step);
 }
 $('save-status').textContent = loaded.notice || 'Your adventure saves on this device.';
-$('action').addEventListener('click', () => {
+function advanceStory() {
+  if (checkpoint.step === 'pod') return;
   checkpoint = { version: 1, step: checkpoint.step === 'computer' ? 'backyard' : 'pod' };
   $('save-status').textContent = saveCheckpoint(checkpoint);
   render();
+}
+$('action').addEventListener('click', advanceStory);
+const controller = createControllerInput({
+  onAdvance: advanceStory,
+  onCamera: (input, deltaSeconds) => view?.controlCamera(input, deltaSeconds),
+  onStatus: connection => { $('controller-status').textContent = connection.message; },
+  isActive: () => !document.querySelector<HTMLDialogElement>('#notebook')?.open,
 });
 $('restart').addEventListener('click', () => {
   if (checkpoint.step !== 'computer' && !window.confirm('Start First Contact again? Your current checkpoint will be replaced.')) return;
@@ -81,7 +91,7 @@ render();
 
 if (import.meta.env.DEV) {
   Object.defineProperty(window, '__SPACE_DRAGON__', { value: Object.freeze({
-    snapshot: () => ({ ...view?.snapshot(), checkpoint: { ...checkpoint } }),
+    snapshot: () => ({ ...view?.snapshot(), checkpoint: { ...checkpoint }, controller: controller.snapshot() }),
   }), configurable: true });
   const notebook = $<HTMLDialogElement>('notebook');
   const thought = $<HTMLTextAreaElement>('thought');
@@ -113,4 +123,4 @@ if (import.meta.env.DEV) {
     } finally { button.disabled = false; }
   });
 }
-window.addEventListener('pagehide', event => { if (!event.persisted) view?.dispose(); });
+window.addEventListener('pagehide', event => { if (!event.persisted) { controller.dispose(); view?.dispose(); } });

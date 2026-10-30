@@ -69,6 +69,10 @@ The browser run used **Chromium with SwiftShader software rendering**. It is com
 
 The owner authorized pushing and merging this foundation on October 29. Use Git history and the pull request for the resulting publication state; this document does not claim a deployed game. Existing story updates from remote are retained, while the original specification and authorized photo bytes are preserved. The [combined-tree verification receipt](../reports/2026-10-29-local-foundation.md) records the merge-base/artifact identity, 9 browser passes, 39 Python passes with 2 host-related skips, production isolation, and preserved remote files. Restarting a progressed checkpoint now requires confirmation.
 
+## Browser controller adapter — October 30
+
+The First Contact prototype now has a standard Gamepad API adapter for PS5/PS4 and Xbox-style controllers (SD-038): Cross/A advances the story once per press; right stick orbits, left stick/D-pad pans, and L2/R2 zoom. A visible connection/mapping indicator and keyboard/mouse fallback are implemented. This does **not** add playable characters, flight or combat. [Input decision](../decisions/2026-10-30-playstation-controller.md) and the new simulated-browser checks describe the exact scope. [Verification receipt](../reports/2026-10-30-playstation-controller.md): Node 24 TypeScript/build **PASS**, foundation checks **PASS**, Chromium Playwright **12 passed** (simulated controller), source SHA `5eb5c47`. Physical PlayStation-device USB/Bluetooth compatibility and performance remain **NOT TESTED**.
+
 ## Boundaries and open evidence
 
 - The actual `paulmalmquist.com` website source and deployment remain unidentified. Public inspection returned unexpected homepage content and a 404 at `/space-dragon`; see [inventory](../REPO_INVENTORY.md). The homepage must be preserved during eventual integration.

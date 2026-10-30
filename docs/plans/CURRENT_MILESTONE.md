@@ -31,7 +31,7 @@ No whole town, all retrieval missions, complete combat/racing systems, full drag
 
 ## Before expansion and site integration
 
-The local package/lockfile, browser checks and machine inventory are now documented. The actual host website repository and deployment remain unidentified; inspect their routing and existing tests before integration. **Inputs (owner decision, 2026-10-29):** keyboard first. An Xbox controller is supported only if it works with no setup, and touch is deferred; see [the decision](../decisions/2026-10-29-keyboard-first-input.md). Still to select: the actual player computer/browser. Do not infer a child's reading level from age. Further work can use authorized reversible placeholders; deployment and paid infrastructure remain separate decisions.
+The local package/lockfile, browser checks and machine inventory are now documented. The actual host website repository and deployment remain unidentified; inspect their routing and existing tests before integration. **Inputs (owner decision, 2026-10-29, extended 2026-10-30):** keyboard first, with a new standard-browser controller adapter for PlayStation and Xbox in the local First Contact prototype (SD-038). This covers story confirmation and camera navigation, not walking or combat. Physical plug-and-play still needs a named-device test; touch remains deferred. See [keyboard decision](../decisions/2026-10-29-keyboard-first-input.md) and [PlayStation decision](../decisions/2026-10-30-playstation-controller.md). Still to select: the actual player computer/browser. Do not infer a child's reading level from age. Further work can use authorized reversible placeholders; deployment and paid infrastructure remain separate decisions.
 
 ## Next increments, not promises
 
