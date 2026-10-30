@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "label": "Fictional practice home",
+  "rooms": [
+    { "id": "living", "x": -3.6, "z": -1.9, "width": 8, "depth": 6.8, "floorColor": "#d1b790" },
+    { "id": "kitchen", "x": 3.6, "z": -1.9, "width": 6.4, "depth": 6.8, "floorColor": "#e3d9bf" },
+    { "id": "studio", "x": -3.6, "z": 3.9, "width": 8, "depth": 4.8, "floorColor": "#c7b48f" },
+    { "id": "hall", "x": 3.6, "z": 3.9, "width": 6.4, "depth": 4.8, "floorColor": "#e3d9bf" }
+  ],
+  "walls": [
+    { "x": -7.7, "z": 0.5, "width": 0.22, "depth": 11.8 },
+    { "x": 6.9, "z": 0.5, "width": 0.22, "depth": 11.8 },
+    { "x": -3.9, "z": 6.4, "width": 7.6, "depth": 0.22 },
+    { "x": 5.2, "z": 6.4, "width": 3.4, "depth": 0.22 },
+    { "x": -5.1, "z": -5.4, "width": 5.2, "depth": 0.22 },
+    { "x": 3.3, "z": -5.4, "width": 7.2, "depth": 0.22 },
+    { "x": -5.5, "z": 1.6, "width": 4.4, "depth": 0.16 },
+    { "x": 3.8, "z": 1.6, "width": 6.2, "depth": 0.16 }
+  ],
+  "openings": [
+    { "x": -1.4, "z": -5.4, "width": 2.2, "orientation": "x", "label": "entry" },
+    { "x": 1.7, "z": 6.4, "width": 3.6, "orientation": "x", "label": "yard" }
+  ],
+  "furniture": [
+    { "kind": "sofa", "x": -5.8, "z": -1.7, "width": 1.1, "depth": 3.1 },
+    { "kind": "table", "x": -3.7, "z": -1.7, "width": 1.1, "depth": 1.7 },
+    { "kind": "desk", "x": -5.8, "z": 4.9, "width": 2.2, "depth": 0.9 },
+    { "kind": "cabinet", "x": 6.2, "z": -1.6, "width": 1, "depth": 5.5 },
+    { "kind": "table", "x": 3.4, "z": -2, "width": 1.4, "depth": 2.2 }
+  ]
+}

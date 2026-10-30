@@ -63,3 +63,10 @@ The local package/lockfile, browser checks and machine inventory are documented.
 A single town retrieval and return-home reveal can follow First Contact; expand only after its interaction and save loop works. The old flight-first Launch Day proposal may be a separate technical prototype, not a replacement for the narrative opening.
 
 For every increment, record the request, bounded outcome, exclusions, acceptance checks and evidence. Close it with a receipt before expanding scope.
+
+
+## Separately authorized Town Drive Lab — SD-046
+
+The owner requests a bounded technical drive prototype based on two local videos, separate from Act I missions and the default home flow. [The decision](../decisions/2026-10-30-town-drive-lab.md) records reference-driven procedural roads after a failed reconstruction suitability spike, a local-only estimated house layout, fictional public fallback, four main legs with right/left/left turns and invented connectors. Acceptance: keyboard/analog-controller driving, safe reset/pause/focus/reload, complete loop, local comparisons and no private build contents. [The receipt](../reports/2026-10-30-town-drive-lab.md) owns actual checks; human recognition/fun, physical controller and release approval remain separate.
+
+Technical evidence: clean PR check passed 48 unit, 27 development-browser, 6 production-browser and 18 photo checks, plus foundation/Python checks. A 20-second installed Chrome/AMD chase sample at 1440 × 900 averaged 59.9997 fps; full-loop thermal/endurance and human/controller review remain pending.

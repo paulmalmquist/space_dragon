@@ -218,3 +218,12 @@ Source: owner, same IDE session.
 > also we are using seele as a way to generate prototype games. this game with be a combo of several games, and i am starting with the dragon dog-fight games
 
 Receipt: **SD-036** · CONFIRMED production direction · [The prototype integration plan](../docs/engineering/PROTOTYPE_INTEGRATION.md) records several prototype games feeding one Space Dragon game, with dragon dogfighting first. [Seele intake](../seeles-assets/README.md) preserves raw exports and routes inspection/migration; the existing upstream intake instructions were reused. A parallel flight prototype does not reorder the Earth-first campaign or prove an export has been integrated. Agents inspect source, dependencies, controls/assets and shared-state boundaries, then choose one useful slice under normal build/playtest checks.
+
+
+### October 30, 2026 — Town Drive Lab from house and driving videos
+
+> give me a prompt to start working on driving around the 3D environment we can create from my house and the drive i went on. they will be stored as videos in the repo.
+
+Supplied local originals: `assets/reference/videos/IMG_5753.MOV` and `assets/reference/videos/IMG_5754.MOV`. The accompanying Town Drive Lab task authorizes source verification, local-only analysis and reconstruction spike, a separate drivable lab, checks and a PR.
+
+Receipt: **SD-046** · CONFIRMED drivable reference-based environment; lab structure, car tuning, invented connectors and distance factor PROPOSED · [Decision](../docs/decisions/2026-10-30-town-drive-lab.md), [verification](../docs/reports/2026-10-30-town-drive-lab.md). Private footage, derivatives and the real house layout stay local. Production uses a fictional layout. This does not add an Act I mission or settle who drives, the canonical car or town geography. Incoming main reference IDs SD-029/030 and controller SD-038 are source provenance, not replacements for this branch's existing entries.

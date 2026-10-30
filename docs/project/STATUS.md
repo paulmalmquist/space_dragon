@@ -70,3 +70,12 @@ The [First Contact receipt](../reports/2026-10-29-first-contact-v2.md) records t
 Try **Walk around** in Chrome on this Lenovo and review walking, camera comfort and nearby interactions. Use the requested **ten-minute keyboard family playtest** for the story/audio/help path, keeping identifying child observations local. When the house/yard/garage video arrives, revise geometry, collision targets and camera proxies together, then walk the route again. Space Blocks follows the First Contact human gate; the Cadet/Pilot flight experiment has its own later track. Line Leader, Act II and backend expansion remain held.
 
 The original story/photo foundation, tools and unordered-idea workflow were merged in [PR #12](https://github.com/paulmalmquist/space_dragon/pull/12). Historical evidence remains in [the original merge receipt](../reports/2026-10-29-local-foundation.md), [toolchain](../TOOLCHAIN.md), [repo inventory](../REPO_INVENTORY.md), and [pod receipt](../reports/2026-10-29-pod-asset.md). Existing photo bytes, proposed story labels and publication boundaries are preserved.
+
+
+## Town Drive Lab — SD-046, October 30
+
+IMPLEMENTED and technically VERIFIED: separate `/space-dragon/drive/` prototype, fixed-step arcade car, four reference-inspired legs and invented connectors, local checkpoints, camera/input/assist/tuning controls, procedural chunked road kit and a house dollhouse. The real estimated layout and all footage/derivatives remain ignored; production uses a fictional house. The [decision](../decisions/2026-10-30-town-drive-lab.md) records scope, publication boundary and branch provenance.
+
+The reconstruction spike is NO-GO for runtime geometry: house 16/50 frames registered (patio only), road 2/80. The normal simulated loop takes 239 seconds. [The receipt](../reports/2026-10-30-town-drive-lab.md) records final checks, hardware evidence and limitations. Human fun/road recognition, physical controller and full measured house reconstruction are NOT TESTED. This does not add town missions or change campaign canon.
+
+Technical evidence: clean PR check passed 48 unit, 27 development-browser, 6 production-browser and 18 photo checks, plus foundation/Python checks. A 20-second installed Chrome/AMD chase sample at 1440 × 900 averaged 59.9997 fps; full-loop thermal/endurance and human/controller review remain pending.

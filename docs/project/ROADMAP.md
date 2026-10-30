@@ -30,3 +30,12 @@ A single example with “I like this part because…” is useful. Do not wait t
 - **Playtest:** where a child needs help, whether narration is audible, and whether the keys feel comfortable. Keep identifying child observations out of public commits.
 
 The language question is tracked as SD-019: keep the existing TypeScript game/Python tooling split; revisit Rust/C++ only for a specific profiled need. No rewrite, cloud-save service, multiplayer, Line Leader or Act II expansion is a prerequisite for this slice.
+
+
+## Town exteriors: bounded drive prototype — SD-046
+
+The separately authorized [Town Drive Lab](../decisions/2026-10-30-town-drive-lab.md) implements a compressed four-leg reference-inspired loop with invented neighborhood/return connectors and an editable house dollhouse. It is a technical driving lab, not full-town exploration or an Act I retrieval mission. The source videos/contact sheets and real house layout remain local; the public fallback is fictional. SfM is unsuitable for this increment (32% house frames, patio only ; 2.5% road frames); proceed with editable procedural geometry.
+
+Next: owner drives the local build and reviews road recognition, handling and the private comparison sheet. Ask whether the real layout may be committed before any such promotion. P1 traffic/splats and broader neighborhood missions need their own increment. [Verification](../reports/2026-10-30-town-drive-lab.md) separates software checks from physical controller, human review and release gates.
+
+Technical evidence: clean PR check passed 48 unit, 27 development-browser, 6 production-browser and 18 photo checks, plus foundation/Python checks. A 20-second installed Chrome/AMD chase sample at 1440 × 900 averaged 59.9997 fps; full-loop thermal/endurance and human/controller review remain pending.

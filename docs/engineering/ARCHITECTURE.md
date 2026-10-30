@@ -51,3 +51,10 @@ No backend upgrade, public upload, analytics service, external model-generation 
 ## Decision record format
 
 Use `docs/decisions/YYYY-MM-DD-topic.md` for consequential choices: status, owner/request, evidence, decision, alternatives, consequences, rollback, affected files and superseded guidance. Reversible local implementation details need not generate paperwork. Do not reinterpret historical specs as current implementation evidence.
+
+
+## Town Drive Lab boundary — SD-046
+
+The [drive decision](../decisions/2026-10-30-town-drive-lab.md) adds a separate Babylon entry at `/space-dragon/drive/`, not an Act I mission. Pure fixed-step state owns car motion, ordered leg checkpoints and the idempotent return-home flag. A separate versioned local save preserves the last checkpoint and assistance without touching story, avatar or learner data. Rendering streams procedural road chunks and observes that state. Keyboard and the existing standard gamepad adapter feed the same semantic drive inputs.
+
+The only house data committed is fictional. An optional validated JSON layout is read through a fixed-path, same-origin loopback development middleware; tests disable it and production removes the loader. No footage, frame, texture sample, point cloud or private geometry is a runtime/public asset. The offline comparison tool writes only ignored local output. [Verification](../reports/2026-10-30-town-drive-lab.md) owns measured results and missing device/human gates.

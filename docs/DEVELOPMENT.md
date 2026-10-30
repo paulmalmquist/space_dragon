@@ -62,3 +62,14 @@ Choose Start with sound for the browser's placeholder computer narrator, or Play
 ## Integration still to resolve
 
 Keep the `/space-dragon` URL prefix. This is a standalone local client, not a replacement homepage. The public host currently returns unexpected content and the game route was 404 during inspection; the website's actual source, routing, deployment, and Railway services remain unidentified. Audit them before integrating. Keep frontend engine decisions separate from the host UI framework; Babylon does not require replacing an existing site framework.
+
+
+## Town Drive Lab — SD-046
+
+Run `npm.cmd start`, then open `/space-dragon/drive/` (or use the Town Drive Lab link). The home entry and First Contact remain available. Keyboard: W/arrows throttle, S/down brake/reverse, A/D or left/right steer, Space handbrake, C camera, R checkpoint reset, M map, Esc pause, F2 handling. Standard mapped controller: R2 throttle, L2 brake/reverse, left stick steer, Cross handbrake, Triangle reset, R1 camera, Options pause. Physical-pad support remains NOT TESTED.
+
+Chase, dashboard and orbit modes are available. Choose Assist, optional turn chimes and less camera motion before starting; F2 pauses to adjust session handling and Assist. Saves use only `space-dragon.drive.v1` and its backup. Completing the loop sets one completion flag; no campaign or learner rewards are granted.
+
+Local development loads an optional ignored house layout through a fixed loopback-only endpoint. CI and production use `src/game/drive/fictional-house.json`. All original footage, redacted contact sheets, reconstruction evidence and reference comparisons stay under ignored local paths. See the [decision](decisions/2026-10-30-town-drive-lab.md) and [receipt](reports/2026-10-30-town-drive-lab.md). Never put private files in `public/`.
+
+With a dev server on5182 and the local reference anchors present, run `node tools/town-drive-compare.mjs --url http://127.0.0.1:5182/space-dragon/drive/ --every 250`. It creates a new local-only HTML comparison folder; no frames load in the game. `tools/town-drive-reference.py` and `tools/town-drive-spike.py` reject existing output folders and destinations outside `assets/reference/local/`; the latter requires the isolated PyCOLMAP environment documented in the local spike receipt.
