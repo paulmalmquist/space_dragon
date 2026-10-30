@@ -20,7 +20,7 @@ app.innerHTML = `
       <canvas id="game" aria-label="3D view of the living-room computer and backyard arrival" tabindex="0"></canvas>
       <div class="scene-label"><span class="live-dot"></span> <span id="location">HOME / LIVING ROOM</span></div>
       <div class="scene-hint">Drag to look around · Scroll to zoom</div>
-      <div class="controller-status" id="controller-status" role="status" aria-live="polite">Plug in a PlayStation controller, then press ✕ to connect.</div>
+      <div class="controller-status" id="controller-status" aria-live="polite">Plug in a PlayStation controller, then press ✕ to connect.</div>
       <div class="story-panel"><p class="eyebrow" id="chapter">01 / THE SIGNAL</p><h2 id="story-title"></h2>
         <p id="story-copy"></p><button class="primary" id="action"></button>
       </div>
