@@ -20,6 +20,7 @@ canvas { width: 100%; height: 100%; display: block; touch-action: none; }
 .scene-label { position: absolute; left: 25px; top: 22px; letter-spacing: .13em; font-size: 10px; color: #a1b8c9; pointer-events: none; }
 .live-dot { display: inline-block; width: 5px; height: 5px; margin-right: 8px; background: #82dee5; border-radius: 50%; box-shadow: 0 0 10px #82dee5; }
 .scene-hint { position: absolute; right: 25px; top: 22px; color: #7d93a8; font-size: 11px; pointer-events: none; }
+.controller-status { position: absolute; right: 25px; top: 47px; max-width: min(620px, calc(100% - 50px)); padding: 7px 10px; border: 1px solid #31495b; border-radius: 4px; background: #091626d9; color: #b3d9df; font-size: 11px; line-height: 1.5; pointer-events: none; }
 .story-panel { position: absolute; bottom: 24px; left: 24px; padding: 24px; width: min(395px, calc(100% - 48px)); border: 1px solid #6e9cac29; background: #0a1324ed; backdrop-filter: blur(14px); border-radius: 7px; box-shadow: 0 12px 35px #0004; }
 .story-panel .eyebrow { margin-top: 0; }
 h2 { margin: 12px 0; font-size: 24px; line-height: 1.2; font-weight: 500; letter-spacing: -.025em; }
@@ -51,6 +52,7 @@ textarea { width: 100%; resize: vertical; border: 1px solid #3d5369; border-radi
   .intro .eyebrow { font-size: 8px; }
   .play-area { height: 620px; }
   .scene-hint { top: 43px; left: 20px; right: auto; font-size: 10px; }
+  .controller-status { top: 67px; left: 20px; right: 20px; max-width: none; font-size: 10px; }
   .scene-label { left: 20px; }
   .story-panel { left: 12px; bottom: 12px; width: calc(100% - 24px); padding: 20px; }
   h2 { font-size: 22px; }
