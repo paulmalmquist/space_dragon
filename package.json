@@ -18,7 +18,8 @@
     "doctor": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/setup-doctor.ps1",
     "asset:inspect": "node tools/asset-inspect.mjs",
     "asset:tools": "gltf-transform",
-    "browser:install": "playwright install chromium"
+    "browser:install": "playwright install chromium",
+    "test:production": "npm run build && node tools/verify-production.mjs"
   },
   "dependencies": {
     "@babylonjs/core": "9.33.0",

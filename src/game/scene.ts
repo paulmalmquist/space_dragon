@@ -6,7 +6,8 @@ import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight';
 import { PointLight } from '@babylonjs/core/Lights/pointLight';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
-import type { Step } from './checkpoint';
+import { FAMILY, initialCheckpoint } from './firstContact';
+import type { Checkpoint } from './firstContact';
 
 export function createFirstContact(canvas: HTMLCanvasElement) {
   const engine = new Engine(canvas, true, { stencil: true }, true);
@@ -85,17 +86,67 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     panel.position.x += Math.sin(panel.rotation.y) * 1.2;
     panel.position.z += Math.cos(panel.rotation.y) * 1.2;
   }
-  let step: Step = 'computer';
+  // Low-detail stand-ins, not family likeness assets. Neutral colors remain neutral
+  // where the owner has not selected a palette (especially Lyla).
+  const family = FAMILY.map((member, index) => {
+    const suit = material(`suit.${member.id}`, member.color);
+    const body = MeshBuilder.CreateCapsule(`family.${member.id}`, { height: index < 2 ? 1.5 : 1.05, radius: index === 0 ? 0.28 : 0.21, tessellation: 12 }, scene);
+    body.position.set(0.3 + index * 1.08, index < 2 ? 0.8 : 0.57, -2.2);
+    body.material = suit;
+    const visor = box(`family.${member.id}.visor`, [index < 2 ? 0.34 : 0.28, 0.12, 0.06], [body.position.x, index < 2 ? 1.3 : 0.9, -2.42], dark);
+    const badge = MeshBuilder.CreateTorus(`family.${member.id}.base`, { diameter: 0.72, thickness: 0.025, tessellation: 24 }, scene);
+    badge.position.set(body.position.x, 0.03, -2.2);
+    badge.material = suit;
+    return { body, visor, badge, suit };
+  });
+  const fallenPanel = box('interaction.fallen-panel', [2.5, 0.16, 1], [2.5, 2.2, 0], wallMat);
+  fallenPanel.rotation.z = 0.18;
+  const antenna = box('interaction.antenna', [1.2, 0.12, 0.18], [3.5, 3.5, 0], cyan);
+  const rail = box('interaction.stuck-rail', [1.4, 0.13, 0.55], [2.5, 0.1, -0.9], armor);
+  const goo = MeshBuilder.CreateSphere('interaction.goo', { diameter: 1, segments: 12 }, scene);
+  goo.scaling.set(1.6, 0.07, 0.65);
+  goo.position.set(2.5, 0.02, -0.9);
+  goo.material = material('goo.pink', '#e58dbb', '#54263f');
+  const pulse = MeshBuilder.CreateTorus('interaction.healing-pulse', { diameter: 5.5, thickness: 0.06, tessellation: 48 }, scene);
+  pulse.position.set(2.5, 0.08, -1);
+  pulse.material = material('healing.purple', '#bc8ee9', '#6b388f');
+  const tether = MeshBuilder.CreateLines('interaction.tether', { points: [new Vector3(2.46, 0.9, -2.2), new Vector3(3.5, 2.9, 0)] }, scene);
+  tether.color = new Color3(0.83, 0.91, 1);
+  const signal = MeshBuilder.CreatePolyhedron('archive.signal', { type: 1, size: 0.36 }, scene);
+  signal.position.set(2.5, 3.5, 0);
+  signal.material = cyan;
+  // An incomplete schematic floats above the pod; it is never a physical dragon.
+  const line = (points: number[][]) => points.map(p => new Vector3(p[0]!, p[1]!, p[2]!));
+  const design = MeshBuilder.CreateLineSystem('pod.stored-dragon-design', { lines: [
+    line([[0,0,0],[0,0.5,0],[0.15,1,0],[0.6,1.15,0],[0.7,0.95,0],[0.25,0.85,0]]),
+    line([[0,0.5,0],[-1.3,1,0.2],[-2.1,0.5,0.3],[-1.3,0.65,0.2],[-0.4,0.3,0]]),
+    line([[0,0.5,0],[1.4,0.9,0.5],[2.1,0.3,0.7],[1.4,0.5,0.5]]),
+    line([[0,0,0],[-0.25,-0.5,0],[-1.2,-0.7,0.2],[-1.6,-0.3,0.3]]),
+  ] }, scene);
+  design.position.set(2.5, 4, 1.1);
+  design.color = new Color3(0.32, 0.82, 0.93);
+  let state: Checkpoint = initialCheckpoint();
+  let paused = false;
+  let reducedMotion = false;
+  const applyProgress = (blend: number) => {
+    const count = state.demonstrated;
+    fallenPanel.position.x += ((count >= 1 ? 5.5 : 2.5) - fallenPanel.position.x) * blend;
+    fallenPanel.position.y += ((count >= 1 ? 0.25 : 2.2) - fallenPanel.position.y) * blend;
+    antenna.position.y += ((count >= 3 ? 2.9 : 3.5) - antenna.position.y) * blend;
+    rail.position.x += ((count >= 4 ? 3.6 : 2.5) - rail.position.x) * blend;
+  };
   let frames = 0;
   let elapsed = 0;
   const frameTimes: number[] = [];
   let rendered = false;
   scene.onBeforeRenderObservable.add(() => {
-    const delta = engine.getDeltaTime();
-    elapsed += delta / 1000;
+    const delta = Math.min(engine.getDeltaTime(), 50);
+    if (!paused && !reducedMotion) { elapsed += delta / 1000; applyProgress(Math.min(1, delta / 100)); }
     ring.rotation.y = elapsed * 0.35;
-    glow.intensity = (step === 'pod' ? 2.4 : 1.6) + Math.sin(elapsed * 2) * 0.25;
-    screen.scaling.x = step === 'computer' ? 1 + Math.sin(elapsed * 7) * 0.015 : 1;
+    glow.intensity = (state.step === 'pod' ? 2.4 : 1.6) + Math.sin(elapsed * 2) * 0.25;
+    screen.scaling.x = state.step === 'computer' ? 1 + Math.sin(elapsed * 7) * 0.015 : 1;
+    signal.rotation.y = elapsed * 0.35;
+    pulse.scaling.setAll(1 + Math.sin(elapsed * 1.5) * 0.03);
     frames++;
     frameTimes.push(delta);
     if (frameTimes.length > 120) frameTimes.shift();
@@ -105,13 +156,41 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   const resize = () => engine.resize();
   window.addEventListener('resize', resize);
   return {
-    setStep(value: Step) {
-      step = value;
-      camera.setTarget(value === 'computer' ? new Vector3(-3.3, 1.1, 0) : new Vector3(2, 1.3, 0));
-      camera.radius = value === 'computer' ? 11 : 8;
+    setState(value: Checkpoint) {
+      const changedLocation = value.step !== state.step;
+      const reset = value.demonstrated < state.demonstrated;
+      state = value;
+      const equipped = ['suits', 'scan', 'map'].includes(state.step);
+      family.forEach(({ body, visor, badge, suit }, index) => {
+        body.setEnabled(equipped); visor.setEnabled(equipped); badge.setEnabled(equipped);
+        suit.emissiveColor = Color3.FromHexString(FAMILY[index]!.color).scale(state.step === 'suits' && state.demonstrated === index ? 0.55 : 0.12);
+      });
+      fallenPanel.setEnabled(equipped);
+      antenna.setEnabled(equipped);
+      rail.setEnabled(equipped);
+      pulse.setEnabled(equipped && state.demonstrated >= 2);
+      tether.setEnabled(equipped && state.demonstrated >= 3);
+      goo.setEnabled(equipped && state.demonstrated >= 4);
+      signal.setEnabled(state.step === 'scan' || state.step === 'map');
+      design.setEnabled(['pod', 'suits', 'scan', 'map'].includes(state.step));
+      if (reducedMotion || reset) applyProgress(1);
+      if (changedLocation || value.step === 'computer') {
+        camera.setTarget(value.step === 'computer' ? new Vector3(-3.3, 1.1, 0) : new Vector3(1.2, 2, 0));
+        camera.radius = value.step === 'computer' ? 11 : equipped ? 12 : 10;
+      }
     },
+    setPaused(value: boolean) {
+      paused = value;
+      if (value) {
+        camera.detachControl();
+        camera.inertialAlphaOffset = camera.inertialBetaOffset = camera.inertialRadiusOffset = 0;
+        camera.inertialPanningX = camera.inertialPanningY = 0;
+      } else camera.attachControl(canvas, true);
+    },
+    setReducedMotion(value: boolean) { reducedMotion = value; if (value) { elapsed = 0; applyProgress(1); } },
     snapshot: () => ({
-      rendered, scene: 'first-contact', step, frames,
+      rendered, scene: 'first-contact', step: state.step, frames, paused, reducedMotion, animationTime: elapsed,
+      props: { panelX: fallenPanel.position.x, tether: tether.isEnabled(), goo: goo.isEnabled(), signal: signal.isEnabled() },
       meanFrameMs: frameTimes.length ? frameTimes.reduce((a, b) => a + b, 0) / frameTimes.length : 0,
       meshes: scene.meshes.length, activeMeshes: scene.getActiveMeshes().length,
       triangles: scene.meshes.reduce((total, mesh) => total + mesh.getTotalIndices(), 0) / 3,

@@ -5,18 +5,24 @@ This is an adjustable production order, separate from story chronology. New idea
 | Stage | Useful result | Exit evidence | Current state |
 | --- | --- | --- | --- |
 | 0. Foundation | One idea inbox, reliable agent memory, repo inventory, local browser/tool setup. | Files exist, documented commands work, checks and limitations recorded in [status](STATUS.md). | Verified locally: SD-001, SD-003, SD-004. |
-| 1. First Contact | Living-room computer → interrupted signal → backyard pod → one interaction → versioned local checkpoint. Clearly labeled placeholders are acceptable during development. | Keyboard-completable flow, browser screenshot, reload restores checkpoint, invalid/unavailable storage handled. Follow [current milestone](../plans/CURRENT_MILESTONE.md) for spoken help, suit introduction, and remaining acceptance; scripts remain proposals. | Guided placeholder prototype verified; fuller milestone acceptance, polished art, feel, and owner review remain: SD-005. |
+| 1. First Contact | Living-room computer → interrupted signal → backyard pod → one interaction → versioned local checkpoint. Clearly labeled placeholders are acceptable during development. | Keyboard-completable flow, browser screenshot, reload restores checkpoint, invalid/unavailable storage handled. Follow [current milestone](../plans/CURRENT_MILESTONE.md) for spoken help, suit introduction, and remaining acceptance; scripts remain proposals. | Suits, supported scan and town-map handoff implemented under SD-019; see the [current receipt](../reports/2026-10-29-first-contact-suits.md) for verification. Polished art, speech audibility, device and owner review remain: SD-005. |
 | 2. Establish the look | One reviewed pilot character and one pod/component move from editable Blender source to efficient browser assets. | Neutral review views; recorded export size, materials, animations, and browser result; no reference media in runtime output. | Proposed: SD-006. Can proceed alongside stage 1. |
 | 3. Prove on actual devices | A named computer/browser completes the slice on keyboard with appropriate quality. | Real-device loading/frame-time notes and a short recorded playthrough; revise budgets from measurements. Xbox is checked only when plug-and-play is available, with its result recorded separately. | Keyboard confirmed; computer/browser still open. Xbox not tested; touch deferred: SD-008. |
 | 4. Integrate the existing site | A reviewed `/space-dragon` integration that preserves the homepage and respects asset publication decisions. | Inspect actual website source/config first; verify base paths, refresh, unrelated pages, and deployment access. | Not yet audited. Prepare locally before integration. |
 | 5. Expand one adventure at a time | One town retrieval, component progress, and return-home payoff; later family alley-oops, single-pilot jet-like flight, and Line Leader when in scope. | Playtests show supported learning and enjoyable action, reliable saves, and readable progression. Review draft story dependencies before implementing them. | Confirmed later gameplay direction is distinct from proposed mechanics and scripts; no automatic commitment to all missions: SD-010–SD-012. |
 | 6. Add backend when useful | Authenticated Railway save synchronization or other services with a concrete requirement. | Account/project audit, budget and access decisions, save ownership/conflict handling, end-to-end verification. | Parked until needed: SD-009. |
 
+## Music workstream
+
+[Music production plan](../audio/MUSIC_PLAN.md), SD-021: start with audible motif candidates and the existing First Contact slice (MUS-01/02), then prove one rescue-driven arrangement choice (MUS-03) before composing full planet packs and the Viera resolution (MUS-04/05). No music assets or playback engine currently exist. Planning is complete; implementation and listening review remain pending.
+
+SD-022 adds confirmed instrument-to-synth evolution as powers develop. MUS-01 now auditions one character's phrase across the proposed instrumental/blended/synth stages; MUS-04 connects earned voices to implemented ability unlocks and saved progress. Exact patches remain proposals.
+
 ## Creative inputs that can arrive whenever you have them
 
 Each is optional now. A single annotated example is useful; do not wait to assemble a perfect package.
 
-The [story](../story/README.md) and [script](../story/scripts/README.md) indexes already contain substantial proposed writing. Refine those existing drafts as ideas arrive rather than restarting the story. The additional names in `new characters` await their actual source attachment; do not fill in missing character material by assumption.
+The [story](../story/README.md) and [script](../story/scripts/README.md) indexes already contain substantial proposed writing. Refine those existing drafts as ideas arrive rather than restarting the story. The character and planet-mission sources are now read and summarized in [recent story integration](../story/RECENT_STORY_INTEGRATION.md). Their detailed lore remains proposed.
 
 - **Look:** a few images with “I like this part because…” for faces, armor, dragon silhouette, environment, or lighting.
 - **Movement and camera:** a short clip or link with a timestamp and the specific action or camera behavior to borrow.

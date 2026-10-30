@@ -14,6 +14,7 @@ Change canon only through `docs/decisions/`.
 
 | Document | What it holds | Status |
 | --- | --- | --- |
+| [Recent story integration](RECENT_STORY_INTEGRATION.md) | Source-grounded Mox/Tavi/Nera/Rook roles, SOS composition, conflicts with linear order and Viera, current coding scope | Confirmed direction and labeled proposals |
 | [Act I: Build the Dragon](ACT_I_BUILD_THE_DRAGON.md) | The authoritative premise, scene order and open questions | CANON, with labeled proposals |
 | [Act I critique and refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) | The SOS melody, the talking Core, the passenger creature, the seventh Bridge piece, the neighbor's grievance, the finale | PROPOSED, plus the living-material OWNER IDEA |
 | [Suit reveals and starting abilities](SUIT_REVEALS_AND_STARTING_ABILITIES.md) | Scene A1-02 in detail, starting kits, "Five Together" | PROPOSED |
@@ -21,6 +22,7 @@ Change canon only through `docs/decisions/`.
 | [Three-act plan](THREE_ACT_PLAN.md) | Where the story stood, the narrative holes the new structure opens, and proposed fills | PROPOSED |
 | [Acts II & III: The Road to Viera](ACTS_II_III_THE_ROAD_TO_VIERA.md) | Viera and Farport, song-lanes, why the Quiet happened, the Sweeper, both acts in order, lane levels, suits to powers, cast arcs | PROPOSED |
 | [Act II: Answer the Call](ACT_II_ANSWER_THE_CALL.md) | The Quiet, star-dragons, the Caller, the stowaway neighbor, Listen → Shelter → Home Note | PROPOSED; being restructured by the treatment above |
+| [Music production plan](../audio/MUSIC_PLAN.md) | Actual audio status, motif/asset brief, browser music design, milestones and verification | Planning delivered; music not implemented |
 | [Music, empathy and pacing](MUSIC_EMPATHY_AND_PACING.md) | The song system, the Hush's lore, beat maps, the variety plan, peril rules | PROPOSED |
 | [Scripts](scripts/) | Production scripts with dialogue, cues, interactions and checkpoints | PROPOSED drafts |
 | [Combat system](../gameplay/COMBAT_SYSTEM.md) and [combat notebook](../combat/README.md) | Alley-oops, fighter-jet flight, enemies, test specifications | Direction CANON, details PROPOSED |

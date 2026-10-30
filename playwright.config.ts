@@ -15,7 +15,12 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
     // Deterministic software rendering in automation; not a hardware benchmark.
-    launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
+    launchOptions: {
+      // Optional preinstalled Chromium for hosts unable to download the pinned browser.
+      // Record its actual version in the receipt; default remains Playwright's browser.
+      executablePath: process.env.SPACE_DRAGON_BROWSER_PATH || undefined,
+      args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
+    },
   },
   webServer: {
     command: 'npm run dev -- --port 5175',

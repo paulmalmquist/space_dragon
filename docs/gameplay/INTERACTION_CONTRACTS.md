@@ -42,3 +42,10 @@ Use one immediate instruction, a visible objective, optional repeated audio and 
 - Fail a scene load or fall out of bounds: return/retry is available.
 
 These are acceptance scenarios. They are not implemented tests until a runtime exists and the checks are executed against it.
+
+
+## Current First Contact implementation
+
+The [SD-019 increment](../plans/CURRENT_MILESTONE.md) supplies all five suits at entry to `suits`, before any demonstration. Contextual actions are optional staging; Skip demonstrations resolves to the same suit inventory and scan checkpoint. A direct or assisted scan resolves to the same unique symbol archive and town-map briefing. `scanHelp` persists immediately when Show me is used, so later direct activation stays assisted. This is interaction provenance, not a learner observation or mastery claim.
+
+All accepted transitions save before presentation. Restart is confirmed and keeps a previous-state recovery copy where storage permits. Held Enter/Space and repeated clicks cannot queue hidden advancement. Pause, tab hiding and notebook entry suspend animation/input and cancel narration; reduced motion resolves geometry immediately. The six-stop town briefing is not a playable mission selector. See [development](../DEVELOPMENT.md) for schema and fallback behavior.

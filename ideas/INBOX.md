@@ -69,3 +69,33 @@ Source: owner, same chat.
 > “Can you put those in my space_dragon repo”
 
 Receipt: **SD-016** (suit upgrades, then powers by the end) and **SD-017** (dogfights and asteroid fields between planets) · CONFIRMED direction, details PROPOSED · Recorded in [the decision](../docs/decisions/2026-10-29-three-acts-linear-and-viera.md). **SD-018** · PROPOSED · The assistant's fills are in [Acts II & III: The Road to Viera](../docs/story/ACTS_II_III_THE_ROAD_TO_VIERA.md), awaiting owner review. The last message authorized adding both documents to this repo.
+
+### October 29, 2026 — continue coding from the recent story
+
+Source: owner, Space Dragon chat.
+
+> “Continue coding based on the recent updates to the story”
+
+Earlier owner direction preserved with the supplied mission document:
+
+> “Keep going on missions
+> I want it to evolve to planet to planet composing the sos”
+
+Receipt: **SD-019** · CONFIRMED coding authorization · Extend the actual First Contact runtime through the suits, supported scan and saved town-map handoff. **SD-020** · CONFIRMED composition direction; detailed treatment PROPOSED · The two current story attachments were read and reconciled in [recent story integration](../docs/story/RECENT_STORY_INTEGRATION.md). This also resolves SD-013's missing character-source blocker. Viera and linear progression remain owner direction; optional world order and the earlier Earth ending do not supersede them. No full planetary campaign or production deployment is implied.
+
+
+### October 29, 2026 — explain and plan the musical portion
+
+Source: owner, Space Dragon chat.
+
+> “Explain where we are with the musical portion…plan that out if we’re nowhere”
+
+Receipt: **SD-021** · CONFIRMED planning request · Audited actual audio code/assets and the existing story proposals. [Music plan](../docs/audio/MUSIC_PLAN.md) defines motif auditions, family voices, adaptive First Contact, world contributions, Ableton-ready source/exports and acceptance checks. Score composition and musical runtime implementation have not started.
+
+### October 30, 2026 — powers morph the family voices into synth
+
+Source: owner, Space Dragon chat.
+
+> “As we get powers morph them into synth”
+
+Receipt: **SD-022** · CONFIRMED musical direction; exact timbres/stages PROPOSED · [Decision](../docs/decisions/2026-10-30-powers-to-synth.md) and [music plan](../docs/audio/MUSIC_PLAN.md#5-family-musical-identities) connect character instruments to synth voices as upgrades become powers. Next: audition the same character phrase as instrument, blend and synth during MUS-01. Direction recorded; audio not yet produced or implemented.

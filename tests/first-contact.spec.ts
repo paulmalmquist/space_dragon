@@ -15,13 +15,13 @@ test('renders a real 3D scene; complete, reload and restart the checkpoint', asy
   await page.keyboard.press('Enter');
   await expect(page.getByRole('heading', { name: 'Something has landed.' })).toBeVisible();
   await page.getByRole('button', { name: 'Investigate the pod' }).click();
-  await expect(page.getByRole('button', { name: 'Checkpoint reached' })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Discover the suits' })).toBeEnabled();
   await page.reload();
   await expect(page.getByRole('heading', { name: 'The message is only the beginning.' })).toBeVisible();
-  await expect(page.getByRole('status').first()).toContainText('restored');
+  await expect(page.locator('#save-status')).toContainText('restored');
   page.once('dialog', dialog => dialog.dismiss());
   await page.getByRole('button', { name: 'Start again' }).click();
-  await expect(page.getByRole('button', { name: 'Checkpoint reached' })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Discover the suits' })).toBeEnabled();
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: 'Start again' }).click();
   await expect(page.getByRole('button', { name: 'Follow the signal' })).toBeEnabled();
@@ -37,7 +37,7 @@ for (const raw of ['{broken-json', '{"version":99,"step":"pod"}', '{"version":1,
     await page.addInitScript(({ key, value }) => localStorage.setItem(key, value), { key: saveKey, value: raw });
     await page.goto('./');
     await expect(page.getByRole('button', { name: 'Follow the signal' })).toBeEnabled();
-    await expect(page.getByRole('status').first()).toContainText(/could not be read|different build/);
+    await expect(page.locator('#save-status')).toContainText(/could not be read|different build/);
     await page.getByRole('button', { name: 'Follow the signal' }).click();
     await expect(page.getByRole('heading', { name: 'Something has landed.' })).toBeVisible();
   });
@@ -48,7 +48,7 @@ test('storage failure does not stop the story', async ({ page }) => {
   await page.goto('./');
   await page.getByRole('button', { name: 'Follow the signal' }).click();
   await expect(page.getByRole('heading', { name: 'Something has landed.' })).toBeVisible();
-  await expect(page.getByRole('status').first()).toContainText('storage is unavailable');
+  await expect(page.locator('#save-status')).toContainText('storage is unavailable');
 });
 
 test('captures an unordered idea in an isolated test inbox and retains failed drafts', async ({ page }) => {
