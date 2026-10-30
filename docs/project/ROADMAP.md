@@ -18,7 +18,7 @@ Each is optional now. A single annotated example is useful; do not wait to assem
 
 The [story](../story/README.md) and [script](../story/scripts/README.md) indexes already contain substantial proposed writing. Refine those existing drafts as ideas arrive rather than restarting the story. The additional names in `new characters` await their actual source attachment; do not fill in missing character material by assumption.
 
-- **Look:** a few images with “I like this part because…” for faces, armor, dragon silhouette, environment, or lighting.
+- **Look:** a few images with “I like this part because…” for faces, armor, dragon silhouette, environment, or lighting. The owner's [House interior video](../../assets/reference/environments/house-interior/README.md), SD-029, is now organized as reference for the initial house; environment modeling remains pending.
 - **Movement and camera:** a short clip or link with a timestamp and the specific action or camera behavior to borrow.
 - **Dragon assembly:** rough sketches of overall views, wings folded/open, recovered parts, connections, and family-scale comparison.
 - **Characters:** filename plus position for the remaining reference identities; Lyla's suit color when a direction occurs to you.

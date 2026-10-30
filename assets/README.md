@@ -6,6 +6,7 @@ Keep editable artwork, references, and browser exports separate. Nothing in this
 | --- | --- |
 | `reference/family/` | The existing 18 authorized photos, gallery, and manifest. Preserve these files. |
 | `reference/motion/` | Instructions for useful movement and camera references. |
+| `reference/environments/house-interior/` | [House interior](reference/environments/house-interior/README.md): source notes for the initial house's 3D environment. The video is kept in the ignored local reference path. |
 | `reference/local/` | Ignored local videos, boards, photos, and other unapproved reference media. |
 | `source/` | Approved editable artwork and source conventions. |
 | `source/local/` | Ignored working Blender projects, paint files, and review renders. |

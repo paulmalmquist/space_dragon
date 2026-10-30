@@ -31,6 +31,10 @@ The publication branch incorporates the newer `origin/main` history through `047
 
 [seeles-assets](../../seeles-assets/README.md) now provides a local incoming folder, scoped Git ignore rules, and agent migration instructions (SD-028). The first decision compares importing selected assets, replacing/refactoring the scene layer, and broader runtime/repo changes when a stronger export lowers total work. Existing source/candidate destinations remain the processing paths. The [verification receipt](../reports/2026-10-30-seele-intake.md) records foundation checks, 41 existing unit checks, local-link review, and nine Git-ignore cases. This is intake guidance only: no Seele export, model, engine change, Blender session, or deployment has been verified in this work. The next evidence is a real export running and accepting a further agent edit outside Seele.
 
+## House interior reference — October 30
+
+The owner's video is labeled **House interior** and saved as `house-interior.mp4` under the owner's `Space Dragon/House interior/` folder. A matching local copy is at `assets/reference/local/environments/house-interior/house-interior.mp4`; this ignored source does not travel with Git. [Source notes and the intake receipt](../../assets/reference/environments/house-interior/README.md), SD-029, record its purpose for the initial house's 3D environment, metadata, and verified byte preservation. Sampled frames were inspected. No house model, scan, external-generation upload, or runtime change is claimed.
+
 ## Completed local foundation
 
 - Babylon.js 9.33.0, TypeScript 7.0.2, Vite 8.3.5, Playwright 1.64.1 with its Chromium browser, and glTF Transform 4.5.1 are installed as exact-pinned project dependencies.

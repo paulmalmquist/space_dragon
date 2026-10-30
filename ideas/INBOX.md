@@ -92,3 +92,10 @@ Source: owner, Space Dragon chat, after discussing exported assets and continued
 
 Receipt: **SD-028** · CONFIRMED intake direction and conditional refactor evaluation; the actual migration/engine choice remains OPEN until an export is inspected. [Seele intake and migration](../seeles-assets/README.md) provides a local drop folder and agent procedure. It compares asset import, scene-layer replacement, and broader refactoring before implementation, while reusing the existing asset workflow. No paid generation, asset import, engine change, or deployment is claimed.
 
+### October 30, 2026 — House interior video reference
+
+Source: owner, Space Dragon chat, with uploaded `IMG_5753.mp4`.
+
+> Put this video in a folder and label it house interior. It’s reference for 3d environment of initial house
+
+Receipt: **SD-029** · CONFIRMED label and reference purpose · [House interior](../assets/reference/environments/house-interior/README.md) records the original, the saved `house-interior.mp4`, the ignored local authoring path, source checksum, and initial inspection. The video was organized in the owner's files and copied unchanged into the local reference workspace. Next: consult it when building the opening environment. A finished house model, a measured scan, a Seele upload, and public-video publication are not established by this intake.
