@@ -1,7 +1,8 @@
 # Space Dragon — music production and implementation plan
 
 **Date:** October 29, 2026  
-**Status:** planning delivered under the owner's request; composition and implementation NOT STARTED. Musical choices below are proposals, not approved story canon.  
+**Updated:** October 30, 2026
+**Status:** planning delivered; composition and implementation NOT STARTED. The family voices morphing into synth as powers develop is CONFIRMED owner direction ([decision](../decisions/2026-10-30-powers-to-synth.md)); exact instruments, patches and transition stages below remain proposals.
 **Request:** “Explain where we are with the musical portion…plan that out if we’re nowhere”  
 **Code audited:** `7011a63` on `codex/first-contact-suits-and-story`; remote main remains `4bcfd8d`. The latest runtime is in draft PR #15, not main or a production deployment.
 
@@ -11,7 +12,7 @@
 | --- | --- | --- |
 | Music's story role | [Music/empathy design](../story/MUSIC_EMPATHY_AND_PACING.md), [recent story integration](../story/RECENT_STORY_INTEGRATION.md), current planet/SOS attachment | Developed concept; detailed lore proposed |
 | SOS melody | Written solfege placeholder, `sol–mi–la–sol–fa–re–ti`; no rhythm, recording or MIDI in the repo | Not composed |
-| Family instrumental identities | Brass, cello, plucked strings, marimba and celesta proposed in the design | Not produced |
+| Family instrumental identities | Instrumental voices morph into synth as powers develop: confirmed direction; brass, cello, strings, marimba and celesta mappings proposed | Not produced |
 | Adaptive score | Tables describe layers, transitions and scene moods | Not implemented |
 | Music assets | No WAV, MIDI, FLAC, OGG, MP3, M4A, AIFF, Opus or Ableton session found under `src/`, `public/` or `assets/` | None in the audited repository |
 | Runtime audio | `src/game/narration.ts` uses opt-in local-device speech for instructions | Implemented speech only; not a score or musical sound effects |
@@ -71,14 +72,23 @@ No canonical family singing or voice recording is required. A synthesized or app
 
 ## 5. Family musical identities
 
-| Character | Proposed sound | First useful test |
-| --- | --- | --- |
-| Paul | Warm horn/brass and a low percussive accent | Lift: a grounded upward gesture |
-| Maria | Cello and a soft sustained texture | Restore energy: a gentle opening interval |
-| Luke | Agile string articulation, with a longer answering phrase when needed | Tether: a quick rise and secure landing |
-| Luna | Marimba and elastic, bubbly percussion | Goo rail: a playful slide with a clear finish |
-| Lyla | Celesta/music-box tone and a light shimmer | Scan: a short recognizable archive signature |
-| Dragon | Low resonant horn-like voice with layered breath texture | Assembly/departure preview later |
+**Confirmed direction:** “As we get powers morph them into synth”. The music should make the family's growing powers audible. Preserve each character's recognizable motif while transforming its sound.
+
+Proposed progression: **instrument → acoustic/synth blend → synth voice**. Early suits introduce the instrumental identity; upgrades gradually reveal its electronic counterpart; an earned power completes the transformation. Specific unlocks and intermediate stages remain proposed. Transform the affected character's voice when their ability changes, rather than switching the entire score at a chapter boundary.
+
+| Character | Proposed starting voice | Proposed powered voice | Signature to preserve |
+| --- | --- | --- | --- |
+| Paul | Warm horn/brass and a low percussive accent | Broad synth brass with a grounded bass accent | Lift: a grounded upward gesture |
+| Maria | Cello and a soft sustained texture | Warm, flowing synth with a bowed attack | Restore energy: a gentle opening interval |
+| Luke | Agile string articulation | Nimble synth plucks and an answering lead | Tether: a quick rise and secure landing |
+| Luna | Marimba and elastic, bubbly percussion | Liquid FM plucks and elastic synth slides | Goo rail: a playful slide with a clear finish |
+| Lyla | Celesta/music-box tone and a light shimmer | Crystalline bell synth with a widening shimmer | Scan: a short recognizable archive signature |
+
+The dragon retains its proposed low horn/breath identity; a matching electronic evolution can be auditioned separately. The owner's direction concerns the family's powers and does not by itself establish a new dragon upgrade.
+
+Use the same short phrase to audition each instrumental, blended and synth version at comparable perceived loudness. Keep the recognizable rhythm, contour and characteristic attack; change texture before adding new notes or layers. Let an unlock cue reveal the transformation, then retain that voice in later action signatures and relevant score phrases. Other characters keep their own earned stages.
+
+At Viera, the earned synth voices can become soft, warm and spacious. A quiet arrangement does not reset powers or undo the transformation. Acoustic home/world colors can remain alongside them; power should not require an increasingly loud or crowded mix.
 
 These are sound identities, not six permanent tracks that must all play at once. Family signatures and world contributions are different dimensions: the signatures identify who acted; the planet parts shape the shared composition. Arrange by musical role to prevent an ever-growing pile of simultaneous sounds.
 
@@ -88,10 +98,10 @@ For future alley-oops, the setter gives a brief call and the finisher answers. F
 
 | Milestone | Concrete deliverable | Done when |
 | --- | --- | --- |
-| MUS-01: hear the idea | Three motif candidates in MIDI/WAV, plus a 60–90-second comparison showing broken call → family answer → lively rescue → quiet resolution | Files exist, are listened to, and one direction can be selected from actual audio |
+| MUS-01: hear the idea | Three motif candidates in MIDI/WAV, a 60–90-second story comparison, and one character phrase heard as instrument → blend → synth | Files exist, are listened to, and both motif and timbre direction can be selected from actual audio |
 | MUS-02: score First Contact | One bounded music service wired to existing computer/pod/suit/scan/map states, initial sound opt-in, mute/volume, local assets | The playable opening has coherent sound; skip/reload/pause work; muted play completes identically |
 | MUS-03: prove composition | A clearly labeled music test scene with a Market-style rescue and two groove choices | The rescue changes the score, the choice persists, and both choices produce satisfying music; no claim a full Market Moon is built |
-| MUS-04: extend through planets | One small cue pack per implemented world; onboard original/current comparison and guided variation | Each world has its own voice, earns its part once, and later travel reflects the saved arrangement |
+| MUS-04: extend through planets | One small cue pack per implemented world; family timbre variants tied to implemented upgrades/powers; onboard original/current comparison | Each world earns its part once; each character's earned sound survives reload and appears in later arrangements |
 | MUS-05: pay off Viera | Reorchestrated gentle ensemble, meaningful gaps, final home gesture and celebration | The player hears why the earlier triumphant arrangement needed to change; listening review confirms the emotional transition |
 
 **Immediate recommended build: MUS-01 and MUS-02, with one provisional motif.** Do not wait for final orchestration to exercise the browser, and do not mass-produce planet tracks before the motif and first interaction work. Keep each candidate labeled so an engineering placeholder does not become approved music by accident.
@@ -108,6 +118,7 @@ The workflow fits Paul's Ableton Live 11 setup. A live Ableton/MCP session has *
 - Keep mix balance and headroom; do not independently normalize every stem or print the same master limiter/reverb into every role. Treat shared reverb/tails deliberately.
 - Separate full-tail listening masters from loop exports. Verify exact loop frames and seam behavior in the browser; checking an export option is not evidence of a seamless loop.
 - Keep alternative grooves/phrases aligned and compatible with the same harmony. Use shared bus effects or deliberate self-contained tails, not arbitrary hard cuts.
+- Author instrumental/blended/synth variants from the same character MIDI phrase and grid. Keep stable character, motif and timbre-stage IDs in the pack. Start with rendered variants and an authored transition or short gain crossfade; a live synthesis engine is not required. Audition overlapping variants for phase, level and tail problems.
 - Start with source drafts in `assets/source/local/audio/` and candidates in `assets/game/local/audio/`, following [asset boundaries](../ASSET_PIPELINE.md). Only selected runtime files go into `public/audio/`. Record author/source, rights, version, review state and checksum; existing `.wav`/`.flac` LFS rules apply when publishing approved sources.
 - Browser delivery encoding is separate from source masters. Short PCM WAVs are acceptable for the first proof; evaluate compressed alternatives on the named target browsers before adopting them. Do not upload a whole DAW project as the game's download.
 
@@ -120,6 +131,7 @@ Use a focused TypeScript music module built on browser Web Audio for the first s
 - **Game state owns progress:** recovered parts, world contributions, choices and arrangement version. No musical callback grants a component or advances a mission.
 - **Cue definitions own content:** stable ID, pack/version, URL, role, sample rate, channels, BPM, meter, key/chord-map reference, exact frame count/loop points, gain, transition rule and compatible alternatives.
 - **Music director selects an arrangement:** home, discovery, exploration, action, restoration or quiet. It observes existing semantic transitions, not renderer meshes or UI labels.
+- **Earned timbre follows abilities:** derive each character's timbre stage from authoritative saved unlocks when those abilities exist. Do not infer powers from elapsed music, chapter number or suit possession. Restore the earned stage on reload without replaying the unlock cue; a preview must never grant gameplay powers. Switching characters selects their own stage. First Contact still uses starting voices only.
 - **Transport/mixer owns playback:** one shared audio timeline, synchronized stems, gain ramps, source disposal, mute and pause. Use the audio clock for scheduled starts [B]; a timer may fill a short scheduling window but must not define musical time.
 - **Presentation stays immediate:** lift, scan, web shot, dodge and parry apply immediately. Their short contact sounds can play at once; the score's new phrase/layer enters on its next appropriate boundary. Never quantize the player's physical action to music.
 - **Start deliberately:** create/resume the context from a player gesture and handle rejection/interruption [C]. Offer “Start with sound” and a fully functional muted path. Do not pretend sound is playing while the browser has suspended it.
@@ -153,6 +165,7 @@ Store stable contribution IDs and a small variant choice per contribution, not r
 | Start, stop, pause, tab hide, notebook, resume | One ensemble; no duplicate voices, stale stingers or accumulating listeners |
 | Loop and transition timing | Stems share a timeline; capture/offline tests verify scheduled offsets; human listening checks seams, clicks and musical continuity |
 | Repeated action/skip/reload | Unique saved progress; no sound queue explosion; same earned arrangement |
+| Power/timbre progression | Only the affected character changes; unlocked voice persists after reload; preview grants nothing; quiet scenes retain earned timbre; transitions preserve the motif without clicks or level jumps |
 | Groove/phrase alternatives | Both fit all allowed combinations and remain readable visually |
 | Narration/critical effects | Music does not mask instructions or warnings; gain recovers after cancellation and errors |
 | Missing file/decode/storage failure | Clear fallback; required story still completes |
@@ -165,7 +178,7 @@ Automated event assertions alone do not prove that audio was heard, sounds good,
 
 ## 11. First coding brief
 
-> Implement MUS-02 against the actual current First Contact runtime, using one clearly provisional MUS-01 motif and short original local audio assets. Preserve v1/v2 save behavior, current semantic transitions and story authority. Add an isolated music director/transport, explicit sound start and mute, bounded synchronized layers, local narration ducking, and pause/visibility cleanup. Wire only the existing opening states. Deliver editable MIDI, WAV previews and the exact runtime pack with a manifest. Verify direct, skipped, assisted, interrupted, repeated and reloaded paths with sound enabled and disabled. Record actual playback/listening gaps. Do not build planets, final powers, a DAW, external generation or backend services for this slice.
+> Implement MUS-02 against the actual current First Contact runtime, using one clearly provisional MUS-01 motif and short original local audio assets. Include an offline instrument/blend/synth audition for one character and reserve stable timbre-variant IDs; the opening uses starting voices and grants no later powers. Preserve v1/v2 save behavior, current semantic transitions and story authority. Add an isolated music director/transport, explicit sound start and mute, bounded synchronized layers, local narration ducking, and pause/visibility cleanup. Wire only the existing opening states. Deliver editable MIDI, WAV previews and the exact runtime pack with a manifest. Verify direct, skipped, assisted, interrupted, repeated and reloaded paths with sound enabled and disabled. Record actual playback/listening gaps. Do not build planets, final powers, a DAW, external generation or backend services for this slice.
 
 ## Technical references
 

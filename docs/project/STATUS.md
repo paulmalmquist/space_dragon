@@ -74,6 +74,8 @@ This does not implement a town expedition, free movement, combat, flight, planet
 
 The [music plan](../audio/MUSIC_PLAN.md) audits the repository and turns the existing concept into five production milestones. There are no composed music assets, MIDI files, cue manifest or music engine in the audited runtime; device speech is the only implemented audio feature. Start with three audible motif candidates and a small adaptive First Contact cue pack. Plan documents are delivered; musical gameplay and audio quality remain NOT TESTED.
 
+**October 30 update — SD-022:** the owner confirmed that family instrumental voices morph into synth as powers develop. The plan now includes proposed character mappings, an instrumental/blended/synth audition and later per-character unlock integration. This is recorded direction, not implemented audio; the next audible deliverable remains MUS-01.
+
 ## Next useful action
 
 Build the first bounded Space Blocks retrieval and return-home installation using the guarded state/save loop, with supported shape matching and a single unique Assembly Module. Retain the fictional preschool setting and record assistance separately from mastery. Reviewed GLB art, actual local speech audibility, named-device performance and owner play review remain separate quality work. Integrating the website still requires its actual source and deployment context.

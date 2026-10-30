@@ -16,6 +16,8 @@ This is an adjustable production order, separate from story chronology. New idea
 
 [Music production plan](../audio/MUSIC_PLAN.md), SD-021: start with audible motif candidates and the existing First Contact slice (MUS-01/02), then prove one rescue-driven arrangement choice (MUS-03) before composing full planet packs and the Viera resolution (MUS-04/05). No music assets or playback engine currently exist. Planning is complete; implementation and listening review remain pending.
 
+SD-022 adds confirmed instrument-to-synth evolution as powers develop. MUS-01 now auditions one character's phrase across the proposed instrumental/blended/synth stages; MUS-04 connects earned voices to implemented ability unlocks and saved progress. Exact patches remain proposals.
+
 ## Creative inputs that can arrive whenever you have them
 
 Each is optional now. A single annotated example is useful; do not wait to assemble a perfect package.

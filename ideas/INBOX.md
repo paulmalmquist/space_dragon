@@ -91,3 +91,11 @@ Source: owner, Space Dragon chat.
 > “Explain where we are with the musical portion…plan that out if we’re nowhere”
 
 Receipt: **SD-021** · CONFIRMED planning request · Audited actual audio code/assets and the existing story proposals. [Music plan](../docs/audio/MUSIC_PLAN.md) defines motif auditions, family voices, adaptive First Contact, world contributions, Ableton-ready source/exports and acceptance checks. Score composition and musical runtime implementation have not started.
+
+### October 30, 2026 — powers morph the family voices into synth
+
+Source: owner, Space Dragon chat.
+
+> “As we get powers morph them into synth”
+
+Receipt: **SD-022** · CONFIRMED musical direction; exact timbres/stages PROPOSED · [Decision](../docs/decisions/2026-10-30-powers-to-synth.md) and [music plan](../docs/audio/MUSIC_PLAN.md#5-family-musical-identities) connect character instruments to synth voices as upgrades become powers. Next: audition the same character phrase as instrument, blend and synth during MUS-01. Direction recorded; audio not yet produced or implemented.

@@ -20,6 +20,8 @@ The current character and planet-mission attachments have now been read in full.
 
 ## Visual and technical direction
 
+**Confirmed musical progression (October 30):** as the family gains powers, their instrumental identities morph into synth voices. See [the decision](../decisions/2026-10-30-powers-to-synth.md) and [music plan](../audio/MUSIC_PLAN.md). Exact instruments, patches and intermediate stages remain proposals; the music has not yet been produced.
+
 **CONFIRMED goal, October 29:** rich, cinematic presentation, as close to AAA style as is practical in a browser, with Railway intended for backend services. Recognizable and expressive family characters, engineered armor, strong lighting, satisfying animation, and sound should create the sense of quality. The detailed material palette and final designs still need creative review.
 
 **Selected local foundation under the owner's setup authorization:** Babylon.js and TypeScript; Blender source assets with GLB runtime exports; a tested WebGL2 starting point; versioned local checkpoints; browser checks and screenshots. The engine choice is an implementation decision that can be revised if the existing-site audit uncovers a strong reason. WebGPU and Havok are options to evaluate when a scene or mechanic needs them.

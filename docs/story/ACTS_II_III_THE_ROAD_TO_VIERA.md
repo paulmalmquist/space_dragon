@@ -3,7 +3,7 @@
 > **Source update:** the previously missing character attachment and the planet/SOS treatment are now read. See [recent story integration](RECENT_STORY_INTEGRATION.md). Missing-source statements below describe this draft’s original evidence; the new source supplies proposed roles, not automatic canon approval.
 
 **Date:** October 29, 2026  
-**Status:** PROPOSED treatment for owner review. The linear three-act structure, Viera as the final landing, suit upgrades becoming powers by the end, and dogfights between planets are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)). Everything else here, including every name, is a proposal.  
+**Status:** PROPOSED treatment for owner review. The linear three-act structure, Viera as the final landing, suit upgrades becoming powers by the end, and dogfights between planets are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)). The later [instrument-to-synth direction](../decisions/2026-10-30-powers-to-synth.md) is also CONFIRMED. Everything else here, including every name, is a proposal.
 **Builds on:** [Act I](ACT_I_BUILD_THE_DRAGON.md) (authoritative), the [Act II proposal](ACT_II_ANSWER_THE_CALL.md), the [three-act plan](THREE_ACT_PLAN.md) and the [combat system](../gameplay/COMBAT_SYSTEM.md).
 
 The off-world story in one line: the family wakes four star-dragons to light a path across a sleeping universe, races a robot that thinks sleeping ships are junk, and lands on Viera to give a planet of travelers back its rest. This fills the holes listed in the [three-act plan](THREE_ACT_PLAN.md).
@@ -196,6 +196,8 @@ Every trip between worlds is a flight level, and they borrow the set pieces peop
 Disabled drones power down and pop a tiny parachute, even in space. The joke stays. Captured ships float free and drift home.
 
 ## Suits to powers
+
+**Confirmed musical direction, October 30:** the family voices morph from instruments into synth as powers develop ([decision](../decisions/2026-10-30-powers-to-synth.md)). The [music plan](../audio/MUSIC_PLAN.md#5-family-musical-identities) proposes the timbres and transition stages. This does not confirm the specific powers or unlock moments drafted below.
 
 The suits grow in three steps: small upgrades from each star-dragon, a big upgrade from Farport's outfitters, then one power each when Viera wakes. Upgrades are things a suit **has**: new parts you can see. Powers are things a person **can do**: the living material and its wearer finally singing the same note.
 
