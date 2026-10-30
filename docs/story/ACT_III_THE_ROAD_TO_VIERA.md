@@ -9,7 +9,8 @@
 
 - **Land on Viera, for good.** The game's final landing is on Viera, a planet where everyone is a space traveler.
 - **Resolve the Quiet** with understanding, not force. Nothing attacks the Hush.
-- **Turn upgrades into powers.** Suits get their biggest upgrade on arrival in Farport, then each family member gains one power by the end.
+- **Turn upgrades into powers.** Suits get their biggest upgrade on arrival in Farport, then each family member gains one power by the end. As powers arrive, each family member's instrument voice **morphs into synth** (owner direction, SD-022).
+- **Finish composing the answer.** The last worlds add their parts to the SOS arrangement, and the Rest Garden adds the rests and the home note (owner direction, SD-020).
 - **Keep the flying big.** Dogfights, an asteroid field, an interdiction ambush, a capital-ship trench run and a fleet battle.
 - **Keep Act I's promise of a way home.** The family can always get back to Earth.
 - **Keep the rules:** the family stays together, sad is never scary, nobody dies, help never blocks the story, and no reading at speed.
@@ -48,7 +49,7 @@ Viera is the largest world in the game. Farport is crossed in a fixed order, but
 | **The Sweeper** | Fought at its depot, in the Drift and over the Mooring Ring. Panics at the Great Launch. Re-tuned into Farport's harbor tug. |
 | **The four star-dragons** | Wingmen on every flight. They tow rescued ships in the Drift and hang back at the edge of Viera's deep Quiet. |
 
-Open role slots for the missing character file (SD-013): a fleet captain on the Mooring Ring, a Waystation mechanic, an outfitter, a Sweeper drone that switches sides early, and the Caller's family. No names are assigned.
+Open role slots: a fleet captain on the Mooring Ring, a Waystation mechanic, an outfitter, a Sweeper drone that switches sides early, and the Caller's family. The owner's character document (SD-013) is being reconciled separately; no names are assigned here, and its Rook stays separate from the Sweeper.
 
 ---
 
@@ -61,7 +62,7 @@ Act III in six movements, in a fixed order.
 **A3-00 The Snag Net.** Mid-jump, the Sweeper's interdictor net yanks the dragon out of light speed. Dogfight the guard drones and cut the net's four anchors to break free. *Feel:* being pulled out of hyperspace into an ambush.
 
 **A3-01 The Waystation.** A ringed moon that used to be the travelers' rest stop: a big mess hall, hangars and a house band asleep mid-song. The Sweeper has made it its depot, with sleeping ships stacked like a junkyard.
-- On foot, the family's instruments wake the house band, and the level's music comes back with them.
+- On foot, the family's instruments wake the house band, and the level's music comes back with them. The band adds the **bass line** to the answer.
 - Free the stacked ships, then beat **the Crane**, the depot's foreman bot (on-foot boss, 2–3 phases, slip–expose–alley-oop).
 - The neighbor tries to file a complaint with the Crane. The Crane loves her clipboard and files it, very carefully, in a crate.
 - The dragon learns **Tow-line**. The exit flight tows freed ships out through the hangar.
@@ -69,7 +70,7 @@ Act III in six movements, in a fixed order.
 
 **A3-02 The Drift.** A huge asteroid field around Viera's moon, full of ships that tumbled when their pilots fell asleep.
 - Thread the field. Dock with sleeping ships, and wake their pilots in short on-foot boarding scenes.
-- The star-dragons tow the rescued ships in a growing convoy behind you.
+- The star-dragons tow the rescued ships in a growing convoy behind you. Each woken pilot's ship sings a phrase back, and together they become the **countermelody**.
 - Learning stop: **Count Them Home** (`counting_objects`), at a safe docking pause.
 
 ### Movement 2 — Battle of the Mooring Ring (A3-03)
@@ -117,13 +118,13 @@ The climax has **three phases, Listen, Shelter and Home Note**, each with a diff
 **A3-08 The Home Note (song).**
 - Each family member plays one soft note; **there are no wrong notes**. Untimed, one tap each, or one tap for everyone.
 - The SOS plays one last time, all seven notes with rests, ending on its question. The Caller, in person: *"That's where it always stops. We never knew the end."* Luke: *"Because it's ours."*
-- **The family sings the home note**, joined by the neighbor and the Caller. The melody resolves.
+- **The family sings the home note**, joined by the neighbor and the Caller. The melody resolves, and every part the worlds contributed joins in at once: rhythm, harmony, lead, accents, bass and countermelody, now with **rests**. The answer is complete.
 - **Payoff:** the family's dragon wakes first, loudest, then rests. **The Lanemother wakes** and lowers her head to it. Color floods out from Viera along every lane. The song now **includes rests**, and the Hush settles into the pauses: not defeated, given back its place.
 - *This is the payoff of the whole three-act arc.* The SOS was a call, and the family's note is the answer. **They weren't chosen. They chose to help, and the help was something only they could add.**
 
 ### Movement 5 — Your Own Note and the Great Launch (A3-09 → A3-10)
 
-**A3-09 Your Own Note.** As Viera wakes, each suit's living material hears its wearer's own note and blooms. The upgrades fuse into **one power each** (drafts in the [overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) § Suits to powers). The Lanemother gives the dragon **Lane Wings**. Five Together becomes **Five Powers**, and its chord resolves to the home note for the first time.
+**A3-09 Your Own Note.** As Viera wakes, each suit's living material hears its wearer's own note and blooms. The upgrades fuse into **one power each**, and each family member's instrument voice morphs into its **synth** form (SD-022). The motif stays recognizable; only the timbre changes (drafts in the [overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) § Suits to powers). The Lanemother gives the dragon **Lane Wings**. Five Together becomes **Five Powers**, and its chord resolves to the home note for the first time.
 
 **A3-10 The Great Launch.** Every traveler on Viera wakes at once and takes off: a sky full of ships, all moving. The Sweeper's rule flips from *anything that doesn't move is debris* to *too much is moving!*, and it rises out of the clouds to clear the sky.
 - **Phase 1, in the air:** the dragon leads the four star-dragons, the hatchlings and the whole traveler fleet against the Sweeper's last swarm.
@@ -166,7 +167,7 @@ This is the last action beat of the game and its loudest celebration. It's a joy
 | **Docking and boarding** | Short on-foot scenes inside sleeping ships in the Drift. |
 | **The warm circle** | The home recording's circle of color at Landfall. It moves with the family and grows as Farport's districts wake. |
 | **Farport upgrades** | One big upgrade per suit from Outfitters' Row, plus Scale Armor for the dragon. One extra slot per suit stays open on purpose. |
-| **Powers** | One per family member at A3-09, first used in the Great Launch. They always switch off, helmets always open, and the suit never controls its wearer. |
+| **Powers** | One per family member at A3-09, first used in the Great Launch. Each sounds in its owner's synth voice (SD-022). They always switch off, helmets always open, and the suit never controls its wearer. |
 | **Five Powers** | Five Together's final form. Its chord resolves to the home note. |
 | **The Sweeper** | Final boss in three phases, ending in a re-tune, never destruction. |
 | **The Hush** | **Not a fight.** Listen → Shelter → Home Note. Nothing attacks it. |

@@ -219,7 +219,7 @@ These are placeholders to react to, not decisions.
 ### Rules that keep it right for the family
 
 - The three-year-olds' powers are as big and as fun as anyone's.
-- Every power sounds in its owner's instrument, so the finale is a song.
+- Every power sounds in its owner's voice, which morphs from instrument into synth as the power arrives (owner direction, SD-022), so the finale is a song.
 - Five Together becomes **Five Powers**, and its chord finally resolves to the home note, as the [music doc](MUSIC_EMPATHY_AND_PACING.md) already planned.
 - The living-material guardrails hold: powers always switch off, helmets always open, and the suit never controls its wearer.
 - No power ever replaces a learning challenge or makes one required.

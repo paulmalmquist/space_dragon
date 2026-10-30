@@ -23,7 +23,7 @@
 >
 > CALLER: "That's *your* note. The scale's been listening to you the whole way."
 
-**[CINE]** One by one, each suit **blooms**: the living material opens like petals, glows in its wearer's color, and settles back, changed. The scale gifts and the Farport upgrade fuse into **one power** each. Each reveal is under ten seconds and plays in its owner's instrument. **[MUSIC]** Brass, cello, strings, marimba, celesta, one after another, then together.
+**[CINE]** One by one, each suit **blooms**: the living material opens like petals, glows in its wearer's color, and settles back, changed. The scale gifts and the Farport upgrade fuse into **one power** each. Each reveal is under ten seconds. **[MUSIC]** Each family member's motif plays on their instrument, blends, and **morphs into its synth voice** (owner direction, SD-022): brass, cello, strings, marimba and celesta, one after another, each turning to synth, then all together. The motifs stay recognizable.
 
 | Who | Power (draft) | Reveal moment |
 | --- | --- | --- |
@@ -65,7 +65,7 @@ Its rule has flipped. Everything used to be too still. Now everything is too bus
 - **Lane Wings** blink the dragon past grapple arms.
 - **Formation calls:** "Break left!" "Climb!" Missing a call has no penalty.
 - Each freed ship joins the fleet behind you.
-- **[MUSIC]** The full song with rests, the dragon horn leading, every world's theme woven in.
+- **[MUSIC]** The completed answer with rests, every world's part woven in, and the family's new synth voices leading over the dragon horn.
 
 ### Phase 2 — On its deck
 

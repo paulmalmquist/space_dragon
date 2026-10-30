@@ -24,6 +24,11 @@ From the [three-act decision](../decisions/2026-10-29-three-acts-linear-and-vier
 - Act II is the middle act. It must end with a turn that sends the family on toward **Viera**, the final landing, in Act III.
 - Suits begin to grow here with small **upgrades**; powers wait for the end of Act III.
 
+From later owner direction (October 29–30, recorded as SD-020 and SD-022):
+
+- The planet-to-planet missions **compose the SOS**: each world adds a part to the answering arrangement.
+- As upgrades become powers, the family's instrument voices **morph into synth**. That happens in Act III.
+
 > **Logline (proposed):** On the far side of the crossing, a whole universe has gone quiet: colors faded, songs stopped, its people and its star-dragons asleep. Only visitors from somewhere else can still make a sound. A loud, messy family from a Florida cul-de-sac wakes four star-dragons, one world at a time, each one lighting the path to the next. At the end of the path is Viera, the home of the people who called, and a robot is already on its way there to tidy it up.
 
 ---
@@ -123,6 +128,8 @@ Four worlds, each with a **sleeping star-dragon** and a stilled community. Each 
 | 3 | **Hatchling escort, then the Shardstorm:** grappler drones try to box up the hatchlings; then a race through ringing crystal shards | **The Climbing Spires** | Luke's school | Luke | Luke climbs, tethers and re-strikes each resonator. A rhythm and pattern activity, paused and safe, never mid-climb. | The **Spire Dragon** wakes. Scale gift for Luke. From the top, Luke sees the Sweeper's Barge towing a chain of sleeping ships. |
 | 4 | **The Sweeper Picket:** the first full squadron dogfight, plus a slow, shielded gunship | **The Forge Ring** | The rocket facility | Paul, then everyone | Five-suit teamwork set piece in the shipyard, then a trench-run strike on the ring. Lyla finds the dragon's original blueprints: **proof that the design is older than the family**, with five seats drawn in. Beside them hang the Sweeper's. | The **Forge Dragon** wakes. The dragon gains **Song-breath**. The Forge's great beacon lights the last lane. |
 
+**Composing the answer (owner direction, SD-020):** each world the family wakes adds one part to the SOS's answering arrangement, introduced through the world's own music and the rescue that restores it. Local people keep their own songs; the player chooses between compatible variations, never a right answer. Proposed parts for this route: **Market Moon, rhythm** (the bazaar's bells and drums); **Hatchery, harmony** (the eggs' heartbeat-songs); **Spires, lead melody** (the re-struck resonators); **Forge Ring, accents and the broadcast** (the great beacon carries the arrangement down the last lane). Act III adds the rest. There is no microphone, singing requirement, music reading or rhythm gate, and the original SOS stays recognizable.
+
 Each world needs a landing hub and a few zones restored by sound, not one compact area. If production needs a shrink lever, a world can drop to a single hub without changing the story.
 
 **The Sweeper across Act II:** drones carry off a sleeping cargo pod (Gravel Run), bag market stalls (Market Moon), try to box up hatchlings (escort), tow ships past the Spires and screen the Forge (Picket). At the Forge, its blueprints reveal it was built there too, as a lane-keeper. Its rule, *anything that doesn't move is debris*, is what makes it trouble in a sleeping universe.
@@ -170,6 +177,7 @@ The neighbor's arc rhymes with the Hush. In Act I the family learns that an "ant
 | **Ex-henchman iguana** | The neighbor's robot iguana, now a helper that fetches small items. It changes sides because the living material inside it (from the Bridge piece) recognizes home. It's a scripted helper, not a follower system. |
 | **Scale gifts** | One small suit upgrade per featured family member per world. Draft upgrades are in the [overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) § Suits to powers. |
 | **Lane books** | A stamp per world, plus bonus stamps for optional discoveries. They pay off on Viera. |
+| **The growing answer** | Each world's musical part joins the SOS arrangement (SD-020). Lyla's archive can replay the answer so far. |
 
 Racing (the Market Moon cart race, the Shardstorm) and playful combat (Sweeper squadrons, Hush-moth swarms, the Forge set piece) stay fun in their own right, with learning moments kept separate and paused.
 
@@ -195,6 +203,8 @@ Racing (the Market Moon cart race, the Shardstorm) and playful combat (Sweeper s
 - The Caller's design, name and species.
 - The number of worlds (four proposed, two as a minimum) and their final names.
 - The ending of Act II at the Forge Ring, versus a different split point.
+- Which musical part each world contributes, and whether candidate worlds from the owner's mission document (such as Whisperwood or Tideglass) join the fixed route.
+- How the cast from the owner's character document (Mox, Tavi, Captain Nera, Rook) maps onto these roles. That reconciliation is in progress separately; no names are assigned here, and Rook and the Sweeper stay separate.
 
 ## 10. Production boundaries
 

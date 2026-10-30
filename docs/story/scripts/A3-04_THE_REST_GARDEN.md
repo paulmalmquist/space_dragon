@@ -249,7 +249,7 @@ It hangs there, the question.
 - Prompt: "Let's finish it. Together."
 - **[HINT 3]** It happens on its own after a moment. This beat must never be missable.
 
-**[CINE]** **The melody resolves.** **[MUSIC]** All seven notes, the rests, and **home**. The family's chord from Five Together finally **resolves** for the first time in the game.
+**[CINE]** **The melody resolves.** **[MUSIC]** All seven notes, the rests, and **home**. Then every part the worlds gave along the way joins in, one after another: the Market Moon's rhythm, the Hatchery's harmony, the Spires' lead, the Forge's accents, the Waystation band's bass and the Drift convoy's countermelody (SD-020). The answer is complete. The family's chord from Five Together finally **resolves** for the first time in the game.
 
 ### The payoff
 
