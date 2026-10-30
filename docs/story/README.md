@@ -17,7 +17,11 @@ Change canon only through `docs/decisions/`.
 | [Act I: Build the Dragon](ACT_I_BUILD_THE_DRAGON.md) | The authoritative premise, scene order and open questions | CANON, with labeled proposals |
 | [Act I critique and refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) | The SOS melody, the talking Core, the passenger creature, the seventh Bridge piece, the neighbor's grievance, the finale | PROPOSED, plus the living-material OWNER IDEA |
 | [Suit reveals and starting abilities](SUIT_REVEALS_AND_STARTING_ABILITIES.md) | Scene A1-02 in detail, starting kits, "Five Together" | PROPOSED |
-| [Act II: Answer the Call](ACT_II_ANSWER_THE_CALL.md) | The Quiet, star-dragons, the Caller, the stowaway neighbor, Listen → Shelter → Home Note | PROPOSED |
+| [Three-act structure and Viera](../decisions/2026-10-29-three-acts-linear-and-viera.md) | Linear, large worlds, three acts, Earth first, final landing on Viera, upgrades then powers, dogfights between planets | CANON (decision) |
+| [Three-act plan](THREE_ACT_PLAN.md) | Where the story stood, the narrative holes the new structure opens, and proposed fills | PROPOSED |
+| [Acts II & III: The Road to Viera](ACTS_II_III_THE_ROAD_TO_VIERA.md) | Viera and Farport, song-lanes, why the Quiet happened, the Sweeper, both acts in order, lane levels, suits to powers, cast arcs | PROPOSED |
+| [Act II: Answer the Call](ACT_II_ANSWER_THE_CALL.md) | The Quiet, song-lanes, the Caller, the stowaway neighbor, four worlds in order, the Sweeper, ending at the Forge Ring with the lane to Viera | PROPOSED |
+| [Act III: The Road to Viera](ACT_III_THE_ROAD_TO_VIERA.md) | The Waystation, the Drift, the Mooring Ring, Landfall, Farport, Listen → Shelter → Home Note, powers, the Great Launch, the final landing | PROPOSED |
 | [Music, empathy and pacing](MUSIC_EMPATHY_AND_PACING.md) | The song system, the Hush's lore, beat maps, the variety plan, peril rules | PROPOSED |
 | [Scripts](scripts/) | Production scripts with dialogue, cues, interactions and checkpoints | PROPOSED drafts |
 | [Combat system](../gameplay/COMBAT_SYSTEM.md) and [combat notebook](../combat/README.md) | Alley-oops, fighter-jet flight, enemies, test specifications | Direction CANON, details PROPOSED |
@@ -47,12 +51,19 @@ The suits and the dragon are made of **living material** (OWNER IDEA).
 - A seventh piece, the Bridge, landed in her yard. Kindness, not force, wins it back (PROPOSED).
 - The dragon is assembled, the full message plays, and the family chooses to go (CANON).
 
+**Structure (CANON).** The story is linear across a large world or set of worlds, in three acts. Act I is on Earth; then the dragon carries the family planet to planet. The final landing is on planet Viera, where everyone is a space traveler. Suits grow from upgrades into powers by the end, and the dragon dogfights and threads asteroid fields between planets. See [the decision](../decisions/2026-10-29-three-acts-linear-and-viera.md).
+
 **Act II (all PROPOSED).**
 - A universe is falling asleep under the Quiet, and only outsiders can still make sound.
-- The family wakes star-dragons on four worlds that mirror Act I places.
-- At the low point, their own dragon falls asleep.
-- The Hush, the overwhelmed "rest" in the song, is understood (Listen), protected (Shelter), and soothed when the family sings the missing home note (Home Note).
-- They return to a block party.
+- The family meets the Caller and wakes star-dragons on four worlds, in a fixed order. Each one lights the song-lane to the next.
+- A robot lane-keeper, the Sweeper, is hauling away sleeping ships; its drones are the dogfight opponents.
+- The act ends at the Forge Ring, when the last lane lights up toward Viera.
+
+**Act III (all PROPOSED).**
+- The family races the Sweeper through a rest-stop moon and an asteroid field of tumbling ships to Viera.
+- Their dragon falls asleep on landing; the family crosses Farport on foot and gets suit upgrades.
+- In the Rest Garden, the Hush is understood (Listen), protected (Shelter) and soothed by the home note (Home Note).
+- Viera wakes, the suits' upgrades become powers, and the family wins the Great Launch and lands on Viera for good. A post-credits scene returns to the cul-de-sac.
 
 **Play (direction CANON, details PROPOSED).**
 - On foot, suits plus alley-oops.

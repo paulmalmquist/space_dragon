@@ -14,6 +14,10 @@ The root `new characters` file only mentions Mox, Tavi, Captain Nera, Rook and a
 
 **Confirmed later gameplay direction:** on-foot tandems are family alley-oops; dragon flight has a fighter-jet/simulator feel with one pilot and no crew roles. [The gameplay decision](../decisions/2026-10-29-alley-oops-and-jet-flight.md) owns that direction. Detailed combat, assist tiers and timing remain proposed and outside First Contact.
 
+**Confirmed story structure (October 29):** the story is linear across a large world or set of worlds, in three acts. Act I is on Earth; then the dragon carries the family planet to planet, and the final landing is on planet Viera, where everyone is a space traveler. Suits grow from upgrades into powers by the end, and the dragon dogfights and navigates asteroid fields between planets. See [the decision](../decisions/2026-10-29-three-acts-linear-and-viera.md). The [three-act plan](../story/THREE_ACT_PLAN.md) and [Acts II & III treatment](../story/ACTS_II_III_THE_ROAD_TO_VIERA.md) propose how to fill it in, including Viera's lore, the Sweeper rival and draft powers; those stay proposals.
+
+**Confirmed curriculum focus (October 30):** numbers/letters for the girls and addition/subtraction/reading for Luke inform [the curriculum puzzle plan](../learning/CURRICULUM_PUZZLE_PLAN.md). The proposed puzzle tracks use a parent's local content list; no learning implementation or assessment claim follows from the plan.
+
 ## Current production direction
 
 **Confirmed goal:** rich cinematic presentation, as close to AAA style as practical in a browser, with Railway intended for later backend services. Recognizable family characters, engineered armor, strong lighting, animation and sound should create quality. Current placeholders and a technical pod candidate are not that final visual standard.

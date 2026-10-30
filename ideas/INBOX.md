@@ -140,3 +140,42 @@ Receipt: **SD-025** · CONFIRMED reference permission · [The reference log](../
 Source: the owner supplied the exact home address and asked to “just get the surrounding area and the lake too while youre at it.” The complete source wording/address is preserved in ignored local `assets/reference/local/home/OWNER_LOCATION.md`.
 
 Receipt: **SD-026** · CONFIRMED reference scope · Use the supplied home anchor to gather the surrounding neighborhood and nearby lake as local references. [The map plan](../docs/world/NEIGHBORHOOD_MAP.md) now includes the residential surroundings and lake as anchors, with game distances still compressed. The exact address/query and derived vicinity files stay local; the tracked plan records the design intent. No lake name, shoreline, screenshot or new runtime geometry is assumed from the address alone.
+
+### October 29, 2026 — three acts, linear, ending on Viera
+
+Source: owner, in a Claude chat in the Space Dragon project.
+
+> “Read the current state of the repo and start to make a plan to fill in narrative holes .
+> We are staying linear but we have a large 3d world or set of worlds. I’d like 3 major acts where the first is on earth and then the dragon allows us to move from planet to planet.”
+
+> “Final landing place is on planet viera where everyone is space travelers”
+
+Receipt: **SD-028** (linear, large worlds, three acts) and **SD-029** (Viera as the final landing) · CONFIRMED direction · Recorded in [the decision](../docs/decisions/2026-10-29-three-acts-linear-and-viera.md). The assistant's [three-act plan](../docs/story/THREE_ACT_PLAN.md) lists the narrative holes this opens.
+
+### October 29, 2026 — fill the holes: upgrades to powers, dogfights between planets
+
+Source: owner, same chat.
+
+> “Ok start filling those narrative holes please. Be creative .
+>
+> Leave room for suit upgrades and powers when we get to viera. At the start it’s just suit upgrades but then it’s power by the ends
+>
+> Dragon needs dog fights en route to planets and navigating asteroid Fields etc. feel free ro borrow from something that would be at home in Star Wars and starfield”
+
+> “Can you put those in my space_dragon repo”
+
+Receipt: **SD-030** (suit upgrades, then powers by the end) and **SD-031** (dogfights and asteroid fields between planets) · CONFIRMED direction, details PROPOSED · Recorded in [the decision](../docs/decisions/2026-10-29-three-acts-linear-and-viera.md). **SD-032** · PROPOSED · The assistant's fills are in [Acts II & III: The Road to Viera](../docs/story/ACTS_II_III_THE_ROAD_TO_VIERA.md), awaiting owner review. The last message authorized adding both documents to this repo.
+
+### October 30, 2026 — puzzles that follow the kids' curriculum
+
+Source: owner, Space Dragon chat.
+
+> “We also need to plan puzzles that coincide with my kids curriculum”
+
+> “The girls are learning to recognize numbers and letters and Luke is learning addition/subtraction and how to read”
+
+Receipt: **SD-033** · CONFIRMED curriculum focus; puzzle designs and skill IDs PROPOSED · [Curriculum puzzle plan](../docs/learning/CURRICULUM_PUZZLE_PLAN.md) gives every learning stop in Acts I–III a numbers-and-letters track and a math-and-reading track, driven by a parent's local This Week list. Next: the owner's current letter, number, word and math lists, then one implemented template inside the first built town mission.
+
+Owner request on the same day, “Go ahead and rewrite”, authorized the Act II/III rewrite merged in PR #16 (SD-032).
+
+ID receipt: imported `origin/main` IDs were remapped to **SD-028–SD-033** during the October 30 merge. Original owner wording above is unchanged; [the crosswalk](../docs/decisions/2026-10-30-idea-id-reconciliation.md) preserves the incoming IDs and provenance. Local SD-014–SD-026 retain their existing meanings, and SD-027 remains reserved for the preserved planet-missions filing.

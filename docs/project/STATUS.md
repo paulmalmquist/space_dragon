@@ -28,6 +28,12 @@ Hosted game and foundation jobs **passed on runtime/test commit `3fb24a1`** in [
 - The pod runtime file is **463,644 bytes**, with **6,376 triangles**, **38 mesh objects**, five materials and one 256 × 256 ETC1S albedo. Same-origin decoders are included. A local Chromium/SwiftShader load sample was **623.2 ms**; it is not an AMD-GPU benchmark or download budget. Decoder transfer makes the first compressed load larger than the original PNG GLB alone.
 - The idea notebook still appends original thoughts to the inbox for the next invoked agent session. It does not run agents automatically. No new family-reference media, missing character attachment or final likeness asset has been supplied.
 
+## Latest repository planning — October 30
+
+- **Story structure:** the owner confirmed a linear, three-act story ending with a final landing on planet Viera ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md), SD-028–031). A [three-act plan](../story/THREE_ACT_PLAN.md) and proposed [Acts II & III treatment](../story/ACTS_II_III_THE_ROAD_TO_VIERA.md) (SD-032) fill in that direction. The revised Act II ends at the Forge Ring; Act III continues to Viera, with [The Rest Garden](../story/scripts/A3-04_THE_REST_GARDEN.md) and [The Final Landing](../story/scripts/A3-09_THE_FINAL_LANDING.md) replacing the earlier center/encore script locations. Lane levels and A3-00 to A3-03 remain unscripted. Story documents are not implemented scenes.
+- **Curriculum puzzles:** [the new puzzle plan](../learning/CURRICULUM_PUZZLE_PLAN.md) (SD-033) gives learning stops a numbers-and-letters track and a math-and-reading track, fed by a parent's local This Week list. Curriculum focus is confirmed; designs/skill IDs are proposed, and no new learning feature is implemented.
+- Source: `origin/main` at `d159cd1`, PRs #14, #16 and #17. [The ID crosswalk](../decisions/2026-10-30-idea-id-reconciliation.md) preserves the overlapping local/incoming idea identifiers. Local runtime evidence above remains applicable: the imported changes affect documentation only.
+
 ## First Contact software evidence
 
 | Check | Current evidence |

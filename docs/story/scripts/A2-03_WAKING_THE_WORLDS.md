@@ -1,28 +1,29 @@
-# Script — A2-03 to A2-06: Waking the Worlds
+# Script — A2-03 to A2-07: Waking the Worlds and the Lane to Viera
 
-**Status:** PROPOSED draft, following [Act II](../ACT_II_ANSWER_THE_CALL.md) Movement 3, the [music doc](../MUSIC_EMPATHY_AND_PACING.md) §3 (introducing the Hush) and §5 (variety), and the [combat system](../../gameplay/COMBAT_SYSTEM.md) §6–7. Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
-**Order:** the four worlds can be played **in any order** from the beacon's star map. As in Act I, beats that must stay in order are keyed by **how many dragons are awake**, not which ones.
+**Status:** PROPOSED draft, following [Act II](../ACT_II_ANSWER_THE_CALL.md) Movements 3–4, the [music doc](../MUSIC_EMPATHY_AND_PACING.md) §3 (introducing the Hush) and §5 (variety), and the [combat system](../../gameplay/COMBAT_SYSTEM.md) §6–7. Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
+**Order:** fixed, by [owner decision](../../decisions/2026-10-29-three-acts-linear-and-viera.md): Market Moon, Hatchery, Climbing Spires, Forge Ring. Each woken dragon lights the lane to the next world. The waking beats below were written by **how many dragons are awake**, which still works in a fixed order.  
+**Lane levels:** the flight between worlds is drafted in the [Acts II & III overview](../ACTS_II_III_THE_ROAD_TO_VIERA.md) § Flight between planets. Their scripts are not written yet.
 
 ## The shape of every world (same shape, new surprise)
 
-1. **Travel.** A **Dimmer field run** between the beacon and the world: a ring-and-canyon flight through moth clouds, with Song-breath clearing them once it's unlocked.
-2. **Arrival.** Grey and muffled. **Sound paints color**, and the first big noise restores the landing zone.
-3. **The problem.** The world's sleeping community and its **sleeping star-dragon**.
+1. **The lane in.** A flight level along the newly lit song-lane: the Gravel Run, the Fog, the hatchling escort and Shardstorm, or the Sweeper Picket.
+2. **Arrival.** Grey and muffled. **Sound paints color**, and the first big noise restores the landing zone. Each restored zone wakes a few locals.
+3. **The problem.** The world's sleeping community and its **sleeping star-dragon**, often with the Sweeper's Tidy-bots or drones making it worse.
 4. **The set piece**, featuring one or two family members.
 5. **Learning.** In most worlds, at a safe standing point.
 6. **The encounter.** On foot or in the air.
-7. **Waking the dragon.**
+7. **Waking the dragon.** It sheds a **scale gift** for the featured family members, and the world's lane-book stamp goes in.
 8. **The Hush seed** for that world.
-9. **Back to the beacon** for the waking beat (by count).
+9. **Camp aboard the dragon** for the waking beat. The Caller and the neighbor ride in the storage bay, so the beat happens wherever the family camps. Then the next lane lights up.
 
 ## Waking beats (by number of dragons awake)
 
 | Awake | The Caller's theme gains | The Core teaches (archive glyph card) | The neighbor's clipboard | The Quiet |
 | --- | --- | --- | --- | --- |
-| **1** | Soft strings under the whistle | Glyph for **"hello"** | NEIGHBOR writes "Too loud." Luke reads it to her, wrongly, on purpose. | The beacon's light grows |
+| **1** | Soft strings under the whistle | Glyph for **"hello"** | NEIGHBOR writes "Too loud." Luke reads it to her, wrongly, on purpose. | Lantern Rock's light grows behind them, and the lane to the Hatchery lights |
 | **2** | + a hand drum | Glyph for **"friend"** | "Still too loud. But colorful." | Color reaches the space between the worlds |
-| **3** | + a choir hum | Glyph for **"home"** | She stops writing and just watches. | The center of the universe appears on the star map as a dark spot |
-| **4** | + full orchestra; the Caller sings with backing for the first time | Glyph for **"rest"**. The Core: "This one… is old." | She leaves the clipboard on the beacon windowsill. | **The center is reachable** → [The Silent Center](A2-07_THE_SILENT_CENTER.md) |
+| **3** | + a choir hum | Glyph for **"home"**. The Caller traces it with a finger. | She stops writing and just watches. | Viera, at the end of every lane, shows on the star map as a dark spot |
+| **4** | + full orchestra; the Caller sings with backing for the first time | Glyph for **"rest"**. The Core: "This one… is old." | She leaves the clipboard on the Forge's windowsill. | **The last lane lights up, to Viera** → [The Lane to Viera](#a2-07--the-lane-to-viera-act-ii-ending) |
 
 **Glyph cards** are optional `letter_matching` practice. The Core shows each sender glyph beside a familiar letter. Matching them is recorded as matching only, never as letter-name recognition ([learning rules](../../learning/LEARNING_RULES.md)).
 
@@ -49,7 +50,7 @@
 
 **[PLAY] Learning: stall glyphs** (`letter_matching`). Each stall has a glyph sign. The Core shows a glyph-and-letter card, and the player finds the stall with the **identical** glyph to restart its music box. The hint ladder applies, and assisted completion gives the same result.
 
-**[PLAY] Encounter.** **Hush-moths** (Swarm) dim the colors back down. Noise scatters them, so Goo Bomb splashes, Meteor Slam bells and shouting all work. Then **the neighbor's drones** zip in, still on autopilot from Act I, with moths riding them like ponies.
+**[PLAY] Encounter.** **Hush-moths** (Swarm) dim the colors back down. Noise scatters them, so Goo Bomb splashes, Meteor Slam bells and shouting all work. Then **the neighbor's drones** zip in, still on autopilot from Act I, with moths riding them like ponies. Behind them, **Tidy-bots** from the Sweeper trundle between the stalls, bagging sleeping merchants' wares as "debris." A Splat or a slip sends them spinning, and they drop what they took.
 
 > NEIGHBOR (over the radio, mortified): "Those are MINE. I am so sorry. Again."
 
@@ -102,11 +103,11 @@ Nobody else sees.
 >
 > MARIA (hugging her): "You took such good care of it. That's why it got home."
 
-**[STATE]** `passenger_reunited = true`. *(It stays here. It returns at the coda with a keepsake.)*
+**[STATE]** `passenger_reunited = true`. *(It stays here. It returns with the hatchlings for the Great Launch in [Act III](A3-09_THE_FINAL_LANDING.md), with a keepsake.)*
 
 **Neighbor gag:** NEIGHBOR is caught **knitting a tiny scarf** for a cold egg. She denies it furiously. The egg is wearing the scarf.
 
-**[PLAY] Sortie: hatchling escort.** The hatchlings follow the dragon in a little flock to the Hatchery Dragon's nest. Gentle Hush-moths drift in, and the Breath Cannon scatters them. Losing a hatchling just means it waits and rejoins, with no failure.
+**[PLAY] Sortie: hatchling escort.** The hatchlings follow the dragon in a little flock to the Hatchery Dragon's nest. Gentle Hush-moths drift in, and then a pair of the Sweeper's **Hooks** dive at the flock, trying to box the hatchlings up as "loose cargo." A barrel roll shakes off any that latch onto the dragon, and the Breath Cannon scatters the rest. Losing a hatchling just means it waits and rejoins, with no failure.
 
 **Waking.** The hatchlings and the family hum together, softly, and **the Hatchery Dragon wakes gently**. It's the only dragon that wakes to a lullaby. She looks at the family's dragon and **nuzzles it** like one of her own.
 
@@ -161,6 +162,12 @@ Nobody else sees.
 
 **Hush seed.** At the top, where it's quietest, Lyla records **the Hush's sigh**: a sound too low to hear, shown in her visor as a slow ripple that makes the spires shiver.
 
+**The Barge.** From the very top, Luke spots a long line of lights crawling across the dark: the Sweeper's Barge, towing a chain of sleeping ships.
+
+> LUKE: "Dad. Something's taking all the ships."
+>
+> CALLER (on the radio, very quiet): "…It's the lane-keeper. It's supposed to clear rocks."
+
 > LYLA: "It's… breathing."
 
 **[STATE]** `dragon_spire_awake = true` → waking beat → **[SAVE cp_a2_w_spires]**
@@ -206,10 +213,67 @@ It's the Act II echo of Act I's Five Together, and the order is flexible. **Five
 >
 > CALLER (quietly): "…Those used to be there."
 
+**A third blueprint (Sweeper seed):** on the next wall, a huge, blocky machine with a scoop for a face and the travelers' mark on its side. Lyla scans it. *Ding.*
+
+> LYLA: "Robot."
+>
+> CALLER (over the radio): "The lane-keeper. They built it here too. It clears rocks out of the lanes so nobody bumps into anything."
+>
+> PAUL: "Then why is it taking ships?"
+>
+> CORE (reading the old glyphs on the plan): "Its rule. 'Anything that does not move… is debris.'"
+>
+> MARIA (slowly): "And right now, nothing moves."
+
 **Song-breath unlocks.** The Forge's anvil retunes the dragon's breath, and it now **sings the SOS motif**, restoring color as it fires.
 
 **[PLAY] Sortie: strike run.** A trench-run-style dive along the ring to disable **Sleepwalking Sentries**, automated interceptors running haywire in the Quiet. Disabled sentries **wake up friendly**, blink, and fly in escort.
 
-**Waking.** The beacon fires. **The Forge Dragon** wakes at the anvil, sees the family's dragon, and **taps it once on the head with its tail**, like a proud grandparent.
+**Waking.** **The Forge Dragon** wakes at the anvil, sees the family's dragon, and **taps it once on the head with its tail**, like a proud grandparent.
 
-**[STATE]** `dragon_forge_awake = true`, `ability_song_breath = true` → waking beat → **[SAVE cp_a2_w_forge]**
+**[STATE]** `dragon_forge_awake = true`, `ability_song_breath = true` → waking beat (4) → **[SAVE cp_a2_w_forge]**
+
+---
+
+## A2-07 — The Lane to Viera (Act II ending)
+
+| | |
+| --- | --- |
+| Feel | A quiet turn after the biggest action of the act |
+| Reveal | Viera, ringed with sleeping ships, and the Barge heading for it |
+| Hearth beat | A night in the Forge's hangar |
+| Choice | Keep going |
+
+**[CINE]** With four dragons awake, the Forge's **great beacon** fires. Its beam doesn't stop at the next world. It runs on and on, and the **last lane** lights up, longer than all the others, all the way to the end of the star map. **[MUSIC]** The Caller's theme with full orchestra, then one held, unresolved chord.
+
+The star map zooms in on the end of the lane: **Viera**, dark, ringed by thousands of sleeping ships moored side by side like boats in a harbor. A long line of moving lights crawls toward them: the Barge.
+
+> CALLER (stepping out of the storage bay to look, for a long time): "…That's home."
+>
+> LUKE: "And the robot's going to tidy it."
+
+**[CINE]** That night, the family camps in the Forge's hangar, under the old blueprints. The kids are wrapped in blankets. The Caller opens their lane book to the first page, which is still empty, and shows Luke.
+
+> CALLER: "You get your first mark when you come home from your first voyage. That's the rule."
+>
+> LUKE: "So you have to go home."
+>
+> CALLER: "I *have* to go home."
+
+**[CINE]** Paul sits down with the kids. **[MUSIC]** The family theme on solo guitar.
+
+> PAUL: "We said we'd wake the dragons. We did. Nobody asked us to go any farther."
+>
+> MARIA: "So it's up to us."
+>
+> LYLA (already climbing into her seat): "Go."
+>
+> LUNA: "GO!"
+
+**[PLAY]** The same kind of choice as Act I: a hand on the Core from each family member. There is no "no." Waiting only means a night's sleep, and the morning offers it again.
+
+**[CINE]** Morning. The dragon sits on the Forge's launch rail, the four star-dragons in formation behind it. Ahead, the long lane glows toward a dark world. **Cut.**
+
+**[STATE]** `lane_viera_lit = true`, `act2_complete = true` → **[SAVE cp_act2_complete]**
+
+**Next:** Act III, [The Road to Viera](../ACT_III_THE_ROAD_TO_VIERA.md). The lane and waypoint scripts (A3-00 to A3-03) are not written yet; the next written script is [The Rest Garden](A3-04_THE_REST_GARDEN.md).
