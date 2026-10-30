@@ -27,7 +27,7 @@
 - **Seven notes, one for each piece.** Six modules plus the Bridge. This replaces the earlier "five to seven notes."
 - **Every scale note except home.** The melody uses the notes of a major scale *other than the first one*, the tonic. In music, the tonic is the note a tune feels "at home" on. The melody **ends on the seventh note** (the "leading tone"), which in music sounds like it's leaning toward home and can't get there.
 - **Why it's missing (proposed lore):** the senders left the home note out on purpose. An answer has to come from whoever answers.
-- **The payoff:** at the end of Act II, the family sings the home note and the melody resolves. "We chose to help" becomes something you *hear* (§ Act II A2-10).
+- **The payoff:** at the climax of Act III, in Viera's Rest Garden, the family sings the home note and the melody resolves. "We chose to help" becomes something you *hear* ([A3-08](scripts/A3-04_THE_REST_GARDEN.md)).
 - **Placeholder contour, not a composition:** *sol – mi – la – sol – fa – re – ti … (do)*. A composer may rearrange it, as long as it stays hummable by a three-year-old, never uses the home note, and ends unresolved. Test it by whether the kids hum it unprompted.
 - **Optional learning echo:** the seven notes plus home make a full do–re–mi scale. It can appear as an optional music toy in the archive. Not tested and never graded.
 
@@ -146,7 +146,7 @@ Intensity runs from **1 (cozy)** to **5 (peak)**. The rules:
 - Never put two intensity-4 beats back to back without a relief beat between them.
 - Every Act I mission ends at home with a hearth beat (a short, warm scene).
 - Spooky moments are capped at "a bit spooky" and resolved within about a minute.
-- **The most emotional moment (A2-10) is the least demanding to play.**
+- **The most emotional moment (A3-08, the Home Note) is the least demanding to play.**
 
 ### Act I
 
@@ -170,14 +170,27 @@ Intensity runs from **1 (cozy)** to **5 (peak)**. The rules:
 | A2-00 The Crossing | Thrill | 4 | Driving flight music, then the inverted shimmer | Arrival |
 | A2-01 Arrival in the Quiet | Eerie, then delight | 2 | The Quiet filter. Luke's "HELLO?" brings the instruments back. | — |
 | A2-02 The Caller | Tender | 1–2 | The Caller's lone whistle | — |
-| The worlds | Adventure | 3–4 | World themes and restoration | Hearth beats: camp at the beacon, the hatchlings |
+| The lanes and worlds | Adventure, dogfights | 3–4 | World themes and restoration | Hearth beats: camp aboard the dragon, the hatchlings |
 | The passenger's reunion (Hatchery) | Joy and a little bittersweet; the emotional midpoint | 2 | The creature hums the SOS with the family | — |
-| A2-07 Low point | Lonely and tired: **sad, not scary** | 2 | Near silence, then the home recording | Walking forward together |
-| A2-08 Listen | Surprise, understanding | 3 | Noise heard through the Hush's ears, then silence, then the duet | — |
-| A2-09 Shelter | Protective action | 4 | Building | — |
-| A2-10 The Home Note | Catharsis | 5 emotionally, 1 to play | The full SOS, then the home note | The Encore |
-| Encore flight | Joy | 3 | The full song, now with rests | — |
-| Coda | Home, warmth | 1 | The family theme, with the home note | — |
+| Forge Ring strike run | Biggest action of the act | 4 | Full fight music | The hangar night |
+| A2-07 The Lane to Viera | Quiet resolve, a cliffhanger | 2 | The Caller's theme with full orchestra, then an unresolved chord | — |
+
+### Act III
+
+Moved from the Act II beat map on October 30, 2026; scene IDs follow [Act III](ACT_III_THE_ROAD_TO_VIERA.md).
+
+| Beat | Feeling | Intensity | Music | Relief after |
+| --- | --- | --- | --- | --- |
+| A3-00 to A3-02 The lane, the Waystation, the Drift | Adventure, comedy | 3–4 | The house band, then flight music | The convoy |
+| A3-03 Battle of the Mooring Ring | Biggest action yet | 4 | Full fight music | Landfall |
+| A3-04 Landfall, the low point | Lonely and tired: **sad, not scary** | 2 | Near silence, then the home recording | Walking forward together |
+| A3-05 Farport on foot | Wonder, warming up | 2–3 | Instruments rejoin as districts wake | — |
+| A3-06 Listen | Surprise, understanding | 3 | Noise heard through the Hush's ears, then silence, then the duet | — |
+| A3-07 Shelter | Protective action | 4 | Building | — |
+| A3-08 The Home Note | Catharsis | 5 emotionally, 1 to play | The full SOS, then the home note | Your Own Note |
+| A3-09 Your Own Note | Joy, wonder | 2–3 | Each instrument blooms, then Five Powers resolves | — |
+| A3-10 The Great Launch | Joyful battle | 4 | The full song with rests, every world's theme | The re-tune |
+| A3-11 Formation home and the final landing | Joy, then home and warmth | 3 → 1 | The full song with rests, then the family theme with the home note | — |
 
 ---
 

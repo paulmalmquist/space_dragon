@@ -20,7 +20,8 @@ Change canon only through `docs/decisions/`.
 | [Three-act structure and Viera](../decisions/2026-10-29-three-acts-linear-and-viera.md) | Linear, large worlds, three acts, Earth first, final landing on Viera, upgrades then powers, dogfights between planets | CANON (decision) |
 | [Three-act plan](THREE_ACT_PLAN.md) | Where the story stood, the narrative holes the new structure opens, and proposed fills | PROPOSED |
 | [Acts II & III: The Road to Viera](ACTS_II_III_THE_ROAD_TO_VIERA.md) | Viera and Farport, song-lanes, why the Quiet happened, the Sweeper, both acts in order, lane levels, suits to powers, cast arcs | PROPOSED |
-| [Act II: Answer the Call](ACT_II_ANSWER_THE_CALL.md) | The Quiet, star-dragons, the Caller, the stowaway neighbor, Listen → Shelter → Home Note | PROPOSED; being restructured by the treatment above |
+| [Act II: Answer the Call](ACT_II_ANSWER_THE_CALL.md) | The Quiet, song-lanes, the Caller, the stowaway neighbor, four worlds in order, the Sweeper, ending at the Forge Ring with the lane to Viera | PROPOSED |
+| [Act III: The Road to Viera](ACT_III_THE_ROAD_TO_VIERA.md) | The Waystation, the Drift, the Mooring Ring, Landfall, Farport, Listen → Shelter → Home Note, powers, the Great Launch, the final landing | PROPOSED |
 | [Music, empathy and pacing](MUSIC_EMPATHY_AND_PACING.md) | The song system, the Hush's lore, beat maps, the variety plan, peril rules | PROPOSED |
 | [Scripts](scripts/) | Production scripts with dialogue, cues, interactions and checkpoints | PROPOSED drafts |
 | [Combat system](../gameplay/COMBAT_SYSTEM.md) and [combat notebook](../combat/README.md) | Alley-oops, fighter-jet flight, enemies, test specifications | Direction CANON, details PROPOSED |

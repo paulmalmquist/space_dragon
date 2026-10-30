@@ -142,7 +142,7 @@ Repo changes follow the repo's own rules: the owner's words go in the inbox, and
 1. ~~Log the direction in `ideas/INBOX.md` and the idea ledger.~~ Done: SD-014 to SD-018.
 2. ~~Record a decision file for what the owner confirmed.~~ Done: [decision](../decisions/2026-10-29-three-acts-linear-and-viera.md).
 3. ~~Draft the Act III treatment.~~ Done: [Acts II & III](ACTS_II_III_THE_ROAD_TO_VIERA.md).
-4. Trim the [Act II proposal](ACT_II_ANSWER_THE_CALL.md) to end at the Forge Ring, give its worlds a fixed order, and move the Silent Center scripts into Act III on Viera.
-5. Rewrite the [Encore and Home](scripts/A2-11_ENCORE_AND_HOME.md) coda as the final landing on Viera, keeping the block party as a post-credits scene.
+4. ~~Trim Act II to end at the Forge Ring, give its worlds a fixed order, and move the Silent Center scripts into Act III on Viera.~~ Done October 30: [Act II](ACT_II_ANSWER_THE_CALL.md), [Act III](ACT_III_THE_ROAD_TO_VIERA.md), [The Rest Garden](scripts/A3-04_THE_REST_GARDEN.md).
+5. ~~Rewrite the Encore and Home coda as the final landing on Viera, keeping the block party as a post-credits scene.~~ Done October 30: [The Final Landing](scripts/A3-09_THE_FINAL_LANDING.md).
 6. Lock the Act I mission order and seed Viera in the symbol and the full message.
 7. Write a one-page brief per planet: zones, landmarks, locals, set piece, learning stop, encounter, and the lane it opens.

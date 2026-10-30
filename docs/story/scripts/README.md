@@ -2,7 +2,7 @@
 
 Draft production scripts: dialogue, music and sound cues, interactions with hint ladders, state changes and checkpoints. All **PROPOSED**. See the [story index](../README.md) for status and placeholder names.
 
-**Order update (October 29, 2026):** the story is now linear by [owner decision](../../decisions/2026-10-29-three-acts-linear-and-viera.md). The "any order" labels below are superseded; the proposed fixed order follows the table numbering. The [Acts II & III treatment](../ACTS_II_III_THE_ROAD_TO_VIERA.md) proposes moving A2-07 and A2-11 into Act III on Viera. Count-based beats (install count, dragons awake) still work in a fixed order, so the scripts need relabeling rather than rewriting.
+**Order update (October 29–30, 2026):** the story is linear by [owner decision](../../decisions/2026-10-29-three-acts-linear-and-viera.md), in three acts. The proposed fixed order follows the table numbering. Count-based beats (install count, dragons awake) still work in a fixed order. On October 30 the Silent Center and Encore and Home scripts moved to Act III on Viera and were renamed; Act II now ends with A2-07 The Lane to Viera.
 
 ## Act I, in play order
 
@@ -23,10 +23,17 @@ Draft production scripts: dialogue, music and sound cues, interactions with hint
 
 | # | Script | Covers | Order |
 | --- | --- | --- | --- |
-| 1 | [A2-00 The Crossing](A2-00_THE_CROSSING.md) | Flight out, light speed, the crossing, the stowaway, the arrival in the Quiet, meeting the Caller, the bedtime story | Fixed |
-| 2 | [A2-03 Waking the Worlds](A2-03_WAKING_THE_WORLDS.md) | Market Moon, Hatchery Nebula (the passenger's reunion), Climbing Spires, Forge Ring (the blueprints, Song-breath), plus waking beats by **dragons-awake count** | Fixed: Market Moon, Hatchery, Spires, Forge Ring (was any order) |
-| 3 | [A2-07 The Silent Center](A2-07_THE_SILENT_CENTER.md) | The low point, then **Listen → Shelter → Home Note** | Fixed, after 4 dragons are awake |
-| 4 | [A2-11 Encore and Home](A2-11_ENCORE_AND_HOME.md) | The Encore flight, goodbyes, the dragon chooses, the way home, the block party, the post-game | Fixed |
+| 1 | [A2-00 The Crossing](A2-00_THE_CROSSING.md) | Flight out, light speed, the crossing, the stowaway, the arrival in the Quiet, meeting the Caller, the star map and lane books, the bedtime story, the Caller's first voyage | Fixed |
+| 2 | [A2-03 Waking the Worlds](A2-03_WAKING_THE_WORLDS.md) | Market Moon, Hatchery (the passenger's reunion), Climbing Spires, Forge Ring (the blueprints, the Sweeper's blueprint, Song-breath), waking beats by **dragons-awake count**, and **A2-07 The Lane to Viera**, the Act II ending | Fixed: Market Moon, Hatchery, Spires, Forge Ring |
+| — | Lane levels between worlds | The Gravel Run, the Fog, hatchling escort and Shardstorm, the Sweeper Picket | Drafted in the [overview](../ACTS_II_III_THE_ROAD_TO_VIERA.md); not scripted yet |
+
+## Act III, in play order
+
+| # | Script | Covers | Order |
+| --- | --- | --- | --- |
+| — | A3-00 to A3-03 | The Snag Net, the Waystation, the Drift, the Battle of the Mooring Ring | Drafted in [Act III](../ACT_III_THE_ROAD_TO_VIERA.md); not scripted yet |
+| 1 | [A3-04 The Rest Garden](A3-04_THE_REST_GARDEN.md) | Landfall (the low point), Farport on foot with the Farport upgrades, then **Listen → Shelter → Home Note** in the Rest Garden. Moved from A2-07 The Silent Center. | Fixed |
+| 2 | [A3-09 The Final Landing](A3-09_THE_FINAL_LANDING.md) | Your Own Note (powers), the Great Launch (the Sweeper's re-tune), formation home, lane books, the dragon chooses, the lane home to Earth, the post-credits block party, the post-game. Rewritten from A2-11 Encore and Home. | Fixed |
 
 ## Learning challenges in Act I
 
@@ -40,6 +47,8 @@ Draft production scripts: dialogue, music and sound cues, interactions with hint
 | — | 6 | None graded | Countdown participation only |
 
 **Act II:** `a2w1_stall_glyphs_v1` (`letter_matching`), `a2w2_count_hatchlings_v1` (`counting_objects`) and `a2w3_resonator_pattern_v1` (`pattern_repeat`, a proposed ID). The Forge Ring has none, by design. The glyph cards from waking beats are optional `letter_matching` practice.
+
+**Act III:** Dock Match (`shape_matching`), Count Them Home (`counting_objects`), Pattern Fit (`pattern_repeat`) and The Big Board (`letter_matching`, matching only), as drafted in [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) §7. Challenge IDs are not assigned yet.
 
 Proposed skill IDs need parent/educator review before any claims about learning, per the [learning rules](../../learning/LEARNING_RULES.md). Every challenge has an assisted path that gives the identical story reward.
 

@@ -149,17 +149,32 @@ The Caller sways, and their eyes start to droop. Then Luna squeals "HI!", and th
 ### What happened
 
 **[CINE]** The Caller explains, with the Core translating in short sentences and the crystal projecting pictures. There's no reading, and the pictures carry it all:
-- **"Our world runs on song."** The star-dragons carried music between the worlds, and the music kept everything bright and moving.
-- **"Then came the Quiet."** Color drained, songs stopped, and everyone fell into a deep, glowing sleep. That includes the star-dragons, and the Caller's own family.
+- **"Our worlds run on song."** The star-dragons sing lanes between the worlds, and ships ride them like currents. The music keeps everything bright and moving.
+- **"Where I'm from, everybody travels."** Pictures of Viera: a planet ringed with ships, and people always leaving. *"Everybody except me. I'm not old enough yet."*
+- **"Then came the Quiet."** Color drained, songs stopped, and everyone fell into a deep, glowing sleep. That includes the star-dragons, and the Caller's own family, somewhere on Viera.
 - **"Anyone here falls asleep. Even me, if I stop singing."** That's why the Caller never stopped.
-- **"So we built a dragon like theirs,"** from their shed scales, the living material. "And sent it to **anyone who could still hear.**" Not to anyone in particular, just *anyone*.
-- **"Please. Wake the dragons. If they sing again, the song comes back."**
+- **"So the shipwrights built a dragon like theirs,"** from their shed scales, the living material. "And sent it to **anyone who could still hear.**" Not to anyone in particular, just *anyone*.
+- **"Please. Wake the dragons. If they sing again, the lanes light up, and the song comes back."**
 
 > LYLA (pointing at the family's dragon, then at a picture of a sleeping star-dragon): "Same!"
 >
 > CALLER: "Yours is made from theirs. They're family."
 
-**[STATE]** `caller_met = true`. The objective is now **wake the star-dragons** (four worlds on the star map, in any order).
+### The star map and the lane books
+
+**[CINE]** The crystal shows the **star map**: worlds strung together by lanes, every lane dark except one, glowing faintly toward a small moon. At the far end of all of them sits one dark world.
+
+> CALLER: "That's Viera. Home. Every lane goes there in the end." *(pointing at the one glowing lane)* "And that one's the only way that's still open."
+
+The Caller digs in a drawer and comes back with **five small books**, empty.
+
+> CALLER: "Lane books. Every traveler has one. You get a mark for every world you reach." *(stamping the first page of each)* "That's your home's mark. You've already been somewhere!"
+>
+> LUKE: "What's in yours?"
+>
+> CALLER (showing it, empty): "…Nothing yet."
+
+**[STATE]** `caller_met = true`, `lane_books = true`, `lane_market_lit = true`. The objective is now **follow the lit lane and wake the star-dragons**, one world at a time.
 
 ### The complaint
 
@@ -193,6 +208,20 @@ The Caller tells a bedtime story, an old one, with pictures in the crystal:
 
 Lyla's visor, half-closed, records it. *Ding.* It goes into the archive and can be replayed.
 
-**[STATE]** `story_hush_keeps_rests = true` → **[SAVE cp_a2_beacon]**
+**[STATE]** `story_hush_keeps_rests = true`
+
+### The first voyage
+
+**[CINE]** Morning. The family packs up. The Caller stands at the lighthouse door, watching, and doesn't sing. They notice they don't need to: the family's noise is enough to keep them awake.
+
+> CALLER (very quietly): "…Can I come?"
+>
+> MARIA: "Of course you can."
+>
+> NEIGHBOR (from the storage bay, patting the spot beside her chair): "There's room back here. Bring a blanket. It's *loud* in front."
+
+The Caller climbs into the storage bay. It's their first voyage.
+
+**[STATE]** `caller_aboard = true` → **[SAVE cp_a2_beacon]**
 
 **Next:** [Waking the Worlds](A2-03_WAKING_THE_WORLDS.md).
