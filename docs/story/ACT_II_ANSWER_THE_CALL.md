@@ -84,7 +84,8 @@ This builds on the owner's idea that the material is alive ([Act I refinements �
 | **The Sweeper** | A Vieran lane-keeper robot. Machines can't be held, so Morrow uses it as his hands: under its old rule, "clear the lanes," he burned a new one, **"Bring everyone home."** | Act II's dogfight opponent, through its unmanned drones. Not evil, just obeying. Its arc completes in Act III. |
 | **The Hush** | The Lanemother's rest, the silence that once bound Morrow. Now his note is crushing it. Never a villain. | Only glimpsed in Act II (§5). Met in Act III. Mirrors the neighbor: both wanted quiet. |
 | **The neighbor** (fictional, working title Commander Culdesac) | **Stowaway**, then **the one who takes Morrow's offer.** See §4. | Comic relief who becomes the moral center of the whole story. |
-| **The Core** | Speaks Vieran natively and learned English from the kids in Act I, so it interprets for the family. | Translates speech; the kids decode writing in the Glyph Book. See [language and translation](LANGUAGE_AND_TRANSLATION.md). |
+| **The suits** | **They translate.** Living star-dragon scale understands the sung Vieran language, and the suits have been learning the family's voices since the backyard. They say Vieran in their wearer's ear and sing the wearer's words back out in Vieran. | Translate what they hear, not what they see; the kids decode writing in the Glyph Book. See [language and translation](LANGUAGE_AND_TRANSLATION.md). |
+| **The Core** | Speaks in full sentences now, and can read glyphs aloud. | Rides in the dragon's chest. It's afraid of Morrow and won't say his name. |
 
 ---
 
@@ -116,7 +117,7 @@ Act II in four movements, in a fixed order. Each world is a large, landable plac
 
 **A2-02 The last beacon.** The passenger leads them to Lantern Rock, a lone lighthouse still pulsing the SOS. Inside is **the Caller**, hoarse from singing.
 
-- **Through the Core.** The Caller sings, and the Core interprets, a little wrong at first: "Fair lanes!" comes out as "Nice roads!" ([translation](LANGUAGE_AND_TRANSLATION.md)). Lyla opens the **Glyph Book** beside the lane books.
+- **The suits translate.** The Caller sings, and to everyone's surprise the suits start translating, a little wrong at first: "Fair lanes!" comes out as "Nice roads!" When the family talks, their suits sing their words back out in Vieran, in each person's instrument voice ([translation](LANGUAGE_AND_TRANSLATION.md)). Lyla opens the **Glyph Book** beside the lane books, for the writing the suits can't read.
 - **The Old Song.** That night the Caller tells the old story of Morrow: the Lanemother's chosen firstborn, given the Heartnote to carry; the travelers who kept leaving; the night he held the note and a third of the roads went dark; the rest the Lanemother wrapped him in; and the garden the travelers built over him and then forgot. The full text is in the [villain arc](VILLAIN_ARC.md) §4. It replaces the earlier bedtime story.
 - The family realizes their dragon is a copy of real ones, that the real ones are held, and who is holding them.
 - **The star map.** The Caller shows the song-lanes. Every lane is dark but one, leading to the Market Moon. At the far end of all of them sits a dark world: Viera, the Caller's home.
@@ -185,7 +186,7 @@ The neighbor's arc rhymes with the Hush and with Morrow. In Act I the family lea
 | **Flight between worlds** | The dragon's real playground: **fighter-jet flight** with Cadet, Pilot and Ace assist tiers, dogfights, asteroid fields, an escort, a race, a trench run, formation flight with woken star-dragons, and a skippable light-speed transition. See the [combat system](../gameplay/COMBAT_SYSTEM.md) §6 and the [overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) lane table. |
 | **Song-lanes** | The fixed route. A lane lights when the dragon at its far end wakes. The star map shows only lit lanes. |
 | **Gold rings (Holds)** | Bands of Morrow's note around each sleeping star-dragon. Breaking one is the waking beat. See the [villain arc](VILLAIN_ARC.md) §8. |
-| **The Core interprets** | Speech is translated aloud; nothing needs reading. See [language and translation](LANGUAGE_AND_TRANSLATION.md). |
+| **The suits translate** | A passive suit ability: spoken Vieran in the wearer's ear, and the wearer's words sung back in Vieran. Nothing needs reading. See [language and translation](LANGUAGE_AND_TRANSLATION.md). |
 | **The Glyph Book** | Lyla's growing dictionary of Vieran writing. Each glyph the kids match shows its letter, numeral or word everywhere from then on. |
 | **Sound paints color** | A persistent world-restoration layer. Suit abilities, voices and the dragon's roar push color outward, and restored areas stay restored across saves. |
 | **The Sweeper's drones** (enemy) | Unmanned: Sweeps (fighters), Gnats (swarms), Hooks (grapplers) and Haulers (shielded gunships). Disabled drones power down and pop a tiny parachute. |
@@ -202,7 +203,7 @@ Racing (the Market Moon cart race, the Shardstorm) and playful combat (Sweeper s
 
 ## 8. Learning in Act II (proposed, follows [learning rules](../learning/LEARNING_RULES.md))
 
-- **The Glyph Book:** the senders write in glyphs, and the Core shows each glyph next to a familiar letter, numeral or word. The girls match glyphs to letters and numerals; Luke matches glyph-words to English words ([curriculum puzzle plan](../learning/CURRICULUM_PUZZLE_PLAN.md)). Matching is recorded as matching, never as recognition or reading, and it always has an assisted path.
+- **The Glyph Book:** the senders write in glyphs, which the suits can't read, and the Core shows each glyph next to a familiar letter, numeral or word. The girls match glyphs to letters and numerals; Luke matches glyph-words to English words ([curriculum puzzle plan](../learning/CURRICULUM_PUZZLE_PLAN.md)). Matching is recorded as matching, never as recognition or reading, and it always has an assisted path.
 - **Rhythm and pattern:** re-striking resonators and hatching eggs with heartbeat-songs both involve repeating a pattern. The challenges are paused and untimed, and the hints repeat audio and narrow the choices.
 - **Counting:** count hatchlings, crates and moths. Use small, tangible quantities.
 - **Colors and names:** as color returns, the Core asks the child to name it. This is optional, and color is never the only answer cue.

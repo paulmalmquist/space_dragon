@@ -10,7 +10,7 @@ The family must have a clear, consistent way to understand the people, writing a
 
 ## Scope and rationale
 
-- The proposed design is in [language and translation](../story/LANGUAGE_AND_TRANSLATION.md): the Core interprets speech, the kids decode writing in the Glyph Book, Lyla's visor reads songs without words, and Morrow alone needs no translation.
+- The design is in [language and translation](../story/LANGUAGE_AND_TRANSLATION.md): the suits translate speech, the kids decode writing in the Glyph Book, Lyla's visor reads songs without words, and Morrow alone needs no translation.
 - It builds on existing proposals rather than replacing them: the Core learning words from the family ([Act I refinements](../story/ACT_I_CRITIQUE_AND_REFINEMENTS.md) §3.2), Lyla's information-gathering suit (Act I canon) and the glyph cards in Act II.
 - The [learning rules](../learning/LEARNING_RULES.md) are unchanged. No translation ever requires reading, and glyph matching is recorded as matching, not recognition or reading.
 - No voice cloning or new external service is implied.
@@ -20,3 +20,11 @@ The family must have a clear, consistent way to understand the people, writing a
 Whether Vieran is sung, whether glyphs are drawn melodies, the Core's voice and name, and whether everyone understanding everyone after the Last Hold carries into the post-game.
 
 No implementation scope is authorized by this record.
+
+## Update — the suits translate (October 30, 2026)
+
+**Owner direction:** *"The suits can translate."* Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-034.
+
+- **The suits are the translation mechanism.** This replaces the earlier proposal that the Core interprets. The Core still learns to talk in Act I, rides in the dragon and can read glyphs aloud as an assisted path.
+- Proposed with it: the suits translate both ways, singing the family's words in Vieran in each wearer's instrument voice; they translate what they hear, not what they see, so the Glyph Book and the curriculum tie-in stay; and Morrow's note makes them drop words near Viera, with the Caller filling the gaps.
+

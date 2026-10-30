@@ -127,3 +127,11 @@ Source: owner, Space Dragon chat, in reply to the villain treatment.
 
 Receipt: **SD-032** · CONFIRMED Morrow and his arc as presented; "home note" retired, replacement **the Heartnote** PROPOSED · [Decision update](../docs/decisions/2026-10-30-villain-is-the-reason-for-the-sos.md); Morrow integrated across the acts and scripts. **SD-033** · CONFIRMED need; design PROPOSED · [Translation decision](../docs/decisions/2026-10-30-translation.md) and [language and translation](../docs/story/LANGUAGE_AND_TRANSLATION.md). Next: owner reaction to the Heartnote name and the translation design.
 
+### October 30, 2026 — the suits translate
+
+Source: owner, Space Dragon chat.
+
+> “The suits can translate”
+
+Receipt: **SD-034** · CONFIRMED · [Translation decision update](../docs/decisions/2026-10-30-translation.md) and [language and translation](../docs/story/LANGUAGE_AND_TRANSLATION.md): the suits replace the Core as the translator. Proposed details: they translate both ways, singing the family's words in Vieran in each wearer's instrument voice; they translate what they hear, not what they see, so the kids still decode writing in the Glyph Book; near Viera they drop words and the Caller fills the gaps; the neighbor's robot iguana translates for her. Scripts updated.
+

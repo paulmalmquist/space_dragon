@@ -63,7 +63,7 @@ The damaged transmission's clearest part is a **short melody**, seven notes (one
 The Core arrives damaged and can't speak our language. At first it communicates with chimes, light and gestures, like a pet. As modules return and Lyla's archive grows, it picks up words **from the family**. It starts by repeating the kids' names and simple words, and by the finale it speaks in short sentences.
 
 - This gives the act a companion with a visible arc, and it explains why the Core can't simply tell them everything at the start.
-- It also sets up the whole translation system: the English the kids teach the Core is what lets it interpret Vieran for them later ([language and translation](LANGUAGE_AND_TRANSLATION.md)).
+- It also sets up translation. The suits are made of the same living material, and they've been learning the family's voices the same way since the backyard, which is how they translate Vieran in Acts II and III ([language and translation](LANGUAGE_AND_TRANSLATION.md)).
 - **Learning tie-in (optional):** a child can "teach" the Core a letter, a word or a shape. Kids often engage more when they are the teacher. Per the [learning rules](../learning/LEARNING_RULES.md), this is supported and assisted, and it is never a gate. Teaching the Core counts as practice, not as mastery.
 - The Core's final name stays OPEN. One option is to let the family name it in-game once it can speak, with a default if they skip. That would be a stored setting, not canon.
 

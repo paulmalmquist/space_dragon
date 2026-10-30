@@ -184,7 +184,7 @@ Nobody else sees.
 >
 > LUKE (small, then braver): "...No thank you. I'm not done."
 
-The voice is gone. The resonators hum back into tune. The Core, which has been silent, chirps very softly.
+The voice is gone. The resonators hum back into tune. Luke's suit, which shivered the whole time he spoke and translated nothing, warms up again and chirps very softly.
 
 > LUKE (on the radio): "Why does he talk like us?"
 >
@@ -309,7 +309,7 @@ Then the lane **flickers**. Something is coming back down it.
 
 ### The offer
 
-**[CINE]** Gold light pours into the hangar. Everything slows. The Forge Dragon flattens itself to the floor and closes its eyes. The sparks from the anvil hang in the air. The Core goes dark. Only the family, the Caller and the neighbor can still move, slowly, as if through water. **[MUSIC]** All music stops. Only the held note, everywhere, and inside it, a voice.
+**[CINE]** Gold light pours into the hangar. Everything slows. The Forge Dragon flattens itself to the floor and closes its eyes. The sparks from the anvil hang in the air. The Core goes dark. Every suit shivers, its seams flickering, and goes quiet: they know this voice. Only the family, the Caller and the neighbor can still move, slowly, as if through water. **[MUSIC]** All music stops. Only the held note, everywhere, and inside it, a voice.
 
 > MORROW (warm, slow, close, perfect English): "Little travelers. You came such a long way. You must be so tired."
 

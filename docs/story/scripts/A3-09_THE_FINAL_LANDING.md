@@ -106,17 +106,17 @@ Morrow's eyes close for a moment.
 >
 > MORROW: "If I let go, they leave."
 
-**[CINE]** The Lanemother rises beside them, enormous and awake, and sings his name for the first time since the first night. The Core translates it in its small voice: the words the kids taught it, carrying a mother's words to her son.
+**[CINE]** The Lanemother rises beside them, enormous and awake, and sings his name for the first time since the first night. The suits translate it softly, in five voices at once: a mother's words to her son, carried by the scales of her own kind.
 
-> LANEMOTHER (sung; the CORE, softly): "Morrow."
+> LANEMOTHER (sung; THE SUITS, softly): "Morrow."
 >
 > MORROW: "...Mother."
 >
-> LANEMOTHER (the CORE): "They always leave. And they always come home. That is what home is *for*."
+> LANEMOTHER (THE SUITS): "They always leave. And they always come home. That is what home is *for*."
 >
 > MORROW: "...I only wanted them to come home."
 >
-> LANEMOTHER (the CORE): "I know. Let go."
+> LANEMOTHER (THE SUITS): "I know. Let go."
 
 **[PLAY]** One prompt, and it waits as long as the player needs: **"Let him choose."** The player doesn't press anything to make him; holding still is the choice. *(After a few seconds of stillness, it happens. Pressing a button just makes the family move closer.)*
 
@@ -134,11 +134,11 @@ Slowly, Morrow rises off Viera into the sky. He doesn't fight it. He looks down 
 >
 > LANEMOTHER: "Now they will."
 
-*(She says it herself. No Core. Everyone understands her.)*
+*(She says it herself, and the suits don't translate. They don't need to. Everyone understands her.)*
 
-> LUKE: "...I understood that."
+> LUKE (popping his helmet open): "...I understood that. Without my suit."
 >
-> CORE: "So did I. I don't need to help anymore." *(beat)* "I would like to keep talking, though."
+> CORE (from the dragon): "So did I." *(beat)* "I would like to keep talking, though."
 
 **[MUSIC]** Morrow's drone resolves into one high, pure, sustained tone: **the same held note, finally beautiful**. It will play softly under every night scene on Viera from now on.
 
