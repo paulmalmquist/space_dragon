@@ -2,7 +2,7 @@ import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
 import { ArcRotateCamera } from '@babylonjs/core/Cameras/arcRotateCamera';
 import { Vector3 } from '@babylonjs/core/Maths/math';
 import type { Scene } from '@babylonjs/core/scene';
-import { MINIVAN_DRIVER_EYE } from './minivan-config';
+import { driveCameraFrame } from './presentation';
 
 export type DriveCameraMode = 'chase' | 'dashboard' | 'orbit';
 export interface DriveCameraPose { x: number; z: number; yaw: number; speed: number }
@@ -23,6 +23,7 @@ export function createDriveCamera(scene: Scene, canvas: HTMLCanvasElement, reduc
   orbit.inputs.removeByType('ArcRotateCameraKeyboardMoveInput');
   let mode: DriveCameraMode = 'chase';
   let initialized = false;
+  let framedSpeed = 0;
   const target = new Vector3();
   let lookInput = 0;
   let lookYaw = 0;
@@ -64,27 +65,21 @@ export function createDriveCamera(scene: Scene, canvas: HTMLCanvasElement, reduc
     else scene.activeCamera = follow;
   }
   function update(pose: DriveCameraPose, dt: number, snap = false) {
-    const forwardX = Math.sin(pose.yaw);
-    const forwardZ = Math.cos(pose.yaw);
+    const elapsed = Number.isFinite(dt) ? clamp(dt, 0, .1) : 0;
     const speed = Math.min(1, Math.abs(pose.speed) / 25);
     if (mode === 'orbit') { orbit.target.set(pose.x, 0.6, pose.z); return; }
     const dashboard = mode === 'dashboard';
-    const lookWeight = snap ? 1 : 1 - Math.exp(-Math.min(dt, .1) * 14);
+    const lookWeight = snap ? 1 : 1 - Math.exp(-elapsed * 14);
     lookYaw += (clamp(lookInput * 1.48 + dragYaw, -1.72, 1.72) - lookYaw) * lookWeight;
     lookPitch += (dragPitch - lookPitch) * lookWeight;
-    const heading = pose.yaw + lookYaw;
-    const distance = 8.2 + (reducedMotion ? 0 : speed * 1.4);
-    const desired = dashboard
-      ? new Vector3(pose.x + Math.cos(pose.yaw) * MINIVAN_DRIVER_EYE.x + forwardX * MINIVAN_DRIVER_EYE.z,
-        MINIVAN_DRIVER_EYE.y, pose.z - Math.sin(pose.yaw) * MINIVAN_DRIVER_EYE.x + forwardZ * MINIVAN_DRIVER_EYE.z)
-      : new Vector3(pose.x - forwardX * distance, 3.55, pose.z - forwardZ * distance);
-    const look = dashboard
-      ? new Vector3(desired.x + Math.sin(heading) * 20, desired.y + Math.tan(lookPitch - .035) * 20, desired.z + Math.cos(heading) * 20)
-      : new Vector3(desired.x + Math.sin(heading) * (distance + 8), 1.05 + lookPitch * 5, desired.z + Math.cos(heading) * (distance + 8));
-    const weight = dashboard || snap || !initialized ? 1 : 1 - Math.exp(-Math.min(dt, 0.1) * 7);
-    Vector3.LerpToRef(follow.position, desired, weight, follow.position);
-    Vector3.LerpToRef(target, look, weight, target);
-    follow.fov = dashboard ? 1.12 : 0.88 + (reducedMotion ? 0 : speed * 0.08);
+    framedSpeed += (speed - framedSpeed) * (snap || !initialized ? 1 : 1 - Math.exp(-elapsed * 7));
+    const distance = 8.2 + (reducedMotion ? 0 : framedSpeed * 1.4);
+    const frame = driveCameraFrame(pose, dashboard ? 'dashboard' : 'chase', lookYaw, lookPitch, distance);
+    // The same interpolated pose anchors both the car and camera. Damping local
+    // distance/FOV above keeps acceleration gentle without a second position lag.
+    follow.position.set(frame.position.x, frame.position.y, frame.position.z);
+    target.set(frame.target.x, frame.target.y, frame.target.z);
+    follow.fov = dashboard ? 1.12 : 0.88 + (reducedMotion ? 0 : framedSpeed * 0.08);
     follow.setTarget(target);
     initialized = true;
   }

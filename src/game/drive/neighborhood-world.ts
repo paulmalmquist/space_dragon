@@ -10,6 +10,7 @@ import { buildHouse } from './house';
 import type { HouseLayout } from './house';
 import { NEIGHBORHOOD } from './neighborhood';
 import { ROUTE, nearestRoutePoint } from './route';
+import { junctionInteriorContains } from './junctions';
 import type { createDriveMaterials } from './materials';
 import type { createRoadsideDevelopment } from './development';
 import type { DriveVegetationPlacement } from './vegetation';
@@ -49,6 +50,7 @@ export function createNeighborhoodScenery(scene:Scene,palette:ReturnType<typeof 
         const center={x:(start.x+end.x)/2,z:(start.z+end.z)/2};if(nearestRoutePoint(center.x,center.z).distance<3)continue;
         const pose={...center,yaw:Math.atan2(b.x-a.x,b.z-a.z)},segment=length/steps+.1;
         box(`context-${name}`,pose,0,.005,0,7,.035,segment,palette.asphalt);
+        if(junctionInteriorContains(center.x,center.z))continue;
         for(const side of [-1,1]){
           box(`context-${name}-curb`,pose,side*3.65,.08,0,.28,.16,segment,palette.curb);
           box(`context-${name}-walk`,pose,side*6.9,.065,0,2,.13,segment,palette.concrete);
@@ -78,16 +80,8 @@ export function createNeighborhoodScenery(scene:Scene,palette:ReturnType<typeof 
   const courtPositions=courtSurface.getVerticesData(VertexBuffer.PositionKind)!;const courtUV:number[]=[];
   for(let i=0;i<courtPositions.length;i+=3)courtUV.push(courtPositions[i]/4,courtPositions[i+2]/4);
   courtSurface.setVerticesData(VertexBuffer.UVKind,courtUV);
-  // The neighborhood T-junctions have a paved apron, including the Boulevard
-  // continuation used by ambient traffic while the player turns into Starpass.
-  for(const junction of NEIGHBORHOOD.junctions.slice(0,2)){
-    const patch=MeshBuilder.CreateCylinder(`drive.home.junction-apron.${junction.id}`,{diameter:15,height:.032,tessellation:64},scene);
-    patch.position.set(junction.x,.014,junction.z);patch.material=palette.asphalt;patch.parent=root;patch.isPickable=false;patch.receiveShadows=true;
-    patch.metadata={neighborhood:true,castShadow:false};
-    const positions=patch.getVerticesData(VertexBuffer.PositionKind)!;const uv:number[]=[];
-    for(let i=0;i<positions.length;i+=3)uv.push((positions[i]+junction.x)/4,(positions[i+2]+junction.z)/4);
-    patch.setVerticesData(VertexBuffer.UVKind,uv);
-  }
+  // Junction-world owns the connected T aprons; long mapped context streets
+  // and the NPC through-bridge remain shared here rather than being duplicated.
   // Leave a true opening where the stem meets the bulb; sidewalks never cross its mouth.
   const mouthYaw=Math.atan2(NEIGHBORHOOD.start.x-court.x,NEIGHBORHOOD.start.z-court.z);
   const paths=[[],[]] as Vector3[][];

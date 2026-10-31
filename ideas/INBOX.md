@@ -265,3 +265,12 @@ Owner wording:
 > use google maps to understand 6826 starpass court and the culdesac i live on. i drove out to the visitors gate and turned right on hypoluxo. right now its a little wonky compared to reality
 
 Routing receipt: **CONFIRMED**, technically verified; owner road recognition remains open. [Decision](../docs/decisions/2026-10-30-town-drive-home-route.md) supersedes the invented outbound connector; [SD-057/058 verification](../docs/reports/2026-10-30-town-drive-lived-in-streets.md) records source confidence, implementation and checks. Existing privacy override remains active. Preserve the ongoing pedestrians/minivan/detail work.
+
+## October 31, 2026 — Town Drive junctions and vibration (SD-063)
+
+Owner wording:
+
+> make the correct T intersections but just blocked off by cop cars and barracards.
+> car is vibrating too much as we drive
+
+Routing receipt: **CONFIRMED**, technically verified; human road-recognition and comfort review remain open. [Decision](../docs/decisions/2026-10-31-town-drive-junctions-and-motion.md) and [verification](../docs/reports/2026-10-31-town-drive-junctions-and-motion.md). Correct junction branches and visible route closures; stabilize presentation without changing physics/checkpoints.

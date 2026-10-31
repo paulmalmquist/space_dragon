@@ -10,6 +10,7 @@ import type { DriveInput } from './simulation';
 import { loadDrive, saveDrive } from './checkpoint';
 import { createDriveInput } from './input';
 import { createTrafficState, stepTraffic, trafficPose, nearbyTraffic, TRAFFIC_SIGNALS, signalPhase } from './traffic';
+import { interpolateDrivePose } from './presentation';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 document.querySelector('#app')!.innerHTML = `<div class="drive-shell">
@@ -37,6 +38,7 @@ async function launch() {
   const world = await createDriveWorld(canvas, { houseLayout: layout });
   const loaded = loadDrive();
   let state = loaded.state;
+  let previousState = state;
   $('fresh-start-option').hidden = state.checkpointId === 'home' && state.visited.length === 1;
   let traffic = createTrafficState(state.elapsedSeconds);
   world.update(state, 0, traffic);
@@ -69,6 +71,7 @@ async function launch() {
   function setPaused(value: boolean) {
     paused = value; accumulator = 0; input.release(); world.cameraRig.releaseLook();
     state = { ...state, speed: 0, velocityX: 0, velocityZ: 0 };
+    previousState = state;
     $('paused').hidden = !value || !begun;
     if (!value) $('tuning').hidden = true;
     $('pause').textContent = value ? '▶ Continue' : 'Ⅱ Pause';
@@ -77,7 +80,7 @@ async function launch() {
     if (value && audio) void audio.suspend();
     if (!value && audio && $<HTMLInputElement>('sound').checked) void audio.resume();
   }
-  function reset() { state = resetDrive(state); accumulator = 0; input.release(); world.cameraRig.snap(state); notice('Back on the road'); }
+  function reset() { state = resetDrive(state); previousState = state; accumulator = 0; input.release(); world.cameraRig.snap(state); notice('Back on the road'); }
   function syncCameraUi() {
     const cabin = world.cameraRig.mode === 'dashboard';
     const label = cabin ? 'First person' : world.cameraRig.mode === 'chase' ? 'Chase' : 'Orbit';
@@ -100,7 +103,7 @@ async function launch() {
     map: () => $('map').classList.toggle('expanded'), tuning: tune,
   });
   $('begin').onclick = () => {
-    if ($<HTMLInputElement>('fresh-start').checked) { state = createDriveState($<HTMLInputElement>('assist').checked); traffic = createTrafficState(); world.cameraRig.snap(state); }
+    if ($<HTMLInputElement>('fresh-start').checked) { state = createDriveState($<HTMLInputElement>('assist').checked); previousState = state; traffic = createTrafficState(); world.cameraRig.snap(state); }
     world.cameraRig.setMode($<HTMLInputElement>('cabin-start').checked ? 'dashboard' : 'chase'); syncCameraUi();
     begun = true; state = { ...state, assist: $<HTMLInputElement>('assist').checked };
     persist(); $('welcome').hidden = true;
@@ -147,6 +150,7 @@ async function launch() {
     const completed = state.completed;
     traffic = stepTraffic(traffic, state);
     world.setTraffic(traffic, state);
+    previousState = state;
     state = stepDrive(state, semantic, config, world.obstacles);
     if (state.checkpointId !== previousCheckpoint || state.completed !== completed) {
       const saved = persist();
@@ -192,6 +196,7 @@ async function launch() {
       advance: (semantic: DriveInput, steps: number) => { if (!paused) for (let i = 0; i < Math.min(36000, Math.max(0, steps)); i++) tick(semantic); },
       inspectAt: (s: number, mode: 'chase' | 'dashboard' | 'orbit' = 'dashboard') => {
         const pose = lanePoseAt(s); state = { ...state, ...pose, routeS: pose.s, speed: 0, velocityX: 0, velocityZ: 0 };
+        previousState = state; accumulator = 0;
         paused = true; input.release(); world.cameraRig.setMode(mode); syncCameraUi(); world.cameraRig.snap(state); world.update(state, 1, traffic, { ...controls, paused }); world.render();
       },
     } : {}),
@@ -211,9 +216,13 @@ async function launch() {
     } else accumulator = 0;
     // Paused scenes are static; avoid spending a full GPU budget behind menus or another window.
     if (paused && world.cameraRig.mode !== 'orbit' && now - lastRenderedAt < 100) return;
+    const presentationDelta = Math.min(.1, (now - lastRenderedAt) / 1000);
     lastRenderedAt = now;
     world.cameraRig.setReducedMotion($<HTMLInputElement>('motion').checked);
-    world.update(state, dt, traffic, { ...controls, paused });
+    // Only presentation blends adjacent ticks. Collisions, traffic, saves and HUD
+    // continue to observe the authoritative fixed-step state above.
+    const renderPose = interpolateDrivePose(previousState, state, accumulator / DRIVE_STEP, { paused: paused || !begun });
+    world.update(state, presentationDelta, traffic, { ...controls, paused }, renderPose);
     world.render(); hud(); canvas.dataset.rendered = 'true';
   });
   window.addEventListener('pagehide', () => {

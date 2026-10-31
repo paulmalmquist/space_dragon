@@ -333,10 +333,10 @@ test('notebook preserves drafts, isolates game keys and appends only to the test
   await expect(page.getByLabel('Your thought')).toHaveValue('A second thought typed while the first is saving.');
 });
 
-test('local capture rejects cross-site and malformed writes and denies source references', async ({ request }) => {
-  const url = 'http://127.0.0.1:5175/space-dragon/__ideas';
+test('local capture rejects cross-site and malformed writes and denies source references', async ({ request, baseURL }) => {
+  const url = new URL('__ideas', baseURL!).href;
   expect((await request.post(url, { headers: { Origin: 'https://another-site.example' }, data: { thought: 'must not append' } })).status()).toBe(403);
-  expect((await request.post(url, { headers: { Origin: 'http://127.0.0.1:5175' }, data: { thought: '   ' } })).status()).toBe(400);
+  expect((await request.post(url, { headers: { Origin: new URL(baseURL!).origin }, data: { thought: '   ' } })).status()).toBe(400);
   expect((await request.get('/space-dragon/assets/reference/family/photos/IMG_3277.jpeg')).status()).toBe(403);
 });
 
