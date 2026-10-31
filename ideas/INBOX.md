@@ -283,3 +283,11 @@ Owner wording:
 > please take another look at the layout of the world here in google maps. getting to the hypoluxo gate is straight out of the culdesac, right on green island left on winston trails. look at the proportions closely and make sure we have the world right
 
 Three Google Maps screenshots supplied in chat (two repeat the close neighborhood view). Routing receipt: **CONFIRMED**, technically verified; human road recognition and comfort remain open. [Decision](../docs/decisions/2026-10-31-town-drive-map-proportions.md), [verification](../docs/reports/2026-10-31-town-drive-map-proportions.md). Correct the gate road to Winston Trails South, examine actual street/water/context proportions and preserve the earlier drive improvements.
+
+## October 31, 2026 — Town Drive follows the Unity channel (SD-074)
+
+Owner wording:
+
+> another channel is upgrading to unity. please follow suit
+
+Routing receipt: **CONFIRMED direction; C# foundation technically verified, Unity scene migration open.** This repeats the existing SD-072 engine direction for the Town Drive channel after its map correction. [Decision](../docs/decisions/2026-10-31-unity-town-drive-foundation.md), [Town Drive handoff](../docs/engineering/UNITY_TOWN_DRIVE_HANDOFF.md), [verification](../docs/reports/2026-10-31-unity-town-drive-foundation.md). Use the same Unity project, retain the corrected browser route as reference, and begin with C# state/data parity while coordinating around the active Unity writer.

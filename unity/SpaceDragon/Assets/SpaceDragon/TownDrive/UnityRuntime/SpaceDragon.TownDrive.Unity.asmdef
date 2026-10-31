@@ -1,0 +1,6 @@
+{
+  "name": "SpaceDragon.TownDrive.Unity",
+  "rootNamespace": "SpaceDragon.TownDrive.UnityRuntime",
+  "references": ["SpaceDragon.TownDrive.Core"],
+  "autoReferenced": true
+}
