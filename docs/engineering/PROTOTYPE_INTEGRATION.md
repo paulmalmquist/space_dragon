@@ -1,8 +1,8 @@
 # Combining Seele prototypes into Space Dragon
 
-**Updated:** October 30, 2026 · **Tracking:** SD-036.
+**Updated:** October 30, 2026 · **Tracking:** SD-036–SD-037.
 
-**CONFIRMED owner workflow:** use Seele to generate prototype games, combine useful parts into one Space Dragon, and start with the dragon-dogfight games. Selection, engine choice and integration details below are **PROPOSED**, not implemented. The owner can supply ideas and exports in any order; agents maintain the inventory, compare options and choose a bounded next experiment.
+**CONFIRMED owner workflow:** use Seele to generate prototype games, combine useful parts into one Space Dragon, and start with the dragon-dogfight games. The owner can supply ideas and exports in any order; agents maintain the inventory, compare options and choose a bounded next experiment. The first authorized import/refinement is the local **Dogfight Lab** below; broader campaign/runtime integration remains open.
 
 Dragon dogfights are the first Seele prototype track and may run alongside Earth-story validation. Story chronology stays Earth → four planets with five missions each → Viera with five missions and settlement there: **25 off-Earth missions**, plus Earth. Starting a flight experiment does not skip Act I in the eventual campaign or claim that the existing room/yard game already implements flight.
 
@@ -28,11 +28,21 @@ Use the [Seele intake instructions](../../seeles-assets/README.md) and [asset pi
 | Refactor a scene or subsystem | The export provides a demonstrably more editable or coherent foundation for that bounded slice than the placeholder implementation. |
 | Change the runtime more broadly | A representative comparison shows less total integration and maintenance work, including the cost of preserving existing gameplay, asset loading, saves and tests. Record a material engine choice in a decision. |
 
-Do not paste two engines and their independent main loops, global key listeners, audio managers or save stores together. Compare one representative dogfight slice, not just screenshots or code size. Consider quality, source editability, asset rights, offline/local runtime independence, target-device costs and future agent changes. An engine migration is an option to justify after inspection, not an assumed prerequisite or an instruction to keep the current renderer forever.
+Do not paste two engines and their independent main loops, global key listeners, audio managers or save stores together. Compare one representative dogfight slice, not just screenshots or code size. Consider quality, source editability, asset rights, offline/local runtime independence, target-device costs and future agent changes. An engine migration is an option to justify after inspection, not an assumed prerequisite or an instruction to keep the current renderer forever. The bounded lab uses separate page entries with one active renderer; it is not a shared-scene engine choice.
 
-## Current dogfight candidate — read-only inspection
+## First bounded import — Dogfight Lab
 
-The owner supplied files under local `assets/reference/seele/`, now covered by scoped ignore rules. They were read, not executed, moved, changed, installed or imported during this pass. Their source/asset bytes are not part of this documentation change. Delivery/copying may still be in progress: the following is an observed snapshot, not a completeness guarantee. Recheck the final file inventory and hashes before a working-copy experiment.
+**SD-037:** the owner supplied `assets/reference/seele/dragon_dogfight/` and asked to practice importing it, then add barrel rolls and independent aiming with arrows steering and W/A/D/Z moving the target. A working copy lives in `src/prototypes/dogfight/`, with its page at `/space-dragon/dogfight/`. [The decision](../decisions/2026-10-30-seele-dogfight-lab.md) retains Three.js `0.180.0` for this local representative slice and uses the existing root Vite build. Earth retains Babylon. Full-page navigation and lifecycle cleanup keep the two games from running together.
+
+W/A/D/Z map to aim up/left/right/down; Q/E left/right barrel rolls and X recenter are implementation choices. The owner's same-increment follow-up adds mouse steering, left-button firing and right-button zoom. Initial mouse steering uses a screen-relative deadzone and automatic switching with arrow presses; those details are implementation choices. Aim state must drive the reticle, plasma direction and aim assistance together. Launch, pause/focus loss, retry, sound/reduced-motion controls and return to the main game belong to the integration, rather than inheriting the raw prototype's automatic launch and global input behavior. Mouse input applies to the canvas, respects menu UI and clears on interruption.
+
+The lab has encounter-only state, no campaign reward and no persistent progress writes. It must preserve the existing story/exploration saves across visiting, retrying and reloading. A future campaign mission still needs the shared checkpoint/reward/scene boundary described above. The original source remains unchanged at the supplied ignored path; future raw downloads use `seeles-assets/incoming/`. Only selected runtime GLBs/textures are promoted into the manifest. Source `.blend` files, raw exports, dependency caches and reference media stay out of runtime output. Local import permission does not establish public asset approval.
+
+[The migration receipt](../reports/2026-10-30-seele-dogfight.md) records actual checks, artifact identity and remaining gaps. Its verification status supersedes the historical inspection-only status below. Neither copied files nor the supplier's README test claims establish a local pass.
+
+## Historical baseline — first read-only inspection
+
+Before SD-037, the owner supplied files under local `assets/reference/seele/`, covered by scoped ignore rules. That earlier pass only read them: it did not execute, move, change, install or import them. The following is the preserved inspection snapshot; the source directory was subsequently supplied/identified as `dragon_dogfight/`. Recheck the actual final inventory and hashes for each import rather than treating this earlier snapshot as the current delivery or test result.
 
 | Evidence | Observed status on October 30 |
 | --- | --- |
@@ -50,9 +60,19 @@ The owner supplied files under local `assets/reference/seele/`, now covered by s
 
 The candidate names **Vyra**, **Violet Expanse** and **Wraith** remain prototype labels. Its reset/recovery, damage language, input tiers and encounter rewards must be reconciled with the existing nonlethal family adventure and single-pilot contracts before adoption.
 
-## Next bounded experiment and acceptance
+## Acceptance for this experiment and later campaign integration
 
-**PROPOSED next action:** after completing the intake review, use an isolated working copy/branch to establish one reproducible local dogfight and compare selected-system/asset reuse with a justified refactor. Keep the original delivery intact. Do not begin by merging the whole project into the current scene or adding Three.js to the shipped game merely because the export uses it.
+**Mechanical spacecraft — SD-049:** [the local integration scope](../decisions/2026-10-30-mechanical-dragon-integration.md) promotes the supplied v002 mechanical candidate through a separate optimized/versioned GLB, with original source/runtime rollback and rig/component/material preservation. This does not choose a new renderer or change controls, live spelling/dodging, combat or campaign saves. [The integration receipt](../reports/2026-10-30-mechanical-dragon-integration.md) distinguishes export/load/animation/material/muzzle checks and actual runtime measurements from final art/human approval.
+
+
+**Current presentation — SD-044/045:** [cockpit instruments and radar](../decisions/2026-10-30-dogfight-cockpit.md) and [acceleration through camera/sound](../decisions/2026-10-30-acceleration-camera-sound.md) refine the same isolated lab. Relative radar is read-only; sound is local/opt-in and bounded. Camera perspective replaces speed-star stretching while preserving held aiming zoom, reduced motion and a stable close chase view. [The combined receipt](../reports/2026-10-30-dogfight-cockpit.md) owns final artifact/check results and untested human quality/performance gates. No campaign, backend or asset-publication scope is added.
+
+
+**Latest local refinement — SD-043:** [enemy warnings and finite evasion](../decisions/2026-10-30-dogfight-evasion.md) add a closer camera, motion-dependent enemy tracking, heavier telegraphed bursts, resource-limited lock-breaking rolls and a physical braking hard turn. This stays in the isolated lab with SD-041 live spelling/dodging, no maneuver immunity or projectile deletion, and untouched campaign saves. [The receipt](../reports/2026-10-30-dogfight-evasion.md) separates actual checks from pending human difficulty/feel review.
+
+**Testing assessment - SD-039:** [the integration test plan](INTEGRATION_TEST_PLAN.md) recommends proving entry, exit, recovery and state/settings ownership while each candidate is still rough, then maintaining a short connected journey. Current Earth/lab storage-isolation coverage does not establish shared campaign progression. Its proposed INT-01-09 scenarios identify the next gaps and when to add them; no new runtime or test implementation follows from this link.
+
+The owner selected the bounded local experiment in SD-037. Keep the original delivery intact and assess the lab against the checks below. A later decision to port the flight systems/assets or refactor the shared runtime still needs evidence; retaining Three.js for the lab does not decide it.
 
 Acceptance for an actual integration should include:
 
@@ -62,7 +82,7 @@ Acceptance for an actual integration should include:
 4. An actual asset/path/network review of the built slice, with measured loading/render results and rights evidence. No references, private captures or unreviewed exports in runtime output.
 5. One meaningful local agent edit followed by a successful rebuild/retest, demonstrating continued development outside Seele.
 
-Use [the verification receipt](../templates/VERIFICATION_RECEIPT.md) to distinguish **INSPECTED**, **MIGRATED**, **VERIFIED** and **APPROVED FOR RELEASE**. Tests from the delivered source may become useful evidence only when reviewed and executed against an identified artifact. Existing scene/save/browser checks must remain green if the main runtime changes. This document establishes the plan and inspection status; it does not deliver a flight feature, asset import, deployment or backend connection.
+Use [the verification receipt](../templates/VERIFICATION_RECEIPT.md) to distinguish **INSPECTED**, **MIGRATED**, **VERIFIED** and **APPROVED FOR RELEASE**. Tests from the delivered source may become useful evidence only when reviewed and executed against an identified artifact. Existing scene/save/browser checks must remain green if the main runtime changes. The lab receipt owns implementation evidence; this plan does not claim campaign integration, public release or a backend connection.
 
 ## Intake provenance
 

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Space Dragon · Asset inspection</title><link rel="icon" href="data:,">
+<style>
+  :root{color-scheme:dark;font:14px system-ui;color:#e4e8ed;background:#222831}body{margin:0;overflow:hidden}canvas{display:block;width:100vw;height:100vh}
+  aside{position:fixed;top:14px;left:14px;max-width:310px;padding:16px;background:#101721ed;border:1px solid #526171;border-radius:8px}h1{font-size:18px;margin:0 0 12px}label{display:flex;justify-content:space-between;gap:10px;margin:10px 0}select,button{background:#253345;color:inherit;border:1px solid #64748b;border-radius:4px;padding:5px}button,a{cursor:pointer}a{color:#9dceff}details{max-height:48vh;overflow:auto}pre{white-space:pre-wrap;font:11px ui-monospace;max-width:310px}.capture aside{display:none}#status{font-size:12px;color:#bbc7d6}
+</style>
+<canvas id="inspection" aria-label="Interactive dragon asset inspection"></canvas>
+<aside><h1>Dragon asset inspection</h1><div id="status">Loading local GLB…</div>
+<label>Scene<select id="scene"><option value="neutral">Neutral studio</option><option value="flight">Flight environment</option></select></label>
+<label>Lighting<select id="lighting"><option value="neutral">Neutral reference</option><option value="cinematic">Cinematic reference</option></select></label>
+<label>View<select id="view"><option value="full">Three-quarter</option><option value="front">Front</option><option value="side">Side</option><option value="head">Head</option></select></label>
+<label>Animation<select id="animation"><option value="rest">Reference rest pose</option><option value="flight">Flight</option><option value="boost">Boost</option><option value="fire">Ordinary fire</option><option value="beam">Fire beam</option></select></label>
+<label>Attachment markers<input id="sockets" type="checkbox"></label><label>Contact plane<input id="ground" type="checkbox"></label>
+<p>Drag to orbit · wheel to zoom</p><p><a href="../../dogfight/">Play Dogfight Lab</a></p>
+<details><summary>Rendering audit</summary><pre id="audit"></pre></details>
+</aside><script type="module" src="./main.js"></script></html>

@@ -17,17 +17,23 @@ export default defineConfig({
   )))],
   server: {
     port: 5173, strictPort: true,
+    // Generated playtest/review HTML and local source exports must not reload
+    // a running game. Real application/configuration edits remain watched.
+    watch: { ignored: ['**/artifacts/**', '**/.tools/**', '**/assets/reference/**', '**/assets/source/**', '**/assets/game/**'] },
     fs: {
       strict: true,
-      deny: ['**/.git/**', '**/.env*', '**/assets/reference/**', '**/assets/source/**', '**/assets/game/**', '**/ideas/**', '**/docs/**', '**/artifacts/**', '**/*.blend'],
+      deny: ['**/.git/**', '**/.env*', '**/assets/reference/**', '**/assets/source/**', '**/assets/game/**', '**/seeles-assets/**', '**/ideas/**', '**/docs/**', '**/artifacts/**', '**/*.blend'],
     },
   },
   preview: { port: 4173, strictPort: true },
   build: {
     target: 'es2022',
-    rollupOptions: { input: {
-      home: fileURLToPath(new URL('./index.html', import.meta.url)),
-      drive: fileURLToPath(new URL('./drive/index.html', import.meta.url)),
-    } },
+    rollupOptions: {
+      input: {
+        home: fileURLToPath(new URL('./index.html', import.meta.url)),
+        drive: fileURLToPath(new URL('./drive/index.html', import.meta.url)),
+        dogfight: fileURLToPath(new URL('./dogfight/index.html', import.meta.url)),
+      },
+    },
   },
 });

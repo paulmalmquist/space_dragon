@@ -47,6 +47,8 @@ Cases test canon, open decisions, publication boundaries, honest test reporting,
 
 ## Gates for later implementation
 
+[The integration test plan](INTEGRATION_TEST_PLAN.md) (SD-039) maps current evidence and proposed missing coverage across features. It distinguishes isolated correctness, connected-journey behavior and human experience, and supplies prioritized transition/failure scenarios. Its planned cases are not passing tests or approval to implement the entire campaign. Keep existing evidence statuses below and link executed results to an identified artifact.
+
 | Change | Evidence before VERIFIED |
 | --- | --- |
 | Gameplay | Logic tests plus an observed input-to-result playthrough; reload/retry/skip paths checked. |

@@ -11,6 +11,7 @@ button:focus-visible, a:focus-visible, canvas:focus-visible, textarea:focus-visi
 .mark { color: #95dce9; font-size: 26px; margin-right: 10px; vertical-align: middle; }
 .build-label { margin-left: auto; color: #7d91aa; letter-spacing: .12em; font-size: 10px; }
 .build-dot { display: inline-block; height: 3px; width: 3px; margin: 0 9px 2px; background: #7d91aa; border-radius: 50%; }
+.dogfight-link { color: #bcb0fa; font-size: 12px; white-space: nowrap; text-decoration: none; }
 main { max-width: 1450px; margin: auto; padding: 0 4vw; }
 .intro { padding: 49px 0 30px; }
 .eyebrow { color: #8bcfdb; font-size: 10px; line-height: 1.6; letter-spacing: .19em; font-weight: 650; }

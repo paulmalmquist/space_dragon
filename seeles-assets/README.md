@@ -2,7 +2,7 @@
 
 Use this folder to bring useful Seele prototype games into **one cohesive Space Dragon**, then continue refining them with coding agents. **CONFIRMED workflow, SD-036:** the owner is using Seele to generate several prototypes and is starting with **dragon dogfights**. The [prototype integration plan](../docs/engineering/PROTOTYPE_INTEGRATION.md) owns the shared-game boundaries and current candidate inventory. The existing [asset pipeline](../docs/ASSET_PIPELINE.md) owns editable sources, game exports, and browser review.
 
-The dragon-dogfight track may proceed alongside Earth-story validation. Prototype priority does not reorder the story, replace the current room/yard runtime, or establish a completed flight integration.
+The dragon-dogfight track may proceed alongside Earth-story validation. Prototype priority does not reorder the story or replace the current room/yard runtime. SD-037 is the first local import/refinement; its [receipt](../docs/reports/2026-10-30-seele-dogfight.md) owns the actual verification status.
 
 ## For Paul
 
@@ -10,13 +10,15 @@ The dragon-dogfight track may proceed alongside Earth-story validation. Prototyp
 2. Include the original prompt, a screenshot or clip, and what you like if convenient. Plain chat is enough; no technical form is required.
 3. Tell the agent: **"Inspect the Seele export, choose the easiest maintainable migration, and integrate one useful part into Space Dragon."**
 
+The existing folder is spelled **`seeles-assets`**. Use `seeles-assets/incoming/<prototype-name>/` for future raw deliveries. The current `assets/reference/seele/dragon_dogfight/` location is also accepted and ignored: it can stay where supplied as the unchanged original. No manual reorganization is required before asking an agent to work. Migrated editable code goes under `src/`, and selected runtime assets go through the manifest into `public/assets/`; raw intake folders are never served directly.
+
 Raw downloads here are ignored by Git. They will not reach another computer or a cloud agent through a push. Run the agent against the local folder, or attach the export to the chat where the agent is working. Uploading through GitHub's website bypasses local ignore rules, so use the local drop folder for unreviewed exports.
 
 Only these instructions, the ignore rules, and the empty incoming-folder marker are tracked here. Reviewed assets move to the existing asset destinations when appropriate.
 
 ## First decision: should the repo adapt to the export?
 
-**Current tracking: SD-036** in [the ledger](../docs/project/IDEA_LEDGER.md); see [the owner's latest request](../ideas/INBOX.md). Compare selected-system/asset reuse with a justified scene or runtime refactor after inspecting the actual delivery. No engine migration has been selected.
+**Current tracking: SD-036–SD-037** in [the ledger](../docs/project/IDEA_LEDGER.md); see [the owner's latest request](../ideas/INBOX.md). Compare selected-system/asset reuse with a justified scene or runtime refactor after inspecting the actual delivery. [The first lab decision](../docs/decisions/2026-10-30-seele-dogfight-lab.md) retains the export's Three.js in an isolated page; it does not select a whole-game engine migration.
 
 **Provenance:** these three intake scaffold files were recovered read-only with `git show` from `origin/main@858e13a`, whose earlier Seele entry was **SD-028**. That incoming ID is provenance, not the current local idea number: local SD-028 already means the linear three-act direction. The earlier intake note proposed considering a refactor around a more refined export; it does not prove that any export is a better foundation. This adaptation uses SD-036 and the latest dogfight-first workflow without merging or overwriting the separate incoming changes at `de2864a`.
 
@@ -77,4 +79,4 @@ The handoff is verified when the useful slice runs outside Seele, a subsequent a
 
 ## Current delivery
 
-A read-only inventory of the owner's untracked dogfight HTML and adjacent source project is recorded in [the integration plan](../docs/engineering/PROTOTYPE_INTEGRATION.md). The source was not executed, moved, imported or published during this documentation pass. Keep the original files where delivered; future incoming downloads can use this ignored intake folder.
+The owner supplied `assets/reference/seele/dragon_dogfight/`. Its first read-only inspection remains historical evidence in [the integration plan](../docs/engineering/PROTOTYPE_INTEGRATION.md); the current SD-037 working copy is in `src/prototypes/dogfight/` with an isolated `/space-dragon/dogfight/` entry. Requested local changes are arrow/mouse steering, independent W/A/D/Z aiming, barrel rolls, left-button firing and right-button zoom. Q/E roll and X recenter are implementation choices. [The receipt](../docs/reports/2026-10-30-seele-dogfight.md) distinguishes actual import/build/browser evidence from missing human/rights/release review. Keep original files unchanged where delivered; future incoming downloads can use this ignored intake folder.

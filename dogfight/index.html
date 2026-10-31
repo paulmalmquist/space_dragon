@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#090d1b"/><title>Space Dragon — Dogfight Lab</title><link rel="icon" href="data:,"/></head>
+<body data-state="loading">
+  <canvas id="game" aria-label="3D dragon dogfight prototype" tabindex="0"></canvas>
+  <div id="cockpit-shell" aria-hidden="true">
+    <svg id="canopy-frame" viewBox="0 0 1440 900" preserveAspectRatio="none"><defs><linearGradient id="canopy-metal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#556566"/><stop offset=".35" stop-color="#182425"/><stop offset="1" stop-color="#080e11"/></linearGradient></defs><path class="canopy-beam" d="M-10 115 188 8H1252L1450 115M-10 690 188 892H1252L1450 690M8 110 24 270 8 540M1432 110 1416 270 1432 540"/><path class="canopy-seam" d="M0 119 192 16H1248L1440 119M0 688 194 882H1246L1440 688M14 121 30 270 14 530M1426 121 1410 270 1426 530"/></svg>
+    <div class="instrument-deck"></div><div class="glass-edge glass-edge-left"></div><div class="glass-edge glass-edge-right"></div>
+  </div>
+  <div id="vignette"></div><div id="damage-flash"></div>
+  <div id="hud">
+    <header class="brand"><div class="sigil">⟐</div><div><span class="eyebrow">DRAGON FLIGHT SYSTEMS</span><h1>SPACE <b>DRAGON</b></h1><span class="chapter">TACTICAL LINK / ONLINE</span></div></header>
+    <section class="mission"><div class="mission-copy"><span class="eyebrow">TACTICAL OBJECTIVE</span><strong>Disable the drone squadron</strong><div class="enemy-tally"><span id="enemy-count">3</span><span>HOSTILE<br/>CONTACTS</span><div id="enemy-pips"><i></i><i></i><i></i></div></div></div><button id="pause-button" aria-label="Pause and show controls">Ⅱ</button></section>
+    <div class="top-compass"><span>FLIGHT VECTOR</span><i></i><span id="flight-time">00:00</span></div>
+    <section id="threat-warning" aria-label="Enemy targeting warning" data-level="clear" hidden><span id="threat-direction" aria-hidden="true">△</span><div><strong id="threat-title">SKIES CLEAR</strong><small id="threat-advice">Change direction to spoil enemy aim.</small><div class="threat-track"><i id="threat-progress"></i></div></div></section>
+    <div id="markers"></div>
+    <div id="flight-axis" aria-hidden="true">+</div>
+    <div id="flight-cursor" aria-hidden="true" hidden><i></i><span>STEER</span></div>
+    <div id="reticle"><i></i><i></i><i></i><i></i><span class="reticle-dot"></span><span id="lock-ring" aria-hidden="true"></span><span id="aim-label">FINISH THE POWER WORD</span></div>
+    <div id="hit-marker">×<span>HIT <b>8</b></span></div>
+    <div id="notice"><span>WORD POWER ONLINE</span><strong>Four letters. One mighty breath.</strong><small>Spell → aim until LOCKED → press Space. M switches mouse fly / aim.</small></div>
+    <div id="combat-message" role="status"></div>
+    <section id="tactical-radar" aria-label="Bogey radar">
+      <div class="radar-heading"><span>TAC / RADAR</span><span><b id="radar-count">3</b> CONTACTS</span></div>
+      <svg id="radar-scope" viewBox="-100 -100 200 200" role="img" aria-label="Bogeys relative to the dragon. Forward is up; plus and minus show altitude.">
+        <circle class="radar-face" r="84"/><circle class="radar-ring" r="80"/><circle class="radar-ring" r="40"/><path class="radar-axis" d="M-80 0H80M0-80V80M-57-57 57 57M-57 57 57-57"/><path class="radar-forward-cone" d="M-28-75 0 0 28-75"/>
+        <text class="radar-bearing" x="0" y="-89" text-anchor="middle">FWD</text><text class="radar-bearing" x="0" y="96" text-anchor="middle">AFT</text><text class="radar-bearing" x="-93" y="3" text-anchor="middle">L</text><text class="radar-bearing" x="93" y="3" text-anchor="middle">R</text>
+        <g id="radar-contacts"></g><path class="radar-player" d="M0-8 6 7 0 4-6 7Z"/>
+      </svg>
+      <div class="radar-footer"><span id="radar-range">0.8 KM</span><span>+ ABOVE / − BELOW</span></div>
+      <span id="radar-summary" class="sr-only">Three hostile contacts.</span>
+    </section>
+    <section class="vitals"><div class="pilot-id"><span class="dragon-icon">⟐</span><div><span class="eyebrow">PROTOTYPE DRAGON</span><strong>WING ENERGY</strong></div><span id="energy-value">100</span></div><div class="bar energy"><div id="energy-fill"></div></div><div class="boost-row"><span>SHIFT <b>BOOST</b></span><span id="boost-status">READY</span></div><div class="bar boost"><div id="boost-fill"></div></div><div class="boost-row evasion-row"><span>Q / E / B <b>EVASION</b></span><span id="evasion-status">100%</span></div><div class="bar evasion"><div id="evasion-fill"></div></div><small class="evasion-costs">ROLL 40 · BREAK 25 · RECHARGES</small><small id="energy-warning">FLIGHT SYSTEMS NOMINAL</small></section>
+    <section class="speed"><span class="eyebrow" id="speed-mode">CRUISING</span><div><strong id="speed-value">54</strong><span>M/S</span></div><div class="speed-ticks">▏▏▏▏▏▏▏▏▏▏▏▏▏▏▏</div><small><kbd>R</kbd> ACCELERATE <span>/</span> <kbd>F</kbd> DECELERATE</small></section>
+    <div id="roll-status" role="status">Q / E · BARREL ROLL READY</div>
+    <div id="guide"><div><kbd>↑ ↓ ← →</kbd><span>FLY</span></div><div><kbd>M</kbd><span>MOUSE FLY / AIM</span></div><div><kbd>W A D Z</kbd><span>AIM</span></div><div><kbd>Q / E</kbd><span>ROLL</span></div><div><kbd>B + STEER</kbd><span>BREAK TURN</span></div><div><kbd>LMB</kbd><span>PLASMA</span></div><div><kbd>SPACE</kbd><span>LOCK BREATH</span></div><div><kbd>RMB</kbd><span>ZOOM</span></div></div>
+    <div class="bottom-coordinate">EXPERIMENTAL FLIGHT <span> / </span> NO CAMPAIGN REWARDS</div>
+    <div id="target-readout"><span class="eyebrow">NEAREST SIGNAL</span><strong id="target-name">DRONE 01</strong><span id="target-state">ATTACK RUN / 260 M</span></div>
+    <section id="word-power" aria-label="Word-powered lock breath" data-phase="charging">
+      <span class="eyebrow" id="power-kicker">POWER WORD · 1 TARGET</span>
+      <div id="word-slots" aria-label="Four-letter word progress"><span>_</span><span>_</span><span>_</span><span>_</span></div>
+      <div id="letter-prompt"><span id="power-letter">L</span><span>PRESS THIS LETTER<br/><small>on your keyboard</small></span></div>
+      <p id="power-status" role="status" aria-live="polite">Match the letter while flying and dodging.</p>
+      <button id="charge-help" type="button">Help together · F1</button>
+      <small id="lock-help">Finish the word, then hold the reticle on a ship. Press Space when LOCKED.</small>
+    </section>
+  </div>
+  <nav class="lab-toolbar" aria-label="Lab settings"><a id="back-home" href="../">← Back to Space Dragon</a><button id="mouse-mode" aria-pressed="false">Mouse: fly · M</button><button id="sound" aria-pressed="false">Sound off</button><label><input id="reduce-motion" type="checkbox"/> Reduced motion</label></nav>
+  <div id="loading"><div><span class="eyebrow">SPACE DRAGON</span><h2>Wings online.</h2><p id="loading-status">Preparing the dogfight prototype…</p><div class="bar"><div id="loading-fill"></div></div><p id="loading-recovery" hidden><a href="./">Reload flight lab</a> · <a href="../">Return home</a></p></div></div>
+  <div id="overlay" hidden><div class="poster"><span class="eyebrow" id="overlay-kicker">FLIGHT LAB READY</span><h2 id="overlay-title">Ready to<br/><em>fly?</em></h2><p id="overlay-description">The encounter starts when you launch.</p><div id="result-stats"></div><button id="resume" class="primary">LAUNCH FLIGHT <span>↗</span></button><button id="restart" class="secondary">RESTART ENCOUNTER ↺</button><p class="lab-boundary">Practice only. Your Earth story and walking checkpoints stay saved.</p></div><div class="pause-controls"><div><kbd>M / BUTTON</kbd><span>Mouse fly / aim</span></div><div><kbd>ARROWS</kbd><span>Steer</span></div><div><kbd>LMB / RMB</kbd><span>Plasma / hold to zoom</span></div><div><kbd>SPACE</kbd><span>Fire charged lock breath</span></div><div><kbd>W A D Z</kbd><span>Aim up / left / right / down</span></div><div><kbd>Q / E</kbd><span>Roll left / right · costs 40</span></div><div><kbd>B + STEER</kbd><span>Hard break turn · costs 25</span></div><div><kbd>X</kbd><span>Center aim</span></div><div><kbd>R / F / SHIFT</kbd><span>Speed / boost</span></div><div><kbd>F1</kbd><span>Charge together</span></div><div><kbd>ESC</kbd><span>Pause / resume</span></div></div></div>
+  <script type="module" src="../src/prototypes/dogfight/main.js"></script>
+</body></html>

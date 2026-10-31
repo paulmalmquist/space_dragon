@@ -44,6 +44,8 @@ Preserve user changes. No destructive resets, force-pushes, unrelated rewrites o
 
 Keep authoritative game state separate from animation and rendering. Rewards must survive reloads and repeated triggers without duplication. Separate learner profile, selected avatar and action-assistance settings. Help must advance required story challenges without recording independent mastery. Do not demand reading while steering at speed.
 
+The owner's [SD-041 exception](docs/decisions/2026-10-30-live-spelling-flight.md) requires active flight/combat and dodging during the Dogfight Lab's word-charge prompts. Do not restore automatic spelling pause, autopilot or immunity there; the general learning rule remains for other interactions.
+
 The 18-photo publication approval is narrow; see [the decision](docs/decisions/2026-10-28-family-photo-references.md). Repository access is not approval to ship references in the game, use new external generators or clone voices. Keep reference boards out of exported assets. Use only owner-assigned photo labels; never infer identity across photos. The [neighborhood decision](docs/decisions/2026-10-29-neighborhood-map.md) permits real place names and public landmarks; fictionalize sensitive school/workplace interiors and the neighbor. Never commit secrets or child learning records.
 
 Use [the asset pipeline](docs/ASSET_PIPELINE.md) for source/reference/export destinations. Preserve the dragon's component names, pivots and attachment structure. Only Lyla at viewer-left in `IMG_3277.jpeg` has a confirmed per-image label. Keep actual device/export measurements separate from targets.

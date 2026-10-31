@@ -9,6 +9,8 @@ The target route remains `/space-dragon` on the existing site. A standalone Baby
 
 ## Keep these boundaries even in a small implementation
 
+**SD-037 prototype exception:** the [Dogfight Lab decision](../decisions/2026-10-30-seele-dogfight-lab.md) retains an inspected Seele export's Three.js `0.180.0` in a separate Vite page entry at `/space-dragon/dogfight/`. Full-page navigation keeps one renderer/input loop active; the main Earth slice remains Babylon/TypeScript. The lab owns only transient encounter state, writes no campaign/learning saves and awards no progress. This limited experiment is not a whole-game renderer migration or the eventual campaign-scene architecture. [Its receipt](../reports/2026-10-30-seele-dogfight.md) owns verification and limitations.
+
 | Area | Owns | Must not own |
 | --- | --- | --- |
 | Content | Stable mission, component, character and challenge definitions | Rendering objects or network credentials |
@@ -35,6 +37,8 @@ Start with local persistence only when implementing the approved slice. Use an e
 Define exactly when a checkpoint becomes durable and what replaying a scene means. Preserve awarded inventory independently of cinematic completion. See the [interaction contract](../gameplay/INTERACTION_CONTRACTS.md).
 
 ## Rendering and input
+
+**Proposed cinematic method - SD-038:** [Cinematic transitions](CINEMATIC_TRANSITIONS.md) scopes a renderer-local director with explicit readiness, single transform/input ownership and a camera/velocity-preserving handoff. Existing full-page Earth/lab navigation permits a concealed cut but cannot preserve live camera/audio continuity. The plan does not select a shared campaign runtime or change current save boundaries; that choice follows a bounded flight-only proof. Skip/replay/interruption retain the existing interaction contract.
 
 Use semantic input actions across supported devices. Separate display frame rate from simulation time; bound catch-up work after tab suspension. Pause/resume must manage held inputs, audio and any timers consistently. Clean up scene resources when leaving them. Avoid allocating persistent listeners on every frame or remount.
 
@@ -64,3 +68,6 @@ SD-055 traffic state lives beside the player state in the drive entry and advanc
 SD-057 pedestrian position and walk phase use the player's elapsed simulation time; paused rendering cannot advance them. Street development streams with the existing road chunks. First-person eye and look offsets, steering wheel/instrument animation and minivan visibility are presentation only; they do not own steering, checkpoints or saved progress. Real route names replace fictional labels while stable section/checkpoint IDs remain unchanged.
 
 SD-058 keeps the mapped court a true dead end. The player route retraces Starpass on return, so simulation/HUD nearest-route queries carry the previous route distance to disambiguate coincident outbound/inbound segments. World rendering draws that pavement once. Ambient traffic has a continuous shorter circuit straight through Green Island Boulevard, excluding the court branch; its physical distances and poses remain separate from player checkpoint progression. Existing saves store stable checkpoint IDs, not old world coordinates. A fresh-start option deliberately begins a new drive at Starpass without touching campaign saves.
+
+
+**SD-056 sound samples:** Dogfight loads five same-origin edited WAVs only after sound opt-in, caches decoded buffers and layers them through the existing capped voice graph. Missing samples retain synthesis; asynchronous loading never replays a past cue. Sample sources share existing pause/mute/breath-group/disposal cleanup, with abort-on-dispose and no persistent game state. [Library and provenance](../../assets/source/audio/sonniss-gdc-2026/README.md).
