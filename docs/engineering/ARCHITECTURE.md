@@ -73,3 +73,5 @@ SD-058 keeps the mapped court a true dead end. The player route retraces Starpas
 
 
 **SD-056 sound samples:** Dogfight loads five same-origin edited WAVs only after sound opt-in, caches decoded buffers and layers them through the existing capped voice graph. Missing samples retain synthesis; asynchronous loading never replays a past cue. Sample sources share existing pause/mute/breath-group/disposal cleanup, with abort-on-dispose and no persistent game state. [Library and provenance](../../assets/source/audio/sonniss-gdc-2026/README.md).
+
+**SD-078 VR readiness:** new or ported Unity gameplay follows the [VR readiness standard](VR_READINESS.md). Simulation and aiming never read the camera or screen; cameras sit under a mode-owned rig; occupiable seats have named metre-scale eye anchors; input uses semantic actions; HUD is a view model with replaceable screen or world-space presenters; cinematics never take over a headset's head pose; shaders stay single-pass-instanced compatible. This adds no XR package, setting, scene or build, and VR behavior remains NOT TESTED.
