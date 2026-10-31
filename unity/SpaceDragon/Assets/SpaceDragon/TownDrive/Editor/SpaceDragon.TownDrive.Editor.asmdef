@@ -1,0 +1,14 @@
+{
+  "name": "SpaceDragon.TownDrive.Editor",
+  "rootNamespace": "SpaceDragon.TownDrive.Editor",
+  "references": [
+    "SpaceDragon.TownDrive.Core",
+    "SpaceDragon.TownDrive.Unity",
+    "SpaceDragon.TownDrive.Runtime",
+    "glTFast",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime"
+  ],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

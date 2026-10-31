@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-30",
+  "status": "IMPLEMENTED; standalone and integrated installed-Chrome walking animation visually reviewed; owner final art approval pending",
+  "license": "MIT",
+  "licenseFile": "LICENSE-Microsoft-Rocketbox.txt",
+  "upstream": "https://github.com/microsoft/Microsoft-Rocketbox",
+  "upstreamLicense": "https://raw.githubusercontent.com/microsoft/Microsoft-Rocketbox/master/LICENSE.md",
+  "conversionPublisherLicense": "https://models.codelove.in/license/",
+  "animationPublisherPage": "https://models.codelove.in/animations/",
+  "sources": [
+    {
+      "name": "Female Adult 02",
+      "author": "Microsoft / Rocketbox Studios",
+      "convertedBy": "CodeLove 3D Models",
+      "download": "https://models.codelove.in/models/female-adult-02.glb",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2020 Microsoft",
+      "originalLocal": "assets/source/local/drive-pedestrians/female-adult-02.glb",
+      "bytes": 1034908,
+      "sha256": "e8c032b087a40e1cb528169d2b17a77c46a63b999a677279d9eb69c8910a3e0b"
+    },
+    {
+      "name": "Male Adult 11",
+      "author": "Microsoft / Rocketbox Studios",
+      "convertedBy": "CodeLove 3D Models",
+      "download": "https://models.codelove.in/models/male-adult-11.glb",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2020 Microsoft",
+      "originalLocal": "assets/source/local/drive-pedestrians/male-adult-11.glb",
+      "bytes": 555968,
+      "sha256": "151f1a83fb614956ba7067d995841c679f2b4158fe7ae266b599371f5735c65f"
+    },
+    {
+      "name": "Female walk neutral 01",
+      "author": "Microsoft / Rocketbox Studios",
+      "convertedBy": "CodeLove 3D Models",
+      "download": "https://models.codelove.in/animations/f_walk_neutral_01.glb",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2020 Microsoft",
+      "originalLocal": "assets/source/local/drive-pedestrians/f-walk.glb",
+      "bytes": 46748,
+      "sha256": "a0a7f473d218c67e357994364891d63a0f7dcf4aaacc865be89b7343ca72f03e"
+    },
+    {
+      "name": "Male walk neutral 01",
+      "author": "Microsoft / Rocketbox Studios",
+      "convertedBy": "CodeLove 3D Models",
+      "download": "https://models.codelove.in/animations/m_walk_neutral_01.glb",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2020 Microsoft",
+      "originalLocal": "assets/source/local/drive-pedestrians/m-walk.glb",
+      "bytes": 44344,
+      "sha256": "5e000da6df7e9c6dfa9300b1224b93ef4d7b03800fedccd4d83e5efab2597344"
+    }
+  ],
+  "processing": {
+    "script": "tools/prepare-drive-pedestrians.mjs",
+    "tools": "Existing @gltf-transform 4.5.1 and meshoptimizer dependencies; no downloaded executable scripts",
+    "steps": [
+      "Decode EXT_meshopt_compression and dequantize geometry offline, avoiding a remote runtime decoder.",
+      "Copy matching female/male MIT walk animation accessors onto the model Bip01 skeleton by exact bone name.",
+      "Preserve embedded Microsoft MIT copyright and full license text in each GLB; ship the original upstream MIT notice.",
+      "Preserve original embedded WebP garment, skin and hair textures; use nonmetal cloth/skin PBR parameters.",
+      "At runtime sample the skeletal clip into a shared 60-frame GPU matrix texture once per variant, without rendering or advancing simulation. Native instances select frames only from simulation-time gait.",
+      "Normalize each animation frame to the planted shoe height; keep rounded walking patrols inside sidewalks, away from road junctions."
+    ],
+    "privacy": "Generic licensed adult models; no owner photos, household likenesses, personal footage or media were uploaded or used."
+  },
+  "runtimeBudget": {
+    "population": 40,
+    "uniqueAdultModels": 2,
+    "maximumVisible": 12,
+    "cullDistanceMetres": 140,
+    "fullAnimationDistanceMetres": 60,
+    "distantAnimationFrameStride": 3,
+    "maximumNearbyShadowActors": 2,
+    "shadowDistanceMetres": 25,
+    "sharedAnimationTextureBytes": 622080,
+    "clock": "Player elapsedSeconds only; no save schema changes or wall-clock animation"
+  },
+  "exports": [
+    {
+      "file": "adult-female.glb",
+      "bytes": 1297764,
+      "sha256": "7fcd61c1b330b7f998de6b5aedeab71e549cdca344cb47de8d96aaa20f6e4b9c",
+      "triangles": 8940,
+      "primitives": 3,
+      "skinJoints": 80,
+      "walkDurationSeconds": 1.2000000476837158,
+      "embeddedTextures": true
+    },
+    {
+      "file": "adult-male.glb",
+      "bytes": 749896,
+      "sha256": "12929a45957d2a106f73ce0779c95b1697fb2b4cc0df4e7d53e25bdf9a5ca670",
+      "triangles": 6740,
+      "primitives": 2,
+      "skinJoints": 80,
+      "walkDurationSeconds": 1.2000000476837158,
+      "embeddedTextures": true
+    }
+  ],
+  "verification": {
+    "unitTests": "4 pedestrian unit tests passed: deterministic bounded population, complete sidewalk footprint, absolute-time pause/reload, continuous endpoint turns",
+    "typecheck": "npm run typecheck passed before integration; final repository gate owned by parent",
+    "standalone": "Installed Chrome, 1100x800, two clothed walkers, four gait phases, 5 native instances, no page or console errors",
+    "artifacts": "artifacts/drive-pedestrians/",
+    "limitations": [
+      "Two repeated adult variants, not 40 unique people.",
+      "People patrol short sidewalk blocks and do not cross roads, interact, or participate in collision/injury gameplay.",
+      "Final owner art approval and additional device testing remain separate."
+    ],
+    "gltfValidator": {
+      "result": "PASS: zero errors in both exported GLBs",
+      "warnings": [
+        "Source normal-mapped primitives rely on runtime-generated tangent space.",
+        "Source skinned mesh node is not a root and has local transforms; Babylon runtime was inspected with correct appearance."
+      ]
+    },
+    "reproducibleExport": "Rerunning tools/prepare-drive-pedestrians.mjs produced byte-identical SHA256 for both runtime GLBs.",
+    "integrated": "REVIEWED: artifacts/drive-minivan/right.png shows a clothed walker at the sidewalk during cabin right-look; preview.json reports 5 visible walkers, 2 nearby, 622080 shared animation texture bytes, and no console/page errors."
+  }
+}

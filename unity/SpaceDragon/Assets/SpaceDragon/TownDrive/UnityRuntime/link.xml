@@ -1,0 +1,4 @@
+<linker>
+  <!-- DataContractJsonSerializer reads the explicitly injected route DTOs on IL2CPP. -->
+  <assembly fullname="SpaceDragon.TownDrive.Core" preserve="all" />
+</linker>

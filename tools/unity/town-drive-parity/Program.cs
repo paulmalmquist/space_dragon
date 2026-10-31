@@ -39,6 +39,13 @@ internal static class Program
             Console.WriteLine("Source fingerprint: " + data.sourceFingerprint);
             var timer = Stopwatch.StartNew();
 
+            Run("traffic and pedestrian TypeScript oracle", () =>
+            {
+                var ambient = AmbientParity.Verify(route, Path.Combine(AppContext.BaseDirectory, "town-drive-ambient-v001.json"));
+                assertions += ambient.assertions;
+                maximumNumericError = Math.Max(maximumNumericError, ambient.maximumError);
+            });
+
             Run("export schema, fingerprint and stable route identity", () =>
             {
                 Require(data.schemaVersion == 1 && fixtures.GetProperty("schemaVersion").GetInt32() == 1, "Unsupported export/fixture schema.");

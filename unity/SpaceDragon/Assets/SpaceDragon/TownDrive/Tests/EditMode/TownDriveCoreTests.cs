@@ -1,28 +1,30 @@
 using System;
+using System.Runtime.Serialization;
 using System.IO;
 using NUnit.Framework;
 using UnityEngine;
+using SpaceDragon.TownDrive.UnityRuntime;
 
 namespace SpaceDragon.TownDrive.Tests
 {
-    [Serializable] public sealed class RouteQueryFixture { public double s, speed; public RouteSample point, lane; public string label; }
-    [Serializable] public sealed class NearestQueryFixture { public double x, z, preferredS; public bool hasPreferredS; public NearestRoutePoint expected; }
-    [Serializable] public sealed class InputStepFixture { public DriveInput input; public int ticks; }
-    [Serializable] public sealed class ScenarioFixture { public string name; public DriveState initial, expected; public InputStepFixture[] steps; public DriveObstacle[] obstacles; }
-    [Serializable] public sealed class CheckpointFixture { public string name; public DriveState previous, next, expected; }
-    [Serializable] public sealed class ResetFixture { public string name; public DriveState state, expected; }
-    [Serializable] public sealed class PresentationFixture { public string name; public DriveState previous, current; public double alpha; public bool paused, snap; public DrivePose expected; }
+    [Serializable] public sealed class RouteQueryFixture { [OptionalField] public double s, speed; [OptionalField] public RouteSample point, lane; [OptionalField] public string label; }
+    [Serializable] public sealed class NearestQueryFixture { [OptionalField] public double x, z, preferredS; [OptionalField] public bool hasPreferredS; [OptionalField] public NearestRoutePoint expected; }
+    [Serializable] public sealed class InputStepFixture { [OptionalField] public DriveInput input; [OptionalField] public int ticks; }
+    [Serializable] public sealed class ScenarioFixture { [OptionalField] public string name; [OptionalField] public DriveState initial, expected; [OptionalField] public InputStepFixture[] steps; [OptionalField] public DriveObstacle[] obstacles; }
+    [Serializable] public sealed class CheckpointFixture { [OptionalField] public string name; [OptionalField] public DriveState previous, next, expected; }
+    [Serializable] public sealed class ResetFixture { [OptionalField] public string name; [OptionalField] public DriveState state, expected; }
+    [Serializable] public sealed class PresentationFixture { [OptionalField] public string name; [OptionalField] public DriveState previous, current; [OptionalField] public double alpha; [OptionalField] public bool paused, snap; [OptionalField] public DrivePose expected; }
     [Serializable] public sealed class TownDriveFixtures
     {
-        public int schemaVersion;
-        public string sourceFingerprint;
-        public double tolerance;
-        public RouteQueryFixture[] routeQueries;
-        public NearestQueryFixture[] nearestQueries;
-        public ScenarioFixture[] scenarios;
-        public CheckpointFixture[] checkpoints;
-        public ResetFixture[] resets;
-        public PresentationFixture[] presentations;
+        [OptionalField] public int schemaVersion;
+        [OptionalField] public string sourceFingerprint;
+        [OptionalField] public double tolerance;
+        [OptionalField] public RouteQueryFixture[] routeQueries;
+        [OptionalField] public NearestQueryFixture[] nearestQueries;
+        [OptionalField] public ScenarioFixture[] scenarios;
+        [OptionalField] public CheckpointFixture[] checkpoints;
+        [OptionalField] public ResetFixture[] resets;
+        [OptionalField] public PresentationFixture[] presentations;
     }
 
     public sealed class TownDriveCoreTests
@@ -38,8 +40,8 @@ namespace SpaceDragon.TownDrive.Tests
         public void LoadFrozenReferenceData()
         {
             var directory = Path.Combine(Application.dataPath, "SpaceDragon", "TownDrive");
-            data = JsonUtility.FromJson<TownDriveData>(File.ReadAllText(Path.Combine(directory, "Data", "town-drive-v001.json")));
-            fixtures = JsonUtility.FromJson<TownDriveFixtures>(File.ReadAllText(Path.Combine(directory, "Tests", "EditMode", "Fixtures", "town-drive-fixtures-v001.json")));
+            data = TownDriveJson.Read<TownDriveData>(File.ReadAllText(Path.Combine(directory, "Data", "town-drive-v001.json")));
+            fixtures = TownDriveJson.Read<TownDriveFixtures>(File.ReadAllText(Path.Combine(directory, "Tests", "EditMode", "Fixtures", "town-drive-fixtures-v001.json")));
             route = new DriveRoute(data.route); simulation = new DriveSimulation(route);
         }
 
@@ -65,7 +67,9 @@ namespace SpaceDragon.TownDrive.Tests
             Assert.That(fixtures.routeQueries.Length, Is.GreaterThan(150));
             foreach (var query in fixtures.routeQueries)
             {
-                Sample(route.PointAtDistance(query.s), query.point, "point " + query.s);
+                var nearestKnot = Array.Find(data.route.samples, sample => Math.Abs(sample.s - query.s) < 1e-8);
+                string numericContext = " input=" + query.s.ToString("R") + " wrapped=" + (((query.s % route.Length) + route.Length) % route.Length).ToString("R") + " knot=" + nearestKnot.s.ToString("R") + " length=" + route.Length.ToString("R");
+                Sample(route.PointAtDistance(query.s), query.point, "point " + numericContext);
                 Sample(route.LanePoseAt(query.s), query.lane, "lane " + query.s);
                 Assert.That(route.LabelAt(query.s), Is.EqualTo(query.label)); Near(route.RecommendedSpeedAt(query.s), query.speed, "recommended speed");
             }

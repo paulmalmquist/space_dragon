@@ -27,7 +27,7 @@ $stamp = $runStarted.ToString('yyyyMMdd-HHmmss-fff')
 $logPath = Join-Path $artifactPath "editmode-$stamp.log"
 $resultPath = Join-Path $artifactPath "editmode-results-$stamp.xml"
 $arguments = @('-batchmode','-nographics','-projectPath',$projectPath,'-logFile',$logPath,
-  '-runTests','-testPlatform','EditMode','-assemblyNames','SpaceDragon.TownDrive.Tests;SpaceDragon.TownDrive.Unity.Tests',
+  '-runTests','-testPlatform','EditMode','-assemblyNames','SpaceDragon.TownDrive.Tests;SpaceDragon.TownDrive.Unity.Tests;SpaceDragon.TownDrive.Runtime.Tests',
   '-testResults',$resultPath)
 $quotedArguments = $arguments | ForEach-Object { '"' + $_.Replace('"','\"') + '"' }
 $process = Start-Process -FilePath $EditorPath -ArgumentList $quotedArguments -WindowStyle Hidden -PassThru
@@ -41,11 +41,12 @@ $run = $results.'test-run'
 $cases = @($results.SelectNodes('//test-case'))
 $coreCases = @($cases | Where-Object { $_.fullname -like 'SpaceDragon.TownDrive.Tests.TownDriveCoreTests.*' })
 $adapterCases = @($cases | Where-Object { $_.fullname -like 'SpaceDragon.TownDrive.UnityRuntime.Tests.TownDriveJsonTests.*' })
+$runtimeCases = @($cases | Where-Object { $_.fullname -like 'SpaceDragon.TownDrive.Runtime.Tests.*' })
 # Keep the expected inventory explicit: a missing assembly must not look like a pass.
-if ($run.result -ne 'Passed' -or [int]$run.total -ne 12 -or [int]$run.passed -ne 12 -or
+if ($run.result -ne 'Passed' -or [int]$run.total -ne 18 -or [int]$run.passed -ne 18 -or
     [int]$run.failed -ne 0 -or [int]$run.skipped -ne 0 -or [int]$run.inconclusive -ne 0 -or
-    $cases.Count -ne 12 -or $coreCases.Count -ne 10 -or $adapterCases.Count -ne 2 -or
+    $cases.Count -ne 18 -or $coreCases.Count -ne 10 -or $adapterCases.Count -ne 2 -or $runtimeCases.Count -ne 6 -or
     @($cases | Where-Object { $_.result -ne 'Passed' }).Count -ne 0) {
-  throw "Town Drive tests did not report all 12 expected cases passing (10 Core, 2 Unity adapter). See $resultPath"
+  throw "Town Drive tests did not report all 18 expected cases passing (10 Core, 2 Unity adapter, 6 runtime). See $resultPath"
 }
 Write-Output "Town Drive EditMode tests passed: $($results.'test-run'.total). Results: $resultPath; log: $logPath"
