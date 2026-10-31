@@ -8,6 +8,8 @@ A starter you can reuse:
 
 ## What agents read
 
+**Cinematic video direction:** [SD-076](../decisions/2026-10-31-google-vids-manual-exports.md) selects Google Vids with manual exports. Runway is parked; do not request reconnection or build a provider integration for current work. Preserve and inspect each delivered file locally, prepare a separate runtime derivative, and verify its Unity playback/handoff. No Google Vids export has been received or tested. SD-073's Blender animatic and frozen player retain their historical verification; do not relabel them as Google Vids output.
+
 `AGENTS.md` routes a new agent to project status, vision, the idea inbox and the current milestone. `CLAUDE.md` imports that same file. For story and mission work, [CAMPAIGN_STRUCTURE.md](../story/CAMPAIGN_STRUCTURE.md) and its linked decision hold the latest confirmed structure and party rules. Older treatment details do not override them.
 
 Agents preserve your wording in [the inbox](../../ideas/INBOX.md), allocate the next unused ID from [the ledger](IDEA_LEDGER.md), distinguish confirmed direction from proposed details, and update the affected story/contracts and plan. They make routine technical choices and retain open creative questions rather than inventing answers. They report what was changed and checked.

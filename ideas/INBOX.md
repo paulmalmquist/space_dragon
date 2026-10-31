@@ -4,6 +4,14 @@ Write below in whatever order it occurs to you. Plain text is enough. You can al
 
 ## New thoughts
 
+### October 31, 2026 — Google Vids with manual exports (SD-076)
+
+Owner wording:
+
+> forget runway for now we will use google vids with manual exports
+
+Routing receipt: **CONFIRMED · planned; guidance recorded.** [Decision](../docs/decisions/2026-10-31-google-vids-manual-exports.md): Google Vids → manual file export → local inspection/encoding → Unity video playback and tested handoff. Runway is parked for now; reconnection is no longer a next action. No Google Vids export has been received or verified. Preserve the original exported file and the existing Blender/Unity proof. Next useful action: review the first manual export when available.
+
 <!-- Add your next thought here. No form required. -->
 
 ## Captured and connected

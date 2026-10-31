@@ -4,6 +4,8 @@ The first asset milestone is one reviewed model that loads correctly in the actu
 
 ## Work locations
 
+**Cinematic video — SD-076:** use [Google Vids with manual exports](decisions/2026-10-31-google-vids-manual-exports.md). Preserve each delivered original under a versioned `assets/source/local/cinematics/` folder; inspect/hash it locally and create separate reviewed runtime derivatives under `assets/game/local/cinematics/`. Promote only selected derivatives to the target Unity build after playback/handoff checks. Runway is parked; neither provider automation nor a new exported clip is claimed. Existing Blender source/video receipts retain their original provenance.
+
 Seele also supplies prototype games, starting with dragon dogfighting. [The prototype integration plan](engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](../seeles-assets/README.md) extend this asset process to source code, controls and mechanics. Keep raw deliveries separate, choose a bounded migration after inspection, and promote reviewed assets through the same source/export/runtime boundaries below.
 
 The existing local `assets/reference/seele/` delivery path is ignored as raw intake, alongside the canonical `seeles-assets/incoming/` drop folder. Preserve files in place while delivery/inspection is ongoing; source references do not become runtime assets or committed dependencies merely by being in the workspace.
