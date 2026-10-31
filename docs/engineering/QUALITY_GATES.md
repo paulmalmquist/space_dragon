@@ -58,6 +58,7 @@ Cases test canon, open decisions, publication boundaries, honest test reporting,
 | Site integration | Direct route load, navigation, correct asset paths and unchanged homepage. |
 | Runtime assets | Explicit approved manifest, output inspection and no reference-board/source-photo packaging. |
 | Performance | Named hardware, browser, scenario and measured values; no inferred device pass from viewport emulation. |
+| VR readiness (SD-078) | Unity camera/input/UI/shader/cinematic changes are reviewed against the [VR readiness checklist](VR_READINESS.md#review-checklist). A checklist pass covers code structure only; it is not VR verification or a human REVIEWED status. Any VR claim needs a named headset, PC or standalone device, OpenXR runtime, scene, sustained frame-time measurements and an adult comfort session. |
 
 Use keyboard, touch and real device coverage only when tested. A screenshot does not verify controls, sound, collision or saving. Failed or unavailable checks are FAIL/BLOCKED/NOT TESTED, never silently PASS. Keep personal data out of screenshots and logs.
 

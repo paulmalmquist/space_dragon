@@ -8,6 +8,35 @@ Write below in whatever order it occurs to you. Plain text is enough. You can al
 
 ## Captured and connected
 
+### October 31, 2026 — design for VR now, build it later (SD-078)
+
+Source: owner, repo-attached Space Dragon chat. The message is written in an advisor's voice and was sent by the owner for action. Its "visual references" line and source-marker characters referred to images that did not arrive with the message; no images were received. Original wording, with those markers removed:
+
+> Absolutely. Space Dragon could become a VR game, and our move from Three.js to Unity makes that substantially more achievable.
+> In fact, I think Space Dragon is unusually well suited for VR because of how we're designing it: a family piloting a giant mechanical dragon through space, exploring alien planets, engaging in dogfights, and using superhero-style powers.
+> We could eventually support three ways to play:
+> Traditional mode: Third-person gameplay on a monitor with a PlayStation controller.
+> VR cockpit mode: Sit inside the dragon, look around the cockpit, operate weapons, and experience space battles from the pilot's seat.
+> Full VR adventure: Exit the dragon, explore planets, use powers, interact with environments, and fight enemies in VR.
+> Visual references for the cockpit, planetary exploration, and immersive controls we'd want to build toward.
+> The key is to design for VR compatibility now without actually building the VR version yet.
+> What we'd need to prepare
+> Unity already supports OpenXR for devices including Meta Quest and SteamVR headsets.
+> Would upgrading your PC help?
+> Yes, especially for high-fidelity PC VR. A more powerful GPU would help us preserve the photorealistic aesthetic you're pursuing.
+> There are two distinct targets:
+> PC VR: Your upgraded computer renders the game and streams it to the headset. This is where I'd aim for cinematic realism.
+> Standalone VR: The headset renders the game itself. Upgrading your computer won't improve its runtime graphics performance.
+> A VR game also needs consistently high frame rates, typically 72–90 FPS or higher, rather than merely looking good at 30–60 FPS.
+> One important limitation: Unity doesn't officially support WebXR directly, so we'd likely distribute the VR version as a native application while preserving the browser-based version for ordinary gameplay.
+> What I'd prioritize for Space Dragon
+> I'd start with VR dogfighting from inside the dragon, because that requires relatively little reinvention of our gameplay mechanics and could be spectacular.
+> Luke's web-slinging and free-flight would be harder to translate comfortably into VR because rapid acceleration, spinning and falling can cause motion sickness. Those features would need dedicated VR movement and comfort controls.
+> We don't need to build any of that yet. But I would add a VR-ready architecture requirement to our Unity development standards now, then introduce a small cockpit VR prototype once our dragon assets, flight physics and combat systems are solid.
+> That way, we're not rebuilding Space Dragon from scratch when we eventually put on a headset.
+
+Receipt: **SD-078** · CONFIRMED request to design for VR compatibility now without building VR; three play modes BOOKMARKED; cockpit-first sequencing, PC VR first and native OpenXR path PROPOSED; PC upgrade, headset choice and player age suitability OPEN for the owner · work state **planned**. [VR readiness standard](../docs/engineering/VR_READINESS.md) (requirements R1–R12, comfort register, prototype trigger, review checklist) and [decision](../docs/decisions/2026-10-31-vr-ready-architecture.md). Contradictions recorded there: no Unity decision is committed on `main` yet (SD-072/074 are on concurrent branches) and the Earth slice is Babylon, not Three.js; moving to Unity removes the browser WebXR path; keyboard stays primary; web-slinging remains a PROPOSED power; SD-041 live spelling holds in VR; single pilot; the headset maker's minimum age (Meta: 10) must be checked. No XR package, setting, scene, build, purchase or deployment. Next: apply the checklist to the next Unity camera, input, HUD or flight change.
+
 ### October 30, 2026 - testing features and finding integration blind spots
 
 Source: owner, follow-up to the cinematic scoping discussion. Original wording:

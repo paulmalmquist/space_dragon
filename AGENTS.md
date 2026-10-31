@@ -7,6 +7,7 @@ Read [project status](docs/project/STATUS.md), [the vision](docs/project/VISION.
 Load only the relevant contract:
 - Story or missions: [current campaign structure](docs/story/CAMPAIGN_STRUCTURE.md), then [Act I](docs/story/ACT_I_BUILD_THE_DRAGON.md) or the relevant act draft.
 - Runtime or saves: [architecture](docs/engineering/ARCHITECTURE.md) and [interactions](docs/gameplay/INTERACTION_CONTRACTS.md).
+- Unity camera, input, HUD, shaders, cinematics or view motion: also [VR readiness](docs/engineering/VR_READINESS.md). VR modes are bookmarked; do not add XR packages or builds without the prototype trigger.
 - Learning: [learning rules](docs/learning/LEARNING_RULES.md).
 - Art: [Blender handoff](docs/BLENDER_CHARACTER_HANDOFF.md).
 - Seele or prototype imports: [prototype integration](docs/engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](seeles-assets/README.md); the first track is dragon dogfighting. Include an initial import-versus-refactor assessment.
