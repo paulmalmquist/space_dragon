@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import type { DriveState, DriveInput } from '../src/game/drive/simulation.ts';
-import { ROUTE, nearestRoutePoint } from '../src/game/drive/route.ts';
+import { ROUTE, NEIGHBORHOOD_ROUTE, nearestRoutePoint } from '../src/game/drive/route.ts';
 import { DRIVE_JUNCTIONS, JUNCTION_CLOSURES } from '../src/game/drive/junctions.ts';
 
 // Detailed PBR assets compile slowly under the suite's software renderer. Keep
@@ -360,8 +360,8 @@ test('mapped junction arms and police closures stream into the real scene', asyn
       const meshes = debug.scene.meshes;
       return { junction: metrics.junctions.junctions.find(j => j.id === id),
         closedArms: metrics.junctions.closedArms, collisionProxies: metrics.junctions.collisionProxies,
-        policeBodies: meshes.filter(mesh => mesh.name.startsWith('drive.junction.police.') &&
-          mesh.name.includes(id) && mesh.name.endsWith('.paint') && mesh.isVisible && mesh.isEnabled() && mesh.getTotalVertices() > 0).length,
+        policeBodies: meshes.filter(mesh => mesh.name.startsWith(`drive.junction.police.closure.${id}.`) &&
+          mesh.name.endsWith('.paint') && mesh.isVisible && mesh.isEnabled() && mesh.getTotalVertices() > 0).length,
         pavement: meshes.some(mesh => mesh.name.startsWith(`drive.junction.${id}.batch.`) && mesh.isEnabled() && mesh.getTotalVertices() > 0),
       };
     }, { id: junction.id, s: nearestRoutePoint(junction.x, junction.z).s });
@@ -370,8 +370,38 @@ test('mapped junction arms and police closures stream into the real scene', asyn
     expect(observed.junction?.arms.length).toBe(junction.arms.length);
     expect(observed.policeBodies).toBe(JUNCTION_CLOSURES.filter(closure => closure.junctionId === junction.id).length);
     expect(observed.pavement).toBe(true);
-    expect(observed.closedArms).toBe(7);
+    expect(observed.closedArms).toBe(11);
     expect(observed.collisionProxies).toBeGreaterThan(100);
   }
+  expect(errors).toEqual([]);
+});
+
+test('the gate route uses Winston Trails South and renders the mapped lakes and residential context', async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await page.goto('drive/'); await ready(page);
+  await expect(page.locator('#welcome')).toContainText('right onto Green Island Boulevard, then left onto Winston Trails South');
+  await page.locator('#begin').click();
+  const observed = await page.evaluate(s => {
+    const debug = (window as unknown as { __TOWN_DRIVE__: DriveDebug & {
+      scene: { meshes: { name: string; metadata?: { streetName?: string; sourceWaterId?: number };
+        isEnabled(): boolean; getTotalIndices(): number }[] }
+    } }).__TOWN_DRIVE__;
+    debug.inspectAt(s, 'dashboard');
+    const metrics = debug.snapshot().metrics as { neighborhood: { context: {
+      lakes: number; sourceRoads: number; estimatedLots: number; estimatedBuildings: boolean;
+    } } };
+    return { context: metrics.neighborhood.context,
+      lakeMeshes: debug.scene.meshes.filter(mesh => mesh.metadata?.sourceWaterId && mesh.isEnabled() && mesh.getTotalIndices() > 6)
+        .map(mesh => mesh.metadata!.sourceWaterId).sort(),
+      streetNames: debug.scene.meshes.map(mesh => mesh.metadata?.streetName).filter(Boolean) };
+  }, NEIGHBORHOOD_ROUTE.gateS - 65);
+  await expect(page.locator('#route-label')).toHaveText('WINSTON TRAILS SOUTH', { timeout: motionTimeout });
+  expect(observed.context.lakes).toBe(4);
+  expect(observed.context.sourceRoads).toBeGreaterThan(20);
+  expect(observed.context.estimatedLots).toBeGreaterThan(40);
+  expect(observed.context.estimatedBuildings).toBe(true);
+  expect(observed.lakeMeshes).toEqual([186588742, 186588755, 187968473, 187968475]);
+  expect(observed.streetNames).toContain('Winston Trails South');
+  expect(observed.streetNames).not.toContain('Green Island Terrace');
   expect(errors).toEqual([]);
 });

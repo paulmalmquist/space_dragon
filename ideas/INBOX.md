@@ -274,3 +274,12 @@ Owner wording:
 > car is vibrating too much as we drive
 
 Routing receipt: **CONFIRMED**, technically verified; human road-recognition and comfort review remain open. [Decision](../docs/decisions/2026-10-31-town-drive-junctions-and-motion.md) and [verification](../docs/reports/2026-10-31-town-drive-junctions-and-motion.md). Correct junction branches and visible route closures; stabilize presentation without changing physics/checkpoints.
+
+
+## October 31, 2026 — Google Maps gate route and proportions (SD-064)
+
+Owner wording:
+
+> please take another look at the layout of the world here in google maps. getting to the hypoluxo gate is straight out of the culdesac, right on green island left on winston trails. look at the proportions closely and make sure we have the world right
+
+Three Google Maps screenshots supplied in chat (two repeat the close neighborhood view). Routing receipt: **CONFIRMED**, technically verified; human road recognition and comfort remain open. [Decision](../docs/decisions/2026-10-31-town-drive-map-proportions.md), [verification](../docs/reports/2026-10-31-town-drive-map-proportions.md). Correct the gate road to Winston Trails South, examine actual street/water/context proportions and preserve the earlier drive improvements.
