@@ -51,3 +51,16 @@ No backend upgrade, public upload, analytics service, external model-generation 
 ## Decision record format
 
 Use `docs/decisions/YYYY-MM-DD-topic.md` for consequential choices: status, owner/request, evidence, decision, alternatives, consequences, rollback, affected files and superseded guidance. Reversible local implementation details need not generate paperwork. Do not reinterpret historical specs as current implementation evidence.
+
+
+## Town Drive Lab boundary — SD-046
+
+The [drive decision](../decisions/2026-10-30-town-drive-lab.md) adds a separate Babylon entry at `/space-dragon/drive/`, not an Act I mission. Pure fixed-step state owns car motion, ordered leg checkpoints and the idempotent return-home flag. A separate versioned local save preserves the last checkpoint and assistance without touching story, avatar or learner data. Rendering streams procedural road chunks and observes that state. Keyboard and the existing standard gamepad adapter feed the same semantic drive inputs.
+
+The owner-approved estimated house JSON is bundled for development and production. [SD-052](../decisions/2026-10-30-town-drive-detail-override.md) removes the prior privacy/publication rule and dev-only loader. Reference-derived runtime geometry/textures are permitted; promoted assets use the manifest. Offline comparisons remain local working output. [Verification](../reports/2026-10-30-town-drive-lab.md) owns measured results and missing device/human gates.
+
+SD-055 traffic state lives beside the player state in the drive entry and advances through pure `traffic.ts` at fixed 30 Hz, driven by player simulation time. `traffic-visuals.ts` consumes poses only; templates/instances/LOD do not own gameplay state. Nearby vehicle footprint proxies join the existing forgiving collision solver. Rendering and pausing cannot independently advance NPC traffic.
+
+SD-057 pedestrian position and walk phase use the player's elapsed simulation time; paused rendering cannot advance them. Street development streams with the existing road chunks. First-person eye and look offsets, steering wheel/instrument animation and minivan visibility are presentation only; they do not own steering, checkpoints or saved progress. Real route names replace fictional labels while stable section/checkpoint IDs remain unchanged.
+
+SD-058 keeps the mapped court a true dead end. The player route retraces Starpass on return, so simulation/HUD nearest-route queries carry the previous route distance to disambiguate coincident outbound/inbound segments. World rendering draws that pavement once. Ambient traffic has a continuous shorter circuit straight through Green Island Boulevard, excluding the court branch; its physical distances and poses remain separate from player checkpoint progression. Existing saves store stable checkpoint IDs, not old world coordinates. A fresh-start option deliberately begins a new drive at Starpass without touching campaign saves.

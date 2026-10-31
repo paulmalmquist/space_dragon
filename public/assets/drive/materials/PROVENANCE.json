@@ -1,0 +1,448 @@
+{
+  "schemaVersion": 1,
+  "provider": "Poly Haven",
+  "credit": "Powered by Poly Haven",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "apiTerms": "https://github.com/Poly-Haven/Public-API/blob/master/ToS.md",
+  "retrieved": "2026-10-30",
+  "runtimeNetwork": "Same-origin local files only; no runtime API dependency",
+  "assets": [
+    {
+      "id": "asphalt_01",
+      "url": "https://polyhaven.com/a/asphalt_01",
+      "authors": {
+        "Dario Barresi": "Processing ",
+        "Charlotte Baglioni": "Photography"
+      },
+      "sourceDimensionsMillimetres": [
+        2079.9994468688965,
+        2079.9996852874756
+      ]
+    },
+    {
+      "id": "grass_ground",
+      "url": "https://polyhaven.com/a/grass_ground",
+      "authors": {
+        "Charlotte Baglioni": "All"
+      },
+      "sourceDimensionsMillimetres": [
+        2509.999990463257,
+        2509.999990463257
+      ]
+    },
+    {
+      "id": "concrete_floor_02",
+      "url": "https://polyhaven.com/a/concrete_floor_02",
+      "authors": {
+        "Rob Tuytel": "All"
+      },
+      "sourceDimensionsMillimetres": [
+        2000,
+        2000
+      ]
+    },
+    {
+      "id": "painted_plaster_wall",
+      "url": "https://polyhaven.com/a/painted_plaster_wall",
+      "authors": {
+        "Amal Kumar": "All"
+      },
+      "sourceDimensionsMillimetres": [
+        2000,
+        2000
+      ]
+    },
+    {
+      "id": "palm_tree_bark",
+      "url": "https://polyhaven.com/a/palm_tree_bark",
+      "authors": {
+        "Dimitrios Savva": "Photography",
+        "Rico Cilliers": "Processing"
+      },
+      "sourceDimensionsMillimetres": [
+        1299.9999523162842,
+        1300.0000715255737
+      ]
+    },
+    {
+      "id": "oak_veneer_01",
+      "url": "https://polyhaven.com/a/oak_veneer_01",
+      "authors": {
+        "Jenelle van Heerden": "All"
+      },
+      "sourceDimensionsMillimetres": [
+        1830.0000429153442,
+        1830.0000429153442
+      ]
+    },
+    {
+      "id": "rough_linen",
+      "url": "https://polyhaven.com/a/rough_linen",
+      "authors": {
+        "colormass": "Photography",
+        "Rico Cilliers": "Processing"
+      },
+      "sourceDimensionsMillimetres": [
+        270.7081392676629,
+        271.29998803138733
+      ]
+    },
+    {
+      "id": "kloofendal_48d_partly_cloudy_puresky",
+      "url": "https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky",
+      "authors": {
+        "Greg Zaal": "Original",
+        "Jarod Guest": "Sky edits"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/drive/materials/asphalt-albedo.webp",
+      "asset": "asphalt_01",
+      "map": "albedo",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_01/asphalt_01_diff_1k.jpg",
+      "sourceBytes": 739513,
+      "sourceSha256": "99b6f6bdfbd09279f3f550ac9593336df541aa2319537566eeb3e737d8512010",
+      "bytes": 170562,
+      "sha256": "c438a2a5f607c1103081580040ef711299456d19c50652b994dfd61d8f407ef9",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "sRGB"
+    },
+    {
+      "path": "assets/drive/materials/asphalt-normal.webp",
+      "asset": "asphalt_01",
+      "map": "normal",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_01/asphalt_01_nor_gl_1k.jpg",
+      "sourceBytes": 1237059,
+      "sourceSha256": "b745fd20cfb775ae907786ff0ffe200cedf73f3a6ef4e60c637b85b08e0a4f9a",
+      "bytes": 611256,
+      "sha256": "5d511c278ac5dcae80855cfc24d0f730874281d8c51b5a04ba3fa5f5d196f3ce",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/asphalt-roughness.webp",
+      "asset": "asphalt_01",
+      "map": "roughness",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_01/asphalt_01_rough_1k.jpg",
+      "sourceBytes": 344964,
+      "sourceSha256": "147891957807bb03cc565c9daa8a16a4af7713449a0f475c638f78f833ad0646",
+      "bytes": 3684,
+      "sha256": "c6480a4df033dcff06003ec6c2ad960efacf51b70ce9f9d4e8240db59cd99975",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/grass-albedo.webp",
+      "asset": "grass_ground",
+      "map": "albedo",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_ground/grass_ground_diff_1k.jpg",
+      "sourceBytes": 876584,
+      "sourceSha256": "a79cc5ed65af0f80261b39a383b64a8c5272c5144d724deb43dbc29f0e4cd19b",
+      "bytes": 246742,
+      "sha256": "230f49f8223d0d5ffc21cce7341a65973fd305503fe2d99f78b6394345859d18",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "sRGB"
+    },
+    {
+      "path": "assets/drive/materials/grass-normal.webp",
+      "asset": "grass_ground",
+      "map": "normal",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_ground/grass_ground_nor_gl_1k.jpg",
+      "sourceBytes": 1310516,
+      "sourceSha256": "7000e2ccd479bb7b66dcdf4faef7b47554324566886314ca620cbf03e274e826",
+      "bytes": 650494,
+      "sha256": "0053db8d49aade03533c75bf21eb2376dac76dcc7ee40779a015e23e0307a450",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/grass-roughness.webp",
+      "asset": "grass_ground",
+      "map": "roughness",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_ground/grass_ground_rough_1k.jpg",
+      "sourceBytes": 328190,
+      "sourceSha256": "111341f948b7e073edf7ac6add8777e1bf10df8959400df3863243e89bbc8c08",
+      "bytes": 5308,
+      "sha256": "e4a82cfa0e4a5d7db42324a903bb62b697a1dad7e4d753e383b1c4eec17a0a7c",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/concrete-albedo.webp",
+      "asset": "concrete_floor_02",
+      "map": "albedo",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_02/concrete_floor_02_diff_1k.jpg",
+      "sourceBytes": 776097,
+      "sourceSha256": "6db84a6d87dc50508b9d134d6fbd2b7e876b8081a5f43a118a249ca18de73af5",
+      "bytes": 436894,
+      "sha256": "6c51f70cbb540f8270ca38bb058a9fbbd563438bfe01617657eacd578059cc08",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "sRGB"
+    },
+    {
+      "path": "assets/drive/materials/concrete-normal.webp",
+      "asset": "concrete_floor_02",
+      "map": "normal",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_02/concrete_floor_02_nor_gl_1k.jpg",
+      "sourceBytes": 192757,
+      "sourceSha256": "fcda391b57a816d646ae15544688be53790478da5cd48dbe514b3c6901415e61",
+      "bytes": 296628,
+      "sha256": "1e3ddc380eebe8337507524bee860fb7a5e9e83f8e6106428885306208390c24",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/concrete-roughness.webp",
+      "asset": "concrete_floor_02",
+      "map": "roughness",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_floor_02/concrete_floor_02_rough_1k.jpg",
+      "sourceBytes": 318550,
+      "sourceSha256": "c7f026a611b7859903c61ec7fd4574944157223e9e7796413dd6e2a66eaeac7a",
+      "bytes": 118528,
+      "sha256": "c9cc4d74f9d92241f59f395d8c4c9f3c3e38279a3eb64186a88f1b5ab023cd18",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/plaster-albedo.webp",
+      "asset": "painted_plaster_wall",
+      "map": "albedo",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/painted_plaster_wall/painted_plaster_wall_diff_1k.jpg",
+      "sourceBytes": 686726,
+      "sourceSha256": "440310f05af089f2c93353167573403cbc3f805948203237b5d26431eeb9e19c",
+      "bytes": 189218,
+      "sha256": "bb3c2e4a4c780158967ea3654741f524152e26993868f1c10b2cb318bbf3c046",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "sRGB"
+    },
+    {
+      "path": "assets/drive/materials/plaster-normal.webp",
+      "asset": "painted_plaster_wall",
+      "map": "normal",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/painted_plaster_wall/painted_plaster_wall_nor_gl_1k.jpg",
+      "sourceBytes": 900461,
+      "sourceSha256": "8eb01647d126eb5341e2c325821ad48c8ca11349dbef53447c95422c5d91cc9d",
+      "bytes": 438484,
+      "sha256": "ec0ba189cbe3f9bd07b4bb396de298fa5659076f654cc702512e7f0a1e6adafd",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/plaster-roughness.webp",
+      "asset": "painted_plaster_wall",
+      "map": "roughness",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/painted_plaster_wall/painted_plaster_wall_rough_1k.jpg",
+      "sourceBytes": 354762,
+      "sourceSha256": "e0564c297b22ab1cf4ef02a82157b84ce3b92eb4fd49d9c64b7256a8b300af82",
+      "bytes": 7890,
+      "sha256": "1e0f678ef9a439656232594182fed88b907902c28a3f0204e53e015fd8a9079b",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/bark-albedo.webp",
+      "asset": "palm_tree_bark",
+      "map": "albedo",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/palm_tree_bark/palm_tree_bark_diff_1k.jpg",
+      "sourceBytes": 1974940,
+      "sourceSha256": "38da1d987ea88af120cedd66ad7d2f26ea3351d23c061e7d22bebc37ed22d9ef",
+      "bytes": 680368,
+      "sha256": "464bcfde42c51508ce0c8be3453da51cfe523b7b50d4abea639b68deb8678c9a",
+      "dimensions": [
+        1024,
+        2048
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "sRGB"
+    },
+    {
+      "path": "assets/drive/materials/bark-normal.webp",
+      "asset": "palm_tree_bark",
+      "map": "normal",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/palm_tree_bark/palm_tree_bark_nor_gl_1k.jpg",
+      "sourceBytes": 1514646,
+      "sourceSha256": "37fb300d7db0b3c6de701d533c6fdf0ec7a1028f244813eee63c9a63a867257d",
+      "bytes": 592966,
+      "sha256": "124e2cb02617820f70edaef20c2f44c81b6161236b0dfa541eaf47b3483a33ff",
+      "dimensions": [
+        1024,
+        2048
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/bark-roughness.webp",
+      "asset": "palm_tree_bark",
+      "map": "roughness",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/palm_tree_bark/palm_tree_bark_rough_1k.jpg",
+      "sourceBytes": 1350564,
+      "sourceSha256": "60e84bf7bdd366509d9176fdce72abfdf50da0975bf1d01b5469d20468e8232a",
+      "bytes": 382728,
+      "sha256": "1a5a051804fd1aa075122b3a0f4677a84d08da4ed168eb93cbe673e505eda6f7",
+      "dimensions": [
+        1024,
+        2048
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/sky/daylight-512.env",
+      "asset": "kloofendal_48d_partly_cloudy_puresky",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/kloofendal_48d_partly_cloudy_puresky_2k.hdr",
+      "bytes": 2610301,
+      "sha256": "b153789f97d720500cca435e8bd963c672dfda6b46db90d814aa577a1d736a5f",
+      "processing": "Babylon 9.33.0 offline 512px cubemap; default 4096-sample specular prefilter, 64px spherical-polynomial integration target; PNG RGBD mip chain and polynomial irradiance via EnvironmentTextureTools.CreateEnvTextureAsync",
+      "sourceBytes": 5451493,
+      "sourceSha256": "5244534e9cf5b606f2ff513aa00ddb161b0a4826ffd88a0d3bd03ac29247d198"
+    },
+    {
+      "path": "assets/drive/materials/wood-albedo.webp",
+      "asset": "oak_veneer_01",
+      "map": "albedo",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/oak_veneer_01/oak_veneer_01_diff_1k.jpg",
+      "sourceBytes": 641756,
+      "sourceSha256": "c14681f72f59f17bff568cae7a837641443b607b899f0c279cd64a5638f877a7",
+      "bytes": 116882,
+      "sha256": "f834f2b30095a046ca78a5bfec502d76f6e6c1a04afaaf4f7f6931cbb9765804",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "sRGB"
+    },
+    {
+      "path": "assets/drive/materials/wood-normal.webp",
+      "asset": "oak_veneer_01",
+      "map": "normal",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/oak_veneer_01/oak_veneer_01_nor_gl_1k.jpg",
+      "sourceBytes": 484844,
+      "sourceSha256": "1297acf7b4476d5ccd83cc8b27be96aa6110f7a9c3a40be0bd767bf81b17db01",
+      "bytes": 100538,
+      "sha256": "6f512676f720950229582c236c07c9140aaac5abd093143e2e6b61c8346d01e6",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/wood-roughness.webp",
+      "asset": "oak_veneer_01",
+      "map": "roughness",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/oak_veneer_01/oak_veneer_01_rough_1k.jpg",
+      "sourceBytes": 865194,
+      "sourceSha256": "ca2af5649b628ef05f196793d68cdca874c12ceb6e9ae566976546d9dd5a2604",
+      "bytes": 324282,
+      "sha256": "a057c4d6a97896e02217953de01a74ef9caa2c2c4a5cac7f782032f2d668d77a",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/fabric-albedo.webp",
+      "asset": "rough_linen",
+      "map": "albedo",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_linen/rough_linen_diff_1k.jpg",
+      "sourceBytes": 835801,
+      "sourceSha256": "04897d7611d7390ddf5b2c6f7273f448dfc48341fdbd1f4f207fa30b331d7f57",
+      "bytes": 267702,
+      "sha256": "c67c1a105370e9c0729cabf9bece0d91071cb1d7d815a778789baef1b4ede6d0",
+      "dimensions": [
+        1024,
+        1026
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "sRGB"
+    },
+    {
+      "path": "assets/drive/materials/fabric-normal.webp",
+      "asset": "rough_linen",
+      "map": "normal",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_linen/rough_linen_nor_gl_1k.jpg",
+      "sourceBytes": 916843,
+      "sourceSha256": "e2402166d1a489f7414814e69e1836ab672aa24e30bec2d41fea356f81687e53",
+      "bytes": 480492,
+      "sha256": "b7e5f830e3c968ee35a5ee107616caed5c121e2a7258db6ea824deab750466fe",
+      "dimensions": [
+        1024,
+        1026
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    },
+    {
+      "path": "assets/drive/materials/fabric-roughness.webp",
+      "asset": "rough_linen",
+      "map": "roughness",
+      "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_linen/rough_linen_rough_1k.jpg",
+      "sourceBytes": 1083725,
+      "sourceSha256": "734ad6718841a6e296aacaa6e9ee2e1686eed5f62bb8d71c915c5605e162bcb4",
+      "bytes": 469840,
+      "sha256": "2244c18aebab88f2a8bf98f2b7855ec4eeff708597a8e3087236dbb6896beeaf",
+      "dimensions": [
+        1024,
+        1026
+      ],
+      "processing": "1K source JPEG re-encoded WebP; no upscaling",
+      "colorSpace": "linear data"
+    }
+  ]
+}

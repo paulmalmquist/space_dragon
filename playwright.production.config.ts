@@ -1,16 +1,18 @@
 import { defineConfig } from '@playwright/test';
 
+const previewPort = Number(process.env.SPACE_DRAGON_PREVIEW_PORT ?? 4177);
+
 /** Exercises the static artifact, where development tools must not exist. */
 export default defineConfig({
   testDir: './tests',
-  testMatch: ['production.spec.ts', 'navigation.production.spec.ts'],
+  testMatch: ['production.spec.ts', 'navigation.production.spec.ts', 'drive.production.spec.ts'],
   fullyParallel: false,
   workers: 1,
-  timeout: 45_000,
+  timeout: process.env.CI ? 90_000 : 45_000,
   reporter: 'list',
   outputDir: 'artifacts/production-test-results',
   use: {
-    baseURL: 'http://127.0.0.1:4177/space-dragon/',
+    baseURL: `http://127.0.0.1:${previewPort}/space-dragon/`,
     browserName: 'chromium',
     viewport: { width: 1440, height: 1000 },
     screenshot: 'only-on-failure',
@@ -18,8 +20,8 @@ export default defineConfig({
     launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
   },
   webServer: {
-    command: 'npm run preview -- --port 4177',
-    url: 'http://127.0.0.1:4177/space-dragon/',
+    command: `npm run preview -- --port ${previewPort}`,
+    url: `http://127.0.0.1:${previewPort}/space-dragon/`,
     reuseExistingServer: false,
   },
 });

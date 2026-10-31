@@ -11,3 +11,6 @@ If convenient, record in daylight, hold the phone steady and keep each clip focu
 Agents keep new source clips in ignored `assets/reference/local/home/`, following [the asset pipeline](ASSET_PIPELINE.md). Reference video is not a runtime game asset. Use it to build a fictionalized setting with familiar character and spatial relationships; an exact address-identifying reconstruction is not required. Record which clip informed an adjustment, then review that change in the actual walking scene.
 
 Next useful action when footage arrives: watch the route, identify the few features Paul wants to recognize, and revise the living-room/doorway/yard/garage blockout before polishing materials and scenery.
+
+
+For Town Drive, the owner’s [SD-052 override](decisions/2026-10-30-town-drive-detail-override.md) removes the privacy/publication restriction and permits the real estimated house layout and reference-derived assets in the review build.

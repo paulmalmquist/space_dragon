@@ -218,3 +218,50 @@ Source: owner, same IDE session.
 > also we are using seele as a way to generate prototype games. this game with be a combo of several games, and i am starting with the dragon dog-fight games
 
 Receipt: **SD-036** · CONFIRMED production direction · [The prototype integration plan](../docs/engineering/PROTOTYPE_INTEGRATION.md) records several prototype games feeding one Space Dragon game, with dragon dogfighting first. [Seele intake](../seeles-assets/README.md) preserves raw exports and routes inspection/migration; the existing upstream intake instructions were reused. A parallel flight prototype does not reorder the Earth-first campaign or prove an export has been integrated. Agents inspect source, dependencies, controls/assets and shared-state boundaries, then choose one useful slice under normal build/playtest checks.
+
+
+### October 30, 2026 — Town Drive Lab from house and driving videos
+
+> give me a prompt to start working on driving around the 3D environment we can create from my house and the drive i went on. they will be stored as videos in the repo.
+
+Supplied local originals: `assets/reference/videos/IMG_5753.MOV` and `assets/reference/videos/IMG_5754.MOV`. The accompanying Town Drive Lab task authorizes source verification, local-only analysis and reconstruction spike, a separate drivable lab, checks and a PR.
+
+Receipt: **SD-046** · CONFIRMED drivable reference-based environment; lab structure, car tuning, invented connectors and distance factor PROPOSED · [Decision](../docs/decisions/2026-10-30-town-drive-lab.md), [verification](../docs/reports/2026-10-30-town-drive-lab.md). Private footage, derivatives and the real house layout stay local. Production uses a fictional layout. This does not add an Act I mission or settle who drives, the canonical car or town geography. Incoming main reference IDs SD-029/030 and controller SD-038 are source provenance, not replacements for this branch's existing entries.
+
+## October 30, 2026 — Town Drive realism and rule removal (SD-052)
+
+Owner source wording:
+
+> i am overriding privacy rule. i dont know who put that. also this looks too basic. i want pretty close to photorealistic and detailed
+
+> remove the rule
+
+Routing receipt: **CONFIRMED**, technically verified. [Decision](../docs/decisions/2026-10-30-town-drive-detail-override.md) removes the original task’s Town Drive privacy/publication gate. The estimated house layout is bundled; materials, vegetation, lighting, road detail and car are upgraded while retaining driving behavior. [Verification](../docs/reports/2026-10-30-town-drive-detail.md) records passed checks and remaining human review.
+
+## October 30, 2026 — Town Drive traffic and details (SD-055)
+
+Owner source wording:
+
+> fill the world with NPC cars, traffic and a few more details also. dealers choice on details
+
+Routing receipt: **CONFIRMED**, technically verified. [Decision](../docs/decisions/2026-10-30-town-drive-traffic.md) adds traffic previously held outside the first lab increment. Bidirectional NPC vehicles, signal/following behavior and agent-selected street details are implemented; driving/save boundaries remain intact. [Combined verification](../docs/reports/2026-10-30-town-drive-detail.md).
+
+## October 30, 2026 — Town Drive lived-in streets and minivan (SD-057)
+
+Owner source wording:
+
+> lets get some poeple walking around. use real street names please.
+> increase the detail on the surroundings too. keep going on photorealism.
+> make it a white minivan (looks like honda odyssey)
+> also when you look left and right there needs to be development there too.
+> make it optional to go into first person view and be concious of how detailed that needs to be in the car
+
+Routing receipt: **CONFIRMED**, technically verified; human appearance/handling review remains open. [Decision](../docs/decisions/2026-10-30-town-drive-lived-in-streets.md) authorizes sidewalk walkers, real route labels, developed side views, an Odyssey-inspired white minivan and optional detailed cabin camera. Retain route, traffic, pause, recovery and separate drive saves. [Verification](../docs/reports/2026-10-30-town-drive-lived-in-streets.md) records actual results and limits.
+
+## October 30, 2026 — Town Drive home-route correction (SD-058)
+
+Owner wording:
+
+> use google maps to understand 6826 starpass court and the culdesac i live on. i drove out to the visitors gate and turned right on hypoluxo. right now its a little wonky compared to reality
+
+Routing receipt: **CONFIRMED**, technically verified; owner road recognition remains open. [Decision](../docs/decisions/2026-10-30-town-drive-home-route.md) supersedes the invented outbound connector; [SD-057/058 verification](../docs/reports/2026-10-30-town-drive-lived-in-streets.md) records source confidence, implementation and checks. Existing privacy override remains active. Preserve the ongoing pedestrians/minivan/detail work.

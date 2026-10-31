@@ -62,3 +62,20 @@ Choose Start with sound for the browser's placeholder computer narrator, or Play
 ## Integration still to resolve
 
 Keep the `/space-dragon` URL prefix. This is a standalone local client, not a replacement homepage. The public host currently returns unexpected content and the game route was 404 during inspection; the website's actual source, routing, deployment, and Railway services remain unidentified. Audit them before integrating. Keep frontend engine decisions separate from the host UI framework; Babylon does not require replacing an existing site framework.
+
+
+## Town Drive Lab — SD-046
+
+Run `npm.cmd start`, then open `/space-dragon/drive/` (or use the Town Drive Lab link). The home entry and First Contact remain available. Keyboard: W/arrows throttle, S/down brake/reverse, A/D or left/right steer, Space handbrake, C camera, R checkpoint reset, M map, Esc pause, F2 handling. Standard mapped controller: R2 throttle, L2 brake/reverse, left stick steer, Cross handbrake, Triangle reset, R1 camera, Options pause. Physical-pad support remains NOT TESTED.
+
+Chase, dashboard and orbit modes are available. Choose Assist, optional turn chimes and less camera motion before starting; F2 pauses to adjust session handling and Assist. Saves use only `space-dragon.drive.v1` and its backup. Completing the loop sets one completion flag; no campaign or learner rewards are granted.
+
+Development, CI and production use the approved estimated `src/game/drive/reference-house.json`. [SD-052](decisions/2026-10-30-town-drive-detail-override.md) removes the Town Drive privacy/publication rule and additional real-layout approval gate. Runtime materials/models are versioned under `public/assets/drive/` and listed in the asset manifest. Large source videos and intermediate comparisons remain in local storage for workflow reasons.
+
+With a dev server on5182 and the local reference anchors present, run `node tools/town-drive-compare.mjs --url http://127.0.0.1:5182/space-dragon/drive/ --every 250`. It creates a new local-only HTML comparison folder; no frames load in the game. `tools/town-drive-reference.py` and `tools/town-drive-spike.py` reject existing output folders and destinations outside `assets/reference/local/`; the latter requires the isolated PyCOLMAP environment documented in the local spike receipt.
+
+Town Drive now includes 64 ambient vehicles with sedan/SUV/van variants, 12 parked vehicles, traffic lights and roadside furniture under SD-055. NPC traffic uses the player simulation clock and freezes while paused. It is encounter scenery, not saved campaign progress. The Start button waits for the scene shaders/textures to be ready.
+
+SD-057 adds real route labels (Hypoluxo, Jog, Lantana and Hagen Ranch), sidewalk walkers, developed side views and a white Odyssey-inspired minivan. Select **First person** before starting or press **V** / the **Cabin** button to toggle driver-seat and chase views. **C** / controller R1 still cycles all three cameras. Hold **Q/E** or drag the scene to look left/right; releasing returns forward. Look input never steers the car. The cabin view uses its modeled instruments and keeps the larger HUD speed panel out of their way. Source geometry, asset provenance and measured limitations are recorded in the [receipt](reports/2026-10-30-town-drive-lived-in-streets.md).
+
+SD-058 replaces the outbound connector with the mapped Starpass Court → Green Island Boulevard → Green Island Terrace → right onto Hypoluxo approach. The cul-de-sac remains a dead end; the invented return rejoins its existing mouth. Arterial distances and neighboring parcels remain representative. Road attribution is visible in the lab. If an older checkpoint is restored, select **Start a fresh loop from Starpass Court** before starting to review the home exit. The house displays an estimated exterior by default; development inspection can explicitly call `__TOWN_DRIVE__.setHomeCutaway(true)` to view the preserved reference interior.

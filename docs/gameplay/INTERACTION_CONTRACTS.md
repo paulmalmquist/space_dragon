@@ -54,3 +54,8 @@ Use one immediate instruction, a visible objective, optional repeated audio and 
 - Fail a scene load or fall out of bounds: return/retry is available.
 
 These are acceptance scenarios. Party/sidekick behavior is not implemented or verified by this document. Avatar-switch checks apply only if that OPEN feature is later selected; they do not approve it. Other scenarios are not verified until executed against the corresponding runtime behavior.
+
+
+## Town Drive Lab — SD-046
+
+Drive checkpoints must be crossed in route order and direction; repeated/reversed triggers cannot add another visit or completion reward. Reload places the car at the saved road pose with zero velocity. R and two-second stuck recovery return to that checkpoint; no damage/game-over state is introduced. Pause, blur and hidden-page transitions zero movement and clear held keyboard input; controller movement requires neutral before rearming. Assist is an action setting, independent of learning/avatars. The lab grants no story inventory or mastery. [Decision](../decisions/2026-10-30-town-drive-lab.md); [evidence](../reports/2026-10-30-town-drive-lab.md).

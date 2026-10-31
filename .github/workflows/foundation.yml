@@ -26,7 +26,9 @@ jobs:
 
   game:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    # The detailed drive loop renders in SwiftShader on CI; the previous run
+    # exhausted 15 minutes before production checks could begin.
+    timeout-minutes: 35
     steps:
       - name: Check out repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
