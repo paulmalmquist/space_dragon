@@ -1,6 +1,6 @@
 # Script — A1-00 to A1-03: First Contact
 
-**Status:** PROPOSED draft production script. Dialogue, cues and IDs are placeholders.  
+**Status:** PROPOSED draft production script. Dialogue, cues and IDs are placeholders.
 **Sources:**
 - [Act I](../ACT_I_BUILD_THE_DRAGON.md): canon beats and the canon draft lines, marked ★.
 - [Suit reveals](../SUIT_REVEALS_AND_STARTING_ABILITIES.md): the full reveal beats, which aren't repeated here.

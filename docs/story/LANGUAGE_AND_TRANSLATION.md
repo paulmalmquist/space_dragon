@@ -1,7 +1,7 @@
 # Language
 
-**Date:** October 30, 2026  
-**Status:** CONFIRMED owner direction (SD-037, [decision](../decisions/2026-10-30-translation.md)): **the game is in English**, and the suits are a hand-wave for why the family can understand everyone. It isn't a mechanic. The flavor details below are PROPOSED.  
+**Date:** October 30, 2026
+**Status:** CONFIRMED owner direction (SD-069, [decision](../decisions/2026-10-30-translation.md)): **the game is in English**, and the suits are a hand-wave for why the family can understand everyone. It isn't a mechanic. The flavor details below are PROPOSED.
 **Source:** owner, Space Dragon chat, October 30, 2026: *"We need: a way to translate language,"* then *"The suits can translate,"* then *"The game just needs to be in English with the suit core hand waiving why we can understand."*
 
 ## The rule

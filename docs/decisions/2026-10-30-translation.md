@@ -1,8 +1,8 @@
 # Decision — The story needs a way to translate language
 
-**Recorded:** October 30, 2026  
-**Status:** CONFIRMED owner direction. Superseded in part on October 30 by the update below: **the game is in English**, and the suits are a hand-wave, not a translation mechanic.  
-**Decision source:** the owner, in the Space Dragon chat: *"We need: a way to translate language."* Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-033.
+**Recorded:** October 30, 2026
+**Status:** CONFIRMED owner direction. Superseded in part on October 30 by the update below: **the game is in English**, and the suits are a hand-wave, not a translation mechanic.
+**Decision source:** the owner, in the Space Dragon chat: *"We need: a way to translate language."* Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-067.
 
 ## Decision
 
@@ -23,14 +23,14 @@ No implementation scope is authorized by this record.
 
 ## Update — the suits translate (October 30, 2026)
 
-**Owner direction:** *"The suits can translate."* Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-034.
+**Owner direction:** *"The suits can translate."* Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-068.
 
 - **The suits are the translation mechanism.** This replaces the earlier proposal that the Core interprets. The Core still learns to talk in Act I, rides in the dragon and can read glyphs aloud as an assisted path.
 - Proposed with it: the suits translate both ways, singing the family's words in Vieran in each wearer's instrument voice; they translate what they hear, not what they see, so the Glyph Book and the curriculum tie-in stay; and Morrow's note makes them drop words near Viera, with the Caller filling the gaps.
 
 ## Update — the game is in English (October 30, 2026)
 
-**Owner direction:** *"The game just needs to be in English with the suit core hand waiving why we can understand."* Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-037.
+**Owner direction:** *"The game just needs to be in English with the suit core hand waiving why we can understand."* Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-069.
 
 - **Everything is in English**, on Earth and off it: dialogue, signs, cards and boards.
 - **The suits are the hand-wave.** They're made of the same living material as the Core, and that's why the family understands everyone and is understood. It's said once, at Lantern Rock ("How can we understand you?" … "I think it's these."), and never becomes a mechanic.

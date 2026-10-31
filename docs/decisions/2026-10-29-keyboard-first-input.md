@@ -26,4 +26,4 @@ Controller plug-and-play behavior is **NOT TESTED**. Verify it on the actual com
 
 ## October 30 addendum — PlayStation input
 
-The owner subsequently requested support for plugging in a PlayStation controller (SD-038). See [the controller decision](2026-10-30-playstation-controller.md). The First Contact prototype now has a standard-Gamepad-API adapter for PlayStation and Xbox button/camera input, with simulated browser tests. Keyboard remains primary. This implementation does not mean real-device plug-and-play was verified, nor does it introduce finished movement, combat or flight.
+The owner subsequently requested support for plugging in a PlayStation controller (SD-070). See [the controller decision](2026-10-30-playstation-controller.md). The First Contact prototype now has a standard-Gamepad-API adapter for PlayStation and Xbox button/camera input, with simulated browser tests. Keyboard remains primary. This implementation does not mean real-device plug-and-play was verified, nor does it introduce finished movement, combat or flight.

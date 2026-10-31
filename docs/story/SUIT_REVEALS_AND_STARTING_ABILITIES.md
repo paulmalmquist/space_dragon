@@ -1,7 +1,7 @@
 # Suit Reveals and Starting Abilities
 
-**Date:** October 28, 2026  
-**Status:** PROPOSED scene and ability treatment for owner review. It expands Act I scene A1-02 "Five suits".  
+**Date:** October 28, 2026
+**Status:** PROPOSED scene and ability treatment for owner review. It expands Act I scene A1-02 "Five suits".
 **Authority:** [Act I](ACT_I_BUILD_THE_DRAGON.md) remains canon. This document builds on the [Act I refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md): suits that form around a helpful action (§3.3), and the owner's idea that the material is alive (§3.4, pending confirmation as canon).
 
 ## Canon this document must keep

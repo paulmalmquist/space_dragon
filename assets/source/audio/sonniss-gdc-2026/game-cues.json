@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "license_url": "https://sonniss.com/gdc-bundle-license/",
+  "files": [
+    {
+      "id": "dragon-roar",
+      "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle1of5/344 Audio - Dinosaurs Vol. 2/ANMLRept_Large Herbivore Roar 01_344 Audio_Dinosaurs Vol 2.wav",
+      "source_sha256": "885b297bc1cba43a4b5a59dafcd220a50302f106d400d0d3c8aa469ba84d399c",
+      "path": "assets/audio/sonniss-gdc-2026/dragon-roar-v001.wav",
+      "bytes": 38478,
+      "sha256": "99bf925e7542adb58c135ab7dca794c8c92b6370290250d67d02ac13d0ec1326",
+      "duration_seconds": 0.8,
+      "filters": "silenceremove=start_periods=1:start_duration=0.005:start_threshold=-45dB,apad=pad_dur=0.8,atrim=duration=0.8,asetpts=PTS-STARTPTS,loudnorm=I=-20:TP=-3:LRA=7,aresample=24000,afade=t=in:d=0.004,afade=t=out:st=0.74:d=0.06",
+      "format": "mono 24 kHz PCM s16le WAV",
+      "human_review": "NOT AUDITIONED"
+    },
+    {
+      "id": "fire-breath",
+      "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle2of5/Epic Stock Media - Elemental Mutation Whooshes and Impacts/FIREWhsh_Whoosh Fire Deep Growl Monster Saturated Crisp 03_ESM_EMWI.wav",
+      "source_sha256": "344c8a9a31205fd5842feea827a491d89528f7db1ee5b1ffd4a3a018e23395ef",
+      "path": "assets/audio/sonniss-gdc-2026/fire-breath-v001.wav",
+      "bytes": 55278,
+      "sha256": "b65546032e3590e54e0fdce92f6cc7aa3f733d0cb148cbb047d04da0db32e531",
+      "duration_seconds": 1.15,
+      "filters": "silenceremove=start_periods=1:start_duration=0.005:start_threshold=-45dB,apad=pad_dur=1.15,atrim=duration=1.15,asetpts=PTS-STARTPTS,loudnorm=I=-20:TP=-3:LRA=7,aresample=24000,afade=t=in:d=0.004,afade=t=out:st=1.0899999999999999:d=0.06",
+      "format": "mono 24 kHz PCM s16le WAV",
+      "human_review": "NOT AUDITIONED"
+    },
+    {
+      "id": "machine-blast",
+      "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle2of5/Epic Stock Media - Anime Game/EXPLDsgn_Explosion Small Blast Enemy Death Crunchy Boom Cartoon Noisy Crash Impact Delay 03_ESM_AG.wav",
+      "source_sha256": "0fdfac62d1c0b80a9db28e41c878562ab67825202cb863e8a0a600c35c333dc4",
+      "path": "assets/audio/sonniss-gdc-2026/machine-blast-v001.wav",
+      "bytes": 81678,
+      "sha256": "63da3996977c0932aa5fe1bcc46da31044706a89c2eb8cc0a9b5aca0bccf21d1",
+      "duration_seconds": 1.7,
+      "filters": "silenceremove=start_periods=1:start_duration=0.005:start_threshold=-45dB,apad=pad_dur=1.7,atrim=duration=1.7,asetpts=PTS-STARTPTS,loudnorm=I=-20:TP=-3:LRA=7,aresample=24000,afade=t=in:d=0.004,afade=t=out:st=1.64:d=0.06",
+      "format": "mono 24 kHz PCM s16le WAV",
+      "human_review": "NOT AUDITIONED"
+    },
+    {
+      "id": "metal-impact",
+      "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle5of5/The Noisery - Moaning Metal/DSGNImpt_Metal Hit Thud Thump Low Ring Geofon 1_The Noisery_Moaning Metal.wav",
+      "source_sha256": "9ae80f5d33c8b717fd3e530473387fc49ad6009725ea4d98fec4654874ae9f5c",
+      "path": "assets/audio/sonniss-gdc-2026/metal-impact-v001.wav",
+      "bytes": 23118,
+      "sha256": "e59e17993e5ae2490678f2bcb24e90dfd9fc2294e2c84154873920259147bd6b",
+      "duration_seconds": 0.48,
+      "filters": "silenceremove=start_periods=1:start_duration=0.005:start_threshold=-45dB,apad=pad_dur=0.48,atrim=duration=0.48,asetpts=PTS-STARTPTS,loudnorm=I=-20:TP=-3:LRA=7,aresample=24000,afade=t=in:d=0.004,afade=t=out:st=0.42:d=0.06",
+      "format": "mono 24 kHz PCM s16le WAV",
+      "human_review": "NOT AUDITIONED"
+    },
+    {
+      "id": "jet-surge",
+      "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle1of5/344 Audio - Air Designed/AEROJet_Blast Off Clean_344 Audio_Air Designed.wav",
+      "source_sha256": "1de110cf09a62fb5fd117a415f7fb58bdf5ed05de436e7a12c5a228d3acaf5ac",
+      "path": "assets/audio/sonniss-gdc-2026/jet-surge-v001.wav",
+      "bytes": 33678,
+      "sha256": "3cbeb13f87b9b55dae46a2da6991dbe23a11dfc12c2c01e859f48b0b6ec05ec8",
+      "duration_seconds": 0.7,
+      "filters": "silenceremove=start_periods=1:start_duration=0.005:start_threshold=-45dB,apad=pad_dur=0.7,atrim=duration=0.7,asetpts=PTS-STARTPTS,loudnorm=I=-20:TP=-3:LRA=7,aresample=24000,afade=t=in:d=0.004,afade=t=out:st=0.6399999999999999:d=0.06",
+      "format": "mono 24 kHz PCM s16le WAV",
+      "human_review": "NOT AUDITIONED"
+    }
+  ]
+}

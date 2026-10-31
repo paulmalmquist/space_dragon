@@ -43,6 +43,8 @@ This says the activity was completed with help, not that recognition was mastere
 
 Pause action or engage autopilot for a reading interaction; no decoding while dodging. Use large separated choices, clear audio, replay, redundant shape/text cues and forgiving timing. Support an audio-unavailable fallback with adult help; do not count reading the fallback as evidence of listening skill. Do not use color alone for answers.
 
+**Scoped owner exception — SD-041:** the owner explicitly requires the Dogfight Lab's word-charge letters to appear during active flight/combat, with dodging required. [The decision](../decisions/2026-10-30-live-spelling-flight.md) supersedes automatic pause/autopilot for that mechanic only. Keep help, nonconflicting letter keys and no separate wrong-key penalty; normal enemy damage remains active. This does not establish suitability or change the calmer rule for other learning interactions.
+
 Do not attach a question to every jump or victory. Include pure racing/combat, exploration and creative activities with no single correct answer. Learning turns may rotate with family portraits, but an adult can reassign or skip without penalty. All subjects remain available regardless of suit specialty.
 
 ## Review before calling a learning feature ready

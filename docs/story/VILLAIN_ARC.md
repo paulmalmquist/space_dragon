@@ -1,9 +1,11 @@
 # The Villain — Morrow, the Long Note
 
-**Date:** October 30, 2026  
-**Status:** CONFIRMED owner direction ([decision](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md)): the story has a villain who is the reason for the SOS, told at a mythic, "not kiddy" scale, and that villain is **Morrow**, with the arc below (owner: *"Yes I like it"*, October 30). Dialogue, mechanics, look and names other than Morrow's stay PROPOSED.  
-**Source:** owner, Space Dragon chat, October 30, 2026: *"We need a villain arc, the reason for the SOS. Not kiddy please, this can be biblical or DC studios level"*  
+**Date:** October 30, 2026
+**Status:** CONFIRMED owner direction ([decision](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md)): the story has a villain who is the reason for the SOS, told at a mythic, "not kiddy" scale, and that villain is **Morrow**, with the arc below (owner: *"Yes I like it"*, October 30). Dialogue, mechanics, look and names other than Morrow's stay PROPOSED.
+**Source:** owner, Space Dragon chat, October 30, 2026: *"We need a villain arc, the reason for the SOS. Not kiddy please, this can be biblical or DC studios level"*
 **Integrated:** October 30, 2026, into the act treatments and scripts listed in §10. The "home note" is now called **the Heartnote**, at the owner's request.
+
+**Campaign boundary:** [the campaign contract](CAMPAIGN_STRUCTURE.md) still governs the approved arc: four planets with five missions each, then five missions on final Viera and the family's relocation. Active missions contain at most three family members, with one controlled leader and a mostly autonomous sidekick/button. The five-person cast, five seats and five musical voices do not authorize five active mission participants; scene beats below must be staged within those limits.
 
 > He was the first of them, and the brightest, and he was chosen. That was the beginning of the trouble.
 
@@ -120,8 +122,8 @@ The myth as the Caller tells it at Lantern Rock (A2-02), replacing the bedtime s
 | **Why is the opening a fading star?** | It's the last gap in his note, and he is filling it. The fading star in Act I is him closing the door. |
 | **Why is the dragon design ancient, with five seats?** | It's his likeness, as he was: the first dragon to carry five travelers. That's also why there are five suits. |
 | **Why does the Sweeper gather ships?** | Machines can't be held, so he uses them as hands. He rewrote the lane-keeper's rule. Under "clear the lanes," a new line now burns: **"Bring everyone home."** The Barge isn't tidying; it's collecting the universe to Viera, where he can hold it all in one place. |
-| **Why do the worlds compose the answer?** (SD-020) | Every world's musical part is a voice he held. Freeing it gives the family a piece of a song he doesn't own, so the answer they build is made from everything he took. |
-| **Why do the powers sound like synth?** (SD-022) | The new voices are sounds the old song never had. He can't hold what was never in his song. A *new song* is the oldest image there is for this kind of ending. |
+| **Why do the worlds compose the answer?** (PR #15 / SD-020) | Every world's musical part is a voice he held. Freeing it gives the family a piece of a song he doesn't own, so the answer they build is made from everything he took. |
+| **Why do the powers sound like synth?** (PR #15 / SD-022) | The new voices are sounds the old song never had. He can't hold what was never in his song. A *new song* is the oldest image there is for this kind of ending. |
 
 ## 6. The arc across three acts
 

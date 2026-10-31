@@ -1,8 +1,8 @@
 # Decision — A villain is the reason for the SOS
 
-**Recorded:** October 30, 2026  
-**Status:** CONFIRMED owner direction on the story's antagonist and tone. The villain's identity, lore and scenes are PROPOSED.  
-**Decision source:** the owner, in the Space Dragon chat: *"We need a villain arc, the reason for the SOS. Not kiddy please, this can be biblical or DC studios level."* Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-031.
+**Recorded:** October 30, 2026
+**Status:** CONFIRMED owner direction on the story's antagonist and tone. The villain's identity, lore and scenes are PROPOSED.
+**Decision source:** the owner, in the Space Dragon chat: *"We need a villain arc, the reason for the SOS. Not kiddy please, this can be biblical or DC studios level."* Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-065.
 
 ## Decision
 
@@ -34,7 +34,7 @@ No implementation scope is authorized by this record. Story order is not impleme
 
 ## Update — Morrow approved, and the Heartnote (October 30, 2026)
 
-**Owner direction:** *"Yes I like it. 'Home note' should be called something else."* Given in reply to the [villain treatment](../story/VILLAIN_ARC.md) and its summary. Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-032.
+**Owner direction:** *"Yes I like it. 'Home note' should be called something else."* Given in reply to the [villain treatment](../story/VILLAIN_ARC.md) and its summary. Preserved in the [idea inbox](../../ideas/INBOX.md) as SD-066.
 
 - **Morrow, the Long Note, is the villain**, with the arc as presented: the Lanemother's chosen firstborn who held the note every song comes home to; the Temptation at the Forge, where the neighbor takes his offer and the Bridge; her return in the Rest Garden; and the Lodestar ending. The family's dragon is his likeness.
 - **"Home note" is renamed.** The term is retired. Its replacement, **the Heartnote**, is proposed and applied throughout the story documents; the owner can rename it again.

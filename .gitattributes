@@ -7,6 +7,8 @@
 *.jpeg binary
 *.jpg binary
 *.png binary
+*.webp binary
+*.hdr binary
 *.cmd text eol=crlf
 *.blend filter=lfs diff=lfs merge=lfs -text
 *.psd filter=lfs diff=lfs merge=lfs -text
@@ -18,5 +20,13 @@
 *.mov filter=lfs diff=lfs merge=lfs -text
 *.glb filter=lfs diff=lfs merge=lfs -text
 *.ktx2 filter=lfs diff=lfs merge=lfs -text
+# Vendored decoder payload hashes must survive Windows/Linux checkouts byte-for-byte.
+public/assets/pod/decoder/* -text whitespace=cr-at-eol
+
+# Babylon photographic lighting container; this is a binary runtime asset.
+public/assets/drive/sky/*.env binary
+
+# Runtime license bytes are registered in the asset manifest on every platform.
+public/assets/drive/pedestrians/*.txt text eol=lf
 # Small synthesized preview sounds are regular Git binary blobs; other WAV masters use Git LFS.
 assets/game/audio/starter/*.wav -filter -diff -merge -text

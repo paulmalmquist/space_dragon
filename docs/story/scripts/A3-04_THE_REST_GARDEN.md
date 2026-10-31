@@ -1,7 +1,7 @@
 # Script — A3-04 to A3-08: Landfall, Farport and the Rest Garden
 
-**Status:** PROPOSED draft, following [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) Movements 3–4 (Landfall, Farport, then Listen → Shelter → Heartnote), the [villain arc](../VILLAIN_ARC.md) and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
-**History:** moved from `A2-07_THE_SILENT_CENTER.md` on October 30, 2026, then revised the same day for Morrow. The neighbor is with Morrow until A3-06. Translation beats were removed later the same day: the game is in English ([language](../LANGUAGE_AND_TRANSLATION.md)).  
+**Status:** PROPOSED draft, following [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) Movements 3–4 (Landfall, Farport, then Listen → Shelter → Heartnote), the [villain arc](../VILLAIN_ARC.md) and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).
+**History:** moved from `A2-07_THE_SILENT_CENTER.md` on October 30, 2026, then revised the same day for Morrow. The neighbor is with Morrow until A3-06. Translation beats were removed later the same day: the game is in English ([language](../LANGUAGE_AND_TRANSLATION.md)).
 **Resumes from:** the Battle of the Mooring Ring (A3-03, not yet scripted). The Sweeper has just been re-tuned.
 
 **Rules for this whole script:**
@@ -313,7 +313,7 @@ It hangs there, the question. And underneath it, Morrow's note, the answer he st
 
 Then, after it, the most important beat in the game: **a rest.** One full beat of nothing. The Hush **rises** into it, enormous and soft.
 
-**[CINE]** **A held note can't survive a rest.** Morrow's note **breaks**: not with a crash, with a gasp, like someone who has been holding their breath for a thousand years letting it go all at once. **[MUSIC]** All seven notes, the rest, and **home**. Then every part the worlds gave along the way joins in, one after another: the Market Moon's rhythm, the Hatchery's harmony, the Spires' lead, the Forge's accents, the Waystation band's bass and the Drift convoy's countermelody (SD-020). The answer is complete. The family's chord from Five Together finally **resolves** for the first time in the game.
+**[CINE]** **A held note can't survive a rest.** Morrow's note **breaks**: not with a crash, with a gasp, like someone who has been holding their breath for a thousand years letting it go all at once. **[MUSIC]** All seven notes, the rest, and **home**. Then every part the worlds gave along the way joins in, one after another: the Market Moon's rhythm, the Hatchery's harmony, the Spires' lead, the Forge's accents, the Waystation band's bass and the Drift convoy's countermelody (PR #15 / SD-020). The answer is complete. The family's chord from Five Together finally **resolves** for the first time in the game.
 
 ### The payoff
 

@@ -1,6 +1,8 @@
 # Seele exports: intake and migration
 
-Use this folder to bring useful Seele output into Space Dragon and continue refining it with coding agents. The existing [asset pipeline](../docs/ASSET_PIPELINE.md) owns editable sources, game exports, and browser review.
+Use this folder to bring useful Seele prototype games into **one cohesive Space Dragon**, then continue refining them with coding agents. **CONFIRMED workflow, SD-036:** the owner is using Seele to generate several prototypes and is starting with **dragon dogfights**. The [prototype integration plan](../docs/engineering/PROTOTYPE_INTEGRATION.md) owns the shared-game boundaries and current candidate inventory. The existing [asset pipeline](../docs/ASSET_PIPELINE.md) owns editable sources, game exports, and browser review.
+
+The dragon-dogfight track may proceed alongside Earth-story validation. Prototype priority does not reorder the story or replace the current room/yard runtime. SD-037 is the first local import/refinement; its [receipt](../docs/reports/2026-10-30-seele-dogfight.md) owns the actual verification status.
 
 ## For Paul
 
@@ -8,13 +10,17 @@ Use this folder to bring useful Seele output into Space Dragon and continue refi
 2. Include the original prompt, a screenshot or clip, and what you like if convenient. Plain chat is enough; no technical form is required.
 3. Tell the agent: **"Inspect the Seele export, choose the easiest maintainable migration, and integrate one useful part into Space Dragon."**
 
+The existing folder is spelled **`seeles-assets`**. Use `seeles-assets/incoming/<prototype-name>/` for future raw deliveries. The current `assets/reference/seele/dragon_dogfight/` location is also accepted and ignored: it can stay where supplied as the unchanged original. No manual reorganization is required before asking an agent to work. Migrated editable code goes under `src/`, and selected runtime assets go through the manifest into `public/assets/`; raw intake folders are never served directly.
+
 Raw downloads here are ignored by Git. They will not reach another computer or a cloud agent through a push. Run the agent against the local folder, or attach the export to the chat where the agent is working. Uploading through GitHub's website bypasses local ignore rules, so use the local drop folder for unreviewed exports.
 
 Only these instructions, the ignore rules, and the empty incoming-folder marker are tracked here. Reviewed assets move to the existing asset destinations when appropriate.
 
 ## First decision: should the repo adapt to the export?
 
-**Owner direction, October 30, 2026:** at the beginning, consider refactoring the repo around more refined environments and assets if that makes development easier. See [the original request](../ideas/INBOX.md) and SD-028 in [the ledger](../docs/project/IDEA_LEDGER.md).
+**Current tracking: SD-036–SD-037** in [the ledger](../docs/project/IDEA_LEDGER.md); see [the owner's latest request](../ideas/INBOX.md). Compare selected-system/asset reuse with a justified scene or runtime refactor after inspecting the actual delivery. [The first lab decision](../docs/decisions/2026-10-30-seele-dogfight-lab.md) retains the export's Three.js in an isolated page; it does not select a whole-game engine migration.
+
+**Provenance:** these three intake scaffold files were recovered read-only with `git show` from `origin/main@858e13a`, whose earlier Seele entry was **SD-028**. That incoming ID is provenance, not the current local idea number: local SD-028 already means the linear three-act direction. The earlier intake note proposed considering a refactor around a more refined export; it does not prove that any export is a better foundation. This adaptation uses SD-036 and the latest dogfight-first workflow and preserves the original intake request under SD-062 after the [October 31 merge](../docs/decisions/2026-10-31-merge-idea-identifiers.md).
 
 Inspect the actual export before choosing an approach. The current Babylon.js/TypeScript/Vite prototype is a starting point; its placeholder scene and folder layout need not be preserved for their own sake.
 
@@ -26,14 +32,14 @@ Inspect the actual export before choosing an approach. The current Babylon.js/Ty
 
 Compare the work needed to get a representative slice running, the quality and editability of the files, external service dependencies, browser suitability, future agent changes, and the cost of preserving working behavior. A polished preview alone does not settle that comparison. Record the choice and evidence in the migration receipt; uncertainty can be resolved with one bounded local experiment.
 
-Keep a recoverable baseline and implement the selected approach on an isolated branch or worktree. Preserve confirmed story decisions, the keyboard-first goal, checkpoint/reward semantics, the intended `/space-dragon` route, and the existing homepage. These are behavior requirements, not a demand to retain every old implementation file. If a consequential architecture or engine choice changes, record it in `docs/decisions/` and update the architecture, commands, and tests. Routine reversible refactoring within the authorized slice can proceed under agent judgment. Do not rewrite the repo before an actual export provides evidence for doing so.
+Keep a recoverable baseline and implement the selected approach on an isolated branch or worktree. Preserve the [campaign contract](../docs/story/CAMPAIGN_STRUCTURE.md), keyboard-first goal, checkpoint/reward semantics, the intended `/space-dragon` route, and the existing homepage. Keep 25 off-Earth mission slots, the three-member mission cap, one controlled leader and designated sidekick, and single-pilot dragon flight without crew roles. These are behavior requirements, not a demand to retain every old implementation file. If a consequential architecture or engine choice changes, record it in `docs/decisions/` and update the architecture, commands, and tests. Routine reversible refactoring within the authorized slice can proceed under agent judgment. Do not rewrite the repo before an actual export provides evidence for doing so.
 
 ## Agent migration procedure
 
 ### 1. Inspect and preserve the delivery
 
 - Read [AGENTS.md](../AGENTS.md), [current status](../docs/project/STATUS.md), [the current milestone](../docs/plans/CURRENT_MILESTONE.md), and the asset pipeline. Inspect the branch and working-tree changes.
-- Inventory what was actually delivered: editable project/source files, meshes, textures, rigs, animation clips, audio, code, dependency files, prompts, and preview media. Identify required files or services that are missing. A screenshot, hosted preview, or compiled build is not evidence that editable source was delivered.
+- Inventory what was actually delivered: editable project/source files, renderer, controls, state/save ownership, meshes, textures, rigs, animation clips, audio, dependency/lock files, prompts, and preview media. Inspect executable scripts and network calls before running or installing anything. Identify required files or services that are missing. A screenshot, hosted preview, or compiled build is not evidence that editable source was delivered.
 - Keep the original download unchanged. Inspect archive paths and imported scripts before extraction or execution; use a separate working copy and do not overwrite unrelated files.
 - Record source/provider, export date/version, and available license/usage evidence. Unknown rights or missing files stay explicit. This folder does not authorize purchases, new external uploads, publication of family likenesses, or deployment.
 
@@ -48,6 +54,8 @@ Keep a recoverable baseline and implement the selected approach on an isolated b
 | Scene/gameplay code | Review in an isolated branch/worktree, then adapt or replace the relevant implementation according to the initial migration decision. |
 
 GLB/glTF content is a candidate for the current Babylon runtime. Three.js, Unity, and Unreal code, physics, shaders, and engine-specific scene behavior need deliberate adaptation or a justified runtime change. Do not add a second engine merely to avoid understanding the export. Downloaded models may still need material, rig, or animation repair.
+
+Keep character, mission, inventory and learning progress in the shared game's authoritative state. Do not join prototypes as separate games that reset or lose progress between them. Preserve the existing First Contact v2 and exploration v1 saves until an explicit, validated migration is implemented. Encounter restarts and repeated victory signals must not duplicate campaign rewards.
 
 ### 3. Refine and integrate a representative slice
 
@@ -68,3 +76,7 @@ Make one meaningful follow-up change with the local agent tools, then rebuild/re
 Agents maintain a short receipt beside the working candidate, using the [existing verification template](../docs/templates/VERIFICATION_RECEIPT.md). Include asset ID, original and working paths, source/rights evidence, chosen migration approach and reason, changed files, dependencies, validation/browser results, and remaining work. Keep raw or private evidence local; share only reviewed material.
 
 The handoff is verified when the useful slice runs outside Seele, a subsequent agent edit works, and the relevant behavior and asset checks pass. Receipt statuses must distinguish inspected, migrated, browser-verified, and approved for publication. A successful import does not finish the entire game. No runtime migration, asset approval, live Blender connection, or deployment is established by creating this folder.
+
+## Current delivery
+
+The owner supplied `assets/reference/seele/dragon_dogfight/`. Its first read-only inspection remains historical evidence in [the integration plan](../docs/engineering/PROTOTYPE_INTEGRATION.md); the current SD-037 working copy is in `src/prototypes/dogfight/` with an isolated `/space-dragon/dogfight/` entry. Requested local changes are arrow/mouse steering, independent W/A/D/Z aiming, barrel rolls, left-button firing and right-button zoom. Q/E roll and X recenter are implementation choices. [The receipt](../docs/reports/2026-10-30-seele-dogfight.md) distinguishes actual import/build/browser evidence from missing human/rights/release review. Keep original files unchanged where delivered; future incoming downloads can use this ignored intake folder.

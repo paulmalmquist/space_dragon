@@ -1,7 +1,7 @@
 # Curriculum puzzle plan
 
 **Date:** October 30, 2026  
-**Status:** PROPOSED design. The curriculum focus below is the owner's description (SD-027) and is CONFIRMED direction. Puzzle designs, skill IDs and levels are proposals. This is not a validated curriculum or assessment; skill IDs and claims need parent/educator review under the [learning rules](LEARNING_RULES.md).  
+**Status:** PROPOSED design. The curriculum focus below is the owner's description (SD-033; incoming `origin/main` SD-027, see [the crosswalk](../decisions/2026-10-30-idea-id-reconciliation.md)) and is CONFIRMED direction. Puzzle designs, skill IDs and levels are proposals. This is not a validated curriculum or assessment; skill IDs and claims need parent/educator review under the [learning rules](LEARNING_RULES.md).
 **Source:** owner, Space Dragon chat, October 30, 2026: *"We also need to plan puzzles that coincide with my kids curriculum."* *"The girls are learning to recognize numbers and letters and Luke is learning addition/subtraction and how to read."*
 
 Every learning stop in the game gets **two tracks on the same scene**: a **Find It** track for number and letter recognition, and a **Work It Out** track for addition, subtraction and reading. Which track appears follows the **learner profile** of whoever is playing, not the suit on screen. The story reward is identical either way.

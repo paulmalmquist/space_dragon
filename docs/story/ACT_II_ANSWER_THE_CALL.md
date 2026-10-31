@@ -1,11 +1,15 @@
 # Space Dragon — Act II: Answer the Call (proposal)
 
-**Date:** October 28, 2026; rewritten October 30, 2026 for the three-act structure  
-**Status:** PROPOSED narrative treatment for owner review. Not CONFIRMED canon, not current implementation scope. All names are placeholders. The linear three-act structure and Viera as the final landing are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)), and so is Morrow as the villain who caused the SOS ([decision](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md), [villain arc](VILLAIN_ARC.md)); how this act serves them is proposed.  
-**Builds on:** [Act I](ACT_I_BUILD_THE_DRAGON.md) (authoritative), the [Act I refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) (proposed) and the [Acts II & III overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) (proposed). Where Act II relies on a refinement, such as the SOS melody, the passenger creature, the Bridge or the neighbor's grievance, it says so. If a refinement is rejected, the dependent beat needs revisiting.  
+**Governing structure (October 30):** [the current campaign](CAMPAIGN_STRUCTURE.md) requires four exploration planets with five missions each, followed by five missions on Viera. This treatment supplies proposed settings/beats to distribute across those slots, not one complete mission per planet. Active missions use at most three family members with one leader and a mostly autonomous sidekick/button; older five-suit sequences need adaptation. Planet names and detailed missions remain proposals.
+
+**Date:** October 28, 2026; rewritten October 30, 2026 for the three-act structure
+**Status:** PROPOSED narrative treatment for owner review. The staging and mechanics are not confirmed or current implementation scope. Morrow and his approved arc are confirmed; other names retain their individual proposal labels. The linear three-act structure and Viera as the final landing are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)), and so is Morrow as the villain who caused the SOS ([decision](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md), [villain arc](VILLAIN_ARC.md)); how this act serves them is proposed.
+**Builds on:** [Act I](ACT_I_BUILD_THE_DRAGON.md) (authoritative), the [Act I refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) (proposed) and the [Acts II & III overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) (proposed). Where Act II relies on a refinement, such as the SOS melody, the passenger creature, the Bridge or the neighbor's grievance, it says so. If a refinement is rejected, the dependent beat needs revisiting.
 **Continues in:** [Act III: The Road to Viera](ACT_III_THE_ROAD_TO_VIERA.md), which now holds the low point, the Hush climax and the ending that earlier versions of this document carried.
 
 ## 1. What Act II must do
+
+**Retained source proposal:** [Planet missions and SOS composition](PLANET_MISSIONS_AND_SOS_COMPOSITION.md) describes six restoration worlds and named character arcs. This revised Act II already incorporates collaborative musical choices on a fixed four-world route toward Viera; the source's selectable middle group and Stillheart finale are alternate proposals. [The reconciliation receipt](../reports/2026-10-29-planet-missions-filing.md) records the remaining differences and latest authority.
 
 From Act I: *"Travel to the source of the SOS and discover who called, what happened, and what help is needed. Do not add an unrelated sightseeing campaign between assembly and answering the signal."*
 
@@ -29,7 +33,7 @@ From the [villain decision](../decisions/2026-10-30-villain-is-the-reason-for-th
 - **Morrow** is the reason for the SOS. In Act II he goes from a story to a voice to his first victory, at the Forge.
 - The tone is mythic, not kiddy, and still not graphic.
 
-From later owner direction (October 29–30, recorded as SD-020 and SD-022):
+From later owner direction (October 29–30, recorded as PR #15 / SD-020 and PR #15 / SD-022):
 
 - The planet-to-planet missions **compose the SOS**: each world adds a part to the answering arrangement.
 - As upgrades become powers, the family's instrument voices **morph into synth**. That happens in Act III.
@@ -137,7 +141,7 @@ Four worlds, each with a **sleeping star-dragon** and a stilled community. Each 
 | 3 | **Hatchling escort, then the Shardstorm:** grappler drones try to box up the hatchlings; then a race through ringing crystal shards | **The Climbing Spires** | Luke's school | Luke | Luke climbs, tethers and re-strikes each resonator. A rhythm and pattern activity, paused and safe, never mid-climb. | The **Spire Dragon** wakes. Scale gift for Luke. At the top, **Morrow speaks for the first time**, through the resonators: *"Little climber. Why go so high? Come down. Stay."* Luke: *"No thank you. I'm not done."* Then Luke sees the Sweeper's Barge towing a chain of sleeping ships. |
 | 4 | **The Sweeper Picket:** the first full squadron dogfight, plus a slow, shielded gunship | **The Forge Ring** | The rocket facility | Paul, then everyone | Five-suit teamwork set piece in the shipyard, then a trench-run strike on the ring. Lyla finds the dragon's original blueprints: **proof that the design is older than the family**, with five seats drawn in. The Core won't read the name on them, so Luke sounds it out himself: *"Mor… row."* The family's dragon is built in his likeness, as he was. Beside it hangs the Sweeper's blueprint, with its rewritten rule. | The **Forge Dragon** wakes. The dragon gains **Song-breath**. The Forge's great beacon lights the last lane. |
 
-**Composing the answer (owner direction, SD-020):** each world the family wakes adds one part to the SOS's answering arrangement, introduced through the world's own music and the rescue that restores it. Local people keep their own songs; the player chooses between compatible variations, never a right answer. Proposed parts for this route: **Market Moon, rhythm** (the bazaar's bells and drums); **Hatchery, harmony** (the eggs' heartbeat-songs); **Spires, lead melody** (the re-struck resonators); **Forge Ring, accents and the broadcast** (the great beacon carries the arrangement down the last lane). Act III adds the rest. There is no microphone, singing requirement, music reading or rhythm gate, and the original SOS stays recognizable.
+**Composing the answer (owner direction, PR #15 / SD-020):** each world the family wakes adds one part to the SOS's answering arrangement, introduced through the world's own music and the rescue that restores it. Local people keep their own songs; the player chooses between compatible variations, never a right answer. Proposed parts for this route: **Market Moon, rhythm** (the bazaar's bells and drums); **Hatchery, harmony** (the eggs' heartbeat-songs); **Spires, lead melody** (the re-struck resonators); **Forge Ring, accents and the broadcast** (the great beacon carries the arrangement down the last lane). Act III adds the rest. There is no microphone, singing requirement, music reading or rhythm gate, and the original SOS stays recognizable.
 
 Each world needs a landing hub and a few zones restored by sound, not one compact area. If production needs a shrink lever, a world can drop to a single hub without changing the story.
 
@@ -194,7 +198,7 @@ The neighbor's arc rhymes with the Hush and with Morrow. In Act I the family lea
 | **Ex-henchman iguana** | The neighbor's robot iguana, now a helper that fetches small items. It changes sides because the living material inside it (from the Bridge piece) recognizes home. It's a scripted helper, not a follower system. |
 | **Scale gifts** | One small suit upgrade per featured family member per world. Draft upgrades are in the [overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) § Suits to powers. |
 | **Lane books** | A stamp per world, plus bonus stamps for optional discoveries. They pay off on Viera. |
-| **The growing answer** | Each world's musical part joins the SOS arrangement (SD-020). Lyla's archive can replay the answer so far. |
+| **The growing answer** | Each world's musical part joins the SOS arrangement (PR #15 / SD-020). Lyla's archive can replay the answer so far. |
 
 Racing (the Market Moon cart race, the Shardstorm) and playful combat (Sweeper squadrons, Hush-moth swarms, the Forge set piece) stay fun in their own right, with learning moments kept separate and paused.
 
@@ -225,7 +229,7 @@ Racing (the Market Moon cart race, the Shardstorm) and playful combat (Sweeper s
 
 ## 10. Production boundaries
 
-- **Nothing here is current scope.** [The current milestone](../plans/CURRENT_MILESTONE.md) is unchanged. Act II depends on flight, walking exploration and possibly Line Leader, none of which exist.
+- **Nothing here is current implementation scope.** [The current milestone](../plans/CURRENT_MILESTONE.md) is unchanged. A provisional room/yard walking slice exists; Act II still needs its broader exploration, flight and any selected Line Leader work.
 - The cheapest high-value slice to prototype early is **A2-00 The Crossing**, as the separately labeled flight prototype that Act I already permits.
 - No multiplayer, backend or new external service is implied. The neighbor, the Caller, the passenger and the iguana are scripted scene characters, not followers or network players.
 - All destination and character names are placeholders. The neighbor must stay fictional per existing rules.

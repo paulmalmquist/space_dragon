@@ -1,8 +1,10 @@
 # Space Dragon — Act III: The Road to Viera (proposal)
 
-**Date:** October 30, 2026; revised the same day for Morrow  
-**Status:** PROPOSED narrative treatment for owner review. Not CONFIRMED canon, not current implementation scope. All names are placeholders. The final landing on Viera, suit upgrades becoming powers by the end, and dogfights and asteroid fields between planets are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)). So is Morrow as the villain who caused the SOS ([decision](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md), [villain arc](VILLAIN_ARC.md)). How this act delivers them is proposed.  
-**Builds on:** [Act II](ACT_II_ANSWER_THE_CALL.md), the [villain arc](VILLAIN_ARC.md) and the [Acts II & III overview](ACTS_II_III_THE_ROAD_TO_VIERA.md).  
+**Governing structure (October 30):** [the campaign contract](CAMPAIGN_STRUCTURE.md) gives Viera exactly five missions, ending with the family moving there. The numbered scenes below are proposed beat material, not extra mission slots. Waystation/Drift ideas must fit travel or the existing campaign slots, without adding another campaign planet. Active mission parties have at most three family members, one controlled leader and a mostly autonomous sidekick/button; full-family playable gates must be adapted.
+
+**Date:** October 30, 2026; revised the same day for Morrow
+**Status:** PROPOSED narrative treatment for owner review. The staging and mechanics are not confirmed or current implementation scope. Morrow and his approved arc are confirmed; other names retain their individual proposal labels. The final landing on Viera, suit upgrades becoming powers by the end, and dogfights and asteroid fields between planets are CONFIRMED owner direction ([decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)). So is Morrow as the villain who caused the SOS ([decision](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md), [villain arc](VILLAIN_ARC.md)). How this act delivers them is proposed.
+**Builds on:** [Act II](ACT_II_ANSWER_THE_CALL.md), the [villain arc](VILLAIN_ARC.md) and the [Acts II & III overview](ACTS_II_III_THE_ROAD_TO_VIERA.md).
 **Scripts:** [Landfall and the Rest Garden](scripts/A3-04_THE_REST_GARDEN.md) and [The Last Hold and the Final Landing](scripts/A3-09_THE_FINAL_LANDING.md). The lane and waypoint scripts (A3-00 to A3-03) are not written yet.
 
 ## 1. What Act III must do
@@ -11,8 +13,8 @@
 - **Face Morrow.** The villain who caused the SOS is waiting at the heart of Viera. Defeat his note with song, then face him in the last battle, and give him a choice.
 - **Bring the neighbor back,** and with her the Bridge, the family's way home.
 - **Resolve the Quiet** with understanding, not force. Nothing attacks the Hush.
-- **Turn upgrades into powers.** Suits get their biggest upgrade on arrival in Farport, then each family member gains one power by the end. As powers arrive, each family member's instrument voice **morphs into synth** (owner direction, SD-022).
-- **Finish composing the answer.** The last worlds add their parts to the SOS arrangement, and the Rest Garden adds the rests and the **Heartnote** (owner direction, SD-020).
+- **Turn upgrades into powers.** Suits get their biggest upgrade on arrival in Farport, then each family member gains one power by the end. As powers arrive, each family member's instrument voice **morphs into synth** (owner direction, PR #15 / SD-022).
+- **Finish composing the answer.** The last worlds add their parts to the SOS arrangement, and the Rest Garden adds the rests and the **Heartnote** (owner direction, PR #15 / SD-020).
 - **Keep the flying big.** Dogfights, an asteroid field, an interdiction ambush, a capital-ship trench run, and a final battle against a dragon the size of a mountain.
 - **Keep Act I's promise of a way home.** The family can always get back to Earth.
 - **Keep the rules:** mythic, not graphic. The family stays together, frightening beats stay short, nobody dies on screen, help never blocks the story, and nothing asks for reading at speed.
@@ -138,7 +140,7 @@ The climax keeps its **three phases, Listen, Shelter and Heartnote**, each with 
 
 ### Movement 5 — Your Own Note and the Last Hold (A3-09 → A3-10)
 
-**A3-09 Your Own Note.** As the song comes back, each suit's living material hears its wearer's own note and blooms. The upgrades fuse into **one power each**, and each family member's instrument voice morphs into its **synth** form (SD-022): a new song, sounds the old song never had, which Morrow can't hold. The motif stays recognizable; only the timbre changes (drafts in the [overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) § Suits to powers). The Lanemother gives the dragon **Lane Wings**. Five Together becomes **Five Powers**, and its chord resolves to the Heartnote for the first time.
+**A3-09 Your Own Note.** As the song comes back, each suit's living material hears its wearer's own note and blooms. The upgrades fuse into **one power each**, and each family member's instrument voice morphs into its **synth** form (PR #15 / SD-022): a new song, sounds the old song never had, which Morrow can't hold. The motif stays recognizable; only the timbre changes (drafts in the [overview](ACTS_II_III_THE_ROAD_TO_VIERA.md) § Suits to powers). The Lanemother gives the dragon **Lane Wings**. Five Together becomes **Five Powers**, and its chord resolves to the Heartnote for the first time.
 
 **A3-10 The Great Launch and the Last Hold.** Every traveler on Viera wakes and does what Vierans do: they go. The sky fills with ships, all leaving at once, Morrow's worst fear made real. Morrow stands up for the first time in the game. *"STAY."*
 - **Phase 1, the sky:** he hurls gold Holds across the sky, catching ships mid-launch. The family's dragon leads the four star-dragons, the hatchlings, the re-tuned Sweeper and every traveler ship. Song-breath breaks each Hold, and every freed ship is one more that gets to leave.
@@ -186,7 +188,7 @@ This is the last action beat of the game and its biggest, with every friend the 
 | **Morrow's gaze** | A hide-and-seek section in the Departure Halls. Caught means held for a moment, never failure. |
 | **Holds and hold-shards** | Morrow's gold bands and the fragments of his note. Song-breath breaks Holds in the air; Sanctuary frees held allies; shards are tucked away in Shelter. |
 | **Farport upgrades** | One big upgrade per suit from Outfitters' Row, plus Scale Armor for the dragon. One extra slot per suit stays open on purpose. |
-| **Powers** | One per family member at A3-09, first used in the Last Hold. Each sounds in its owner's synth voice (SD-022). They always switch off, helmets always open, and the suit never controls its wearer. |
+| **Powers** | One per family member at A3-09, first used in the Last Hold. Each sounds in its owner's synth voice (PR #15 / SD-022). They always switch off, helmets always open, and the suit never controls its wearer. |
 | **Five Powers** | Five Together's final form. Its chord resolves to the Heartnote. |
 | **The Last Hold** | Final boss, Morrow, in three phases: the sky, his back, the choice. Phase progress is saved; the choice waits for the player. |
 | **The Hush** | **Not a fight.** Listen → Shelter → Heartnote. Nothing attacks it. |

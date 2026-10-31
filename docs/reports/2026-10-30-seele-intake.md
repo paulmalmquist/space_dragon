@@ -2,7 +2,7 @@
 
 ## Scope
 
-- **Request:** SD-028, recorded with the owner's original wording in [the inbox](../../ideas/INBOX.md): create a Seele intake folder and consider early refactoring around more refined environments/assets when easier.
+- **Request:** SD-062, recorded with the owner's original wording in [the inbox](../../ideas/INBOX.md): create a Seele intake folder and consider early refactoring around more refined environments/assets when easier.
 - **Base:** `d159cd1e4ff7250123107629574c4ac473688a36` on `main`.
 - **Candidate:** documentation and scoped ignore rules only. New `seeles-assets/README.md`, `.gitignore`, and `incoming/.gitkeep`; routing updates in the root guidance, asset/architecture/vision documents, inbox, ledger, roadmap, and status; this receipt. No runtime, dependency, existing skill, media, or deployment files changed.
 - **Environment:** Linux scratch workspace with a UTF-8 repository snapshot retrieved through the connected GitHub tool. The 18 existing reference JPEGs were not copied locally or changed. Shell Git cloning was unavailable, so publication uses the connected GitHub API with a checked base and non-forced ref update.

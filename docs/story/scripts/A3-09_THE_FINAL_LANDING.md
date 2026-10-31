@@ -1,7 +1,7 @@
 # Script — A3-09 to A3-11: Your Own Note, the Last Hold and the Final Landing
 
-**Status:** PROPOSED draft, following [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) Movements 5–6, the [villain arc](../VILLAIN_ARC.md) and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
-**History:** rewritten from `A2-11_ENCORE_AND_HOME.md` on October 30, 2026, then revised the same day for Morrow. The final battle is now against Morrow; the Sweeper was re-tuned at the Mooring Ring and flies with the family. The game ends on Viera, and the block party is the post-credits scene.  
+**Status:** PROPOSED draft, following [Act III](../ACT_III_THE_ROAD_TO_VIERA.md) Movements 5–6, the [villain arc](../VILLAIN_ARC.md) and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).
+**History:** rewritten from `A2-11_ENCORE_AND_HOME.md` on October 30, 2026, then revised the same day for Morrow. The final battle is now against Morrow; the Sweeper was re-tuned at the Mooring Ring and flies with the family. The game ends on Viera, and the block party is the post-credits scene.
 **Resumes from:** `cp_a3_heartnote` ([The Rest Garden](A3-04_THE_REST_GARDEN.md)). Morrow has just opened his eyes.
 
 | | |
@@ -26,7 +26,7 @@
 >
 > CALLER: "That's *your* note. The scale's been listening to you the whole way."
 
-**[CINE]** One by one, each suit **blooms**: the living material opens like petals, glows in its wearer's color, and settles back, changed. The scale gifts and the Farport upgrade fuse into **one power** each. Each reveal is under ten seconds. **[MUSIC]** Each family member's motif plays on their instrument, blends, and **morphs into its synth voice** (owner direction, SD-022): brass, cello, strings, marimba and celesta, one after another, each turning to synth, then all together. The motifs stay recognizable. These are sounds the old song never had, a **new song**, and Morrow can't hold what was never in his.
+**[CINE]** One by one, each suit **blooms**: the living material opens like petals, glows in its wearer's color, and settles back, changed. The scale gifts and the Farport upgrade fuse into **one power** each. Each reveal is under ten seconds. **[MUSIC]** Each family member's motif plays on their instrument, blends, and **morphs into its synth voice** (owner direction, PR #15 / SD-022): brass, cello, strings, marimba and celesta, one after another, each turning to synth, then all together. The motifs stay recognizable. These are sounds the old song never had, a **new song**, and Morrow can't hold what was never in his.
 
 | Who | Power (draft) | Reveal moment |
 | --- | --- | --- |

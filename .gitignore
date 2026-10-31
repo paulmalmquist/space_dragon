@@ -20,6 +20,10 @@ playwright-report/
 *.blend2
 assets/source/local/
 assets/reference/local/
+# Large source-video working storage; promoted runtime derivatives are tracked separately.
+assets/reference/videos/
+# Raw Seele prototype deliveries retained at the owner's current local drop path.
+assets/reference/seele/
 assets/game/local/
 art/local/
 .tools/

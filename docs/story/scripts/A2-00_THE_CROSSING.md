@@ -1,6 +1,6 @@
 # Script — A2-00 to A2-02: The Crossing, Arrival and the Last Beacon
 
-**Status:** PROPOSED draft, following [Act II](../ACT_II_ANSWER_THE_CALL.md) Movements 1–2 and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
+**Status:** PROPOSED draft, following [Act II](../ACT_II_ANSWER_THE_CALL.md) Movements 1–2 and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).
 **Resumes from:** `cp_act2_start` ([The Answer](A1-07_THE_ANSWER.md)).
 
 | | |

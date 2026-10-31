@@ -1,6 +1,6 @@
 # Script — A1-07 and A1-08: The Answer (Act I finale)
 
-**Status:** PROPOSED draft. Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
+**Status:** PROPOSED draft. Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).
 **Canon this must keep ([Act I](../ACT_I_BUILD_THE_DRAGON.md) §5):**
 - The dragon is built from the **pre-existing design**, and the family didn't invent or redesign it.
 - The full SOS explains the journey **before** they decide.

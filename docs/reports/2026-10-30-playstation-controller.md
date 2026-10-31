@@ -1,7 +1,7 @@
-# Verification receipt — PlayStation controller input (SD-038)
+# Verification receipt — PlayStation controller input (SD-070)
 
-**Date:** October 30, 2026  
-**Request:** “Can we get this to work plugging in a PlayStation controller”  
+**Date:** October 30, 2026
+**Request:** “Can we get this to work plugging in a PlayStation controller”
 **Authority:** implement a reversible browser controller layer within the existing First Contact foundation. No site deployment or new engine.
 
 ## Scope

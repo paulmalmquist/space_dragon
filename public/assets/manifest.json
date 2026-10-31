@@ -1,0 +1,612 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "rescue-pod",
+      "version": "v002",
+      "status": "provisional original design; human art review pending",
+      "runtimePath": "assets/pod/rescue-pod-v002.glb",
+      "sourceScript": "tools/build-pod.py",
+      "sourceBlendLocal": "assets/source/local/props/pod/v002/rescue-pod-v002.blend",
+      "sourceUnits": "meters",
+      "dimensionsBlenderXYZ": [
+        2.13,
+        1.285,
+        1.3325
+      ],
+      "dimensionsGameXYZ": [
+        2.13,
+        1.3325,
+        1.285
+      ],
+      "bytes": 463644,
+      "uncompressedExportBytes": 537228,
+      "triangles": 6376,
+      "meshCount": 38,
+      "materialCount": 5,
+      "textureCount": 1,
+      "textureDimensions": [
+        256,
+        256
+      ],
+      "textureFormat": "KTX2 ETC1S",
+      "animationClips": [
+        "pod_open"
+      ],
+      "requiredNodeNames": [
+        "pod_root",
+        "hinge_pod_lid",
+        "pod_lid"
+      ],
+      "requiredExtensions": [
+        "KHR_texture_basisu"
+      ],
+      "provenance": "Original parametric Blender geometry and seeded procedural albedo, no photographs/likeness/third-party models. All references absent.",
+      "publication": "Local runtime candidate authorized by current asset task; final art review and game deployment are separate.",
+      "files": [
+        {
+          "path": "assets/pod/decoder/babylon.ktx2Decoder.js",
+          "bytes": 23943,
+          "sha256": "6c49c87aa83589af8d17c14988dea0bc2e8b6cb49509fe738eecc74f64a07e96"
+        },
+        {
+          "path": "assets/pod/decoder/LICENSE-Babylon.md",
+          "bytes": 9226,
+          "sha256": "9362ea9ea17cb221a20cbbd63f404710834cc273d2a9a7b60314fd68ab702cd6"
+        },
+        {
+          "path": "assets/pod/decoder/LICENSE-Transcoders.md",
+          "bytes": 24734,
+          "sha256": "a5f49089897509e43a03cfb81e1fd689e3b9e00f3381c5ec74a12cb716c7df49"
+        },
+        {
+          "path": "assets/pod/decoder/LICENSE-Zstandard.txt",
+          "bytes": 1549,
+          "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+        },
+        {
+          "path": "assets/pod/decoder/msc_basis_transcoder.js",
+          "bytes": 63318,
+          "sha256": "b8906bae7e55606aba070642eb3bce790a2b5aea774874e120e9fd41f7c7d60b"
+        },
+        {
+          "path": "assets/pod/decoder/msc_basis_transcoder.wasm",
+          "bytes": 455582,
+          "sha256": "29becbf0eef2ce9f6d72109ad217704ec3799c432da0c26e3893b793ecab6bdc"
+        },
+        {
+          "path": "assets/pod/decoder/NOTICE.md",
+          "bytes": 821,
+          "sha256": "a08d8fde9948804d9c771da238d5b34e284caca5dc269dcf3c443fbd18fca7db"
+        },
+        {
+          "path": "assets/pod/decoder/README.txt",
+          "bytes": 1050,
+          "sha256": "8787276873fdd47eb14cf4d84a2208a0f896e0fef6c2067bd4c3f89c31b3bea0"
+        },
+        {
+          "path": "assets/pod/decoder/uastc_astc.wasm",
+          "bytes": 12212,
+          "sha256": "6846c972b4a52d938866f43896fd2b2450052da807cdd1285e898be80614d612"
+        },
+        {
+          "path": "assets/pod/decoder/uastc_bc7.wasm",
+          "bytes": 14650,
+          "sha256": "be442ab8c0cbf734ded98e6ad38112aaba23c83bfeecac4213ded54631fc4eef"
+        },
+        {
+          "path": "assets/pod/decoder/uastc_r8_unorm.wasm",
+          "bytes": 14139,
+          "sha256": "0467c98b150a630e5a51f7810843e8b7fd9aad22e3888baf70aad255c55d02bc"
+        },
+        {
+          "path": "assets/pod/decoder/uastc_rg8_unorm.wasm",
+          "bytes": 17611,
+          "sha256": "fb45a2c103c59cec21c3708a6534d43cd4381669f66d3292dd8a6e4e1956d773"
+        },
+        {
+          "path": "assets/pod/decoder/uastc_rgba8_srgb_v2.wasm",
+          "bytes": 24158,
+          "sha256": "1f4d2e8bfef4e31679b23d473e1c410c29f7e485a739e76c5b357628f4190874"
+        },
+        {
+          "path": "assets/pod/decoder/uastc_rgba8_unorm_v2.wasm",
+          "bytes": 30121,
+          "sha256": "b7470b26a847994cdeb9226eeba1e3711688e378ee438b7dd941e83cb598b694"
+        },
+        {
+          "path": "assets/pod/decoder/zstddec.wasm",
+          "bytes": 29232,
+          "sha256": "67d12d34f82ef700ec3a3795a77590252858c70330908a87ed1e73efc268cb4b"
+        },
+        {
+          "path": "assets/pod/rescue-pod-v002.glb",
+          "bytes": 463644,
+          "sha256": "8095da18e8be0ced6d01db0c8ef2387d1eb7303ab3fa49303803398c7fcc360e"
+        }
+      ]
+    },
+    {
+      "id": "seele-dogfight-lab",
+      "version": "v001",
+      "status": "original supplied dragon retained for rollback; drone/environment still used; human review and public release rights pending",
+      "runtimePath": "assets/dogfight/models/dragon.glb",
+      "sourceLocal": "assets/reference/seele/dragon_dogfight",
+      "receipt": "docs/reports/2026-10-30-seele-dogfight.md",
+      "files": [
+        {
+          "path": "assets/dogfight/models/dragon.glb",
+          "bytes": 1525544,
+          "sha256": "4d38601d5bd8022efce27aa6df26f36d4e8173189612a82022f5f1be62e5cec2"
+        },
+        {
+          "path": "assets/dogfight/models/drone.glb",
+          "bytes": 538788,
+          "sha256": "28fe73860616abc79c256c842ace570c839cf6212b3c0e92a1692942925e5407"
+        },
+        {
+          "path": "assets/dogfight/NOTICE.md",
+          "bytes": 2113,
+          "sha256": "802bb42acab36c33e7a5631fcd2ab375b58ac2047a4ce27dc0252326b1362bec"
+        },
+        {
+          "path": "assets/dogfight/textures/nebula.jpg",
+          "bytes": 100054,
+          "sha256": "6824a4c9b203258f1d0d1b591730029efb47d929ebe3a3a74db691fbed5ca9de"
+        },
+        {
+          "path": "assets/dogfight/textures/planet.jpg",
+          "bytes": 82871,
+          "sha256": "7a6e78ab88f9bcfaef21c7cbfc5a166a36d9a79695b2affbe7af600194d06bc1"
+        }
+      ],
+      "role": "retained Seele dependencies and original organic dragon rollback"
+    },
+    {
+      "id": "space-dragon-spacecraft",
+      "version": "mechanical-red-v001",
+      "role": "retained red mechanical rollback; SD-059 supersedes palette and section geometry in the new candidate",
+      "status": "owner-authorized local mechanical candidate with red palette; final human art and public release approval pending",
+      "runtimePath": "assets/dogfight/models/dragon-mechanical-red-v001.glb",
+      "rollbackRuntimePath": "assets/dogfight/models/dragon.glb",
+      "sourceBlendLocal": "assets/source/local/spacecraft/space-dragon-spacecraft/Space Dragon Spacecraft-v002.blend",
+      "sourceSha256": "5214e4c82053d41d42bc55062353b998cc59a2a2c76d294d88a39665690439dc",
+      "optimizedBlendLocal": "assets/source/local/spacecraft/space-dragon-spacecraft/Space Dragon Spacecraft-v002-game-red-v001.blend",
+      "sourceScript": "tools/export_mechanical_dragon.py",
+      "verificationScript": "tools/verify_mechanical_dragon.mjs",
+      "receipt": "docs/reports/2026-10-30-mechanical-dragon-integration.md",
+      "bytes": 5285276,
+      "sha256": "5812435c9ac760ab8efb2d3c4b2f597fc8a6a9a1e0331ae907049dd8ffbbd9a7",
+      "rawExportBytes": 6745196,
+      "sourceVisibleMeshCount": 706,
+      "triangles": 82348,
+      "meshCount": 43,
+      "primitiveCount": 43,
+      "nodeCount": 753,
+      "skinCount": 1,
+      "jointCount": 9,
+      "materialCount": 8,
+      "textureCount": 0,
+      "animationClips": [],
+      "runtimeAnimation": "Existing procedural nine-bone wing/jaw/tail animation; no baked clips.",
+      "requiredNodeNames": [
+        "SpaceDragonRig",
+        "Root",
+        "Wing_L",
+        "Wing_R",
+        "Jaw",
+        "Tail_0",
+        "Tail_1",
+        "Tail_2",
+        "Tail_3",
+        "Tail_4",
+        "socket_muzzle"
+      ],
+      "componentPreservation": "All 706 source component names and rest pivots retained; rigid geometry uses 36 bone/material batches and 699 named bone-following pivot nodes; seven flexible skinned meshes retained.",
+      "palette": "Red/crimson nonemissive families under SD-050; two original orange emissive materials retained. Supplied blue source is unchanged.",
+      "proceduralDetails": "No embedded images or texture decoder extension. Blender-only procedural detail uses material constants and shared runtime detail maps; no reference photographs are exported.",
+      "requiredExtensions": [],
+      "extensionsUsed": [
+        "KHR_materials_emissive_strength"
+      ],
+      "provenance": "Local procedural mechanical armor/material revision over the supplied Seele rig/flexible geometry. Original intake/source and previous GLB retained. Reference images and review studio excluded; no external generator or likeness assets.",
+      "notice": "assets/dogfight/NOTICE.md",
+      "publication": "Local game integration expressly authorized; final art, generated-source rights and public deployment approval remain separate.",
+      "files": [
+        {
+          "path": "assets/dogfight/models/dragon-mechanical-red-v001.glb",
+          "bytes": 5285276,
+          "sha256": "5812435c9ac760ab8efb2d3c4b2f597fc8a6a9a1e0331ae907049dd8ffbbd9a7"
+        }
+      ],
+      "componentRenderingLimitation": "Rigid named pivot nodes are not independent render drawables; use retained source/raw export for future per-component assembly/reveal assets."
+    },
+    {
+      "id": "sonniss-dogfight-audio",
+      "version": "v001",
+      "status": "local game mix; human listening pending",
+      "runtimePath": "assets/audio/sonniss-gdc-2026/dragon-roar-v001.wav",
+      "provenance": "Sonniss GDC 2026; five edited recordings, see assets/source/audio/sonniss-gdc-2026/game-cues.json",
+      "publication": "Owner-authorized local game use; no standalone bank distribution or deployment.",
+      "files": [
+        {
+          "path": "assets/audio/sonniss-gdc-2026/dragon-roar-v001.wav",
+          "bytes": 38478,
+          "sha256": "99bf925e7542adb58c135ab7dca794c8c92b6370290250d67d02ac13d0ec1326"
+        },
+        {
+          "path": "assets/audio/sonniss-gdc-2026/fire-breath-v001.wav",
+          "bytes": 55278,
+          "sha256": "b65546032e3590e54e0fdce92f6cc7aa3f733d0cb148cbb047d04da0db32e531"
+        },
+        {
+          "path": "assets/audio/sonniss-gdc-2026/machine-blast-v001.wav",
+          "bytes": 81678,
+          "sha256": "63da3996977c0932aa5fe1bcc46da31044706a89c2eb8cc0a9b5aca0bccf21d1"
+        },
+        {
+          "path": "assets/audio/sonniss-gdc-2026/metal-impact-v001.wav",
+          "bytes": 23118,
+          "sha256": "e59e17993e5ae2490678f2bcb24e90dfd9fc2294e2c84154873920259147bd6b"
+        },
+        {
+          "path": "assets/audio/sonniss-gdc-2026/jet-surge-v001.wav",
+          "bytes": 33678,
+          "sha256": "3cbeb13f87b9b55dae46a2da6991dbe23a11dfc12c2c01e859f48b0b6ec05ec8"
+        }
+      ]
+    },
+    {
+      "id": "town-drive-detail",
+      "version": "v002",
+      "status": "runtime candidate; owner visual review pending",
+      "runtimePath": "assets/drive/vegetation/palm.glb",
+      "provenance": "Licensed sources and processing recorded beside materials, vegetation and pedestrians; minivan, cabin and development are original code. Owner route and house reference authorized under SD-052/057.",
+      "files": [
+        {
+          "path": "assets/drive/materials/asphalt-albedo.webp",
+          "bytes": 170562,
+          "sha256": "c438a2a5f607c1103081580040ef711299456d19c50652b994dfd61d8f407ef9"
+        },
+        {
+          "path": "assets/drive/materials/asphalt-normal.webp",
+          "bytes": 611256,
+          "sha256": "5d511c278ac5dcae80855cfc24d0f730874281d8c51b5a04ba3fa5f5d196f3ce"
+        },
+        {
+          "path": "assets/drive/materials/asphalt-roughness.webp",
+          "bytes": 3684,
+          "sha256": "c6480a4df033dcff06003ec6c2ad960efacf51b70ce9f9d4e8240db59cd99975"
+        },
+        {
+          "path": "assets/drive/materials/bark-albedo.webp",
+          "bytes": 680368,
+          "sha256": "464bcfde42c51508ce0c8be3453da51cfe523b7b50d4abea639b68deb8678c9a"
+        },
+        {
+          "path": "assets/drive/materials/bark-normal.webp",
+          "bytes": 592966,
+          "sha256": "124e2cb02617820f70edaef20c2f44c81b6161236b0dfa541eaf47b3483a33ff"
+        },
+        {
+          "path": "assets/drive/materials/bark-roughness.webp",
+          "bytes": 382728,
+          "sha256": "1a5a051804fd1aa075122b3a0f4677a84d08da4ed168eb93cbe673e505eda6f7"
+        },
+        {
+          "path": "assets/drive/materials/concrete-albedo.webp",
+          "bytes": 436894,
+          "sha256": "6c51f70cbb540f8270ca38bb058a9fbbd563438bfe01617657eacd578059cc08"
+        },
+        {
+          "path": "assets/drive/materials/concrete-normal.webp",
+          "bytes": 296628,
+          "sha256": "1e3ddc380eebe8337507524bee860fb7a5e9e83f8e6106428885306208390c24"
+        },
+        {
+          "path": "assets/drive/materials/concrete-roughness.webp",
+          "bytes": 118528,
+          "sha256": "c9cc4d74f9d92241f59f395d8c4c9f3c3e38279a3eb64186a88f1b5ab023cd18"
+        },
+        {
+          "path": "assets/drive/materials/fabric-albedo.webp",
+          "bytes": 267702,
+          "sha256": "c67c1a105370e9c0729cabf9bece0d91071cb1d7d815a778789baef1b4ede6d0"
+        },
+        {
+          "path": "assets/drive/materials/fabric-normal.webp",
+          "bytes": 480492,
+          "sha256": "b7e5f830e3c968ee35a5ee107616caed5c121e2a7258db6ea824deab750466fe"
+        },
+        {
+          "path": "assets/drive/materials/fabric-roughness.webp",
+          "bytes": 469840,
+          "sha256": "2244c18aebab88f2a8bf98f2b7855ec4eeff708597a8e3087236dbb6896beeaf"
+        },
+        {
+          "path": "assets/drive/materials/grass-albedo.webp",
+          "bytes": 246742,
+          "sha256": "230f49f8223d0d5ffc21cce7341a65973fd305503fe2d99f78b6394345859d18"
+        },
+        {
+          "path": "assets/drive/materials/grass-normal.webp",
+          "bytes": 650494,
+          "sha256": "0053db8d49aade03533c75bf21eb2376dac76dcc7ee40779a015e23e0307a450"
+        },
+        {
+          "path": "assets/drive/materials/grass-roughness.webp",
+          "bytes": 5308,
+          "sha256": "e4a82cfa0e4a5d7db42324a903bb62b697a1dad7e4d753e383b1c4eec17a0a7c"
+        },
+        {
+          "path": "assets/drive/materials/plaster-albedo.webp",
+          "bytes": 189218,
+          "sha256": "bb3c2e4a4c780158967ea3654741f524152e26993868f1c10b2cb318bbf3c046"
+        },
+        {
+          "path": "assets/drive/materials/plaster-normal.webp",
+          "bytes": 438484,
+          "sha256": "ec0ba189cbe3f9bd07b4bb396de298fa5659076f654cc702512e7f0a1e6adafd"
+        },
+        {
+          "path": "assets/drive/materials/plaster-roughness.webp",
+          "bytes": 7890,
+          "sha256": "1e0f678ef9a439656232594182fed88b907902c28a3f0204e53e015fd8a9079b"
+        },
+        {
+          "path": "assets/drive/materials/PROVENANCE.json",
+          "bytes": 16545,
+          "sha256": "aad3cf38832f2461b9d23d8030a4ff911ee4fee0785b3a64d13d80611296fde7"
+        },
+        {
+          "path": "assets/drive/materials/wood-albedo.webp",
+          "bytes": 116882,
+          "sha256": "f834f2b30095a046ca78a5bfec502d76f6e6c1a04afaaf4f7f6931cbb9765804"
+        },
+        {
+          "path": "assets/drive/materials/wood-normal.webp",
+          "bytes": 100538,
+          "sha256": "6f512676f720950229582c236c07c9140aaac5abd093143e2e6b61c8346d01e6"
+        },
+        {
+          "path": "assets/drive/materials/wood-roughness.webp",
+          "bytes": 324282,
+          "sha256": "a057c4d6a97896e02217953de01a74ef9caa2c2c4a5cac7f782032f2d668d77a"
+        },
+        {
+          "path": "assets/drive/pedestrians/adult-female.glb",
+          "bytes": 1297764,
+          "sha256": "7fcd61c1b330b7f998de6b5aedeab71e549cdca344cb47de8d96aaa20f6e4b9c"
+        },
+        {
+          "path": "assets/drive/pedestrians/adult-male.glb",
+          "bytes": 749896,
+          "sha256": "12929a45957d2a106f73ce0779c95b1697fb2b4cc0df4e7d53e25bdf9a5ca670"
+        },
+        {
+          "path": "assets/drive/pedestrians/LICENSE-Microsoft-Rocketbox.txt",
+          "bytes": 1066,
+          "sha256": "17474e386e0b9e1a700cc3d06b2b0882a2c376d9c6b49c7f8274409b8f8d2352"
+        },
+        {
+          "path": "assets/drive/pedestrians/PROVENANCE.json",
+          "bytes": 6159,
+          "sha256": "0496b09c7c999799e80c4eb2968dc104b68cf188b0a9e3bbd55555bfac13d8fd"
+        },
+        {
+          "path": "assets/drive/sky/daylight-512.env",
+          "bytes": 2610301,
+          "sha256": "b153789f97d720500cca435e8bd963c672dfda6b46db90d814aa577a1d736a5f"
+        },
+        {
+          "path": "assets/drive/vegetation/canopy-distant.glb",
+          "bytes": 461992,
+          "sha256": "fe6fcbf1fc4fe6d6476316421097dbcabb49b8d077ce30c7044cf7df1ccf0b7a"
+        },
+        {
+          "path": "assets/drive/vegetation/canopy.glb",
+          "bytes": 5877592,
+          "sha256": "1d8ab04dc39c6be4d6b128a55541b3631bb51d2f03861b9ee0b0777de62bef92"
+        },
+        {
+          "path": "assets/drive/vegetation/hedge-distant.glb",
+          "bytes": 233208,
+          "sha256": "ff4de60522bf3d146600926be75c899a6f4d711e0933ac27e2628af4456aac38"
+        },
+        {
+          "path": "assets/drive/vegetation/hedge.glb",
+          "bytes": 1807724,
+          "sha256": "da7f1926e1c19b329ebcee8161e16e7c50719bf21e077bdfc9bff01001ce41eb"
+        },
+        {
+          "path": "assets/drive/vegetation/palm-distant.glb",
+          "bytes": 260948,
+          "sha256": "3e24aadf60e010a1867908561addad03d9a76fc9f089fd420975edec3af87e4e"
+        },
+        {
+          "path": "assets/drive/vegetation/palm.glb",
+          "bytes": 1880156,
+          "sha256": "23e603ca7014fa25302f8fc1d740a2eb5efedefce7a2c53cab2bcb3a551c9bec"
+        },
+        {
+          "path": "assets/drive/vegetation/PROVENANCE.json",
+          "bytes": 10839,
+          "sha256": "a77e6ca732cd4fbda181952f1a009ba73d6eff447fa78790c7c4c5cb7f65a053"
+        }
+      ]
+    },
+    {
+      "id": "space-dragon-cinematic-benchmark",
+      "version": "v002",
+      "role": "retained cinematic v002 rollback; active flight candidate adds clips and sockets",
+      "status": "owner-authorized local candidate; technical checks are scoped in receipt; human visual review and deployment remain separate",
+      "runtimePath": "assets/dogfight/models/dragon-cinematic-benchmark-v002.glb",
+      "rollbackRuntimePath": "assets/dogfight/models/dragon-mechanical-red-v001.glb",
+      "sourceBlendLocal": "assets/source/local/spacecraft/space-dragon-spacecraft/Space Dragon Spacecraft-v003-cinematic.blend",
+      "sourceSha256": "3185e276fa30f7963cb802724a26ac0507bc0b4a71d0d1490256ec5ca1a4d67f",
+      "optimizedBlendLocal": "assets/source/local/spacecraft/space-dragon-spacecraft/Space Dragon Spacecraft-v003-game-v002.blend",
+      "optimizedBlendSha256": "e12827d3dd89ad5903e4ab2462e403fa3c6e87b8723eb19f6bc27f4121f22fae",
+      "sourceScript": "tools/build_cinematic_dragon.py",
+      "exportScript": "tools/export_cinematic_dragon.py",
+      "verificationScript": "tools/verify-cinematic-dragon.mjs",
+      "receipt": "docs/reports/2026-10-30-cinematic-dragon-benchmark.md",
+      "bytes": 9642948,
+      "sha256": "4d1a735cd2c20daa1941626f4522f41ebfc768b014020923e1db6495eb1684a5",
+      "sourceSectionTriangles": 91176,
+      "meshCount": 41,
+      "primitiveCount": 41,
+      "triangles": 81991,
+      "nodeCount": 953,
+      "skinCount": 1,
+      "jointCount": 9,
+      "materialCount": 10,
+      "textureCount": 2,
+      "imageCount": 2,
+      "textures": [
+        {
+          "name": "SD059_section_normal",
+          "size": [
+            1024,
+            1024
+          ],
+          "mime": "image/png",
+          "bytes": 504268
+        },
+        {
+          "name": "SD059_section_ao-SD059_section_roughness",
+          "size": [
+            1024,
+            1024
+          ],
+          "mime": "image/png",
+          "bytes": 670151
+        }
+      ],
+      "materialRoles": [
+        "dark painted armor",
+        "crimson painted armor",
+        "exposed directional metal",
+        "flexible graphite joints",
+        "structured crimson membrane",
+        "internal orange energy"
+      ],
+      "palette": "gunmetal/black painted primary armor, crimson secondary plates, exposed metal and restrained orange emission; no pure black painted base",
+      "animationClips": [],
+      "runtimeAnimation": "Preserved nine-bone flap/glide, jaw and tail; no independent neck/leg bending in this rig.",
+      "requiredNodeNames": [
+        "SpaceDragonRig",
+        "Root",
+        "Wing_L",
+        "Wing_R",
+        "Jaw",
+        "Tail_0",
+        "Tail_1",
+        "Tail_2",
+        "Tail_3",
+        "Tail_4",
+        "socket_muzzle"
+      ],
+      "componentPreservation": "706 original named rest pivots retained; new source component markers retained through batching. Original bones/rests and inverse bind matrices unchanged.",
+      "componentRenderingLimitation": "Rigid named pivot nodes are not independent render drawables; use retained source/raw export for future per-component assembly/reveal assets.",
+      "texturePipeline": "1024-square head-priority UV atlas; actual matched/exploded high-to-low normal bake, assembled AO and roughness; AO packed separately from base color. Constant paint colors remain editable PBR factors.",
+      "optimization": "Separate game geometry and lossless vertex welding. Source/raw/unwelded/welded candidates preserved locally.",
+      "requiredExtensions": [],
+      "extensionsUsed": [
+        "KHR_materials_clearcoat",
+        "KHR_materials_emissive_strength"
+      ],
+      "provenance": "Original local modeled/baked head, neck and left shoulder over retained owner-supplied Seele rig/body. No reference images, studio, hidden recovery geometry, external generator or family likeness assets exported.",
+      "publication": "Local integration authorized by SD-059. No production deployment or final visual approval implied.",
+      "files": [
+        {
+          "path": "assets/dogfight/models/dragon-cinematic-benchmark-v002.glb",
+          "bytes": 9642948,
+          "sha256": "4d1a735cd2c20daa1941626f4522f41ebfc768b014020923e1db6495eb1684a5"
+        }
+      ]
+    },
+    {
+      "id": "space-dragon-flight-pipeline",
+      "version": "v003",
+      "role": "active Dogfight Lab authored animation/socket candidate",
+      "status": "local candidate; structural verification passed; see receipt for browser evidence",
+      "runtimePath": "assets/dogfight/models/dragon-flight-v003.glb",
+      "rollbackRuntimePath": "assets/dogfight/models/dragon-cinematic-benchmark-v002.glb",
+      "sourceBlendLocal": "assets/source/local/spacecraft/space-dragon-spacecraft/Space Dragon Spacecraft-v004-flight.blend",
+      "sourceSha256": "8bb56d5ab099104c5943f92220d015de0a38151debdc57789bc4a75d8da26717",
+      "exportScript": "tools/export_dragon_flight.py",
+      "promotionScript": "tools/promote-dragon-flight.mjs",
+      "verificationScript": "tools/verify-dragon-flight.mjs",
+      "contract": "docs/engineering/DRAGON_ASSET_CONTRACT.md",
+      "receipt": "docs/reports/2026-10-30-dragon-asset-pipeline.md",
+      "bytes": 9653504,
+      "sha256": "1446d3c3c9606a61ad8d871473ce5b1242107c0a6d52b59c795102adb74f853c",
+      "meshes": 41,
+      "triangles": 81991,
+      "joints": 9,
+      "preservedBinaryBytes": 9337704,
+      "originalNodes": 953,
+      "clips": [
+        {
+          "name": "Boost",
+          "duration": 1,
+          "channels": 7
+        },
+        {
+          "name": "Flight",
+          "duration": 1,
+          "channels": 7
+        },
+        {
+          "name": "Glide",
+          "duration": 1,
+          "channels": 7
+        }
+      ],
+      "sockets": [
+        "socket_muzzle",
+        "socket_wing_l",
+        "socket_wing_r",
+        "socket_thruster_l",
+        "socket_thruster_r",
+        "socket_target",
+        "socket_camera",
+        "socket_ground"
+      ],
+      "files": [
+        {
+          "path": "assets/dogfight/models/dragon-flight-v003.glb",
+          "bytes": 9653504,
+          "sha256": "1446d3c3c9606a61ad8d871473ce5b1242107c0a6d52b59c795102adb74f853c"
+        }
+      ],
+      "exportMetadata": {
+        "pivotNormalization": "SD059 source-rest-world",
+        "assetId": "space-dragon-flight-v003",
+        "assetContractVersion": 1,
+        "units": "meters",
+        "metersPerUnit": 1,
+        "upAxis": "+Y",
+        "forwardAxis": "-Z",
+        "scale": 1,
+        "groundContactY": -0.665026843547821,
+        "rootMotion": "none; authoritative gameplay root owns movement",
+        "source": "Space Dragon Spacecraft-v004-flight.blend",
+        "geometryBaselineSha256": "4d1a735cd2c20daa1941626f4522f41ebfc768b014020923e1db6495eb1684a5",
+        "animationSource": "Blender5.2 glTF action export; seven quaternion-only channels per clip"
+      }
+    }
+  ],
+  "decoder": {
+    "package": "@babylonjs/ktx2decoder",
+    "version": "9.33.0",
+    "tarball": "https://registry.npmjs.org/@babylonjs/ktx2decoder/-/ktx2decoder-9.33.0.tgz",
+    "integrity": "sha512-F10Qbv9nzXGZKHIw5MLOslPJw/Rm/3qxX5QbMMbVu3i1m4hIkREefTuqGL4Gbcpo1mjwyKoJXmhjSi0S04lbEA==",
+    "bundler": "Vite8.3.5 IIFE KTX2DECODER namespace",
+    "licenses": [
+      "Apache-2.0",
+      "BSD-3-Clause (Zstandard)"
+    ],
+    "noticePath": "assets/pod/decoder/NOTICE.md"
+  }
+}

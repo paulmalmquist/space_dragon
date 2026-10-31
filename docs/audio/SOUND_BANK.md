@@ -6,8 +6,8 @@
 
 - 16 newly synthesized, original, mono WAV cues in `assets/game/audio/starter/`, with manifest, source generator and local audition page.
 - These are **sound-design candidates**, not professional recordings and not production-approved.
-- The connected Drive folder `Space Dragon / Cinematic SFX Bank` was empty when checked. Nothing was downloaded from Sonniss, BOOM or Soundly. No third-party audio moved from Drive.
-- The Babylon.js game does not yet play these sounds or include them in its build.
+- At this original-bank intake, the connected Drive folder `Space Dragon / Cinematic SFX Bank` was empty when checked. Nothing was downloaded from Sonniss, BOOM or Soundly. No third-party audio moved from Drive.
+- The Babylon.js game does not yet play these original starter-bank sounds or include them in its build. The separate [Sonniss intake and Dogfight integration](../reports/2026-10-30-sonniss-sound-banks.md) now supplies five derived game cues; it does not change the provenance of these 16 original candidates.
 
 ## Professional sound sources to audition and acquire
 

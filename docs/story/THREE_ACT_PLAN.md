@@ -1,7 +1,9 @@
 # Space Dragon — Three-Act Story Plan
 
-**Date:** October 29, 2026  
-**Status:** PROPOSED planning document. The owner's structure (linear, large worlds, three acts, Earth first, Viera as the final landing) is CONFIRMED direction in the [decision record](../decisions/2026-10-29-three-acts-linear-and-viera.md). The holes, fills and recommendations below are proposals.  
+**Current authority — October 30:** [CAMPAIGN_STRUCTURE.md](CAMPAIGN_STRUCTURE.md) fixes the structure: Earth builds the dragon; four exploration planets have five missions each; fifth/final Viera also has five missions and becomes the family's home. Mission parties have at most three family members, one controlled leader and a designated mostly autonomous sidekick/button. The earlier planning notes below are beat material to fit into those 25 off-Earth slots, not alternative counts, extra full planets or five-person mission exceptions.
+
+**Date:** October 29, 2026
+**Status:** PROPOSED planning document. The owner's structure (linear, large worlds, three acts, Earth first, Viera as the final landing) is CONFIRMED direction in the [decision record](../decisions/2026-10-29-three-acts-linear-and-viera.md). The holes, fills and recommendations below are proposals.
 **Companion:** [Acts II & III: The Road to Viera](ACTS_II_III_THE_ROAD_TO_VIERA.md), which fills the holes listed here.
 
 ## Where the story stands
@@ -32,9 +34,9 @@ Four rules from October 29 split the off-world story into two acts and move the 
 
 The owner's words are preserved in the [idea inbox](../../ideas/INBOX.md) and recorded in the [decision](../decisions/2026-10-29-three-acts-linear-and-viera.md).
 
-## The three-act spine (recommended)
+## Earlier proposed beats to fit into the current campaign
 
-One fixed route, Earth to the Quiet worlds to Viera, with the drafted Hush climax moved to Viera so the final landing is also the finale. Everything below is a proposal; most of Acts I and II reuses drafts already in the repo.
+Use the canonical slot structure above. The following earlier fixed-route outline supplies proposed beat material; one numbered scene is not automatically a full mission. The Hush climax remains a proposed Viera payoff, and the family moving to Viera is confirmed. Names, individual missions and the placement of waypoint settings still need mapping into the five missions on each planet.
 
 ### Act I — Build the Dragon (Earth)
 
@@ -141,7 +143,7 @@ Repo changes follow the repo's own rules: the owner's words go in the inbox, and
 
 **Since this plan (October 30):** the owner approved a villain, [Morrow](VILLAIN_ARC.md), as the reason for the SOS; renamed the "home note" (now the Heartnote); and settled language: the game is in English, with the suits as a one-line hand-wave ([language](LANGUAGE_AND_TRANSLATION.md)). All three are integrated into the act treatments and scripts. Hole 12 is answered by Morrow.
 
-1. ~~Log the direction in `ideas/INBOX.md` and the idea ledger.~~ Done: SD-014 to SD-018.
+1. ~~Log the direction in `ideas/INBOX.md` and the idea ledger.~~ Done: SD-028 to SD-032. These were SD-014 to SD-018 upstream; see [the ID crosswalk](../decisions/2026-10-30-idea-id-reconciliation.md).
 2. ~~Record a decision file for what the owner confirmed.~~ Done: [decision](../decisions/2026-10-29-three-acts-linear-and-viera.md).
 3. ~~Draft the Act III treatment.~~ Done: [Acts II & III](ACTS_II_III_THE_ROAD_TO_VIERA.md).
 4. ~~Trim Act II to end at the Forge Ring, give its worlds a fixed order, and move the Silent Center scripts into Act III on Viera.~~ Done October 30: [Act II](ACT_II_ANSWER_THE_CALL.md), [Act III](ACT_III_THE_ROAD_TO_VIERA.md), [The Rest Garden](scripts/A3-04_THE_REST_GARDEN.md).

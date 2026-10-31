@@ -1,7 +1,7 @@
 # Script — A2-03 to A2-07: Waking the Worlds and the Temptation
 
-**Status:** PROPOSED draft, following [Act II](../ACT_II_ANSWER_THE_CALL.md) Movements 3–4, the [music doc](../MUSIC_EMPATHY_AND_PACING.md) §3 (introducing the Hush) and §5 (variety), and the [combat system](../../gameplay/COMBAT_SYSTEM.md) §6–7. Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
-**Order:** fixed, by [owner decision](../../decisions/2026-10-29-three-acts-linear-and-viera.md): Market Moon, Hatchery, Climbing Spires, Forge Ring. Each woken dragon lights the lane to the next world. The waking beats below were written by **how many dragons are awake**, which still works in a fixed order.  
+**Status:** PROPOSED draft, following [Act II](../ACT_II_ANSWER_THE_CALL.md) Movements 3–4, the [music doc](../MUSIC_EMPATHY_AND_PACING.md) §3 (introducing the Hush) and §5 (variety), and the [combat system](../../gameplay/COMBAT_SYSTEM.md) §6–7. Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).
+**Order:** linearity is confirmed by [owner decision](../../decisions/2026-10-29-three-acts-linear-and-viera.md); Market Moon → Hatchery → Climbing Spires → Forge Ring is the proposed named route. [The current campaign](../CAMPAIGN_STRUCTURE.md) requires five missions per planet and at most three family members per active mission. This older set-piece script needs expansion/restaging into those slots before its next-world unlocks are implemented. Waking-count beats remain proposal material, not evidence that all five missions on a planet are written.
 **Lane levels:** the flight between worlds is drafted in the [Acts II & III overview](../ACTS_II_III_THE_ROAD_TO_VIERA.md) § Flight between planets. Their scripts are not written yet.
 
 ## The shape of every world (same shape, new surprise)

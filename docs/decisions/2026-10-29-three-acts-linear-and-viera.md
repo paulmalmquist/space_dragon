@@ -4,7 +4,11 @@
 **Status:** CONFIRMED owner direction on story structure, the final destination, suit progression and between-planet flight. The treatment built on it stays PROPOSED.  
 **Decision source:** the owner, in a Claude chat in the Space Dragon project, October 29, 2026. Source wording is preserved in the [idea inbox](../../ideas/INBOX.md).
 
+**Tracking:** SD-028 (linear three-act structure), SD-029 (Viera), SD-030 (upgrades to powers), SD-031 (between-planet flight), with the dependent treatment at SD-032. These were SD-014–SD-018 in incoming `origin/main` at `d159cd1`; [the ID crosswalk](2026-10-30-idea-id-reconciliation.md) preserves that provenance without reusing the local gameplay IDs.
+
 ## Decision
+
+**Subsequent clarification (October 30):** [the campaign/party decision](2026-10-30-campaign-and-mission-party.md) fixes four exploration planets plus final Viera, five missions per planet, relocation to Viera and a three-family-member mission cap with leader/sidekick roles. This record's open questions and older summaries yield to that newer direction where they conflict.
 
 1. **The story is linear.** The game follows one fixed route. Missions and worlds are not chosen in a player-selected order.
 2. **The play space is a large 3D world or a set of worlds.**

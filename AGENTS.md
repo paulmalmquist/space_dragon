@@ -5,15 +5,18 @@
 Read [project status](docs/project/STATUS.md), [the vision](docs/project/VISION.md), [the idea inbox](ideas/INBOX.md), and [the current milestone](docs/plans/CURRENT_MILESTONE.md); inspect actual files, commands, branch and working-tree changes before editing. A local Babylon/TypeScript prototype now exists; finished art, website integration and backend services remain pending. Do not invent a connected Blender session or hosting configuration.
 
 Load only the relevant contract:
-- Story or missions: [Act I](docs/story/ACT_I_BUILD_THE_DRAGON.md).
+- Story or missions: [current campaign structure](docs/story/CAMPAIGN_STRUCTURE.md), then [Act I](docs/story/ACT_I_BUILD_THE_DRAGON.md) or the relevant act draft.
 - Runtime or saves: [architecture](docs/engineering/ARCHITECTURE.md) and [interactions](docs/gameplay/INTERACTION_CONTRACTS.md).
 - Learning: [learning rules](docs/learning/LEARNING_RULES.md).
-- Art: [Blender handoff](docs/BLENDER_CHARACTER_HANDOFF.md); external Seele exports: [intake and migration](seeles-assets/README.md), including an initial import-versus-refactor assessment.
+- Art: [Blender handoff](docs/BLENDER_CHARACTER_HANDOFF.md).
+- Seele or prototype imports: [prototype integration](docs/engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](seeles-assets/README.md); the first track is dragon dogfighting. Include an initial import-versus-refactor assessment.
 - Verification/release: [quality gates](docs/engineering/QUALITY_GATES.md).
 
 ## Turn unordered ideas into changes
 
 Paul supplies creative ideas; agents maintain the structure and routine technical choices. Chat, the local Idea notebook, and `ideas/INBOX.md` are equivalent inputs. No technical brief or user-maintained form is required. Notebook capture does not run agents automatically.
+
+A fresh chat attached to this repo follows the same intake rules without needing the earlier transcript. Read [fresh-chat guidance](docs/project/FRESH_CHAT.md) and the current decisions before proposing changes. Canon now uses Earth to build the dragon, then five off-Earth planets with five missions each, ending with the family moving to Viera. Active mission parties contain at most three family members: one controlled leader and one mostly autonomous sidekick with a sidekick button; see the campaign contract for the optional third member and open control details.
 
 - Preserve the source wording and date in the inbox. Notebook `NOTE-...` IDs identify raw captures; connect them to the next unused `SD-###` in [the ledger](docs/project/IDEA_LEDGER.md). Search for duplicates and coordinate ID allocation.
 - Track authority (`CONFIRMED`, `PROPOSED`, `BOOKMARKED`, `OPEN`) separately from work state (`captured`, `planned`, `in-progress`, `verified`, `parked`). Confirmed direction is not verified implementation.
@@ -41,9 +44,13 @@ Preserve user changes. No destructive resets, force-pushes, unrelated rewrites o
 
 Keep authoritative game state separate from animation and rendering. Rewards must survive reloads and repeated triggers without duplication. Separate learner profile, selected avatar and action-assistance settings. Help must advance required story challenges without recording independent mastery. Do not demand reading while steering at speed.
 
-The 18-photo publication approval is narrow; see [the decision](docs/decisions/2026-10-28-family-photo-references.md). Repository access is not approval to ship references in the game, use new external generators or clone voices. Keep reference boards out of exported assets. Use only owner-assigned photo labels; never infer identity across photos. Fictionalize sensitive school/workplace layouts and the neighbor. Never commit secrets or child learning records.
+The owner's [SD-041 exception](docs/decisions/2026-10-30-live-spelling-flight.md) requires active flight/combat and dodging during the Dogfight Lab's word-charge prompts. Do not restore automatic spelling pause, autopilot or immunity there; the general learning rule remains for other interactions.
+
+The 18-photo publication approval is narrow; see [the decision](docs/decisions/2026-10-28-family-photo-references.md). Repository access is not approval to ship references in the game, use new external generators or clone voices. Keep reference boards out of exported assets. Use only owner-assigned photo labels; never infer identity across photos. The [neighborhood decision](docs/decisions/2026-10-29-neighborhood-map.md) permits real place names and public landmarks; fictionalize sensitive school/workplace interiors and the neighbor. Never commit secrets or child learning records.
 
 Use [the asset pipeline](docs/ASSET_PIPELINE.md) for source/reference/export destinations. Preserve the dragon's component names, pivots and attachment structure. Only Lyla at viewer-left in `IMG_3277.jpeg` has a confirmed per-image label. Keep actual device/export measurements separate from targets.
+
+The owner’s [Town Drive override (SD-052)](docs/decisions/2026-10-30-town-drive-detail-override.md) removes that lab’s privacy/publication restriction, including the real-house layout approval gate and fictional-only build requirement. Apply the later owner override; do not ask for this permission again.
 
 ## Reusable skills
 

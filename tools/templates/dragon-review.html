@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Space Dragon · Model comparison</title>
+<style>
+  :root { color-scheme: dark; font: 16px system-ui, sans-serif; background: #111720; color: #e5e9ef; }
+  body { max-width: 1800px; margin: auto; padding: 24px; }
+  h1 { font-size: 26px; margin: 0 0 8px; font-weight: 600; }
+  p { color: #aab5c5; margin: 0 0 22px; }
+  nav { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; margin-bottom: 22px; }
+  label { display: grid; gap: 6px; font-size: 13px; color: #aab5c5; }
+  select, button { border: 1px solid #4b596e; border-radius: 6px; padding: 10px 14px; background: #202c3c; color: #fff; font: inherit; }
+  button { cursor: pointer; }
+  main { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  figure { margin: 0; background: #19212d; border: 1px solid #354258; border-radius: 8px; overflow: hidden; }
+  figcaption { padding: 14px 18px; font-weight: 600; }
+  img { width: 100%; height: auto; display: block; }
+  footer { color: #98a6ba; font-size: 13px; padding-top: 18px; }
+  body.focus main { grid-template-columns: 1fr; max-width: 1440px; margin: auto; }
+  body.focus figure:first-child { display: none; }
+  @media(max-width:800px) { main { grid-template-columns: 1fr; } body { padding: 16px; } }
+</style>
+<h1>Space Dragon · First-section benchmark</h1>
+<p>Head, neck and left shoulder. Compare the retained red model with the new gunmetal/crimson candidate.</p>
+<nav>
+  <label>View <select id="view"><option value="head">Head close-up</option><option value="full">Full body</option><option value="front">Front</option><option value="side">Side</option><option value="shoulder">Shoulder</option><option value="jaw">Open jaw</option></select></label>
+  <label>Lighting <select id="light"><option value="neutral">Neutral</option><option value="cinematic">Cinematic</option></select></label>
+  <button id="focus" type="button">Enlarge new model</button>
+</nav>
+<main>
+  <figure><figcaption>Retained red model</figcaption><img id="reference" alt="Retained red mechanical dragon"></figure>
+  <figure><figcaption>New section benchmark</figcaption><img id="candidate" alt="New gunmetal and crimson mechanical dragon"></figure>
+</main>
+<footer>Captured in the browser with the game’s loader, materials and animation. Matching cameras and lighting; bloom disabled for surface review. Original files remain preserved. Full-body refinement and independent neck articulation remain future work.</footer>
+<script>
+  const view = document.querySelector('#view'), light = document.querySelector('#light');
+  function update() {
+    light.disabled = view.value === 'jaw';
+    const lighting = light.disabled ? 'neutral' : light.value;
+    for (const label of ['reference', 'candidate']) document.getElementById(label).src = `${label}-${lighting}-${view.value}.png`;
+  }
+  view.addEventListener('change', update); light.addEventListener('change', update);
+  document.querySelector('#focus').addEventListener('click', event => {
+    const focus = document.body.classList.toggle('focus');
+    event.target.textContent = focus ? 'Show comparison' : 'Enlarge new model';
+  });
+  update();
+</script>
+</html>

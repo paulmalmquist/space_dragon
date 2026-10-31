@@ -85,6 +85,7 @@ export function createControllerInput(options: {
   let lastTime: number | undefined;
   let animationFrame = 0;
   let disposed = false;
+  let needsNeutral = true;
   let connection: ControllerConnection = {
     status: 'waiting', kind: 'generic',
     message: 'Plug in a PlayStation controller, then press ✕ to connect.',
@@ -116,13 +117,18 @@ export function createControllerInput(options: {
       }
       if (pad?.connected) {
         const kind = controllerKind(pad.id);
-        if (activeIndex !== pad.index) lastPressed = false;
+        if (activeIndex !== pad.index) { lastPressed = false; needsNeutral = true; }
         activeIndex = pad.index;
         publish({ status: 'connected', kind, message: connectedMessage(kind) });
         const sample = sampleStandardController(pad);
         const pressed = sample?.advance ?? false;
-        // Never synthesize repeated actions from a held button.
-        if (!document.hidden && (options.isActive?.() ?? true)) {
+        const active = !document.hidden && (options.isActive?.() ?? true);
+        const neutral = !pressed && sample && Object.values(sample.camera).every(value => value === 0);
+        if (!active) needsNeutral = true;
+        if (active && neutral) needsNeutral = false;
+        // Never synthesize repeated actions or resume held movement after a
+        // pause, dialog, disconnect or mode change. Release to re-arm.
+        if (active && !needsNeutral) {
           if (pressed && !lastPressed) options.onAdvance();
           if (sample) options.onCamera(sample.camera, deltaSeconds);
         }
@@ -141,7 +147,22 @@ export function createControllerInput(options: {
   animationFrame = window.requestAnimationFrame(tick);
 
   return {
-    snapshot: () => ({ ...connection }),
+    snapshot: () => ({ ...connection, armed: !needsNeutral, advanceHeld: lastPressed }),
+    reset() { needsNeutral = true; },
     dispose() { disposed = true; window.cancelAnimationFrame(animationFrame); },
+  };
+}
+
+/** Town Drive Lab uses the same standard adapter and retains analog trigger values. */
+export interface DriveControllerSample {
+  throttle: number; brake: number; steer: number; handbrake: boolean;
+  reset: boolean; camera: boolean; pause: boolean;
+}
+export function sampleDriveController(pad: StandardPad): DriveControllerSample | null {
+  if (pad.mapping !== 'standard') return null;
+  return {
+    throttle: button(pad, 7), brake: button(pad, 6), steer: stick(pad.axes, 0, 1).x,
+    handbrake: button(pad, 0) > 0.5, reset: button(pad, 3) > 0.5,
+    camera: button(pad, 5) > 0.5, pause: button(pad, 9) > 0.5,
   };
 }

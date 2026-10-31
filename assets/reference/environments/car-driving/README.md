@@ -22,9 +22,9 @@ Use the visible features when designing a useful town exterior slice. The portra
 
 Follow [the asset pipeline](../../../../docs/ASSET_PIPELINE.md) for reference, editable-source, and runtime destinations. Consult [Seele intake](../../../../seeles-assets/README.md) when a generated asset or export is actually available. This reference does not select a generation service or create a 3D environment.
 
-The source and extracted imagery remain authoring references. Their intake does not automatically authorize publication, inclusion in the game, or uploading to Seele or another generation service. Follow the reference and publication boundaries in [AGENTS.md](../../../../AGENTS.md); keep raw footage and derivatives outside runtime builds unless separately reviewed and authorized.
+The original intake treated source imagery as authoring-only. [SD-052](../../../../docs/decisions/2026-10-30-town-drive-detail-override.md) supersedes that Town Drive publication restriction: reference-derived runtime assets may be promoted without another privacy approval. Large videos and intermediate comparisons remain local for size/workflow reasons. Cloud-service uploads and purchases retain their separate boundaries.
 
-## Intake receipt — SD-030
+## Intake receipt — SD-064
 
 - Source size: **290,725,664 bytes**.
 - SHA-256: `775b616e09569feedd8a390c5896cfba7bc5bd20d3a2c1d81b1004b2959a2bb1`.
@@ -35,3 +35,14 @@ The source and extracted imagery remain authoring references. Their intake does 
 - **NOT TESTED:** runtime import, Blender handoff, browser performance, or a Seele export. No runtime code changed.
 
 Owner wording and routing are recorded in [the inbox](../../../../ideas/INBOX.md) and [idea ledger](../../../../docs/project/IDEA_LEDGER.md).
+
+
+## October 30 phone-original follow-up — SD-046
+
+The owner supplied higher-resolution `.MOV` originals in ignored `assets/reference/videos/`. They are separate sources from the older MP4 receipts above, with new hashes/metadata in local source receipts. The older MP4 authoring path is absent in this checkout. No source or derivative was promoted during the initial SD-046 capture stage; SD-052 now permits reference-derived runtime assets.
+
+The [Town Drive decision](../../../../docs/decisions/2026-10-30-town-drive-lab.md) records the bounded lab and provenance-ID differences between branches. Timestamped observations, 5-second contact sheets, masks and CPU SfM evidence are in the corresponding `assets/reference/local/environments/` folder. [Verification](../../../../docs/reports/2026-10-30-town-drive-lab.md) distinguishes observed reference evidence from estimated geometry and human approval.
+Next: review the local game/video comparison and tune road feel. Road SfM registered 2.5% of frames; use procedural roads with the observed right/left/left turn order and broad road character. Invented connectors and compressed distances are labeled; no real signs/logos are reproduced.
+
+
+The owner removed the Town Drive privacy/publication rule in [SD-052](../../../../docs/decisions/2026-10-30-town-drive-detail-override.md). Reference-derived runtime assets are permitted without another approval gate.

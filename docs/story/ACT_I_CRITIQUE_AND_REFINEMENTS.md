@@ -1,7 +1,7 @@
 # Act I — Critique and Proposed Refinements
 
-**Date:** October 28, 2026  
-**Status:** PROPOSED treatment notes for owner review. Nothing here is CONFIRMED canon. [Act I](ACT_I_BUILD_THE_DRAGON.md) remains the authoritative baseline until the owner accepts specific items, which should then be recorded in `docs/decisions/`.  
+**Date:** October 28, 2026
+**Status:** PROPOSED treatment notes for owner review. Nothing here is CONFIRMED canon. [Act I](ACT_I_BUILD_THE_DRAGON.md) remains the authoritative baseline until the owner accepts specific items, which should then be recorded in `docs/decisions/`.
 **Companion:** [Act II proposal](ACT_II_ANSWER_THE_CALL.md).
 
 Every confirmed point in Act I is kept as it is. The SOS equipment was sent on purpose and reached this family by accident. The opening is in the living room, the suits come from the backyard arrival, and the recovered components assemble a dragon design that already existed. The destination is another universe, and Lyla's suit color stays OPEN. These proposals add finesse inside those rules.

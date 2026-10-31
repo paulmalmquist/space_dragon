@@ -1,7 +1,7 @@
 # Music, Empathy and Pacing
 
-**Date:** October 29, 2026  
-**Status:** PROPOSED design for owner review. It is informed by [owner-supplied research](../research/2026-10-29-empathy-music-pacing.md), whose citations are unverified. Nothing here is canon.  
+**Date:** October 29, 2026
+**Status:** PROPOSED design for owner review. It is informed by [owner-supplied research](../research/2026-10-29-empathy-music-pacing.md), whose citations are unverified. Nothing here is canon.
 **Builds on:** [Act I refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md) (the SOS melody), [Act II](ACT_II_ANSWER_THE_CALL.md) (the Quiet and the Hush, with its climax revised alongside this document), the [suit reveals](SUIT_REVEALS_AND_STARTING_ABILITIES.md) and the [combat system](../gameplay/COMBAT_SYSTEM.md).
 
 ## 1. What the research changes
@@ -21,6 +21,10 @@
 ---
 
 ## 2. The song system
+
+**Mission-party constraint:** [the campaign contract](CAMPAIGN_STRUCTURE.md) caps active family participation at three. Five family instrument voices can remain part of an authored score, but the musical title “Five Together” never requires five active mission participants or five simultaneous controls. Older five-person playable cues need adaptation; bindings and sidekick assistance remain open.
+
+**Retained composition source:** [Planet missions and SOS composition](PLANET_MISSIONS_AND_SOS_COMPOSITION.md) develops mission-created contributions, compatible phrase choices, an optional song constellation and a final rearrangement with rests. The current Act II/III treatments already incorporate contributions and compatible choices on their linear route. [The filing receipt](../reports/2026-10-29-planet-missions-filing.md) tracks remaining source alternatives, music-state/asset reconciliation and the unimplemented constellation. No music implementation is implied.
 
 ### 2.1 The SOS melody and the Heartnote
 
@@ -58,7 +62,7 @@ Every family member has an instrument **voice**. Every action their suit perform
 | **The Hush** | A very low, breathy drone, felt more than heard (optional controller rumble) | Ends as a warm sustained pad under the restored song: the "rest." |
 | **The Caller** | A lone, hoarse whistle singing the SOS | Gains backing instruments as worlds wake. |
 | **The Quiet** | A muffling filter over everything, with Morrow's held note underneath | Pulls back as color returns. |
-| **The family's powers** | Each instrument voice morphs into synth (SD-022) | A new song: sounds the old song never had, which Morrow can't hold. |
+| **The family's powers** | Each instrument voice morphs into synth (PR #15 / SD-022) | A new song: sounds the old song never had, which Morrow can't hold. |
 
 ### 2.4 Adaptive music states
 
