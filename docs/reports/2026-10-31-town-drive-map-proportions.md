@@ -1,0 +1,45 @@
+# Town Drive map proportions verification — October 31, 2026
+
+## Scope and artifact
+
+SD-064: [owner correction](../decisions/2026-10-31-town-drive-map-proportions.md). Isolated branch `fix/town-drive-map-proportions`, base `206f899e419dcd6e2fec54ecb03c8ec6386ef0fc`. Preserve unrelated live-workspace SD-061/062 edits. Correct the Winston Trails gate label and demonstrated geometry/context discrepancies while preserving the complete driving loop and prior motion fixes.
+
+## Evidence and implementation
+
+The supplied Google Maps images are the primary visual reference. A fresh direct Google Maps web request was inaccessible; no live Google Maps inspection is claimed. [Source review](town-drive-map-proportions-sources-2026-10-31.md) records the official OSM API evidence and the owner-authorized Winston Trails South naming correction. Original source names and IDs remain intact. Screenshot ratios have no scale bar and were not treated as survey measurements.
+
+The departure is straight down Starpass Court, right west onto Green Island Boulevard, left south onto Winston Trails South, and right west onto Hypoluxo Road. Bulb-center-to-Green-Island is 42.317 m; Green-Island-to-Winston is 134.071 m; Winston-to-the-north-Hypoluxo-carriageway is 235.121 m. The raw source path from the bulb mouth to that north carriageway is 400.207 m. The rendered outbound connector through the Hypoluxo turn is 407.944 m; the gate marker occurs earlier at route distance 324.102 m. These endpoints differ and must not be described as the same measurement.
+
+The combined Hypoluxo road now uses the midpoint between its mapped directional carriageways, 8.450 m south of the previous center. The gate approach follows the retained source points instead of cutting across the split; its pre-turn centerline stays within 0.561 m of the mapped outbound line. The rest of the arterial loop remains compressed, and the return is authored. No global rescaling was justified.
+
+Four concave lake outlines restore the home lake, two ponds west of Winston and northeast context. Twenty-five source road polylines plus the existing collector yield 26 context polylines; rendering culls/reuses their overlapping spans, so this is not a count of 26 distinct visible streets. Eighty-three compact estimated houses and eight estimated context court bulbs replace generic development around the mapped area. Building placement excludes roads, water, junctions and overlapping roofs; court driveways connect to the bulb. Road widths, parcels, houses, landscaping, guardhouse and other gate furniture remain estimates.
+
+There are ten junctions and eleven closed arms, including four newly visible unused neighborhood branches. The Green Island northeast continuation is closed 28 m along its mapped curve beyond the authored return join; barrier/police collision discs retain at least 2.832 m clearance from active pavement after their radii. The join's third road is authored, not asserted to exist on the real map. All closures retain the existing forgiving collision and police/barricade contract.
+
+Source changes cover the drive neighborhood/route/junction modules, new source/context modules, scenery exclusions, welcome directions, atomic reset presentation and drive regressions. Fixed-step physics, save IDs, traffic, pedestrians, minivan/cabin controls and SD-063 interpolation remain in place. Documentation records the changed evidence and authority. Unrelated live-workspace changes are excluded.
+
+## Checks
+
+Windows, Node 24.15.0, npm 11.12.1, Python 3.14.4; native Chrome 156.0.8078.76. Browser tests use isolated fixture ports 5196/4196; the visual review server uses 5187. No real notebook server was reused.
+
+| Check | Result | Evidence and limitation |
+| --- | --- | --- |
+| `npm.cmd run check`, with `SPACE_DRAGON_NATIVE_CHROME=1`, test port 5196, preview port 4196 | PASS | 89/89 unit tests, typecheck/build, 32/32 development browser cases, 6/6 production cases and the 18-photo inventory. Final log: local ignored `artifacts/map-proportions-check.log`. An earlier run was intentionally stopped after five passing browser cases to address the last newly exposed branch; retained as `map-proportions-check-interrupted.log`. |
+| `python tools/check_foundation.py` | PASS | Structure, local links and skill mirrors only. |
+| `python -m unittest discover -s tests -p 'test_*.py' -v` | PASS | 41 cases, two existing skips. Local `artifacts/map-proportions-python.log`. |
+| Map/projection, concave water and clearance regressions | PASS | Exact source point order, polygon area/dry bay, source proportions, player/NPC footprints, road/building setbacks and roof overlap. Final full suite includes the eleventh closure, semantic forward collision/control comparisons, complete player/NPC lane clearance, lap completion and save reload. |
+| Native Chrome visual inspection at 1440 × 1000 | PASS for inspected views | Home/court, Green Island/Winston junction, cabin look over west pond, gate approach, gate junction and neighborhood overhead. No page errors. Local `artifacts/map-proportions-review/`. Corrected final driveway/throat views were recaptured. |
+| Short ordinary-view timing sample | OBSERVED, not a performance gate | AMD Radeon (TM) Graphics through ANGLE/Direct3D11, WebGL 2.0. After one-second warmup, five seconds each: home chase 53.52 mean FPS (268 frames), Winston cabin 46.41 (233 frames). Driver stationary with active NPC traffic. Not a sustained driving or 60 FPS acceptance test. |
+| Owner road recognition, steering comfort, controller hardware, sound and sustained performance | NOT REVIEWED / NOT TESTED | No human or device acceptance inferred from automation. |
+
+The broad overhead capture disables fog and mesh LOD only in the diagnostic browser session, waits for shader readiness, then restores ordinary settings by reloading before timing. An initial one-frame overhead capture showed material/LOD artifacts and was replaced; it is not evidence of a normal runtime failure. Five ordinary camera views retain runtime rendering. Visual review is an agent inspection, not human approval.
+
+The first completed browser run passed 30/32 cases. Its failures are retained under local `artifacts/map-proportions-failed-run/` and `map-proportions-check-failed.log`: the junction assertion matched `green-island-terrace-court` as well as `green-island-terrace`, so it now uses the exact police namespace; reset exposed one mismatched camera/car snapshot before the throttled paused render updated the car. The trace showed fourteen subsequent correct samples, not evidence of persistent driving vibration. Reset now clears controls and synchronously updates/renders the car and camera from the same reset pose without a physics tick. Strict attachment tolerances remain unchanged. Both focused browser cases passed (2/2, `artifacts/map-proportions-fix-check.log`), followed by the final complete passing suite recorded above. Independent review confirmed reset adds no physics tick, traffic step, save or reward.
+
+Final drive source/test fingerprint: `ebfd1afb10cbe59c88c0bd0143e5e4a77a15dec5d8f09c5628b38041317286da`. SHA-256 covers 40 sorted files under `src/game/drive/` plus `tests/drive*.ts`, each encoded as relative POSIX path, NUL, LF-normalized contents, NUL. Local inventory: `artifacts/map-proportions-source-fingerprint.json`. Final closure capture and scene metrics: `artifacts/map-proportions-review/final-artifact.json`; eleven closures, 83 estimated lots, four lake meshes, no page errors. The added closure view shows its barricade across the unused continuation and clear active lanes. The full suite passed on this fingerprint; no runtime source changed after that run.
+
+## Review and release
+
+IMPLEMENTED and technically VERIFIED within the checks above. Independent agent code/geometry review found no remaining blocker; this does not constitute human REVIEWED status. Human recognition, house accuracy, photorealism acceptance, driving comfort and sustained hardware performance remain open. Reversing this increment restores the prior route and scenery; stable save/checkpoint IDs need no migration.
+
+Push/merge is authorized by the owner's standing instruction, and the SD-052 Town Drive reference override remains applicable. Production deployment is not requested or performed. Remote branch/commit and merge result: PENDING FINAL ARTIFACT. No hosted CI pass is inferred from local checks or an empty status list.

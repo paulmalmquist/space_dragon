@@ -66,6 +66,8 @@ SD-059 is reserved for concurrent cinematic-dragon work outside this Town Drive 
 
 SD-060–SD-062 are allocated to concurrent dragon/visual-foundation/Unity work outside this Town Drive increment.
 
-Next unused ID: **SD-064**. SD-047–SD-048 are reserved by concurrent local tasks. IDs SD-037–SD-045 are reserved by preserved local Dogfight/planning work and are not part of this commit. SD-027 records the preserved planet filing. Check the whole file before assigning an ID; concurrent agents must coordinate allocation.
+| SD-064 | Correct the gate route to Starpass → right Green Island → left Winston Trails South; closely match Google Maps proportions and surrounding layout. Owner, October 31; supplied map images and exact wording in inbox. | CONFIRMED | verified | [Decision](../decisions/2026-10-31-town-drive-map-proportions.md), [receipt](../reports/2026-10-31-town-drive-map-proportions.md). Winston label/gate alignment corrected; four mapped lakes, 83 estimated lots, eleven closures. 89 unit, 32 development and six production cases pass; human recognition/comfort remain open. |
+
+Next unused ID: **SD-074**. `origin/main@5121e1d` already owns SD-062–071 with meanings different from this active branch's SD-062–064. Preserve source namespaces and reconcile during integration; do not allocate from this branch's superseded SD-065 pointer. SD-027 records the preserved planet filing. Check local and remote ledgers before assigning an ID; concurrent agents must coordinate allocation.
 
 IDs SD-047 through SD-051 and SD-053 through SD-054, plus SD-056, were allocated to concurrent owner tasks in the shared workspace and are reserved; their changes are outside this Town Drive PR.

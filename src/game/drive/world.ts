@@ -36,6 +36,7 @@ import { createDriveCamera } from './camera';
 import type { DriveCameraPose } from './camera';
 import { FICTIONAL_HOUSE } from './house';
 import { NEIGHBORHOOD } from './neighborhood';
+import { neighborhoodWaterContains, neighborhoodContextRoadContains } from './neighborhood-context';
 import { createNeighborhoodScenery } from './neighborhood-world';
 import { createDriveJunctionWorld } from './junction-world';
 import { junctionRoadContains, junctionInteriorContains } from './junctions';
@@ -203,6 +204,8 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
     const halfAt = (p: RouteSample) => roadHalfWidth(sectionAt(p));
     function vergeClear(p:RouteSample,side:number){
       if(junctionInteriorContains(p.x,p.z)) return false;
+      const verge = offset(p, side * (halfAt(p) + 3.2));
+      if(neighborhoodWaterContains(verge.x,verge.z,1) || neighborhoodContextRoadContains(verge.x,verge.z,.5)) return false;
       if(NEIGHBORHOOD.junctions.some(junction=>Math.hypot(p.x-junction.x,p.z-junction.z)<13))return false;
       const at=offset(p,side*(halfAt(p)+1.5)),[a,b]=NEIGHBORHOOD.home.driveway.points;
       const dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((at.x-a.x)*dx+(at.z-a.z)*dz)/(dx*dx+dz*dz)));
@@ -259,7 +262,8 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
         // A verge beside this route sample can be another road at a T-junction.
         // Check the whole physical route before placing a solid trunk there.
         const nearestRoad=nearestRoutePoint(location.x,location.z);
-        const clearOfRoad=nearestRoad.distance-roadHalfWidth(ROUTE.sections[nearestRoad.sectionIndex])>1.6 && !junctionRoadContains(location.x,location.z,2);
+        const clearOfRoad=nearestRoad.distance-roadHalfWidth(ROUTE.sections[nearestRoad.sectionIndex])>1.6 && !junctionRoadContains(location.x,location.z,2)
+          && !neighborhoodWaterContains(location.x,location.z,2) && !neighborhoodContextRoadContains(location.x,location.z,2);
         if (clearOfRoad && random(s + side * 2) < edgeDensity) {
           if (random(s + side * 3) < roadsidePalmShare) palm(location, s + side, 7);
           else {
@@ -306,6 +310,7 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
       const p = pointAtDistance(s); const section = sectionAt(p); const h = halfAt(p);
       if (section.invented || section.character==='neighborhood' || junctions.some(j => Math.abs(j.s-s)<25)) continue;
       const at = offset(p,-h-2.6,4.1);
+      if(neighborhoodWaterContains(at.x,at.z,2) || neighborhoodContextRoadContains(at.x,at.z,1)) continue;
       add('trunk',metal,at,new Vector3(0.18,8.2,0.18));
       add('box',metal,offset(p,-h-1.4,8.15),new Vector3(2.5,0.12,0.18),p.yaw);
       add('box',dark,offset(p,-h-0.28,8.12),new Vector3(0.65,0.16,0.34),p.yaw);
@@ -326,6 +331,8 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
       const stopS = section.startS + Math.min(120,(section.endS-section.startS)*0.55);
       if(stopS<chunk.from || stopS>=chunk.to)continue;
       const p=pointAtDistance(stopS), h=halfAt(p), shelterAt=h+6.3;
+      const shelterPosition = offset(p,shelterAt);
+      if(neighborhoodWaterContains(shelterPosition.x,shelterPosition.z,4) || neighborhoodContextRoadContains(shelterPosition.x,shelterPosition.z,3)) continue;
       const local = (across:number,along:number,y:number) => {
         const at=offset(p,shelterAt+across,y);at.x+=Math.sin(p.yaw)*along;at.z+=Math.cos(p.yaw)*along;return at;
       };
@@ -359,6 +366,7 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
       const h = halfAt(p);
       const post = offset(p, h + 6.2, 6.4);
       if (junctionRoadContains(post.x,post.z,1)) continue;
+      if (neighborhoodWaterContains(post.x,post.z,1) || neighborhoodContextRoadContains(post.x,post.z,1)) continue;
       add('trunk', pole, post, new Vector3(0.35, 12.8, 0.35));
       add('box', pole, new Vector3(post.x, 11.4, post.z), new Vector3(3, 0.15, 0.18), p.yaw);
       chunk.obstacles.push({ id: `pole.${s}`, x: post.x, z: post.z, radius: 0.5 });

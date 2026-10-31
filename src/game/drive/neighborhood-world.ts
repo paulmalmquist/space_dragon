@@ -9,8 +9,9 @@ import type { Scene } from '@babylonjs/core/scene';
 import { buildHouse } from './house';
 import type { HouseLayout } from './house';
 import { NEIGHBORHOOD } from './neighborhood';
-import { ROUTE, nearestRoutePoint } from './route';
-import { junctionInteriorContains } from './junctions';
+import { ROUTE } from './route';
+import { createNeighborhoodContextWorld } from './neighborhood-context-world';
+import { neighborhoodWaterContains, neighborhoodContextRoadContains } from './neighborhood-context';
 import type { createDriveMaterials } from './materials';
 import type { createRoadsideDevelopment } from './development';
 import type { DriveVegetationPlacement } from './vegetation';
@@ -40,26 +41,13 @@ export function createNeighborhoodScenery(scene:Scene,palette:ReturnType<typeof 
       box(name,{x:(a.x+b.x)/2,z:(a.z+b.z)/2,yaw},0,y,0,width,.065,Math.hypot(b.x-a.x,b.z-a.z)+.15,material);
     }
   }
-  // Public mapped side streets continue beyond the route's turns. Only uncovered spans
-  // are drawn, so the return route shares the same physical Boulevard and Court surface.
-  for(const [name,centerline]of Object.entries({boulevard:NEIGHBORHOOD.centerlines.greenIsland,terrace:NEIGHBORHOOD.centerlines.terrace})){
-    for(let i=1;i<centerline.length;i++){
-      const a=centerline[i-1],b=centerline[i],length=Math.hypot(b.x-a.x,b.z-a.z),steps=Math.ceil(length/5);
-      for(let j=0;j<steps;j++){
-        const start={x:a.x+(b.x-a.x)*j/steps,z:a.z+(b.z-a.z)*j/steps},end={x:a.x+(b.x-a.x)*(j+1)/steps,z:a.z+(b.z-a.z)*(j+1)/steps};
-        const center={x:(start.x+end.x)/2,z:(start.z+end.z)/2};if(nearestRoutePoint(center.x,center.z).distance<3)continue;
-        const pose={...center,yaw:Math.atan2(b.x-a.x,b.z-a.z)},segment=length/steps+.1;
-        box(`context-${name}`,pose,0,.005,0,7,.035,segment,palette.asphalt);
-        if(junctionInteriorContains(center.x,center.z))continue;
-        for(const side of [-1,1]){
-          box(`context-${name}-curb`,pose,side*3.65,.08,0,.28,.16,segment,palette.curb);
-          box(`context-${name}-walk`,pose,side*6.9,.065,0,2,.13,segment,palette.concrete);
-          box(`context-${name}-centerline`,pose,side*.10,.026,0,.10,.008,segment,palette.yellow);
-        }
-      }
-    }
-  }
+  // One mapped context renderer owns nearby streets, lakes and estimated frontage.
+  const context=createNeighborhoodContextWorld(scene,palette,development);context.root.parent=root;
+  obstacles.push(...context.obstacles);plants.push(...context.plants);
   pavement('green-island-through-bridge',ROUTE.trafficBridge.points,7,palette.asphalt,.002);
+  // The driving spline rounds the right turn before the mapped carriageway node.
+  // Fill that actual approach throat so no grass wedge remains between the two gate lanes.
+  pavement('gate-carriageway-throat',[...NEIGHBORHOOD.centerlines.exitLanes.slice(-3),NEIGHBORHOOD.hypoluxo.center],7,palette.asphalt,.002);
   // Show the public arterial continuing east of the visitors' exit, so this reads
   // as a right turn at a T-junction rather than a residential road bending away.
   const arterial=NEIGHBORHOOD.junctions[2],arterialPose={x:arterial.x+109,z:arterial.z,yaw:Math.PI/2};
@@ -167,12 +155,6 @@ export function createNeighborhoodScenery(scene:Scene,palette:ReturnType<typeof 
   pavement('driveway',NEIGHBORHOOD.home.driveway.points,NEIGHBORHOOD.home.driveway.width,palette.concrete);
   const driveA=NEIGHBORHOOD.home.driveway.points[0],driveB=NEIGHBORHOOD.home.driveway.points[1],driveYaw=Math.atan2(driveB.x-driveA.x,driveB.z-driveA.z);
   for(let i=1;i<5;i++)box(`driveway-joint.${i}`,{x:driveA.x+(driveB.x-driveA.x)*i/5,z:driveA.z+(driveB.z-driveA.z)*i/5,yaw:driveYaw},0,.08,0,5.8,.005,.025,palette.pole);
-  const builtLots=development.buildLots(root,[
-    {x:-28,z:5,yaw:-Math.PI/2,seed:7101,driveLength:11,side:-1},
-    {x:-7,z:30,yaw:0,seed:7102,driveLength:12,side:-1},
-    {x:24,z:24,yaw:.72,seed:7103,driveLength:14,side:1},
-  ]);
-  obstacles.push(...builtLots.obstacles);plants.push(...builtLots.plants);
   plants.push({kind:'palm',x:7,z:-14,height:8,seed:7104},{kind:'palm',x:33,z:-26,height:9,seed:7105},
     {kind:'canopy',x:34,z:5,height:11,seed:7106},{kind:'canopy',x:-34,z:26,height:12,seed:7107},
     {kind:'hedge',x:9,z:-9,height:1,seed:7108});
@@ -224,9 +206,11 @@ export function createNeighborhoodScenery(scene:Scene,palette:ReturnType<typeof 
     const groups=new Map<Material,Mesh[]>();for(const mesh of source){const group=groups.get(mesh.material!)??[];group.push(mesh);groups.set(mesh.material!,group);}
     for(const [material,group]of groups){const merged=Mesh.MergeMeshes(group,true,true)!;merged.name=`drive.home.${label}.${material.name}`;merged.material=material;merged.parent=root;merged.isPickable=false;merged.receiveShadows=true;merged.metadata={neighborhood:true,castShadow:label==='exterior'||material===palette.storefront||material===palette.terracotta||material===exterior.roof};if(label==='exterior')exteriorBatches.push(merged);}
   }
-  return {root,obstacles,plants,parkedCars:builtLots.parkedCars,
+  // Keep estimated garden plants out of the now-visible mapped water/street shapes.
+  const dryPlants=plants.filter(plant=>!neighborhoodWaterContains(plant.x,plant.z,.5)&&!neighborhoodContextRoadContains(plant.x,plant.z,1.6));
+  return {root,obstacles,plants:dryPlants,parkedCars:context.parkedCars,
     setCutaway(enabled:boolean){cutaway=enabled;house.root.setEnabled(enabled);for(const mesh of exteriorBatches)mesh.setEnabled(!enabled);},
-    metrics(){return {culdesac:{x:court.x,z:court.z,radius:court.radius},home:{x:NEIGHBORHOOD.home.x,z:NEIGHBORHOOD.home.z,yaw:NEIGHBORHOOD.home.yaw},gate:{x:gate.x,z:gate.z},garage:NEIGHBORHOOD.home.garage,driveway:NEIGHBORHOOD.home.driveway,approximateBuildingPlacement:true,estimatedExterior:true,cutaway};},
-    dispose(){house.dispose();root.dispose();},
+    metrics(){return {culdesac:{x:court.x,z:court.z,radius:court.radius},home:{x:NEIGHBORHOOD.home.x,z:NEIGHBORHOOD.home.z,yaw:NEIGHBORHOOD.home.yaw},gate:{x:gate.x,z:gate.z},garage:NEIGHBORHOOD.home.garage,driveway:NEIGHBORHOOD.home.driveway,approximateBuildingPlacement:true,estimatedExterior:true,cutaway,context:context.metrics()};},
+    dispose(){house.dispose();context.dispose();root.dispose();},
   };
 }
