@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TownDriveRoot Condition="'$(TownDriveRoot)' == '' and Exists('$(MSBuildThisFileDirectory)../../../unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Core/DriveRoute.cs')">$(MSBuildThisFileDirectory)../../../unity/SpaceDragon/Assets/SpaceDragon/TownDrive</TownDriveRoot>
+    <TownDriveRoot Condition="'$(TownDriveRoot)' == ''">$(MSBuildThisFileDirectory)../../../artifacts/unity-town-drive/staging/unity/SpaceDragon/Assets/SpaceDragon/TownDrive</TownDriveRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Compile the actual Unity core: the harness contains no replacement physics. -->
+    <Compile Include="$(TownDriveRoot)/Core/*.cs" Link="TownDriveCore/%(Filename)%(Extension)" />
+    <Compile Include="Program.cs" />
+    <AssemblyMetadata Include="TownDriveCoreRoot" Value="$(TownDriveRoot)" />
+    <Content Include="$(TownDriveRoot)/Data/town-drive-v001.json" Link="town-drive-v001.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="$(TownDriveRoot)/Tests/EditMode/Fixtures/town-drive-fixtures-v001.json" Link="town-drive-fixtures-v001.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="RequireTownDriveCore" BeforeTargets="BeforeBuild">
+    <Error Condition="!Exists('$(TownDriveRoot)/Core/DriveRoute.cs')" Text="Town Drive core is missing. Generate/stage the Unity Town Drive source, or set -p:TownDriveRoot to its asset directory." />
+    <Error Condition="!Exists('$(TownDriveRoot)/Data/town-drive-v001.json')" Text="Exported Town Drive data is missing. Run the Town Drive exporter before this harness." />
+    <Error Condition="!Exists('$(TownDriveRoot)/Tests/EditMode/Fixtures/town-drive-fixtures-v001.json')" Text="TypeScript parity fixtures are missing. Run the Town Drive exporter before this harness." />
+  </Target>
+</Project>
