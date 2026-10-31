@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: c0ea0c0c230c59c448e8cce461a013f9
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 0
+    generateMipMaps: 1
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 0
+    lightIntensityFactor: 1
+    sceneObjectCreation: 1
+  assetDependencies:
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\2fa727b49c4b21b18c94f095.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\2fa727b49c4b21b18c94f095.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\4560c8a40ca2a7936f6396ff.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\4560c8a40ca2a7936f6396ff.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\4bceb2907519b1dddfae64ec.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\4bceb2907519b1dddfae64ec.png
+  reportItems: []

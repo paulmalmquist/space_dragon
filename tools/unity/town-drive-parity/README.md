@@ -9,7 +9,7 @@ No Unity Editor process, browser, NUnit package or external service is needed.
 The project uses C# 9 to keep accidental newer-language dependencies visible.
 Runtime data comes from `TownDrive/Data/town-drive-v001.json`; golden test inputs
 come from `TownDrive/Tests/EditMode/Fixtures/town-drive-fixtures-v001.json`.
-Both are copied to the harness output directory for the run.
+The ambient oracle adds `town-drive-ambient-v001.json`, generated from the unchanged TypeScript traffic/pedestrian modules by `tools/unity/export-town-drive-ambient.mjs`. All three fixtures/data files are copied to the harness output directory for the run.
 
 From the repository root, after generating the Town Drive data and fixtures:
 
@@ -51,3 +51,5 @@ ordered checkpoints, mapped shared return and home bulb, finite state, zero
 contact ticks, continuous motion and completion within 180–300 simulated
 seconds. Its driver never writes a pose or progress directly. The receipt
 includes lap duration, visited checkpoints and maximum distance per fixed step.
+
+The ambient group compares 3,603 traffic frames in three player configurations, every signal phase boundary, bridge advances, vehicle/collision poses, pedestrian population and eight time samples. This verifies the actual C# model; Unity transforms, materials and animation still require the player checks.

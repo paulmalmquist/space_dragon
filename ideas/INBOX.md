@@ -291,3 +291,16 @@ Owner wording:
 > another channel is upgrading to unity. please follow suit
 
 Routing receipt: **CONFIRMED direction; C# foundation technically verified, Unity scene migration open.** This repeats the existing SD-072 engine direction for the Town Drive channel after its map correction. [Decision](../docs/decisions/2026-10-31-unity-town-drive-foundation.md), [Town Drive handoff](../docs/engineering/UNITY_TOWN_DRIVE_HANDOFF.md), [verification](../docs/reports/2026-10-31-unity-town-drive-foundation.md). Use the same Unity project, retain the corrected browser route as reference, and begin with C# state/data parity while coordinating around the active Unity writer.
+
+
+## October 31, 2026 — Continue the detailed Unity Town Drive scene (SD-074 continuation)
+
+Owner wording:
+
+> ok do we have to wait for the other channel in order to continue
+
+After the next-step explanation (detailed scenery/minivan and corrected layout, isolated work while coordinating Editor access):
+
+> ok so go ahead
+
+Routing receipt: **CONFIRMED / technically verified**, continuing SD-074. [Final evidence](../docs/reports/2026-10-31-unity-town-drive-scene.md) records the integrated build, complete drive/reload and renderer/focus checks; human art/comfort and release remain open. [Decision](../docs/decisions/2026-10-31-unity-town-drive-scene.md). Implement the detailed playable Unity scene and its bindings in the existing project, preserving the browser reference, assets, route, cabin, traffic, controls and save boundaries. No new story direction or deployment.

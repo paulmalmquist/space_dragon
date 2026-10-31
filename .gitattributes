@@ -28,3 +28,13 @@ public/assets/drive/sky/*.env binary
 
 # Runtime license bytes are registered in the asset manifest on every platform.
 public/assets/drive/pedestrians/*.txt text eol=lf
+# Detailed Unity export inventories verify the same source license bytes.
+unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Imported/**/*.txt text eol=lf
+# Unity writes empty YAML properties with trailing spaces. Preserve its serialized bytes.
+unity/SpaceDragon/Assets/SpaceDragon/TownDrive/**/*.meta whitespace=-blank-at-eol
+unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Generated/**/*.mat whitespace=-blank-at-eol
+unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Generated/*.asset whitespace=-blank-at-eol
+unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Generated/*.unity whitespace=-blank-at-eol
+unity/SpaceDragon/Assets/WebGLTemplates.meta whitespace=-blank-at-eol
+unity/SpaceDragon/Assets/WebGLTemplates/TownDrive.meta whitespace=-blank-at-eol
+unity/SpaceDragon/Assets/WebGLTemplates/TownDrive/*.meta whitespace=-blank-at-eol

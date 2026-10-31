@@ -13,9 +13,11 @@
     <!-- Compile the actual Unity core: the harness contains no replacement physics. -->
     <Compile Include="$(TownDriveRoot)/Core/*.cs" Link="TownDriveCore/%(Filename)%(Extension)" />
     <Compile Include="Program.cs" />
+    <Compile Include="AmbientParity.cs" />
     <AssemblyMetadata Include="TownDriveCoreRoot" Value="$(TownDriveRoot)" />
     <Content Include="$(TownDriveRoot)/Data/town-drive-v001.json" Link="town-drive-v001.json" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="$(TownDriveRoot)/Tests/EditMode/Fixtures/town-drive-fixtures-v001.json" Link="town-drive-fixtures-v001.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="$(TownDriveRoot)/Tests/EditMode/Fixtures/town-drive-ambient-v001.json" Link="town-drive-ambient-v001.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <Target Name="RequireTownDriveCore" BeforeTargets="BeforeBuild">
     <Error Condition="!Exists('$(TownDriveRoot)/Core/DriveRoute.cs')" Text="Town Drive core is missing. Generate/stage the Unity Town Drive source, or set -p:TownDriveRoot to its asset directory." />
