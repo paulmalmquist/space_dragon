@@ -17,6 +17,9 @@ export default defineConfig({
     browserName: 'chromium',
     ...(nativeChrome ? { channel: 'chrome' } : {}),
     viewport: { width: 1440, height: 1000 },
+    // Preserve CSS input coordinates; software-rendered CI uses fewer pixels.
+    // Native device measurements keep full resolution.
+    deviceScaleFactor: process.env.CI ? 0.5 : 1,
     hasTouch: true,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',

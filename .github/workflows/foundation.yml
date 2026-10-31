@@ -26,9 +26,21 @@ jobs:
 
   game:
     runs-on: ubuntu-24.04
-    # The detailed drive loop renders in SwiftShader on CI; the previous run
-    # exhausted 15 minutes before production checks could begin.
+    # Independent runners keep the rendered driving route from delaying every
+    # other suite. Each suite retains the same cases and one browser worker.
     timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suite: earth
+            command: npm test -- tests/first-contact.spec.ts tests/navigation.spec.ts tests/gamepad.spec.ts
+          - suite: drive
+            command: npm test -- tests/drive.spec.ts tests/drive-traffic.spec.ts
+          - suite: dogfight
+            command: npm test -- tests/dogfight.spec.ts tests/word-lock.spec.ts tests/cockpit.spec.ts tests/mechanical.spec.ts tests/asteroid-crash.spec.ts
+          - suite: production
+            command: npm run test:production
     steps:
       - name: Check out repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -48,15 +60,13 @@ jobs:
         run: npm run build
       - name: Install Chromium and Linux browser dependencies
         run: npx --no-install playwright install --with-deps chromium
-      - name: Test development gameplay and notebook isolation
-        run: npm test
-      - name: Test the built game and production boundaries
-        run: npx --no-install playwright test --config playwright.production.config.ts
+      - name: Test ${{ matrix.suite }} gameplay and boundaries
+        run: ${{ matrix.command }}
       - name: Retain browser failure evidence
         if: failure()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
-          name: browser-failure-evidence
+          name: browser-failure-evidence-${{ matrix.suite }}
           path: |
             artifacts/test-results/
             artifacts/production-test-results/

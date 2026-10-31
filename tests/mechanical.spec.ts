@@ -83,7 +83,7 @@ test('imported boost clips blend through real controls and pause; attachment and
   const initial = await state(page);
   await page.getByRole('button', { name: /Launch flight/i }).click();
   await page.keyboard.down('Shift');
-  await expect.poll(async () => (await state(page)).animation.weights.Boost).toBeGreaterThan(.15);
+  await expect.poll(async () => (await state(page)).animation.weights.Boost, { timeout: 30_000 }).toBeGreaterThan(.15);
   const transition = await state(page);
   expect(transition.animation.state).toBe('Boost');
   expect(transition.animation.weights.Boost).toBeLessThan(1);
@@ -91,14 +91,18 @@ test('imported boost clips blend through real controls and pause; attachment and
   expect(transition.position).not.toEqual(initial.position); expect(transition.power.index).toBe(0);
   expect(transition.muzzle.alignmentError).toBeLessThan(.00001);
   for (const component of transition.assetContract.attachments.camera.local) expect(component).toBeCloseTo(0, 8);
-  await expect.poll(async () => (await state(page)).animation.weights.Boost).toBeGreaterThan(.8);
+  await expect.poll(async () => (await state(page)).animation.weights.Boost, { timeout: 30_000 }).toBeGreaterThan(.8);
   await page.keyboard.press('Escape'); await page.keyboard.up('Shift');
   const paused = await state(page); await page.waitForTimeout(200);
   const held = await state(page);
   expect(held.animation.weights).toEqual(paused.animation.weights);
   expect(held.articulation).toEqual(paused.articulation); expect(held.elapsed).toBe(paused.elapsed);
   await page.getByRole('button', { name: /Resume flight/i }).click();
-  await expect.poll(async () => (await state(page)).animation.weights.Boost).toBeLessThan(.2);
+  // Blend duration uses simulation time, capped per frame. On a slow software
+  // renderer five wall seconds need not contain even half a simulated second.
+  // Wait for actual simulation progress, then retain the strict weight check.
+  await expect.poll(async () => (await state(page)).elapsed - paused.elapsed, { timeout: 30_000 }).toBeGreaterThanOrEqual(.5);
+  expect((await state(page)).animation.weights.Boost).toBeLessThan(.2);
   await page.keyboard.press('Escape');
   await page.getByRole('button', { name: /Restart encounter/i }).click();
   expect((await state(page)).animation.weights.Boost).toBe(0);

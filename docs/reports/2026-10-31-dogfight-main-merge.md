@@ -22,8 +22,18 @@ Windows Lenovo host, Node 24.15.0, npm 11.12.1. Check logs are local under `C:/P
 | `node tools/verify-dragon-flight.mjs` | PASS | Versioned model, animation/socket contract and preserved geometry/material data. |
 | `npm run build` | PASS | Combined TypeScript/runtime build after excluding unfinished visual hooks. |
 | Focused native Chrome controller suite | PASS | Four simulated-controller cases; physical controller remains NOT TESTED. |
-| Full development and production browser suites | RUNNING at this commit | Native Chrome, isolated ports 5197/4197; final results belong to the integration PR description and checks. |
-| GitHub checks and merge | NOT YET RUN at this commit | The integration PR records the eventual remote check and merge result. No remote success is inferred from local checks. |
+| Full development and production browser suites | PASS | 48 development cases in 7.7 minutes, nine production cases in 43.3 seconds. Native Chrome, isolated ports 5197/4197. All 18 reference-inventory checks also pass. |
+| GitHub foundation and focused controller jobs | PASS on `c3ed1ae` | [PR #24](https://github.com/paulmalmquist/space_dragon/pull/24) records the actual runs. |
+| Initial serial GitHub gameplay run `41208806473` | FAIL: 47/48 passed in 30.9 minutes | The boost fade after pause reached weight 0.282 instead of below 0.2 within a five-second wall-clock poll. Production was skipped after that failure. Original runs `41208806473` and `41208775812` remain as evidence. |
+| Software-rendered focused retry with revised timing | PASS | `CI=1 SPACE_DRAGON_TEST_PORT=5198 npx playwright test tests/mechanical.spec.ts --grep 'imported boost clips' --output artifacts/merge-ci-halfscale-retry`: 30.6-second case, 49.6-second run. An earlier local attempt with the old five-second poll also failed at boost entry (0.751 versus above 0.8); its separate trace/log is retained. |
+
+## Cloud test scheduling
+
+The initial combined cloud run spent over 30 minutes in development gameplay before production could start. The foundation workflow now gives Earth, driving, dogfight and production separate runners with the same complete test selection and one worker each; failures do not cancel the other suites. Failure artifacts have distinct suite names. Discovery verifies 25 Earth + 8 Drive + 15 Dogfight = all 48 development cases, plus nine production cases. No case, assertion or driving-route checkpoint is removed.
+
+The failed blend check now waits for 0.5 seconds of actual simulation advancement after resume, bounded by 30 seconds of wall time, before asserting the same weight below 0.2. Boost-entry polls use the same bounded allowance. This matches the runtime's frame-capped simulation clock without changing animation timing, gameplay or the expected blend result.
+
+CI also uses a 0.5 device pixel ratio while retaining the 1440 × 1000 CSS viewport and input coordinates. Dogfight's renderer honors that ratio, reducing its framebuffer/postprocessing pixel count to one quarter; gameplay meshes, simulation, collision and tests are unchanged. Babylon Earth/Drive currently set their own internal scaling, so this does not claim an equivalent reduction there. Local native-device verification remains at full resolution. CI screenshots establish functionality, not hardware visual quality or performance. The final remote results and merge are recorded in PR #24.
 
 ## Boundaries
 
