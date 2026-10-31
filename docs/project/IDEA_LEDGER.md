@@ -62,6 +62,10 @@ ID provenance is recorded in [the reconciliation decision](../decisions/2026-10-
 
 SD-059 is reserved for concurrent cinematic-dragon work outside this Town Drive projection.
 
-Next unused ID: **SD-060**. SD-047–SD-048 are reserved by concurrent local tasks. IDs SD-037–SD-045 are reserved by preserved local Dogfight/planning work and are not part of this commit. SD-027 records the preserved planet filing. Check the whole file before assigning an ID; concurrent agents must coordinate allocation.
+| SD-063 | Correct T intersections, close unused branches with cop cars/barricades, and reduce car vibration while driving. Owner, October 31; exact wording in inbox. | CONFIRMED | verified | [Decision](../decisions/2026-10-31-town-drive-junctions-and-motion.md), [receipt](../reports/2026-10-31-town-drive-junctions-and-motion.md). Six mapped junctions, seven closures and shared car/camera interpolation; 77 units, 31 distinct development and six production cases pass, including lap/save and closure/motion regressions. One isolated-port test fix/retry recorded. Human recognition/comfort and sustained performance remain open. |
+
+SD-060–SD-062 are allocated to concurrent dragon/visual-foundation/Unity work outside this Town Drive increment.
+
+Next unused ID: **SD-064**. SD-047–SD-048 are reserved by concurrent local tasks. IDs SD-037–SD-045 are reserved by preserved local Dogfight/planning work and are not part of this commit. SD-027 records the preserved planet filing. Check the whole file before assigning an ID; concurrent agents must coordinate allocation.
 
 IDs SD-047 through SD-051 and SD-053 through SD-054, plus SD-056, were allocated to concurrent owner tasks in the shared workspace and are reserved; their changes are outside this Town Drive PR.

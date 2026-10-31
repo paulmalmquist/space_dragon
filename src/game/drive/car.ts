@@ -8,6 +8,7 @@ import { DynamicTexture } from '@babylonjs/core/Materials/Textures/dynamicTextur
 import { Texture } from '@babylonjs/core/Materials/Textures/texture';
 import type { Scene } from '@babylonjs/core/scene';
 import { MINIVAN_DIMENSIONS } from './minivan-config';
+import { smoothDriveSteering } from './presentation';
 import '@babylonjs/core/Meshes/instancedMesh';
 import '@babylonjs/core/Meshes/thinInstanceMesh';
 import '@babylonjs/core/Shaders/pbr.vertex';
@@ -543,6 +544,7 @@ export function createDriveCar(scene: Scene) {
     }
   }
   let spin = 0;
+  let displayedSteering = 0;
   let disposed = false;
   for (const group of cabinDetailGroups) group.setEnabled(false);
   return {
@@ -559,9 +561,10 @@ export function createDriveCar(scene: Scene) {
     update(speed: number, dt: number, steer = 0, options: DriveCarInstruments = {}) {
       const elapsed = options.paused ? 0 : Math.min(.1, Math.max(0, dt));
       spin = (spin + speed * elapsed / MINIVAN_DIMENSIONS.tyreRadius) % (Math.PI * 2);
+      displayedSteering = smoothDriveSteering(displayedSteering, steer, elapsed, options.paused);
       for (const wheel of spinning) wheel.rotation.x = spin;
-      for (const wheel of wheels) wheel.rotation.y = wheel.position.z > 0 ? steer * .42 : 0;
-      steeringWheel.rotation.z = -steer * 2.25;
+      for (const wheel of wheels) wheel.rotation.y = wheel.position.z > 0 ? displayedSteering * .42 : 0;
+      steeringWheel.rotation.z = -displayedSteering * 2.25;
       const brake = Math.max(0,Math.min(1,options.brake ?? 0));
       tailLed.emissiveColor.set(.40+brake*.70,.01+brake*.025,.012+brake*.018);
       displayElapsed += elapsed;

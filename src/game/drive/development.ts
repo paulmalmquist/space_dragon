@@ -12,6 +12,7 @@ import type { TrafficVisualVehicle } from './traffic-visuals';
 import type { DriveVegetationPlacement } from './vegetation';
 import { ROUTE, pointAtDistance, nearestRoutePoint } from './route';
 import { NEIGHBORHOOD } from './neighborhood';
+import { junctionRoadContains } from './junctions';
 
 type Palette = ReturnType<typeof createDriveMaterials>;
 type Use = 'homes' | 'retail' | 'walled';
@@ -147,6 +148,7 @@ export function createRoadsideDevelopment(scene: Scene, palette: Palette) {
     }
     function safeSite(site: Site, radius: number) {
       if(site.authored) return true;
+      if(junctionRoadContains(site.x,site.z,radius+5)) return false;
       const nearest = nearestRoutePoint(site.x,site.z); const road = ROUTE.sections[nearest.sectionIndex];
       if(site.routeS!==undefined){const gap=Math.abs(nearest.s-site.routeS);if(Math.min(gap,ROUTE.length-gap)>130)return false;}
       for(const centerline of [NEIGHBORHOOD.centerlines.greenIsland,NEIGHBORHOOD.centerlines.terrace])for(let i=1;i<centerline.length;i++){

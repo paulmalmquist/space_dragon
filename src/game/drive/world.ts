@@ -33,9 +33,12 @@ import { ROUTE, pointAtDistance, nearestRoutePoint } from './route';
 import type { RouteSample, RouteSection } from './route';
 import type { DriveState } from './simulation';
 import { createDriveCamera } from './camera';
+import type { DriveCameraPose } from './camera';
 import { FICTIONAL_HOUSE } from './house';
 import { NEIGHBORHOOD } from './neighborhood';
 import { createNeighborhoodScenery } from './neighborhood-world';
+import { createDriveJunctionWorld } from './junction-world';
+import { junctionRoadContains, junctionInteriorContains } from './junctions';
 import type { HouseLayout } from './house';
 
 interface Obstacle { id: string; x: number; z: number; radius: number }
@@ -118,6 +121,7 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
   const signalLights = new Map<number, {id:string;s:number;phase:TrafficSignalPhase;material:PBRMaterial}[]>();
   const signalStates: Record<string, TrafficSignalPhase> = {};
   const trafficVisuals = createTrafficVisuals(scene);
+  const roadJunctions = createDriveJunctionWorld(scene, palette);
   const pedestrianPopulation = createPedestrianPopulation();
   const pedestrianVisuals = createPedestrianVisuals(scene);
   const streetMaterials = new Map<string, StandardMaterial>();
@@ -198,6 +202,7 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
     const sectionAt = (p: RouteSample) => ROUTE.sections[p.sectionIndex]!;
     const halfAt = (p: RouteSample) => roadHalfWidth(sectionAt(p));
     function vergeClear(p:RouteSample,side:number){
+      if(junctionInteriorContains(p.x,p.z)) return false;
       if(NEIGHBORHOOD.junctions.some(junction=>Math.hypot(p.x-junction.x,p.z-junction.z)<13))return false;
       const at=offset(p,side*(halfAt(p)+1.5)),[a,b]=NEIGHBORHOOD.home.driveway.points;
       const dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((at.x-a.x)*dx+(at.z-a.z)*dz)/(dx*dx+dz*dz)));
@@ -208,8 +213,8 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
       ribbon(`verge.${side}`, medianGrass, p => { const h = halfAt(p); return side === 1 ? [h, h + 5.2] : [-h - 5.2, -h]; }, 0.025,p=>vergeClear(p,side));
       ribbon(`curb.${side}`, curb, p => { const h = halfAt(p); return side === 1 ? [h, h + 0.25] : [-h - 0.25, -h]; }, 0.15,p=>vergeClear(p,side));
       ribbon(`sidewalk.${side}`, concrete, p => { const h = halfAt(p); const w = sectionAt(p).sidewalkWidth; return side === 1 ? [h + 3.2, h + 3.2 + w] : [-h - 3.2 - w, -h - 3.2]; }, 0.12,p=>vergeClear(p,side));
-      ribbon(`edge-line.${side}`, white, p => { const h = halfAt(p) - 0.55; return [side * h - 0.075, side * h + 0.075]; }, 0.026);
-      ribbon(`gutter.${side}`, concrete, p => { const h = halfAt(p); return side === 1 ? [h - 0.38, h] : [-h, -h + 0.38]; }, 0.018);
+      ribbon(`edge-line.${side}`, white, p => { const h = halfAt(p) - 0.55; return [side * h - 0.075, side * h + 0.075]; }, 0.026,p=>!junctionInteriorContains(p.x,p.z));
+      ribbon(`gutter.${side}`, concrete, p => { const h = halfAt(p); return side === 1 ? [h - 0.38, h] : [-h, -h + 0.38]; }, 0.018,p=>!junctionInteriorContains(p.x,p.z));
       for(const run of sampleRuns(p=>vergeClear(p,side))){
       const edge = run.map(p => offset(p, side * halfAt(p), 0.15));
       const foot = run.map(p => offset(p, side * halfAt(p), 0.02));
@@ -220,12 +225,13 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
     }
     const medianSamples = samples.filter(p => sectionAt(p).medianWidth > 0.2);
     if (medianSamples.length > 1) {
-      const medianClear=(p:RouteSample)=>sectionAt(p).medianWidth>.2 && !ROUTE.turns.some(turn=>p.s>(turn.approachS??turn.s-27)-8 && p.s<(turn.exitS??turn.s+27)+8);
+      const medianClear=(p:RouteSample)=>sectionAt(p).medianWidth>.2 && !junctionInteriorContains(p.x,p.z) && !ROUTE.turns.some(turn=>p.s>(turn.approachS??turn.s-27)-8 && p.s<(turn.exitS??turn.s+27)+8);
       ribbon('median', medianGrass, p => { const w = sectionAt(p).medianWidth; return [-w / 2, w / 2]; }, 0.115,medianClear);
       for (const side of [-1, 1]) ribbon(`median-edge.${side}`, yellow, p => { const d = sectionAt(p).medianWidth / 2 + 0.12; return [side * d - 0.07, side * d + 0.07]; }, 0.13,medianClear);
     }
     for (let s = Math.ceil(chunk.from / 12) * 12; s < chunk.to; s += 12) {
       const p = pointAtDistance(s);
+      if (junctionInteriorContains(p.x,p.z)) continue;
       const section = sectionAt(p);
       for (const side of [-1, 1]) for (let lane = 1; lane < section.lanes; lane++) {
         add('box', white, offset(p, side * (section.medianWidth / 2 + lane * section.laneWidth), 0.03), new Vector3(0.14, 0.015, 4.5), p.yaw);
@@ -253,7 +259,7 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
         // A verge beside this route sample can be another road at a T-junction.
         // Check the whole physical route before placing a solid trunk there.
         const nearestRoad=nearestRoutePoint(location.x,location.z);
-        const clearOfRoad=nearestRoad.distance-roadHalfWidth(ROUTE.sections[nearestRoad.sectionIndex])>1.6;
+        const clearOfRoad=nearestRoad.distance-roadHalfWidth(ROUTE.sections[nearestRoad.sectionIndex])>1.6 && !junctionRoadContains(location.x,location.z,2);
         if (clearOfRoad && random(s + side * 2) < edgeDensity) {
           if (random(s + side * 3) < roadsidePalmShare) palm(location, s + side, 7);
           else {
@@ -283,6 +289,7 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
     }
     for (let s = Math.ceil(chunk.from / 4) * 4; s < chunk.to; s += 4) {
       const p = pointAtDistance(s); const section = sectionAt(p); const h = halfAt(p);
+      if (junctionInteriorContains(p.x,p.z)) continue;
       for (const side of [-1,1]) {
         add('box', dark, offset(p,side*(h+3.2+section.sidewalkWidth/2),0.124),new Vector3(section.sidewalkWidth,0.004,0.018),p.yaw);
         if (s % 40 === 0) {
@@ -351,6 +358,7 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
       if (section.invented || section.character==='neighborhood') continue;
       const h = halfAt(p);
       const post = offset(p, h + 6.2, 6.4);
+      if (junctionRoadContains(post.x,post.z,1)) continue;
       add('trunk', pole, post, new Vector3(0.35, 12.8, 0.35));
       add('box', pole, new Vector3(post.x, 11.4, post.z), new Vector3(3, 0.15, 0.18), p.yaw);
       chunk.obstacles.push({ id: `pole.${s}`, x: post.x, z: post.z, radius: 0.5 });
@@ -470,6 +478,7 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
     const plantCasters = (shadows.getShadowMap()!.renderList ?? []).filter(mesh => mesh.name.startsWith('drive.vegetation.') && !mesh.isDisposed());
     shadows.getShadowMap()!.renderList = [...plantCasters, ...scene.meshes.filter(mesh => {
       if (mesh.name.startsWith('drive.traffic.') || mesh.name.startsWith('drive.pedestrian.') || mesh.name.startsWith('drive.vegetation.') || mesh.getTotalVertices() === 0 || !mesh.isEnabled() || !mesh.isVisible || mesh.name.includes('terrain') || mesh.name.includes('sky') || mesh.name.includes('occlusion') || mesh.name.includes('.road') || mesh.name.includes('source')) return false;
+      if (mesh.name.startsWith('drive.junction.')) return false;
       if (mesh.metadata?.development && !mesh.metadata.castShadow) return false;
       if (mesh.metadata?.neighborhood && !mesh.metadata.castShadow) return false;
       if (mesh.metadata?.roadsideBatch && !mesh.metadata.castShadow) return false;
@@ -480,16 +489,18 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
   }
   function setTraffic(traffic:TrafficState,player:DriveState) {
     obstacles.length=0;obstacles.push(...staticObstacles,...trafficCollisionProxies(traffic,player.x,player.z));
+    for (const obstacle of roadJunctions.obstacles) if (Math.hypot(obstacle.x-player.x,obstacle.z-player.z)<65) obstacles.push(obstacle);
     for(const parked of [...parkedCars,...neighborhood.parkedCars,...chunks.flatMap(chunk=>chunk.parkedCars??[])])if(Math.hypot(parked.x-player.x,parked.z-player.z)<45)for(const along of [-1.1,0,1.1])obstacles.push({id:parked.id,x:parked.x+Math.sin(parked.yaw)*along,z:parked.z+Math.cos(parked.yaw)*along,radius:0.9});
   }
   return {
     engine, scene, car, cameraRig, obstacles, setTraffic, setHomeCutaway:neighborhood.setCutaway,
-    update(state: DriveState, delta: number, traffic?: TrafficState, driver?: {steer:number;brake:number;throttle:number;paused?:boolean}) {
+    update(state: DriveState, delta: number, traffic?: TrafficState, driver?: {steer:number;brake:number;throttle:number;paused?:boolean}, renderPose: DriveCameraPose = state) {
       if (disposed) return;
-      car.position.set(state.x, state.bonkSeconds > 0 ? Math.sin(state.elapsedSeconds * 34) * 0.025 : 0, state.z);
-      car.rotation.y = state.yaw;
+      car.position.set(renderPose.x, 0, renderPose.z);
+      car.rotation.y = renderPose.yaw;
       car.computeWorldMatrix(true);
       stream(state.x, state.z);
+      roadJunctions.update(state);
       development.update(state);
       vegetation.update(state);
       pedestrianVisuals.update(pedestrianPosesAt(state.elapsedSeconds,pedestrianPopulation),state);
@@ -498,7 +509,7 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
         const vehicles=nearbyTraffic(traffic,state.x,state.z,350).map(vehicle=>({...vehicle,...trafficPose(vehicle)}));
         trafficVisuals.update([...vehicles,...parkedCars,...neighborhood.parkedCars,...chunks.flatMap(chunk=>chunk.parkedCars??[])],state);
         const shadowMap=shadows.getShadowMap()!;
-        shadowMap.renderList=[...(shadowMap.renderList??[]).filter(mesh=>!mesh.name.startsWith('drive.traffic.')&&!mesh.name.startsWith('drive.pedestrian.')&&!mesh.isDisposed()),...trafficVisuals.shadowMeshes,...pedestrianVisuals.shadowMeshes];
+        shadowMap.renderList=[...(shadowMap.renderList??[]).filter(mesh=>!mesh.name.startsWith('drive.traffic.')&&!mesh.name.startsWith('drive.pedestrian.')&&!mesh.name.startsWith('drive.junction.')&&!mesh.isDisposed()),...trafficVisuals.shadowMeshes,...pedestrianVisuals.shadowMeshes,...roadJunctions.shadowMeshes];
       }
       for(const lights of signalLights.values())for(const light of lights){
         const signal=TRAFFIC_SIGNALS.find(signal=>signal.id===light.id)!;
@@ -507,16 +518,17 @@ export async function createDriveWorld(canvas: HTMLCanvasElement, options: { hou
         light.material.albedoColor=color.scale(phase===light.phase?0.8:0.035);
         light.material.emissiveColor=color.scale(phase===light.phase?1.1:0);
       }
-      carRig.update(state.speed, delta, driver?.steer??0, {brake:driver?.brake??0,throttle:driver?.throttle??0,paused:driver?.paused??false});
+      carRig.update(renderPose.speed, delta, driver?.steer??0, {brake:driver?.brake??0,throttle:driver?.throttle??0,paused:driver?.paused??false});
       carRig.setCabinView(cameraRig.mode==='dashboard');
-      sun.position.set(state.x + 66, 102, state.z + 45.6);
-      cameraRig.update(state, delta);
+      sun.position.set(renderPose.x + 66, 102, renderPose.z + 45.6);
+      cameraRig.update(renderPose, delta);
     },
     render() { if (!disposed) scene.render(); },
     resize() { engine.resize(); },
-    metrics() { return { neighborhood:neighborhood.metrics(),pedestrians:pedestrianVisuals.metrics(),development:development.metrics(),streetNames:[...streetMaterials.keys()],traffic:trafficVisuals.metrics(), signals:{...signalStates}, vegetation: vegetation.metrics(), loadedChunks: chunks.filter(c => c.root).length, totalChunks: chunks.length, meshes: scene.meshes.length, fps: engine.getFps(), camera: cameraRig.mode,
+    metrics() { return { junctions:roadJunctions.metrics(),neighborhood:neighborhood.metrics(),pedestrians:pedestrianVisuals.metrics(),development:development.metrics(),streetNames:[...streetMaterials.keys()],traffic:trafficVisuals.metrics(), signals:{...signalStates}, vegetation: vegetation.metrics(), loadedChunks: chunks.filter(c => c.root).length, totalChunks: chunks.length, meshes: scene.meshes.length, fps: engine.getFps(), camera: cameraRig.mode,
+      carPosition: car.position.asArray(), carYaw: car.rotation.y,
       cameraPosition: cameraRig.camera.position.asArray(), cameraDirection: cameraRig.camera.getDirection(Vector3.Forward()).asArray(), activeMeshes: scene.getActiveMeshes().length }; },
-    dispose() { if (disposed) return; disposed = true; cameraRig.dispose(); trafficVisuals.dispose(); pedestrianVisuals.dispose();homeVegetation.dispose(); vegetation.dispose(); development.dispose(); carRig.dispose(); neighborhood.dispose(); shadows.dispose(); streetMaterials.forEach(material=>material.dispose(false,false));streetTextures.forEach(texture=>texture.dispose());palette.dispose(); sky.dispose(); scene.dispose(); engine.dispose(); },
+    dispose() { if (disposed) return; disposed = true; cameraRig.dispose(); roadJunctions.dispose(); trafficVisuals.dispose(); pedestrianVisuals.dispose();homeVegetation.dispose(); vegetation.dispose(); development.dispose(); carRig.dispose(); neighborhood.dispose(); shadows.dispose(); streetMaterials.forEach(material=>material.dispose(false,false));streetTextures.forEach(texture=>texture.dispose());palette.dispose(); sky.dispose(); scene.dispose(); engine.dispose(); },
   };
   } catch (error) {
     disposeCameraAfterFailure?.();
