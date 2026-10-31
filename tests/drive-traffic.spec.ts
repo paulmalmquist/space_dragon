@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import type { DriveInput, DriveState } from '../src/game/drive/simulation.ts';
 import type { TrafficSignal, TrafficSignalPhase, TrafficVehicle } from '../src/game/drive/traffic.ts';
-import { ROUTE } from '../src/game/drive/route.ts';
+import { ROUTE, pointAtDistance, laneOffset } from '../src/game/drive/route.ts';
 
 test.use({ viewport: { width: 960, height: 640 } });
 
@@ -32,6 +32,8 @@ test('traffic moves in both directions, pauses, stops at signals and preserves r
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('drive/');
   await expect(page.locator('#drive-canvas')).toHaveAttribute('data-ready', 'true', { timeout: 90_000 });
+  // Inspect the first public road so traffic visibility is independent of the home-exit length.
+  await page.evaluate(s => (window as unknown as { __TOWN_DRIVE__: TrafficDebug }).__TOWN_DRIVE__.inspectAt(s, 'chase'), ROUTE.sections[1].startS + 100);
   await page.locator('#begin').click();
   await expect(page.locator('#welcome')).toBeHidden();
   await frame(page);
@@ -60,23 +62,43 @@ test('traffic moves in both directions, pauses, stops at signals and preserves r
   expect((await snapshot(page)).traffic).toEqual(paused.traffic);
   await page.locator('#resume').click();
 
-  // Catch an actual moving vehicle with normal throttle on the first straight.
-  // A bounded semantic batch avoids tying collision coverage to software GPU FPS.
-  const collision = await page.evaluate(({ entryS, narrowZ, wideZ }) => {
+  // Cross the actual first checkpoint, then catch a moving vehicle using route-relative steering.
+  // Starting just before that gate keeps collision coverage separate from the full home-exit journey.
+  await page.evaluate(s => (window as unknown as { __TOWN_DRIVE__: TrafficDebug }).__TOWN_DRIVE__.inspectAt(s, 'chase'), ROUTE.checkpoints[1].s - 35);
+  await page.keyboard.press('Escape');
+  const path = Array.from({ length: Math.ceil(ROUTE.length / 2) + 1 }, (_, index) => {
+    const point = pointAtDistance(Math.min(index * 2, ROUTE.length - .001));
+    const section = ROUTE.sections[point.sectionIndex];
+    return { ...point, offset: laneOffset(section), laneWidth: section.laneWidth, lanes: section.lanes };
+  });
+  const collision = await page.evaluate(({ path, routeLength, firstEndS }) => {
     const debug = (window as unknown as { __TOWN_DRIVE__: TrafficDebug }).__TOWN_DRIVE__;
-    for (let tick = 0; tick < 2400; tick += 6) {
-      const car = debug.snapshot().state;
+    for (let tick = 0; tick < 3600; tick += 6) {
+      const before = debug.snapshot(),car=before.state;
       const lookAhead = 8 + Math.abs(car.speed) * .55;
-      const targetZ = car.routeS + lookAhead >= entryS ? wideZ : narrowZ;
-      const delta = Math.atan2(-lookAhead, targetZ - car.z) - car.yaw;
-      const steer = Math.max(-1, Math.min(1, Math.atan2(Math.sin(delta), Math.cos(delta)) * 2.8));
-      debug.advance({ throttle: 1, brake: 0, steer, handbrake: false }, 6);
-      const current = debug.snapshot();
-      if (current.state.bonkSeconds > 0 && current.traffic.vehicles.some(vehicle =>
-        Math.hypot(vehicle.x - current.state.x, vehicle.z - current.state.z) < 6)) return current;
+      const targetS = (car.routeS + lookAhead) % routeLength;
+      const index = Math.min(path.length-2,Math.floor(targetS/2));
+      const a=path[index],b=path[index+1],fraction=(targetS-a.s)/(b.s-a.s||1);
+      const current=path[Math.min(path.length-1,Math.floor(car.routeS/2))];
+      // Once the checkpoint is earned, enter a real same-direction NPC lane to exercise collision.
+      const leader=car.checkpointId==='leg-1'?before.traffic.vehicles.filter(vehicle=>
+        vehicle.direction===1&&vehicle.s>car.routeS+3&&vehicle.s<Math.min(firstEndS-65,car.routeS+180)
+      ).sort((left,right)=>left.s-right.s)[0]:undefined;
+      const lane=leader?Math.min(leader.lane,a.lanes-1,current.lanes-1):0;
+      const offset=Math.min(a.offset+lane*a.laneWidth,current.offset+lane*current.laneWidth);
+      const x=a.x+(b.x-a.x)*fraction+Math.cos(a.yaw)*offset;
+      const z=a.z+(b.z-a.z)*fraction-Math.sin(a.yaw)*offset;
+      const delta=Math.atan2(x-car.x,z-car.z)-car.yaw;
+      const heading=Math.atan2(Math.sin(delta),Math.cos(delta));
+      const steer=Math.max(-1,Math.min(1,heading*2.8));
+      const targetSpeed=car.checkpointId==='home'||Math.abs(heading)>.35?8:25;
+      debug.advance({ throttle:car.speed<targetSpeed?1:0, brake:car.speed>targetSpeed+1?1:0, steer, handbrake:false },6);
+      const result=debug.snapshot();
+      if(result.state.checkpointId==='leg-1'&&result.state.bonkSeconds>0&&result.traffic.vehicles.some(vehicle=>
+        vehicle.direction===1&&Math.hypot(vehicle.x-result.state.x,vehicle.z-result.state.z)<6))return result;
     }
     return null;
-  }, { entryS: ROUTE.sections[1].startS, narrowZ: ROUTE.spawn.z, wideZ: ROUTE.checkpoints[1].z });
+  }, { path, routeLength:ROUTE.length, firstEndS:ROUTE.sections[1].endS });
   expect(collision, 'Throttle never reached a traffic collision on the first straight').not.toBeNull();
   expect(collision!.state.checkpointId).toBe('leg-1');
   expect(collision!.state.speed).toBeLessThan(20);

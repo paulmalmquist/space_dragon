@@ -3,9 +3,9 @@ import type { DriveControllerSample } from '../gamepad.ts';
 import { EMPTY_DRIVE_INPUT } from './simulation.ts';
 import type { DriveInput } from './simulation.ts';
 
-export interface DriveCallbacks { pause(): void; reset(): void; camera(): void; map(): void; tuning(): void; }
-const HELD = new Set(['KeyW', 'ArrowUp', 'KeyS', 'ArrowDown', 'KeyA', 'ArrowLeft', 'KeyD', 'ArrowRight', 'Space']);
-const ACTIONS: Record<string, keyof DriveCallbacks> = { Escape: 'pause', KeyR: 'reset', KeyC: 'camera', KeyM: 'map', F2: 'tuning' };
+export interface DriveCallbacks { pause(): void; reset(): void; camera(): void; firstPerson(): void; map(): void; tuning(): void; }
+const HELD = new Set(['KeyW', 'ArrowUp', 'KeyS', 'ArrowDown', 'KeyA', 'ArrowLeft', 'KeyD', 'ArrowRight', 'Space', 'KeyQ', 'KeyE']);
+const ACTIONS: Record<string, keyof DriveCallbacks> = { Escape: 'pause', KeyR: 'reset', KeyC: 'camera', KeyV: 'firstPerson', KeyM: 'map', F2: 'tuning' };
 export function createDriveInput(target: Window, callbacks: DriveCallbacks) {
   const keys = new Set<string>();
   let neutralRequired = false;
@@ -29,6 +29,8 @@ export function createDriveInput(target: Window, callbacks: DriveCallbacks) {
   const pressed = (...codes: string[]) => codes.some(code => keys.has(code));
   return {
     release,
+    /** Looking is presentation only and never changes steering or saved state. */
+    look() { return Number(pressed('KeyE')) - Number(pressed('KeyQ')); },
     /** Call even while paused so a newly pressed Options button can resume. */
     sample(active = true): DriveInput {
       let pad: DriveControllerSample | null = null;

@@ -49,7 +49,7 @@ export function stepDrive(
   if (input.paused) return state;
   if (![state.x, state.z, state.yaw, state.speed].every(Number.isFinite)) return resetDrive(state);
   const dt = DRIVE_STEP;
-  const road = nearestRoutePoint(state.x, state.z);
+  const road = nearestRoutePoint(state.x, state.z, state.routeS);
   const section = ROUTE.sections[road.sectionIndex];
   const halfRoad = section.lanes * section.laneWidth + section.medianWidth / 2;
   const offroad = road.distance > halfRoad;
@@ -86,7 +86,7 @@ export function stepDrive(
   let velocityX = state.velocityX + (Math.sin(yaw) * speed - state.velocityX) * grip;
   let velocityZ = state.velocityZ + (Math.cos(yaw) * speed - state.velocityZ) * grip;
   let x = state.x + velocityX * dt; let z = state.z + velocityZ * dt;
-  let nearest = nearestRoutePoint(x, z);
+  let nearest = nearestRoutePoint(x, z, road.s);
   const nextSection = ROUTE.sections[nearest.sectionIndex];
   const nextHalfRoad = nextSection.lanes * nextSection.laneWidth + nextSection.medianWidth / 2;
   let bonked = false;
@@ -115,7 +115,7 @@ export function stepDrive(
     bonked = true;
   }
   if (bonked) { speed *= 0.35; velocityX *= 0.2; velocityZ *= 0.2; }
-  nearest = nearestRoutePoint(x, z);
+  nearest = nearestRoutePoint(x, z, nearest.s);
   const stuckSeconds = (throttle > 0.25 || brake > 0.25) && (bonked || Math.abs(speed) < 0.35)
     ? state.stuckSeconds + dt : 0;
   const next: DriveState = { ...state, x, z, yaw, speed, velocityX, velocityZ, routeS: nearest.s,

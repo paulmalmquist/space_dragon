@@ -17,6 +17,7 @@ interface VegetationGroup {
 const random = (seed: number) => { const n = Math.sin(seed * 127.1 + 67.3) * 43758.5453; return n - Math.floor(n); };
 const SOURCE_HEIGHT: Record<DriveVegetationKind, number> = { palm: 12, canopy: 3.406606, hedge: 0.856941 };
 const DETAIL_DISTANCE: Record<DriveVegetationKind, number> = { palm: 95, canopy: 72, hedge: 48 };
+const DISTANT_DISTANCE = 170;
 const SHADOW_DISTANCE = 55;
 
 /** Real CC0 textured plant geometry, local delivery, per-instance LOD and bounded nearby shadows. */
@@ -24,14 +25,16 @@ export async function createDriveVegetation(scene: Scene) {
   registerBuiltInLoaders();
   const base = new URL(`${import.meta.env.BASE_URL}assets/drive/vegetation/`, window.location.href).href;
   const kinds: DriveVegetationKind[] = ['palm', 'canopy', 'hedge'];
-  const containers = await Promise.all(kinds.map(kind => LoadAssetContainerAsync(`${base}${kind}.glb`, scene)));
+  const containers = await Promise.all([...kinds, ...kinds.map(kind => `${kind}-distant`)]
+    .map(name => LoadAssetContainerAsync(`${base}${name}.glb`, scene)));
   if (scene.isDisposed) { containers.forEach(container => container.dispose()); throw new Error('Scene closed during vegetation load.'); }
   const templates = new Map<DriveVegetationKind, Mesh[]>();
-  const sourceCounts: Record<string, { near: number; far: number }> = {};
+  const sourceCounts: Record<string, { near: number; far: number; distant: number }> = {};
   for (let i = 0; i < kinds.length; i++) {
-    const kind = kinds[i]; const container = containers[i];
-    container.addAllToScene();
-    const geometry = container.meshes.filter((mesh): mesh is Mesh => mesh instanceof Mesh && mesh.getTotalVertices() > 0);
+    const kind = kinds[i]; const container = containers[i]; const distantContainer = containers[i + kinds.length];
+    container.addAllToScene(); distantContainer.addAllToScene();
+    const geometry = [...container.meshes, ...distantContainer.meshes]
+      .filter((mesh): mesh is Mesh => mesh instanceof Mesh && mesh.getTotalVertices() > 0);
     // Bake glTF conversion/node transforms once, so all instances share a ground-level origin.
     const transforms = new Map(geometry.map(mesh => [mesh, mesh.computeWorldMatrix(true).clone()]));
     for (const mesh of geometry) {
@@ -40,7 +43,8 @@ export async function createDriveVegetation(scene: Scene) {
       mesh.parent = null;
       mesh.position.setAll(0); mesh.scaling.setAll(1); mesh.rotation.setAll(0); mesh.rotationQuaternion = null;
       mesh.refreshBoundingInfo();
-      mesh.isVisible = false; mesh.isPickable = false; mesh.receiveShadows = true;
+      const distant = mesh.name.includes('.distant.');
+      mesh.isVisible = false; mesh.isPickable = false; mesh.receiveShadows = !distant;
       if (mesh.material instanceof PBRMaterial) {
         mesh.material.backFaceCulling = false;
         mesh.material.twoSidedLighting = true;
@@ -62,22 +66,41 @@ export async function createDriveVegetation(scene: Scene) {
           mesh.material.subSurface.minimumThickness = 0;
           mesh.material.subSurface.maximumThickness = 0.03;
         }
+        if (distant) {
+          // These separate materials cannot alter the approved near/mid tiers.
+          // At 170m the leaf colour/silhouette matters; tiny normal/specular and
+          // translucent detail adds shader work without resolvable surface detail.
+          mesh.material.bumpTexture = null; mesh.material.metallicTexture = null;
+          mesh.material.ambientTexture = null;
+          mesh.material.metallic = 0; mesh.material.roughness = .95;
+          mesh.material.subSurface.isTranslucencyEnabled = false;
+          mesh.material.enableSpecularAntiAliasing = false;
+        }
       }
     }
     const near = geometry.filter(mesh => mesh.name.includes('.near.'));
     const far = geometry.filter(mesh => mesh.name.includes('.far.'));
+    const distant = geometry.filter(mesh => mesh.name.includes('.distant.'));
     for (const mesh of near) {
       const low = far.find(candidate => candidate.name === mesh.name.replace('.near.', '.far.'));
       if (low) mesh.addLODLevel(DETAIL_DISTANCE[kind], low);
+      const lowest = distant.find(candidate => candidate.name === mesh.name.replace('.near.', '.distant.'));
+      // Palm fruit is smaller than a pixel here; its deliberately absent distant
+      // part gets culled while the shared crown/trunk continue to render.
+      mesh.addLODLevel(DISTANT_DISTANCE, lowest ?? null);
       mesh.addLODLevel(390, null);
     }
     if (!near.length) throw new Error(`Vegetation asset ${kind} has no near geometry.`);
     templates.set(kind, near);
-    sourceCounts[kind] = { near: near.reduce((n, mesh) => n + mesh.getTotalIndices() / 3, 0), far: far.reduce((n, mesh) => n + mesh.getTotalIndices() / 3, 0) };
+    sourceCounts[kind] = { near: near.reduce((n, mesh) => n + mesh.getTotalIndices() / 3, 0),
+      far: far.reduce((n, mesh) => n + mesh.getTotalIndices() / 3, 0),
+      distant: distant.reduce((n, mesh) => n + mesh.getTotalIndices() / 3, 0) };
   }
   const groups = new Set<VegetationGroup>();
   let serial = 0;
   let lastShadowUpdate = -Infinity;
+  let shadowRevision = 0; let checkedRevision = -1;
+  const lastShadowPosition = { x: Infinity, z: Infinity };
   const viewerPosition = { x: 0, z: 0 };
   let disposed = false;
 
@@ -114,7 +137,7 @@ export async function createDriveVegetation(scene: Scene) {
           group.instances.push(instance);
         }
       }
-      groups.add(group); chunkGroups.push(group);
+      groups.add(group); chunkGroups.push(group); shadowRevision++;
     }
     let chunkDisposed = false;
     const dispose = () => {
@@ -125,7 +148,7 @@ export async function createDriveVegetation(scene: Scene) {
           if (group.casting) group.shadows?.removeShadowCaster(instance, false);
           if (!instance.isDisposed()) instance.dispose();
         }
-        groups.delete(group);
+        groups.delete(group); shadowRevision++;
       }
     };
     parent.onDisposeObservable.addOnce(dispose);
@@ -136,10 +159,14 @@ export async function createDriveVegetation(scene: Scene) {
     viewerPosition.x = cameraPosition.x; viewerPosition.z = cameraPosition.z;
     const now = performance.now();
     if (now - lastShadowUpdate < 200) return;
+    if (checkedRevision === shadowRevision &&
+      (cameraPosition.x - lastShadowPosition.x) ** 2 + (cameraPosition.z - lastShadowPosition.z) ** 2 < 1) return;
     lastShadowUpdate = now;
+    checkedRevision = shadowRevision;
+    lastShadowPosition.x = cameraPosition.x; lastShadowPosition.z = cameraPosition.z;
     for (const group of groups) {
       if (!group.shadows || group.disposed) continue;
-      const casting = Math.hypot(group.x - cameraPosition.x, group.z - cameraPosition.z) < SHADOW_DISTANCE;
+      const casting = (group.x - cameraPosition.x) ** 2 + (group.z - cameraPosition.z) ** 2 < SHADOW_DISTANCE ** 2;
       if (casting === group.casting) continue;
       group.casting = casting;
       for (const instance of group.instances) {
@@ -151,11 +178,11 @@ export async function createDriveVegetation(scene: Scene) {
   return {
     addToChunk, update,
     metrics() {
-      const byKind = Object.fromEntries(kinds.map(kind => [kind, { plants: 0, near: 0, far: 0, beyondCull: 0, shadowPlants: 0 }]));
+      const byKind = Object.fromEntries(kinds.map(kind => [kind, { plants: 0, near: 0, far: 0, distant: 0, beyondCull: 0, shadowPlants: 0 }]));
       let estimatedMainTriangles = 0; let estimatedShadowTriangles = 0;
       for (const group of groups) {
         const distance = Math.hypot(group.x - viewerPosition.x, group.z - viewerPosition.z);
-        const lod = distance < DETAIL_DISTANCE[group.kind] ? 'near' : 'far';
+        const lod = distance < DETAIL_DISTANCE[group.kind] ? 'near' : distance < DISTANT_DISTANCE ? 'far' : 'distant';
         const counts = byKind[group.kind]; counts.plants++;
         if (distance >= 390) counts.beyondCull++;
         else { counts[lod]++; estimatedMainTriangles += sourceCounts[group.kind][lod]; }

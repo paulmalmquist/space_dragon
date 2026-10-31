@@ -36,7 +36,18 @@
       "Combine both LODs in one GLB with deduplicated embedded textures. All runtime requests use local files.",
       "Use matte foliage PBR with specular antialiasing, a subdued normal map and thin-leaf translucency; retain detailed branching trunks. Palm crown spread is increased 25% without stretching its trunk."
     ],
-    "privacy": "No owner footage, frame, real house layout or people used in these vegetation assets."
+    "privacy": "No owner footage, frame, real house layout or people used in these vegetation assets.",
+    "distantTier": {
+      "script": "tools/prepare-drive-vegetation.mjs",
+      "command": "VEGETATION_DISTANT_ONLY=1 node tools/prepare-drive-vegetation.mjs",
+      "inputs": "The three previously approved near/mid runtime GLBs above; their SHA-256 hashes remain unchanged.",
+      "steps": [
+        "Retain only the existing far geometry and derive a separate third tier. No source download, new external asset or owner media is used.",
+        "Preserve complete solid palm leaflets with alternating spatial sampling; widen across each leaflet while retaining frond length and original primitive bounds. Omit subpixel date fruit. Simplify structural bark.",
+        "Retain one in five canopy photographic alpha cards and one in four hedge cards, enlarging retained cards to preserve distant crown coverage; simplify canopy structure.",
+        "Retain local embedded base-colour/alpha images at at most 512px. Drop detailed normal, metalness, occlusion and emission textures from distant materials. Near/mid geometry and textures are byte-identical."
+      ]
+    }
   },
   "files": [
     {
@@ -101,6 +112,54 @@
           1.628278970718384
         ]
       }
+    },
+    {
+      "path": "assets/drive/vegetation/palm-distant.glb",
+      "bytes": 260948,
+      "sha256": "3e24aadf60e010a1867908561addad03d9a76fc9f089fd420975edec3af87e4e",
+      "id": "palm-distant",
+      "derivedFrom": "assets/drive/vegetation/palm.glb",
+      "license": "CC0-1.0",
+      "distantTriangles": 4319,
+      "textureMaxDimension": 512,
+      "validation": {
+        "validator": "2.0.0-dev.3.10",
+        "errors": 0,
+        "warnings": 0,
+        "information": 1
+      }
+    },
+    {
+      "path": "assets/drive/vegetation/canopy-distant.glb",
+      "bytes": 461992,
+      "sha256": "fe6fcbf1fc4fe6d6476316421097dbcabb49b8d077ce30c7044cf7df1ccf0b7a",
+      "id": "canopy-distant",
+      "derivedFrom": "assets/drive/vegetation/canopy.glb",
+      "license": "CC0-1.0",
+      "distantTriangles": 2757,
+      "textureMaxDimension": 512,
+      "validation": {
+        "validator": "2.0.0-dev.3.10",
+        "errors": 0,
+        "warnings": 0,
+        "information": 0
+      }
+    },
+    {
+      "path": "assets/drive/vegetation/hedge-distant.glb",
+      "bytes": 233208,
+      "sha256": "ff4de60522bf3d146600926be75c899a6f4d711e0933ac27e2628af4456aac38",
+      "id": "hedge-distant",
+      "derivedFrom": "assets/drive/vegetation/hedge.glb",
+      "license": "CC0-1.0",
+      "distantTriangles": 828,
+      "textureMaxDimension": 512,
+      "validation": {
+        "validator": "2.0.0-dev.3.10",
+        "errors": 0,
+        "warnings": 0,
+        "information": 0
+      }
     }
   ],
   "runtime": {
@@ -111,7 +170,9 @@
     },
     "cullDistanceMeters": 390,
     "shadowCasterDistanceMeters": 55,
-    "instances": "Native GPU instancing, per-instance distance LOD and chunk disposal; shadow filtering every 200ms. One hedge mesh instance replaces the earlier six-branch assembly."
+    "instances": "Native GPU instancing, three per-instance distance tiers and chunk disposal; nearby shadow filtering at most every 200ms, skipped when the camera and chunk membership are unchanged. One hedge instance replaces the historical six-branch assembly.",
+    "distantLodDistanceMeters": 170,
+    "distantMaterial": "Separate matte PBR materials: no normal/metalness/AO maps or leaf translucency; distant source meshes disable shadow reception. Near and mid materials remain unchanged."
   },
   "candidateRejected": {
     "name": "Shrub 01 by Rico Cilliers / Poly Haven",
@@ -141,6 +202,23 @@
       "previousGeometryFps": 59.8078,
       "errors": 0
     },
-    "preservedPreviousCandidate": "assets/source/local/town-drive/vegetation-v004-runtime/"
+    "preservedPreviousCandidate": "assets/source/local/town-drive/vegetation-v004-runtime/",
+    "historicalSampleScope": "The existing shortFrameSampleFps and candidateSample fields measure the earlier two-tier scene. They are historical evidence, not a measurement of this new third tier or the expanded neighborhood.",
+    "distantTier": {
+      "date": "2026-10-30",
+      "typecheck": "PASS",
+      "assetInspection": "PASS: three self-contained GLB 2.0 files, no external resources.",
+      "gltfValidation": "PASS: all three files have zero errors and zero warnings. Palm has one informational NPOT 512x384 image notice, supported by WebGL2.",
+      "browser": "Installed Chrome, headless, 1440x900, native GPU; two paused route views at s=600m and s=1120m.",
+      "visualReview": "Agent inspected saved images: detailed nearby crowns and trunks remain visible, distant palms/canopy/hedges retain recognizable silhouettes; no missing plant strips or opaque card blocks observed. These are direct near/distant scene views, not an A/B comparison.",
+      "artifacts": [
+        "artifacts/drive-vegetation-distant/palms-distant.png",
+        "artifacts/drive-vegetation-distant/canopy-distant.png",
+        "artifacts/drive-vegetation-distant/native-review.json"
+      ],
+      "pageErrors": 0,
+      "performance": "Not measured by this appearance review; root records a separate fresh hardware benchmark of the final combined optimizations.",
+      "ownerApproval": "Pending"
+    }
   }
 }

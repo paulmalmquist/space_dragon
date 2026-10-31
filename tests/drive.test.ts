@@ -1,7 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { DEFAULT_DRIVE_CONFIG, DRIVE_STEP, validDriveConfig } from '../src/game/drive/config.ts';
-import { ROUTE, lanePoseAt, nearestRoutePoint, pointAtDistance, validateRoute } from '../src/game/drive/route.ts';
+import { ROUTE, HOME_EXIT_SIGNAL_S, NEIGHBORHOOD_ROUTE, lanePoseAt, nearestRoutePoint, pointAtDistance, recommendedSpeedAt, routeLabelAt, validateRoute } from '../src/game/drive/route.ts';
+import { NEIGHBORHOOD } from '../src/game/drive/neighborhood.ts';
 import { angleDelta, createDriveState, EMPTY_DRIVE_INPUT, resetDrive, stepDrive, updateDriveCheckpoints } from '../src/game/drive/simulation.ts';
 import type { DriveInput, DriveState } from '../src/game/drive/simulation.ts';
 import { DRIVE_BACKUP_KEY, DRIVE_SAVE_KEY, loadDrive, saveDrive } from '../src/game/drive/checkpoint.ts';
@@ -22,20 +23,38 @@ function checkpointState(index: number): DriveState {
   const checkpoint = ROUTE.checkpoints[index];
   return resetDrive({ ...createDriveState(), checkpointId: checkpoint.id, visited: ROUTE.checkpoints.slice(0, index + 1).map(item => item.id) });
 }
+function cruiseState(assist = false): DriveState {
+  const pose = lanePoseAt(ROUTE.sections[1].startS + 100);
+  return { ...createDriveState(assist), ...pose, routeS: pose.s };
+}
+function follow(state: DriveState): DriveState {
+  const limit = recommendedSpeedAt(state.routeS);
+  const target = lanePoseAt(state.routeS + (limit < 12 ? 3 + Math.abs(state.speed) * .35 : 8 + Math.abs(state.speed) * .55));
+  const error = angleDelta(Math.atan2(target.x - state.x, target.z - state.z), state.yaw);
+  return stepDrive(state, { throttle: state.speed < limit ? 1 : 0, brake: state.speed > limit + .3 ? .5 : 0,
+    steer: Math.max(-1, Math.min(1, error * 3)), handbrake: false });
+}
 
-test('drive route is a connected sampled spline loop with ordered right/left/left reference turns', () => {
+test('mapped home exit and compressed arterial loop preserve street sequence, scale and ordered turns', () => {
   assert.deepEqual(validateRoute(), []);
-  assert.deepEqual(ROUTE.turns.slice(0, 3).map(turn => turn.direction), ['right', 'left', 'left']);
-  assert.deepEqual(ROUTE.turns.slice(3).map(turn => turn.direction), ['left', 'left', 'left']);
-  assert.equal(ROUTE.turns.slice(-2).every(turn => turn.fromSection === 5 && turn.toSection === 5), true, 'Both invented return bends need arrow/chime cues');
-  assert.equal(ROUTE.sections.filter(section => !section.invented).length, 4);
+  assert.deepEqual(ROUTE.turns.slice(0, 3).map(turn => turn.direction), ['right', 'left', 'right']);
+  assert.deepEqual(ROUTE.turns.filter(turn => turn.reference === 'arterial').map(turn => turn.direction), ['right', 'left', 'left']);
+  assert.equal(ROUTE.turns.slice(-2).every(turn => turn.fromSection === 5 && turn.toSection === 5), true, 'Home arrival and bulb turnaround need arrow/chime cues');
+  assert.equal(ROUTE.sections.filter(section => !section.invented).length, 5);
   const directions = ROUTE.sections.slice(1, 5).map(section => pointAtDistance((section.startS + section.endS) / 2).yaw);
   [-Math.PI / 2, 0, -Math.PI / 2, Math.PI].forEach((expected, index) => assert.ok(Math.abs(angleDelta(directions[index], expected)) < 0.001));
   assert.ok(ROUTE.expectedCruiseSeconds >= 180 && ROUTE.expectedCruiseSeconds <= 300);
-  assert.ok(ROUTE.sections[0].invented && ROUTE.sections.at(-1)!.invented);
+  assert.ok(!ROUTE.sections[0].invented && ROUTE.sections.at(-1)!.invented);
+  assert.ok(ROUTE.sections[0].endS > 390 && ROUTE.sections[0].endS < 410);
+  assert.deepEqual([0, 80, 240, ROUTE.sections[1].startS + 20].map(routeLabelAt),
+    ['Starpass Court', 'Green Island Boulevard', 'Green Island Terrace', 'Hypoluxo Road']);
+  assert.ok(HOME_EXIT_SIGNAL_S < ROUTE.turns[2].s);
+  assert.ok(Math.abs(NEIGHBORHOOD.culdesac.radius - 10.5) < .01);
+  assert.ok(Math.cos(ROUTE.spawn.yaw) < -.85 && Math.sin(ROUTE.spawn.yaw) < 0, 'Home faces south-southwest toward the actual street exit');
+  assert.deepEqual(ROUTE.checkpoints.map(point => point.id), ['home', 'leg-1', 'leg-2', 'leg-3', 'leg-4']);
   assert.deepEqual(pointAtDistance(ROUTE.length), pointAtDistance(0));
   for (const checkpoint of ROUTE.checkpoints) {
-    const nearest = nearestRoutePoint(checkpoint.x, checkpoint.z);
+    const nearest = nearestRoutePoint(checkpoint.x, checkpoint.z, checkpoint.s);
     assert.ok(Math.abs(nearest.s - checkpoint.s) < 0.01);
     assert.ok(nearest.signedOffset > 0, 'checkpoint must be on right lane rather than median');
   }
@@ -46,28 +65,28 @@ test('car fixed-step simulation is deterministic for identical semantic inputs',
   const a = inputs.reduce((state, input) => stepDrive(state, input), createDriveState());
   const b = inputs.reduce((state, input) => stepDrive(state, input), createDriveState());
   assert.deepEqual(a, b);
-  assert.ok(a.x < -100);
-  assert.ok(a.visited.includes('leg-1'));
+  assert.ok(Math.hypot(a.x - ROUTE.spawn.x, a.z - ROUTE.spawn.z) > 5);
+  assert.ok(Math.abs(a.elapsedSeconds - 800 / 60) < 1e-8);
 });
 
 test('default acceleration, braking, assist and reverse speed caps match configuration', () => {
   assert.equal(validDriveConfig(DEFAULT_DRIVE_CONFIG), true);
-  let state = run(createDriveState(), forward, 360);
+  let state = run(cruiseState(), forward, 360);
   assert.ok(Math.abs(state.speed - 25) < 1e-8);
   state = run(state, { ...EMPTY_DRIVE_INPUT, brake: 1 }, 150);
   assert.ok(Math.abs(state.speed) < 1e-8, '25 m/s braking reaches rest in 2.5 seconds');
-  state = run(createDriveState(), { ...EMPTY_DRIVE_INPUT, brake: 1 }, 100);
+  state = run(cruiseState(), { ...EMPTY_DRIVE_INPUT, brake: 1 }, 100);
   assert.equal(state.speed, -6);
-  const assisted = run(createDriveState(true), forward, 600);
+  const assisted = run(cruiseState(true), forward, 600);
   assert.equal(assisted.speed, 15);
-  const slow = run(createDriveState(), { ...forward, throttle: 0.25 }, 120);
-  const full = run(createDriveState(), forward, 120);
+  const slow = run(cruiseState(), { ...forward, throttle: 0.25 }, 120);
+  const full = run(cruiseState(), forward, 120);
   assert.ok(full.speed > slow.speed * 3.9);
 });
 
 test('offroad speed is capped to 40 percent, boundaries bonk and stuck reset returns to checkpoint', () => {
-  const pose = lanePoseAt(350);
-  let offroad: DriveState = { ...createDriveState(), ...pose, z: pose.z + 20, speed: 25, velocityX: -25 };
+  const pose = lanePoseAt(ROUTE.sections[1].startS + 180);
+  let offroad: DriveState = { ...createDriveState(), ...pose, routeS: pose.s, z: pose.z + 20, speed: 25, velocityX: -25 };
   offroad = stepDrive(offroad, forward);
   assert.equal(offroad.speed, 10);
   const state = checkpointState(1);
@@ -127,15 +146,43 @@ test('checkpoint gates reject out-of-order, backward and duplicate triggers; ret
 
 test('a simulated driver can follow every turn and finish the loop in the 3-5 minute normal-speed range', () => {
   let state = createDriveState();
+  let bonks = 0;
   for (let tick = 0; tick < 60 * 300 && !state.completed; tick++) {
-    const target = lanePoseAt(state.routeS + 8 + Math.abs(state.speed) * 0.55);
-    const error = angleDelta(Math.atan2(target.x - state.x, target.z - state.z), state.yaw);
-    state = stepDrive(state, { throttle: state.speed < 20 ? 1 : 0, brake: state.speed > 21 ? 0.3 : 0,
-      steer: Math.max(-1, Math.min(1, error * 2.8)), handbrake: false });
+    state = follow(state); if (state.bonkSeconds === .35) bonks++;
   }
   assert.equal(state.completed, true, `stopped at ${state.routeS}, checkpoint ${state.checkpointId}`);
   assert.ok(state.elapsedSeconds > 180 && state.elapsedSeconds < 300);
   assert.equal(state.visited.length, 5);
+  assert.equal(bonks, 0, 'Local turns and the real cul-de-sac must be traversable without collision/reset shortcuts');
+});
+
+test('the shared Starpass stem retains inbound progress, turns inside the bulb and completes home once', () => {
+  const s = NEIGHBORHOOD_ROUTE.bulbStartS - 10;
+  const pose = lanePoseAt(s);
+  const inbound = nearestRoutePoint(pose.x, pose.z, s);
+  const outbound = nearestRoutePoint(pose.x, pose.z, 10);
+  assert.equal(inbound.sectionIndex, 5);
+  assert.equal(outbound.sectionIndex, 0);
+  assert.ok(Math.abs(inbound.s - s) < .01);
+  assert.ok(Math.abs(angleDelta(inbound.yaw, outbound.yaw)) > 3);
+  let state: DriveState = { ...checkpointState(4), ...pose, routeS: s };
+  let sawBulb = false;
+  for (let tick = 0; tick < 1800 && !state.completed; tick++) {
+    state = follow(state);
+    if (state.routeS > NEIGHBORHOOD_ROUTE.bulbStartS + 15 && state.routeS < ROUTE.length - 10) {
+      sawBulb = true;
+      assert.ok(Math.hypot(state.x, state.z) < NEIGHBORHOOD.culdesac.radius, 'Car stays on the mapped bulb pavement');
+    }
+  }
+  assert.ok(sawBulb && state.completed);
+  const storage = new Storage(); saveDrive(state, storage);
+  const restored = loadDrive(storage).state;
+  assert.ok(restored.completed);
+  assert.deepEqual(restored.visited, state.visited);
+  assert.equal(restored.x, ROUTE.spawn.x);
+  assert.equal(restored.z, ROUTE.spawn.z);
+  assert.equal(restored.speed, 0);
+  assert.equal(stepDrive(createDriveState(), forward).routeS < 1, true, 'First tick must not jump to the return branch');
 });
 
 test('drive saves restore checkpoint only, isolate campaign keys and avoid redundant writes', () => {

@@ -25,3 +25,6 @@ public/assets/pod/decoder/* -text whitespace=cr-at-eol
 
 # Babylon photographic lighting container; this is a binary runtime asset.
 public/assets/drive/sky/*.env binary
+
+# Runtime license bytes are registered in the asset manifest on every platform.
+public/assets/drive/pedestrians/*.txt text eol=lf

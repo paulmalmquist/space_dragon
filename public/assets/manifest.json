@@ -128,10 +128,10 @@
     },
     {
       "id": "town-drive-detail",
-      "version": "v001",
+      "version": "v002",
       "status": "runtime candidate; owner visual review pending",
       "runtimePath": "assets/drive/vegetation/palm.glb",
-      "provenance": "CC0 sources and processing recorded beside materials, sky and vegetation; car and house geometry are original TypeScript. Owner reference layout authorized under SD-052.",
+      "provenance": "Licensed sources and processing recorded beside materials, vegetation and pedestrians; minivan, cabin and development are original code. Owner route and house reference authorized under SD-052/057.",
       "files": [
         {
           "path": "assets/drive/materials/asphalt-albedo.webp",
@@ -244,9 +244,34 @@
           "sha256": "a057c4d6a97896e02217953de01a74ef9caa2c2c4a5cac7f782032f2d668d77a"
         },
         {
+          "path": "assets/drive/pedestrians/adult-female.glb",
+          "bytes": 1297764,
+          "sha256": "7fcd61c1b330b7f998de6b5aedeab71e549cdca344cb47de8d96aaa20f6e4b9c"
+        },
+        {
+          "path": "assets/drive/pedestrians/adult-male.glb",
+          "bytes": 749896,
+          "sha256": "12929a45957d2a106f73ce0779c95b1697fb2b4cc0df4e7d53e25bdf9a5ca670"
+        },
+        {
+          "path": "assets/drive/pedestrians/LICENSE-Microsoft-Rocketbox.txt",
+          "bytes": 1066,
+          "sha256": "17474e386e0b9e1a700cc3d06b2b0882a2c376d9c6b49c7f8274409b8f8d2352"
+        },
+        {
+          "path": "assets/drive/pedestrians/PROVENANCE.json",
+          "bytes": 6159,
+          "sha256": "0496b09c7c999799e80c4eb2968dc104b68cf188b0a9e3bbd55555bfac13d8fd"
+        },
+        {
           "path": "assets/drive/sky/daylight-512.env",
           "bytes": 2610301,
           "sha256": "b153789f97d720500cca435e8bd963c672dfda6b46db90d814aa577a1d736a5f"
+        },
+        {
+          "path": "assets/drive/vegetation/canopy-distant.glb",
+          "bytes": 461992,
+          "sha256": "fe6fcbf1fc4fe6d6476316421097dbcabb49b8d077ce30c7044cf7df1ccf0b7a"
         },
         {
           "path": "assets/drive/vegetation/canopy.glb",
@@ -254,9 +279,19 @@
           "sha256": "1d8ab04dc39c6be4d6b128a55541b3631bb51d2f03861b9ee0b0777de62bef92"
         },
         {
+          "path": "assets/drive/vegetation/hedge-distant.glb",
+          "bytes": 233208,
+          "sha256": "ff4de60522bf3d146600926be75c899a6f4d711e0933ac27e2628af4456aac38"
+        },
+        {
           "path": "assets/drive/vegetation/hedge.glb",
           "bytes": 1807724,
           "sha256": "da7f1926e1c19b329ebcee8161e16e7c50719bf21e077bdfc9bff01001ce41eb"
+        },
+        {
+          "path": "assets/drive/vegetation/palm-distant.glb",
+          "bytes": 260948,
+          "sha256": "3e24aadf60e010a1867908561addad03d9a76fc9f089fd420975edec3af87e4e"
         },
         {
           "path": "assets/drive/vegetation/palm.glb",
@@ -265,8 +300,8 @@
         },
         {
           "path": "assets/drive/vegetation/PROVENANCE.json",
-          "bytes": 6563,
-          "sha256": "e842ca5a1514704ef8bb5b205adfd61f247f9f69e411e751c911416453ecb684"
+          "bytes": 10839,
+          "sha256": "a77e6ca732cd4fbda181952f1a009ba73d6eff447fa78790c7c4c5cb7f65a053"
         }
       ]
     }

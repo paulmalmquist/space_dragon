@@ -245,3 +245,23 @@ Owner source wording:
 > fill the world with NPC cars, traffic and a few more details also. dealers choice on details
 
 Routing receipt: **CONFIRMED**, technically verified. [Decision](../docs/decisions/2026-10-30-town-drive-traffic.md) adds traffic previously held outside the first lab increment. Bidirectional NPC vehicles, signal/following behavior and agent-selected street details are implemented; driving/save boundaries remain intact. [Combined verification](../docs/reports/2026-10-30-town-drive-detail.md).
+
+## October 30, 2026 — Town Drive lived-in streets and minivan (SD-057)
+
+Owner source wording:
+
+> lets get some poeple walking around. use real street names please.
+> increase the detail on the surroundings too. keep going on photorealism.
+> make it a white minivan (looks like honda odyssey)
+> also when you look left and right there needs to be development there too.
+> make it optional to go into first person view and be concious of how detailed that needs to be in the car
+
+Routing receipt: **CONFIRMED**, technically verified; human appearance/handling review remains open. [Decision](../docs/decisions/2026-10-30-town-drive-lived-in-streets.md) authorizes sidewalk walkers, real route labels, developed side views, an Odyssey-inspired white minivan and optional detailed cabin camera. Retain route, traffic, pause, recovery and separate drive saves. [Verification](../docs/reports/2026-10-30-town-drive-lived-in-streets.md) records actual results and limits.
+
+## October 30, 2026 — Town Drive home-route correction (SD-058)
+
+Owner wording:
+
+> use google maps to understand 6826 starpass court and the culdesac i live on. i drove out to the visitors gate and turned right on hypoluxo. right now its a little wonky compared to reality
+
+Routing receipt: **CONFIRMED**, technically verified; owner road recognition remains open. [Decision](../docs/decisions/2026-10-30-town-drive-home-route.md) supersedes the invented outbound connector; [SD-057/058 verification](../docs/reports/2026-10-30-town-drive-lived-in-streets.md) records source confidence, implementation and checks. Existing privacy override remains active. Preserve the ongoing pedestrians/minivan/detail work.

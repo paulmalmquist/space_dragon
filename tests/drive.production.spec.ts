@@ -16,6 +16,13 @@ test('drive production entry uses the approved reference house without raw sourc
   await expect.poll(() => page.locator('#speed').innerText(), { timeout: 30_000 }).not.toBe('0');
   await page.keyboard.up('w'); await page.keyboard.press('Escape');
   await expect(page.locator('#paused')).toBeVisible();
+  await page.locator('#resume').click();
+  await page.keyboard.press('v');
+  await expect(page.locator('#first-person')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#camera')).toHaveText('First person · C');
+  await page.keyboard.press('v');
+  await expect(page.locator('#first-person')).toHaveAttribute('aria-pressed', 'false');
+  await page.keyboard.press('Escape');
   expect(errors).toEqual([]);
   async function inspect(folder: string): Promise<void> {
     for (const item of await readdir(folder, { withFileTypes: true })) {
