@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Space Dragon · Unity candidate</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#07101b;color:#d4e8ef;font:14px system-ui}header{max-width:1280px;margin:auto;padding:16px 0;display:flex;align-items:center;justify-content:space-between;gap:14px}h1{font-size:18px;letter-spacing:.1em;margin:0}small{color:#95afbd}main{max-width:1280px;margin:auto}canvas{display:block;background:#0a1825;width:100%;aspect-ratio:16/9;outline:none;box-shadow:0 0 0 1px #304e60;border-radius:8px}#loading{padding:12px;text-align:center}button,select{background:#173244;color:#d3edf3;border:1px solid #54798b;padding:8px;border-radius:5px}details{margin:16px 0;box-shadow:0 0 0 1px #304e60;border-radius:8px;padding:12px}summary{cursor:pointer}.controls{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}#metrics{white-space:pre-wrap;font-size:12px}#error{color:#ffc5b3}footer{max-width:1280px;margin:16px auto;color:#8ea6b6;font-size:12px}@media(max-width:1300px){main,header,footer{margin-left:16px;margin-right:16px}}
+</style></head>
+<body><header><h1>SPACE DRAGON</h1><small>UNITY · FIRST CONTACT CANDIDATE</small></header>
+<main><div id="loading" role="status">Loading the backyard… 0%</div><canvas id="unity-canvas" width="1280" height="720" tabindex="0" aria-label="Space Dragon Unity backyard"></canvas><p id="error" role="alert" hidden></p>
+<details id="review"><summary>Local comparison tools</summary><div class="controls">
+<label>Camera <select id="shot"><option value="play">Play</option><option value="home">Home</option><option value="arrival">Arrival</option><option value="reveal">Pod detail</option></select></label>
+<button id="reset-sample">New sample</button><button id="save-sample">Save measurements</button></div><pre id="metrics"></pre></details>
+</main><footer>Original pod · provisional environment and character · local engine comparison. WASD/arrows or left stick to move. Space/Enter or Cross to interact. Escape/Options pauses.</footer>
+<script>
+  const canvas = document.querySelector('#unity-canvas');
+  canvas.addEventListener('contextmenu',event=>event.preventDefault());
+  const status = document.querySelector('#loading');
+  const startedAt = performance.now();
+  const api = window.__SPACE_DRAGON_UNITY__ = { latestSnapshot:null, instance:null, ready:false, readyMs:null, controlsReadyMs:null,
+    send(method, value) { if (!api.instance) return; if(value === undefined) api.instance.SendMessage('FirstContactCandidate',method); else api.instance.SendMessage('FirstContactCandidate',method,value); },
+    snapshot() {
+      const memory = performance.memory;
+      return { ...api.latestSnapshot, browser: { playerLoadedMs:api.readyMs, controlsReadyMs:api.controlsReadyMs, loadMetricScope:'createUnityInstance completion and first controlsReady snapshot (500ms polling)', canvasWidth:canvas.width, canvasHeight:canvas.height,
+        cssWidth:canvas.clientWidth, cssHeight:canvas.clientHeight, devicePixelRatio:window.devicePixelRatio,
+        wasmHeapAllocatedBytes:api.instance?.Module?.HEAPU8?.buffer?.byteLength ?? null,
+        jsHeapUsedBytes:memory?.usedJSHeapSize ?? null,
+        memoryScope:'WASM heap allocation and optional Chromium JS heap; excludes GPU/total process memory.' } };
+    }
+  };
+  function fail(message){document.querySelector('#error').hidden=false;document.querySelector('#error').textContent=String(message);status.textContent='The candidate could not load.';}
+  const buildUrl = 'Build';
+  const config = {
+    dataUrl:buildUrl+'/{{{ DATA_FILENAME }}}', frameworkUrl:buildUrl+'/{{{ FRAMEWORK_FILENAME }}}', codeUrl:buildUrl+'/{{{ CODE_FILENAME }}}',
+    streamingAssetsUrl:'StreamingAssets', companyName:{{{ JSON.stringify(COMPANY_NAME) }}}, productName:{{{ JSON.stringify(PRODUCT_NAME) }}}, productVersion:{{{ JSON.stringify(PRODUCT_VERSION) }}},
+    devicePixelRatio:1, showBanner:(message,type)=>{if(type==='error')fail(message);}
+  };
+  const script=document.createElement('script');script.src=buildUrl+'/{{{ LOADER_FILENAME }}}';script.onerror=()=>fail('Unable to load the Unity player.');
+  script.onload=()=>createUnityInstance(canvas,config,progress=>{status.textContent=`Loading the backyard… ${Math.round(progress*100)}%`;}).then(instance=>{
+    api.instance=instance;api.ready=true;api.readyMs=performance.now()-startedAt;status.hidden=true;canvas.focus();
+    setInterval(()=>{api.send('RequestSnapshot');if(api.controlsReadyMs===null && api.latestSnapshot?.controlsReady)api.controlsReadyMs=performance.now()-startedAt;},500);
+  }).catch(fail);document.body.append(script);
+  document.querySelector('#shot').addEventListener('change',event=>{api.send('SetBenchmarkMode',event.target.value);canvas.focus();});
+  document.querySelector('#reset-sample').addEventListener('click',()=>api.send('ResetMeasurement'));
+  document.querySelector('#save-sample').addEventListener('click',()=>{
+    const url=URL.createObjectURL(new Blob([JSON.stringify(api.snapshot(),null,2)],{type:'application/json'}));
+    const link=document.createElement('a');link.href=url;link.download='space-dragon-unity-measurements.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+  setInterval(()=>{if(document.querySelector('#review').open)document.querySelector('#metrics').textContent=JSON.stringify(api.snapshot(),null,2);},1000);
+</script></body></html>

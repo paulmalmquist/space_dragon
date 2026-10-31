@@ -1,0 +1,6 @@
+{
+  "name": "SpaceDragon.FirstContact",
+  "rootNamespace": "SpaceDragon.FirstContact",
+  "references": ["Unity.InputSystem"],
+  "autoReferenced": true
+}

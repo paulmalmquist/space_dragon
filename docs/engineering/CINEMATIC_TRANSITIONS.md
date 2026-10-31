@@ -1,5 +1,9 @@
 # Cinematic transitions into gameplay
 
+**Current production direction — October 31:** [SD-076](../decisions/2026-10-31-google-vids-manual-exports.md) selects **Google Vids with manual exports** for subsequent video work; Runway is parked. Inspect/encode each delivered file locally before Unity playback and handoff verification. The existing [SD-073 LaunchLab](../plans/UNITY_LAUNCH_CINEMATIC.md) is technically verified in [its receipt](../reports/2026-10-31-unity-launch-cinematic.md): **12 seconds**, live Unity 0–3 s, controlled Blender-video insert 3–10 s, protected live Unity 10–12 s, then fresh player control; a fully live alternative uses the same choreography. Blender geometry/motion remains authoritative and Unity owns gameplay. This supersedes the historical Three.js/scoping-only/20-second proof below. No Google Vids export is received or verified yet.
+
+The October 30 plan below is retained as **historical proposed architecture and acceptance guidance**. Its interruption, input, state and continuity requirements remain useful; its old implementation location, duration and authorization boundary are not the current assignment.
+
 **Date:** October 30, 2026. **Tracking:** SD-038. **Work state:** planned.
 **Authority:** CONFIRMED request to scope cinematic cutscenes blended into gameplay; the method, shot timings and future prototype below are PROPOSED. This document implements no cinematic or campaign transition. [The scope decision](../decisions/2026-10-30-cinematic-transition-scope.md) records the boundary.
 

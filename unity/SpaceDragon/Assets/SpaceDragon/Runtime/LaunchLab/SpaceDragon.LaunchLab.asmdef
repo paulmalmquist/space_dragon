@@ -1,0 +1,6 @@
+{
+  "name": "SpaceDragon.LaunchLab",
+  "rootNamespace": "SpaceDragon.LaunchLab",
+  "references": ["SpaceDragon.FirstContact", "Unity.InputSystem", "Unity.Timeline", "Unity.Cinemachine"],
+  "autoReferenced": true
+}

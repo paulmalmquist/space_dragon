@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "scope": "Local Unity comparison candidate; same pod and source surfaces/environment as Babylon. No new reference photographs or likeness assets.",
+  "tool": "sharp 0.35.5",
+  "files": [
+    {
+      "source": "assets/game/local/props/pod/v002/rescue-pod-v002.glb",
+      "sourceSha256": "bbe39ee99797e309c51ab27ee4ef25a6636a40b09584a418f73bb2b95f8d95df",
+      "sourceBytes": 537228,
+      "destination": "rescue-pod-v002.glb",
+      "sha256": "bbe39ee99797e309c51ab27ee4ef25a6636a40b09584a418f73bb2b95f8d95df",
+      "bytes": 537228,
+      "sourceDescription": "Original Blender pod v002, uncompressed export of the same geometry/materials/animation used by Babylon. No redesign; avoids adding a second KTX2 decoder. See docs/reports/2026-10-29-pod-asset.md."
+    },
+    {
+      "source": "public/assets/drive/materials/grass-albedo.webp",
+      "sourceSha256": "230f49f8223d0d5ffc21cce7341a65973fd305503fe2d99f78b6394345859d18",
+      "sourceBytes": 246742,
+      "destination": "Surfaces/grass-albedo.png",
+      "sha256": "becedcd9af441bb2bdcbcd5e1ff58e3a4c05214f3d0988bc2b096188ec21a8de",
+      "bytes": 1800617,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/grass-normal.webp",
+      "sourceSha256": "0053db8d49aade03533c75bf21eb2376dac76dcc7ee40779a015e23e0307a450",
+      "sourceBytes": 650494,
+      "destination": "Surfaces/grass-normal.png",
+      "sha256": "0ce1fb44d912a3452123f959e618ac7a450965b33fc210933f4c24118f63fe60",
+      "bytes": 2769770,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/grass-roughness.webp",
+      "sourceSha256": "e4a82cfa0e4a5d7db42324a903bb62b697a1dad7e4d753e383b1c4eec17a0a7c",
+      "sourceBytes": 5308,
+      "destination": "Surfaces/grass-roughness.png",
+      "sha256": "537ec71414be7c91b3b23271bc57aa6adb72f94ac76631061826e52bc8078b7f",
+      "bytes": 64492,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/grass-roughness.webp",
+      "sourceSha256": "e4a82cfa0e4a5d7db42324a903bb62b697a1dad7e4d753e383b1c4eec17a0a7c",
+      "sourceBytes": 5308,
+      "destination": "Surfaces/grass-metallic-smoothness.png",
+      "sha256": "733589b43d8c5e94536d1e0092ee5ae0394a4faf39f1938e5b729dc23135ab4e",
+      "bytes": 71096,
+      "sourceDescription": "URP dielectric metallic/smoothness packing: RGB=0, alpha=255 minus original roughness green. Source pixels unchanged elsewhere."
+    },
+    {
+      "source": "public/assets/drive/materials/concrete-albedo.webp",
+      "sourceSha256": "6c51f70cbb540f8270ca38bb058a9fbbd563438bfe01617657eacd578059cc08",
+      "sourceBytes": 436894,
+      "destination": "Surfaces/concrete-albedo.png",
+      "sha256": "94bb76b489309cfae96ac239975d04ec1b6b4c04469e5da748d69f5db799e002",
+      "bytes": 2271151,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/concrete-normal.webp",
+      "sourceSha256": "1e3ddc380eebe8337507524bee860fb7a5e9e83f8e6106428885306208390c24",
+      "sourceBytes": 296628,
+      "destination": "Surfaces/concrete-normal.png",
+      "sha256": "349b45f88fd930c70d0308a76818c2de88fd1bce0e138c9c705a0eee139273fb",
+      "bytes": 1515142,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/concrete-roughness.webp",
+      "sourceSha256": "c9cc4d74f9d92241f59f395d8c4c9f3c3e38279a3eb64186a88f1b5ab023cd18",
+      "sourceBytes": 118528,
+      "destination": "Surfaces/concrete-roughness.png",
+      "sha256": "93e271bfd62cf892a52f00fc2b08c51907d840ff8610b7c5d33c80f98c329b49",
+      "bytes": 712006,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/concrete-roughness.webp",
+      "sourceSha256": "c9cc4d74f9d92241f59f395d8c4c9f3c3e38279a3eb64186a88f1b5ab023cd18",
+      "sourceBytes": 118528,
+      "destination": "Surfaces/concrete-metallic-smoothness.png",
+      "sha256": "f824f64589c2589fd4a9374ca9524794e3575531a54eb961b8dcd4991ca8896a",
+      "bytes": 750482,
+      "sourceDescription": "URP dielectric metallic/smoothness packing: RGB=0, alpha=255 minus original roughness green. Source pixels unchanged elsewhere."
+    },
+    {
+      "source": "public/assets/drive/materials/plaster-albedo.webp",
+      "sourceSha256": "bb3c2e4a4c780158967ea3654741f524152e26993868f1c10b2cb318bbf3c046",
+      "sourceBytes": 189218,
+      "destination": "Surfaces/plaster-albedo.png",
+      "sha256": "86f1c8661c6243a617ed614655655c003f9caf8d71454968d3514f333d113e90",
+      "bytes": 1055055,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/plaster-normal.webp",
+      "sourceSha256": "ec0ba189cbe3f9bd07b4bb396de298fa5659076f654cc702512e7f0a1e6adafd",
+      "sourceBytes": 438484,
+      "destination": "Surfaces/plaster-normal.png",
+      "sha256": "400f0f88e13f48cb3f141241f124d542dd81064cff2d13581fed00eb5ae0ed98",
+      "bytes": 1782339,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/plaster-roughness.webp",
+      "sourceSha256": "1e0f678ef9a439656232594182fed88b907902c28a3f0204e53e015fd8a9079b",
+      "sourceBytes": 7890,
+      "destination": "Surfaces/plaster-roughness.png",
+      "sha256": "bf8069f8b3c47b62a2b18e0a5e950c331c5f0795362fd0a0dcb32891c5eddfba",
+      "bytes": 96407,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/plaster-roughness.webp",
+      "sourceSha256": "1e0f678ef9a439656232594182fed88b907902c28a3f0204e53e015fd8a9079b",
+      "sourceBytes": 7890,
+      "destination": "Surfaces/plaster-metallic-smoothness.png",
+      "sha256": "1945557ae076ceb0a077b00c0880de3f6b13bca0fd064f1caa940acfa49a5411",
+      "bytes": 100120,
+      "sourceDescription": "URP dielectric metallic/smoothness packing: RGB=0, alpha=255 minus original roughness green. Source pixels unchanged elsewhere."
+    },
+    {
+      "source": "public/assets/drive/materials/wood-albedo.webp",
+      "sourceSha256": "f834f2b30095a046ca78a5bfec502d76f6e6c1a04afaaf4f7f6931cbb9765804",
+      "sourceBytes": 116882,
+      "destination": "Surfaces/wood-albedo.png",
+      "sha256": "ac2bf1d2427197725363c3f94a262b9ff802ddad8f33c1d371183842cbfc6624",
+      "bytes": 1180486,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/wood-normal.webp",
+      "sourceSha256": "6f512676f720950229582c236c07c9140aaac5abd093143e2e6b61c8346d01e6",
+      "sourceBytes": 100538,
+      "destination": "Surfaces/wood-normal.png",
+      "sha256": "9c6b371d17d7247bffc7f8ccad7f1a2ea2764737a77dd55887045f1b8a8d7576",
+      "bytes": 695372,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/wood-roughness.webp",
+      "sourceSha256": "a057c4d6a97896e02217953de01a74ef9caa2c2c4a5cac7f782032f2d668d77a",
+      "sourceBytes": 324282,
+      "destination": "Surfaces/wood-roughness.png",
+      "sha256": "8f356b906755e9a83f871dada3d9b9d132ba38f89d24b8d747e089a8051df34b",
+      "bytes": 1474352,
+      "sourceDescription": "Lossless PNG conversion of already manifest-listed runtime WEBP; pixels retained; CC0 provenance in surface-provenance.json."
+    },
+    {
+      "source": "public/assets/drive/materials/wood-roughness.webp",
+      "sourceSha256": "a057c4d6a97896e02217953de01a74ef9caa2c2c4a5cac7f782032f2d668d77a",
+      "sourceBytes": 324282,
+      "destination": "Surfaces/wood-metallic-smoothness.png",
+      "sha256": "a8fe83be1d3516d5d2a48e28eedbd9fdbcf460504acb5dd574101c54f5706407",
+      "bytes": 1197652,
+      "sourceDescription": "URP dielectric metallic/smoothness packing: RGB=0, alpha=255 minus original roughness green. Source pixels unchanged elsewhere."
+    },
+    {
+      "source": "public/assets/drive/materials/PROVENANCE.json",
+      "sourceSha256": "aad3cf38832f2461b9d23d8030a4ff911ee4fee0785b3a64d13d80611296fde7",
+      "sourceBytes": 16545,
+      "destination": "surface-provenance.json",
+      "sha256": "aad3cf38832f2461b9d23d8030a4ff911ee4fee0785b3a64d13d80611296fde7",
+      "bytes": 16545,
+      "sourceDescription": "Existing texture provenance; copied without change."
+    },
+    {
+      "source": "assets/source/local/drive-materials/v001/kloofendal_48d_partly_cloudy_puresky_2k.hdr",
+      "sourceSha256": "5244534e9cf5b606f2ff513aa00ddb161b0a4826ffd88a0d3bd03ac29247d198",
+      "sourceBytes": 5451493,
+      "destination": "daylight.hdr",
+      "sha256": "5244534e9cf5b606f2ff513aa00ddb161b0a4826ffd88a0d3bd03ac29247d198",
+      "bytes": 5451493,
+      "sourceDescription": "Poly Haven CC0 https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky; same source as Babylon daylight-512.env; see tools/prepare-drive-environment.mjs."
+    }
+  ]
+}

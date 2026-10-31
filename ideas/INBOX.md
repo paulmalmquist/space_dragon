@@ -4,6 +4,18 @@ Write below in whatever order it occurs to you. Plain text is enough. You can al
 
 ## New thoughts
 
+### October 31, 2026 — cinematic strategy and dragon launch proof (SD-073)
+
+Later owner reply, October 31, 2026:
+
+> Proceed locally; defer AI enhancement
+
+This narrowed SD-073's completion gate to the fully live Unity launch, controlled local Blender-video alternative and their tested playable handoffs. Later **SD-076** above selects Google Vids with manual exports for subsequent video work and parks Runway; no reconnection prompt is a next action.
+
+Source: owner, new cinematic-production request. The complete original wording and attachment availability note are preserved in [the source capture](2026-10-31-cinematic-launch-source.md); do not substitute this routing summary for the source.
+
+Routing receipt: **SD-073 · CONFIRMED bounded local implementation · verified for named local checks; AI parked by owner.** [Decision](../docs/decisions/2026-10-31-cinematic-launch-proof.md), [plan](../docs/plans/UNITY_LAUNCH_CINEMATIC.md) and [verification](../docs/reports/2026-10-31-unity-launch-cinematic.md) record the separate **12-second Unity LaunchLab**: live 0–3 s, controlled Blender video 3–10 s, protected live 10–12 s and safe flight, alongside the fully live route. Original geometry/choreography remains authoritative. Setup, 21 EditMode tests, source/video/Web build, eleven actual cases per WebGPU/WebGL2 backend and separate real headed focus recovery pass. Prior failures and scoped save/performance limitations are retained. The visibly rough lab has no human final-quality approval; AI enhancement, physical controller, native launch, full Dogfight migration, campaign departure and release remain separate. This supersedes SD-038's old proof boundary while retaining continuity principles.
+
 ### October 31, 2026 — Google Vids with manual exports (SD-076)
 
 Owner wording:

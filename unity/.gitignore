@@ -1,0 +1,14 @@
+# Unity caches and generated builds. Source project, imported candidates and meta files stay reviewable.
+**/Library/
+**/Temp/
+**/Obj/
+**/Logs/
+**/UserSettings/
+**/Builds/
+**/.vs/
+**/*.csproj
+**/*.sln
+**/*.slnx
+**/*.user
+**/MemoryCaptures/
+**/Recordings/
