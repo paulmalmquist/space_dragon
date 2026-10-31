@@ -619,3 +619,91 @@ Owner's original request:
 > results, and identify any limitations that remain.
 
 Routing receipt: **SD-060 · CONFIRMED · verified for named local pipeline checks**. [Asset contract](../docs/engineering/DRAGON_ASSET_CONTRACT.md), [verification receipt](../docs/reports/2026-10-30-dragon-asset-pipeline.md). The retained loader/controller uses a versioned export with authored blended loops, eight sockets, stable transforms and independent collision. Earlier artwork/rollback, active flight/combat during spelling, collision tuning and saves remain. Matched Blender/browser views, measured resource reduction and final native wrapper pass are recorded, with the initial manifest failure preserved. Human art/sustained performance and deployment remain separate.
+
+
+## October 31, 2026 — reconciled incoming planning and intake
+
+These October 30 source captures arrived from `origin/main` at `65f908b`. Their original wording and dates are preserved below; routing IDs follow the [merge crosswalk](../docs/decisions/2026-10-31-merge-idea-identifiers.md). Earlier receipts describe the state at capture. Morrow approval and the English simplification supersede the intervening proposals; later local Dogfight/Town work remains in its existing records.
+
+### October 30, 2026 — Seele intake and early refactoring
+
+Source: owner, Space Dragon chat, after discussing exported assets and continued refinement with coding agents.
+
+> Shall I make a folder in the repo called “seeles assets” and put instructions for migration
+
+> At the beginning, we may want to refactor the repo around the more refined 3d environments and assets if it’s easier
+
+Receipt: **SD-062** · CONFIRMED intake direction and conditional refactor evaluation; the actual migration/engine choice remains OPEN until an export is inspected. [Seele intake and migration](../seeles-assets/README.md) provides a local drop folder and agent procedure. It compares asset import, scene-layer replacement, and broader refactoring before implementation, while reusing the existing asset workflow. No paid generation, asset import, engine change, or deployment is claimed.
+
+### October 30, 2026 — House interior video reference
+
+Source: owner, Space Dragon chat, with uploaded `IMG_5753.mp4`.
+
+> Put this video in a folder and label it house interior. It’s reference for 3d environment of initial house
+
+Receipt: **SD-063** · CONFIRMED label and reference purpose · [House interior](../assets/reference/environments/house-interior/README.md) records the original, the saved `house-interior.mp4`, the ignored local authoring path, source checksum, and initial inspection. The video was organized in the owner's files and copied unchanged into the local reference workspace. Next: consult it when building the opening environment. A finished house model, a measured scan, a Seele upload, and public-video publication are not established by this intake.
+
+### October 30, 2026 — Car driving video reference
+
+Source: owner, Space Dragon chat; `IMG_5754.mp4` arrived after the initial labeling request.
+
+> Label this video car driving West on Hypoluxo north on jog West on Lantana south on Hagen Ranch
+
+> Ok is this saved in repo
+
+Receipt: **SD-064** · CONFIRMED route label · [Car driving source and receipt](../assets/reference/environments/car-driving/README.md) records the saved video, source checksum and metadata, sampled-frame observations, and retrieval instructions. The notes are tracked in Git; the original MP4 is saved separately in the owner's `Space Dragon/Car driving/` files. The route is the owner's label, not an independently verified GPS track. Next: retrieve the source when exterior-environment work needs it; no road model or runtime change is claimed.
+
+### October 30, 2026 — a villain, and the reason for the SOS
+
+Source: owner, Space Dragon chat.
+
+> “We need a villain arc, the reason for the SOS. Not kiddy please, this can be biblical or DC studios level”
+
+Receipt: **SD-065** · CONFIRMED direction (a villain exists, causes the SOS, mythic tone); identity and lore PROPOSED · [Decision](../docs/decisions/2026-10-30-villain-is-the-reason-for-the-sos.md) and [villain treatment](../docs/story/VILLAIN_ARC.md): Morrow, the Lanemother's firstborn, holds the home note and has stopped the universe. Next: owner review, then integrate the beats listed in the treatment's §10 into the acts and scripts.
+
+### October 30, 2026 — Morrow approved, rename the home note, translation
+
+Source: owner, Space Dragon chat, in reply to the villain treatment.
+
+> “Yes I like it. “Home note” should be called something else.
+> We need: a way to translate language”
+
+Receipt: **SD-066** · CONFIRMED Morrow and his arc as presented; "home note" retired, replacement **the Heartnote** PROPOSED · [Decision update](../docs/decisions/2026-10-30-villain-is-the-reason-for-the-sos.md); Morrow integrated across the acts and scripts. **SD-067** · CONFIRMED need; design PROPOSED · [Translation decision](../docs/decisions/2026-10-30-translation.md) and [language and translation](../docs/story/LANGUAGE_AND_TRANSLATION.md). Next: owner reaction to the Heartnote name and the translation design.
+
+### October 30, 2026 — the suits translate
+
+Source: owner, Space Dragon chat.
+
+> “The suits can translate”
+
+Receipt: **SD-068** · CONFIRMED · [Translation decision update](../docs/decisions/2026-10-30-translation.md) and [language and translation](../docs/story/LANGUAGE_AND_TRANSLATION.md): the suits replace the Core as the translator. Proposed details: they translate both ways, singing the family's words in Vieran in each wearer's instrument voice; they translate what they hear, not what they see, so the kids still decode writing in the Glyph Book; near Viera they drop words and the Caller fills the gaps; the neighbor's robot iguana translates for her. Scripts updated.
+
+### October 30, 2026 — just English, with the suits as the hand-wave
+
+Source: owner, Space Dragon chat.
+
+> “The game just needs to be in English with the suit core hand waiving why we can understand”
+
+Receipt: **SD-069** · CONFIRMED · Supersedes the translation details from SD-067 and SD-068. [Decision update](../docs/decisions/2026-10-30-translation.md) and [language](../docs/story/LANGUAGE_AND_TRANSLATION.md): everything is in English; the suits, made from the same living material as the Core, are why the family understands everyone, said once at Lantern Rock. The sung language, mistranslations, Glyph Book, dropped words and gift of tongues are retired, and glyph puzzles became plain English letters, numbers and words. The original remote branch skipped SD-035 and SD-036 because draft PR #13 used them; see the merge ID crosswalk for current allocations.
+
+### October 30, 2026 — PlayStation controller input
+
+Source: owner's Space Dragon request.
+
+> “Can we get this to work plugging in a PlayStation controller”
+
+Receipt: **SD-070** · CONFIRMED request · Routed to [controller input decision](../docs/decisions/2026-10-30-playstation-controller.md), a standard Gamepad API input adapter, a First Contact camera/story UI integration and simulated controller browser tests. Keyboard remains available. Physical USB/Bluetooth behavior is not yet tested; character movement, combat and dragon flight are later systems.
+
+### October 30, 2026 — cinematic game sound effects bank
+
+Source: owner, Space Dragon chat.
+
+> “Need high quality, cinematic sound effects bank for this project”
+>
+> “Put a bunch of that in my Google Drive please”
+>
+> “Ok now transfer them to GitHub repo space_dragon”
+
+Receipt: **SD-071** · CONFIRMED request · The Drive folder was created but contained zero audio files. An original 16-cue synthesized starter bank, manifest, source generator, sound preview and licensing workflow were committed to [the audio bank](../assets/game/audio/starter/). Those files were checked for byte-for-byte reproduction. This is **not** a transfer of Sonniss/BOOM recordings and **not** final cinematic-quality sound design; professional sourcing, listening QA and game integration remain open.
+
+Merge routing receipt: incoming SD-014/015/016/017/018/027 duplicate existing SD-028/029/030/031/032/033 and retain those canonical IDs. New records use SD-062–071. SD-061 is reserved for concurrent visual-foundation work; next unused is SD-072. This merge reconciles records and existing implementations; it does not add deployment, final art approval or a new mission.

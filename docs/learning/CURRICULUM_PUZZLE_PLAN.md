@@ -109,7 +109,7 @@ Learning stops come from the current scripts and treatments, each given both tra
 | Where | Story reason | Find It (numbers and letters) | Work It Out (math and reading) | Template |
 | --- | --- | --- | --- | --- |
 | Lantern Rock: **lane books** | Stamping Earth's mark | Optional: find your own name's first letter on your book | Optional: read your own name | Find It / Read It |
-| Market Moon: **Stall Glyphs** | Restart each stall's music box | Glyph shown beside a letter: find the stall with that letter | Merchants' price tags: "Two shells and three shells. How many shells?" | Find It / How Many |
+| Market Moon: **Stall Letters** | Restart each stall's music box | A letter card: find the stall with the same letter | Merchants' price tags: "Two shells and three shells. How many shells?" | Find It / How Many |
 | Hatchery: **Count the Hatchlings** | Hatch each egg | Each nest has a numeral: put eggs in until the dots match it | "Five eggs. Two hatched and flew to Mom. How many still in the nest?" | Find It / How Many |
 | Climbing Spires: **Resonators** | Re-tune each spire | Resonators marked with letters: strike the **M** | Resonators labeled with words: strike the one that says **hop** | Find It / Read It |
 | Forge Ring | Five-suit set piece and trench run | Pure action | Pure action | — |
@@ -122,10 +122,14 @@ Learning stops come from the current scripts and treatments, each given both tra
 | The Drift: **Count Them Home** | The convoy grows | Count the ships, then find the numeral | "Four ships, three more join. How many now?" | Find It / How Many |
 | Outfitters' Row: **Pattern Fit** | Tune each suit upgrade | Put the numbered parts in order, 1 to 5 | Read the label word on each part to fit it | Find It / Read It |
 | Departure Halls: **The Big Board** | Find the gate to the Roosts | Find gate **R** (match, then by name) | Read the short destination words: find the gate that says **nest** | Find It / Read It |
-| Rest Garden: **The Home Note** | Sing the answer | Creative, no right answer | Creative, no right answer | — |
+| Rest Garden: **The Heartnote** | Sing the answer | Creative, no right answer | Creative, no right answer | — |
 | Final landing: **lane books** | Every stamp collected | Optional: count your stamps | Optional: read each world's name with the Core's help | — |
 
-Existing challenge contracts (`a1m1_space_blocks_v1`, `a1m2_trail_flags_v1`, `a1m3_power_cells_v1`, `a1m4_produce_sort_v1`, `a2w1_stall_glyphs_v1`, `a2w2_count_hatchlings_v1`, `a2w3_resonator_pattern_v1`) stay as written. The two-track versions would ship as new versions (`_v2`), so old observations keep their meaning.
+Existing challenge contracts (`a1m1_space_blocks_v1`, `a1m2_trail_flags_v1`, `a1m3_power_cells_v1`, `a1m4_produce_sort_v1`, `a2w1_stall_letters_v1`, `a2w2_count_hatchlings_v1`, `a2w3_resonator_pattern_v1`) stay as written. The two-track versions would ship as new versions (`_v2`), so old observations keep their meaning. `a2w1_stall_letters_v1` was proposed as `a2w1_stall_glyphs_v1` until October 30, 2026; it was renamed before anything was implemented, so no observations use the old ID.
+
+### How the puzzles reach the kids off Earth
+
+The game is in English everywhere, including the other universe ([language](../story/LANGUAGE_AND_TRANSLATION.md)). Signs, word cards, stalls, nests, docking bays and departure boards use plain English letters, numbers and words, so each stop can draw directly from the This Week list. Nothing needs decoding first. Spoken help is always available, and help is recorded as assisted.
 
 ## 7. What gets recorded
 

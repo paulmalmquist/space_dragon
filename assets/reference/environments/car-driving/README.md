@@ -24,7 +24,7 @@ Follow [the asset pipeline](../../../../docs/ASSET_PIPELINE.md) for reference, e
 
 The original intake treated source imagery as authoring-only. [SD-052](../../../../docs/decisions/2026-10-30-town-drive-detail-override.md) supersedes that Town Drive publication restriction: reference-derived runtime assets may be promoted without another privacy approval. Large videos and intermediate comparisons remain local for size/workflow reasons. Cloud-service uploads and purchases retain their separate boundaries.
 
-## Intake receipt — SD-030
+## Intake receipt — SD-064
 
 - Source size: **290,725,664 bytes**.
 - SHA-256: `775b616e09569feedd8a390c5896cfba7bc5bd20d3a2c1d81b1004b2959a2bb1`.

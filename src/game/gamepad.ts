@@ -85,6 +85,7 @@ export function createControllerInput(options: {
   let lastTime: number | undefined;
   let animationFrame = 0;
   let disposed = false;
+  let needsNeutral = true;
   let connection: ControllerConnection = {
     status: 'waiting', kind: 'generic',
     message: 'Plug in a PlayStation controller, then press ✕ to connect.',
@@ -116,13 +117,18 @@ export function createControllerInput(options: {
       }
       if (pad?.connected) {
         const kind = controllerKind(pad.id);
-        if (activeIndex !== pad.index) lastPressed = false;
+        if (activeIndex !== pad.index) { lastPressed = false; needsNeutral = true; }
         activeIndex = pad.index;
         publish({ status: 'connected', kind, message: connectedMessage(kind) });
         const sample = sampleStandardController(pad);
         const pressed = sample?.advance ?? false;
-        // Never synthesize repeated actions from a held button.
-        if (!document.hidden && (options.isActive?.() ?? true)) {
+        const active = !document.hidden && (options.isActive?.() ?? true);
+        const neutral = !pressed && sample && Object.values(sample.camera).every(value => value === 0);
+        if (!active) needsNeutral = true;
+        if (active && neutral) needsNeutral = false;
+        // Never synthesize repeated actions or resume held movement after a
+        // pause, dialog, disconnect or mode change. Release to re-arm.
+        if (active && !needsNeutral) {
           if (pressed && !lastPressed) options.onAdvance();
           if (sample) options.onCamera(sample.camera, deltaSeconds);
         }
@@ -141,7 +147,8 @@ export function createControllerInput(options: {
   animationFrame = window.requestAnimationFrame(tick);
 
   return {
-    snapshot: () => ({ ...connection }),
+    snapshot: () => ({ ...connection, armed: !needsNeutral, advanceHeld: lastPressed }),
+    reset() { needsNeutral = true; },
     dispose() { disposed = true; window.cancelAnimationFrame(animationFrame); },
   };
 }

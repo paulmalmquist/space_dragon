@@ -17,6 +17,7 @@ import { createPlayerAvatar } from './player-avatar';
 import { createThirdPersonCamera } from './third-person-camera';
 import { copyExplorationState, createExplorationState, moveExploration, nearestInteraction, interact, INTERACTION_TARGETS } from './navigation';
 import type { ExplorationState, InteractionTarget } from './navigation';
+import type { CameraInput } from './gamepad';
 
 export interface NavigationInput { forward: number; right: number }
 export interface NavigationSnapshot {
@@ -44,6 +45,8 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   camera.inputs.removeByType('ArcRotateCameraKeyboardMoveInput');
   camera.wheelPrecision = 30;
   const follow = createThirdPersonCamera(scene);
+  let cameraAnchor = new Vector3(-3.3, 1.1, 0);
+  const cameraPan = new Vector3();
   scene.activeCamera = camera;
   const sky = new HemisphericLight('moonlight', new Vector3(0.2, 1, 0.4), scene);
   sky.intensity = 0.72;
@@ -309,7 +312,9 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       state = value;
       selected = target;
       const home = ['living-room', 'signal'].includes(state.phase);
-      camera.setTarget(home ? new Vector3(-3.3, 1.1, 0) : new Vector3(3.5, 1.1, 0));
+      cameraAnchor = home ? new Vector3(-3.3, 1.1, 0) : new Vector3(3.5, 1.1, 0);
+      if (changedPhase) cameraPan.setAll(0);
+      camera.setTarget(cameraAnchor.add(cameraPan));
       camera.radius = home ? 11 : 7;
       if (changedPhase) { camera.alpha = -Math.PI / 2.6; camera.beta = 1.05; }
       if (!navigationEnabled) podAsset?.setOpen(!['living-room', 'signal', 'backyard'].includes(state.phase));
@@ -375,6 +380,21 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       if (key === 'ArrowUp') camera.beta = Math.max(0.35, camera.beta - 0.08);
       if (key === 'ArrowDown') camera.beta = Math.min(1.45, camera.beta + 0.08);
     },
+    controlCamera(input: CameraInput, deltaSeconds: number) {
+      if (paused || navigationEnabled || !Number.isFinite(deltaSeconds) || deltaSeconds <= 0) return;
+      const dt = Math.min(deltaSeconds, 0.05);
+      camera.alpha += input.lookX * 1.8 * dt;
+      camera.beta = Math.max(0.35, Math.min(1.45, camera.beta + input.lookY * 1.25 * dt));
+      camera.radius = Math.max(5, Math.min(20, camera.radius - input.zoom * 5 * dt));
+      if (input.panX || input.panY) {
+        const rightAngle = camera.alpha + Math.PI / 2, speed = 3 * dt;
+        cameraPan.x += (Math.cos(rightAngle) * input.panX + Math.cos(camera.alpha) * input.panY) * speed;
+        cameraPan.z += (Math.sin(rightAngle) * input.panX + Math.sin(camera.alpha) * input.panY) * speed;
+        const distance = cameraPan.length();
+        if (distance > 2.5) cameraPan.scaleInPlace(2.5 / distance);
+        camera.target.copyFrom(cameraAnchor.add(cameraPan));
+      }
+    },
     snapshot: () => ({
       rendered, scene: 'first-contact', phase: state.phase, frames, paused, reducedMotion,
       pod: podAsset?.metrics ?? { loaded: false, error: assetError },
@@ -383,6 +403,8 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       triangles: scene.meshes.reduce((total, mesh) => total + mesh.getTotalIndices(), 0) / 3,
       renderer: `WebGL ${engine.webGLVersion}`,
       navigation: getNavigationSnapshot(),
+      camera: { alpha: camera.alpha, beta: camera.beta, radius: camera.radius,
+        target: { x: camera.target.x, y: camera.target.y, z: camera.target.z } },
     }),
     dispose() {
       window.removeEventListener('resize', resize);

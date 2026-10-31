@@ -23,3 +23,7 @@ v0.1's "keyboard/mouse and landscape touch are proposed first-release targets" a
 ## Verification status
 
 Controller plug-and-play behavior is **NOT TESTED**. Verify it on the actual computer, browser and Xbox controller, and record the result on a verification receipt, before claiming support.
+
+## October 30 addendum — PlayStation input
+
+The owner subsequently requested support for plugging in a PlayStation controller (SD-070). See [the controller decision](2026-10-30-playstation-controller.md). The First Contact prototype now has a standard-Gamepad-API adapter for PlayStation and Xbox button/camera input, with simulated browser tests. Keyboard remains primary. This implementation does not mean real-device plug-and-play was verified, nor does it introduce finished movement, combat or flight.

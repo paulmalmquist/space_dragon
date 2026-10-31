@@ -18,7 +18,7 @@ Begin environment production with a useful opening-scene area. Keep walls, doors
 
 The initial intake kept video and extracted imagery outside the runtime build. That Town Drive publication restriction is superseded by [SD-052](../../../../docs/decisions/2026-10-30-town-drive-detail-override.md): the real estimated layout and reference-derived runtime assets may be promoted without another privacy approval. Large source videos remain in local storage for size/workflow reasons. This does not authorize cloud-service uploads or purchases.
 
-## Intake receipt — SD-029
+## Intake receipt — SD-063
 
 - Source size: **63,243,077 bytes**.
 - SHA-256: `f7ef063b636d802eeb9e15d01c7569c213202f0b2e90a900c08e51e8f0a9e96f`.

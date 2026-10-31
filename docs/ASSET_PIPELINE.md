@@ -2,6 +2,8 @@
 
 The first asset milestone is one reviewed model that loads correctly in the actual browser scene. A polished pod or dragon component is a useful candidate; a Lyla pilot character remains the existing character-handoff proposal. This setup does not claim that any final model or rig exists.
 
+For external Seele deliveries, start at [seeles-assets](../seeles-assets/README.md). Its intake procedure preserves raw downloads, evaluates importing versus refactoring around a better environment, and then uses the source/export destinations below. Babylon is the current runtime; an evidence-backed runtime change must update this pipeline and the architecture together.
+
 ## Work locations
 
 Seele also supplies prototype games, starting with dragon dogfighting. [The prototype integration plan](engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](../seeles-assets/README.md) extend this asset process to source code, controls and mechanics. Keep raw deliveries separate, choose a bounded migration after inspection, and promote reviewed assets through the same source/export/runtime boundaries below.
@@ -19,7 +21,7 @@ Store a short receipt beside each candidate: stable asset ID, source `.blend` ve
 3. Name meshes, pivots, joints, and clips deliberately. Export only the intended collection to a fresh GLB. glTF uses its own coordinate conventions; review the exported orientation in the browser rather than adding an unexplained second axis conversion.
 4. Inventory and validate the original export with the commands below. Resolve missing textures and unexpected extensions before optimizing.
 5. Create a separate optimized candidate. Choose transformations for this asset's needs. Compare node names, hierarchy, clips, material appearance, file size, and load behavior before and after.
-6. Review in Babylon: scale, camera distances, materials, transparency, normals, shadows, animation transitions, interaction pivots, and assembly states. Save browser screenshots and measured results with the asset receipt.
+6. Review in the selected runtime (currently Babylon): scale, camera distances, materials, transparency, normals, shadows, animation transitions, interaction pivots, and assembly states. Save browser screenshots and measured results with the asset receipt.
 
 Blender's exporter supports recognized glTF materials and animations rather than every Blender shader or simulation. Bake or re-create unsupported effects deliberately and compare the result. The [Blender glTF development manual](https://docs.blender.org/manual/en/dev/addons/scene_gltf2.html) describes current export behavior; inspect the installed Blender version's options during the first real export because development documentation can include newer features.
 

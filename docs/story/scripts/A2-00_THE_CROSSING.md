@@ -1,6 +1,6 @@
 # Script — A2-00 to A2-02: The Crossing, Arrival and the Last Beacon
 
-**Status:** PROPOSED draft, following [Act II](../ACT_II_ANSWER_THE_CALL.md) Movements 1–2 and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).  
+**Status:** PROPOSED draft, following [Act II](../ACT_II_ANSWER_THE_CALL.md) Movements 1–2 and the [music doc](../MUSIC_EMPATHY_AND_PACING.md). Conventions follow [First Contact](A1-00_FIRST_CONTACT.md).
 **Resumes from:** `cp_act2_start` ([The Answer](A1-07_THE_ANSWER.md)).
 
 | | |
@@ -9,7 +9,8 @@
 | Reveal | **The stowaway** |
 | New world rule | **Sound paints color** |
 | New cast | **The Caller** (design and name OPEN) |
-| Seeds | The Hush on the horizon, and the bedtime story "The Hush keeps the rests" |
+| Seeds | The Hush on the horizon, Morrow's gold line through the Quiet, and **the Old Song** |
+| Language | Everyone speaks English. The suits are why, said once ([language](../LANGUAGE_AND_TRANSLATION.md)) |
 
 ---
 
@@ -114,7 +115,13 @@ The ripple grows. The kids are in heaven.
 >
 > MARIA: "Maybe it's shy."
 
-**[STATE]** `hush_glimpse_1 = true` → **[SAVE cp_a2_arrived]**
+**[CINE]** Lyla's visor flickers. Across everything she can see, the rocks, the far worlds, the grey sky, runs **one thin gold line**, perfectly straight, leading off toward something too far away to see. **[MUSIC]** Under the Quiet's muffle, very low, a single held note that never changes. It's the same hum the family heard inside the static in the living room.
+
+> LYLA: "Line."
+>
+> CORE (very quietly): "...Don't follow that one."
+
+**[STATE]** `hush_glimpse_1 = true`, `morrow_line_seen = true` → **[SAVE cp_a2_arrived]**
 
 ---
 
@@ -134,7 +141,7 @@ They turn, see five people and a dragon at the window… and **stop singing**. T
 
 The Caller sways, and their eyes start to droop. Then Luna squeals "HI!", and the Caller blinks wide awake. **The family's noise is holding the Quiet back now.** For the first time in ages, the Caller can rest their voice.
 
-> CALLER (voice cracking, through the Core's translation): "…Someone came?"
+> CALLER (voice cracking): "…Someone came?"
 >
 > PAUL: "We heard you."
 >
@@ -148,11 +155,31 @@ The Caller sways, and their eyes start to droop. Then Luna squeals "HI!", and th
 
 ### What happened
 
-**[CINE]** The Caller explains, with the Core translating in short sentences and the crystal projecting pictures. There's no reading, and the pictures carry it all:
+**[CINE]** Luke has been frowning at something.
+
+> LUKE: "Wait. How can we understand you?"
+>
+> CALLER (just as puzzled): "...How can I understand *you*?"
+>
+> MARIA (tapping the cuff of her suit): "I think it's these."
+>
+> LUKE: "Cool."
+
+That's the only time anyone asks ([language](../LANGUAGE_AND_TRANSLATION.md)).
+
+> CALLER (three rising notes, a little shy): "Fair lanes, then!"
+>
+> LUKE: "What's fair lanes?"
+>
+> CALLER: "It means hello. And good luck. And… be safe out there."
+>
+> LUKE: "Fair lanes!"
+
+Then the Caller explains, the crystal projecting pictures. There's no reading, and the pictures carry it all:
 - **"Our worlds run on song."** The star-dragons sing lanes between the worlds, and ships ride them like currents. The music keeps everything bright and moving.
 - **"Where I'm from, everybody travels."** Pictures of Viera: a planet ringed with ships, and people always leaving. *"Everybody except me. I'm not old enough yet."*
-- **"Then came the Quiet."** Color drained, songs stopped, and everyone fell into a deep, glowing sleep. That includes the star-dragons, and the Caller's own family, somewhere on Viera.
-- **"Anyone here falls asleep. Even me, if I stop singing."** That's why the Caller never stopped.
+- **"Then came the Long Note."** One note, held, louder and longer than everything, until nothing else could be heard. Everyone stopped where they stood, glowing faintly, not asleep exactly: *held*. That includes the star-dragons, and the Caller's own family, somewhere on Viera.
+- **"Anyone here gets held. Even me, if I stop singing."** That's why the Caller never stopped. Their own singing was the only thing between them and the note.
 - **"So the shipwrights built a dragon like theirs,"** from their shed scales, the living material. "And sent it to **anyone who could still hear.**" Not to anyone in particular, just *anyone*.
 - **"Please. Wake the dragons. If they sing again, the lanes light up, and the song comes back."**
 
@@ -169,7 +196,15 @@ The Caller sways, and their eyes start to droop. Then Luna squeals "HI!", and th
 The Caller digs in a drawer and comes back with **five small books**, empty.
 
 > CALLER: "Lane books. Every traveler has one. You get a mark for every world you reach." *(stamping the first page of each)* "That's your home's mark. You've already been somewhere!"
+
+The stamp is the **symbol** from the first transmission in the living room: a small circle with a line curving back into it.
+
+> LUKE: "That's the shape from our computer!"
 >
+> CALLER: "It's the Heartnote. The note every song comes home to. Every traveler carries it."
+
+Lyla's visor chimes: it's the same symbol as her very first archive card. *Ding.*
+
 > LUKE: "What's in yours?"
 >
 > CALLER (showing it, empty): "…Nothing yet."
@@ -180,11 +215,11 @@ The Caller digs in a drawer and comes back with **five small books**, empty.
 
 > NEIGHBOR (stepping forward with her clipboard): "Excuse me. Are you in charge here?"
 >
-> CALLER: "…I'm the only one awake?"
+> CALLER (looking around the empty tower): "…I'm the only one awake?"
 >
 > NEIGHBOR: "Then I'd like to file a complaint."
 >
-> CALLER (to the Core): "What is a complaint?"
+> CALLER (puzzled, to Luke): "What is a complaint?"
 >
 > NEIGHBOR: "It's — when something is bothering you, and you tell someone, so it can be fixed."
 >
@@ -194,21 +229,36 @@ The Caller digs in a drawer and comes back with **five small books**, empty.
 
 She puts the clipboard down. It's the first crack in her armor.
 
-### The bedtime story (Hush seed)
+### The Old Song (Morrow and the Hush)
 
 **[CINE]** That night, in the tower. The kids are curled up on blankets, and the Caller finally rests their voice while the family hums the SOS for them in turns (**[PLAY, optional]**: the player can hum along by tapping on the beat).
 
-The Caller tells a bedtime story, an old one, with pictures in the crystal:
+Then the Caller tells the oldest story there is, the one every Vieran child knows, with pictures in the crystal. **[MUSIC]** The Caller's lone whistle, and underneath it, the held note.
 
-> CALLER: "A long time ago, every song had little spaces in it. Rests. Quiet places to catch your breath. *The Hush keeps the rests,* the grown-ups used to say. And when the dragons got tired, they'd sleep in the Hush's quiet, and wake up ready to sing again."
+The full text is in the [villain arc](../VILLAIN_ARC.md) §4. In short, as the crystal shows it:
+- The Lanemother sings the first road. Her firstborn hatches in the first morning, and she names him **Morrow**, because he is tomorrow.
+- She gives him the **Heartnote** to carry, so travelers will always know the way back. He carries the first five travelers, and they steer by his light.
+- The travelers go farther and farther and come home less and less. Morrow watches them go.
+- *"I was the first. I was chosen. They should not leave me."* He closes his jaws on the Heartnote and holds it. Everything stops. A third of the roads go dark in a single night.
+- The Lanemother won't fight her child with fire. She gives him a rest: **the Hush** wraps him round, and he sleeps.
+- The travelers make a garden over him and rest there before every journey, so the rest will hold.
+- *"And then they forgot why."*
+
+> LUKE (sleepy): "Why did they forget?"
 >
-> LUKE (sleepy): "What happened to the Hush?"
+> CALLER: "It was such a long time ago. And everyone was in such a hurry."
 >
-> CALLER: "…I don't know. It's just a story."
+> LUKE: "...Is he awake now?"
+>
+> CALLER (after a long time): "Can't you hear him?"
 
-Lyla's visor, half-closed, records it. *Ding.* It goes into the archive and can be replayed.
+Everyone goes quiet. Under the Quiet, the single held note goes on and on.
 
-**[STATE]** `story_hush_keeps_rests = true`
+> MARIA (gathering the kids in): "That's enough story for tonight."
+
+Lyla's visor, half-closed, records it. *Ding.* It goes into the archive and can be replayed. Its card shows one straight line that never ends.
+
+**[STATE]** `story_old_song = true`
 
 ### The first voyage
 

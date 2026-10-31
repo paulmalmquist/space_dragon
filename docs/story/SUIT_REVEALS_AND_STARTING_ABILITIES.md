@@ -1,7 +1,7 @@
 # Suit Reveals and Starting Abilities
 
-**Date:** October 28, 2026  
-**Status:** PROPOSED scene and ability treatment for owner review. It expands Act I scene A1-02 "Five suits".  
+**Date:** October 28, 2026
+**Status:** PROPOSED scene and ability treatment for owner review. It expands Act I scene A1-02 "Five suits".
 **Authority:** [Act I](ACT_I_BUILD_THE_DRAGON.md) remains canon. This document builds on the [Act I refinements](ACT_I_CRITIQUE_AND_REFINEMENTS.md): suits that form around a helpful action (§3.3), and the owner's idea that the material is alive (§3.4, pending confirmation as canon).
 
 ## Canon this document must keep
@@ -49,6 +49,7 @@ The Core projects  → LYLA asks "why?"        → her visor records everything 
 - **Retracted state:** when the suit isn't needed, it shrinks to a **cuff** on the wrist, like a bracelet that pulses gently. This solves "do they wear suits to the store?" Suiting up is a tap on the cuff.
 - **Mood glow:** the seam light brightens when the wearer is excited and dims when they're sleepy. This is **presentation only**, never health or progress state.
 - **Kids' proportions:** the suits fit the kids' real bodies. No muscle sculpting and no adult silhouettes on children.
+- **Why everyone understands everyone (owner direction):** the game is in English, and off Earth the suits are the reason the family understands everyone and is understood. It's a one-line hand-wave, not an ability, with no button or meter. See [language](LANGUAGE_AND_TRANSLATION.md).
 
 ---
 

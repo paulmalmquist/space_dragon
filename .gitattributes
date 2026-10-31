@@ -28,3 +28,5 @@ public/assets/drive/sky/*.env binary
 
 # Runtime license bytes are registered in the asset manifest on every platform.
 public/assets/drive/pedestrians/*.txt text eol=lf
+# Small synthesized preview sounds are regular Git binary blobs; other WAV masters use Git LFS.
+assets/game/audio/starter/*.wav -filter -diff -merge -text

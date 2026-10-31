@@ -2,9 +2,9 @@
 
 **Latest campaign/party constraint (October 30):** [CAMPAIGN_STRUCTURE.md](CAMPAIGN_STRUCTURE.md) preserves Earth suit-assisted recovery/dragon assembly and sets the later 25-mission route ending in relocation to Viera. Mission parties have at most three family members, with one controlled leader and a designated mostly autonomous sidekick/button. The cast remains five; older full-family playable set pieces must be restaged to respect the cap. Six-part treatment details below do not fix the Earth mission count.
 
-**Version:** 0.1  
-**Date:** October 28, 2026  
-**Owner:** Paul Malmquist  
+**Version:** 0.1
+**Date:** October 28, 2026
+**Owner:** Paul Malmquist
 **Status:** current narrative baseline with explicitly labeled treatment proposals; documentation only.
 
 > The equipment was sent deliberately. Where it landed—and who found it—was the accident.
@@ -237,6 +237,10 @@ Preserve the planned `/space-dragon` route and existing homepage. Keep the [Blen
 - Final number and order of retrieval missions, component-to-location assignments, and fictional location names.
 - The neighbor's fictional identity, the source of her technology, and her role beyond Act I.
 - The production milestone that should be built first and the exact transition into Act II.
+
+### Answered since
+
+- **Who sent the SOS and what threatened them:** the owner confirmed that a villain is the reason for the SOS ([decision](../decisions/2026-10-30-villain-is-the-reason-for-the-sos.md)) and approved [Morrow, the Long Note](VILLAIN_ARC.md). The senders are the people of Viera ([three-act decision](../decisions/2026-10-29-three-acts-linear-and-viera.md)).
 
 ### Related proposals (not canon)
 
