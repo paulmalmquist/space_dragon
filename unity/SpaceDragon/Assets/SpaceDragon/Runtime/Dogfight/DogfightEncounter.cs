@@ -104,12 +104,17 @@ namespace SpaceDragon.Dogfight
 
         public bool UseAuthoredArmor;
         public bool UseOrganicDragon;
+        public DragonRigProfile MeasuredDragonProfile;
+        public TextAsset DragonAttribution;
+        public string DragonTextureMode="source";
+        public Transform ImportedDragon => model;
+        public string DragonProfileId => !string.IsNullOrEmpty(MeasuredDragonProfile?.id) ? MeasuredDragonProfile.id : UseOrganicDragon ? "violet-organic-15" : "mechanical-9";
 
         void Start()
         {
             if(playerRoot==null || model==null || tuning==null || gameCamera==null) { Debug.LogError("Dogfight scene is missing generated references"); enabled=false;return; }
             Tactics=new TacticalState(tuning); Flight=new FlightState(FlightSettings); Breath=new BreathState(); salvage=new SalvageField(tuning);
-            presentation=gameObject.AddComponent<DragonPresentation>(); presentation.Configure(visualMotion,model,flightClip,glideClip,boostClip,UseAuthoredArmor,UseOrganicDragon);
+            presentation=gameObject.AddComponent<DragonPresentation>(); presentation.Configure(visualMotion,model,flightClip,glideClip,boostClip,UseAuthoredArmor,UseOrganicDragon,MeasuredDragonProfile);
             damageVfx=gameObject.AddComponent<DamageVfx>(); damageVfx.Configure(playerRoot,presentation);
             sound=gameObject.AddComponent<DogfightAudio>(); sound.Configure(roarClip,breathClip,blastClip,metalClip,surgeClip);
             var hud=gameObject.AddComponent<DogfightHud>(); hud.Configure(this);
@@ -505,12 +510,20 @@ namespace SpaceDragon.Dogfight
 
         [Serializable] sealed class Snapshot
         {
-            public string scene="Unity Dogfight",engine="Unity",version="tactical-v1",word,breathPhase,breathStage,lockState,lockedTarget,warning,toast,graphics,device,animation,audio,modelName;
+            public string scene="Unity Dogfight",engine="Unity",version="tactical-v1",word,breathPhase,breathStage,lockState,lockedTarget,warning,toast,graphics,device,animation,audio,modelName,rigProfile;
             public bool paused,dead,won,mouseAim,sound,repairing,selector,authoredClips,organicRig,boosting,beam,fixture,muzzleAttached,windupActive,lastPlasmaRecorded;
             public float elapsed,hull,propulsion,weapons,speed,boostEnergy,evasion,lockProgress,breathLockProgress,aimX,aimY,rechargeProgress,rechargeSeconds,repairProgress,fov,cameraTrailingDistance,flightWeight,glideWeight,boostWeight,frameMeanMs,frameP95Ms,textureAllocatedMiB;
             public int breathLockedCount;
             public int salvage,repairsRemaining,repairsCompleted,repairsInterrupted,missileCharges,missilesLaunched,missileHits,launchAttempts,rejectedLaunches,shotsFired,ordinaryHits,kills,pickups,damageHits,collisionHits,rolls,breaks,letterIndex,breathsFired,breathsResolved,missilesActive,boltsActive,particles,patches,drones,frameSamples,width,height,addedArmorTriangles;
             public long drawCalls,renderTriangles;public Vector3 position,forward,muzzle,muzzleScreen,windupOrigin,beamOrigin,beamCoreOrigin,lastPlasmaOrigin,lastPlasmaMuzzle;public EnemySnapshot[] enemies;public SalvageSnapshot[] debris;
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+            public string skinWeightsStatus,runtimeQualitySkinWeights;
+            public int maxMeshInfluences,skinnedMeshCount,unreadableSkinMeshes;
+            public long totalPositiveInfluences; public bool allRendererQualityAuto;
+            public string textureMode;public bool supportsBc7;
+            public int modelTextureCount,modelBc7TextureCount,modelOtherTextureCount,modelTexturesReadableCount;
+            public long modelTextureAllocatedBytes;public string[] modelTextureFormats;
+#endif
         }
         [Serializable] sealed class EnemySnapshot {public string id;public float health,distance,screenX,screenY,screenZ,threat;public bool dead;public Vector3 position;}
         [Serializable] sealed class SalvageSnapshot {public string id;public Vector3 position;public float distance,screenX,screenY;}
@@ -535,12 +548,22 @@ namespace SpaceDragon.Dogfight
                 salvage=Tactics.Salvage,repairsRemaining=Tactics.RepairsRemaining,repairsCompleted=Tactics.RepairsCompleted,repairsInterrupted=Tactics.RepairsInterrupted,missileCharges=Tactics.MissileCharges,missilesLaunched=Tactics.MissilesLaunched,missileHits=missileHits,launchAttempts=launchAttempts,rejectedLaunches=rejectedLaunches,shotsFired=shotsFired,ordinaryHits=ordinaryHits,kills=enemiesDestroyed,pickups=pickups,damageHits=damageHits,collisionHits=collisionHits,rolls=Flight.RollSerial,breaks=Flight.BreakSerial,letterIndex=Breath.LetterIndex,breathsFired=Breath.BurstsFired,breathsResolved=Breath.BurstsResolved,missilesActive=missiles.Count,boltsActive=bolts.Count,
                 particles=damageVfx.ActiveParticles,patches=damageVfx.PatchCount,drones=damageVfx.VisibleDrones,animation=presentation.ActiveState,flightWeight=presentation.FlightWeight,glideWeight=presentation.GlideWeight,boostWeight=presentation.BoostWeight,audio=sound.CueStatus,
                 frameSamples=frameCount,frameMeanMs=frameCount>0?total/frameCount:0,frameP95Ms=frameCount>0?frames[Mathf.Min(frameCount-1,(int)(frameCount*.95f))]:0,width=Screen.width,height=Screen.height,drawCalls=draws.Valid?draws.LastValue:-1,renderTriangles=triangles.Valid?triangles.LastValue:-1,textureAllocatedMiB=textureBytes/1048576,addedArmorTriangles=presentation.AddedTriangles,
-                position=Flight.Position,forward=Flight.Forward,muzzle=Muzzle,modelName=model.name,muzzleAttached=presentation.MuzzleTransform!=null,muzzleScreen=gameCamera.WorldToViewportPoint(Muzzle),
+                position=Flight.Position,forward=Flight.Forward,muzzle=Muzzle,modelName=model.name,rigProfile=presentation.RigProfile,muzzleAttached=presentation.MuzzleTransform!=null,muzzleScreen=gameCamera.WorldToViewportPoint(Muzzle),
                 windupActive=windupOrb!=null&&windupOrb.gameObject.activeSelf,windupOrigin=windupOrb!=null?windupOrb.position:Vector3.zero,
                 beamOrigin=beam!=null&&beam.enabled&&beam.positionCount>0?beam.GetPosition(0):Vector3.zero,
                 beamCoreOrigin=beamCore!=null&&beamCore.enabled&&beamCore.positionCount>0?beamCore.GetPosition(0):Vector3.zero,
                 lastPlasmaRecorded=lastPlasmaRecorded,lastPlasmaOrigin=lastPlasmaOrigin,lastPlasmaMuzzle=lastPlasmaMuzzle,
                 enemies=new EnemySnapshot[enemies.Count],debris=new SalvageSnapshot[salvage.Items.Count]};
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+            var skinEvidence=presentation.SkinWeights;
+            s.skinWeightsStatus=skinEvidence.status; s.runtimeQualitySkinWeights=skinEvidence.runtimeQualitySkinWeights;
+            s.maxMeshInfluences=skinEvidence.maxMeshInfluences; s.skinnedMeshCount=skinEvidence.skinnedMeshCount;
+            s.unreadableSkinMeshes=skinEvidence.unreadableSkinMeshes; s.totalPositiveInfluences=skinEvidence.totalPositiveInfluences;
+            s.allRendererQualityAuto=skinEvidence.allRendererQualityAuto;
+            var textureEvidence=presentation.Textures;s.textureMode=DragonTextureMode;s.supportsBc7=textureEvidence.supportsBc7;
+            s.modelTextureCount=textureEvidence.count;s.modelBc7TextureCount=textureEvidence.bc7Count;s.modelOtherTextureCount=textureEvidence.otherCount;
+            s.modelTexturesReadableCount=textureEvidence.readableCount;s.modelTextureAllocatedBytes=textureEvidence.allocatedBytes;s.modelTextureFormats=textureEvidence.formats;
+#endif
             for(int i=0;i<enemies.Count;i++){var e=enemies[i];Vector3 p=gameCamera.WorldToViewportPoint(e.Position);s.enemies[i]=new EnemySnapshot{id=e.Id,health=e.Health,dead=e.Dead,position=e.Position,distance=Vector3.Distance(e.Position,Flight.Position),screenX=p.x,screenY=1-p.y,screenZ=p.z,threat=e.TargetProgress};}
             for(int i=0;i<salvage.Items.Count;i++){var item=salvage.Items[i];Vector3 p=gameCamera.WorldToViewportPoint(item.Position);s.debris[i]=new SalvageSnapshot{id=item.Id,position=item.Position,distance=Vector3.Distance(item.Position,Flight.Position),screenX=p.x,screenY=1-p.y};}
             return JsonUtility.ToJson(s);

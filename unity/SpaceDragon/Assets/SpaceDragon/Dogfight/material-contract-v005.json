@@ -1,0 +1,688 @@
+{
+  "schemaVersion": 1,
+  "note": "Oscar candidate plus unchanged drone. Older material contracts remain rollback.",
+  "models": [
+    {
+      "file": "dragon-oscar-v001.glb",
+      "sha256": "7c9ed83fef05fc1d2b3bf868e44f5893742dad1682d2368c78ca24acd1ed3292",
+      "materials": [
+        {
+          "index": 0,
+          "name": "OscarGame_CUERNOS_1036.001_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 1,
+          "name": "OscarGame_CUERNOS2_1026.001_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 2,
+          "name": "OscarGame_DIENTES_ABAJO_1006.001_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 3,
+          "name": "OscarGame_DIENTES_ARRIBA_1016.001_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 4,
+          "name": "OscarGame_CUERPO_1031_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 5,
+          "name": "OscarGame_CUERPO_1032_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 6,
+          "name": "OscarGame_CUERPO_1034_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 7,
+          "name": "OscarGame_CUERPO_1003_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 8,
+          "name": "OscarGame_CUERPO_1002_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 9,
+          "name": "OscarGame_CUERPO_1013_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 10,
+          "name": "OscarGame_CUERPO_1011.001_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 11,
+          "name": "OscarGame_CUERPO_1014_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 12,
+          "name": "OscarGame_CUERPO_.002_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 13,
+          "name": "OscarGame_CUERPO_1012_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 14,
+          "name": "OscarGame_CUERPO_1024_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 15,
+          "name": "OscarGame_CUERPO_1022_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 16,
+          "name": "OscarGame_CUERPO_1004_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 17,
+          "name": "OscarGame_CUERPO_1021_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": false,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 18,
+          "name": "OscarGame_CUERPO_1023_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 19,
+          "name": "OscarGame_CUERPO_1035_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 20,
+          "name": "OscarGame_CUERPO_1033_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 21,
+          "name": "OscarGame_CUERPO_1015.001_512",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 22,
+          "name": "OscarGame_CUERPO_1025.001_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 23,
+          "name": "OscarGame_EYE_DRAGIO_1001_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 24,
+          "name": "OscarGame_EYE_DRAGIO2_1001_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            1,
+            1,
+            1
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            1,
+            1,
+            1
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        },
+        {
+          "index": 25,
+          "name": "OscarGame_LENGUA1_1005.001_1024",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1,
+          "metallicFactor": 1,
+          "roughnessFactor": 1,
+          "hasBaseColorMap": true,
+          "hasNormalMap": true,
+          "hasOcclusionMap": true
+        }
+      ]
+    },
+    {
+      "file": "drone.glb",
+      "sha256": "28fe73860616abc79c256c842ace570c839cf6212b3c0e92a1692942925e5407",
+      "materials": [
+        {
+          "index": 0,
+          "name": "Drone ceramic gunmetal",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1
+        },
+        {
+          "index": 1,
+          "name": "Amber reactor",
+          "hasEmissionStrength": true,
+          "sourceFactor": [
+            1,
+            0.27368420392192294,
+            0.0473684235292789
+          ],
+          "strength": 2.849999964237213,
+          "effectiveFactor": [
+            2.849999964237213,
+            0.7799999713897705,
+            0.13500000536441803
+          ],
+          "clearcoat": 0,
+          "normalScale": 1
+        },
+        {
+          "index": 2,
+          "name": "Machined silver edges",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1
+        },
+        {
+          "index": 3,
+          "name": "Engine black",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1
+        }
+      ]
+    }
+  ]
+}

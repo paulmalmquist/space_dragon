@@ -34,6 +34,14 @@ Routing receipt: **CONFIRMED · planned migration; guidance/handoff implemented.
 
 Tracking note: the historical local SD-062/063/064 aliases now map to canonical SD-083/084/085. Main retains canonical SD-062–071; see [the integration crosswalk](../docs/decisions/2026-11-01-unity-integration-identifiers.md). Original owner wording/dates remain intact.
 
+## October 31, 2026 (America/New_York) / November 1 UTC — supplied Oscar Creativo dragon baseline (SD-086)
+
+Source: owner, repo-attached chat. Exact wording:
+
+> "C:\Projects\space_dragon\free-dragon-character-3d-by-oscar-creativo" that 3d model should be our baseline. properly done
+
+Routing receipt: **CONFIRMED baseline selection / verified for the bounded Lenovo/Chrome integration**. [Decision](../docs/decisions/2026-11-01-oscar-dragon-baseline.md), [creator credit/provenance](../assets/source/dragons/oscar-creativo/README.md), [verification/history/gallery](../docs/reports/2026-11-01-oscar-dragon-baseline.md). Source/export/full-weight setup, 86 Unity tests, BC7 build and 11/11 cases on both WebGPU/WebGL2 pass; all six matched source/player views are REVIEWED. Lighting/material differences and HUD cropping remain; owner final quality/release approval remains open. Hosted CI and merge delivery are recorded by the resulting PR. Preserve the original package, v007/v005 rollback, creator credit and existing gameplay/save rules. Future art polish is separate from this completed baseline integration.
+
 <!-- Add your next thought here. No form required. -->
 
 ## Captured and connected

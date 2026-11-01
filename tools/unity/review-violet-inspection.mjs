@@ -12,7 +12,7 @@ import sharp from 'sharp';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const url = new URL(process.env.SPACE_DRAGON_DOGFIGHT_URL || 'http://127.0.0.1:5207/space-dragon-dogfight/');
 assert(['localhost', '127.0.0.1', '[::1]'].includes(url.hostname), 'Local player only.');
-assert(['http:', 'https:'].includes(url.protocol) && url.port === '5207', 'Use the existing local Dogfight review server on port 5207.');
+assert(['http:', 'https:'].includes(url.protocol), 'Serve the existing local Dogfight review player over HTTP.');
 const output = path.resolve(repo, process.argv[2] || 'artifacts/unity/violet-inspection');
 assert(output.startsWith(path.join(repo, 'artifacts') + path.sep), 'Keep review artifacts in this repository artifact directory.');
 const runId = new Date().toISOString().replace(/[:.]/g, '-');
@@ -28,7 +28,7 @@ const report = {runId, startedAt: new Date().toISOString(), url: url.href, viewp
     visualReview: 'PENDING: inspect silhouette, visible cap/triangle artifacts, scale relief, facial shape, membrane highlights and color differences manually.'},
   performanceScope: 'Stationary neutral-view wall-clock frame intervals after resetting measurement counters; not a natural combat benchmark, GPU time or endurance test.',
   limitations: ['Neutral Unity lights/reflection differ from the Blender EEVEE reference; camera matching is not pixel-equivalent lighting.',
-    'Source face remains stylized and visible foot/root caps may need another art pass; screenshots do not constitute owner approval.',
+    'Screenshots do not constitute owner art approval; identify asset-specific differences by inspecting the selected source and player.',
     'No human sound/comfort review or physical controller/mobile test is performed.'],
   views: [], artifacts: [], console: [], consoleErrors: [], pageErrors: [], externalRequests: [], requestFailures: []};
 const sha = body => createHash('sha256').update(body).digest('hex');
@@ -78,18 +78,27 @@ try {
   assert.equal(report.buildReceipt.result, 'Succeeded');
   assert.equal(report.buildReceipt.developmentBuild, true, 'Inspection mode requires a development player.');
   const requested = process.env.SPACE_DRAGON_DOGFIGHT_ASSET;
-  assert(!requested || ['heroic-v005', 'violet-v007'].includes(requested), 'Unknown selected asset.');
+  assert(!requested || ['heroic-v005', 'violet-v007', 'oscar-v001'].includes(requested), 'Unknown selected asset.');
   const intake = 'unity/SpaceDragon/Assets/SpaceDragon/Dogfight/';
   const available = await stat(path.join(repo, intake, 'asset-receipt-v004.json')).then(file => file.isFile()).catch(error => {
     if (error.code === 'ENOENT') return false; throw error;
   });
-  const organic = requested === 'violet-v007' || (!requested && available);
-  report.selectedAsset = organic ? 'violet-v007' : 'heroic-v005';
+  const oscarAvailable = await stat(path.join(repo, intake, 'asset-receipt-v005.json')).then(file => file.isFile()).catch(error => {
+    if (error.code === 'ENOENT') return false; throw error;
+  });
+  const oscar = requested === 'oscar-v001' || (!requested && oscarAvailable);
+  const organic = requested === 'violet-v007' || (!requested && !oscar && available);
+  report.selectedAsset = oscar ? 'oscar-v001' : organic ? 'violet-v007' : 'heroic-v005';
+  if (oscar) {
+    report.comparison.reference = 'artifacts/blender/oscar-dragon-v001/neutral.png';
+    report.comparison.sourceCamera.positionBlender = [10, -12, 6];
+    report.comparison.matchingCameraUnity.position = [-10, 6, 12];
+  }
   report.intakeVerification = JSON.parse(execFileSync(process.execPath,
-    [path.join(repo, 'tools/unity', organic ? 'prepare-violet-dragon.mjs' : 'prepare-heroic-dragon.mjs'), '--verify'],
+    [path.join(repo, 'tools/unity', oscar ? 'prepare-oscar-dragon.mjs' : organic ? 'prepare-violet-dragon.mjs' : 'prepare-heroic-dragon.mjs'), '--verify'],
     {cwd: repo, encoding: 'utf8', maxBuffer: 4*1024*1024}).trim());
-  report.modelContract = JSON.parse(await artifact(intake + (organic ? 'violet-contract-v007.json' : 'heroic-contract-v005.json')));
-  await artifact(intake + (organic ? 'asset-receipt-v004.json' : 'asset-receipt-v003.json'));
+  report.modelContract = JSON.parse(await artifact(intake + (oscar ? 'oscar-contract-v001.json' : organic ? 'violet-contract-v007.json' : 'heroic-contract-v005.json')));
+  await artifact(intake + (oscar ? 'asset-receipt-v005.json' : organic ? 'asset-receipt-v004.json' : 'asset-receipt-v003.json'));
   assert.equal(report.buildReceipt.sourceSha256, report.modelContract.sha256, 'Player must contain the selected model.');
   assert.equal(report.buildReceipt.dragonVersion || 'heroic-v005', report.selectedAsset);
   const served = await fetch(new URL('build-receipt.json', url), {signal: AbortSignal.timeout(15000)});
@@ -98,11 +107,20 @@ try {
   assert.deepEqual(report.servedBuildReceipt, report.buildReceipt, 'Served and local build identities must match.');
   await artifact('unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight/DogfightAssetInspection.cs');
   await artifact('tools/unity/review-violet-inspection.mjs');
-  if (organic) {
+  if (organic || oscar) {
     try {
       const reference = await artifact(report.comparison.reference);
       await writeFile(path.join(runOutput, 'blender-flight-final.png'), reference);
       report.comparison.referenceSha256 = sha(reference);
+      if (oscar) {
+        report.comparison.additionalReferences = [];
+        for (const view of ['front', 'side']) {
+          const relative = `artifacts/blender/oscar-dragon-v001/${view}.png`;
+          const bytes = await artifact(relative);
+          await writeFile(path.join(runOutput, `blender-${view}.png`), bytes);
+          report.comparison.additionalReferences.push({view, source: relative, sha256: sha(bytes)});
+        }
+      }
     } catch (error) {
       if (error.code !== 'ENOENT') throw error;
       report.limitations.push('The requested local Blender reference image was unavailable; no matching-image comparison can be claimed.');
@@ -129,7 +147,7 @@ try {
     await page.goto(viewUrl.href, {waitUntil: 'domcontentloaded', timeout: 180000});
     const ready = await waitState(state => state.mode === 'asset-inspection' && state.view === view && state.frameSamples > 2,
       'actual isolated inspection scene ready', 240000);
-    assert.equal(ready.model, organic ? 'DragonViolet.v007.Organic.Inspection' : 'DragonHeroic.v005.Authored.Inspection');
+    assert.equal(ready.model, oscar ? 'DragonOscar.v001.Authored.Inspection' : organic ? 'DragonViolet.v007.Organic.Inspection' : 'DragonHeroic.v005.Authored.Inspection');
     assert.equal(ready.modelTriangles, report.modelContract.instanceTriangles || report.modelContract.triangles);
     assert.equal(ready.combatActive, false); assert.equal(ready.savesWritten, false);
     assert.equal(ready.width, 1200); assert.equal(ready.height, 800);
@@ -137,7 +155,7 @@ try {
     assert(typeof ready.graphics === 'string' && ready.graphics && typeof ready.device === 'string' && ready.device, 'Actual renderer identity must be reported.');
     if (forceWebGL2) assert.equal(ready.graphics, 'OpenGLES3');
     if (view === 'blender-neutral') {
-      assert(pointDistance(ready.cameraPosition, {x: -10, y: 6, z: -12}) < .0001);
+      assert(pointDistance(ready.cameraPosition, {x: -10, y: 6, z: oscar ? 12 : -12}) < .0001);
       assert(pointDistance(ready.cameraTarget, {x: 0, y: .1, z: 0}) < .0001);
       assert.equal(ready.focalLength, 50);
       const expectedFov = Math.atan(24 / (2*50))*360/Math.PI;
@@ -165,9 +183,16 @@ try {
   }
   report.storage = {before: storageBefore, after: await page.evaluate(() => ({...localStorage}))};
   assert.deepEqual(report.storage.after, report.storage.before, 'Inspection must not change localStorage.');
-  const references = report.comparison.referenceSha256 ? '<figure><img src="blender-flight-final.png"><figcaption>Final Blender EEVEE reference; source lighting differs.</figcaption></figure>' : '';
-  const figures = report.views.map(view => `<figure><img src="${view.view}.png"><figcaption>${view.view} — actual Unity player</figcaption></figure>`).join('');
-  await writeFile(path.join(runOutput, 'index.html'), `<!doctype html><html lang="en"><meta charset="utf-8"><title>Space Dragon organic inspection</title><style>body{font:16px system-ui;background:#15151d;color:#eee;margin:24px}main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}figure{margin:0}img{width:100%}figcaption{padding:10px}a{color:#c9b3ff}</style><h1>Organic dragon inspection</h1><p>Actual build ${report.buildReceipt.createdUtc}; camera-matched comparison with different neutral lighting. Visual review and final art approval remain pending.</p><main>${references}${figures}</main><p><a href="report.json">Build identity, renderer, checks and limits</a></p></html>`);
+  const references = report.comparison.referenceSha256 ? '<figure><img src="blender-flight-final.png"><figcaption>Blender EEVEE reference; source lighting differs.</figcaption></figure>' : '';
+  const figures = report.views.map((view, index) => {
+    const reference = oscar && report.comparison.referenceSha256
+      ? index === 0 ? references : report.comparison.additionalReferences?.some(item => item.view === view.view)
+        ? `<figure><img src="blender-${view.view}.png"><figcaption>${view.view} — Blender EEVEE</figcaption></figure>` : ''
+      : '';
+    return reference + `<figure><img src="${view.view}.png"><figcaption>${view.view} — actual Unity player</figcaption></figure>`;
+  }).join('');
+  await writeFile(path.join(runOutput, 'index.html'), `<!doctype html><html lang="en"><meta charset="utf-8"><title>Space Dragon asset inspection</title><style>body{font:16px system-ui;background:#15151d;color:#eee;margin:24px}main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}figure{margin:0}img{width:100%}figcaption{padding:10px}a{color:#c9b3ff}</style><h1>${report.selectedAsset} inspection</h1><p>Actual build ${report.buildReceipt.createdUtc}; camera-matched comparison with different neutral lighting. Visual review and final art approval remain pending.</p><main>${oscar ? '' : references}${figures}</main><p><a href="report.json">Build identity, renderer, checks and limits</a></p></html>`);
+  await writeFile(path.join(output, 'index.html'), `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=runs/${runId}/index.html"><a href="runs/${runId}/index.html">Open the latest asset comparison</a>`);
 } catch (error) {
   report.fatal = String(error.stack || error); console.error(error);
   try {if (page && !page.isClosed()) await page.screenshot({path: path.join(runOutput, 'failure.png')});} catch { /* Keep the original failure. */ }

@@ -56,9 +56,15 @@ namespace SpaceDragon.Dogfight
             Transform boneRoot = presentation.Socket("Root") ?? model;
             for (int system = 0; system < 3; system++)
             {
-                anchors[system] = Object("Damage anchor: " + Systems[system], boneRoot).transform;
-                anchors[system].position = model.TransformPoint(positions[system]);
-                anchors[system].rotation = model.rotation;
+                var measured = presentation.DamageAttachment(system);
+                if (presentation.UsesMeasuredRig && measured == null)
+                    throw new InvalidOperationException("Measured dragon is missing its " + Systems[system] + " damage attachment.");
+                anchors[system] = Object("Damage anchor: " + Systems[system], measured != null ? measured : boneRoot).transform;
+                if (measured == null)
+                {
+                    anchors[system].position = model.TransformPoint(positions[system]);
+                    anchors[system].rotation = model.rotation;
+                }
                 scars[system] = MeshObject("Dark bent scales: " + Systems[system], anchors[system], plateMesh, darkMaterial).transform;
                 scars[system].localScale = new Vector3(.65f,.045f,.55f);
                 scars[system].localRotation = Quaternion.Euler(0,18,8);

@@ -1,0 +1,20 @@
+FREE DRAGON CHARACTER 3D BY Oscar Creativo
+By OSCAR CREATIVO (https://sketchfab.com/oscar_creativo)
+Source: https://sketchfab.com/3d-models/free-dragon-character-3d-by-oscar-creativo-443971c0f42a49e5bedc0bfe2b544407
+License: Creative Commons Attribution 4.0 International (https://creativecommons.org/licenses/by/4.0/)
+Character FREE DRAGON By Oscar Creativo All rights reserved www.oscarcreativo.co
+
+Space Dragon derivative modifications:
+- Separate candidate normalized to requested reference-pose span and centered on source root.x rest
+- Presentation rock omitted from candidate; original source retained
+- Unused nonancestor bones removed after weighted hierarchy audit; retained motion baked fullTRS at30Hz and deformation checked
+- All positive source skin influences retained and renormalized; full-weight deformation compared at1mm gate
+- Cloned UVs moved into0..1; supplied maps resized by head-weight priority, ORM packed with neutral AO
+- CUERPO_.002 uses inferred horn tile1036; nearest-surface context recorded and visual review remains required
+- Derived held Glide and1.15x Boost clips; measured attachment sockets added
+- Selected glTF export with every positive prepared skin influence across contiguous weight sets; scoped exporter epsilon removed and original method restored
+- FullTRS Flight and exact-time derived Glide/Boost; glTF tangent validation/repair where undefined
+
+Original source SHA-256: 5995203e4c99d683be82ce7157f6e3e40341f56d8de46ba9578f6d47123d8ea4
+Game candidate SHA-256: 7c9ed83fef05fc1d2b3bf868e44f5893742dad1682d2368c78ca24acd1ed3292
+No endorsement by the original creator is implied.

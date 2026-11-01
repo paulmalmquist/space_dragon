@@ -302,7 +302,9 @@ namespace SpaceDragon.Dogfight
         void DrawOverlay()
         {
             Fill(new Rect(0,0,width,height),new Color(.005f,.015f,.025f,.72f));
-            var r = new Rect(width/2-250,height/2-186,500,372); Panel(r,encounter.Dead?Red:Cyan,.98f);
+            bool hasCredit = encounter.DragonAttribution != null;
+            float panelHeight = hasCredit ? 500 : 372;
+            var r = new Rect(width/2-250,height/2-panelHeight/2,500,panelHeight); Panel(r,encounter.Dead?Red:Cyan,.98f);
             string heading = encounter.Dead?"DRAGON DISABLED":"FLIGHT PAUSED";
             Text(new Rect(r.x+20,r.y+24,r.width-40,40),heading,encounter.Dead?Amber:Cyan,overlayTitle);
             Text(new Rect(r.x+20,r.y+72,r.width-40,26),encounter.Dead?"Recovery simulation / restart to fly again":"Simulation, repair and recharge timers are stopped",Muted,center);
@@ -312,6 +314,15 @@ namespace SpaceDragon.Dogfight
             if (GUI.Button(new Rect(r.x+65,y+48,370,40),"REDUCED MOTION: "+(encounter.ReducedMotion?"ON":"OFF"),button)) encounter.SetReducedMotion(encounter.ReducedMotion?"false":"true");
             if (GUI.Button(new Rect(r.x+65,y+96,370,40),"RESTART ENCOUNTER",button)) encounter.RestartEncounter();
             Text(new Rect(r.x+30,r.y+325,r.width-60,26),"Local lab. Campaign progress and family saves stay separate.",Muted,small);
+            if (hasCredit)
+            {
+                Text(new Rect(r.x+25,r.y+363,r.width-50,22),"Free Dragon Character 3D by Oscar Creativo",Cyan,small);
+                Text(new Rect(r.x+25,r.y+386,r.width-50,22),"OSCAR CREATIVO · CC BY 4.0 · Modified for Space Dragon",Muted,small);
+                if (GUI.Button(new Rect(r.x+25,r.y+427,218,36),"ORIGINAL MODEL / CREDIT",button))
+                    Application.OpenURL("https://sketchfab.com/3d-models/free-dragon-character-3d-by-oscar-creativo-443971c0f42a49e5bedc0bfe2b544407");
+                if (GUI.Button(new Rect(r.x+257,r.y+427,218,36),"CC BY 4.0 LICENSE",button))
+                    Application.OpenURL("https://creativecommons.org/licenses/by/4.0/");
+            }
         }
         static void Fill(Rect r,Color c) { Color old=GUI.color; GUI.color=c; GUI.DrawTexture(r,Texture2D.whiteTexture); GUI.color=old; }
         void Text(Rect r,string value,Color c,GUIStyle style) { Color old=GUI.color; GUI.color=c; GUI.Label(r,value,style); GUI.color=old; }

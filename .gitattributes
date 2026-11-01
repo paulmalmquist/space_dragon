@@ -20,6 +20,9 @@
 *.mov filter=lfs diff=lfs merge=lfs -text
 *.glb filter=lfs diff=lfs merge=lfs -text
 *.ktx2 filter=lfs diff=lfs merge=lfs -text
+# Exact authored skin data used only by the Unity Oscar import verifier.
+unity/SpaceDragon/Assets/SpaceDragon/Dogfight/Editor/*.bytes filter=lfs diff=lfs merge=lfs -text
+unity/SpaceDragon/Assets/SpaceDragon/Dogfight/Imported/dragon-oscar-*-NOTICE.txt text eol=lf
 # Vendored decoder payload hashes must survive Windows/Linux checkouts byte-for-byte.
 public/assets/pod/decoder/* -text whitespace=cr-at-eol
 
@@ -54,3 +57,9 @@ unity/SpaceDragon/Assets/WebGLTemplates/TownDrive.meta whitespace=-blank-at-eol
 unity/SpaceDragon/Assets/WebGLTemplates/TownDrive/*.meta whitespace=-blank-at-eol
 # Small synthesized preview sounds are regular Git binary blobs; other WAV masters use Git LFS.
 assets/game/audio/starter/*.wav -filter -diff -merge -text
+
+# Scene-linked Oscar derivatives retain their exact serialized payload bytes.
+unity/SpaceDragon/Assets/SpaceDragon/Dogfight/Generated/OscarFullWeights/**/*.asset filter=lfs diff=lfs merge=lfs -text
+unity/SpaceDragon/Assets/SpaceDragon/Dogfight/Generated/OscarBC7/**/*.asset filter=lfs diff=lfs merge=lfs -text
+# Immutable Blender export receipt is hash-pinned with its original line endings.
+unity/SpaceDragon/Assets/SpaceDragon/Dogfight/oscar-export-receipt-v001.json -text whitespace=cr-at-eol

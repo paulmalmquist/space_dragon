@@ -48,14 +48,20 @@ try {
   # Match DogfightProject's selection exactly. Preserve the mechanical rollback
   # and fail on an explicitly requested but incomplete organic intake.
   $assetSelection = $env:SPACE_DRAGON_DOGFIGHT_ASSET
-  if (-not [string]::IsNullOrEmpty($assetSelection) -and $assetSelection -cne 'heroic-v005' -and $assetSelection -cne 'violet-v007') {
-    throw 'SPACE_DRAGON_DOGFIGHT_ASSET must be heroic-v005 or violet-v007.'
+  if (-not [string]::IsNullOrEmpty($assetSelection) -and $assetSelection -cne 'heroic-v005' -and $assetSelection -cne 'violet-v007' -and $assetSelection -cne 'oscar-v001') {
+    throw 'SPACE_DRAGON_DOGFIGHT_ASSET must be heroic-v005, violet-v007 or oscar-v001.'
   }
   $organicReceipt = Join-Path $projectPath 'Assets/SpaceDragon/Dogfight/asset-receipt-v004.json'
   $verifyOrganic = $assetSelection -ceq 'violet-v007' -or ([string]::IsNullOrEmpty($assetSelection) -and (Test-Path -LiteralPath $organicReceipt -PathType Leaf))
   if ($verifyOrganic) {
     & node tools/unity/prepare-violet-dragon.mjs --verify
     if ($LASTEXITCODE -ne 0) { throw 'Organic v007 intake verification failed. Preserve and prepare the measured candidate before invoking Unity.' }
+  }
+  $oscarReceipt = Join-Path $projectPath 'Assets/SpaceDragon/Dogfight/asset-receipt-v005.json'
+  $verifyOscar = $assetSelection -ceq 'oscar-v001' -or ([string]::IsNullOrEmpty($assetSelection) -and (Test-Path -LiteralPath $oscarReceipt -PathType Leaf))
+  if ($verifyOscar) {
+    & node tools/unity/prepare-oscar-dragon.mjs --verify
+    if ($LASTEXITCODE -ne 0) { throw 'Oscar v001 intake verification failed. Preserve and prepare its measured candidate before invoking Unity.' }
   }
   & node tools/unity/prepare-dogfight-audio-v002.mjs --verify
   if ($LASTEXITCODE -ne 0) { throw 'Dogfight audio v002 intake verification failed. Preserve and prepare the layered cues before invoking Unity.' }
