@@ -1,0 +1,134 @@
+{
+  "version": 4,
+  "id": "town-drive-reference-v004",
+  "units": "metres",
+  "runtimeUp": "+Y",
+  "sourceReceipt": "source-receipt.json",
+  "sourceReceiptSha256": "d0b64d190c95a303cf95146d8965013b58b34ccd03a3274f7ee581f76e342ab3",
+  "models": [
+    {
+      "id": "fan-palm",
+      "path": "Models/fan-palm-v004.glb",
+      "bytes": 6477064,
+      "sha256": "d1427d4929c5f2b396537ae945ce13214beedd18fa8c97c678f7eff4a9e0d293",
+      "nearNode": "FanPalm.LOD0",
+      "farNode": "FanPalm.LOD1",
+      "nearTriangles": 8592,
+      "farTriangles": 1548,
+      "sourceHeight": 7.538787103258073,
+      "sourceWidth": 4.469237804412842,
+      "sourceDepth": 4.366745710372925,
+      "nearBounds": {
+        "min": [
+          -2.3225302696228027,
+          -0.012798524461686611,
+          -2.2637436389923096
+        ],
+        "max": [
+          2.146707534790039,
+          7.525988578796387,
+          2.1030020713806152
+        ]
+      },
+      "farBounds": {
+        "min": [
+          -2.241244316101074,
+          -0.012728225439786911,
+          -2.2047369480133057
+        ],
+        "max": [
+          2.150041103363037,
+          7.470021724700928,
+          2.088628053665161
+        ]
+      },
+      "materials": 2,
+      "textures": 4,
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "extensionsRequired": []
+    },
+    {
+      "id": "royal-palm",
+      "path": "Models/royal-palm-v004.glb",
+      "bytes": 6339472,
+      "sha256": "c0fd3c14c26784b1e589979e8d112e097f11905227810217df7fd7bc54c8390f",
+      "nearNode": "RoyalPalm.LOD0",
+      "farNode": "RoyalPalm.LOD1",
+      "nearTriangles": 8864,
+      "farTriangles": 2192,
+      "sourceHeight": 8.78373274486512,
+      "sourceWidth": 7.331732749938965,
+      "sourceDepth": 7.676345109939575,
+      "nearBounds": {
+        "min": [
+          -3.6675472259521484,
+          -0.011749598197638988,
+          -3.753326416015625
+        ],
+        "max": [
+          3.6641855239868164,
+          8.77198314666748,
+          3.92301869392395
+        ]
+      },
+      "farBounds": {
+        "min": [
+          -3.584200620651245,
+          -0.01168489083647728,
+          -3.678772211074829
+        ],
+        "max": [
+          3.539238929748535,
+          8.764366149902344,
+          3.831519365310669
+        ]
+      },
+      "materials": 2,
+      "textures": 3,
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "extensionsRequired": []
+    },
+    {
+      "id": "clipped-hedge",
+      "path": "Models/clipped-hedge-v004.glb",
+      "bytes": 4224816,
+      "sha256": "70ae41f6ebce2087e4d384ea91c614392f2c5418bbbb5eed680913478a285e3d",
+      "nearNode": "ClippedHedge.LOD0",
+      "farNode": "ClippedHedge.LOD1",
+      "nearTriangles": 4452,
+      "farTriangles": 1136,
+      "sourceHeight": 1.5431553833186626,
+      "sourceWidth": 3.3791004419326782,
+      "sourceDepth": 1.5678826570510864,
+      "nearBounds": {
+        "min": [
+          -1.7229468822479248,
+          -0.004997801035642624,
+          -0.7699376344680786
+        ],
+        "max": [
+          1.6561535596847534,
+          1.53815758228302,
+          0.7979450225830078
+        ]
+      },
+      "farBounds": {
+        "min": [
+          -1.8730679750442505,
+          -0.0036816452629864216,
+          -0.912112832069397
+        ],
+        "max": [
+          1.774736762046814,
+          1.7129859924316406,
+          0.9800456166267395
+        ]
+      },
+      "materials": 2,
+      "textures": 6,
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "extensionsRequired": []
+    }
+  ],
+  "scope": "Selected Blender-authored runtime plants. Original videos and editable Blender sources are excluded. Placement remains a Unity presentation concern."
+}

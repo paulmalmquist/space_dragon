@@ -45,3 +45,8 @@ Town Drive owns scanned CC0 roof/stucco inputs in `Art/v002` and reproducible su
 ## Foliage, facades and cabin — v003
 
 Fuller authored palm crowns replace only visible source leaves at their existing anchors; original parts remain for rollback. Spatially batched facade trim and cabin microstructure are separate native derivatives. A single low-resolution rear-camera-style mirror captures at most six times per second, only in visible unpaused cabin view. Ten scene tests and expanded actual-player checks cover this increment; see [the v003 receipt](../../../../../docs/reports/2026-11-01-town-drive-foliage-cabin.md).
+
+
+## Reference-led road paint and Blender plants — v004
+
+The current authoring pass removes blanket residential stripes and replaces the remaining marked spans with thin connected ribbons. Three local Blender exports provide fan palms, feather palms and clipped hedge foliage, including a bounded hedge row along existing Hypoluxo walls. Prior imported geometry, v003 palm art, route data and collisions remain recoverable. `prepare-town-drive-reference.mjs --verify` checks the selected embedded runtime assets and their provenance; `.blend` masters and original video frames stay outside Unity Assets. Fourteen scene cases cover the combined scene. See [the v004 receipt](../../../../../docs/reports/2026-11-01-town-drive-reference-road-assets.md) for actual results and visual limitations.

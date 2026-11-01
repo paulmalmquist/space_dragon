@@ -99,6 +99,11 @@ namespace SpaceDragon.TownDrive.Editor
 
             var vegetation = new GameObject("TownDrive.Vegetation"); vegetation.transform.SetParent(world.transform, false);
             foreach (var plant in manifest.vegetationInstances) CreateVegetationPart(plant, instances[plant.assetId], vegetation.transform);
+            // These source hierarchies are used only by the Editor's ClonePart.
+            // Runtime plants already reference their own shared mesh subassets;
+            // retaining the hidden templates would also load superseded art.
+            foreach (var asset in manifest.assets.Where(asset => asset.kind == "vegetation"))
+                instances[asset.id].tag = "EditorOnly";
             var traffic = new[] { "traffic-sedan", "traffic-suv", "traffic-van" }.Select(id => instances[id]).ToArray();
             var parkedRoot = new GameObject("TownDrive.ParkedVehicles"); parkedRoot.transform.SetParent(world.transform, false);
             foreach (var parked in manifest.parkedVehicles)
@@ -143,6 +148,8 @@ namespace SpaceDragon.TownDrive.Editor
             ApplyGardenArt(world);
             ApplyFoliageArt(world);
             ApplyResidentialArt(world);
+            ApplyRoadArt(world);
+            ApplyReferenceArt(world);
             ConfigureLighting();
             var camera = new GameObject("TownDrive.Camera").AddComponent<Camera>();
             camera.tag = "MainCamera";
@@ -270,6 +277,8 @@ namespace SpaceDragon.TownDrive.Editor
         [Serializable] sealed class BuildReceipt
         {
             public string result, unityVersion, scene, output, target, manifestSha256, artSourceSha256, buildOptions;
+            public string webglMemoryGrowthMode, webglMemoryLimitScope;
+            public int webglInitialMemoryMiB, webglMaximumMemoryMiB;
             public bool developmentBuild, semanticReviewHooks;
             public ulong bytes; public double durationSeconds;
         }
@@ -287,13 +296,23 @@ namespace SpaceDragon.TownDrive.Editor
             Setup();
             using var pipelineScope = new TownDrivePipelineScope(AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(PipelinePath));
             string previousTemplate = PlayerSettings.WebGL.template;
+            int previousMaximumMemory = PlayerSettings.WebGL.maximumMemorySize;
             try
             {
                 if (target == BuildTarget.WebGL)
                 {
                     if (!File.Exists("Assets/WebGLTemplates/TownDrive/index.html")) throw new FileNotFoundException("The dedicated TownDrive web template is missing.");
+                    if (PlayerSettings.WebGL.memoryGrowthMode == WebGLMemoryGrowthMode.None)
+                        throw new BuildFailedException("Town Drive requires the existing WebGL heap growth mode; a fixed initial heap cannot use the scoped maximum.");
                     PlayerSettings.WebGL.template = "PROJECT:TownDrive";
+                    // Keep the shared initial allocation and growth policy. This
+                    // candidate may grow beyond the previous 512 MiB ceiling;
+                    // the ceiling is not an allocation or a memory-use claim.
+                    PlayerSettings.WebGL.maximumMemorySize = 1024;
                 }
+                int configuredInitialMemory = target == BuildTarget.WebGL ? PlayerSettings.WebGL.initialMemorySize : 0;
+                int configuredMaximumMemory = target == BuildTarget.WebGL ? PlayerSettings.WebGL.maximumMemorySize : 0;
+                string configuredGrowthMode = target == BuildTarget.WebGL ? PlayerSettings.WebGL.memoryGrowthMode.ToString() : "NotApplicable";
                 string folder = target == BuildTarget.WebGL ? output : Path.GetDirectoryName(output);
                 Directory.CreateDirectory(folder);
                 var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions { scenes = new[] { ScenePath }, target = target,
@@ -304,11 +323,20 @@ namespace SpaceDragon.TownDrive.Editor
                 File.WriteAllText(folder + "/town-drive-build-receipt.json", JsonUtility.ToJson(new BuildReceipt {
                     result = "Succeeded", unityVersion = Application.unityVersion, scene = ScenePath, output = output,
                     target = target.ToString(), bytes = report.summary.totalSize, durationSeconds = report.summary.totalTime.TotalSeconds,
+                    webglInitialMemoryMiB = configuredInitialMemory, webglMaximumMemoryMiB = configuredMaximumMemory, webglMemoryGrowthMode = configuredGrowthMode,
+                    webglMemoryLimitScope = target == BuildTarget.WebGL ? "TownDrive WebGL build ceiling only; not measured allocation or runtime usage." : "NotApplicable",
                     buildOptions = report.summary.options.ToString(), developmentBuild = actualDevelopment, semanticReviewHooks = actualDevelopment,
                     manifestSha256 = HashFile(ManifestPath), artSourceSha256 = HashFile(ArtInputs + "/provenance.json") }, true));
                 Debug.Log("SPACE_DRAGON_TOWN_DRIVE_BUILD_OK " + output);
             }
-            finally { if (target == BuildTarget.WebGL) PlayerSettings.WebGL.template = previousTemplate; }
+            finally
+            {
+                if (target == BuildTarget.WebGL)
+                {
+                    try { PlayerSettings.WebGL.maximumMemorySize = previousMaximumMemory; }
+                    finally { PlayerSettings.WebGL.template = previousTemplate; }
+                }
+            }
         }
     }
 }
