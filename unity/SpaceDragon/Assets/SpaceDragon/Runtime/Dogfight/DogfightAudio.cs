@@ -184,6 +184,13 @@ namespace SpaceDragon.Dogfight
                 case EnemyRole.Gunship: Play(tones["critical"],.5f,.70f);break;
             }
         }
+        public void PlayGasHiss(float gain)
+        {
+            if(!CanPlay||float.IsNaN(gain)||float.IsInfinity(gain))return;
+            // Spatial/rate eligibility belongs to the encounter. Reuse the
+            // existing breath recording within the bounded transient mixer.
+            Play(breath!=null?breath:tones["launch"],Mathf.Clamp01(gain),.85f);
+        }
         public void PlayBreathWindup()
         {
             if (!CanPlay) return;

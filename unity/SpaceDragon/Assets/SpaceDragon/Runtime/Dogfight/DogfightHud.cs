@@ -156,6 +156,12 @@ namespace SpaceDragon.Dogfight
                 }
                 else Diamond(p,5,color,1.5f);
             }
+            if(encounter.Tuning.EnableRockWeapons)foreach(var gas in encounter.GasPockets)
+            {
+                if(gas.Detonated)continue;var view=encounter.GameCamera.WorldToViewportPoint(gas.Position);
+                if(view.z<=0)continue;Vector2 point=ViewportPoint(view);Diamond(point,13,Amber,2);
+                Text(new Rect(point.x-40,point.y+16,80,22),"GAS",Amber,center);
+            }
             if (encounter.SalvageItems != null) foreach (var item in encounter.SalvageItems)
             {
                 var v = encounter.GameCamera.WorldToViewportPoint(item.Position);

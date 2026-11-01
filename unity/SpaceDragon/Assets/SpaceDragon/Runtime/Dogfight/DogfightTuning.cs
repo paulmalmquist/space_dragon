@@ -43,6 +43,8 @@ namespace SpaceDragon.Dogfight
         public int GasPocketCount = 4;
         public float RockShotNearRange = 160f, RockShotEvasionReward = 15f,
             GasEnemyRadius = 120f, GasPlayerRadius = 40f, GasEnemyDamage = 240f, GasPlayerDamage = 30f;
+        public float GasImpactTolerance = .5f, GasHissRange = 220f, GasHissInterval = 3f;
+        public float GasMarkerScale = 1.15f, GasMarkerOpacity = .55f, GasVentLength = .25f, GasVentPulseHz = 1.3f, GasHissGain = .16f;
         [Header("Word and repair upgrades")]
         public int BreathTargetCapacity = 3, RepairCodeLength = 3, RepairSumMaximum = 5;
         public int RepairDigitMaximum = 9;

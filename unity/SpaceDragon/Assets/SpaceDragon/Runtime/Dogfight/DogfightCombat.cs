@@ -27,6 +27,7 @@ namespace SpaceDragon.Dogfight
         void InitializeCombatUpgrades()
         {
             perfectRoll = new PerfectRollState(tuning);
+            rockWeapons=new RocksWeaponState(tuning);
             finisher = new ClawFinisherState(tuning);
             finisherFeedback = gameObject.AddComponent<FinisherFeedbackVfx>();finisherFeedback.Setup(visualMotion,tuning);
             waveState = new WaveState(tuning);
@@ -132,6 +133,7 @@ namespace SpaceDragon.Dogfight
         bool CombatQaFixture(string action)
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
+            if(SceneryQaFixture(action))return true;
             if(action=="finisher")
             {
                 fixtureQuiet=fixtureTarget=true;SpawnWave(new[]{EnemyRole.Fighter});ClearProjectiles();
