@@ -1,8 +1,8 @@
 # Unity production candidate beside the browser prototype
 
-**Date:** October 31, 2026 · **Tracking:** local SD-062 · **Authority:** CONFIRMED side-by-side production feasibility evaluation; later SD-072 confirms Unity forward production direction.
+**Date:** October 31, 2026 · **Tracking:** SD-083 (historical local SD-062) · **Authority:** CONFIRMED side-by-side production feasibility evaluation; later SD-072 confirms Unity forward production direction.
 
-**Later owner direction:** [SD-072 Unity alignment](2026-10-31-unity-channel-alignment.md) supersedes the candidate-only restriction for subsequent production work: use Unity/C# in the existing project, coordinated with its active writer. This decision retains the scope and evidence of the First Contact comparison. The owner selected the forward direction; the measurements do not establish an engine-quality winner or a completed whole-game migration. Babylon/Three.js remain behavior references and rollback. Local SD-062 and merged-main SD-062 have different source namespaces; preserve them until integration reconciliation.
+**Later owner direction:** [SD-072 Unity alignment](2026-10-31-unity-channel-alignment.md) supersedes the candidate-only restriction for subsequent production work: use Unity/C# in the existing project, coordinated with its active writer. This decision retains the scope and evidence of the First Contact comparison. The owner selected the forward direction; the measurements do not establish an engine-quality winner or a completed whole-game migration. Babylon/Three.js remain behavior references and rollback. The historical local SD-062 alias now maps to SD-083; main SD-062 remains Seele intake. See [the integration crosswalk](2026-11-01-unity-integration-identifiers.md).
 
 ## Request and interpretation
 

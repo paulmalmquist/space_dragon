@@ -1,6 +1,6 @@
 # Unity direction — original owner messages, October 31, 2026
 
-Preserved verbatim from chat. Routing and authority are recorded under SD-062 in the inbox and ledger. Supplied research claims are source text, not independent verification.
+Preserved verbatim from chat. Routing and authority are recorded under SD-083 in the inbox and ledger. Supplied research claims are source text, not independent verification.
 
 ## Message 1
 

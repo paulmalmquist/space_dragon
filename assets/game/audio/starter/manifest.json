@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-30",
+  "status": "PROCEDURAL PREVIEW; original synthesized cues, not professional packs; not auditioned or integrated",
+  "source": "tools/generate_sfx.mjs",
+  "audio_format": {
+    "container": "WAV",
+    "codec": "PCM signed 16-bit",
+    "channels": 1,
+    "sample_rate_hz": 32000
+  },
+  "third_party_samples_used": false,
+  "license_notice": "Original generated project cues. No Sonniss, BOOM or other third-party audio recordings were sampled or transferred.",
+  "game_runtime_status": "not integrated; src/game does not load these files, and assets/game is not public/Vite-served",
+  "tracks": [
+    {
+      "id": "sos_broken_signal",
+      "event_id": "sos.broken",
+      "category": "first-contact",
+      "duration_seconds": 3.2,
+      "file": "sos_broken_signal.wav",
+      "git_blob_sha": "f693bda16defd541b96636cc0544c9223b5fa88a",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "pod_entry",
+      "event_id": "pod.entry",
+      "category": "first-contact",
+      "duration_seconds": 3.4,
+      "file": "pod_entry.wav",
+      "git_blob_sha": "2122234fa9b576a534975d4f73436cdf0c87ee05",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "pod_impact",
+      "event_id": "pod.impact",
+      "category": "first-contact",
+      "duration_seconds": 2.2,
+      "file": "pod_impact.wav",
+      "git_blob_sha": "29c51237d82b87058e6c5ea5bd005fb9792ca68b",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "core_activation",
+      "event_id": "core.activate",
+      "category": "builder-core",
+      "duration_seconds": 2.3,
+      "file": "core_activation.wav",
+      "git_blob_sha": "f4a6536720926f8ad106ee5a47b96f385efdfab2",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "hologram_reveal",
+      "event_id": "core.hologram",
+      "category": "builder-core",
+      "duration_seconds": 1.9,
+      "file": "hologram_reveal.wav",
+      "git_blob_sha": "283df09e7a77e7e9ec0cb5c98fd4b6e8e7a1a5ac",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "suit_assemble",
+      "event_id": "suit.assemble",
+      "category": "suits",
+      "duration_seconds": 2.1,
+      "file": "suit_assemble.wav",
+      "git_blob_sha": "8ae651598c385a4a37092e7a63014b1dc47041a2",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "paul_pulse",
+      "event_id": "paul.pulse",
+      "category": "suits",
+      "duration_seconds": 1.6,
+      "file": "paul_pulse.wav",
+      "git_blob_sha": "033fb7684fab89e8b07908e446e2d49a87afa853",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "maria_heal",
+      "event_id": "maria.heal",
+      "category": "suits",
+      "duration_seconds": 2.3,
+      "file": "maria_heal.wav",
+      "git_blob_sha": "f45b2b7edeef6f39446f7248c500572a69f798c7",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "luke_web",
+      "event_id": "luke.web",
+      "category": "suits",
+      "duration_seconds": 1,
+      "file": "luke_web.wav",
+      "git_blob_sha": "92425dcd157b04f92f8b3a3628208524cf6bac38",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "luna_goo",
+      "event_id": "luna.goo",
+      "category": "suits",
+      "duration_seconds": 1.5,
+      "file": "luna_goo.wav",
+      "git_blob_sha": "899327ee798ff2dd63cdc9cf262a9c87b4263cfa",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "lyla_scan",
+      "event_id": "lyla.scan",
+      "category": "suits",
+      "duration_seconds": 1.8,
+      "file": "lyla_scan.wav",
+      "git_blob_sha": "5637ccffb9c43ecb145bc7b179d1c76cf7e1dd3d",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "dragon_awaken",
+      "event_id": "dragon.awaken",
+      "category": "dragon",
+      "duration_seconds": 3.5,
+      "file": "dragon_awaken.wav",
+      "git_blob_sha": "84aeb6bc305aafe4f29fd265b386dd4d9c4988a9",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "dragon_thruster",
+      "event_id": "dragon.thruster",
+      "category": "dragon",
+      "duration_seconds": 3,
+      "file": "dragon_thruster.wav",
+      "git_blob_sha": "5e60d306491958f49a9602f07e7038f589cdacee",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "dragon_cruise_loop",
+      "event_id": "dragon.cruise",
+      "category": "dragon",
+      "duration_seconds": 4.5,
+      "file": "dragon_cruise_loop.wav",
+      "git_blob_sha": "89c03ab0d8d64c68e047fea2e4cd92c9ef468379",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "combat_parry",
+      "event_id": "combat.parry",
+      "category": "combat",
+      "duration_seconds": 0.95,
+      "file": "combat_parry.wav",
+      "git_blob_sha": "9600dc5997cbe188f56db33a9cfd38a5843b086f",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    },
+    {
+      "id": "portal_open",
+      "event_id": "portal.open",
+      "category": "cinematics",
+      "duration_seconds": 3.7,
+      "file": "portal_open.wav",
+      "git_blob_sha": "f7af24fa3a5abd2cc2c2c0427c023fb57fa714c5",
+      "rights": "original_procedural",
+      "audition": "NOT TESTED",
+      "production_approved": false
+    }
+  ]
+}

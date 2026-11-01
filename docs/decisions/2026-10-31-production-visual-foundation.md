@@ -2,7 +2,7 @@
 
 **Date:** October 31, 2026 · **Tracking:** SD-061 / SD-VIS-001 · **Authority:** CONFIRMED browser-first visual direction and bounded local foundation assignment; broader roadmap details remain PROPOSED.
 
-**Later direction:** SD-062 authorizes the completed Unity comparison; [SD-072](2026-10-31-unity-channel-alignment.md) selects Unity/C# for subsequent production in the existing project. That later instruction supersedes this decision's engine deferral. The verified Babylon foundation remains a behavior/visual reference and rollback, with its original scoped evidence intact.
+**Later direction:** SD-083 authorizes the completed Unity comparison; [SD-072](2026-10-31-unity-channel-alignment.md) selects Unity/C# for subsequent production in the existing project. That later instruction supersedes this decision's engine deferral. The verified Babylon foundation remains a behavior/visual reference and rollback, with its original scoped evidence intact.
 
 ## Request and current evidence
 
@@ -24,7 +24,7 @@ This choice avoids duplicating the proven pod pipeline while giving the visual p
 
 ## Preserved decisions and boundaries
 
-- This increment remains in Babylon and leaves the [SD-037 isolated Three.js lab](2026-10-30-seele-dogfight-lab.md) working. SD-062 subsequently supplies a matched comparison and SD-072 selects Unity for forward work; neither result removes these references or proves their features have migrated.
+- This increment remains in Babylon and leaves the [SD-037 isolated Three.js lab](2026-10-30-seele-dogfight-lab.md) working. SD-083 subsequently supplies a matched comparison and SD-072 selects Unity for forward work; neither result removes these references or proves their features have migrated.
 - State, rewards, saves and controls remain independent of lighting, camera review and animation. Fixed review views do not grant story progress or items. Replaying presentation cannot duplicate rewards.
 - The living-room opening, accidental receipt of deliberately sent SOS equipment, backyard suits and recovered pre-existing dragon components remain canon. The source's complete dragon reveal and takeoff are future presentation proposals, not an added Earth reward or campaign departure.
 - The generic Earth room/yard stays a blockout. The supplied house footage's Town Drive use and SD-052 override remain intact; this bounded lighting task does not reconstruct the house or reopen that permission.

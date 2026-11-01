@@ -2,7 +2,7 @@
 
 ## Scope and artifact
 
-SD-074 continuation: [owner decision](../decisions/2026-10-31-unity-town-drive-scene.md). Task checkout `C:/Projects/space_dragon_unity_town_scene`, branch `feat/unity-town-drive-scene`, based on merged foundation `b6c82c5c00decf415c530dea822a1d19b101b202`. The shared live Unity project remains `C:/Projects/space_dragon/unity/SpaceDragon`; no competing project or Editor is created. The browser world is the unchanged SD-064 geometry/detail reference.
+SD-074 continuation: [owner decision](../decisions/2026-10-31-unity-town-drive-scene.md). Task checkout `C:/Projects/space_dragon_unity_town_scene`, branch `feat/unity-town-drive-scene`, based on merged foundation `b6c82c5c00decf415c530dea822a1d19b101b202`. The shared live Unity project remains `C:/Projects/space_dragon/unity/SpaceDragon`; no competing project or Editor is created. The browser world is the unchanged SD-085 geometry/detail reference.
 
 IMPLEMENTED and technically VERIFIED in the shared local project: generated scene, Development Web build and observed player behavior. Source comparison REVIEWED; human photorealism/comfort and APPROVED FOR RELEASE remain open. The remote target currently contains only the Town Drive module: shared Unity packages/settings, First Contact renderer and daylight HDR remain prerequisites owned by the concurrent Unity channel. This is an additive integration into that project, not a standalone Unity checkout.
 

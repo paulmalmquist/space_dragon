@@ -6,7 +6,7 @@ const nativeChrome = process.env.SPACE_DRAGON_NATIVE_CHROME === '1' && !process.
 
 export default defineConfig({
   testDir: './tests',
-  testMatch: ['first-contact.spec.ts', 'visual-foundation.spec.ts', 'navigation.spec.ts', 'dogfight.spec.ts', 'word-lock.spec.ts', 'cockpit.spec.ts', 'drive.spec.ts', 'drive-traffic.spec.ts', 'mechanical.spec.ts', 'asteroid-crash.spec.ts'],
+  testMatch: ['first-contact.spec.ts', 'visual-foundation.spec.ts', 'navigation.spec.ts', 'gamepad.spec.ts', 'dogfight.spec.ts', 'word-lock.spec.ts', 'cockpit.spec.ts', 'drive.spec.ts', 'drive-traffic.spec.ts', 'mechanical.spec.ts', 'asteroid-crash.spec.ts'],
   fullyParallel: false,
   workers: 1,
   timeout: process.env.CI ? 90_000 : 45_000,
@@ -17,6 +17,9 @@ export default defineConfig({
     browserName: 'chromium',
     ...(nativeChrome ? { channel: 'chrome' } : {}),
     viewport: { width: 1440, height: 1000 },
+    // Preserve CSS input coordinates; software-rendered CI uses fewer pixels.
+    // Native device measurements keep full resolution.
+    deviceScaleFactor: process.env.CI ? 0.5 : 1,
     hasTouch: true,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',

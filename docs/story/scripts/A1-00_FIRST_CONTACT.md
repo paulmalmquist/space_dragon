@@ -1,6 +1,6 @@
 # Script — A1-00 to A1-03: First Contact
 
-**Status:** PROPOSED draft production script. Dialogue, cues and IDs are placeholders.  
+**Status:** PROPOSED draft production script. Dialogue, cues and IDs are placeholders.
 **Sources:**
 - [Act I](../ACT_I_BUILD_THE_DRAGON.md): canon beats and the canon draft lines, marked ★.
 - [Suit reveals](../SUIT_REVEALS_AND_STARTING_ABILITIES.md): the full reveal beats, which aren't repeated here.
@@ -67,7 +67,13 @@ At **T-minus 3** the stream freezes. The numbers stutter.
 >
 > MARIA: "Paul…?"
 
-The image breaks up. Through the window behind them, **a bright streak** crosses the night sky. **[SFX]** A deep *whump* comes from the backyard, and the floor buzzes a little. Lyla's block tower falls over.
+The image breaks up and the screen goes dark. **[SFX]** But the hum doesn't stop. For a few seconds, from speakers that are no longer playing anything, **one low note** goes on, perfectly steady. Then it's gone. *(This is Morrow's note, the Long Note. Nobody in the family knows that yet. See the [villain arc](../VILLAIN_ARC.md).)*
+
+> MARIA: "...Did you turn it off?"
+>
+> PAUL: "It's off."
+
+Through the window behind them, **a bright streak** crosses the night sky. **[SFX]** A deep *whump* comes from the backyard, and the floor buzzes a little. Lyla's block tower falls over.
 
 > LUNA: "Uh-oh."
 

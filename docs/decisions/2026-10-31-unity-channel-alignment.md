@@ -23,3 +23,5 @@ This alignment changes guidance, not scene/build settings, packages, shared Blen
 The active local branch labels the Unity candidate SD-062 and Town follow-ups SD-063/064. Merged `origin/main@5121e1d` already uses SD-062–071 for different incoming records. Preserve both source namespaces until their work is reconciled; do not globally replace IDs in active work. SD-072 is above both allocations and records this new instruction; next available is SD-073.
 
 The completed browser/dragon integration was merged through [PR #24](https://github.com/paulmalmquist/space_dragon/pull/24). This alignment does not reset or switch the other channels' working tree.
+
+**November 1 reconciliation:** the preceding paragraph is historical allocation context. [The integration crosswalk](2026-11-01-unity-integration-identifiers.md) maps local SD-062/063/064 to canonical SD-083/084/085, preserves main SD-062–071 and existing SD-072–082, and sets next unused to SD-086.

@@ -1,6 +1,6 @@
 # Decision — Winston Trails gate route and neighborhood proportions
 
-October 31, 2026 · **SD-064** · **CONFIRMED owner correction**.
+October 31, 2026 · **SD-085** · **CONFIRMED owner correction**.
 
 Owner wording:
 
@@ -10,6 +10,8 @@ The owner supplied three Google Maps screenshots (two repeat the same close view
 
 Check local metre distances, turn geometry, road widths, cul-de-sac scale, lakes, neighboring streets and residential placement against the supplied maps and attributed coordinate evidence. Do not uniformly rescale already-correct geometry to imply a correction. Distinguish measured road/water outlines from estimated buildings, landscaping and gate furniture. The owner's explicit map and route correction supersedes a conflicting public-map label. Google Maps screenshots are visual reference, not runtime tiles or textures.
 
-Preserve the separate Drive Lab, fixed-step game state, stable checkpoints/saves, traffic, pedestrians, white minivan, cabin/chase controls, SD-063 motion improvements and visible closures on unused branches. This does not authorize a general open-world road network, missions, new backend or production deployment. The standing owner push/merge instruction and SD-052 reference-layout override remain applicable.
+Preserve the separate Drive Lab, fixed-step game state, stable checkpoints/saves, traffic, pedestrians, white minivan, cabin/chase controls, SD-084 motion improvements and visible closures on unused branches. This does not authorize a general open-world road network, missions, new backend or production deployment. The standing owner push/merge instruction and SD-052 reference-layout override remain applicable.
 
 Source comparisons, implemented proportions, observed driving and limitations belong in [the verification receipt](../reports/2026-10-31-town-drive-map-proportions.md).
+
+Historical local alias: SD-064 at `70e424d`; [November 1 reconciliation](2026-11-01-unity-integration-identifiers.md) assigns the canonical ID above without changing this decision's wording or authority.

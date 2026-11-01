@@ -6,7 +6,7 @@
 
 **Current evidence:** [the receipt](../reports/2026-10-31-production-visual-foundation.md) records 214 units/build, 46 development, nine production and 18 photo checks, fresh source/build/two targeted production checks, fixed-camera views and six short native-AMD samples. Final human appearance and sustained performance remain separate.
 
-**Later same-day steering:** [SD-062](UNITY_PRODUCTION_CANDIDATE.md) completed a bounded Unity comparison beside this Babylon foundation. [SD-072](../decisions/2026-10-31-unity-channel-alignment.md) then selected Unity/C# for forward production in the existing project, superseding the engine deferral below. Preserve the Babylon/Three.js references while migrating bounded features; the choice does not itself prove a visual advantage or completed migration.
+**Later same-day steering:** [SD-083](UNITY_PRODUCTION_CANDIDATE.md) completed a bounded Unity comparison beside this Babylon foundation. [SD-072](../decisions/2026-10-31-unity-channel-alignment.md) then selected Unity/C# for forward production in the existing project, superseding the engine deferral below. Preserve the Babylon/Three.js references while migrating bounded features; the choice does not itself prove a visual advantage or completed migration.
 
 ## Actual starting point
 
@@ -43,6 +43,6 @@ The source's Home Night, Dragon Cinematic and Alien World presets, target folder
 
 - Full dragon/body/character production: revisit after review of the current SD-059/060 candidate and a specifically selected art increment.
 - Large streaming worlds, procedural galaxy, multiplayer, full vehicle physics and backend services: revisit only with a bounded gameplay requirement; none is needed for the visual proof.
-- Historical engine deferral: superseded by SD-062's measured comparison and SD-072's owner-selected Unity direction. Subsequent ports use the existing Unity project and need feature-specific verification.
+- Historical engine deferral: superseded by SD-083's measured comparison and SD-072's owner-selected Unity direction. Subsequent ports use the existing Unity project and need feature-specific verification.
 - New external asset packs/HDRIs: select only when the actual scene needs them, retain provenance/license evidence and review exports before promotion.
 - Complete cinematic direction and prerendered/live transitions: revisit after selecting SD-038's handoff implementation; no campaign departure follows from a lighting pass.

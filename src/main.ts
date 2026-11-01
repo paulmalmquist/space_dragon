@@ -8,7 +8,8 @@ import { createNarrator } from './game/narrator';
 import { copyExplorationState, createExplorationState } from './game/navigation';
 import type { InteractionTarget } from './game/navigation';
 import { loadExploration, saveExploration } from './game/exploration-save';
-import { connectVisualControls } from './ui/visual-controls';
+import { createControllerInput } from './game/gamepad';
+import type { ControllerConnection } from './game/gamepad';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <header class="masthead">
@@ -66,8 +67,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <div id="pause-screen" class="screen-overlay" hidden><div class="welcome"><span class="welcome-symbol">Ⅱ</span><h2>We’ll wait for you.</h2><p>Everything stays right here.</p><button class="primary" id="resume">▶ Continue together</button></div></div>
       <p id="render-error" class="render-error" role="alert" hidden></p>
     </section>
-    <div class="below-scene"><div><p id="save-status" role="status"></p><p id="narrator-status" role="status"></p></div>
-      <div class="settings"><label>Graphics <select id="visual-quality" aria-label="Graphics quality"><option value="low">Low</option><option value="balanced" selected>Balanced</option><option value="high">High</option><option value="cinematic">Cinematic</option></select></label><label><input id="reduce-motion" type="checkbox"> Less motion</label><button id="restart" class="quiet">Start again</button></div></div>
+    <div class="below-scene"><div><p id="save-status" role="status"></p><p id="narrator-status" role="status"></p><p id="controller-status" role="status"></p></div>
+      <div class="settings"><label><input id="reduce-motion" type="checkbox"> Less motion</label><button id="restart" class="quiet">Start again</button></div></div>
     <footer><span>Provisional home and character. Future video references will inform this space.</span><span id="controls-legend">ARROWS · POINT &nbsp; SPACE / ENTER · ACTION &nbsp; H · LISTEN &nbsp; F1 · HELP &nbsp; ESC · PAUSE</span></footer>
   </main>
   ${import.meta.env.DEV ? `<dialog id="notebook" aria-labelledby="notebook-title"><form id="idea-form">
@@ -90,6 +91,10 @@ let explorationCanSave = explorationLoaded.canSave;
 let navigationMode = false;
 let nearbyTarget: InteractionTarget | null = null;
 const heldMovementKeys = new Set<string>();
+let controllerMovement = { forward: 0, right: 0 };
+let controllerPointed = 0;
+let controller: ReturnType<typeof createControllerInput> | undefined;
+let controllerConnection: ControllerConnection | undefined;
 let lastExplorationSave = 0;
 let savedExplorationJson = JSON.stringify(explorationState);
 let displayedTarget: string | null | undefined;
@@ -99,7 +104,6 @@ let view: ReturnType<typeof createFirstContact> | undefined;
 const narrator = createNarrator(message => { $('narrator-status').textContent = message; });
 try { view = createFirstContact($<HTMLCanvasElement>('game')); }
 catch { $('render-error').hidden = false; $('render-error').textContent = 'The 3D view could not start. Try Chrome with WebGL enabled. The story controls still work.'; }
-const disposeVisualControls = connectVisualControls(view);
 view?.setExplorationState(explorationState);
 view?.onNavigationUpdate((next, target) => {
   explorationState = copyExplorationState(next);
@@ -129,6 +133,7 @@ function scheduleHint() {
   hintTimer = setTimeout(check, 12_000);
 }
 function render(announce = true) {
+  renderControllerStatus();
   if (navigationMode) { renderNavigationHud(); return; }
   document.body.dataset.mode = 'story';
   $<HTMLButtonElement>('action').disabled = false;
@@ -226,13 +231,26 @@ function persistExploration() {
   if (notice.startsWith('Practice position and module saved')) savedExplorationJson = serialized;
 }
 function syncMovement() {
+  const bounded = (value: number) => Math.max(-1, Math.min(1, value));
   view?.setNavigationInput({
-    forward: Number(heldMovementKeys.has('w') || heldMovementKeys.has('arrowup')) - Number(heldMovementKeys.has('s') || heldMovementKeys.has('arrowdown')),
-    right: Number(heldMovementKeys.has('d') || heldMovementKeys.has('arrowright')) - Number(heldMovementKeys.has('a') || heldMovementKeys.has('arrowleft')),
+    forward: bounded(Number(heldMovementKeys.has('w') || heldMovementKeys.has('arrowup')) - Number(heldMovementKeys.has('s') || heldMovementKeys.has('arrowdown')) + controllerMovement.forward),
+    right: bounded(Number(heldMovementKeys.has('d') || heldMovementKeys.has('arrowright')) - Number(heldMovementKeys.has('a') || heldMovementKeys.has('arrowleft')) + controllerMovement.right),
   });
 }
-function clearMovement() { heldMovementKeys.clear(); syncMovement(); if (navigationMode && started) persistExploration(); }
+function clearMovement() {
+  heldMovementKeys.clear(); controllerMovement = { forward: 0, right: 0 }; controllerPointed = 0;
+  controller?.reset(); syncMovement(); if (navigationMode && started) persistExploration();
+}
+function renderControllerStatus() {
+  if (!controllerConnection) return;
+  if (controllerConnection.status !== 'connected') { $('controller-status').textContent = controllerConnection.message; return; }
+  const primary = controllerConnection.kind === 'playstation' ? '✕' : controllerConnection.kind === 'xbox' ? 'A' : 'Primary button';
+  $('controller-status').textContent = !started ? `Controller connected · ${primary} start walking · First Contact is also available below`
+    : navigationMode ? `Controller connected · Left stick / D-pad walk · Right stick look · ${primary} interact`
+      : `Controller connected · ${primary} continue · Left stick / D-pad pan or point scanner · Right stick look · L2/R2 zoom`;
+}
 function renderNavigationHud() {
+  renderControllerStatus();
   document.body.dataset.mode = 'exploration';
   document.body.dataset.paused = String(paused);
   $('navigation-hud').hidden = false;
@@ -337,14 +355,37 @@ document.addEventListener('keyup', event => {
 });
 document.addEventListener('visibilitychange', () => { if (document.hidden) setPaused(true); });
 window.addEventListener('blur', () => setPaused(true));
+controller = createControllerInput({
+  onAdvance: () => { if (!started) beginExploration(); else action(); },
+  onCamera: (input, dt) => {
+    if (!started || paused || document.querySelector('dialog[open]')) return;
+    if (navigationMode) {
+      controllerMovement = { forward: -input.panY, right: input.panX }; syncMovement();
+      view?.rotateNavigationCamera(input.lookX * 1.8 * dt, input.lookY * 1.25 * dt); return;
+    }
+    if (state.phase === 'scan') {
+      const point = Math.abs(input.panX) >= Math.abs(input.panY) ? input.panX : input.panY;
+      const direction = Math.abs(point) > .25 ? Math.sign(point) : 0;
+      if (direction && direction !== controllerPointed) {
+        selectedTarget = (selectedTarget + (direction < 0 ? 2 : 1)) % 3; render(false);
+      }
+      controllerPointed = direction;
+      view?.controlCamera({ ...input, panX: 0, panY: 0 }, dt);
+    } else { controllerPointed = 0; view?.controlCamera(input, dt); }
+  },
+  onStatus: connection => {
+    controllerConnection = connection; renderControllerStatus();
+    if (connection.status !== 'connected') { controllerMovement = { forward: 0, right: 0 }; syncMovement(); }
+  },
+  isActive: () => !paused && !document.querySelector('dialog[open]'),
+});
 render(false);
 if (import.meta.env.DEV) {
   Object.defineProperty(window, '__SPACE_DRAGON__', { value: Object.freeze({
-    snapshot: () => ({ ...view?.snapshot(), state: JSON.parse(JSON.stringify(state)), exploration: copyExplorationState(explorationState), selectedTarget, paused, started, mode: navigationMode ? 'exploration' : 'story', speechEnabled: narrator.isEnabled() }),
-    resetPerformanceSample: () => view?.resetPerformanceSample(),
+    snapshot: () => ({ ...view?.snapshot(), state: JSON.parse(JSON.stringify(state)), exploration: copyExplorationState(explorationState), selectedTarget, paused, started, mode: navigationMode ? 'exploration' : 'story', speechEnabled: narrator.isEnabled(), controller: controller?.snapshot() }),
   }), configurable: true });
   void import('./ui/notebook').then(({ connectNotebook }) => connectNotebook(() => {
     clearMovement(); clearTimeout(hintTimer); narrator.stop(); view?.setPaused(true);
   }, () => { clearMovement(); view?.setPaused(paused); if (started && !paused) (navigationMode ? $('game') : $('action')).focus({ preventScroll: true }); scheduleHint(); }));
 }
-window.addEventListener('pagehide', event => { clearMovement(); if (!event.persisted) { clearTimeout(hintTimer); disposeVisualControls(); narrator.dispose(); view?.dispose(); } });
+window.addEventListener('pagehide', event => { clearMovement(); if (!event.persisted) { clearTimeout(hintTimer); controller?.dispose(); narrator.dispose(); view?.dispose(); } });

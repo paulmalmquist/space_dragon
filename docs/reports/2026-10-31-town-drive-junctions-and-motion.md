@@ -2,7 +2,7 @@
 
 ## Scope
 
-SD-063: [owner direction](../decisions/2026-10-31-town-drive-junctions-and-motion.md). Correct T/cross junctions with unused-road police/barricade closures, plus stable car/camera presentation.
+SD-084: [owner direction](../decisions/2026-10-31-town-drive-junctions-and-motion.md). Correct T/cross junctions with unused-road police/barricade closures, plus stable car/camera presentation.
 
 Isolated branch `fix/town-drive-junctions`, base `3e05d8b467c74f2c3cab274f87f7944ccf210603` (merged Town Drive). The live workspace contains concurrent Dogfight/visual-foundation/Unity work, excluded from this increment. Do not infer those features' verification from this receipt.
 

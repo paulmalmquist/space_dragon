@@ -1,4 +1,4 @@
-# SD-062 — Unity production candidate comparison
+# SD-083 — Unity production candidate comparison
 
 **Captured:** October 31, 2026 · **Authority:** CONFIRMED bounded side-by-side evaluation · **Work state:** verified for named technical checks; physical controller owner-deferred and human final-quality review open.
 

@@ -1,6 +1,6 @@
 # Town Drive junction source review — October 31, 2026
 
-Read-only source review for SD-063. OpenStreetMap road-centerline connections support the topology below; they are community mapping, not a survey of curbs, lane widths or property boundaries. The runtime compresses the arterial loop and invents its return connector. The proposed police vehicles and barricades are fictional gameplay boundaries, not a claim that these public roads are actually closed.
+Read-only source review for SD-084. OpenStreetMap road-centerline connections support the topology below; they are community mapping, not a survey of curbs, lane widths or property boundaries. The runtime compresses the arterial loop and invents its return connector. The proposed police vehicles and barricades are fictional gameplay boundaries, not a claim that these public roads are actually closed.
 
 ## Mapped home approach
 

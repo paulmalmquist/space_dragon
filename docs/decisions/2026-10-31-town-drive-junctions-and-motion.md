@@ -1,6 +1,6 @@
 # Decision — Town Drive junctions and stable driving presentation
 
-October 31, 2026 · **SD-063** · **CONFIRMED owner direction**.
+October 31, 2026 · **SD-084** · **CONFIRMED owner direction**.
 
 Owner wording:
 
@@ -14,3 +14,5 @@ Remove excessive driving vibration in presentation. The car and camera must shar
 Routine junction geometry, closure placement and visual smoothing choices are implementation decisions. Retain realistic T versus cross topology where source evidence distinguishes them. No police chase/combat, flashing strobe, injury gameplay, road-network expansion or production deployment is added.
 
 The owner's standing instruction to push and merge when done remains in effect. Actual checks, source confidence and remaining human comfort review belong in [the receipt](../reports/2026-10-31-town-drive-junctions-and-motion.md).
+
+Historical local alias: SD-063 at `70e424d`; [November 1 reconciliation](2026-11-01-unity-integration-identifiers.md) assigns the canonical ID above without changing this decision's wording or authority.

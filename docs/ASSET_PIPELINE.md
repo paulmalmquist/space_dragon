@@ -2,6 +2,8 @@
 
 The first asset milestone is one reviewed model that loads correctly in the actual browser scene. A polished pod or dragon component is a useful candidate; a Lyla pilot character remains the existing character-handoff proposal. This setup does not claim that any final model or rig exists.
 
+For external Seele deliveries, start at [seeles-assets](../seeles-assets/README.md). Its intake procedure preserves raw downloads, evaluates importing versus refactoring around a better environment, and then uses the source/export destinations below. Babylon is the current runtime; an evidence-backed runtime change must update this pipeline and the architecture together.
+
 ## Work locations
 
 **Cinematic video — SD-076:** use [Google Vids with manual exports](decisions/2026-10-31-google-vids-manual-exports.md). Preserve each delivered original under a versioned `assets/source/local/cinematics/` folder; inspect/hash it locally and create separate reviewed runtime derivatives under `assets/game/local/cinematics/`. Promote only selected derivatives to the target Unity build after playback/handoff checks. Runway is parked; neither provider automation nor a new exported clip is claimed. Existing Blender source/video receipts retain their original provenance.

@@ -11,7 +11,7 @@ Load only the relevant contract:
 - Runtime or saves: [architecture](docs/engineering/ARCHITECTURE.md) and [interactions](docs/gameplay/INTERACTION_CONTRACTS.md).
 - Learning: [learning rules](docs/learning/LEARNING_RULES.md).
 - Art: [Blender handoff](docs/BLENDER_CHARACTER_HANDOFF.md).
-- Seele or prototype imports: [prototype integration](docs/engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](seeles-assets/README.md); the first track is dragon dogfighting.
+- Seele or prototype imports: [prototype integration](docs/engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](seeles-assets/README.md); the first track is dragon dogfighting. Include an initial import-versus-refactor assessment.
 - Verification/release: [quality gates](docs/engineering/QUALITY_GATES.md).
 
 ## Turn unordered ideas into changes

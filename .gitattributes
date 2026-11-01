@@ -52,3 +52,5 @@ unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Generated/*.unity whitespace=-bla
 unity/SpaceDragon/Assets/WebGLTemplates.meta whitespace=-blank-at-eol
 unity/SpaceDragon/Assets/WebGLTemplates/TownDrive.meta whitespace=-blank-at-eol
 unity/SpaceDragon/Assets/WebGLTemplates/TownDrive/*.meta whitespace=-blank-at-eol
+# Small synthesized preview sounds are regular Git binary blobs; other WAV masters use Git LFS.
+assets/game/audio/starter/*.wav -filter -diff -merge -text

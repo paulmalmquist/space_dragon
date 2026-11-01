@@ -17,6 +17,8 @@ export default defineConfig({
     browserName: 'chromium',
     ...(nativeChrome ? { channel: 'chrome' } : {}),
     viewport: { width: 1440, height: 1000 },
+    // Matches the CI rendering policy without changing CSS controls/layout.
+    deviceScaleFactor: process.env.CI ? 0.5 : 1,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
     launchOptions: nativeChrome ? {} : { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },

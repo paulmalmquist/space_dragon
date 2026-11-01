@@ -1,5 +1,7 @@
 # Continue Space Dragon from a fresh chat
 
+**Current ID routing — November 1:** read the [integration crosswalk](../decisions/2026-11-01-unity-integration-identifiers.md). Main SD-062–071 retain their intake/story/controller/audio meanings. Historical local Unity First Contact SD-062 is now SD-083; local junction SD-063 is SD-084; local map-proportions SD-064 is SD-085. SD-061 and SD-072–082 keep their meanings. Next unused is SD-086; check the ledger and coordinate before allocation. Original owner wording and historical verification scopes remain intact.
+
 Open this repository in the new chat's workspace and give your ideas in ordinary language. You do not need to reconstruct the previous conversation or write a technical brief.
 
 A starter you can reuse:

@@ -2,7 +2,7 @@
 
 ## Scope and artifact
 
-SD-064: [owner correction](../decisions/2026-10-31-town-drive-map-proportions.md). Isolated branch `fix/town-drive-map-proportions`, base `206f899e419dcd6e2fec54ecb03c8ec6386ef0fc`. Preserve unrelated live-workspace SD-061/062 edits. Correct the Winston Trails gate label and demonstrated geometry/context discrepancies while preserving the complete driving loop and prior motion fixes.
+SD-085: [owner correction](../decisions/2026-10-31-town-drive-map-proportions.md). Isolated branch `fix/town-drive-map-proportions`, base `206f899e419dcd6e2fec54ecb03c8ec6386ef0fc`. At that checkpoint, preserve unrelated live-workspace SD-061 and local SD-062 edits (the latter is now canonical SD-083). Correct the Winston Trails gate label and demonstrated geometry/context discrepancies while preserving the complete driving loop and prior motion fixes.
 
 ## Evidence and implementation
 
@@ -16,7 +16,7 @@ Four concave lake outlines restore the home lake, two ponds west of Winston and 
 
 There are ten junctions and eleven closed arms, including four newly visible unused neighborhood branches. The Green Island northeast continuation is closed 28 m along its mapped curve beyond the authored return join; barrier/police collision discs retain at least 2.832 m clearance from active pavement after their radii. The join's third road is authored, not asserted to exist on the real map. All closures retain the existing forgiving collision and police/barricade contract.
 
-Source changes cover the drive neighborhood/route/junction modules, new source/context modules, scenery exclusions, welcome directions, atomic reset presentation and drive regressions. Fixed-step physics, save IDs, traffic, pedestrians, minivan/cabin controls and SD-063 interpolation remain in place. Documentation records the changed evidence and authority. Unrelated live-workspace changes are excluded.
+Source changes cover the drive neighborhood/route/junction modules, new source/context modules, scenery exclusions, welcome directions, atomic reset presentation and drive regressions. Fixed-step physics, save IDs, traffic, pedestrians, minivan/cabin controls and SD-084 interpolation remain in place. Documentation records the changed evidence and authority. Unrelated live-workspace changes are excluded.
 
 ## Checks
 

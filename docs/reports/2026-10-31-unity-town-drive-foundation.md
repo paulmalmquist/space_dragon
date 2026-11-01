@@ -2,7 +2,7 @@
 
 ## Scope and authority
 
-SD-074 applies the [owner's Unity instruction](../decisions/2026-10-31-unity-town-drive-foundation.md) to the Town Drive channel. The existing shared Unity project is the destination. The verified browser reference is SD-064 source commit `095c5b7c316ec8af60122bb3d348e9bf971f474d`, delivery head `56483d43bc744116dedb5b82dfe89e4f98c62b24`, merged as `55d5cc06f6ae271e8b2ec712b4dfa1a5b91657b3`. Its normalized drive source/test fingerprint is `ebfd1afb10cbe59c88c0bd0143e5e4a77a15dec5d8f09c5628b38041317286da`.
+SD-074 applies the [owner's Unity instruction](../decisions/2026-10-31-unity-town-drive-foundation.md) to the Town Drive channel. The existing shared Unity project is the destination. The verified browser reference is SD-085 source commit `095c5b7c316ec8af60122bb3d348e9bf971f474d`, delivery head `56483d43bc744116dedb5b82dfe89e4f98c62b24`, merged as `55d5cc06f6ae271e8b2ec712b4dfa1a5b91657b3`. Its normalized drive source/test fingerprint is `ebfd1afb10cbe59c88c0bd0143e5e4a77a15dec5d8f09c5628b38041317286da`.
 
 ## Implementation and artifact
 
@@ -25,7 +25,7 @@ Windows; Node 24.15.0; .NET SDK 10.0.400 compiling C# 9 against net8.0. The .NET
 
 | Check | Result | Evidence / boundary |
 | --- | --- | --- |
-| `node --experimental-strip-types tools/unity/export-town-drive.mjs --verify` | PASS | Byte-identical export from the frozen SD-064 checkout and scoped checkout; live drive-source fingerprint matches. |
+| `node --experimental-strip-types tools/unity/export-town-drive.mjs --verify` | PASS | Byte-identical export from the frozen SD-085 checkout and scoped checkout; live drive-source fingerprint matches. |
 | `dotnet run --project tools/unity/town-drive-parity/TownDriveParity.csproj --configuration Release` | PASS | Actual linked Core files compile and pass thirteen groups / 50,010 assertions. 441 TypeScript oracle vectors: 188 distance/lane, 213 nearest, 13 semantic scenarios, 13 checkpoint transitions, three resets and eleven presentation cases. Golden-vector maximum difference `1.8189894035458565e-12`; including the independent elapsed-time assertion, maximum is about `6.34e-11`, tolerance `1e-7`. No claim of cross-engine bitwise determinism. |
 | Complete C# semantic driving loop | PASS | 17,500 fixed ticks / 291.6667 simulated seconds, all 278 closure collision discs, zero contact ticks, ordered five checkpoint IDs, once-only home completion, shared return and home bulb visited. Largest per-tick displacement 0.333575 m; no pose teleports or reset shortcuts. This is a pure model drive, not rendered Unity gameplay. |
 | Native invariants | PASS | Positive wrapping, shared-road preference, pause, sanitized input, caps, immutable input/state, repeated semantic replay, checkpoint order/duplicates and presentation at 30/60/144 Hz plus uneven cadence. Serialized state restoration is an in-memory test, not a persistence adapter. |
