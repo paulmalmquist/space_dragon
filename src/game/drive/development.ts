@@ -12,18 +12,21 @@ import type { TrafficVisualVehicle } from './traffic-visuals';
 import type { DriveVegetationPlacement } from './vegetation';
 import { ROUTE, pointAtDistance, nearestRoutePoint } from './route';
 import { NEIGHBORHOOD } from './neighborhood';
+import { junctionRoadContains } from './junctions';
+import { neighborhoodContextOwnsLand, neighborhoodContextRoadContains, neighborhoodWaterContains } from './neighborhood-context';
 
 type Palette = ReturnType<typeof createDriveMaterials>;
 type Use = 'homes' | 'retail' | 'walled';
 type Obstacle = { id: string; x: number; z: number; radius: number };
 interface Batch { material: Material; detail: boolean; positions: number[]; normals: number[]; uvs: number[]; indices: number[] }
-interface Site { x: number; z: number; yaw: number; seed: number; side?: number; routeS?: number; authored?: boolean; driveLength?: number }
+interface Site { x: number; z: number; yaw: number; seed: number; side?: number; routeS?: number; authored?: boolean; driveLength?: number; compact?:boolean }
 const random = (seed: number) => { const n = Math.sin(seed * 63.17 + 341.8) * 9758.543; return n - Math.floor(n); };
 const halfRoad = (section: typeof ROUTE.sections[number]) => section.lanes * section.laneWidth + section.medianWidth / 2;
 
 /** A consistent land-use rhythm shared by buildings and the foreground boundary walls. */
 export function roadsideUseAt(s: number, side: number): Use {
-  const section = ROUTE.sections[pointAtDistance(s).sectionIndex];
+  const pose=pointAtDistance(s),section = ROUTE.sections[pose.sectionIndex];
+  if(neighborhoodContextOwnsLand(pose.x,pose.z))return 'homes';
   if (section.invented || section.character === 'neighborhood') return 'homes';
   const block = Math.floor(s / 100) + (side === 1 ? 1 : 3);
   if (section.character === 'shops') return block % 3 === 0 ? 'homes' : 'retail';
@@ -147,6 +150,10 @@ export function createRoadsideDevelopment(scene: Scene, palette: Palette) {
     }
     function safeSite(site: Site, radius: number) {
       if(site.authored) return true;
+      // Source-shaped neighborhood lots are built separately; procedural rows must
+      // not replace lakes, streets or tightly spaced estimated residential frontage.
+      if(neighborhoodContextOwnsLand(site.x,site.z)||neighborhoodWaterContains(site.x,site.z,radius+6)||neighborhoodContextRoadContains(site.x,site.z,radius+4))return false;
+      if(junctionRoadContains(site.x,site.z,radius+5)) return false;
       const nearest = nearestRoutePoint(site.x,site.z); const road = ROUTE.sections[nearest.sectionIndex];
       if(site.routeS!==undefined){const gap=Math.abs(nearest.s-site.routeS);if(Math.min(gap,ROUTE.length-gap)>130)return false;}
       for(const centerline of [NEIGHBORHOOD.centerlines.greenIsland,NEIGHBORHOOD.centerlines.terrace])for(let i=1;i<centerline.length;i++){
@@ -159,7 +166,7 @@ export function createRoadsideDevelopment(scene: Scene, palette: Palette) {
     }
     function home(site: Site, simple = false) {
       if (!safeSite(site,12)) return;
-      const width=17+random(site.seed)*3,height=3.6+random(site.seed+3)*.8,depth=13+random(site.seed+4)*2;
+      const width=(site.compact?14.8:17)+random(site.seed)*(site.compact?1.7:3),height=3.6+random(site.seed+3)*.8,depth=(site.compact?11.5:13)+random(site.seed+4)*(site.compact?1.5:2);
       const wall=walls[Math.floor(random(site.seed+5)*walls.length)];
       box(site,0,height/2+.14,0,width,height,depth,wall);roof(site,0,0,width+1.1,depth+1.1,height+.24,1.75);
       record.buildings++;record.houses++;
@@ -167,7 +174,7 @@ export function createRoadsideDevelopment(scene: Scene, palette: Palette) {
       if(site.side===-1)record.leftLots++;else record.rightLots++;
       if(simple){for(const x of [-width*.3,width*.3])window(site,x,2,-depth/2-.02,2,1.4);return;}
       const front=-depth/2;
-      box(site,0,.10,front-2,27,.16,4.5,palette.grass);
+      box(site,0,.10,front-2,site.compact?20:27,.16,4.5,palette.grass);
       const garageX=width*.27;
       box(site,garageX,1.55,front-.04,5.4,2.8,.16,[palette.white,palette.curb,walls[1]][Math.floor(random(site.seed+43)*3)]);
       for(let line=0;line<5;line++)box(site,garageX,.4+line*.47,front-.14,5.3,.035,.025,palette.pole,true);
@@ -216,7 +223,7 @@ export function createRoadsideDevelopment(scene: Scene, palette: Palette) {
         box(site,serviceX,1.03,front+1.8+bin*.7,.53,.08,.59,palette.dark,true);
       }
       // A small fenced backyard, pool and screened patio make orbit/side views spatially complete.
-      if(random(site.seed+8)>.45){
+      if(!site.compact&&random(site.seed+8)>.45){
         box(site,-3,.10,depth/2+6,10,.15,8,palette.concrete);
         box(site,-3,.185,depth/2+6,7.7,.035,5.7,palette.glass);
         for(const x of [-8,2])for(const z of [depth/2+2,depth/2+10])box(site,x,1.9,z,.09,3.8,.09,palette.dark,true);
@@ -301,6 +308,7 @@ export function createRoadsideDevelopment(scene: Scene, palette: Palette) {
         // Short residential access streets are scenery; the reference driving route stays unchanged.
         if(!junction && section.character!=='neighborhood' && Math.floor(from/100)%3===1){
           const p=pointAtDistance(from+2);const site={x:p.x+Math.cos(p.yaw)*side*(h+44),z:p.z-Math.sin(p.yaw)*side*(h+44),yaw:p.yaw,seed:from};
+          if(neighborhoodContextOwnsLand(site.x,site.z))continue;
           box(site,0,.024,0,88,.045,7.8,palette.asphalt);
           for(let lane=-35;lane<40;lane+=10)box(site,lane,.052,0,4,.014,.11,palette.yellow);
           for(const edge of [-1,1])box(site,0,.085,edge*4.8,87,.15,1.7,palette.concrete);

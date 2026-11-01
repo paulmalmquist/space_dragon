@@ -1,5 +1,7 @@
 # Decision — mapped Starpass Court home exit
 
+**Correction — October 31, SD-064:** The owner and supplied Google Maps views identify the gate collector as **Winston Trails South**. The earlier Green Island Terrace wording below records the source-label error, not current route guidance. See [the correction](2026-10-31-town-drive-map-proportions.md).
+
 Recorded October 30, 2026 · **SD-058** · **CONFIRMED owner direction**.
 
 Owner wording:

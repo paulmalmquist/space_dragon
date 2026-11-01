@@ -6,7 +6,7 @@ const nativeChrome = process.env.SPACE_DRAGON_NATIVE_CHROME === '1' && !process.
 
 export default defineConfig({
   testDir: './tests',
-  testMatch: ['first-contact.spec.ts', 'navigation.spec.ts', 'dogfight.spec.ts', 'word-lock.spec.ts', 'cockpit.spec.ts', 'drive.spec.ts', 'drive-traffic.spec.ts', 'mechanical.spec.ts', 'asteroid-crash.spec.ts'],
+  testMatch: ['first-contact.spec.ts', 'visual-foundation.spec.ts', 'navigation.spec.ts', 'dogfight.spec.ts', 'word-lock.spec.ts', 'cockpit.spec.ts', 'drive.spec.ts', 'drive-traffic.spec.ts', 'mechanical.spec.ts', 'asteroid-crash.spec.ts'],
   fullyParallel: false,
   workers: 1,
   timeout: process.env.CI ? 90_000 : 45_000,

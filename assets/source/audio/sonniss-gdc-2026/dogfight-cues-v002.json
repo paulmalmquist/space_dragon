@@ -1,0 +1,204 @@
+{
+  "schema_version": 2,
+  "license_url": "https://sonniss.com/gdc-bundle-license/",
+  "license_evidence": "Preserved local Sonniss GDC2026 bundled license; no new original redistribution or external generation",
+  "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "files": [
+    {
+      "id": "dragon-roar",
+      "path": "assets/game/local/audio/dogfight-v002/dragon-roar-v002.wav",
+      "bytes": 432044,
+      "sha256": "cb4875a67f44db9e7d9fb4fd725a5253633f2e7f2d0ded9ca9bdd639a637cc7e",
+      "format": "stereo48kHzPCM16",
+      "sources": [
+        {
+          "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle1of5/344 Audio - Dinosaurs Vol. 2/ANMLRept_Large Herbivore Roar 01_344 Audio_Dinosaurs Vol 2.wav",
+          "source_sha256": "885b297bc1cba43a4b5a59dafcd220a50302f106d400d0d3c8aa469ba84d399c",
+          "filters": "aresample=48000,asetrate=37440,aresample=48000,highpass=f=35,lowpass=f=10500,equalizer=f=130:t=o:w=1.4:g=2",
+          "decoded_onset_seconds": 0.265,
+          "selection": "first sustained 30ms onset above5.5% maximum block RMS"
+        },
+        {
+          "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle2of5/Epic Stock Media - Halloween Game - Haunted House and Horror Audio Scare Kit/CREABeast_Creature Werewolf Growl Menacing Monstrous 06_ESM_HALG.wav",
+          "source_sha256": "3b87490901e201eaa2d57b65f304d69f00fc33584d7e6d6e5b827c7fbdb2818c",
+          "filters": "aresample=48000,asetrate=34560,aresample=48000,highpass=f=35,lowpass=f=6000,equalizer=f=130:t=o:w=1.4:g=2",
+          "decoded_onset_seconds": 0.265,
+          "selection": "first sustained 30ms onset above5.5% maximum block RMS"
+        }
+      ],
+      "recipe": "2.25s pitched dinosaur body plus low werewolf chest layer; fast onset,240ms release; no spoken voice",
+      "loop": false,
+      "measurements": {
+        "duration_seconds": 2.25,
+        "sample_peak_dbfs": -5.514482607984219,
+        "rms_dbfs": -16.10582396609374,
+        "integrated_lufs": "-13.73",
+        "true_peak_dbtp": "-5.51",
+        "crest_db": 10.591341358109522,
+        "clipped_samples": 0,
+        "low_band_energy_40_250": 0.7751947050943178,
+        "presence_band_energy_1000_5000": 0.03598348538296234,
+        "endpoint_delta": 0.0,
+        "dc_offset": 8.56462147113407e-06
+      },
+      "human_review": "NOT AUDITIONED"
+    },
+    {
+      "id": "fire-breath",
+      "path": "assets/game/local/audio/dogfight-v002/fire-breath-v002.wav",
+      "bytes": 211244,
+      "sha256": "58f30750fd6e05a536a9380f5af23084034b6907b38f1b477a20c4b674b3d58e",
+      "format": "stereo48kHzPCM16",
+      "sources": [
+        {
+          "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle2of5/Epic Stock Media - Elemental Mutation Whooshes and Impacts/FIREWhsh_Whoosh Fire Deep Growl Monster Saturated Crisp 03_ESM_EMWI.wav",
+          "source_sha256": "344c8a9a31205fd5842feea827a491d89528f7db1ee5b1ffd4a3a018e23395ef",
+          "filters": "aresample=48000,asetrate=40320,aresample=48000,highpass=f=35,lowpass=f=14000,equalizer=f=130:t=o:w=1.4:g=1",
+          "decoded_onset_seconds": 0.225,
+          "selection": "first sustained 30ms onset above5.5% maximum block RMS"
+        },
+        {
+          "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle2of5/Epic Stock Media - Synthesized Nature Loops and Sounds/FIREBurn_Loop Elements Fire Crackling Crunchy Flame Burn 03_ESM_SNLS.wav",
+          "source_sha256": "a3eeb0718c55fc276b0785c1b23da242ed329d4f764c6540719f471c20ef5763",
+          "filters": "aresample=48000,asetrate=43200,aresample=48000,highpass=f=35,lowpass=f=12500",
+          "decoded_onset_seconds": 0.005,
+          "selection": "first sustained 30ms onset above5.5% maximum block RMS"
+        }
+      ],
+      "recipe": "1.1s deep combustion body plus crackle; aligns with existing1.1s beam;100ms release",
+      "loop": false,
+      "measurements": {
+        "duration_seconds": 1.1,
+        "sample_peak_dbfs": -5.514482607984219,
+        "rms_dbfs": -16.046770564345746,
+        "integrated_lufs": "-15.54",
+        "true_peak_dbtp": "-5.51",
+        "crest_db": 10.532287956361525,
+        "clipped_samples": 0,
+        "low_band_energy_40_250": 0.7912553695943552,
+        "presence_band_energy_1000_5000": 0.004129256787716516,
+        "endpoint_delta": 0.0,
+        "dc_offset": 5.22878552417816e-05
+      },
+      "human_review": "NOT AUDITIONED"
+    },
+    {
+      "id": "machine-blast",
+      "path": "assets/game/local/audio/dogfight-v002/machine-blast-v002.wav",
+      "bytes": 460844,
+      "sha256": "51eac93e9f1432387845c06e1273081d75966520a6e38afbc00d1508601ff1ee",
+      "format": "stereo48kHzPCM16",
+      "sources": [
+        {
+          "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle2of5/Cinematic Sound Design - Colossal Impacts/Impact Cut Sweep.wav",
+          "source_sha256": "e6b918055aa5ed53917ad217ed9077b0bfff5b0c7bcf97d07ba48be492b61b21",
+          "filters": "aresample=48000,asetrate=37440,aresample=48000,highpass=f=35,lowpass=f=14000,equalizer=f=130:t=o:w=1.4:g=2",
+          "decoded_onset_seconds": 0.425,
+          "selection": "first sustained 30ms onset above5.5% maximum block RMS"
+        },
+        {
+          "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle2of5/Cinematic Sound Design - Colossal Impacts/Woosh Debris.wav",
+          "source_sha256": "36f5a9860448d2fdea0042b5a13b55536f6a12d6fab365f4debfccffda94cf54",
+          "filters": "aresample=48000,asetrate=40800,aresample=48000,highpass=f=35,lowpass=f=11000",
+          "decoded_onset_seconds": 0.265,
+          "selection": "first sustained 30ms onset above5.5% maximum block RMS"
+        }
+      ],
+      "recipe": "2.4s colossal impact plus debris tail; replaces the small cartoon explosion source",
+      "loop": false,
+      "measurements": {
+        "duration_seconds": 2.4,
+        "sample_peak_dbfs": -5.514482607984219,
+        "rms_dbfs": -18.63194113820117,
+        "integrated_lufs": "-18.29",
+        "true_peak_dbtp": "-5.51",
+        "crest_db": 13.117458530216952,
+        "clipped_samples": 0,
+        "low_band_energy_40_250": 0.19855793926912046,
+        "presence_band_energy_1000_5000": 0.02420133675341953,
+        "endpoint_delta": 0.0,
+        "dc_offset": 1.1436414793874496e-05
+      },
+      "human_review": "NOT AUDITIONED"
+    },
+    {
+      "id": "metal-impact",
+      "path": "assets/game/local/audio/dogfight-v002/metal-impact-v002.wav",
+      "bytes": 172844,
+      "sha256": "259d3e1e933798ef0ef99b727719914f8a1465cfb19835389ac52f0f91eb5006",
+      "format": "stereo48kHzPCM16",
+      "sources": [
+        {
+          "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle5of5/The Noisery - Moaning Metal/DSGNImpt_Metal Hit Thud Thump Low Ring Geofon 1_The Noisery_Moaning Metal.wav",
+          "source_sha256": "9ae80f5d33c8b717fd3e530473387fc49ad6009725ea4d98fec4654874ae9f5c",
+          "filters": "aresample=48000,asetrate=41280,aresample=48000,highpass=f=45,lowpass=f=11000,equalizer=f=130:t=o:w=1.4:g=1",
+          "decoded_onset_seconds": 0.025,
+          "selection": "first sustained 30ms onset above5.5% maximum block RMS"
+        },
+        {
+          "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle2of5/Cinematic Sound Design - Colossal Impacts/Impact Cut Sweep.wav",
+          "source_sha256": "e6b918055aa5ed53917ad217ed9077b0bfff5b0c7bcf97d07ba48be492b61b21",
+          "filters": "aresample=48000,asetrate=37440,aresample=48000,highpass=f=35,lowpass=f=14000,equalizer=f=130:t=o:w=1.4:g=2",
+          "decoded_onset_seconds": 0.425,
+          "selection": "first sustained 30ms onset above5.5% maximum block RMS"
+        }
+      ],
+      "recipe": "0.9s resonant recorded metal with broad impact body; no new collision timing",
+      "loop": false,
+      "measurements": {
+        "duration_seconds": 0.9,
+        "sample_peak_dbfs": -5.514482607984219,
+        "rms_dbfs": -18.00720062419408,
+        "integrated_lufs": "-18.90",
+        "true_peak_dbtp": "-5.51",
+        "crest_db": 12.49271801620986,
+        "clipped_samples": 0,
+        "low_band_energy_40_250": 0.6609963624287498,
+        "presence_band_energy_1000_5000": 0.007228918296098464,
+        "endpoint_delta": 0.0,
+        "dc_offset": 3.7189718251078445e-05
+      },
+      "human_review": "NOT AUDITIONED"
+    },
+    {
+      "id": "jet-surge",
+      "path": "assets/game/local/audio/dogfight-v002/jet-surge-v002.wav",
+      "bytes": 768044,
+      "sha256": "7d993a486a385d5227c6481cfc91923003ce6d13de83b37b4e83da2292b355df",
+      "format": "stereo48kHzPCM16",
+      "sources": [
+        {
+          "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle1of5/344 Audio - Air Designed/AEROJet_Blast Off Clean_344 Audio_Air Designed.wav",
+          "source_sha256": "1de110cf09a62fb5fd117a415f7fb58bdf5ed05de436e7a12c5a228d3acaf5ac",
+          "filters": "aresample=48000,asetrate=43200,aresample=48000,highpass=f=45,lowpass=f=12500",
+          "decoded_onset_seconds": 0.475,
+          "selection": "first sustained 30ms onset above5.5% maximum block RMS"
+        },
+        {
+          "source": "assets/source/local/audio/sonniss-gdc-2026/Sonniss.com-GDC2026-GameAudioBundle2of5/Epic Stock Media - Strange Game Ambient Loops 3/DSGNSynth_Scifi Loop Ship Reactor Synth Layer Layered Saw Buzz_ESM_SGA3.wav",
+          "source_sha256": "9899e4bb561b6f3b44557a27655da56d9ec911192009700e583906547b5ade84",
+          "filters": "aresample=48000,asetrate=39360,aresample=48000,highpass=f=40,lowpass=f=1700",
+          "decoded_onset_seconds": 0.0,
+          "selection": "first sustained 30ms onset above5.5% maximum block RMS"
+        }
+      ],
+      "recipe": "4.0s stable propulsion layer with200ms wrap crossfade; no repeated blast-off onset",
+      "loop": true,
+      "measurements": {
+        "duration_seconds": 4.0,
+        "sample_peak_dbfs": -5.514482607984219,
+        "rms_dbfs": -18.695077647507205,
+        "integrated_lufs": "-15.82",
+        "true_peak_dbtp": "-5.51",
+        "crest_db": 13.180595039522984,
+        "clipped_samples": 0,
+        "low_band_energy_40_250": 0.4452080433215983,
+        "presence_band_energy_1000_5000": 0.16419584605012263,
+        "endpoint_delta": 0.002825617824550885,
+        "dc_offset": 9.77733519147428e-19
+      },
+      "human_review": "NOT AUDITIONED"
+    }
+  ],
+  "scope": "Local game derivatives and audition; human tonal/comfort acceptance and actual Unity playback remain separate"
+}

@@ -1,5 +1,9 @@
 # What we are making
 
+**Current dragon visual direction — SD-080:** the owner's post-Undo reference selects an organic-looking purple dragon with a powerful chest, curved neck, predatory head/horns, scales and violet membranes. [Decision](../decisions/2026-10-31-purple-organic-dragon.md). This supersedes the mechanical appearance for the next candidate while preserving prior sources/runtime as rollback; it does not rewrite story origins or imply completed art/player verification.
+
+**Production direction — October 31, SD-072:** continue toward Unity/C# using the existing Unity project and the other channel's foundation. [The alignment decision](../decisions/2026-10-31-unity-channel-alignment.md) preserves browser delivery, shared Blender art, gameplay contracts and the existing labs as migration references. The engine choice is direction, not a claim of completed migration or AAA visual quality.
+
 Space Dragon is a browser family adventure about Paul, Maria, Luke, Luna, and Lyla. Familiar Florida surroundings open into a larger rescue story. Exploration, early learning, racing, playful combat, and family teamwork all contribute to the experience.
 
 Paul supplies creative ideas without organizing technical requirements. Agents preserve those thoughts, connect them to decisions, maintain dependencies, make routine engineering choices, and show a playable result that can be adjusted.

@@ -20,7 +20,13 @@
     "doctor": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/setup-doctor.ps1",
     "asset:inspect": "node tools/asset-inspect.mjs",
     "asset:tools": "gltf-transform",
-    "browser:install": "playwright install chromium"
+    "browser:install": "playwright install chromium",
+    "unity:dogfight:prepare": "node tools/unity/prepare-dogfight-assets.mjs",
+    "unity:dogfight:setup": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/unity/run-dogfight.ps1 -Action setup",
+    "unity:dogfight:test": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/unity/run-dogfight.ps1 -Action test",
+    "unity:dogfight:build": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/unity/run-dogfight.ps1 -Action web",
+    "unity:dogfight": "node tools/unity/serve-dogfight.mjs",
+    "unity:dogfight:verify": "node tools/unity/verify-dogfight.mjs"
   },
   "dependencies": {
     "@babylonjs/core": "9.33.0",
@@ -28,6 +34,7 @@
     "three": "0.180.0"
   },
   "devDependencies": {
+    "@babylonjs/serializers": "9.33.0",
     "@gltf-transform/cli": "4.5.1",
     "@playwright/test": "1.64.1",
     "@types/node": "24.19.2",

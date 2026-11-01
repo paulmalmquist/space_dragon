@@ -338,6 +338,7 @@ test('local capture rejects cross-site and malformed writes and denies source re
   expect((await request.post(url, { headers: { Origin: 'https://another-site.example' }, data: { thought: 'must not append' } })).status()).toBe(403);
   expect((await request.post(url, { headers: { Origin: new URL(baseURL!).origin }, data: { thought: '   ' } })).status()).toBe(400);
   expect((await request.get('/space-dragon/assets/reference/family/photos/IMG_3277.jpeg')).status()).toBe(403);
+  expect((await request.get('/space-dragon/unity/SpaceDragon/Assets/SpaceDragon/Runtime/FirstContactExperience.cs')).status()).toBe(403);
 });
 
 test('a narrow viewport fits the supplemental touch layout', async ({ page }) => {

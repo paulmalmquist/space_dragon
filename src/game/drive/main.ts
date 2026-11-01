@@ -10,6 +10,7 @@ import type { DriveInput } from './simulation';
 import { loadDrive, saveDrive } from './checkpoint';
 import { createDriveInput } from './input';
 import { createTrafficState, stepTraffic, trafficPose, nearbyTraffic, TRAFFIC_SIGNALS, signalPhase } from './traffic';
+import { interpolateDrivePose } from './presentation';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 document.querySelector('#app')!.innerHTML = `<div class="drive-shell">
@@ -21,7 +22,7 @@ document.querySelector('#app')!.innerHTML = `<div class="drive-shell">
   <div class="drive-map" id="map" role="img" aria-label="Mapped home exit and compressed road loop"><span class="drive-map-label">THE LOOP · M</span><svg viewBox="-1520 -760 1740 980"><path id="route-path"/><g id="map-checkpoints"></g><path id="map-car" class="car-marker" d="M0 -10L7 7L0 4L-7 7Z"/></svg></div>
   <a class="drive-attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap</a>
   <div class="drive-controls">WASD / ARROWS · DRIVE &nbsp; Q / E OR DRAG · LOOK &nbsp; V · CABIN &nbsp; R · RESET &nbsp; M · MAP &nbsp; F2 · TUNE</div>
-  <div class="drive-overlay" id="welcome"><div class="drive-card"><div class="eyebrow">TOWN DRIVE LAB / 02</div><h2>Take the long<br>way home.</h2><p>Leave Starpass Court through Green Island Boulevard and Green Island Terrace, then turn right onto Hypoluxo. Neighborhoods, shops, walking people and passing traffic line the route.</p><div class="key-row"><kbd>W / ↑ Go</kbd><kbd>S / ↓ Brake + reverse</kbd><kbd>A D / ← → Steer</kbd><kbd>Space Slide</kbd><kbd>Q / E or drag · Look</kbd></div><label id="fresh-start-option" hidden><input type="checkbox" id="fresh-start"> Start a fresh loop from Starpass Court</label><label><input type="checkbox" id="cabin-start"> First person · sit in the driver's seat</label><label><input type="checkbox" id="assist"> Assist · gentler speed and lane guidance</label><label><input type="checkbox" id="sound"> Turn chimes</label><label><input type="checkbox" id="motion"> Less camera motion</label><button class="primary" id="begin">Start driving →</button><p class="small">V switches cabin/chase. C or controller R1 cycles all cameras. Release Q/E or the mouse to look ahead again.</p><p class="small">Controller: R2 go · L2 brake · left stick steer · Cross slide · Triangle reset · Options pause. The main-road loop is compressed; the return and neighboring buildings are representative.</p><p class="small">Neighborhood map: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a>.</p></div></div>
+  <div class="drive-overlay" id="welcome"><div class="drive-card"><div class="eyebrow">TOWN DRIVE LAB / 02</div><h2>Take the long<br>way home.</h2><p>Drive straight out of Starpass Court, right onto Green Island Boulevard, then left onto Winston Trails South to the gate. Turn right onto Hypoluxo Road.</p><div class="key-row"><kbd>W / ↑ Go</kbd><kbd>S / ↓ Brake + reverse</kbd><kbd>A D / ← → Steer</kbd><kbd>Space Slide</kbd><kbd>Q / E or drag · Look</kbd></div><label id="fresh-start-option" hidden><input type="checkbox" id="fresh-start"> Start a fresh loop from Starpass Court</label><label><input type="checkbox" id="cabin-start"> First person · sit in the driver's seat</label><label><input type="checkbox" id="assist"> Assist · gentler speed and lane guidance</label><label><input type="checkbox" id="sound"> Turn chimes</label><label><input type="checkbox" id="motion"> Less camera motion</label><button class="primary" id="begin">Start driving →</button><p class="small">V switches cabin/chase. C or controller R1 cycles all cameras. Release Q/E or the mouse to look ahead again.</p><p class="small">Controller: R2 go · L2 brake · left stick steer · Cross slide · Triangle reset · Options pause. The main-road loop is compressed; the return and neighboring buildings are representative.</p><p class="small">Neighborhood map: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a>.</p></div></div>
   <div class="drive-overlay" id="paused" hidden><div class="drive-card"><div class="eyebrow">TAKE YOUR TIME</div><h2>Parked for a moment.</h2><p id="pause-notice">Release the controls, then carry on.</p><button class="primary" id="resume">Continue driving →</button><button class="drive-button" id="reset">Back to checkpoint · R</button><p class="small" id="checkpoint-label"></p><a class="drive-button" href="${import.meta.env.BASE_URL}">Return to First Contact</a></div></div>
   <aside class="drive-tuning" id="tuning" hidden><h2>Handling · F2</h2><div id="tuning-fields"></div><p class="drive-stamp">Session tuning · no learner profile</p><button class="drive-button" id="close-tuning">Return to road</button></aside>
   <div id="drive-error" class="drive-error" role="alert" hidden></div>
@@ -37,6 +38,7 @@ async function launch() {
   const world = await createDriveWorld(canvas, { houseLayout: layout });
   const loaded = loadDrive();
   let state = loaded.state;
+  let previousState = state;
   $('fresh-start-option').hidden = state.checkpointId === 'home' && state.visited.length === 1;
   let traffic = createTrafficState(state.elapsedSeconds);
   world.update(state, 0, traffic);
@@ -69,6 +71,7 @@ async function launch() {
   function setPaused(value: boolean) {
     paused = value; accumulator = 0; input.release(); world.cameraRig.releaseLook();
     state = { ...state, speed: 0, velocityX: 0, velocityZ: 0 };
+    previousState = state;
     $('paused').hidden = !value || !begun;
     if (!value) $('tuning').hidden = true;
     $('pause').textContent = value ? '▶ Continue' : 'Ⅱ Pause';
@@ -77,7 +80,14 @@ async function launch() {
     if (value && audio) void audio.suspend();
     if (!value && audio && $<HTMLInputElement>('sound').checked) void audio.resume();
   }
-  function reset() { state = resetDrive(state); accumulator = 0; input.release(); world.cameraRig.snap(state); notice('Back on the road'); }
+  function reset() {
+    state = resetDrive(state); previousState = state; accumulator = 0; input.release();
+    controls = { throttle: 0, brake: 0, steer: 0, handbrake: false };
+    // Paused rendering is throttled. Move the car and its camera together now,
+    // so reset cannot expose a new camera pose against the previous car pose.
+    world.cameraRig.snap(state); world.update(state, 0, traffic, { ...controls, paused }, state);
+    world.render(); hud(); lastRenderedAt = performance.now(); notice('Back on the road');
+  }
   function syncCameraUi() {
     const cabin = world.cameraRig.mode === 'dashboard';
     const label = cabin ? 'First person' : world.cameraRig.mode === 'chase' ? 'Chase' : 'Orbit';
@@ -100,7 +110,7 @@ async function launch() {
     map: () => $('map').classList.toggle('expanded'), tuning: tune,
   });
   $('begin').onclick = () => {
-    if ($<HTMLInputElement>('fresh-start').checked) { state = createDriveState($<HTMLInputElement>('assist').checked); traffic = createTrafficState(); world.cameraRig.snap(state); }
+    if ($<HTMLInputElement>('fresh-start').checked) { state = createDriveState($<HTMLInputElement>('assist').checked); previousState = state; traffic = createTrafficState(); world.cameraRig.snap(state); }
     world.cameraRig.setMode($<HTMLInputElement>('cabin-start').checked ? 'dashboard' : 'chase'); syncCameraUi();
     begun = true; state = { ...state, assist: $<HTMLInputElement>('assist').checked };
     persist(); $('welcome').hidden = true;
@@ -147,6 +157,7 @@ async function launch() {
     const completed = state.completed;
     traffic = stepTraffic(traffic, state);
     world.setTraffic(traffic, state);
+    previousState = state;
     state = stepDrive(state, semantic, config, world.obstacles);
     if (state.checkpointId !== previousCheckpoint || state.completed !== completed) {
       const saved = persist();
@@ -192,6 +203,7 @@ async function launch() {
       advance: (semantic: DriveInput, steps: number) => { if (!paused) for (let i = 0; i < Math.min(36000, Math.max(0, steps)); i++) tick(semantic); },
       inspectAt: (s: number, mode: 'chase' | 'dashboard' | 'orbit' = 'dashboard') => {
         const pose = lanePoseAt(s); state = { ...state, ...pose, routeS: pose.s, speed: 0, velocityX: 0, velocityZ: 0 };
+        previousState = state; accumulator = 0;
         paused = true; input.release(); world.cameraRig.setMode(mode); syncCameraUi(); world.cameraRig.snap(state); world.update(state, 1, traffic, { ...controls, paused }); world.render();
       },
     } : {}),
@@ -211,9 +223,13 @@ async function launch() {
     } else accumulator = 0;
     // Paused scenes are static; avoid spending a full GPU budget behind menus or another window.
     if (paused && world.cameraRig.mode !== 'orbit' && now - lastRenderedAt < 100) return;
+    const presentationDelta = Math.min(.1, (now - lastRenderedAt) / 1000);
     lastRenderedAt = now;
     world.cameraRig.setReducedMotion($<HTMLInputElement>('motion').checked);
-    world.update(state, dt, traffic, { ...controls, paused });
+    // Only presentation blends adjacent ticks. Collisions, traffic, saves and HUD
+    // continue to observe the authoritative fixed-step state above.
+    const renderPose = interpolateDrivePose(previousState, state, accumulator / DRIVE_STEP, { paused: paused || !begun });
+    world.update(state, presentationDelta, traffic, { ...controls, paused }, renderPose);
     world.render(); hud(); canvas.dataset.rendered = 'true';
   });
   window.addEventListener('pagehide', () => {

@@ -45,9 +45,9 @@ test('mapped home exit and compressed arterial loop preserve street sequence, sc
   [-Math.PI / 2, 0, -Math.PI / 2, Math.PI].forEach((expected, index) => assert.ok(Math.abs(angleDelta(directions[index], expected)) < 0.001));
   assert.ok(ROUTE.expectedCruiseSeconds >= 180 && ROUTE.expectedCruiseSeconds <= 300);
   assert.ok(!ROUTE.sections[0].invented && ROUTE.sections.at(-1)!.invented);
-  assert.ok(ROUTE.sections[0].endS > 390 && ROUTE.sections[0].endS < 410);
+  assert.ok(ROUTE.sections[0].endS > 400 && ROUTE.sections[0].endS < 420);
   assert.deepEqual([0, 80, 240, ROUTE.sections[1].startS + 20].map(routeLabelAt),
-    ['Starpass Court', 'Green Island Boulevard', 'Green Island Terrace', 'Hypoluxo Road']);
+    ['Starpass Court', 'Green Island Boulevard', 'Winston Trails South', 'Hypoluxo Road']);
   assert.ok(HOME_EXIT_SIGNAL_S < ROUTE.turns[2].s);
   assert.ok(Math.abs(NEIGHBORHOOD.culdesac.radius - 10.5) < .01);
   assert.ok(Math.cos(ROUTE.spawn.yaw) < -.85 && Math.sin(ROUTE.spawn.yaw) < 0, 'Home faces south-southwest toward the actual street exit');

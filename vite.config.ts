@@ -19,10 +19,10 @@ export default defineConfig({
     port: 5173, strictPort: true,
     // Generated playtest/review HTML and local source exports must not reload
     // a running game. Real application/configuration edits remain watched.
-    watch: { ignored: ['**/artifacts/**', '**/.tools/**', '**/assets/reference/**', '**/assets/source/**', '**/assets/game/**'] },
+    watch: { ignored: ['**/artifacts/**', '**/.tools/**', '**/assets/reference/**', '**/assets/source/**', '**/assets/game/**', '**/unity/**'] },
     fs: {
       strict: true,
-      deny: ['**/.git/**', '**/.env*', '**/assets/reference/**', '**/assets/source/**', '**/assets/game/**', '**/seeles-assets/**', '**/ideas/**', '**/docs/**', '**/artifacts/**', '**/*.blend'],
+      deny: ['**/.git/**', '**/.env*', '**/assets/reference/**', '**/assets/source/**', '**/assets/game/**', '**/seeles-assets/**', '**/ideas/**', '**/docs/**', '**/artifacts/**', '**/unity/**', '**/*.blend'],
     },
   },
   preview: { port: 4173, strictPort: true },

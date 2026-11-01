@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc176bfb73b2b5a4da4abbedb6f27b0b, type: 3}
+  m_Name: DogfightTuning
+  m_EditorClassIdentifier: SpaceDragon.Dogfight::SpaceDragon.Dogfight.DogfightTuning
+  MaxSystemHealth: 100
+  LocalizedHullShare: 0.35
+  MinimumBoostMultiplier: 0.65
+  CautionHealth: 65
+  CriticalHealth: 30
+  HullImminentHealth: 15
+  MaximumRepairs: 3
+  StartingSalvage: 1
+  SalvageCapacity: 3
+  RepairSeconds: 4
+  RepairAmount: 35
+  RepairInterruptDamage: 12
+  MaximumMissileCharges: 2
+  RechargeSecondsHealthy: 15
+  RechargeSecondsDamaged: 30
+  AcquireSecondsHealthy: 1.5
+  AcquireSecondsDamaged: 2.1
+  LockGraceSeconds: 0.2
+  LockRange: 850
+  LockConeDegrees: 14
+  MissileSpeed: 220
+  MissileTurnDegreesPerSecond: 55
+  MissileLifetimeSeconds: 8
+  MissileDamage: 120
+  MissileTargetLeadSeconds: 0.25
+  MaximumActiveSalvage: 6
+  SalvagePickupRadius: 18
+  SalvageVelocityInheritance: 0.3
+  SalvageDrag: 1.1
+  SalvageDriftSpeed: 2

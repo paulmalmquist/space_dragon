@@ -56,6 +56,14 @@ function toward(from: Point, to: Point, metres: number): Point {
   const scale = metres / Math.hypot(to.x - from.x, to.z - from.z);
   return { x: from.x + (to.x - from.x) * scale, z: from.z + (to.z - from.z) * scale };
 }
+function roundedSourceCorner(corner: Point, next: Point, sectionIndex: number) {
+  // Keep the road within its mapped corridor while removing abrupt polyline
+  // headings at the small outbound gate split. No long shortcut across the fork.
+  const trim = Math.min(4, Math.hypot(corner.x - position.x, corner.z - position.z) * .4,
+    Math.hypot(next.x - corner.x, next.z - corner.z) * .4);
+  line(toward(corner, position, trim), sectionIndex);
+  bend(corner, toward(corner, next, trim), sectionIndex);
+}
 function turn(corner: Point, to: Point, fromSection: number, toSection: number,
   direction: RouteTurn['direction'], id: string, radius: number, reference: RouteTurn['reference']) {
   const approachS = distance;
@@ -71,27 +79,39 @@ function section(id: string, label: string, character: RouteSection['character']
 }
 function finishSection() { sections.at(-1)!.endS = distance; }
 
-const { starpass, greenIsland, terrace, exitLanes } = NEIGHBORHOOD.centerlines;
-const homeCorner = starpass[0]; const terraceCorner = greenIsland[0]; const arterialCorner = exitLanes.at(-1)!;
+const { starpass, greenIsland, winstonSouth, exitLanes } = NEIGHBORHOOD.centerlines;
+const homeCorner = starpass[0]; const winstonCorner = greenIsland[0]; const arterialCorner = NEIGHBORHOOD.hypoluxo.center;
 add(position, 0);
-section('connector', 'Starpass Court · Green Island Boulevard · Green Island Terrace', 'neighborhood', 1, 0);
+section('connector', 'Starpass Court · Green Island Boulevard · Winston Trails South', 'neighborhood', 1, 0);
 line(toward(homeCorner, position, 12), 0);
 const homeRight = turn(homeCorner, toward(homeCorner, greenIsland[5], 12), 0, 0, 'right', 'starpass-green-island', 8.5, 'home');
 line(greenIsland[5], 0);
 const trafficBridgeToS = distance;
 for (let i = 4; i >= 1; i--) line(greenIsland[i], 0);
-line(toward(terraceCorner, greenIsland[1], 14), 0);
-const terraceLeft = turn(terraceCorner, toward(terraceCorner, terrace[4], 14), 0, 0, 'left', 'green-island-terrace', 10, 'home');
-for (let i = 4; i >= 1; i--) line(terrace[i], 0);
-cubic({ x: terrace[1].x, z: terrace[1].z - 25 }, { x: exitLanes[2].x, z: exitLanes[2].z + 24 }, exitLanes[2], 0);
+line(toward(winstonCorner, greenIsland[1], 14), 0);
+const winstonLeft = turn(winstonCorner, toward(winstonCorner, winstonSouth[4], 14), 0, 0, 'left', 'green-island-terrace', 10, 'home');
+for (let i = 4; i >= 1; i--) line(winstonSouth[i], 0);
+roundedSourceCorner(winstonSouth[0], exitLanes[1], 0);
+roundedSourceCorner(exitLanes[1], exitLanes[2], 0);
+line(exitLanes[2], 0);
 const gateS = distance;
-line(toward(arterialCorner, exitLanes[2], 18), 0);
-const arterialRight = turn(arterialCorner, { x: arterialCorner.x - 18, z: arterialCorner.z }, 0, 1,
+line(exitLanes[3], 0);
+// The last OSM lane nodes converge southeast onto a shared arterial node. A
+// right-turning driver stays on the outbound tangent and rounds west instead of
+// cutting diagonally across the gate carriageway to that shared centre node.
+const gateDirection = { x: exitLanes[4].x - exitLanes[3].x, z: exitLanes[4].z - exitLanes[3].z };
+const atHypoluxo = (arterialCorner.z - exitLanes[3].z) / gateDirection.z;
+const outboundCorner = { x: exitLanes[3].x + gateDirection.x * atHypoluxo, z: arterialCorner.z };
+const atNorthCarriageway = (NEIGHBORHOOD.hypoluxo.northCarriageway.z - exitLanes[3].z) / gateDirection.z;
+const northTangent = { x: exitLanes[3].x + gateDirection.x * atNorthCarriageway, z: NEIGHBORHOOD.hypoluxo.northCarriageway.z };
+const gateApproach = toward(northTangent, exitLanes[3], 18);
+line(gateApproach, 0);
+const arterialRight = turn(outboundCorner, { x: outboundCorner.x - 18, z: arterialCorner.z }, 0, 1,
   'right', 'terrace-hypoluxo', 12.7, 'home');
 finishSection();
 streetSpans.push({ label: 'Starpass Court', fromS: 0, toS: homeRight.s, invented: false },
-  { label: 'Green Island Boulevard', fromS: homeRight.s, toS: terraceLeft.s, invented: false },
-  { label: 'Green Island Terrace', fromS: terraceLeft.s, toS: arterialRight.s, invented: false });
+  { label: 'Green Island Boulevard', fromS: homeRight.s, toS: winstonLeft.s, invented: false },
+  { label: 'Winston Trails South', fromS: winstonLeft.s, toS: arterialRight.s, invented: false });
 
 const hypoluxoZ = arterialCorner.z;
 section('leg-1', 'Hypoluxo Road', 'palms', 3, 5);
@@ -178,8 +198,8 @@ const checkpoints: RouteCheckpoint[] = [
   ...sections.slice(1, 5).map(section => ({ ...lanePoseAt(section.startS + 1), id: section.id, label: section.label })),
 ];
 export const SAFE_PEDESTRIAN_SPANS: readonly PedestrianSafeSpan[] = [
-  { sectionIndex: 0, fromS: homeRight.exitS! + 18, toS: terraceLeft.approachS! - 18 },
-  { sectionIndex: 0, fromS: terraceLeft.exitS! + 24, toS: gateS - 25 },
+  { sectionIndex: 0, fromS: homeRight.exitS! + 18, toS: winstonLeft.approachS! - 18 },
+  { sectionIndex: 0, fromS: winstonLeft.exitS! + 24, toS: gateS - 25 },
   ...sections.slice(1, 5).map((part, index) => ({ sectionIndex: index + 1, fromS: part.startS + 65, toS: part.endS - 100 })),
   { sectionIndex: 5, fromS: sections[5].startS + 65, toS: sections[5].startS + 1150 },
 ];

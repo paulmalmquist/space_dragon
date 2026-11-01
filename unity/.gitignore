@@ -12,3 +12,5 @@
 **/*.user
 **/MemoryCaptures/
 **/Recordings/
+# Burst emits native/WebAssembly intermediates beside the project during builds.
+/SpaceDragon/Data/

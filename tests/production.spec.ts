@@ -16,6 +16,8 @@ test('built First Contact renders and reaches a durable map with keyboard alone'
   await expect(body).toHaveAttribute('data-phase', 'living-room');
   await expect(page.getByRole('button', { name: 'Idea notebook' })).toHaveCount(0);
   expect(await page.evaluate(() => typeof (window as unknown as Record<string, unknown>).__SPACE_DRAGON__)).toBe('undefined');
+  await expect(page.locator('#visual-review')).toHaveCount(0);
+  await page.locator('#visual-quality').selectOption('low');
 
   await canvas.focus();
   for (const phase of ['signal', 'backyard', 'suits']) {
@@ -36,6 +38,7 @@ test('built First Contact renders and reaches a durable map with keyboard alone'
   await page.getByRole('button', { name: 'Play quietly', exact: true }).click();
   await expect(body).toHaveAttribute('data-phase', 'map');
   await expect(body).toHaveAttribute('data-suits-count', '5');
+  await expect(page.locator('#visual-quality')).toHaveValue('low');
   await expect(canvas).toHaveAttribute('data-rendered', 'true');
   expect(errors).toEqual([]);
 });
@@ -50,7 +53,7 @@ test('production has no notebook write endpoint', async ({ request }) => {
 
 test('build excludes project sources, references and the development observation API', async () => {
   const files = await readdir('dist', { recursive: true });
-  expect(files.filter(file => /(?:^|[\\/])(?:ideas|reference|source|docs|\.git)(?:[\\/]|$)|\.blend\d?$/i.test(file))).toEqual([]);
+  expect(files.filter(file => /(?:^|[\\/])(?:ideas|reference|source|docs|unity|\.git)(?:[\\/]|$)|\.blend\d?$/i.test(file))).toEqual([]);
   const manifest = JSON.parse(await readFile('assets/reference/family/manifest.json', 'utf8')) as { photos: { filename: string }[] };
   const runtimeText = (await Promise.all(files.filter(file => /\.(?:js|html|css)$/.test(file))
     .map(file => readFile(`dist/${file}`, 'utf8')))).join('\n');

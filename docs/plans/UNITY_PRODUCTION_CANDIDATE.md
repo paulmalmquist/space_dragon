@@ -2,7 +2,7 @@
 
 **Captured:** October 31, 2026 · **Authority:** CONFIRMED bounded side-by-side evaluation · **Work state:** verified for named technical checks; physical controller owner-deferred and human final-quality review open.
 
-[The decision](../decisions/2026-10-31-unity-production-candidate.md) preserves Babylon and the existing labs while evaluating the owner's Unity request. SD-VIS-001 (the earlier local Babylon visual foundation) supplies the technically verified browser baseline; human/final-art acceptance remains open. The full source wording belongs in [the inbox](../../ideas/INBOX.md).
+[The decision](../decisions/2026-10-31-unity-production-candidate.md) preserves Babylon and the existing labs while evaluating the owner's Unity request. [SD-VIS-001](PRODUCTION_VISUAL_FOUNDATION.md) supplies the technically verified browser baseline; human/final-art acceptance remains open. The full source wording belongs in [the inbox](../../ideas/INBOX.md).
 
 **Subsequent direction:** [SD-072](../decisions/2026-10-31-unity-channel-alignment.md) selects Unity/C# for forward production work in this existing project. The completed comparison remains evidence for the bounded First Contact candidate, not a measured engine winner or completed dragon/game migration. Coordinate future work through the [Unity dragon/Dogfight handoff](../engineering/UNITY_DOGFIGHT_HANDOFF.md).
 

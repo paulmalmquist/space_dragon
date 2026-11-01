@@ -1,0 +1,8 @@
+{
+  "name": "SpaceDragon.TownDrive.Runtime.Tests",
+  "rootNamespace": "SpaceDragon.TownDrive.Runtime.Tests",
+  "references": ["SpaceDragon.TownDrive.Core", "SpaceDragon.TownDrive.Unity", "SpaceDragon.TownDrive.Runtime"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

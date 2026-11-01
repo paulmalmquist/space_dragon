@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import type { DriveState, DriveInput } from '../src/game/drive/simulation.ts';
-import { ROUTE } from '../src/game/drive/route.ts';
+import { ROUTE, NEIGHBORHOOD_ROUTE, nearestRoutePoint } from '../src/game/drive/route.ts';
+import { DRIVE_JUNCTIONS, JUNCTION_CLOSURES } from '../src/game/drive/junctions.ts';
 
 // Detailed PBR assets compile slowly under the suite's software renderer. Keep
 // gameplay assertions unchanged, but start input only after the scene is ready.
@@ -296,4 +297,111 @@ test('rendered route streams all four legs and completes once using steering and
   await page.reload(); await ready(page);
   expect((await snapshot(page)).state.completed).toBe(true);
   expect((await snapshot(page)).state.checkpointId).toBe('home');
+});
+
+test('moving minivan and camera stay attached through steering, cabin switching, pause and reset', async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await begin(page);
+  await page.evaluate((s: number) => (window as unknown as { __TOWN_DRIVE__: DriveDebug }).__TOWN_DRIVE__.inspectAt(s, 'chase'), ROUTE.sections[1].startS + 65);
+  await page.keyboard.press('Escape'); await page.keyboard.down('w');
+  await expect.poll(async () => (await snapshot(page)).state.speed, { timeout: motionTimeout }).toBeGreaterThan(4);
+  const samples = async (milliseconds: number) => page.evaluate(async milliseconds => {
+    const debug = (window as unknown as { __TOWN_DRIVE__: DriveDebug }).__TOWN_DRIVE__;
+    const data: { x: number; y: number; z: number; bodyY: number; speed: number; yaw: number }[] = [];
+    const end = performance.now() + milliseconds;
+    do {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      const snap = debug.snapshot();
+      const m = snap.metrics as { carPosition: number[]; carYaw: number; cameraPosition: number[] };
+      const dx = m.cameraPosition[0] - m.carPosition[0]; const dz = m.cameraPosition[2] - m.carPosition[2];
+      data.push({ x: dx * Math.cos(m.carYaw) - dz * Math.sin(m.carYaw),
+        y: m.cameraPosition[1] - m.carPosition[1], z: dx * Math.sin(m.carYaw) + dz * Math.cos(m.carYaw),
+        bodyY: m.carPosition[1], speed: snap.state.speed, yaw: m.carYaw });
+    } while (performance.now() < end);
+    return data;
+  }, milliseconds);
+  const chaseSample = samples(1000);
+  await page.keyboard.down('d'); await page.waitForTimeout(120); await page.keyboard.up('d');
+  const chase = await chaseSample;
+  expect(chase.length).toBeGreaterThan(3);
+  expect(Math.max(...chase.map(p => Math.abs(p.x)))).toBeLessThan(.001);
+  expect(Math.max(...chase.map(p => Math.abs(p.y - 3.55)))).toBeLessThan(.001);
+  expect(Math.abs(chase.at(-1)!.yaw - chase[0].yaw)).toBeGreaterThan(.01);
+  await page.keyboard.press('v');
+  const cabin = await samples(1000);
+  expect(cabin.length).toBeGreaterThan(3);
+  for (const pose of cabin) {
+    expect(pose.x).toBeCloseTo(-.46, 5); expect(pose.y).toBeCloseTo(1.42, 5); expect(pose.z).toBeCloseTo(.42, 5);
+    expect(pose.bodyY).toBe(0);
+  }
+  await page.keyboard.up('w'); await page.keyboard.press('Escape');
+  const parked = await samples(250);
+  expect(parked.every(p => p.speed === 0 && p.bodyY === 0)).toBe(true);
+  await page.keyboard.press('r');
+  const reset = await samples(250);
+  expect(reset.every(p => Math.abs(p.x + .46) < .001 && Math.abs(p.z - .42) < .001)).toBe(true);
+  expect((await snapshot(page)).state.checkpointId).toBe('home');
+  expect(errors).toEqual([]);
+});
+
+test('mapped junction arms and police closures stream into the real scene', async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await begin(page);
+  for (const junction of DRIVE_JUNCTIONS) {
+    const observed = await page.evaluate(({ id, s }) => {
+      const debug = (window as unknown as { __TOWN_DRIVE__: DriveDebug & {
+        scene: { meshes: { name: string; isVisible: boolean; isEnabled(): boolean; getTotalVertices(): number }[] }
+      } }).__TOWN_DRIVE__;
+      debug.inspectAt(s, 'orbit');
+      const metrics = debug.snapshot().metrics as { junctions: {
+        junctions: { id: string; visible: boolean; topology: string; arms: { use: string }[] }[];
+        closedArms: number; collisionProxies: number;
+      } };
+      const meshes = debug.scene.meshes;
+      return { junction: metrics.junctions.junctions.find(j => j.id === id),
+        closedArms: metrics.junctions.closedArms, collisionProxies: metrics.junctions.collisionProxies,
+        policeBodies: meshes.filter(mesh => mesh.name.startsWith(`drive.junction.police.closure.${id}.`) &&
+          mesh.name.endsWith('.paint') && mesh.isVisible && mesh.isEnabled() && mesh.getTotalVertices() > 0).length,
+        pavement: meshes.some(mesh => mesh.name.startsWith(`drive.junction.${id}.batch.`) && mesh.isEnabled() && mesh.getTotalVertices() > 0),
+      };
+    }, { id: junction.id, s: nearestRoutePoint(junction.x, junction.z).s });
+    expect(observed.junction?.visible).toBe(true);
+    expect(observed.junction?.topology).toBe(junction.topology);
+    expect(observed.junction?.arms.length).toBe(junction.arms.length);
+    expect(observed.policeBodies).toBe(JUNCTION_CLOSURES.filter(closure => closure.junctionId === junction.id).length);
+    expect(observed.pavement).toBe(true);
+    expect(observed.closedArms).toBe(11);
+    expect(observed.collisionProxies).toBeGreaterThan(100);
+  }
+  expect(errors).toEqual([]);
+});
+
+test('the gate route uses Winston Trails South and renders the mapped lakes and residential context', async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await page.goto('drive/'); await ready(page);
+  await expect(page.locator('#welcome')).toContainText('right onto Green Island Boulevard, then left onto Winston Trails South');
+  await page.locator('#begin').click();
+  const observed = await page.evaluate(s => {
+    const debug = (window as unknown as { __TOWN_DRIVE__: DriveDebug & {
+      scene: { meshes: { name: string; metadata?: { streetName?: string; sourceWaterId?: number };
+        isEnabled(): boolean; getTotalIndices(): number }[] }
+    } }).__TOWN_DRIVE__;
+    debug.inspectAt(s, 'dashboard');
+    const metrics = debug.snapshot().metrics as { neighborhood: { context: {
+      lakes: number; sourceRoads: number; estimatedLots: number; estimatedBuildings: boolean;
+    } } };
+    return { context: metrics.neighborhood.context,
+      lakeMeshes: debug.scene.meshes.filter(mesh => mesh.metadata?.sourceWaterId && mesh.isEnabled() && mesh.getTotalIndices() > 6)
+        .map(mesh => mesh.metadata!.sourceWaterId).sort(),
+      streetNames: debug.scene.meshes.map(mesh => mesh.metadata?.streetName).filter(Boolean) };
+  }, NEIGHBORHOOD_ROUTE.gateS - 65);
+  await expect(page.locator('#route-label')).toHaveText('WINSTON TRAILS SOUTH', { timeout: motionTimeout });
+  expect(observed.context.lakes).toBe(4);
+  expect(observed.context.sourceRoads).toBeGreaterThan(20);
+  expect(observed.context.estimatedLots).toBeGreaterThan(40);
+  expect(observed.context.estimatedBuildings).toBe(true);
+  expect(observed.lakeMeshes).toEqual([186588742, 186588755, 187968473, 187968475]);
+  expect(observed.streetNames).toContain('Winston Trails South');
+  expect(observed.streetNames).not.toContain('Green Island Terrace');
+  expect(errors).toEqual([]);
 });
