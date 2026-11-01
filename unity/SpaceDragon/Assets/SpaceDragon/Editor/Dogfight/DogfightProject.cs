@@ -23,31 +23,36 @@ namespace SpaceDragon.Dogfight.Editor
         public const string ScenePath = Generated + "/Dogfight.unity";
         public const string HeroicDragonPath = Imported + "/dragon-heroic-v005.glb";
         public const string VioletDragonPath = Imported + "/dragon-violet-v007.glb";
+        public const string OscarDragonPath = Imported + "/dragon-oscar-v001.glb";
         // Preparing the additive receipt makes the organic candidate available.
         // An explicit local rollback remains possible without deleting any intake.
         // Invalid prepared data fails validation rather than silently falling back.
-        public static bool UsesOrganicCandidate
+        public static string SelectedAsset
         {
             get
             {
                 var requested = Environment.GetEnvironmentVariable("SPACE_DRAGON_DOGFIGHT_ASSET");
-                if (requested == "heroic-v005") return false;
-                if (!string.IsNullOrEmpty(requested) && requested != "violet-v007")
-                    throw new InvalidDataException("SPACE_DRAGON_DOGFIGHT_ASSET must be heroic-v005 or violet-v007.");
-                bool available = File.Exists(Root + "/asset-receipt-v004.json");
-                if (requested == "violet-v007" && !available)
-                    throw new FileNotFoundException("Prepare the validated organic intake before selecting violet-v007.");
-                return available;
+                if (!string.IsNullOrEmpty(requested) && requested != "heroic-v005" && requested != "violet-v007" && requested != "oscar-v001")
+                    throw new InvalidDataException("SPACE_DRAGON_DOGFIGHT_ASSET must be heroic-v005, violet-v007 or oscar-v001.");
+                if (!string.IsNullOrEmpty(requested))
+                {
+                    string receipt = requested == "oscar-v001" ? "asset-receipt-v005.json" : requested == "violet-v007" ? "asset-receipt-v004.json" : "asset-receipt-v003.json";
+                    if (!File.Exists(Root + "/" + receipt)) throw new FileNotFoundException("Prepare the measured intake before selecting " + requested);
+                    return requested;
+                }
+                return File.Exists(Root + "/asset-receipt-v005.json") ? "oscar-v001" : File.Exists(Root + "/asset-receipt-v004.json") ? "violet-v007" : "heroic-v005";
             }
         }
-        public static string DragonPath => UsesOrganicCandidate ? VioletDragonPath : HeroicDragonPath;
-        public static string DragonHash => UsesOrganicCandidate ? ReadVioletContract().sha256 : ReadHeroicContract().sha256;
+        public static bool UsesOrganicCandidate => SelectedAsset == "violet-v007";
+        public static bool UsesOscarCandidate => SelectedAsset == "oscar-v001";
+        public static string DragonPath => UsesOscarCandidate ? OscarDragonPath : UsesOrganicCandidate ? VioletDragonPath : HeroicDragonPath;
+        public static string DragonHash => UsesOscarCandidate ? ReadOscarContract().sha256 : UsesOrganicCandidate ? ReadVioletContract().sha256 : ReadHeroicContract().sha256;
         public const int AsteroidLayer = 8;
         const string DronePath = Imported + "/drone.glb";
         static readonly string[] Sockets = { "socket_muzzle", "socket_wing_l", "socket_wing_r", "socket_thruster_l", "socket_thruster_r", "socket_target", "socket_camera", "socket_ground" };
         static readonly string[] MechanicalBones = { "Root", "Jaw", "Tail_0", "Tail_1", "Tail_2", "Tail_3", "Tail_4", "Wing_L", "Wing_R" };
         static readonly string[] OrganicBones = { "Root", "Neck", "Head", "Jaw", "Wing_L", "Wing_R", "Fore_L", "Fore_R", "Hind_L", "Hind_R", "Tail_0", "Tail_1", "Tail_2", "Tail_3", "Tail_4" };
-        static string[] Bones => UsesOrganicCandidate ? OrganicBones : MechanicalBones;
+        static string[] Bones => UsesOscarCandidate ? ReadOscarContract().bones : UsesOrganicCandidate ? OrganicBones : MechanicalBones;
 
         [Serializable] sealed class SourceFile { public string source, destination, sha256; public long bytes; }
         [Serializable] sealed class IntakeReceipt { public int schemaVersion; public string previousReceipt, rigProfile; public SourceFile[] sourceFiles, files; }
@@ -61,17 +66,23 @@ namespace SpaceDragon.Dogfight.Editor
         }
         [Serializable] sealed class SocketDefinition { public string name, parent; public float[] position, worldMatrix; }
         [Serializable] sealed class BoneRestDefinition { public string name, parent; public float[] worldMatrix; }
-        [Serializable] sealed class ClipChannelDefinition { public string bone; }
+        [Serializable] sealed class ClipChannelDefinition { public string bone, path; }
         [Serializable] sealed class ClipDefinition { public string name; public float durationSeconds; public ClipChannelDefinition[] channels; }
         [Serializable] sealed class BoundsDefinition { public float[] min, max, size; }
         [Serializable] sealed class CoordinateDefinition { public float metersPerUnit, sourceBasisYawDegrees; public string sourceForward, sourceUp, gameplayForward; }
-        [Serializable] sealed class VioletContract
+        [Serializable] class VioletContract
         {
             public int schemaVersion, triangles, instanceTriangles; public string file, sha256, rigProfile;
             public long bytes; public bool authoredPresentation; public float contactY;
             public string[] bones; public BoneRestDefinition[] boneRest; public SocketDefinition[] sockets;
             public ClipDefinition[] clips; public BoundsDefinition bounds; public CoordinateDefinition coordinateSystem;
         }
+        [Serializable] sealed class PresentationDefinition
+        {
+            public string jawBone; public float[] jawAxis; public float jawScale, jawMinRadians, jawMaxRadians;
+            public int sampleRate; public string[] damageSockets;
+        }
+        [Serializable] sealed class OscarContract : VioletContract { public PresentationDefinition presentation; }
         static bool Finite(float[] values, int count) => values?.Length == count && values.All(value => !float.IsNaN(value) && !float.IsInfinity(value));
         static VioletContract ReadVioletContract()
         {
@@ -94,6 +105,44 @@ namespace SpaceDragon.Dogfight.Editor
                 || Mathf.Abs(contract.contactY - contract.sockets.Single(socket => socket.name == "socket_ground").position[1]) > .0001f)
                 throw new InvalidDataException("Organic contact height differs from its ground attachment.");
             return contract;
+        }
+        static OscarContract ReadOscarContract()
+        {
+            var contract = JsonUtility.FromJson<OscarContract>(File.ReadAllText(Root + "/oscar-contract-v001.json"));
+            if (contract?.schemaVersion != 1 || contract.file != "dragon-oscar-v001.glb" || contract.sha256?.Length != 64
+                || contract.bytes <= 0 || contract.triangles <= 0 || contract.instanceTriangles <= 0 || !contract.authoredPresentation
+                || contract.rigProfile != "oscar-creativo-flight" || contract.bones == null || contract.bones.Length == 0
+                || contract.bones.Distinct().Count() != contract.bones.Length || contract.bones.Any(string.IsNullOrEmpty)
+                || contract.boneRest?.Length != contract.bones.Length || !contract.boneRest.Select(bone => bone.name).OrderBy(name => name).SequenceEqual(contract.bones.OrderBy(name => name))
+                || contract.boneRest.Any(bone => !Finite(bone.worldMatrix,16))
+                || contract.sockets == null || Sockets.Any(name => contract.sockets.Count(socket => socket.name == name) != 1)
+                || contract.sockets.Select(socket => socket.name).Distinct().Count() != contract.sockets.Length
+                || contract.sockets.Any(socket => string.IsNullOrEmpty(socket.name) || string.IsNullOrEmpty(socket.parent) || !Finite(socket.position,3) || !Finite(socket.worldMatrix,16))
+                || contract.clips?.Length != 3 || !contract.clips.Select(clip => clip.name).OrderBy(name => name).SequenceEqual(new[] { "Boost", "Flight", "Glide" })
+                || contract.clips.Any(clip => !(clip.durationSeconds > 0) || float.IsInfinity(clip.durationSeconds) || clip.channels == null || clip.channels.Length == 0
+                    || clip.channels.Any(channel => !contract.bones.Contains(channel.bone) || !new[] { "rotation", "translation", "scale" }.Contains(channel.path)))
+                || contract.bounds == null || !Finite(contract.bounds.min,3) || !Finite(contract.bounds.max,3) || !Finite(contract.bounds.size,3)
+                || contract.coordinateSystem == null || contract.coordinateSystem.metersPerUnit != 1 || contract.coordinateSystem.sourceForward != "+Z"
+                || contract.coordinateSystem.sourceUp != "+Y" || contract.coordinateSystem.gameplayForward != "+Z" || contract.coordinateSystem.sourceBasisYawDegrees != 0)
+                throw new InvalidDataException("Missing or invalid measured Oscar contract. Prepare its additive intake first.");
+            var profile=contract.presentation;
+            if (profile == null || !contract.bones.Contains(profile.jawBone) || !Finite(profile.jawAxis,3)
+                || new Vector3(profile.jawAxis[0],profile.jawAxis[1],profile.jawAxis[2]).sqrMagnitude < .0001f
+                || !Finite(new[] { profile.jawScale,profile.jawMinRadians,profile.jawMaxRadians,contract.contactY },4)
+                || Mathf.Abs(profile.jawScale)<.0001f || profile.jawMinRadians>=profile.jawMaxRadians || profile.sampleRate<1 || profile.sampleRate>120
+                || profile.damageSockets?.Length != 3 || profile.damageSockets.Any(name => !contract.sockets.Any(socket => socket.name == name))
+                || Mathf.Abs(contract.contactY-contract.sockets.Single(socket => socket.name == "socket_ground").position[1])>.0001f)
+                throw new InvalidDataException("Oscar presentation/contact mapping is missing or invalid.");
+            return contract;
+        }
+        static DragonRigProfile RuntimeProfile(OscarContract contract)
+        {
+            var p=contract.presentation;
+            return new DragonRigProfile { id=contract.rigProfile,
+                animatedNodes=contract.clips.SelectMany(clip=>clip.channels).Select(channel=>channel.bone).Distinct().ToArray(),
+                jawBone=p.jawBone, jawAxis=new Vector3(p.jawAxis[0],-p.jawAxis[1],-p.jawAxis[2]),
+                jawScale=p.jawScale,jawMinRadians=p.jawMinRadians,jawMaxRadians=p.jawMaxRadians,sampleRate=p.sampleRate,damageSockets=p.damageSockets };
+            // Rotation axes are axial vectors: glTFast X mirroring keeps X and reverses Y/Z.
         }
         [Serializable] sealed class MaterialContract { public int schemaVersion; public ModelContract[] models; }
         [Serializable] sealed class ModelContract { public string file, sha256; public MaterialDefinition[] materials; }
@@ -121,7 +170,11 @@ namespace SpaceDragon.Dogfight.Editor
             public string unityVersion, createdUtc, scene, sourceSha256, colorSpace, coordinates, dragonVersion, rigProfile, configuredMeshDeformation;
             public string meshDeformationScope = "Configured player setting; actual execution and fallback require separate WebGPU/WebGL2 player checks.";
             public string[] graphicsAPIs;
+            public string configuredSkinWeights; public string[] configuredSkinWeightsByQuality;
             public ModelEvidence dragon, drone;
+            public OscarFullWeightMeshes.Evidence fullSkinWeights;
+            public string textureMode;
+            public OscarCompressedTextures.Evidence compressedTextures;
             public int asteroidLayer, msaaSamples, backgroundStars = 5200, backgroundStarDraws = 1;
             public float renderScale, collisionRadius, contactY, missileDamage;
             public string visibleSky = "Unfiltered 2048px sRGB panoramic JPEG; separate filtered 512px reflection cube; identical pinned source bytes.";
@@ -132,7 +185,9 @@ namespace SpaceDragon.Dogfight.Editor
             public string unityVersion, createdUtc, target, output, result, scene, sourceSha256, dragonVersion, configuredMeshDeformation, originalMeshDeformation, restoredMeshDeformation;
             public string meshDeformationScope = "Configured player setting; actual execution and fallback require separate WebGPU/WebGL2 player checks.";
             public string[] graphicsAPIs; public ulong bytes; public double durationSeconds;
+            public string configuredSkinWeights; public string[] configuredSkinWeightsByQuality, originalSkinWeightsByQuality, restoredSkinWeightsByQuality;
             public bool developmentBuild, settingsRestored;
+            public string textureMode;
         }
 
         [MenuItem("Space Dragon/Dogfight/Generate separate Dogfight scene")]
@@ -162,7 +217,9 @@ namespace SpaceDragon.Dogfight.Editor
             ConfigureModelImport(DronePath);
             ConfigureTextures();
             var organic = UsesOrganicCandidate;
-            var contract = JsonUtility.FromJson<MaterialContract>(File.ReadAllText(Root + (organic ? "/material-contract-v004.json" : "/material-contract-v003.json")));
+            var oscar = UsesOscarCandidate;
+            var oscarContract = oscar ? ReadOscarContract() : null;
+            var contract = JsonUtility.FromJson<MaterialContract>(File.ReadAllText(Root + (oscar ? "/material-contract-v005.json" : organic ? "/material-contract-v004.json" : "/material-contract-v003.json")));
             if (contract?.schemaVersion != 1 || contract.models?.Length != 2) throw new InvalidDataException("Unexpected Dogfight material contract.");
             var dragonSource = Prefab(DragonPath);
             var droneSource = Prefab(DronePath);
@@ -171,20 +228,24 @@ namespace SpaceDragon.Dogfight.Editor
             RetainRuntimeShaderVariants();
 
             // The GLB remains at its authored metre scale and origin. glTFast has
-            // already converted handedness. Only this one Y180 adapter converts
-            // its -Z nose to the +Z authoritative flight frame.
+            // already converted handedness. Mechanical/violet use one Y180
+            // adapter for their -Z nose; Oscar is already +Z and uses identity.
             var player = new GameObject("Dragon.GameplayRoot.+Z-metres").transform;
             var collision = player.gameObject.AddComponent<SphereCollider>();
             collision.radius = 3.3f; collision.center = Vector3.zero; collision.isTrigger = true;
             var motion = Child("Dragon.VisualMotion.bank-roll", player);
-            var basis = Child("Dragon.SourceBasis.minusZ-to-plusZ.Y180", motion);
-            basis.localRotation = Quaternion.Euler(0, 180, 0);
+            var basis = Child(oscar ? "Dragon.SourceBasis.plusZ.identity" : "Dragon.SourceBasis.minusZ-to-plusZ.Y180", motion);
+            basis.localRotation = Quaternion.Euler(0, oscar ? oscarContract.coordinateSystem.sourceBasisYawDegrees : 180, 0);
             var dragon = (GameObject)PrefabUtility.InstantiatePrefab(dragonSource);
-            dragon.name = organic ? "DragonViolet.v007.Organic" : "DragonHeroic.v005.Authored";
+            dragon.name = oscar ? "DragonOscar.v001.Authored" : organic ? "DragonViolet.v007.Organic" : "DragonHeroic.v005.Authored";
             dragon.transform.SetParent(basis, false);
             SetRendererDefaults(dragon);
             var dragonMaterials = ApplyMaterialParity(dragon, DragonPath, contract);
+            var textureMode = oscar ? OscarCompressedTextures.SelectedMode : "source";
+            var compressedTextures = oscar && textureMode == "bc7"
+                ? OscarCompressedTextures.Prepare(dragon,DragonPath,oscarContract.sha256,Generated) : null;
             var clips = AssetDatabase.LoadAllAssetsAtPath(DragonPath).OfType<AnimationClip>().ToArray();
+            var fullSkinWeights = oscar ? OscarFullWeightMeshes.Restore(dragon,clips,oscarContract.sha256,Generated) : null;
             AnimationClip Clip(string name) => clips.SingleOrDefault(c => c.name == name) ?? throw new InvalidDataException("Imported dragon lost " + name);
             ValidateDragon(dragon, clips);
 
@@ -223,6 +284,13 @@ namespace SpaceDragon.Dogfight.Editor
             var host = new GameObject("DogfightEncounter").AddComponent<DogfightEncounter>();
             host.UseAuthoredArmor = true; // Both candidates own their surfaces; no generated armor overlay.
             host.UseOrganicDragon = organic;
+            host.DragonTextureMode = textureMode;
+            if (oscar)
+            {
+                host.MeasuredDragonProfile = RuntimeProfile(oscarContract);
+                host.DragonAttribution = AssetDatabase.LoadAssetAtPath<TextAsset>(Imported + "/dragon-oscar-v001-NOTICE.txt");
+                if (host.DragonAttribution == null) throw new InvalidDataException("Oscar player attribution must be included in the generated scene.");
+            }
             // These serialized scene references preserve URP/Lit and URP/Unlit
             // variants used by runtime VFX. Runtime owns the asteroid instances
             // and simple sphere colliders on layer 8, never render-mesh colliders.
@@ -242,13 +310,18 @@ namespace SpaceDragon.Dogfight.Editor
             {
                 unityVersion = Application.unityVersion, createdUtc = DateTime.UtcNow.ToString("O"), scene = ScenePath,
                 sourceSha256 = DragonHash, colorSpace = PlayerSettings.colorSpace.ToString(),
-                dragonVersion = organic ? "violet-v007" : "heroic-v005", rigProfile = organic ? "violet-organic-15" : "mechanical-9",
+                dragonVersion = SelectedAsset, rigProfile = oscar ? oscarContract.rigProfile : organic ? "violet-organic-15" : "mechanical-9",
                 configuredMeshDeformation = PlayerSettings.meshDeformation.ToString(),
+                configuredSkinWeights = QualitySettings.skinWeights.ToString(),
+                configuredSkinWeightsByQuality = oscar ? CaptureSkinWeights().Select(value=>value.ToString()).ToArray() : null,
                 graphicsAPIs = PlayerSettings.GetGraphicsAPIs(BuildTarget.WebGL).Select(a => a.ToString()).ToArray(),
                 dragon = Evidence(dragon, clips, dragonMaterials, true), drone = droneEvidence,
-                coordinates = "Metres/+Y up/+Z gameplay. GameplayRoot -> visual bank/roll -> single Y180 source basis -> unchanged -Z GLB; glTFast performs handedness conversion.",
+                fullSkinWeights = fullSkinWeights,
+                textureMode = textureMode, compressedTextures = compressedTextures,
+                coordinates = oscar ? "Metres/+Y up/+Z gameplay. GameplayRoot -> visual bank/roll -> identity source basis -> measured +Z GLB; glTFast performs handedness conversion. Source normalization is already baked."
+                    : "Metres/+Y up/+Z gameplay. GameplayRoot -> visual bank/roll -> single Y180 source basis -> unchanged -Z GLB; glTFast performs handedness conversion.",
                 asteroidLayer = AsteroidLayer, msaaSamples = pipeline.msaaSampleCount, renderScale = pipeline.renderScale,
-                collisionRadius = 3.3f, contactY = organic ? ReadVioletContract().contactY : -.665026843547821f, missileDamage = tuning.MissileDamage
+                collisionRadius = 3.3f, contactY = oscar ? oscarContract.contactY : organic ? ReadVioletContract().contactY : -.665026843547821f, missileDamage = tuning.MissileDamage
             };
             Directory.CreateDirectory("Builds");
             File.WriteAllText("Builds/dogfight-setup-receipt.json", JsonUtility.ToJson(receipt, true));
@@ -259,11 +332,13 @@ namespace SpaceDragon.Dogfight.Editor
         static void VerifyIntake()
         {
             var organic = UsesOrganicCandidate;
-            var receiptPath = Root + (organic ? "/asset-receipt-v004.json" : "/asset-receipt-v003.json");
+            var oscar = UsesOscarCandidate;
+            var receiptPath = Root + (oscar ? "/asset-receipt-v005.json" : organic ? "/asset-receipt-v004.json" : "/asset-receipt-v003.json");
             if (!File.Exists(receiptPath)) throw new FileNotFoundException("Prepare the selected versioned Dogfight intake before generation.", receiptPath);
             var receipt = JsonUtility.FromJson<IntakeReceipt>(File.ReadAllText(receiptPath));
             if (receipt == null || receipt.files == null || receipt.sourceFiles == null
-                || (organic ? receipt.schemaVersion != 4 || receipt.previousReceipt != "asset-receipt-v003.json" || receipt.rigProfile != "violet-organic-15"
+                || (oscar ? receipt.schemaVersion != 5 || receipt.previousReceipt != "asset-receipt-v004.json" || receipt.rigProfile != "oscar-creativo-flight"
+                    : organic ? receipt.schemaVersion != 4 || receipt.previousReceipt != "asset-receipt-v003.json" || receipt.rigProfile != "violet-organic-15"
                     : receipt.schemaVersion != 3 || receipt.sourceFiles.Length != 12 || receipt.files.Length != 17))
                 throw new InvalidDataException("Unexpected Dogfight intake receipt; review the prepared source contract.");
             if (receipt.files.Select(file => file.destination).Distinct().Count() != receipt.files.Length)
@@ -271,6 +346,9 @@ namespace SpaceDragon.Dogfight.Editor
             if (organic)
                 foreach (var required in new[] { "asset-receipt-v003.json", "Imported/dragon-violet-v007.glb", "violet-contract-v007.json", "material-contract-v004.json", "violet-export-receipt-v007.json" })
                     if (!receipt.files.Any(file => file.destination == required)) throw new InvalidDataException("Organic intake is missing " + required);
+            if (oscar)
+                foreach (var required in new[] { "asset-receipt-v004.json", "Imported/dragon-oscar-v001.glb", "oscar-contract-v001.json", "material-contract-v005.json", "oscar-export-receipt-v001.json", "Imported/dragon-oscar-v001-NOTICE.txt", "oscar-provenance-v001.json", "Editor/oscar-fullweights-v001.json", "Editor/oscar-fullweights-v001.bytes" })
+                    if (!receipt.files.Any(file => file.destination == required)) throw new InvalidDataException("Oscar intake is missing " + required);
             foreach (var file in receipt.files)
             {
                 var absolute = Path.GetFullPath(Root + "/" + file.destination);
@@ -279,7 +357,7 @@ namespace SpaceDragon.Dogfight.Editor
                 if (!File.Exists(absolute) || new FileInfo(absolute).Length != file.bytes || Hash(absolute) != file.sha256)
                     throw new InvalidDataException("Prepared asset changed: " + file.destination + ". Preserve edits and choose a new intake version.");
             }
-            long expectedBytes = organic ? ReadVioletContract().bytes : ReadHeroicContract().bytes;
+            long expectedBytes = oscar ? ReadOscarContract().bytes : organic ? ReadVioletContract().bytes : ReadHeroicContract().bytes;
             if (Hash(DragonPath) != DragonHash || new FileInfo(DragonPath).Length != expectedBytes)
                 throw new InvalidDataException("Dragon GLB differs from its selected measured intake.");
         }
@@ -307,6 +385,25 @@ namespace SpaceDragon.Dogfight.Editor
             PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
             PlayerSettings.WebGL.initialMemorySize = 128; PlayerSettings.WebGL.maximumMemorySize = 512;
             QualitySettings.vSyncCount = 0;
+            if (UsesOscarCandidate)
+                ApplySkinWeights(Enumerable.Repeat(SkinWeights.Unlimited,QualitySettings.names.Length).ToArray(),QualitySettings.GetQualityLevel());
+        }
+
+        // WebGL defaults to a different quality level than the Editor. Scope all
+        // levels to Unlimited during this build, then restore every value. Oscar
+        // renderers use Auto; Bone4 would silently truncate the restored meshes.
+        static SkinWeights[] CaptureSkinWeights()
+        {
+            int current=QualitySettings.GetQualityLevel();
+            var result=new SkinWeights[QualitySettings.names.Length];
+            try { for(int i=0;i<result.Length;i++) { QualitySettings.SetQualityLevel(i,false); result[i]=QualitySettings.skinWeights; } }
+            finally { QualitySettings.SetQualityLevel(current,false); }
+            return result;
+        }
+        static void ApplySkinWeights(SkinWeights[] values,int selected)
+        {
+            try { for(int i=0;i<values.Length;i++) { QualitySettings.SetQualityLevel(i,false); QualitySettings.skinWeights=values[i]; } }
+            finally { QualitySettings.SetQualityLevel(selected,false); }
         }
 
         static void ConfigureMeshDeformation()
@@ -561,7 +658,7 @@ namespace SpaceDragon.Dogfight.Editor
                 }
                 if (entry.clearcoat > 0 && actual.shader.name.IndexOf("Clearcoat", StringComparison.OrdinalIgnoreCase) < 0)
                     throw new InvalidDataException("Clearcoat imported with an incompatible shader: " + entry.name + " -> " + actual.shader.name);
-                if (source == VioletDragonPath)
+                if (source == VioletDragonPath || source == OscarDragonPath)
                 {
                     foreach (var required in new[] { new { Required = entry.hasBaseColorMap, Property = "baseColorTexture" },
                         new { Required = entry.hasNormalMap, Property = "normalTexture" }, new { Required = entry.hasOcclusionMap, Property = "occlusionTexture" } })
@@ -600,6 +697,7 @@ namespace SpaceDragon.Dogfight.Editor
                 clipSeconds = clips.Select(c => c.length).ToArray(), sockets = dragon ? Sockets : Array.Empty<string>(), bones = dragon ? Bones : Array.Empty<string>() };
         static void ValidateDragon(GameObject model, AnimationClip[] clips)
         {
+            if (UsesOscarCandidate) { ValidateOscarDragon(model,clips,ReadOscarContract()); return; }
             var organic = UsesOrganicCandidate;
             var measured = organic ? ReadVioletContract() : null;
             var nodes = model.GetComponentsInChildren<Transform>(true);
@@ -629,6 +727,36 @@ namespace SpaceDragon.Dogfight.Editor
             if (Mathf.Abs(groundPoint.y + .665026843547821f) > .0001f || Mathf.Abs(muzzlePoint.z + 3.66f) > .0001f)
                 throw new InvalidDataException("Dragon contact or muzzle socket moved during import.");
         }
+        static void ValidateOscarDragon(GameObject model,AnimationClip[] clips,OscarContract measured)
+        {
+            var nodes=model.GetComponentsInChildren<Transform>(true);
+            foreach (var name in measured.bones.Concat(measured.sockets.Select(socket=>socket.name)))
+                if (nodes.Count(node=>node.name==name)!=1) throw new InvalidDataException("Expected one measured Oscar node: " + name);
+            if (nodes.Select(node=>node.name).Distinct().Count()!=nodes.Length)
+                throw new InvalidDataException("Oscar animation lookup requires unique imported node names.");
+            if (Triangles(model)!=measured.instanceTriangles) throw new InvalidDataException("Oscar triangle count changed on import.");
+            if (clips.Length!=3 || clips.Any(clip=>clip.legacy) || !clips.Select(clip=>clip.name).OrderBy(name=>name).SequenceEqual(new[] {"Boost","Flight","Glide"}))
+                throw new InvalidDataException("Oscar requires its three measured Mecanim state clips.");
+            foreach (var clip in clips)
+            {
+                var expected=measured.clips.Single(item=>item.name==clip.name);
+                if (Mathf.Abs(clip.length-expected.durationSeconds)>.002f) throw new InvalidDataException("Oscar clip duration changed: " + clip.name);
+                var bindings=AnimationUtility.GetCurveBindings(clip);
+                var channels=new HashSet<string>(StringComparer.Ordinal);
+                foreach (var binding in bindings)
+                {
+                    string name=binding.path.Split('/').Last();
+                    string kind=binding.propertyName.Contains("Rotation") ? "rotation" : binding.propertyName.Contains("Position") ? "translation" : binding.propertyName.Contains("Scale") ? "scale" : "";
+                    if (binding.type!=typeof(Transform) || string.IsNullOrEmpty(binding.path) || string.IsNullOrEmpty(kind) || !measured.bones.Contains(name)
+                        || model.transform.Find(binding.path)==null)
+                        throw new InvalidDataException("Unexpected Oscar animation binding: " + clip.name + "/" + binding.path + "/" + binding.propertyName);
+                    channels.Add(name+":"+kind);
+                }
+                if (!channels.OrderBy(value=>value).SequenceEqual(expected.channels.Select(channel=>channel.bone+":"+channel.path).Distinct().OrderBy(value=>value)))
+                    throw new InvalidDataException("Oscar full-TRS animation targets changed on import: " + clip.name);
+            }
+            ValidateOrganicRest(model,nodes,measured,true);
+        }
 
         static Matrix4x4 ImportedSourceMatrix(float[] source)
         {
@@ -645,13 +773,13 @@ namespace SpaceDragon.Dogfight.Editor
                 if (float.IsNaN(actual[i]) || float.IsInfinity(actual[i]) || Mathf.Abs(actual[i] - expected[i]) > .001f)
                     throw new InvalidDataException("Organic rest/attachment transform changed on import: " + label);
         }
-        static void ValidateOrganicRest(GameObject model, Transform[] nodes, VioletContract measured)
+        static void ValidateOrganicRest(GameObject model, Transform[] nodes, VioletContract measured, bool oscar = false)
         {
             foreach (var bone in measured.boneRest)
             {
                 var node = nodes.Single(item => item.name == bone.name);
                 RequireSourceTransform(model.transform, node, bone.worldMatrix, bone.name);
-                if (bone.name != "Root" && node.parent.name != bone.parent)
+                if ((oscar ? !string.IsNullOrEmpty(bone.parent) : bone.name != "Root") && node.parent.name != bone.parent)
                     throw new InvalidDataException("Organic bone hierarchy changed: " + bone.name);
             }
             foreach (var socket in measured.sockets)
@@ -663,7 +791,7 @@ namespace SpaceDragon.Dogfight.Editor
             }
             var skins = model.GetComponentsInChildren<SkinnedMeshRenderer>(true);
             if (skins.Length == 0 || !skins.SelectMany(skin => skin.bones).Where(bone => bone != null).Select(bone => bone.name).Distinct().OrderBy(name => name)
-                .SequenceEqual(OrganicBones.OrderBy(name => name))) throw new InvalidDataException("Organic imported skin lost its 15-bone skeleton.");
+                .SequenceEqual((oscar ? measured.bones : OrganicBones).OrderBy(name => name))) throw new InvalidDataException("Imported skin differs from the selected measured skeleton.");
             // Compare actual imported rest geometry, not animated Renderer bounds.
             // This is an Editor-only temporary bake; shared meshes stay immutable.
             var minimum = Vector3.one * float.PositiveInfinity; var maximum = Vector3.one * float.NegativeInfinity;
@@ -672,13 +800,23 @@ namespace SpaceDragon.Dogfight.Editor
                 var baked = new Mesh();
                 try
                 {
-                    skin.BakeMesh(baked, false);
+                    // Compensate renderer scale before applying localToWorld;
+                    // otherwise a normalized source's scale is applied twice.
+                    skin.BakeMesh(baked, true);
                     var toModel = model.transform.worldToLocalMatrix * skin.transform.localToWorldMatrix;
                     foreach (var vertex in baked.vertices)
                     { var point = toModel.MultiplyPoint3x4(vertex); minimum = Vector3.Min(minimum, point); maximum = Vector3.Max(maximum, point); }
                 }
                 finally { Object.DestroyImmediate(baked); }
             }
+            if (oscar)
+                foreach (var mesh in model.GetComponentsInChildren<MeshFilter>(true))
+                {
+                    if (mesh.sharedMesh == null) continue;
+                    var toModel=model.transform.worldToLocalMatrix*mesh.transform.localToWorldMatrix;
+                    foreach (var vertex in mesh.sharedMesh.vertices)
+                    { var point=toModel.MultiplyPoint3x4(vertex); minimum=Vector3.Min(minimum,point); maximum=Vector3.Max(maximum,point); }
+                }
             var expectedMin = new Vector3(-measured.bounds.max[0], measured.bounds.min[1], measured.bounds.min[2]);
             var expectedMax = new Vector3(-measured.bounds.min[0], measured.bounds.max[1], measured.bounds.max[2]);
             if (!Finite(new[] { minimum.x, minimum.y, minimum.z, maximum.x, maximum.y, maximum.z }, 6)
@@ -705,8 +843,11 @@ namespace SpaceDragon.Dogfight.Editor
                     locationPathName = output, options = BuildOptions.Development | BuildOptions.StrictMode });
                 receipt = new BuildReceipt { unityVersion = Application.unityVersion, createdUtc = DateTime.UtcNow.ToString("O"),
                     target = target.ToString(), output = output, result = report.summary.result.ToString(), scene = ScenePath, sourceSha256 = DragonHash,
-                    dragonVersion = UsesOrganicCandidate ? "violet-v007" : "heroic-v005",
+                    dragonVersion = SelectedAsset,
+                    textureMode = UsesOscarCandidate ? OscarCompressedTextures.SelectedMode : "source",
                     configuredMeshDeformation = PlayerSettings.meshDeformation.ToString(), originalMeshDeformation = settings.MeshDeformationBefore,
+                    configuredSkinWeights = QualitySettings.skinWeights.ToString(), originalSkinWeightsByQuality = settings.SkinWeightsBefore,
+                    configuredSkinWeightsByQuality = UsesOscarCandidate ? CaptureSkinWeights().Select(value=>value.ToString()).ToArray() : null,
                     graphicsAPIs = PlayerSettings.GetGraphicsAPIs(target).Select(a => a.ToString()).ToArray(),
                     bytes = report.summary.totalSize, durationSeconds = report.summary.totalTime.TotalSeconds, developmentBuild = true };
                 if (report.summary.result != BuildResult.Succeeded) throw new BuildFailedException("Dogfight build failed: " + report.summary.result);
@@ -714,7 +855,7 @@ namespace SpaceDragon.Dogfight.Editor
             finally
             {
                 settings.Restore();
-                if (receipt != null) { receipt.settingsRestored = true; receipt.restoredMeshDeformation = PlayerSettings.meshDeformation.ToString(); File.WriteAllText(directory + "/build-receipt.json", JsonUtility.ToJson(receipt, true)); }
+                if (receipt != null) { receipt.settingsRestored = true; receipt.restoredMeshDeformation = PlayerSettings.meshDeformation.ToString(); receipt.restoredSkinWeightsByQuality = settings.SkinWeightsAfter; File.WriteAllText(directory + "/build-receipt.json", JsonUtility.ToJson(receipt, true)); }
             }
             Debug.Log("SPACE_DRAGON_DOGFIGHT_BUILD_OK " + output);
         }
@@ -728,7 +869,11 @@ namespace SpaceDragon.Dogfight.Editor
             readonly int vSync = QualitySettings.vSyncCount, width = PlayerSettings.defaultScreenWidth, height = PlayerSettings.defaultScreenHeight;
             readonly ColorSpace colorSpace = PlayerSettings.colorSpace;
             readonly MeshDeformation meshDeformation = PlayerSettings.meshDeformation;
+            readonly int qualityLevel = QualitySettings.GetQualityLevel();
+            readonly SkinWeights[] skinWeights = UsesOscarCandidate ? CaptureSkinWeights() : null;
             public string MeshDeformationBefore => meshDeformation.ToString();
+            public string[] SkinWeightsBefore => skinWeights?.Select(value=>value.ToString()).ToArray();
+            public string[] SkinWeightsAfter => skinWeights == null ? null : CaptureSkinWeights().Select(value=>value.ToString()).ToArray();
             readonly string product = PlayerSettings.productName, template = PlayerSettings.WebGL.template;
             readonly FullScreenMode screenMode = PlayerSettings.fullScreenMode;
             readonly bool background = PlayerSettings.runInBackground;
@@ -741,6 +886,7 @@ namespace SpaceDragon.Dogfight.Editor
             public void Restore()
             {
                 PlayerSettings.meshDeformation = meshDeformation;
+                if (skinWeights != null) ApplySkinWeights(skinWeights,qualityLevel);
                 GraphicsSettings.defaultRenderPipeline = defaultPipeline; QualitySettings.renderPipeline = qualityPipeline; QualitySettings.vSyncCount = vSync;
                 DogfightGltfImportScope.ResetCaches();
                 PlayerSettings.colorSpace = colorSpace; PlayerSettings.productName = product;
@@ -753,6 +899,8 @@ namespace SpaceDragon.Dogfight.Editor
                 AssetDatabase.SaveAssets();
                 if (PlayerSettings.meshDeformation != meshDeformation)
                     throw new InvalidOperationException("Dogfight could not restore the original mesh-deformation setting.");
+                if (skinWeights != null && !CaptureSkinWeights().SequenceEqual(skinWeights))
+                    throw new InvalidOperationException("Dogfight could not restore every quality level's skin-weight setting.");
             }
         }
     }

@@ -1,0 +1,467 @@
+{
+  "assetId": "dragon-oscar-baseline",
+  "ideaId": "SD-086",
+  "status": "IMPLEMENTED and VERIFIED for bounded Lenovo/Chrome baseline integration; six matched neutral views REVIEWED. Owner quality/release approval remains open. Hosted CI and merge delivery are recorded by the resulting PR.",
+  "ownerSelectionDateLocal": "2026-10-31",
+  "ownerSelectionTimezone": "America/New_York",
+  "recordDateUtc": "2026-11-01",
+  "sourcePackage": "C:/Projects/space_dragon/free-dragon-character-3d-by-oscar-creativo",
+  "sourceFile": "source/DRAGON CHARACTER 3D BY Oscar Creativo.fbx",
+  "sourceBytes": 28080332,
+  "sourceSha256": "5995203e4c99d683be82ce7157f6e3e40341f56d8de46ba9578f6d47123d8ea4",
+  "title": "FREE DRAGON CHARACTER 3D BY Oscar Creativo",
+  "creator": {
+    "displayName": "OSCAR CREATIVO",
+    "profileUrl": "https://sketchfab.com/oscar_creativo"
+  },
+  "sourceUrl": "https://sketchfab.com/3d-models/free-dragon-character-3d-by-oscar-creativo-443971c0f42a49e5bedc0bfe2b544407",
+  "license": {
+    "spdx": "CC-BY-4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "publicApiLabel": "CC Attribution",
+    "publicApiRequirements": "Author must be credited. Commercial use is allowed."
+  },
+  "originalCopyrightNotice": "Character FREE DRAGON By Oscar Creativo All rights reserved www.oscarcreativo.co",
+  "evidence": {
+    "metadataUrl": "https://api.sketchfab.com/v3/models/443971c0f42a49e5bedc0bfe2b544407",
+    "retrievedAtUtc": "2026-11-01T02:18:18.461736+00:00",
+    "metadataSha256": "237c46a0d04cc500c5a028abfc8fea50f830801357bb6733411adcee2b1601e5",
+    "localReportDirectory": "C:/Projects/space_dragon_unity_merge/artifacts/oscar-dragon-intake",
+    "inventorySha256": "3f02271ea570529030cde47232b6d46d5933a3bde7036833147d86bb63dca6dd",
+    "blenderImport": {
+      "report": "artifacts/oscar-dragon-intake/blender-import-v001.json",
+      "reportSha256": "f911f2e3d6b4769009ea086160905143b317e0c92e6100147465d159ad4b577e",
+      "startedAtUtc": "2026-11-01T02:29:50.428349+00:00",
+      "finishedAtUtc": "2026-11-01T02:30:15.857571+00:00",
+      "blenderVersion": "5.2.1 LTS",
+      "preservation": {
+        "meshGeometryUvSkinIdentical": true,
+        "boneRestAndWeightsIdentical": true,
+        "animationChannelsIdentical": true,
+        "sourceFbxUnchanged": true
+      }
+    }
+  },
+  "sourceMeasurements": {
+    "vertices": 114029,
+    "triangles": 224407,
+    "geometryObjects": 27,
+    "limbNodes": 931,
+    "positivelyWeightedBones": 101,
+    "animationClips": 1,
+    "clipSeconds": 5.133333,
+    "pngMaps2048": 106,
+    "jpgMaps4096": 3
+  },
+  "sourceLimitations": [
+    "FBX texture references use absent creator-local paths; supplied images require relinking.",
+    "Body normal tile 1021, metallic tile 1035 and roughness tile 1025 are absent.",
+    "No license/readme file was supplied inside the local package; dated public model API evidence is recorded.",
+    "CUERPO_.002 on DRAGON_BAJA1_1_9 uses an inferred horn-tile1036 assignment in the game candidate; complete neutral views were reviewed; this six-triangle material was not independently isolated.",
+    "Imported dragon span is 91.41780090332031 metres before game normalization; this is not selected gameplay scale.",
+    "Source motion and adapted export clips are recorded; later full Unity setup and both browser suites pass; the failed readback checkpoint remains preserved."
+  ],
+  "modifications": [
+    {
+      "version": "Oscar Dragon-v001-imported.blend",
+      "kind": "Recoverable Blender import, source package unchanged",
+      "details": [
+        "Imported FBX with original geometry, UVs, skin, bone rests/weights and animation channels retained; all recorded preservation checks true.",
+        "Created local baseline material remaps using supplied texture maps, preserving original material datablocks.",
+        "Packed mapped images and kept separate presentation rock hidden in the source; unresolved mapping/channel limits remain documented."
+      ],
+      "sha256": "faef4cc1304176e7413753806181a59e535d305964c1b723fb13ab9b10cc37d6"
+    },
+    {
+      "version": "Oscar Dragon-v003-game-fullweights.blend",
+      "kind": "Separate normalized game source; full positive weights retained",
+      "details": [
+        "Separate candidate normalized to requested reference-pose span and centered on source root.x rest",
+        "Presentation rock omitted from candidate; original source retained",
+        "Unused nonancestor bones removed after weighted hierarchy audit; retained motion baked fullTRS at30Hz and deformation checked",
+        "All positive source skin influences retained and renormalized; full-weight deformation compared at1mm gate",
+        "Cloned UVs moved into0..1; supplied maps resized by head-weight priority, ORM packed with neutral AO",
+        "CUERPO_.002 uses inferred horn tile1036; nearest-surface context recorded and visual review remains required",
+        "Derived held Glide and1.15x Boost clips; measured attachment sockets added"
+      ],
+      "sha256": "72d4f006c2ce891f47b52553690cb8ce3cb246f3be609c3b35255280f245aabd"
+    },
+    {
+      "version": "dragon-oscar-v001.glb",
+      "kind": "Selected game export; source unchanged",
+      "details": [
+        "Separate candidate normalized to requested reference-pose span and centered on source root.x rest",
+        "Presentation rock omitted from candidate; original source retained",
+        "Unused nonancestor bones removed after weighted hierarchy audit; retained motion baked fullTRS at30Hz and deformation checked",
+        "All positive source skin influences retained and renormalized; full-weight deformation compared at1mm gate",
+        "Cloned UVs moved into0..1; supplied maps resized by head-weight priority, ORM packed with neutral AO",
+        "CUERPO_.002 uses inferred horn tile1036; nearest-surface context recorded and visual review remains required",
+        "Derived held Glide and1.15x Boost clips; measured attachment sockets added",
+        "Selected glTF export with every positive prepared skin influence across contiguous weight sets; scoped exporter epsilon removed and original method restored",
+        "FullTRS Flight and exact-time derived Glide/Boost; glTF tangent validation/repair where undefined"
+      ],
+      "sha256": "7c9ed83fef05fc1d2b3bf868e44f5893742dad1682d2368c78ca24acd1ed3292"
+    }
+  ],
+  "modificationStatus": "Imported source, separate full-weight normalized game source, GLB/clip/socket derivation and BC7 player derivatives recorded below; original package remains unchanged.",
+  "publicationScope": "Source provenance only; raw source package remains local. New export and player integration require their own checks.",
+  "importedMaster": {
+    "path": "C:/Projects/space_dragon/assets/source/local/spacecraft/oscar-dragon/Oscar Dragon-v001-imported.blend",
+    "bytes": 399119070,
+    "sha256": "faef4cc1304176e7413753806181a59e535d305964c1b723fb13ab9b10cc37d6",
+    "normalization": "None; original imported transforms retained.",
+    "dragonInitialFrameBoundsMetres": {
+      "min": [
+        -47.39505386352539,
+        -16.93465232849121,
+        12.21983814239502
+      ],
+      "max": [
+        44.02274703979492,
+        28.80488395690918,
+        43.788368225097656
+      ],
+      "size": [
+        91.41780090332031,
+        45.73953628540039,
+        31.568530082702637
+      ]
+    },
+    "meshObjectsIncludingPresentationRock": 27,
+    "presentationRock": "Separate hidden object retained in source."
+  },
+  "observedSourceReview": {
+    "observer": "Root agent, live Blender",
+    "views": [
+      "front",
+      "side",
+      "three-quarter"
+    ],
+    "animationFrames": [
+      0,
+      31,
+      62,
+      93,
+      124,
+      154
+    ],
+    "observations": [
+      "Looping wing flap",
+      "Body and tail motion"
+    ],
+    "limits": [
+      "Sampled source poses are not full deformation or gameplay verification.",
+      "CUERPO_.002 on DRAGON_BAJA1_1_9 has observed UV tile 1036; mapping remains unresolved."
+    ]
+  },
+  "candidatePreparation": {
+    "status": "Full-weight source preparation, corrected export/intake and later Unity readback/pose PASS",
+    "report": "artifacts/oscar-dragon-intake/preparation-v002.json",
+    "reportSha256": "bd6960f9b31687cfb48a3a53a5ab51abb3589a7160e927e753276bb7dbf104a6",
+    "source": "C:/Projects/space_dragon/assets/source/local/spacecraft/oscar-dragon/Oscar Dragon-v003-game-fullweights.blend",
+    "bytes": 526071862,
+    "sha256": "72d4f006c2ce891f47b52553690cb8ce3cb246f3be609c3b35255280f245aabd",
+    "retainedBones": 165,
+    "originalMaximumInfluences": 12,
+    "candidateMaximumInfluences": 12,
+    "verticesTrimmed": 0,
+    "maximumWeightComparisonErrorMetres": 2.3796198846435127e-06,
+    "maximumPrunedRigComparisonErrorMetres": 2.384389125470333e-06,
+    "maximumAllowedMetres": 0.001,
+    "normalization": {
+      "referenceFrame": 1.0,
+      "referencePoseSpan": 91.41780090332031,
+      "targetPoseWingspan": 10.8,
+      "scale": 0.1181389170739475,
+      "centerBlenderWorld": [
+        -1.7625861801207066e-06,
+        -0.7633084058761597,
+        25.849693298339844
+      ],
+      "matrixBlender": [
+        [
+          0.11813891679048538,
+          0.0,
+          0.0,
+          2.082300198935627e-07
+        ],
+        [
+          0.0,
+          0.11813891679048538,
+          0.0,
+          0.09017642587423325
+        ],
+        [
+          0.0,
+          0.0,
+          0.11813891679048538,
+          -3.0538547039031982
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "forward": "-Y",
+      "up": "+Z"
+    },
+    "sourceGeometryUnchanged": true,
+    "sourceActionUnchanged": true,
+    "sourceFileUnchanged": true,
+    "firstExportFailure": {
+      "reason": "Unrelated scene cube included by all-scenes export",
+      "raw": "artifacts/oscar-dragon-intake/failed-extra-scene-raw.glb",
+      "log": "artifacts/oscar-dragon-intake/export-v001.log",
+      "promoted": false
+    }
+  },
+  "candidatePreparationHistory": [
+    {
+      "status": "Four-influence reduction rejected; replacement preserving all original weights pending",
+      "failedReport": "artifacts/oscar-dragon-intake/preparation-v001.json",
+      "failedReportSha256": "73f862965e5f925ac2ceae5ad9e278c603aa343b96850a94e2755186fe6206d4",
+      "verticesTrimmed": 40647,
+      "originalMaximumInfluences": 12,
+      "reducedMaximumInfluences": 4,
+      "maximumErrorMetres": 0.12592485983245366,
+      "highestPerFrameP95Metres": 0.010236493827542987,
+      "maximumAllowedMetres": 0.03,
+      "p95AllowedMetres": 0.005,
+      "promoted": false
+    }
+  ],
+  "candidateExport": {
+    "file": "assets/game/local/spacecraft/oscar-dragon/oscar-v001/dragon-oscar-v001.glb",
+    "sha256": "7c9ed83fef05fc1d2b3bf868e44f5893742dad1682d2368c78ca24acd1ed3292",
+    "bytes": 78780624,
+    "triangles": 217465,
+    "meshes": 26,
+    "vertices": 117333,
+    "joints": 165,
+    "maximumInfluences": 12,
+    "skinAttributeSets": 3,
+    "embeddedImages": 90,
+    "estimatedTextureRgbaBytes": 242221056,
+    "textureMemoryMethod": "RGBA8 uncompressed level-zero estimate only; Unity format, duplication, mipmaps and actual VRAM are not measured.",
+    "exportReceiptSha256": "65d315b98afbb9aefde530f71205e2d36d335769c2e4cf1722392a73114ddf96",
+    "khronosValidation": "Zero errors; parented-skin warnings and empty-node/unused-tangent notices recorded",
+    "intake": "Additive preparation and --verify PASS; v005 chains v004, NOTICE and editor-only sidecars",
+    "unityStatus": "Setup/pose, 86 EditMode tests, BC7 Web build and actual Chrome 11/11 cases on both paths PASS; six matched neutral views REVIEWED, final owner quality/release approval open."
+  },
+  "sourceReview": {
+    "report": "artifacts/blender/oscar-dragon-v001/report.json",
+    "reportSha256": "85ae56c86e7035d8e29b596f0b3e9a721b39eb611e2966da4b11ac146791d3e1",
+    "observedViews": [
+      "neutral.png",
+      "front.png",
+      "side.png"
+    ],
+    "observer": "Root agent",
+    "scope": "Complete source dragon without extra cube; not Unity visual or final owner approval"
+  },
+  "textureSourceVerification": {
+    "status": "PASS for named source identity/regression checks",
+    "currentPinnedTextureHashes": 106,
+    "policy": "Reject source hash drift before and during resize; do not overwrite provenance to accept a changed input.",
+    "regressionTests": 4,
+    "pythonSuite": {
+      "discovered": 51,
+      "passed": 49,
+      "expectedSkips": 2
+    }
+  },
+  "unityReadback": {
+    "log": "artifacts/unity/dogfight-setup-20261101-033140-048-41308.log",
+    "meshes": 26,
+    "positiveInfluences": 446278,
+    "zeroReadbackInfluences": 0,
+    "maximumWeightError": 4.495866596698761e-05,
+    "result": "PASS for named readback checks; complete setup/pose pass is recorded separately."
+  },
+  "unityPoseDiagnostic": {
+    "scope": "One diagnostic vertex, not complete pose gate",
+    "cpuWorldErrorMetres": 1.17568e-06,
+    "bakeMeshTrueErrorMetres": 1.54743e-06,
+    "previousFalseErrorMetres": 1.6118898,
+    "correction": "Use compensated BakeMesh(true) before renderer localToWorld for pose/rest-bounds checkers. Source/runtime assets unchanged.",
+    "reference": "https://docs.unity.com/en-us/engine/6000.6/script-reference/unityengine/skinnedmeshrenderer/bakemesh"
+  },
+  "unitySetup": {
+    "status": "PASS for named Editor setup checks",
+    "receipt": "unity/SpaceDragon/Builds/dogfight-setup-receipt.json",
+    "receiptSha256": "ad78d500a84de5ae3062d58e66a121038bdefec982d7243b2e9463ccdc4f2f68",
+    "createdUtc": "2026-11-01T03:35:31.6185617Z",
+    "log": "artifacts/unity/dogfight-setup-20261101-033432-524-33580.log",
+    "meshes": 26,
+    "positiveInfluences": 446278,
+    "zeroedInfluences": 0,
+    "sampledPoses": 4,
+    "sampledVertices": 12856,
+    "maximumPoseErrorMetres": 1.0548548743827268e-05,
+    "configuredSkinWeightsByQuality": [
+      "Unlimited",
+      "Unlimited",
+      "Unlimited",
+      "Unlimited",
+      "Unlimited",
+      "Unlimited"
+    ],
+    "configuredMeshDeformation": "GPUBatched",
+    "renderScale": 1.0,
+    "msaaSamples": 2,
+    "colorSpace": "Linear",
+    "limitation": "Editor CPU sample comparison and settings only; no player GPU execution, appearance, performance or final owner approval."
+  },
+  "firstPlayer": {
+    "kind": "Frozen uncompressed Development Web candidate",
+    "testXml": "artifacts/unity/dogfight-editmode-20261101-033608-860-28128.xml",
+    "editModePassed": 84,
+    "editModeFailed": 0,
+    "editModeSkipped": 0,
+    "editModeDurationSeconds": 0.385641,
+    "buildCreatedUtc": "2026-11-01T03:49:11.0119679Z",
+    "buildBytes": 243810044,
+    "buildDurationSeconds": 572.261007,
+    "frozenDirectory": "artifacts/unity/oscar-uncompressed-player",
+    "buildReceiptSha256": "37535a71a330ac325c41d5dfb1e809ffaaaa5f4005774b43ab6af0caee0ede71",
+    "browser": "156.0.8078.76",
+    "startup": "FAIL before runtime during Texture2D deserialization",
+    "requestedMemoryBytes": 569053184,
+    "heapLimitBytes": 536870912,
+    "report": "artifacts/unity/oscar-uncompressed-perf/runs/2026-11-01T03-51-05-863Z/report.json",
+    "reportSha256": "4ed6e1c4de1e8f90ab355d58b8ae57453a0ca655d6b66e238b91ee328ed52bdf",
+    "fps": null
+  },
+  "textureMemoryRevision": {
+    "status": "Editor setup, 86 tests, BC7 Web build and 11/11 Chrome cases on each WebGPU/WebGL2 path PASS; six matched neutral views REVIEWED.",
+    "method": "BC7 generated derivatives preserving candidate image dimensions, mips, color space, samplers and source data",
+    "setupReceiptSha256": "920a4080a767f028a6771835117a2d54c010b0effdf56a6ed8bb735d6e22e074",
+    "uniqueTextures": 89,
+    "materialDerivatives": 26,
+    "bindings": 116,
+    "sourceImages": 90,
+    "sourceRgbaMipBytesEstimate": 317368884,
+    "bc7PayloadBytes": 79344624,
+    "serializedTextureAssetBytes": 158784039,
+    "testXml": "artifacts/unity/dogfight-editmode-20261101-040558-869-31296.xml",
+    "editModePassed": 86,
+    "editModeFailed": 0,
+    "editModeSkipped": 0,
+    "editModeDurationSeconds": 0.326903,
+    "buildCreatedUtc": "2026-11-01T04:11:08.5662208Z",
+    "buildBytes": 177239358,
+    "buildDurationSeconds": 222.9547876,
+    "buildReceiptSha256": "b8beb162086ccb484ce68e91e97c2832fe1224ca5df734025cc2abdafdf16a9c",
+    "playerDataBytes": 80276451,
+    "previousUncompressedPlayerDataBytes": 146851975,
+    "limitations": "BC7 is lossy. Both named paths use all 89 BC7 textures; complete material parity and total driver memory unverified; visual differences and HUD crop recorded. Owner final quality/release approval remains open."
+  },
+  "actualWebGpuSmoke": {
+    "report": "artifacts/unity/oscar-bc7-perf/runs/2026-11-01T04-13-39-293Z/report.json",
+    "reportSha256": "800f7ea84dba3c930ab3ff65c93e66f128e765c461694eabdf1c78d602b739aa",
+    "status": "PASS for startup and one natural-flight sample only",
+    "browser": "156.0.8078.76",
+    "graphics": "WebGPU",
+    "device": "AMD Radeon (TM) Graphics",
+    "viewport": [
+      1366,
+      768
+    ],
+    "meanFrameMs": 17.61678123474121,
+    "p95FrameMs": 21.999359130859375,
+    "frames": 569,
+    "wallMs": 10025.8165,
+    "lastDrawCalls": 385,
+    "lastTriangles": 582382,
+    "bc7Textures": 89,
+    "otherModelTextures": 0,
+    "readableModelTextures": 0,
+    "gzipResponseBodyBytes": 87984928,
+    "runtimeTextureCounterBytes": 60253,
+    "memoryCaveat": "Counter undercounts BC7 payload; not VRAM. Use 79,344,624-byte mip payload as texture-data estimate, not total runtime allocation.",
+    "visualReview": "Root viewed natural-flight.png: textured source-like organic dragon; downstroke lower body/tail crop behind HUD; not owner art approval."
+  },
+  "actualWebGpuSuite": {
+    "report": "artifacts/unity/oscar-bc7-webgpu/runs/2026-11-01T04-14-09-105Z/report.json",
+    "reportSha256": "8364c5ab1399c8b0da12d4de4d00126c8a9442ba4072490a7ddedcc002ad5333",
+    "passed": 11,
+    "failed": 0,
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "requestFailures": 0,
+    "externalRequests": 0,
+    "mouthOriginErrorsMetres": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "isolatedLocalStorageUnchanged": true,
+    "meanFrameMs": 17.413097381591797,
+    "p95FrameMs": 20.000457763671875,
+    "observedFrames": 576,
+    "approximateFps": 57.428036958958664,
+    "drawCallsLastFrame": 387,
+    "trianglesLastFrame": 583982,
+    "reviewedScreenshots": [
+      "breath-attack.png",
+      "flight-controls.png",
+      "ordinary-fire-mouth.png"
+    ],
+    "visualReview": "Root observed coherent textured wings/body and head/mouth beam, no obvious tears or missing materials; tail/feet HUD occlusion remains. Other screenshots not all reviewed."
+  },
+  "actualWebGl2Suite": {
+    "report": "artifacts/unity/oscar-bc7-webgl2/runs/2026-11-01T04-16-26-957Z/report.json",
+    "reportSha256": "c511debbde1a1602101f91cb1fdbf222e6715cc21290fce8e9476e1bfe070ec0",
+    "passed": 11,
+    "failed": 0,
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "requestFailures": 0,
+    "externalRequests": 0,
+    "mouthOriginErrorsMetres": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "isolatedLocalStorageUnchanged": true,
+    "meanFrameMs": 21.08768081665039,
+    "p95FrameMs": 27.9998779296875,
+    "observedFrames": 479,
+    "approximateFps": 47.42105159380167,
+    "drawCallsLastFrame": 388,
+    "trianglesLastFrame": 585612,
+    "modelBc7TextureCount": 89,
+    "modelOtherTextureCount": 0,
+    "modelTexturesReadableCount": 0,
+    "modelTextureAllocatedBytes": 79397757,
+    "sceneTextureAllocatedMiB": 140.47274780273438,
+    "memoryCaveat": "Unity counters, not driver VRAM or total browser memory. BC7 payload is 79,344,624 bytes; WebGPU counter undercounts."
+  },
+  "neutralVisualReview": {
+    "status": "REVIEWED, not owner quality/release approval",
+    "captureReport": "artifacts/unity/oscar-inspection/runs/2026-11-01T04-18-48-885Z/report.json",
+    "captureReportSha256": "86abe170d92028c5b19d6cd157a069fefe516dbcb9750e97d5b48e56c36d13c8",
+    "supplementaryReview": "artifacts/unity/oscar-inspection/visual-review.json",
+    "observer": "Root agent, all six 1200x800 source/player images",
+    "preserved": [
+      "Shapes, rest pose, wing tips, feet and tail align across matching cameras.",
+      "No obvious mesh tears or missing materials were observed."
+    ],
+    "differences": [
+      "Unity is lighter and shinier on wing ribs, shoulders and claws.",
+      "Blender appears darker/rougher; its chest detail is saturated orange compared with broader muted red/pink in Unity.",
+      "The neutral gray backdrops differ."
+    ],
+    "limitations": [
+      "The inferred six-triangle tile-1036 material was not independently isolated/reviewed.",
+      "Gameplay downstroke/banked poses can obscure tail/feet behind the HUD; camera framing still needs polish.",
+      "Other gameplay screenshots were not all visually reviewed.",
+      "No human sound/comfort, endurance, physical-controller/mobile or owner final-quality/release approval.",
+      "Hosted CI and merge delivery are recorded by the resulting PR."
+    ]
+  }
+}

@@ -1,1 +1,1 @@
-{"name":"SpaceDragon.Dogfight","rootNamespace":"SpaceDragon.Dogfight","references":["Unity.InputSystem"],"autoReferenced":true}
+{"name":"SpaceDragon.Dogfight","rootNamespace":"SpaceDragon.Dogfight","references":["Unity.InputSystem","Unity.Collections"],"autoReferenced":true}

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering;
 
 namespace SpaceDragon.Dogfight
 {
@@ -28,6 +29,8 @@ namespace SpaceDragon.Dogfight
         readonly List<Mesh> ownedMeshes = new List<Mesh>();
         readonly List<GameObject> details = new List<GameObject>();
         Transform motion, model;
+        SampledDragonRig measuredRig;
+        DragonRigProfile measuredProfile;
         Vector3 motionRestPosition;
         Quaternion motionRestRotation;
         bool configured, paused, organic;
@@ -47,15 +50,42 @@ namespace SpaceDragon.Dogfight
         public int AddedTriangles { get; private set; }
         public bool UsesAuthoredClips { get; private set; }
         public bool UsesOrganicRig => organic;
+        public string RigProfile => measuredRig != null ? measuredRig.Id : organic ? "violet-organic-15" : "mechanical-9";
+        public int AnimatedTransformCount => measuredRig != null ? measuredRig.AnimatedCount : boneCount - 2;
+        public Transform DamageAttachment(int system) => measuredProfile?.damageSockets?.Length == 3 && system >= 0 && system < 3 ? Socket(measuredProfile.damageSockets[system]) : null;
+        public bool UsesMeasuredRig => measuredRig != null;
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        [Serializable] public sealed class SkinWeightEvidence
+        {
+            public string status="NOT_APPLICABLE", runtimeQualitySkinWeights="NOT_SAMPLED";
+            public int maxMeshInfluences=-1, skinnedMeshCount, unreadableSkinMeshes;
+            public long totalPositiveInfluences=-1;
+            public bool allRendererQualityAuto;
+        }
+        // Captured once from the meshes actually present after player loading.
+        // Restart and snapshot requests reuse this evidence; no per-frame scan.
+        public SkinWeightEvidence SkinWeights { get; private set; } = new SkinWeightEvidence();
+        [Serializable] public sealed class TextureRuntimeEvidence
+        {
+            public bool supportsBc7;public int count,bc7Count,otherCount,readableCount;
+            public long allocatedBytes;public string[] formats=Array.Empty<string>();
+        }
+        public TextureRuntimeEvidence Textures { get; private set; } = new TextureRuntimeEvidence();
+#endif
         public bool IsGliding => gliding;
         public float StrokePhase => Mathf.Clamp01(strokeTime / Mathf.Max(.01f, strokeDuration));
 
         public void Configure(Transform visualMotion, Transform importedModel,
-            AnimationClip flight, AnimationClip glide, AnimationClip boost, bool authoredArmor = false, bool organic = false)
+            AnimationClip flight, AnimationClip glide, AnimationClip boost, bool authoredArmor = false, bool organic = false, DragonRigProfile rigProfile = null)
         {
             if (visualMotion == null || importedModel == null || visualMotion == importedModel)
                 throw new ArgumentException("Dragon requires separate visual-motion and imported-model roots.");
             configured = false; UsesAuthoredClips = false;
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+            SkinWeights=new SkinWeightEvidence();
+            Textures=new TextureRuntimeEvidence();
+#endif
+            measuredRig?.Restore(); measuredRig = null; measuredProfile = null;
             DisposeDetails(); nodes.Clear(); Array.Clear(bones, 0, bones.Length);
             this.organic = organic; boneCount = organic ? 15 : 9;
             motion = visualMotion; model = importedModel;
@@ -65,7 +95,30 @@ namespace SpaceDragon.Dogfight
             { animator.applyRootMotion = false; animator.enabled = false; }
             foreach (var legacy in model.GetComponentsInChildren<Animation>(true)) legacy.enabled = false;
             var transforms = model.GetComponentsInChildren<Transform>(true);
-            foreach (var item in transforms) if (!nodes.ContainsKey(item.name)) nodes.Add(item.name, item);
+            foreach (var item in transforms)
+            {
+                if (!nodes.ContainsKey(item.name)) nodes.Add(item.name, item);
+                else if (rigProfile != null && !string.IsNullOrEmpty(rigProfile.id))
+                    throw new InvalidOperationException("Measured dragon node names must be unique: " + item.name);
+            }
+            if (rigProfile != null && !string.IsNullOrEmpty(rigProfile.id))
+            {
+                if (rigProfile.damageSockets?.Length != 3)
+                    throw new InvalidOperationException("Measured dragon requires three damage attachment mappings.");
+                foreach (var name in rigProfile.damageSockets)
+                    if (string.IsNullOrEmpty(name) || !nodes.ContainsKey(name)) throw new InvalidOperationException("Missing measured damage attachment: " + name);
+                measuredRig = new SampledDragonRig(model,nodes,rigProfile,new[] {flight,glide,boost});
+                measuredProfile = rigProfile;
+                foreach (var renderer in model.GetComponentsInChildren<Renderer>(true))
+                {
+                    renderer.shadowCastingMode = ShadowCastingMode.On; renderer.receiveShadows = true;
+                    if (renderer is SkinnedMeshRenderer skin) { skin.updateWhenOffscreen = true; skin.quality = SkinQuality.Auto; }
+                }
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+                if(rigProfile.id=="oscar-creativo-flight") {CaptureSkinWeights();CaptureTextures();}
+#endif
+                UsesAuthoredClips = true; configured = true; ResetPose(); return;
+            }
             for (int i = 0; i < boneCount; i++)
             {
                 if (!nodes.TryGetValue(BoneNames[i], out bones[i]))
@@ -125,6 +178,61 @@ namespace SpaceDragon.Dogfight
         public Transform Socket(string name) => name != null && nodes.TryGetValue(name, out var node) ? node : null;
         public void SetPaused(bool value) => paused = value;
 
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        void CaptureSkinWeights()
+        {
+            var skins=model.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+            var result=new SkinWeightEvidence {runtimeQualitySkinWeights=QualitySettings.skinWeights.ToString(),
+                skinnedMeshCount=skins.Length,allRendererQualityAuto=skins.Length>0};
+            int maximum=0; long positive=0; bool invalid=skins.Length==0;
+            foreach(var skin in skins)
+            {
+                result.allRendererQualityAuto&=skin.quality==SkinQuality.Auto;
+                var mesh=skin.sharedMesh;
+                if(mesh==null || !mesh.isReadable) { result.unreadableSkinMeshes++; continue; }
+                try
+                {
+                    // Views owned by Mesh; they must not be disposed by us.
+                    var counts=mesh.GetBonesPerVertex(); var all=mesh.GetAllBoneWeights();
+                    long expected=0; bool valid=counts.Length==mesh.vertexCount && counts.Length>0;
+                    for(int i=0;i<counts.Length;i++) { maximum=Mathf.Max(maximum,counts[i]); expected+=counts[i]; valid&=counts[i]>0; }
+                    valid&=expected==all.Length;
+                    for(int i=0;i<all.Length;i++)
+                    {
+                        float weight=all[i].weight;
+                        if(weight>0 && !float.IsNaN(weight) && !float.IsInfinity(weight)) positive++;
+                        else valid=false;
+                    }
+                    invalid|=!valid;
+                }
+                catch(Exception) { result.unreadableSkinMeshes++; }
+            }
+            if(result.unreadableSkinMeshes>0) result.status="UNKNOWN_UNREADABLE_MESH";
+            else if(invalid) result.status="UNKNOWN_INVALID_WEIGHT_DATA";
+            else { result.status="READABLE_FULL_WEIGHT_DATA"; result.maxMeshInfluences=maximum; result.totalPositiveInfluences=positive; }
+            SkinWeights=result;
+        }
+        void CaptureTextures()
+        {
+            var result=new TextureRuntimeEvidence {supportsBc7=SystemInfo.SupportsTextureFormat(TextureFormat.BC7)};
+            var textures=new HashSet<Texture2D>();var formats=new HashSet<string>(StringComparer.Ordinal);
+            foreach(var renderer in model.GetComponentsInChildren<Renderer>(true)) foreach(var material in renderer.sharedMaterials)
+            {
+                if(material==null) continue;
+                foreach(string property in material.GetTexturePropertyNames())
+                    if(material.GetTexture(property) is Texture2D texture) textures.Add(texture);
+            }
+            foreach(var texture in textures)
+            {
+                result.count++;if(texture.format==TextureFormat.BC7) result.bc7Count++;else result.otherCount++;
+                if(texture.isReadable) result.readableCount++;
+                result.allocatedBytes+=UnityEngine.Profiling.Profiler.GetRuntimeMemorySizeLong(texture);
+                formats.Add(texture.format+"/"+texture.graphicsFormat+"/"+(GraphicsFormatUtility.IsSRGBFormat(texture.graphicsFormat)?"sRGB":"linear"));
+            }
+            result.formats=new string[formats.Count];formats.CopyTo(result.formats);Array.Sort(result.formats,StringComparer.Ordinal);Textures=result;
+        }
+#endif
+
         /// <param name="bankRadians">Presentation bank; never baked into gameplay Rotation.</param>
         /// <param name="rollRadians">Finite dodge roll from FlightState.</param>
         /// <param name="jawRadians">Attack-timeline jaw angle, e.g. -.025 idle to -.32 beam.</param>
@@ -147,6 +255,15 @@ namespace SpaceDragon.Dogfight
             ActiveState = state == 2 ? "Boost" : state == 1 ? "Glide" : "Flight";
             float response = 1 - Mathf.Exp(-dt / .18f);
             for (int s = 0; s < 3; s++) weights[s] = Mathf.Lerp(weights[s], s == state ? 1 : 0, response);
+            if (measuredRig != null)
+            {
+                // Keep authored full TRS and a common Flight/Boost phase; the
+                // measured durations control its smoothly changing cadence.
+                measuredRig.Advance(dt,weights,jawRadians);
+                motion.localPosition = motionRestPosition;
+                motion.localRotation = motionRestRotation * Quaternion.AngleAxis((bankRadians + rollRadians) * Mathf.Rad2Deg,Vector3.forward);
+                return;
+            }
             // Map the randomized downstroke ratio to the authored .4/.6 cycle.
             float phase = gliding ? 0 : StrokePhase;
             float clipPhase = phase < downstroke ? .4f * phase / downstroke : .4f + .6f * (phase - downstroke) / (1 - downstroke);
@@ -207,6 +324,7 @@ namespace SpaceDragon.Dogfight
         public void ResetPose()
         {
             if (model == null) return;
+            measuredRig?.Reset();
             for (int i = 0; i < bones.Length; i++) if (bones[i] != null) bones[i].localRotation = rests[i];
             motion.localPosition = motionRestPosition; motion.localRotation = motionRestRotation;
             weights[0] = 1; weights[1] = weights[2] = 0; random = 8147;

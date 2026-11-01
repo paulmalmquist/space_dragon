@@ -1,6 +1,8 @@
 # What we are making
 
-**Current dragon visual direction — SD-080:** the owner's post-Undo reference selects an organic-looking purple dragon with a powerful chest, curved neck, predatory head/horns, scales and violet membranes. [Decision](../decisions/2026-10-31-purple-organic-dragon.md). This supersedes the mechanical appearance for the next candidate while preserving prior sources/runtime as rollback; it does not rewrite story origins or imply completed art/player verification.
+**Current dragon baseline — SD-086:** the owner selected [Oscar Creativo's supplied dragon](../decisions/2026-11-01-oscar-dragon-baseline.md) as the production baseline. Its separate Unity candidate preserves the authored design/material detail and rig. This supersedes further v007 sculpting as the active art path; v007/v005 remain rollback and measured references. The bounded Lenovo/Chrome integration is verified and matched neutral views reviewed; remaining lighting/material polish and final art approval remain open. The dragon's story origins remain unchanged.
+
+**Earlier dragon visual direction — SD-080:** the owner's post-Undo reference selects an organic-looking purple dragon with a powerful chest, curved neck, predatory head/horns, scales and violet membranes. [Decision](../decisions/2026-10-31-purple-organic-dragon.md). This supersedes the mechanical appearance for the next candidate while preserving prior sources/runtime as rollback; it does not rewrite story origins or imply completed art/player verification.
 
 **Production direction — October 31, SD-072:** continue toward Unity/C# using the existing Unity project and the other channel's foundation. [The alignment decision](../decisions/2026-10-31-unity-channel-alignment.md) preserves browser delivery, shared Blender art, gameplay contracts and the existing labs as migration references. The engine choice is direction, not a claim of completed migration or AAA visual quality.
 

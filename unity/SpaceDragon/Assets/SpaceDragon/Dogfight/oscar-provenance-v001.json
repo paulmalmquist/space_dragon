@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "title": "FREE DRAGON CHARACTER 3D BY Oscar Creativo",
+  "creator": {
+    "displayName": "OSCAR CREATIVO",
+    "profileUrl": "https://sketchfab.com/oscar_creativo"
+  },
+  "sourceUrl": "https://sketchfab.com/3d-models/free-dragon-character-3d-by-oscar-creativo-443971c0f42a49e5bedc0bfe2b544407",
+  "license": {
+    "spdx": "CC-BY-4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "publicApiLabel": "CC Attribution",
+    "publicApiRequirements": "Author must be credited. Commercial use is allowed."
+  },
+  "originalCopyrightNotice": "Character FREE DRAGON By Oscar Creativo All rights reserved www.oscarcreativo.co",
+  "originalSourceSha256": "5995203e4c99d683be82ce7157f6e3e40341f56d8de46ba9578f6d47123d8ea4",
+  "licenseEvidence": {
+    "metadataUrl": "https://api.sketchfab.com/v3/models/443971c0f42a49e5bedc0bfe2b544407",
+    "retrievedAtUtc": "2026-11-01T02:18:18.461736+00:00",
+    "metadataSha256": "237c46a0d04cc500c5a028abfc8fea50f830801357bb6733411adcee2b1601e5",
+    "localReportDirectory": "C:/Projects/space_dragon_unity_merge/artifacts/oscar-dragon-intake",
+    "inventorySha256": "3f02271ea570529030cde47232b6d46d5933a3bde7036833147d86bb63dca6dd",
+    "blenderImport": {
+      "report": "artifacts/oscar-dragon-intake/blender-import-v001.json",
+      "reportSha256": "f911f2e3d6b4769009ea086160905143b317e0c92e6100147465d159ad4b577e",
+      "startedAtUtc": "2026-11-01T02:29:50.428349+00:00",
+      "finishedAtUtc": "2026-11-01T02:30:15.857571+00:00",
+      "blenderVersion": "5.2.1 LTS",
+      "preservation": {
+        "meshGeometryUvSkinIdentical": true,
+        "boneRestAndWeightsIdentical": true,
+        "animationChannelsIdentical": true,
+        "sourceFbxUnchanged": true
+      }
+    }
+  },
+  "candidate": "dragon-oscar-v001.glb",
+  "candidateSha256": "7c9ed83fef05fc1d2b3bf868e44f5893742dad1682d2368c78ca24acd1ed3292",
+  "sourceBlend": "assets/source/local/spacecraft/oscar-dragon/Oscar Dragon-v003-game-fullweights.blend",
+  "sourceSha256": "72d4f006c2ce891f47b52553690cb8ce3cb246f3be609c3b35255280f245aabd",
+  "exportReceiptSha256": "65d315b98afbb9aefde530f71205e2d36d335769c2e4cf1722392a73114ddf96",
+  "modifications": [
+    "Separate candidate normalized to requested reference-pose span and centered on source root.x rest",
+    "Presentation rock omitted from candidate; original source retained",
+    "Unused nonancestor bones removed after weighted hierarchy audit; retained motion baked fullTRS at30Hz and deformation checked",
+    "All positive source skin influences retained and renormalized; full-weight deformation compared at1mm gate",
+    "Cloned UVs moved into0..1; supplied maps resized by head-weight priority, ORM packed with neutral AO",
+    "CUERPO_.002 uses inferred horn tile1036; nearest-surface context recorded and visual review remains required",
+    "Derived held Glide and1.15x Boost clips; measured attachment sockets added",
+    "Selected glTF export with every positive prepared skin influence across contiguous weight sets; scoped exporter epsilon removed and original method restored",
+    "FullTRS Flight and exact-time derived Glide/Boost; glTF tangent validation/repair where undefined"
+  ],
+  "scope": "Derivative asset credit; no creator endorsement or release approval implied."
+}

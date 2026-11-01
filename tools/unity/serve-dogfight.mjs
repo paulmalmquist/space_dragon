@@ -11,7 +11,8 @@ const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const root = path.join(repo, 'unity/SpaceDragon/Builds/DogfightWeb');
 const realRoot = await realpath(root);
 await stat(path.join(realRoot, 'index.html'));
-const port = 5207;
+const port = Number(process.env.SPACE_DRAGON_DOGFIGHT_PORT || 5207);
+if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Dogfight port must be an integer from 1024 to 65535.');
 const prefix = '/space-dragon-dogfight/';
 const compression = process.env.SPACE_DRAGON_UNITY_HTTP_COMPRESSION || 'gzip';
 if (!['gzip', 'none'].includes(compression)) throw new Error('HTTP compression must be gzip or none.');

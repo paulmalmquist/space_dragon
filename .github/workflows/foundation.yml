@@ -56,6 +56,14 @@ jobs:
         run: npm ci
       - name: Test story state and persistence
         run: npm run test:unit
+      - name: Verify prepared Unity dragon inputs
+        if: matrix.suite == 'dogfight'
+        run: |
+          node tools/unity/prepare-dogfight-assets.mjs --verify
+          node tools/unity/prepare-heroic-dragon.mjs --verify
+          node tools/unity/prepare-violet-dragon.mjs --verify
+          node tools/unity/prepare-oscar-dragon.mjs --verify
+          node tools/unity/prepare-dogfight-audio-v002.mjs --verify
       - name: Type-check and build the game
         run: npm run build
       - name: Install Chromium and Linux browser dependencies

@@ -254,20 +254,32 @@ try {
     if (relative.endsWith('build-receipt.json')) report.buildReceipt = JSON.parse(bytes);
   }
   const requested = process.env.SPACE_DRAGON_DOGFIGHT_ASSET;
-  assert(!requested || ['heroic-v005', 'violet-v007'].includes(requested), 'Unknown selected Dogfight asset.');
+  assert(!requested || ['heroic-v005', 'violet-v007', 'oscar-v001'].includes(requested), 'Unknown selected Dogfight asset.');
   const intakeRoot = 'unity/SpaceDragon/Assets/SpaceDragon/Dogfight/';
   const organicAvailable = await stat(path.join(repo, intakeRoot, 'asset-receipt-v004.json')).then(info => info.isFile()).catch(error => {
     if (error.code === 'ENOENT') return false; throw error;
   });
-  const organic = requested === 'violet-v007' || (!requested && organicAvailable);
-  report.selectedAsset = {version: organic ? 'violet-v007' : 'heroic-v005', organic,
-    selection: requested || 'new prepared organic intake when available; otherwise preserved heroic rollback'};
+  const oscarAvailable = await stat(path.join(repo, intakeRoot, 'asset-receipt-v005.json')).then(info => info.isFile()).catch(error => {
+    if (error.code === 'ENOENT') return false; throw error;
+  });
+  const oscar = requested === 'oscar-v001' || (!requested && oscarAvailable);
+  const organic = requested === 'violet-v007' || (!requested && !oscar && organicAvailable);
+  report.selectedAsset = {version: oscar ? 'oscar-v001' : organic ? 'violet-v007' : 'heroic-v005', organic, oscar,
+    selection: requested || 'new prepared Oscar intake, then organic, then preserved heroic rollback'};
   report.intakeVerification = JSON.parse(execFileSync(process.execPath,
-    [path.join(repo, 'tools/unity', organic ? 'prepare-violet-dragon.mjs' : 'prepare-heroic-dragon.mjs'), '--verify'],
+    [path.join(repo, 'tools/unity', oscar ? 'prepare-oscar-dragon.mjs' : organic ? 'prepare-violet-dragon.mjs' : 'prepare-heroic-dragon.mjs'), '--verify'],
     {cwd: repo, encoding: 'utf8', maxBuffer: 4*1024*1024}).trim());
-  report.modelContract = JSON.parse(await artifact(intakeRoot + (organic ? 'violet-contract-v007.json' : 'heroic-contract-v005.json')));
-  report.intakeReceipt = JSON.parse(await artifact(intakeRoot + (organic ? 'asset-receipt-v004.json' : 'asset-receipt-v003.json')));
-  assert.equal(report.intakeReceipt.schemaVersion, organic ? 4 : 3);
+  report.modelContract = JSON.parse(await artifact(intakeRoot + (oscar ? 'oscar-contract-v001.json' : organic ? 'violet-contract-v007.json' : 'heroic-contract-v005.json')));
+  report.intakeReceipt = JSON.parse(await artifact(intakeRoot + (oscar ? 'asset-receipt-v005.json' : organic ? 'asset-receipt-v004.json' : 'asset-receipt-v003.json')));
+  if (oscar) report.fullSkinMetadata = JSON.parse(await artifact(intakeRoot + report.modelContract.skinRestoration.metadata));
+  if (oscar && report.buildReceipt.textureMode === 'bc7') {
+    report.setupReceipt = JSON.parse(await artifact('unity/SpaceDragon/Builds/dogfight-setup-receipt.json'));
+    await artifact('unity/SpaceDragon/Assets/SpaceDragon/Editor/Dogfight/OscarCompressedTextures.cs');
+    assert.equal(report.setupReceipt.sourceSha256, report.modelContract.sha256);
+    assert.equal(report.setupReceipt.textureMode, 'bc7');
+    assert(report.setupReceipt.compressedTextures.uniqueTextures > 0, 'Measured texture derivative receipt is required.');
+  }
+  assert.equal(report.intakeReceipt.schemaVersion, oscar ? 5 : organic ? 4 : 3);
   assert.equal(report.buildReceipt.result, 'Succeeded', 'A completed player build is required.');
   assert.equal(report.buildReceipt.sourceSha256, report.modelContract.sha256, 'The build must use the selected measured model.');
   assert.equal(report.buildReceipt.dragonVersion || 'heroic-v005', report.selectedAsset.version);
@@ -304,9 +316,30 @@ try {
   report.initial = await waitState(s => s.scene === 'Unity Dogfight' && s.frameSamples > 2, 'Unity player and snapshot bridge ready', 240000, true);
   assert.equal(report.initial.authoredClips, true, 'Imported authored flight clips must be connected.');
   assert.equal(report.initial.organicRig, organic, 'The actual player must select the expected rig adapter.');
-  assert.equal(report.initial.modelName, organic ? 'DragonViolet.v007.Organic' : 'DragonHeroic.v005.Authored');
+  assert.equal(report.initial.modelName, oscar ? 'DragonOscar.v001.Authored' : organic ? 'DragonViolet.v007.Organic' : 'DragonHeroic.v005.Authored');
+  if (oscar) assert.equal(report.initial.rigProfile, 'oscar-creativo-flight', 'The selected model must use its measured full-TRS adapter.');
+  if (oscar) {
+    assert.equal(report.initial.skinWeightsStatus, 'READABLE_FULL_WEIGHT_DATA', 'The built player must expose actual retained mesh weights.');
+    assert.equal(report.initial.maxMeshInfluences, report.modelContract.maxInfluencesPerVertex);
+    assert.equal(report.initial.skinnedMeshCount, report.fullSkinMetadata.meshes.length);
+    assert.equal(report.initial.totalPositiveInfluences, report.fullSkinMetadata.meshes.reduce((sum, mesh) => sum + mesh.weights.count, 0));
+    assert.equal(report.initial.runtimeQualitySkinWeights, 'Unlimited');
+    assert.equal(report.initial.allRendererQualityAuto, true);
+    assert.equal(report.initial.unreadableSkinMeshes, 0);
+    if (report.buildReceipt.textureMode === 'bc7') {
+      const expectedTextures = report.setupReceipt.compressedTextures.uniqueTextures;
+      assert.equal(report.initial.textureMode, 'bc7');
+      assert.equal(report.initial.supportsBc7, true, 'This target renderer must actually support the selected compression format.');
+      assert.equal(report.initial.modelTextureCount, expectedTextures);
+      assert.equal(report.initial.modelBc7TextureCount, expectedTextures);
+      assert.equal(report.initial.modelOtherTextureCount, 0, 'The loaded model must not retain the uncompressed source textures.');
+      assert.equal(report.initial.modelTexturesReadableCount, 0, 'Game textures should release their CPU-readable copy.');
+      assert(Array.isArray(report.initial.modelTextureFormats) && report.initial.modelTextureFormats.length > 0);
+      assert(Number.isFinite(report.initial.modelTextureAllocatedBytes) && report.initial.modelTextureAllocatedBytes >= 0);
+    }
+  }
   assert.equal(report.initial.muzzleAttached, true, 'The actual imported mouth socket must be connected.');
-  if (organic) assert.equal(report.initial.addedArmorTriangles, 0, 'Organic anatomy must not receive the mechanical armor generator.');
+  if (organic || oscar) assert.equal(report.initial.addedArmorTriangles, 0, 'Authored organic anatomy must not receive the mechanical armor generator.');
   assert.match(report.initial.audio || '', /Five layered licensed Sonniss v002 cues/,
     'All five upgraded recorded cues must be bound in the actual player. This does not establish human mix quality.');
   if (forceWebGL2) assert.equal(report.initial.graphics, 'OpenGLES3', 'The explicit WebGL2 verification must use the OpenGLES3 backend.');

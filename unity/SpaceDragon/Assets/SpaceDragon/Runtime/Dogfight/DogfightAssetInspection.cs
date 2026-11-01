@@ -18,6 +18,8 @@ namespace SpaceDragon.Dogfight
         Camera cameraView;
         Cubemap reflection;
         string selectedView;
+        string rigProfile;
+        bool Oscar => rigProfile == "oscar-creativo-flight";
         float frameTotal, framePeak;
         int frames;
 
@@ -27,7 +29,8 @@ namespace SpaceDragon.Dogfight
             if (Query("inspect") != "dragon") return;
             var originalScene = SceneManager.GetActiveScene();
             if (originalScene.name != "Dogfight") return;
-            var source = GameObject.Find("DragonViolet.v007.Organic") ?? GameObject.Find("DragonHeroic.v005.Authored");
+            var encounter = UnityEngine.Object.FindFirstObjectByType<DogfightEncounter>();
+            var source = encounter != null && encounter.ImportedDragon != null ? encounter.ImportedDragon.gameObject : null;
             if (source == null) { Debug.LogError("Dragon inspection cannot find the selected imported asset."); return; }
 
             var clone = Instantiate(source);
@@ -47,6 +50,7 @@ namespace SpaceDragon.Dogfight
             foreach (var root in originalScene.GetRootGameObjects()) root.SetActive(false);
             var host = new GameObject("DogfightEncounter").AddComponent<DogfightAssetInspection>();
             host.inspected = clone;
+            host.rigProfile = encounter.DragonProfileId;
             host.selectedView = Query("inspectionview");
             host.ConfigureScene();
             SceneManager.UnloadSceneAsync(originalScene);
@@ -98,15 +102,15 @@ namespace SpaceDragon.Dogfight
             Vector3 position;
             switch (selectedView)
             {
-                case "front": position = new Vector3(0,2,-16); break;
+                case "front": position = new Vector3(0,2,Oscar ? 16 : -16); break;
                 case "side": position = new Vector3(-16,3,0); break;
-                case "rear": position = new Vector3(0,3,16); break;
+                case "rear": position = new Vector3(0,3,Oscar ? -16 : 16); break;
                 default:
                     selectedView = "blender-neutral";
                     // Blender (10,12,6), target (0,0,.1), 50 mm on36 mm sensor.
                     // Blender +Y nose -> glTF -Z; glTFast mirrors source X.
                     // The inspection clone intentionally has no gameplay Y180 basis.
-                    position = new Vector3(-10,6,-12); break;
+                    position = new Vector3(-10,6,Oscar ? 12 : -12); break;
             }
             cameraView.transform.SetPositionAndRotation(position, Quaternion.identity);
             cameraView.transform.LookAt(new Vector3(0,.1f,0));
@@ -127,7 +131,7 @@ namespace SpaceDragon.Dogfight
         void Update() { frames++; frameTotal += Time.unscaledDeltaTime; framePeak = Mathf.Max(framePeak, Time.unscaledDeltaTime); }
         [Serializable] sealed class InspectionSnapshot
         {
-            public string mode, view, model, lighting, sourceCamera, graphics, device;
+            public string mode, view, model, lighting, sourceCamera, graphics, device, rigProfile;
             public bool combatActive, savesWritten;
             public int width, height, renderers, skinnedRenderers, frameSamples;
             public long modelTriangles;
@@ -142,10 +146,12 @@ namespace SpaceDragon.Dogfight
             long triangles = 0;
             foreach (var mesh in inspected.GetComponentsInChildren<SkinnedMeshRenderer>(true))
                 for (int i = 0; i < mesh.sharedMesh.subMeshCount; i++) triangles += mesh.sharedMesh.GetIndexCount(i) / 3;
-            var snapshot = new InspectionSnapshot { mode = "asset-inspection", view = selectedView, model = inspected.name,
+            foreach (var mesh in inspected.GetComponentsInChildren<MeshFilter>(true))
+                if (mesh.sharedMesh != null) for (int i=0;i<mesh.sharedMesh.subMeshCount;i++) triangles += mesh.sharedMesh.GetIndexCount(i)/3;
+            var snapshot = new InspectionSnapshot { mode = "asset-inspection", view = selectedView, model = inspected.name, rigProfile = rigProfile,
                 graphics = SystemInfo.graphicsDeviceType.ToString(), device = SystemInfo.graphicsDeviceName,
                 combatActive = false, savesWritten = false, lighting = "Neutral real-time studio approximation; no gameplay sky, fog or postprocessing",
-                sourceCamera = "Blender (10,12,6), target(0,0,.1),50mm/36x24mm; matching capture1200x800", width = Screen.width, height = Screen.height,
+                sourceCamera = Oscar ? "Blender (10,-12,6), target(0,0,.1),50mm/36x24mm; matching capture1200x800" : "Blender (10,12,6), target(0,0,.1),50mm/36x24mm; matching capture1200x800", width = Screen.width, height = Screen.height,
                 renderers = inspected.GetComponentsInChildren<Renderer>(true).Length, skinnedRenderers = inspected.GetComponentsInChildren<SkinnedMeshRenderer>(true).Length,
                 modelTriangles = triangles, frameSamples = frames, frameMeanMs = frames > 0 ? frameTotal/frames*1000 : 0, framePeakMs = framePeak*1000,
                 focalLength = cameraView.focalLength, verticalFov = cameraView.fieldOfView, cameraPosition = cameraView.transform.position, cameraTarget = new Vector3(0,.1f,0) };
