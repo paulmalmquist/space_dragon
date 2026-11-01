@@ -29,6 +29,7 @@ namespace SpaceDragon.Dogfight
         {
             perfectRoll = new PerfectRollState(tuning);
             rockWeapons=new RocksWeaponState(tuning);
+            repairCode=new RepairCodeState(tuning);
             finisher = new ClawFinisherState(tuning);
             finisherFeedback = gameObject.AddComponent<FinisherFeedbackVfx>();finisherFeedback.Setup(visualMotion,tuning);
             waveState = new WaveState(tuning);
@@ -40,6 +41,7 @@ namespace SpaceDragon.Dogfight
         {
             perfectRoll.Reset(); combatFeedback.Clear(); projectileSequence = 0; qaCondition = "natural";
             finisher.Reset();finisherFeedback.Clear();
+            repairCode.Reset();
             waveState.Reset();enemySequence=0;
             Breath.SetCapacity(tuning.EnableMultiTargetBreath?Mathf.Max(1,tuning.BreathTargetCapacity):1);
             wingman.Reset();wingmanVisual.Clear();

@@ -316,10 +316,15 @@ namespace SpaceDragon.Dogfight
         {
             // Keep the work area and both maintenance drones visible in the
             // closer chase view. Leave room for the optional victory banner.
-            var t = encounter.Tactics; var r = new Rect(width/2-218,encounter.Won?238:175,436,73); Panel(r,Cyan,.82f);
+            var t = encounter.Tactics; var r = new Rect(width/2-218,encounter.Won?238:175,436,encounter.RepairCode.Active?120:73); Panel(r,Cyan,.82f);
             Text(new Rect(r.x+12,r.y+8,r.width-24,24),"MAINTENANCE DRONES / "+t.RepairSystem.ToString().ToUpperInvariant(),Cyan,center);
             Bar(new Rect(r.x+19,r.y+39,r.width-38,5),t.RepairProgress,Cyan);
             Text(new Rect(r.x+12,r.y+48,r.width-24,22),"MANEUVERING AVAILABLE  ·  BOOST / MISSILES INHIBITED",Muted,small);
+            if(encounter.RepairCode.Active)
+            {
+                string prompt="OPTIONAL "+encounter.RepairCode.Prompt+"  ["+(encounter.RepairCode.Index+1)+"/"+encounter.RepairCode.Length+"]";
+                Text(new Rect(r.x+12,r.y+76,r.width-24,28),prompt,encounter.ReducedMotion||Mathf.Sin(clock*6)>0?Amber:Cyan,center);
+            }
         }
         void DrawRepairSelector()
         {
@@ -344,7 +349,7 @@ namespace SpaceDragon.Dogfight
         {
             Fill(new Rect(0,0,width,height),new Color(.005f,.015f,.025f,.72f));
             bool hasCredit = encounter.DragonAttribution != null;
-            float panelHeight = hasCredit ? 628 : 500;
+            float panelHeight = hasCredit ? 676 : 548;
             var r = new Rect(width/2-250,height/2-panelHeight/2,500,panelHeight); Panel(r,encounter.Dead?Red:Cyan,.98f);
             string heading = encounter.Dead?"DRAGON DISABLED":"FLIGHT PAUSED";
             Text(new Rect(r.x+20,r.y+24,r.width-40,40),heading,encounter.Dead?Amber:Cyan,overlayTitle);
@@ -353,23 +358,24 @@ namespace SpaceDragon.Dogfight
             float y = r.y+169;
             if (GUI.Button(new Rect(r.x+65,y,370,40),"SOUND: "+(encounter.SoundEnabled?"ON":"OFF — ENABLE"),button)) encounter.SetSoundEnabled(encounter.SoundEnabled?"false":"true");
             if (GUI.Button(new Rect(r.x+65,y+48,370,40),"REDUCED MOTION: "+(encounter.ReducedMotion?"ON":"OFF"),button)) encounter.SetReducedMotion(encounter.ReducedMotion?"false":"true");
-            if (GUI.Button(new Rect(r.x+65,y+96,370,40),"RESTART ENCOUNTER",button)) encounter.RestartEncounter();
+            if (GUI.Button(new Rect(r.x+65,y+96,370,40),"REPAIR BONUS: "+encounter.RepairMode,button)) encounter.CycleRepairCodeMode();
+            if (GUI.Button(new Rect(r.x+65,y+144,370,40),"RESTART ENCOUNTER",button)) encounter.RestartEncounter();
             // Always keep the complete legend available, including on canvases
             // where the compact flight instruments cannot show every reminder.
-            Fill(new Rect(r.x+25,r.y+318,r.width-50,1),new Color(.58f,.91f,.94f,.3f));
-            Text(new Rect(r.x+25,r.y+328,r.width-50,21),"ARROWS / MOUSE FLY  /  WADZ AIM",Cyan,small);
-            Text(new Rect(r.x+25,r.y+350,r.width-50,21),"M SWITCH MOUSE MODE  /  LMB "+PrimaryLabel+"  /  RMB ZOOM",Muted,small);
-            Text(new Rect(r.x+25,r.y+372,r.width-50,21),"SHIFT BOOST  /  Q/E TIMED ROLL  /  HOLD B TURN",Muted,small);
-            Text(new Rect(r.x+25,r.y+394,r.width-50,21),"ENTER MISSILE  /  SPACE BEAM  /  HOLD TAB REPAIR",Muted,small);
-            Text(new Rect(r.x+25,r.y+416,r.width-50,21),"T WINGMAN  /  F1 HELP  /  ESC PAUSE OR RESUME",Muted,small);
-            Text(new Rect(r.x+30,r.y+453,r.width-60,26),"Local lab. Campaign progress and family saves stay separate.",Muted,small);
+            Fill(new Rect(r.x+25,r.y+366,r.width-50,1),new Color(.58f,.91f,.94f,.3f));
+            Text(new Rect(r.x+25,r.y+376,r.width-50,21),"ARROWS / MOUSE FLY  /  WADZ AIM",Cyan,small);
+            Text(new Rect(r.x+25,r.y+398,r.width-50,21),"M SWITCH MOUSE MODE  /  LMB "+PrimaryLabel+"  /  RMB ZOOM",Muted,small);
+            Text(new Rect(r.x+25,r.y+420,r.width-50,21),"SHIFT BOOST  /  Q/E TIMED ROLL  /  HOLD B TURN",Muted,small);
+            Text(new Rect(r.x+25,r.y+442,r.width-50,21),"ENTER MISSILE  /  SPACE BEAM  /  HOLD TAB REPAIR",Muted,small);
+            Text(new Rect(r.x+25,r.y+464,r.width-50,21),"T WINGMAN  /  F1 HELP  /  ESC PAUSE OR RESUME",Muted,small);
+            Text(new Rect(r.x+30,r.y+501,r.width-60,26),"Local lab. Campaign progress and family saves stay separate.",Muted,small);
             if (hasCredit)
             {
-                Text(new Rect(r.x+25,r.y+491,r.width-50,22),"Free Dragon Character 3D by Oscar Creativo",Cyan,small);
-                Text(new Rect(r.x+25,r.y+514,r.width-50,22),"OSCAR CREATIVO · CC BY 4.0 · Modified for Space Dragon",Muted,small);
-                if (GUI.Button(new Rect(r.x+25,r.y+555,218,36),"ORIGINAL MODEL / CREDIT",button))
+                Text(new Rect(r.x+25,r.y+539,r.width-50,22),"Free Dragon Character 3D by Oscar Creativo",Cyan,small);
+                Text(new Rect(r.x+25,r.y+562,r.width-50,22),"OSCAR CREATIVO · CC BY 4.0 · Modified for Space Dragon",Muted,small);
+                if (GUI.Button(new Rect(r.x+25,r.y+603,218,36),"ORIGINAL MODEL / CREDIT",button))
                     Application.OpenURL("https://sketchfab.com/3d-models/free-dragon-character-3d-by-oscar-creativo-443971c0f42a49e5bedc0bfe2b544407");
-                if (GUI.Button(new Rect(r.x+257,r.y+555,218,36),"CC BY 4.0 LICENSE",button))
+                if (GUI.Button(new Rect(r.x+257,r.y+603,218,36),"CC BY 4.0 LICENSE",button))
                     Application.OpenURL("https://creativecommons.org/licenses/by/4.0/");
             }
         }

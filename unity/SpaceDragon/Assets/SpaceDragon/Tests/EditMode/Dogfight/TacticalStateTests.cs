@@ -190,6 +190,43 @@ namespace SpaceDragon.Dogfight.Tests
             Assert.That(state.AddSalvage(-1), Is.False);
         }
 
+        [Test] public void OptionalCodeHalvesRemainingTimeOnceAndCommitsOnlyOnNormalCompletion()
+        {
+            state.ApplyDamage(DragonSystem.Hull, 50); state.TryStartRepair(DragonSystem.Hull); state.Tick(1);
+            Assert.That(state.ApplyRepairSpeedBonus(.5f), Is.True);
+            Assert.That(state.RepairBonusApplied, Is.True); Assert.That(state.RepairSecondsRemaining, Is.EqualTo(1.5f));
+            Assert.That(state.RepairProgress, Is.EqualTo(.625f)); Assert.That(state.ApplyRepairSpeedBonus(.5f), Is.False);
+            Assert.That(state.Hull, Is.EqualTo(50)); Assert.That(state.Salvage, Is.EqualTo(1)); Assert.That(state.RepairsRemaining, Is.EqualTo(3));
+            state.Tick(1.49f); Assert.That(state.IsRepairing, Is.True); Assert.That(state.RepairsCompleted, Is.Zero);
+            state.Tick(.01f); Assert.That(state.IsRepairing, Is.False); Assert.That(state.Hull, Is.EqualTo(85));
+            Assert.That(state.RepairsCompleted, Is.EqualTo(1)); Assert.That(state.Salvage, Is.Zero); Assert.That(state.RepairsRemaining, Is.EqualTo(2));
+            Assert.That(state.RepairBonusApplied, Is.False);
+        }
+
+        [Test] public void IgnoringCodeKeepsNormalDurationAndInvalidBonusCannotChangeIt()
+        {
+            Assert.That(state.ApplyRepairSpeedBonus(.5f), Is.False);
+            state.ApplyDamage(DragonSystem.Hull, 50); state.TryStartRepair(DragonSystem.Hull);
+            foreach (float multiplier in new[] { -1, 0, 1, 2, float.NaN, float.PositiveInfinity })
+                Assert.That(state.ApplyRepairSpeedBonus(multiplier), Is.False);
+            tuning.EnableRepairCode = false; Assert.That(state.ApplyRepairSpeedBonus(.5f), Is.False);
+            state.Tick(3.99f); Assert.That(state.IsRepairing, Is.True); Assert.That(state.RepairsCompleted, Is.Zero);
+            state.Tick(.01f); Assert.That(state.RepairsCompleted, Is.EqualTo(1));
+        }
+
+        [Test] public void BonusCannotBypassInterruptionAndEachNewRepairMayEarnOnlyOne()
+        {
+            state.ApplyDamage(DragonSystem.Hull, 50); state.TryStartRepair(DragonSystem.Hull); state.Tick(3.9f);
+            Assert.That(state.ApplyRepairSpeedBonus(.5f), Is.True);
+            state.ApplyDamage(DragonSystem.Weapons, tuning.RepairInterruptDamage); state.Tick(.05f);
+            Assert.That(state.IsRepairing, Is.False); Assert.That(state.RepairsCompleted, Is.Zero);
+            Assert.That(state.Salvage, Is.EqualTo(1)); Assert.That(state.RepairsRemaining, Is.EqualTo(3));
+            Assert.That(state.RepairBonusApplied, Is.False); Assert.That(state.ApplyRepairSpeedBonus(.5f), Is.False);
+            Assert.That(state.TryStartRepair(DragonSystem.Hull), Is.True);
+            Assert.That(state.ApplyRepairSpeedBonus(.5f), Is.True); Assert.That(state.ApplyRepairSpeedBonus(.5f), Is.False);
+            state.Reset(); Assert.That(state.RepairBonusApplied, Is.False); Assert.That(state.RepairSecondsRemaining, Is.Zero);
+        }
+
         [Test] public void SalvageDropsOncePerEnemyAndEvictsOldestWithoutRecreatingIt()
         {
             var field = new SalvageField(tuning);
