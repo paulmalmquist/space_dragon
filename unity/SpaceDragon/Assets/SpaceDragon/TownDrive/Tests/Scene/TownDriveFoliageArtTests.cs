@@ -33,7 +33,7 @@ namespace SpaceDragon.TownDrive.Editor.Tests
         }
 
         [Test]
-        public void PersistedPalmCrownsRetainMappedAnchorsAndOnlyReplaceLeafPresentation()
+        public void RetainedV003PalmCrownsPreserveMappedAnchorsAsInactiveRollback()
         {
             var report=JsonUtility.FromJson<TownDriveProject.TownDriveFoliageEvidence>(File.ReadAllText(TownDriveProject.FoliageArtReceipt));
             Assert.That(report.result,Is.EqualTo("Succeeded"));Assert.That(report.manifestSha256,Is.EqualTo(TownDriveProject.HashFile(TownDriveProject.ManifestPath)));
@@ -45,6 +45,7 @@ namespace SpaceDragon.TownDrive.Editor.Tests
             Assert.That(leafImporter,Is.Not.Null);Assert.That(leafImporter.mipmapEnabled,Is.True);
             Assert.That(leafImporter.wrapMode,Is.EqualTo(TextureWrapMode.Clamp));Assert.That(leafImporter.sRGBTexture,Is.True);
             var foliage=Node("TownDrive.FoliageArt");Assert.That(foliage.GetComponentsInChildren<Collider>(true),Is.Empty);
+            Assert.That(foliage.gameObject.activeSelf,Is.False,"v004 Blender assets own active palm presentation; v003 remains recoverable.");
             Assert.That(foliage.localPosition,Is.EqualTo(Vector3.zero));Assert.That(foliage.localScale,Is.EqualTo(Vector3.one));
             var groups=foliage.GetComponentsInChildren<LODGroup>(true);var renderers=foliage.GetComponentsInChildren<MeshRenderer>(true);
             Assert.That(groups.Length,Is.EqualTo(report.cells));Assert.That(renderers.Length,Is.EqualTo(report.renderers));Assert.That(renderers.Length,Is.LessThan(80));
@@ -74,8 +75,7 @@ namespace SpaceDragon.TownDrive.Editor.Tests
             foreach(var source in manifest.vegetationInstances.Where(part=>part.assetId=="vegetation-palm"))
             {
                 var original=Node("TownDrive.PlantPart."+source.id);
-                bool leaf=source.meshName=="palm.near.2"||source.meshName=="palm.near.3";
-                Assert.That(original.gameObject.activeSelf,Is.EqualTo(!leaf),source.id);
+                Assert.That(original.gameObject.activeSelf,Is.False,source.id);
                 Assert.That(original.GetComponentsInChildren<MeshFilter>(true).All(filter=>filter.sharedMesh!=null),Is.True);
             }
         }

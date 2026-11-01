@@ -1168,3 +1168,12 @@ Owner wording:
 > continue with photorealism
 
 Routing receipt: **CONFIRMED / technically verified; agent visual inspection complete**, continuing SD-052/074 after PR #32. [Decision](../docs/decisions/2026-11-01-town-drive-foliage-cabin.md). Improve the conspicuously sparse palm crowns, repeated facade treatment and cabin materials/rear view in the existing Unity project, preserving route/anchors and driving state. Actual before/after player checks and performance samples inform acceptance; no full photorealism or production deployment claim.
+
+
+## November 1, 2026 — Reference-led road markings and Blender realism (SD-074 continuation)
+
+Owner wording:
+
+> please take another lap through my reference video and come up with legitimate ideas for increasing the realism of the current iteration. the yellow lines are not straight (and not present in many of the example video's cases) and we need more photo realistic blender assets too. start with those and input them in the game
+
+Routing receipt: **CONFIRMED / technically verified; agent visual inspection complete**, continuing SD-052/074. [Decision](../docs/decisions/2026-11-01-town-drive-reference-road-assets.md), [evidence](../docs/reports/2026-11-01-town-drive-reference-road-assets.md). Sampled both supplied timelines, corrected paint presence/geometry, authored and integrated three Blender plant families. Fourteen scene checks, both browser backends, focus recovery and full lap/reload pass. Driving/map/save data and source assets are preserved. Recorded remaining foliage darkness, repeated surroundings and memory cost; full photorealism remains unfinished.

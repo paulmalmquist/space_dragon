@@ -26,6 +26,18 @@ const report = { runId, startedAt: new Date().toISOString(), url: url.href, resu
 let browser, context, page, saveTimer;
 let saving = Promise.resolve();
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+async function recordLinearMemory(label) {
+  const allocatedBytes = await page.evaluate(() => {
+    const module = window.__SPACE_DRAGON_TOWN_DRIVE__?.instance?.Module;
+    // HEAPU32 is an observed export in this Unity build. Other heap names
+    // may be unexported getter traps; inspect the data property safely.
+    const view = module && Object.getOwnPropertyDescriptor(module, 'HEAPU32')?.value;
+    return view?.buffer?.byteLength ?? null;
+  });
+  (report.linearMemorySamples ??= []).push({ label, allocatedBytes,
+    allocatedMiB: allocatedBytes === null ? null : allocatedBytes / 1048576,
+    scope: 'Allocated WebAssembly linear-memory capacity at this sample, not live allocations, JavaScript/GPU memory or total process memory.' });
+}
 async function saveReport() {
   const text = JSON.stringify(report, null, 2);
   saving = saving.catch(() => {}).then(async () => {
@@ -128,8 +140,10 @@ async function release() {
 }
 async function capture(name) {
   const file = path.join(runOutput, name + '.png');
+  const beforeCapture = await snapshot();
   await page.screenshot({ path: file });
-  const state = await snapshot(); report.screenshots.push({ name, path: file, state });
+  const state = await snapshot(); report.screenshots.push({ name, path: file, state, beforeCapture,
+    stateScope: 'Snapshots bracket the screenshot. During driving, state is the post-capture pose, not exact pixel-time telemetry.' });
   return state;
 }
 async function runCase(name, action) {
@@ -182,6 +196,7 @@ try {
     assert(state.trafficCount > 0 && state.pedestrianCount > 0);
     assert(state.graphicsDeviceType && state.graphicsDeviceName, 'Actual renderer identity is recorded.');
     if (forceWebGL2) assert.equal(state.graphicsDeviceType, 'OpenGLES3');
+    await recordLinearMemory('scene-ready');
     return state;
   });
   await runCase('keyboard-drive-steer-brake', async () => {
@@ -209,6 +224,7 @@ try {
     const mirror = await waitState(s => s.rearViewSupported && s.rearViewActive && s.rearViewCaptures > 0, 'live rear view');
     const cabinStart = await snapshot(), cabinStartedAt = Date.now();
     report.warmedCabinWindow = await waitState(s => s.frames >= cabinStart.frames + 240, '240 cabin frames with live rear view', 90000);
+    await recordLinearMemory('warmed-cabin');
     report.cabinCaptureWindow = { wallMs: Date.now() - cabinStartedAt, captures: report.warmedCabinWindow.rearViewCaptures - cabinStart.rearViewCaptures };
     assert(report.cabinCaptureWindow.captures <= Math.ceil(report.cabinCaptureWindow.wallMs * .006) + 1, 'Rear view stays within its six-capture-per-second budget.');
     assert(report.warmedCabinWindow.rearViewCaptures > mirror.rearViewCaptures, 'Rear view updates while active.');
@@ -254,10 +270,19 @@ try {
   report.warmedStationaryWindow = await waitState(s => s.frames >= warmStart.frames + 240,
     '240 rendered frames after reload', 60000);
   report.frameTimingScope = 'Last 240 Unity Update wall intervals after the reload warmup; not GPU timings or an endurance/performance approval.';
+  await recordLinearMemory('warmed-chase-after-reload');
   if (fullLap) await runCase('complete-real-fixed-step-lap-with-semantic-controls', async () => {
     await tap('r'); await waitState(s => Math.abs(s.speed) < .01, 'home reset before complete lap');
     let state = await snapshot(), previous = state; const started = Date.now(), startElapsed = state.elapsed;
     const checkpoints = [state.checkpointId], samples = []; let maximumStep = 0, contactSnapshots = 0, lastSample = -1;
+    const reviewViews = [
+      { s: 70, name: 'route-green-island' }, { s: 110, name: 'route-local-taper' }, { s: 145, name: 'route-splitter-approach' },
+      { s: 225, name: 'route-winston-trails' }, { s: 310, name: 'route-visitors-gate' },
+      { s: 500, name: 'route-hypoluxo' }, { s: 1120, name: 'route-jog-palms' },
+      { s: 1660, name: 'route-lantana' }, { s: 2190, name: 'route-hagen-ranch' }
+    ];
+    const capturedViews = new Set();
+    await tap('c'); await waitState(s => s.cameraMode === 'cabin', 'driver view for route art inspection');
     assert.equal(state.checkpointId, 'home'); assert.equal(state.completed, false);
     while (!state.completed && Date.now() - started < 1200000) {
       assert.equal(state.paused, false, 'Full lap remains actively simulated.');
@@ -277,6 +302,9 @@ try {
       maximumStep=Math.max(maximumStep,displacement);
       assert(displacement <= Math.max(2,elapsed*40+1), 'No world-pose teleport during semantic driving.');
       if(state.bonkSeconds>0)contactSnapshots++;
+      for (const view of reviewViews) if (state.routeS >= view.s && !capturedViews.has(view.name)) {
+        await capture(view.name); capturedViews.add(view.name);
+      }
       if(checkpoints.at(-1)!==state.checkpointId){checkpoints.push(state.checkpointId);await capture('checkpoint-'+checkpoints.length);}
       const sampleBucket=Math.floor((state.elapsed-startElapsed)/10);
       if(sampleBucket>lastSample){lastSample=sampleBucket;samples.push({elapsed:state.elapsed,x:state.x,z:state.z,s:state.routeS,speed:state.speed,checkpointId:state.checkpointId});report.lapProgress=samples.at(-1);await saveReport();}
@@ -286,6 +314,7 @@ try {
     assert.deepEqual(state.visited,['home','leg-1','leg-2','leg-3','leg-4']);
     assert.deepEqual(checkpoints,['home','leg-1','leg-2','leg-3','leg-4','home']);
     assert(state.elapsed-startElapsed>180, 'Real simulation time must cover a full drive.');
+    assert.equal(capturedViews.size, reviewViews.length, 'Every reference-review road span was driven and captured.');
     await capture('complete-home');
     report.completedPersistence = await waitForDurableTownDriveSave(); await saveReport();
     await page.reload({waitUntil:'domcontentloaded',timeout:90000});const restored=await waitState(s=>s.ready,'completed save reload',180000);
@@ -293,6 +322,7 @@ try {
     return{semanticInputOnly:true,wallSeconds:(Date.now()-started)/1000,simulatedSeconds:state.elapsed-startElapsed,checkpoints,maximumObservedDisplacement:maximumStep,contactSnapshots,samples,completed:state,restored};
   });
   report.final = await snapshot();
+  await recordLinearMemory(fullLap ? 'completed-lap-after-reload' : 'end');
 } catch (error) { report.fatal = String(error.stack || error); console.error(error); }
 finally {
   clearInterval(saveTimer); try { await release(); } catch {}

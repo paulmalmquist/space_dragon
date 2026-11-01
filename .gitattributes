@@ -66,3 +66,5 @@ unity/SpaceDragon/Assets/SpaceDragon/Dogfight/oscar-export-receipt-v001.json -te
 
 # Packaged Town Drive art license text stays portable.
 unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Art/**/*.txt text eol=lf
+# Preserve the Blender receipt's hash-pinned original bytes across checkout.
+unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Art/v004/source-receipt.json -text whitespace=cr-at-eol
