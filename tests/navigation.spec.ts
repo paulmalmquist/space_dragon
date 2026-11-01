@@ -207,6 +207,85 @@ test('pause, focus loss and notebook typing release movement without a stuck key
   await page.keyboard.up('a');
 });
 
+test('delayed notebook close notifications preserve fresh movement and a reopened notebook', async ({ page }) => {
+  await begin(page);
+  // Delay only the native notification, not the real button, Escape key,
+  // dialog open state or game clock. CI exposed this notification arriving
+  // after a fresh movement key. Replaying twice also checks idempotence.
+  const closeEvents = await page.evaluateHandle(() => {
+    const dialog = document.querySelector<HTMLDialogElement>('#notebook')!;
+    const pending: Event[] = [];
+    let forwarding = false;
+    const capture = (event: Event) => {
+      if (forwarding) return;
+      event.stopImmediatePropagation(); pending.push(event);
+    };
+    dialog.addEventListener('close', capture, true);
+    return {
+      count: () => pending.length,
+      release: () => {
+        forwarding = true;
+        try { for (const event of pending.splice(0)) { dialog.dispatchEvent(event); dialog.dispatchEvent(event); } }
+        finally { forwarding = false; }
+      },
+      dispose: () => dialog.removeEventListener('close', capture, true),
+    };
+  });
+  const notebook = page.locator('#notebook');
+  const open = () => page.getByRole('button', { name: 'Idea notebook' }).click();
+  const queued = () => expect.poll(() => closeEvents.evaluate(queue => queue.count())).toBe(1);
+  const scenePaused = () => page.evaluate(() =>
+    (window as unknown as { __SPACE_DRAGON__: { snapshot(): { performance: { paused: boolean } } } }).__SPACE_DRAGON__.snapshot().performance.paused);
+  try {
+    // Both explicit close and Escape must resume before the queued notification.
+    for (const method of ['button', 'escape'] as const) {
+      await open();
+      if (method === 'button') await page.locator('#notebook-close').click();
+      else await page.keyboard.press('Escape');
+      await expect(notebook).not.toBeVisible();
+      await queued();
+      expect(await scenePaused()).toBe(false);
+      await expect(page.locator('#game')).toBeFocused();
+      // Walk along the open corridor at x=-2, away from furniture. Both
+      // measured segments need clearance even on a slow browser round-trip.
+      const direction = method === 'button' ? 1 : -1;
+      const key = direction > 0 ? 'w' : 's';
+      const moved = (from: number) => expect.poll(async () =>
+        direction * ((await navigation(page)).state.player.z - from)).toBeGreaterThan(0.1);
+      const beforeKey = (await navigation(page)).state.player.z;
+      await page.keyboard.down(key);
+      try {
+        await moved(beforeKey);
+        const beforeNotification = (await navigation(page)).state.player.z;
+        await closeEvents.evaluate(queue => queue.release());
+        await moved(beforeNotification);
+      } finally { await page.keyboard.up(key); }
+      await expectStopped(page);
+    }
+
+    // An old Escape close event must not resume/reset a new notebook session.
+    await open();
+    await page.keyboard.press('Escape');
+    await expect(notebook).not.toBeVisible();
+    await queued();
+    await open();
+    const frozen = (await navigation(page)).state.player;
+    await closeEvents.evaluate(queue => queue.release());
+    await expect(notebook).toBeVisible();
+    expect(await scenePaused()).toBe(true);
+    await page.getByLabel('Your thought').fill('Synthetic queued-close isolation: wasd');
+    await expectStopped(page, frozen);
+    await page.locator('#notebook-close').click();
+    await queued();
+    await closeEvents.evaluate(queue => queue.release());
+    expect(await scenePaused()).toBe(false);
+    await expect(page.locator('#game')).toBeFocused();
+  } finally {
+    await closeEvents.evaluate(queue => queue.dispose());
+    await closeEvents.dispose();
+  }
+});
+
 test('an unsafe saved pose recovers at the entrance while retaining the collected practice module', async ({ page }) => {
   await page.addInitScript(key => localStorage.setItem(key, JSON.stringify({
     version: 1, player: { x: 3.5, z: 0, yaw: 0 }, collected: ['training-module'],
