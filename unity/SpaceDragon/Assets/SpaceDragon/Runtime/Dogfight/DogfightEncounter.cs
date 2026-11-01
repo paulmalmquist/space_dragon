@@ -193,7 +193,7 @@ namespace SpaceDragon.Dogfight
         }
         FlightInput ReadInput(Keyboard k,Mouse m,float dt,ref bool fire,ref bool launch,ref bool breathFire)
         {
-            Vector2 steer=Vector2.zero;float throttle=0;bool boost=false,breakHeld=false;bool repairWasActive=Tactics.IsRepairing;
+            Vector2 steer=Vector2.zero;float throttle=0;bool boost=false,breakHeld=false;bool repairWasActive=Tactics.IsRepairing;independentBankInput=0;
             if(k!=null)
             {
                 steer=new Vector2((k.rightArrowKey.isPressed?1:0)-(k.leftArrowKey.isPressed?1:0),(k.upArrowKey.isPressed?1:0)-(k.downArrowKey.isPressed?1:0));
@@ -203,7 +203,9 @@ namespace SpaceDragon.Dogfight
                 if(aimKeys.sqrMagnitude>0) { aim+=aimKeys*dt*.9f;pointerActive=false; }
                 else if(pointerActive && !RepairSelectorOpen) aim=pointer;
                 if(k.xKey.wasPressedThisFrame){aim=Vector2.zero;pointerActive=false;}
-                if(k.qKey.wasPressedThisFrame)RequestCombatRoll(-1);if(k.eKey.wasPressedThisFrame)RequestCombatRoll(1);
+                if(tuning.EnableIndependentBank&&m!=null&&m.rightButton.isPressed)
+                    independentBankInput=((k.qKey.isPressed?1:0)-(k.eKey.isPressed?1:0))*tuning.IndependentBankDegrees*Mathf.Deg2Rad;
+                else {if(k.qKey.wasPressedThisFrame)RequestCombatRoll(-1);if(k.eKey.wasPressedThisFrame)RequestCombatRoll(1);}
                 if(UseSpacecraftDragon)breakHeld=k.bKey.isPressed;
                 else if(k.bKey.wasPressedThisFrame){if(steer.x==0)Flight.RequestBreak();else Flight.RequestBreak(steer.x>0?1:-1);}
                 throttle=(k.rKey.isPressed?1:0)-(k.fKey.isPressed?1:0);boost=k.leftShiftKey.isPressed||k.rightShiftKey.isPressed;
@@ -220,11 +222,11 @@ namespace SpaceDragon.Dogfight
             {
                 bool held=(m!=null&&(m.leftButton.isPressed||m.middleButton.isPressed)) || (k!=null&&(k.leftShiftKey.isPressed||k.rightShiftKey.isPressed||k.enterKey.isPressed||k.spaceKey.isPressed||k.bKey.isPressed||k.tKey.isPressed));
                 if(!held)combatArmed=true;
-                fire=launch=breathFire=boost=breakHeld=false;
+                fire=launch=breathFire=boost=breakHeld=false;independentBankInput=0;
             }
             if(steer==Vector2.zero && pointerActive && !MouseAimMode&&!RepairSelectorOpen) steer=Vector2.ClampMagnitude(pointer*1.18f,1);
             aim=new Vector2(Mathf.Clamp(aim.x,-.94f,.94f),Mathf.Clamp(aim.y,-.88f,.88f));
-            return new FlightInput(steer,throttle,boost,breakHeld);
+            return new FlightInput(steer,throttle,boost,breakHeld,independentBankInput);
         }
 
         void Simulate(float dt,FlightInput input,bool fire)
@@ -565,7 +567,7 @@ namespace SpaceDragon.Dogfight
         void ClearProjectiles(){foreach(var b in bolts)Destroy(b.Visual.gameObject);bolts.Clear();foreach(var m in missiles)Destroy(m.Visual.gameObject);missiles.Clear();IncomingThreatWorld=null;}
         void Message(string text){toast=text;toastTime=3.5f;}
         public void TogglePause()=>SetPaused(!Paused);
-        void SetPaused(bool value){Paused=value;RepairSelectorOpen=false;repairHold=0;pointerActive=false;previousPointer=Mouse.current?.position.ReadValue()??Vector2.zero;combatArmed=false;if(value){Flight.CancelHeldBreak();perfectRoll.Pause();combatFeedback.Clear();finisher.PauseClearFreeze();finisherFeedback.Clear();}presentation.SetPaused(value);damageVfx.SetPaused(value);sound.SetPaused(value);}
+        void SetPaused(bool value){Paused=value;RepairSelectorOpen=false;repairHold=0;pointerActive=false;previousPointer=Mouse.current?.position.ReadValue()??Vector2.zero;combatArmed=false;if(value){independentBankInput=0;Flight.CancelHeldBreak();perfectRoll.Pause();combatFeedback.Clear();finisher.PauseClearFreeze();finisherFeedback.Clear();}presentation.SetPaused(value);damageVfx.SetPaused(value);sound.SetPaused(value);}
         void OnApplicationFocus(bool focused){if(!focused&&initialized)SetPaused(true);}
         void OnApplicationPause(bool paused){if(paused&&initialized)SetPaused(true);}
         public void SetSoundEnabled(string value){SoundEnabled=value=="true"||value=="1";if(sound!=null)sound.SetEnabled(SoundEnabled);}
@@ -582,7 +584,7 @@ namespace SpaceDragon.Dogfight
             public int salvage,repairsRemaining,repairsCompleted,repairsInterrupted,missileCharges,missilesLaunched,missileHits,launchAttempts,rejectedLaunches,shotsFired,ordinaryHits,kills,pickups,damageHits,collisionHits,rolls,breaks,letterIndex,breathsFired,breathsResolved,missilesActive,boltsActive,particles,patches,drones,frameSamples,width,height,addedArmorTriangles;
             public long drawCalls,renderTriangles;public Vector3 position,forward,muzzle,muzzleScreen,windupOrigin,beamOrigin,beamCoreOrigin,lastPlasmaOrigin,lastPlasmaMuzzle;public EnemySnapshot[] enemies;public SalvageSnapshot[] debris;
             public bool spacecraft,breakActive,lasersActive,lastLaserLeftHit,lastLaserRightHit;
-            public int wave,waveCount;
+            public int wave,waveCount;public float independentBankInput;public bool independentBankEnabled;
             public bool comebackActive,comebackUsed,comebackAssisted;public int comebackLetterIndex,comebackSucceeded;public float comebackRemaining,comebackProtection;
             public int repairCodeIndex,repairCodeExpected;public bool repairBonus;public string repairCodePrompt,repairCodeMode;
             public int rockShots,gasDetonations,gasPockets;public GasSnapshot[] gas;
@@ -647,7 +649,7 @@ namespace SpaceDragon.Dogfight
             s.modelTextureCount=textureEvidence.count;s.modelBc7TextureCount=textureEvidence.bc7Count;s.modelOtherTextureCount=textureEvidence.otherCount;
             s.modelTexturesReadableCount=textureEvidence.readableCount;s.modelTextureAllocatedBytes=textureEvidence.allocatedBytes;s.modelTextureFormats=textureEvidence.formats;
 #endif
-            s.comebackActive=comeback.Active;s.comebackUsed=comeback.Used;s.comebackAssisted=comeback.Assisted;s.comebackLetterIndex=comeback.LetterIndex;s.comebackSucceeded=comeback.SucceededSerial;s.comebackRemaining=comeback.Remaining;s.comebackProtection=comeback.ProtectionRemaining;s.repairCodeIndex=repairCode.Index;s.repairCodeExpected=repairCode.ExpectedDigit??-1;s.repairBonus=Tactics.RepairBonusApplied;s.repairCodePrompt=repairCode.Prompt;s.repairCodeMode=RepairMode.ToString();s.rockShots=rockShotCount;s.gasDetonations=gasDetonations;s.gasPockets=rockWeapons.Pockets.Count;s.wingmanRuns=wingman.RunsSent;s.wingmanRunning=wingman.Running;s.wingmanCooldown=wingman.CooldownRemaining;s.finishers=finisher.Serial;s.freezeRemaining=finisher.FreezeRemaining;s.wave=waveState.Index+1;s.waveCount=waveState.Count;s.perfectRolls=perfectRoll.Serial;s.combatTimeScale=CurrentCombatTimeScale;s.slowRemaining=perfectRoll.SlowRemaining;s.combatFlags=CombatFlags;s.qaCondition=qaCondition;
+            s.comebackActive=comeback.Active;s.comebackUsed=comeback.Used;s.comebackAssisted=comeback.Assisted;s.comebackLetterIndex=comeback.LetterIndex;s.comebackSucceeded=comeback.SucceededSerial;s.comebackRemaining=comeback.Remaining;s.comebackProtection=comeback.ProtectionRemaining;s.repairCodeIndex=repairCode.Index;s.repairCodeExpected=repairCode.ExpectedDigit??-1;s.repairBonus=Tactics.RepairBonusApplied;s.repairCodePrompt=repairCode.Prompt;s.repairCodeMode=RepairMode.ToString();s.rockShots=rockShotCount;s.gasDetonations=gasDetonations;s.gasPockets=rockWeapons.Pockets.Count;s.wingmanRuns=wingman.RunsSent;s.wingmanRunning=wingman.Running;s.wingmanCooldown=wingman.CooldownRemaining;s.finishers=finisher.Serial;s.freezeRemaining=finisher.FreezeRemaining;s.independentBankInput=independentBankInput;s.independentBankEnabled=tuning.EnableIndependentBank;s.wave=waveState.Index+1;s.waveCount=waveState.Count;s.perfectRolls=perfectRoll.Serial;s.combatTimeScale=CurrentCombatTimeScale;s.slowRemaining=perfectRoll.SlowRemaining;s.combatFlags=CombatFlags;s.qaCondition=qaCondition;
             for(int i=0;i<enemies.Count;i++){var e=enemies[i];Vector3 p=gameCamera.WorldToViewportPoint(e.Position);s.enemies[i]=new EnemySnapshot{id=e.Id,role=e.Combat.Role.ToString(),shield=e.Combat.ShieldIntact,latched=e.Combat.Latched,stunned=e.Combat.Stunned,maxHealth=e.Combat.MaximumHealth,health=e.Health,dead=e.Dead,position=e.Position,distance=Vector3.Distance(e.Position,Flight.Position),screenX=p.x,screenY=1-p.y,screenZ=p.z,threat=e.TargetProgress};}
             s.gas=new GasSnapshot[rockWeapons.Pockets.Count];for(int i=0;i<s.gas.Length;i++){var gas=rockWeapons.Pockets[i];var v=gameCamera.WorldToViewportPoint(gas.Position);s.gas[i]=new GasSnapshot{id=gas.Id,detonated=gas.Detonated,position=gas.Position,screenX=v.x,screenY=1-v.y,screenZ=v.z};}
             for(int i=0;i<salvage.Items.Count;i++){var item=salvage.Items[i];Vector3 p=gameCamera.WorldToViewportPoint(item.Position);s.debris[i]=new SalvageSnapshot{id=item.Id,position=item.Position,distance=Vector3.Distance(item.Position,Flight.Position),screenX=p.x,screenY=1-p.y};}

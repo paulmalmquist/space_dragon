@@ -323,7 +323,7 @@ namespace SpaceDragon.Dogfight
             }
             else
             {
-                Text(new Rect(r.x+12,r.y+77,r.width-24,21),"SHIFT BOOST  /  Q/E TIMED ROLL  /  HOLD B TURN",Muted,small);
+                Text(new Rect(r.x+12,r.y+77,r.width-24,21),"SHIFT BOOST / Q/E ROLL / RMB+Q/E BANK / B TURN",Muted,small);
                 Text(new Rect(r.x+12,r.y+99,r.width-24,21),"ESC PAUSE / CONTROLS",Cyan,small);
             }
         }
@@ -380,7 +380,7 @@ namespace SpaceDragon.Dogfight
             Fill(new Rect(r.x+25,r.y+366,r.width-50,1),new Color(.58f,.91f,.94f,.3f));
             Text(new Rect(r.x+25,r.y+376,r.width-50,21),"ARROWS / MOUSE FLY  /  WADZ AIM",Cyan,small);
             Text(new Rect(r.x+25,r.y+398,r.width-50,21),"M SWITCH MOUSE MODE  /  LMB "+PrimaryLabel+"  /  RMB ZOOM",Muted,small);
-            Text(new Rect(r.x+25,r.y+420,r.width-50,21),"SHIFT BOOST  /  Q/E TIMED ROLL  /  HOLD B TURN",Muted,small);
+            Text(new Rect(r.x+25,r.y+420,r.width-50,21),"SHIFT BOOST / Q/E ROLL / RMB+Q/E BANK / B TURN",Muted,small);
             Text(new Rect(r.x+25,r.y+442,r.width-50,21),"ENTER MISSILE  /  SPACE BEAM  /  HOLD TAB REPAIR",Muted,small);
             Text(new Rect(r.x+25,r.y+464,r.width-50,21),"T WINGMAN  /  F1 HELP  /  ESC PAUSE OR RESUME",Muted,small);
             Text(new Rect(r.x+30,r.y+501,r.width-60,26),"Local lab. Campaign progress and family saves stay separate.",Muted,small);

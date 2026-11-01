@@ -141,3 +141,5 @@ Stop and ask me only about a canon change, a purchase, or another active Unity E
 Your final message covers: how to launch it, a 30-second "try this first" list, the flag names, what passed, what's NOT TESTED, and the PR link. Keep it short.
 
 The real test is mine: I want to immediately play again, and the kids get what each enemy needs without being told.
+
+Owner clarification, November 1: “Tilt/bank left independently”.

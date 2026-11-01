@@ -35,6 +35,7 @@ The generated scene is `Assets/SpaceDragon/Dogfight/Generated/Dogfight.unity`. I
 | Throttle up/down | R / F |
 | Boost | Shift, finite energy |
 | Barrel roll / evasive turn | Q/E / hold B while steering; finite evasion energy. A roll within 0.4 s of a predicted hit refunds its cost. |
+| Independent bank | Hold right mouse + Q/E; nose and flight path are unchanged by banking |
 | Twin wing lasers / camera zoom | Left / right mouse; lasers hit immediately |
 | Wingman strafe | T; locked target or nearest living enemy; 20-second cooldown |
 | Guided missile | Enter or middle mouse, after a clear sustained lock |

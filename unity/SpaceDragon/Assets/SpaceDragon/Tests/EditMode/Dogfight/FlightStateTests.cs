@@ -23,6 +23,128 @@ namespace SpaceDragon.Dogfight.Tests
             Assert.That(flight.Rotation.x * flight.Rotation.x + flight.Rotation.y * flight.Rotation.y + flight.Rotation.z * flight.Rotation.z + flight.Rotation.w * flight.Rotation.w, Is.EqualTo(1).Within(.00001));
         }
 
+        [TestCase(-1, false)] [TestCase(1, false)]
+        [TestCase(-1, true)] [TestCase(1, true)]
+        public void IndependentBankLeavesSteeringPathSpeedAndResourcesExactlyUnchanged(int direction, bool heldBreak)
+        {
+            var baseline = new FlightState(); var tilted = new FlightState();
+            for (int frame = 0; frame < 120; frame++)
+            {
+                var steer = new Vector2(frame < 60 ? .65f : -.4f, .3f);
+                var input = new FlightInput(steer, .1f, !heldBreak, heldBreak);
+                baseline.Tick(1f / 60, input);
+                input.IndependentBankRadians = direction * 65 * Mathf.Deg2Rad;
+                tilted.Tick(1f / 60, input);
+                Assert.That(tilted.Position, Is.EqualTo(baseline.Position));
+                Assert.That(tilted.Velocity, Is.EqualTo(baseline.Velocity));
+                Assert.That(tilted.Rotation, Is.EqualTo(baseline.Rotation));
+                Assert.That(tilted.YawRate, Is.EqualTo(baseline.YawRate));
+                Assert.That(tilted.PitchRate, Is.EqualTo(baseline.PitchRate));
+                Assert.That(tilted.Speed, Is.EqualTo(baseline.Speed));
+                Assert.That(tilted.BoostEnergy, Is.EqualTo(baseline.BoostEnergy));
+                Assert.That(tilted.EvasionEnergy, Is.EqualTo(baseline.EvasionEnergy));
+            }
+            Assert.That(tilted.Bank, Is.EqualTo(direction * 65 * Mathf.Deg2Rad).Within(.0001));
+            Assert.That(tilted.Bank, Is.Not.EqualTo(baseline.Bank));
+            Assert.That(tilted.RollSerial, Is.Zero);
+        }
+
+        [TestCase(-1)] [TestCase(1)]
+        public void IndependentBankHoldsAndReleasesThroughExistingSmoothing(int direction)
+        {
+            const float dt = 1f / 60;
+            var flight = new FlightState();
+            float target = direction * 65 * Mathf.Deg2Rad;
+            var input = new FlightInput(Vector2.zero, independentBankRadians: target);
+            flight.Tick(dt, input);
+            Assert.That(flight.Bank, Is.EqualTo(target * (1 - Mathf.Exp(-flight.Tuning.BankResponse * dt))).Within(.000001));
+            Assert.That(Mathf.Abs(flight.Bank), Is.LessThan(Mathf.Abs(target)));
+            Advance(flight, 2, input);
+            Assert.That(flight.Bank, Is.EqualTo(target).Within(.0001));
+            float heldBank = flight.Bank;
+            flight.Tick(dt, default);
+            Assert.That(flight.Bank, Is.EqualTo(heldBank * Mathf.Exp(-flight.Tuning.BankResponse * dt)).Within(.000001));
+            Assert.That(Mathf.Abs(flight.Bank), Is.GreaterThan(0));
+            Advance(flight, 2);
+            Assert.That(flight.Bank, Is.Zero.Within(.0001));
+            Assert.That(flight.Forward, Is.EqualTo(Vector3.forward));
+            Assert.That(flight.Position.x, Is.Zero); Assert.That(flight.Position.y, Is.Zero);
+        }
+
+        [TestCase(-1)] [TestCase(1)]
+        public void IndependentBankIsIgnoredThroughoutAnExistingFullRoll(int direction)
+        {
+            var baseline = new FlightState(); var tilted = new FlightState();
+            var entry = new FlightInput(new Vector2(.5f, .1f));
+            Advance(baseline, .4f, entry); Advance(tilted, .4f, entry);
+            Assert.That(baseline.RequestRoll(direction), Is.True);
+            Assert.That(tilted.RequestRoll(direction), Is.True);
+            int frame = 0;
+            while (baseline.RollActive && frame++ < 300)
+            {
+                var input = new FlightInput(new Vector2(-.4f, -.2f));
+                baseline.Tick(1f / 120, input);
+                input.IndependentBankRadians = -direction * 65 * Mathf.Deg2Rad;
+                tilted.Tick(1f / 120, input);
+                Assert.That(tilted.Bank, Is.EqualTo(baseline.Bank));
+                Assert.That(tilted.RollAngle, Is.EqualTo(baseline.RollAngle));
+                Assert.That(tilted.RollOffset, Is.EqualTo(baseline.RollOffset));
+                Assert.That(tilted.Position, Is.EqualTo(baseline.Position));
+                Assert.That(tilted.Rotation, Is.EqualTo(baseline.Rotation));
+                Assert.That(tilted.RollActive, Is.EqualTo(baseline.RollActive));
+                Assert.That(tilted.EvasionEnergy, Is.EqualTo(baseline.EvasionEnergy));
+            }
+            Assert.That(tilted.RollsCompleted, Is.EqualTo(1));
+            Assert.That(tilted.RollAngle, Is.Zero); Assert.That(tilted.RollOffset, Is.EqualTo(Vector3.zero));
+        }
+
+        [Test]
+        public void ZeroAndInvalidIndependentBankKeepTheExistingAutomaticBank()
+        {
+            foreach (float bank in new[] { 0, float.NaN, float.PositiveInfinity, float.NegativeInfinity })
+            {
+                var baseline = new FlightState(); var fallback = new FlightState();
+                for (int frame = 0; frame < 120; frame++)
+                {
+                    var input = new FlightInput(new Vector2(.6f, .2f), breakHeld: frame > 60);
+                    baseline.Tick(1f / 60, input);
+                    input.IndependentBankRadians = bank;
+                    fallback.Tick(1f / 60, input);
+                    Assert.That(fallback.Bank, Is.EqualTo(baseline.Bank));
+                    Assert.That(fallback.Position, Is.EqualTo(baseline.Position));
+                    Assert.That(fallback.Rotation, Is.EqualTo(baseline.Rotation));
+                }
+                Assert.That(fallback.Bank, Is.LessThan(0));
+            }
+        }
+
+        [TestCase(-1)] [TestCase(1)]
+        public void IndependentBankClampsFiniteExtremeInputToNinetyDegrees(int direction)
+        {
+            var flight = new FlightState();
+            Advance(flight, 3, new FlightInput(Vector2.zero, independentBankRadians: direction * float.MaxValue));
+            Assert.That(flight.Bank, Is.EqualTo(direction * Mathf.PI * .5f).Within(.00001));
+            Assert.That(Mathf.Abs(flight.Bank), Is.LessThanOrEqualTo(Mathf.PI * .5f));
+            Assert.That(flight.Rotation, Is.EqualTo(Quaternion.identity));
+            Assert.That(flight.EvasionEnergy, Is.EqualTo(flight.Tuning.EvasionCapacity));
+        }
+
+        [Test]
+        public void IndependentBankDoesNotAdvanceDuringPauseAndResetClearsItsTilt()
+        {
+            var flight = new FlightState();
+            var input = new FlightInput(Vector2.zero, independentBankRadians: 65 * Mathf.Deg2Rad);
+            Advance(flight, .5f, input);
+            float bank = flight.Bank; Vector3 position = flight.Position;
+            foreach (float dt in new[] { 0, -1, float.NaN, float.PositiveInfinity }) flight.Tick(dt, input);
+            Assert.That(flight.Bank, Is.EqualTo(bank)); Assert.That(flight.Position, Is.EqualTo(position));
+            flight.Reset();
+            Assert.That(flight.Bank, Is.Zero); Assert.That(flight.RollAngle, Is.Zero);
+            Assert.That(flight.Rotation, Is.EqualTo(Quaternion.identity));
+            flight.Tick(1f / 60, default);
+            Assert.That(flight.Bank, Is.Zero, "Reset must not retain a previous adapter's held tilt request.");
+        }
+
         [Test]
         public void ThrottleClampsAndBoostUsesASeparateFiniteReservoir()
         {

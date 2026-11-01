@@ -41,8 +41,9 @@ namespace SpaceDragon.Dogfight
         public float Throttle;
         public bool Boost;
         public bool BreakHeld; // Hold plus current steering requests a powered evasive turn.
-        public FlightInput(Vector2 steer, float throttle = 0, bool boost = false, bool breakHeld = false)
-        { Steer = steer; Throttle = throttle; Boost = boost; BreakHeld = breakHeld; }
+        public float IndependentBankRadians; // Visual tilt only; zero releases to automatic steering bank.
+        public FlightInput(Vector2 steer, float throttle = 0, bool boost = false, bool breakHeld = false, float independentBankRadians = 0)
+        { Steer = steer; Throttle = throttle; Boost = boost; BreakHeld = breakHeld; IndependentBankRadians = independentBankRadians; }
     }
 
     /// <summary>Authoritative metre/second flight; +Z forward, +Y up. No scene, save or damage ownership.</summary>
@@ -272,6 +273,11 @@ namespace SpaceDragon.Dogfight
             // neutral here would briefly reverse a roll's slow entry/exit.
             float bankTarget = HeldBreakActive ? -steer * Tuning.HeldBreakBankAngle :
                 BreakActive ? -breakDirection * Tuning.BreakBankAngle : -steer * Tuning.BankAngle;
+            // Independent tilt cannot steer the authoritative travel frame. Keep
+            // ordinary auto-bank on release/invalid input, and bound tilt to 90
+            // degrees; full revolutions remain the separately paid roll maneuver.
+            if (!RollActive && Finite(input.IndependentBankRadians) && input.IndependentBankRadians != 0)
+                bankTarget = Mathf.Clamp(input.IndependentBankRadians, -Mathf.PI * .5f, Mathf.PI * .5f);
             Bank = RollActive ? rollBank : Damp(Bank, bankTarget, Tuning.BankResponse, dt);
             UpdateRoll(dt); UpdateBreak(dt);
         }

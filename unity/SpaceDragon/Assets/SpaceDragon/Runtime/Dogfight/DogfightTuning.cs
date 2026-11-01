@@ -11,6 +11,9 @@ namespace SpaceDragon.Dogfight
             EnableWingman = true, EnableRockWeapons = true, EnableMultiTargetBreath = true,
             EnableRepairCode = true, EnableComeback = true;
         [HideInInspector] public int CombatSchema;
+        [Header("Independent bank — RMB plus existing Q/E keys")]
+        public bool EnableIndependentBank = true;
+        public float IndependentBankDegrees = 65f;
 
         [Header("Perfect roll")]
         public float PerfectRollWindow = .4f, PerfectRollRadius = 3.3f,

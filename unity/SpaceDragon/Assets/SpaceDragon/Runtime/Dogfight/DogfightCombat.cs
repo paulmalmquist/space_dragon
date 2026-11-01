@@ -21,9 +21,10 @@ namespace SpaceDragon.Dogfight
         int enemySequence;
         public bool HasGrappler { get { foreach(var e in enemies)if(!e.Dead&&e.Combat.Latched)return true;return false; } }
         string qaCondition = "natural";
+        float independentBankInput;
         public float CurrentCombatTimeScale => !ReducedMotion && perfectRoll != null && perfectRoll.SlowRemaining > 0
             ? Mathf.Clamp01(tuning.PerfectRollTimeScale) : 1f;
-        public string CombatFlags => $"perfectRoll={tuning.EnablePerfectRoll};enemyRoles={tuning.EnableEnemyRoles};clawFinisher={tuning.EnableClawFinisher};wingman={tuning.EnableWingman};rockWeapons={tuning.EnableRockWeapons};multiTargetBreath={tuning.EnableMultiTargetBreath};repairCode={tuning.EnableRepairCode};comeback={tuning.EnableComeback}";
+        public string CombatFlags => $"perfectRoll={tuning.EnablePerfectRoll};enemyRoles={tuning.EnableEnemyRoles};clawFinisher={tuning.EnableClawFinisher};wingman={tuning.EnableWingman};rockWeapons={tuning.EnableRockWeapons};multiTargetBreath={tuning.EnableMultiTargetBreath};repairCode={tuning.EnableRepairCode};comeback={tuning.EnableComeback};independentBank={tuning.EnableIndependentBank}";
 
         void InitializeCombatUpgrades()
         {
@@ -41,6 +42,7 @@ namespace SpaceDragon.Dogfight
         void ResetCombatUpgrades()
         {
             perfectRoll.Reset(); combatFeedback.Clear(); projectileSequence = 0; qaCondition = "natural";
+            independentBankInput=0;
             finisher.Reset();finisherFeedback.Clear();
             repairCode.Reset();
             comeback.Reset();disabledHandled=false;comebackSuccessObserved=0;
@@ -164,6 +166,7 @@ namespace SpaceDragon.Dogfight
                 bool enabled = action.EndsWith(":on");
                 tuning.EnablePerfectRoll=tuning.EnableEnemyRoles=tuning.EnableClawFinisher=tuning.EnableWingman=
                     tuning.EnableRockWeapons=tuning.EnableMultiTargetBreath=tuning.EnableRepairCode=tuning.EnableComeback=enabled;
+                tuning.EnableIndependentBank=enabled;
                 RestartEncounter(); qaCondition=action; return true;
             }
             if (action == "perfect:bolt" || action == "perfect:early" || action == "perfect:missile")
