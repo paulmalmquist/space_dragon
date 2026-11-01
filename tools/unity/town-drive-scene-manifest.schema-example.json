@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "units": "metres",
+  "sourceCoordinates": "left-handed +X east +Y up +Z north; yaw0=+Z",
+  "exporter": "@babylonjs/serializers 9.33.0",
+  "sourceRevision": "git HEAD recorded by exporter",
+  "materialDelivery": "Meshes/*.glb retain standard glTF materials and ../Textures/*.png shared image URIs",
+  "assets": [
+    {
+      "id": "minivan-detailed",
+      "kind": "minivan",
+      "path": "Meshes/minivan-detailed.glb",
+      "rootName": "drive.car",
+      "sourceMeshCount": 1,
+      "sourceTriangles": 1,
+      "gltfMeshes": 1,
+      "gltfNodes": 1,
+      "bytes": 1,
+      "sha256": "sha256",
+      "requiredNodes": [
+        "drive.car",
+        "drive.car.steering-wheel",
+        "TownDrive.DriverEye"
+      ],
+      "materialNames": [
+        "drive.car.pearl-white-paint"
+      ],
+      "externalTextureCount": 1,
+      "extensionsUsed": [],
+      "nodeState": [
+        {
+          "name": "source mesh name",
+          "enabled": true,
+          "visible": true,
+          "materialName": "source material name",
+          "castShadow": true,
+          "metadata": {},
+          "lods": [
+            {
+              "distance": 125,
+              "meshName": ""
+            }
+          ]
+        }
+      ],
+      "expectedImportedMeshCount": 1,
+      "expectedImportedTriangleCount": 1
+    }
+  ],
+  "assetKindNotes": "kind: minivan,traffic,vegetation,neighborhood,interior,junction,terrain,roadChunk. roadChunk also has chunkIndex,fromS,toS. Traffic asset IDs/order: traffic-sedan,traffic-suv,traffic-van. Vegetation IDs: vegetation-palm,vegetation-canopy,vegetation-hedge. Original GLBs live under Sources~/vegetation and Sources~/pedestrians.",
+  "materials": [
+    {
+      "name": "exact source material name",
+      "baseColor": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "metallic": 0,
+      "roughness": 0.8,
+      "emissiveFactor": {
+        "r": 0,
+        "g": 0,
+        "b": 0
+      },
+      "emissiveStrength": 1,
+      "alphaMode": "OPAQUE",
+      "alphaCutoff": 0.5,
+      "doubleSided": false,
+      "unlit": false,
+      "disableDepthWrite": false,
+      "normalScale": 1,
+      "normalInvertX": false,
+      "normalInvertY": false,
+      "castShadow": true,
+      "textures": [
+        {
+          "slot": "baseColor",
+          "path": "Textures/shared-hash.png",
+          "uScale": 1,
+          "vScale": 1,
+          "uOffset": 0,
+          "vOffset": 0,
+          "rotation": 0,
+          "texCoord": 0,
+          "normalScale": 1
+        }
+      ]
+    }
+  ],
+  "textureSlotNotes": "baseColor,normal,metallicRoughness,metallicSmoothness,emissive,occlusion. metallicSmoothness RGB=effective metallic, alpha=1-effective roughness, factors already baked. Other paths are standard glTF converted images/UV transforms.",
+  "vegetationInstances": [
+    {
+      "id": "stable transform key",
+      "assetId": "vegetation-palm",
+      "meshName": "palm.near.0",
+      "parentChunk": "drive.chunk.0",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotationQuaternion": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "lods": [
+        {
+          "distance": 95,
+          "meshName": "palm.far.0"
+        },
+        {
+          "distance": 170,
+          "meshName": "palm.distant.0"
+        },
+        {
+          "distance": 390,
+          "meshName": ""
+        }
+      ]
+    }
+  ],
+  "vegetationNotes": "Instances reference individually exported source mesh parts in prepared vegetation GLBs; transforms are original Babylon LH metres. This preserves distinct palm foliage widening. Use prepared meshes for exact parity, original source GLBs retained unchanged for provenance.",
+  "parkedVehicles": [
+    {
+      "id": "parked.example",
+      "kind": "sedan",
+      "x": 0,
+      "z": 0,
+      "yaw": 0,
+      "colorIndex": 0,
+      "braking": false,
+      "direction": 1,
+      "speed": 0,
+      "lod": "near"
+    }
+  ],
+  "obstacles": [
+    {
+      "id": "static.example",
+      "x": 0,
+      "z": 0,
+      "radius": 0.5
+    }
+  ],
+  "minivan": {
+    "rootName": "drive.car",
+    "dimensions": {
+      "length": 5.212,
+      "width": 1.994,
+      "height": 1.768,
+      "wheelbase": 3,
+      "tyreRadius": 0.37
+    },
+    "driverEye": {
+      "x": -0.46,
+      "y": 1.42,
+      "z": 0.42
+    },
+    "forward": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+    },
+    "wheelSteerPrefix": "drive.car.wheel-steer.",
+    "wheelSpinPrefix": "drive.car.wheel-spin.",
+    "steeringWheelName": "drive.car.steering-wheel",
+    "nodes": [],
+    "cabinDetailNames": [
+      "drive.car.cabin-detail",
+      "drive.car.steering-detail"
+    ],
+    "driverHeadrestName": "drive.car.driver-headrest",
+    "glazing": {
+      "materialName": "drive.car.clear-front-glazing",
+      "cabinAlpha": 0.1,
+      "exteriorAlpha": 0.55,
+      "cabinColor": "#c3d2d3",
+      "exteriorColor": "#273840"
+    }
+  },
+  "anchors": [
+    {
+      "name": "TownDrive.Axis.Origin",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "assetId": "minivan-detailed",
+      "scope": "vehicle"
+    },
+    {
+      "name": "TownDrive.Axis.East",
+      "position": {
+        "x": 10,
+        "y": 0,
+        "z": 0
+      },
+      "assetId": "minivan-detailed",
+      "scope": "vehicle"
+    },
+    {
+      "name": "TownDrive.Axis.North",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 10
+      },
+      "assetId": "minivan-detailed",
+      "scope": "vehicle"
+    },
+    {
+      "name": "TownDrive.World.Spawn",
+      "assetId": "terrain",
+      "scope": "world",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  ],
+  "lod": {
+    "palm": [
+      95,
+      170,
+      390
+    ],
+    "canopy": [
+      72,
+      170,
+      390
+    ],
+    "hedge": [
+      48,
+      170,
+      390
+    ],
+    "developmentNear": 125,
+    "developmentFar": 360,
+    "trafficNear": 75,
+    "trafficFar": 310
+  },
+  "inputs": [
+    {
+      "path": "src/game/drive/world.ts",
+      "bytes": 1,
+      "sha256": "sha256"
+    }
+  ],
+  "files": [
+    {
+      "path": "Meshes/minivan-detailed.glb",
+      "bytes": 1,
+      "sha256": "sha256"
+    }
+  ],
+  "importCountNotes": "Expected imported counts expand EXT_mesh_gpu_instancing and glTFast vertex-layout primitive groups; source counts describe Babylon source meshes before thin-instance expansion.",
+  "pedestrianAssets": [
+    {
+      "id": "adult-male",
+      "appearance": 0,
+      "path": "Meshes/pedestrians/adult-male.glb",
+      "sourcePath": "Sources~/pedestrians/adult-male.glb",
+      "provenancePath": "Meshes/pedestrians/PROVENANCE.json",
+      "clipName": "walk",
+      "bytes": 4544164,
+      "sha256": "01b5153a3dc19054a299c2dc943f38faa0bade2c6c6822efa92b92c163e352c1",
+      "sourceSha256": "12929a45957d2a106f73ce0779c95b1697fb2b4cc0df4e7d53e25bdf9a5ca670",
+      "meshCount": 1,
+      "primitiveCount": 2,
+      "skinCount": 1,
+      "jointCount": 80,
+      "animationCount": 1,
+      "accessorCount": 48,
+      "textureCount": 4
+    },
+    {
+      "id": "adult-female",
+      "appearance": 1,
+      "path": "Meshes/pedestrians/adult-female.glb",
+      "sourcePath": "Sources~/pedestrians/adult-female.glb",
+      "provenancePath": "Meshes/pedestrians/PROVENANCE.json",
+      "clipName": "walk",
+      "bytes": 6485708,
+      "sha256": "5897ab03b6981eea5770fd3b5502643df96f331116854b7da32816e0937af60b",
+      "sourceSha256": "7fcd61c1b330b7f998de6b5aedeab71e549cdca344cb47de8d96aaa20f6e4b9c",
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "skinCount": 1,
+      "jointCount": 80,
+      "animationCount": 1,
+      "accessorCount": 64,
+      "textureCount": 5
+    }
+  ],
+  "pedestrianNotes": "Separate actor inventory; order appearance 0 adult-male, 1 adult-female. Unity imports these PNG derivatives; original WebP GLBs remain immutable Sources. Not part of static scene asset loop."
+}

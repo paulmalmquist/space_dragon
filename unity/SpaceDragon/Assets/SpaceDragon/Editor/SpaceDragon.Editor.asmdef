@@ -1,0 +1,14 @@
+{
+  "name": "SpaceDragon.Editor",
+  "rootNamespace": "SpaceDragon.Editor",
+  "references": [
+    "SpaceDragon.FirstContact",
+    "SpaceDragon.LaunchLab",
+    "Unity.Cinemachine",
+    "Unity.Timeline",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime"
+  ],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

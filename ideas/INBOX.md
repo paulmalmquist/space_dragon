@@ -4,9 +4,316 @@ Write below in whatever order it occurs to you. Plain text is enough. You can al
 
 ## New thoughts
 
+### October 31, 2026 — Google Vids with manual exports (SD-076)
+
+Owner wording:
+
+> forget runway for now we will use google vids with manual exports
+
+Routing receipt: **CONFIRMED · planned; guidance recorded.** [Decision](../docs/decisions/2026-10-31-google-vids-manual-exports.md): Google Vids → manual file export → local inspection/encoding → Unity video playback and tested handoff. Runway is parked for now; reconnection is no longer a next action. No Google Vids export has been received or verified. Preserve the original exported file and the existing Blender/Unity proof. Next useful action: review the first manual export when available.
+
+### October 31, 2026 — cinematic strategy and dragon launch proof (SD-073)
+
+Later owner reply, October 31, 2026:
+
+> Proceed locally; defer AI enhancement
+
+This narrowed SD-073's completion gate to the fully live Unity launch, controlled local Blender-video alternative and their tested playable handoffs. Later **SD-076** above selects Google Vids with manual exports for subsequent video work and parks Runway; no reconnection prompt is a next action.
+
+Source: owner, new cinematic-production request. The complete original wording and attachment availability note are preserved in [the source capture](2026-10-31-cinematic-launch-source.md); do not substitute this routing summary for the source.
+
+Routing receipt: **SD-073 · CONFIRMED bounded local implementation · verified for named local checks; AI parked by owner.** [Decision](../docs/decisions/2026-10-31-cinematic-launch-proof.md), [plan](../docs/plans/UNITY_LAUNCH_CINEMATIC.md) and [verification](../docs/reports/2026-10-31-unity-launch-cinematic.md) record the separate **12-second Unity LaunchLab**: live 0–3 s, controlled Blender video 3–10 s, protected live 10–12 s and safe flight, alongside the fully live route. Original geometry/choreography remains authoritative. Setup, 21 EditMode tests, source/video/Web build, eleven actual cases per WebGPU/WebGL2 backend and separate real headed focus recovery pass. Prior failures and scoped save/performance limitations are retained. The visibly rough lab has no human final-quality approval; AI enhancement, physical controller, native launch, full Dogfight migration, campaign departure and release remain separate. This supersedes SD-038's old proof boundary while retaining continuity principles.
+
+### October 31, 2026 — align this channel with the Unity upgrade (SD-072)
+
+Owner wording:
+
+> another channel is upgrading to unity. please follow suit
+
+Routing receipt: **CONFIRMED · planned migration; guidance/handoff implemented.** [Decision](../docs/decisions/2026-10-31-unity-channel-alignment.md) makes Unity/C# in the existing project the forward path for this channel. [Dragon/Dogfight handoff](../docs/engineering/UNITY_DOGFIGHT_HANDOFF.md) preserves the versioned Blender asset, materials, sockets, clips, controls, active spelling/dodging, combat and saves. Coordinate with the active Unity project writer. No Unity scene/runtime change or competing Editor/build was made for this alignment. Browser labs remain references/rollback; Unity Dogfight is not yet implemented.
+
+Tracking note: the historical local SD-062/063/064 aliases now map to canonical SD-083/084/085. Main retains canonical SD-062–071; see [the integration crosswalk](../docs/decisions/2026-11-01-unity-integration-identifiers.md). Original owner wording/dates remain intact.
+
 <!-- Add your next thought here. No form required. -->
 
 ## Captured and connected
+
+### October 31, 2026 — Unity production candidate alongside Babylon
+
+Source: owner, two follow-up messages in the same repo-attached chat. **Both complete original messages are preserved verbatim in [the Unity source capture](2026-10-31-unity-source.md)**, including the supplied performance targets, proposed stack, image links, reference labels and truncated ending of the first message. Source claims and illustrative images are not measured Space Dragon results or approved runtime art.
+
+Owner follow-up, October 31, 2026, when asked about testing a physical PlayStation controller: **“Not now”**. Keep the bindings implemented and record physical hardware testing as deferred/NOT TESTED; do not treat simulated or keyboard results as a physical-controller pass.
+
+Receipt: **SD-083** — CONFIRMED side-by-side Unity feasibility evaluation, now **verified for named technical checks**. Later [SD-072](../docs/decisions/2026-10-31-unity-channel-alignment.md) confirms Unity/C# as the forward production direction; the original local SD-062 alias is retained in the integration crosswalk. [Decision](../docs/decisions/2026-10-31-unity-production-candidate.md), [comparison plan](../docs/plans/UNITY_PRODUCTION_CANDIDATE.md) and [receipt](../docs/reports/2026-10-31-unity-production-candidate.md) record the shared pod, cinematic arrival, third-person input and once-only interaction. The supplied “small placeholder” baseline is corrected by existing Earth walking/pod and Dogfight combat/dragon work. Licensed Unity 6000.6.7f1 passes setup, 11 EditMode tests, Web/Windows builds, WebGPU/WebGL2 browser play and native rendering; matched 720p/gzip-load/process-memory evidence and agent edit/test/build workflow are recorded. Physical PlayStation is owner-deferred/NOT TESTED; human quality and sustained performance remain open. The measurements do not establish an engine-quality winner; whole-game migration is not complete. No backend/hosting, deployment or new likeness permission follows.
+
+### October 31, 2026 — AAA visual upgrade plan
+
+Source: owner, repo-attached chat. The supplied plan below is preserved in full; spacing is normalized for Markdown. Its reference labels did not include source URLs. The accompanying asset-flow image repeats the source/export/optimization/browser/registry sequence described in the text; no new media file was exported into the game.
+
+Receipt: **SD-061 / SD-VIS-001** — CONFIRMED bounded local visual foundation assignment; wider roadmap/reference-project recommendations remain PROPOSED. Work state: **verified for the bounded technical foundation**. [Decision](../docs/decisions/2026-10-31-production-visual-foundation.md), [reconciled plan](../docs/plans/PRODUCTION_VISUAL_FOUNDATION.md) and [receipt](../docs/reports/2026-10-31-production-visual-foundation.md) correct the stale baseline and record quality/camera/performance controls plus backyard material/lighting around the existing Blender pod. 214 units/build, 46 development, nine production, 18 photo checks, fresh source/build/two production checks and six short AMD-renderer samples pass. Human art review, sustained acceptance and the full polished opening remain open. Later SD-083 authorizes the Unity comparison and SD-072 selects Unity for forward work; preserve this Babylon baseline. No whole-roadmap completion, new publication permission or deployment is implied.
+
+<details>
+<summary>Original supplied plan — October 31, 2026</summary>
+
+Space Dragon: AAA Visual Upgrade Plan
+Architecture review · October 31, 2026 · Based on the current paulmalmquist/space_dragon repository and reference projects
+Executive recommendation
+Keep the browser-first architecture, invest heavily in Blender assets and lighting, and develop one cinematic, playable vertical slice before expanding the game.
+
+A critical finding from inspecting your GitHub repository: Space Dragon currently runs Babylon.js 9.33, not Three.js. The earlier specification proposed Three.js, but the actual prototype uses Babylon.js, TypeScript, and Vite.
+
+I would not migrate to Three.js solely because some impressive reference games use it. Babylon already has much of the rendering technology we need. A migration should require a demonstrably better result.
+
+The current baseline is also much earlier than the recent Blender screenshots might suggest:
+- The committed gameplay scene is built from placeholder boxes, cylinders, and basic materials.
+- No completed Blender model is integrated into the committed runtime.
+- The GLB inspection pipeline, texture-compression tooling, and Playwright tests already exist.
+- The current prototype has a 3-step First Contact sequence, checkpointing, and preliminary controller support—but no playable character locomotion or combat.
+This changes the priorities considerably. The immediate bottleneck is art integration and visual production, not a lack of advanced engine capabilities.
+
+My target would be a polished opening sequence: the family home at night, the mysterious pod arriving, a dramatic dragon-component reveal, and the transition into interactive gameplay.
+1. What we should borrow from the reference games
+
+| Reference | Strongest technique | Space Dragon application |
+| --- | --- | --- |
+| Halcyon | Scanned environments, LODs, instancing, selective rendering, adaptive resolution | Detailed Florida neighborhoods and planetary environments without overwhelming the GPU |
+| Game Forge | Reusable lighting presets, asset catalog, procedural scenery, automated playtesting | Standardized scene quality and agent-friendly asset production |
+| Null Range | Short-range fog, selective bloom, cockpit parallax, radar-reactive effects | Dragon flight, targeting UI, space battles, and otherworldly atmospheres |
+| Stefan's Souls-like game | High-detail asset generation, coherent scene lighting, character integration | Dragon design, boss encounters, family armor, combat presentation |
+| Chong-U's game workflow | assets.json, small design specifications, repeated agent/playtest iterations | Repeatable Blender-to-game workflow without losing track of assets |
+| Voltane | Browser physics, controller-oriented gameplay, racing and multiplayer architecture | Jet-like dragon handling and responsive flight controls |
+
+The most important discovery was Halcyon's rendering strategy. Its creator reports rendering an enormous tropical environment in real time using instancing, distance-based detail, half-resolution effects, texture streaming, and a frame-time-driven resolution governor. Those are much more transferable to Space Dragon than copying its custom ocean or atmospheric shaders.
+GitHub+1
+
+Null Range is equally interesting for a different reason. Its developer explains that fog, a disciplined cyan/orange palette, selective glow, and layered cockpit UI create a powerful sense of scale without needing photorealistic geometry everywhere. That's an ideal technique for our dragon's space and atmospheric flight.
+reddit.com
+
+Game Forge offers something less glamorous but extremely valuable: a model and material catalog that coding agents can actually search and use, alongside automated tests. We should adapt that organizational approach, not import its entire engine or asset library indiscriminately.
+GitHub+1
+
+2. Prioritized implementation roadmap
+The order matters. We should not build the complete dragon, five characters, and three planets before proving that one polished asset can render beautifully and run smoothly.
+
+| Priority | Work package | Deliverable | Relative effort |
+| --- | --- | --- | --- |
+| P0 · 1 | Rendering benchmark | Performance dashboard and reproducible screenshots | Low |
+| P0 · 2 | Blender asset integration | One production-quality pod or dragon component loaded into the game | Medium |
+| P0 · 3 | Cinematic rendering | PBR materials, HDR environment, shadows, fog, restrained post-processing | Medium |
+| P1 · 4 | First Contact redesign | Visually polished, playable house-to-backyard opening | High |
+| P1 · 5 | Dragon production pipeline | Rigged, animated dragon with component assembly and LODs | High |
+| P1 · 6 | Asset optimization | Automated compression, validation, preloading, adaptive graphics | Medium |
+| P1 · 7 | Cinematic director | Seamless transitions among cutscenes, animation, and gameplay | Medium |
+| P2 · 8 | Character and combat rendering | One animated family avatar, hit reactions, parry effects, camera feedback | High |
+| P2 · 9 | Dragon flight | Playable atmospheric flight and space combat prototype | High |
+| P3 · 10 | Planet environments | Streaming world sections, vegetation, biomes, distant terrain | Very high |
+
+Relative effort is a planning judgment, not an implementation estimate. P0 and P1 are the immediate production focus.
+3. The graphics upgrades
+P0: Replace the placeholder visual foundation
+The current src/game/scene.ts uses StandardMaterial, a hemispheric light, two point lights, and primitive geometry. That is fine for validating interactions but isn't an adequate foundation for the look we're targeting.
+
+A. Physically based materials
+
+Use Blender's metallic/roughness PBR workflow for manufactured parts. Give the dragon brushed metal, ceramic armor, subtle edge wear, normal-map detailing, restrained clearcoat, and carefully controlled emissive channels.
+
+B. Physically plausible lighting
+
+Add HDR image-based lighting, directional moonlight, contact shadows, warm practical household lights, and blue light from the mysterious equipment. The contrast between ordinary home lighting and alien technology should be deliberate.
+
+C. Atmospheric effects and grading
+
+Add a controlled HDR post-processing pipeline: tone mapping, subtle bloom, atmospheric haze, selective glow, and camera-specific depth of field. Avoid excessive blur or chromatic aberration that makes gameplay harder to read.
+
+Babylon already supports physically based materials, HDR environment lighting, post-processing pipelines, and advanced shadows. There is no engine migration required for this foundation.
+GitHub+2
+
+I would create three consistent visual presets initially:
+- Home Night: photorealistic materials, warm interior lighting, cool moonlight, natural shadows.
+- Dragon Cinematic: dramatic metallic reflections, controlled blue energy glow, rim lighting and atmospheric depth.
+- Alien World: environment-specific lighting, fog, color grading and biome materials.
+This lets agents reuse a coherent visual language without improvising lighting and material settings for every scene.
+4. Blender-to-browser asset pipeline
+This is probably the highest-leverage production investment.
+
+The repo already has the right beginnings: Blender 5.2.1, glTF Transform, KTX tools, an asset inspector, versioned source folders, and a documented Blender handoff.
+
+What's missing is a proven production asset moving through the entire pipeline and into the running game.
+Proposed asset production flow
+Concept and references
+Dragon design · House video · Original asset libraries
+
+Blender master source
+Topology · UVs · Materials · Rig · Named sockets
+
+GLB export and validation
+Scale · Hierarchy · Animations · PBR compatibility
+
+Optimization
+LODs · Mesh compression · KTX2 textures
+
+Babylon browser review
+Visual comparison · Load test · Animation · Performance
+
+Approved game asset
+Asset registry → Scene loader → Playable scene
+
+What to build into the asset tooling
+The centerpiece should be an asset registry that records each asset's ID, version, source, license, dimensions, texture variants, animations, component sockets, and quality status.
+
+A CLI should then inspect the source export, build optimized variants, verify the required nodes are preserved, and publish only approved runtime assets. The existing asset-inspect.mjs is a good starting point.
+
+Use glTF Transform for geometry processing and KTX2 texture preparation. Meshoptimizer is worth testing for geometry and animation data; UASTC for quality-sensitive normal/ORM maps and ETC1S for more compressible textures. These are alternatives to evaluate per asset, not transformations that should be blindly stacked.
+gltf-transform.dev+1
+
+Important engineering detail: Babylon can load compressed glTF assets, but production deployment needs the relevant decoders available. Configure self-hosted decoder resources rather than accidentally introducing third-party runtime requests through default CDN behavior.
+GitHub
+
+Asset sources to adopt
+
+| Asset source | Best use | License |
+| --- | --- | --- |
+| Poly Haven | Realistic HDRIs, surfaces, household props, rocks | CC0 |
+| ambientCG | Concrete, wood, metal, dirt, terrain materials | CC0 |
+| Game Forge catalog | Searchable collection of environment and prototype assets | Mixed, documented |
+| Microsoft Rocketbox | Temporary human animation and rig references | MIT |
+| Kenney | Collision proxies, UI, prototype props | CC0 packs |
+
+The Game Forge license manifest is unusually useful because it identifies provenance per pack; Rocketbox assets in particular require their MIT license to be retained.
+GitHub+1
+
+For the dragon and family armor, I would favor original Blender models. Stock mechanical components and textures can accelerate production, but the central silhouettes should be distinctively Space Dragon rather than replicas of existing film characters.
+5. The proposed game architecture
+Don't replace the present repository wholesale. Extract small modules from the existing scene as new production features become necessary.
+
+A reasonable target structure is:
+```text
+src/game/
+  core/
+    state.ts
+    actions.ts
+  runtime/
+    renderer.ts
+    asset-loader.ts
+    quality-manager.ts
+    scene-manager.ts
+  visual/
+    lighting-presets.ts
+    material-presets.ts
+    post-processing.ts
+    effects.ts
+  scenes/
+    first-contact.ts
+    backyard-arrival.ts
+    dragon-reveal.ts
+  cinematic/
+    director.ts
+    timeline.ts
+  gameplay/
+    movement.ts
+    combat.ts
+    flight.ts
+
+assets/
+  source/       # Blender editable sources
+  game/         # candidate/reviewed exports
+  reference/    # never shipped automatically
+
+public/game/     # explicitly approved runtime assets
+tools/
+  asset-pipeline/
+  perf/
+```
+
+Proposed additions and organization, not folders claimed to exist today.The architectural rule
+Game state, controls, rendering, animation, and cinematic presentation must remain separate.
+
+For example, when the player acquires a dragon wing, the game-state layer awards the wing once. The cinematic layer can then play a spectacular assembly animation, but replaying or skipping that cinematic cannot award another wing.
+
+This is especially important for your existing story architecture, checkpoints, family abilities, and eventual Line Leader mechanic.
+
+Babylon remains the renderer. We can use a renderer abstraction to limit engine dependencies, but avoid building an elaborate cross-engine framework before an actual migration need exists.
+6. Performance strategy: learn from Halcyon
+I would adopt four particularly useful techniques from Halcyon.
+
+Adaptive resolution: Rather than choosing one fixed render resolution, adjust internal resolution based on sustained frame-time measurements. Your current code caps effective rendering density around 1.5 pixels per CSS pixel on high-density displays. Increasing it can improve sharpness, but only if the GPU has headroom.
+
+Distance-based detail: The close-up dragon retains detailed geometry and texture quality. Mid-distance dragon and environment meshes use simpler models; far terrain, vegetation, and background structures use low-cost representations or impostors.
+
+Progressive loading: Load what the player needs first, then stream higher-detail textures, nearby props, and the next scene while the opening proceeds.
+
+Shader prewarming: Compile important shaders and upload essential textures before removing the loading/title overlay, reducing visible stalls during the first dramatic shot. Halcyon explicitly uses this approach.
+GitHub
+
+Proposed performance targets
+
+| Desktop, capable GPU | 60 fps at 1080p |
+| --- | --- |
+| Integrated Radeon laptop | 30 fps at adaptive 720p–900p |
+| Frame-time budget at 60 fps | 16.7 ms |
+| Frame-time budget at 30 fps | 33.3 ms |
+
+Engineering targets only. No real-GPU benchmark of the upgraded game has been performed.
+The graphics settings should be Cinematic, High, Balanced, and Low, with automatic detection serving only as an initial recommendation.
+
+We should benchmark on the actual Lenovo Radeon machine and at least one stronger gaming computer. Existing Playwright tests are valuable functional checks, but their software-rendered Chromium results do not establish hardware frame rates.
+7. The first playable AAA-style slice
+Recommended implementation sequence: First Contact — House → Backyard → Dragon Reveal
+
+Scene A — The Signal
+
+The actual house video informs room geometry and layout. High-quality furniture, surfaces, reflections and deliberate camera framing make it convincing. The computer emits a mysterious blue light while the existing sound-bank signal builds tension.
+
+Scene B — The Arrival
+
+A richly detailed pod with moving panels and glowing seams sits in the backyard. Real-time particles, decals, grass, shadows and environmental audio sell the impact. The camera moves toward the pod without switching to an unrelated scene.
+
+Scene C — The Reveal
+
+Dragon components appear in a holographic projection. Use individually addressable mesh nodes, animated assembly tracks, emissive effects, sound synchronization and a guided player interaction.
+
+The sequence should be both cinematic and genuinely playable. The player can look around and interact where intended, the director temporarily controls the camera for key dramatic moments, and then control returns predictably.
+
+For more demanding scenes—such as the dragon exploding into the atmosphere—we can later use a short prerendered cinematic, match the final frame to the live scene, preload the next environment, and hand back control. That hybrid method should be reserved for transitions where it achieves a clear visual benefit; it shouldn't replace live gameplay.
+8. Verification requirements
+Every production milestone should generate a short report containing screenshots, measured performance, and proof that the asset or feature actually works.
+
+The key acceptance gates are:
+- Asset fidelity: Blender and Babylon renders agree sufficiently on shape, materials, normals, emissive surfaces, and animation.
+- Asset integrity: Required dragon hierarchy, sockets, bones, and clips survive optimization.
+- Gameplay integrity: Checkpoints, controls, scene transitions, and unique item rewards still work.
+- Performance: Record median and 95th-percentile frame times, draw calls, initial download size, render scale, and major frame-time spikes on named hardware.
+- Visual consistency: Fixed-camera screenshots compare scene revisions without relying on subjective descriptions alone.
+- Release safety: No private reference videos, source photos, editable assets, or unapproved likeness data enter the browser build.
+I would extend the existing Playwright tests rather than establish a second test framework. Use real-device captures for visual/performance acceptance and headless browser tests for deterministic functionality.
+9. What I would explicitly defer
+I would not spend the next development cycle implementing a procedural galaxy, multiplayer networking, full vehicle physics, ray-traced rendering, or an experimental custom rendering engine.
+
+Likewise, I wouldn't migrate immediately to Three.js, Unity WebGL, or WebGPU. Those are options, not automatic fidelity upgrades. Babylon already exposes WebGL2 and WebGPU support and has the necessary PBR and rendering capabilities.
+babylonjs.com
+
+The correct engine comparison would be the same Blender asset, same scene, same camera, and equivalent quality settings, measured on the same hardware. Only a meaningful performance, fidelity, or maintainability advantage would justify migration.
+10. The immediate development assignment
+I'd define the next milestone as SD-VIS-001: Production Visual Foundation, with three deliverables:
+A. Baseline and controls
+
+Add a performance overlay, fixed-camera screenshot positions, render-quality presets, and a before/after comparison harness.
+
+B. First real Blender asset
+
+Choose the pod or dragon head, complete its original source and PBR materials, export and optimize it, then load it into Babylon from the approved asset registry.
+
+C. Cinematic visual proof
+
+Produce the polished backyard-arrival shot with physically based lighting, shadows, atmospheric effects, and an interactive camera. Verify the existing First Contact progression still works.
+
+Exit criterion: a running browser scene using a genuine reviewed Blender asset, with visibly better material and lighting quality, repeatable visual tests, and measured performance on actual hardware. Not just an attractive Blender render.
+
+That milestone will tell us far more about Space Dragon's achievable quality than another large round of engine research.
+
+Bottom line: The most promising route to a GTA V-class impression in selected scenes is excellent art, strong lighting, careful camera direction, and aggressive optimization—not generating a much larger world or switching engines. Once we establish that quality bar in the backyard, we can extend it systematically to the dragon, family characters, combat, and planets.
+
+</details>
 
 ### October 30, 2026 - testing features and finding integration blind spots
 
@@ -620,6 +927,132 @@ Owner's original request:
 
 Routing receipt: **SD-060 · CONFIRMED · verified for named local pipeline checks**. [Asset contract](../docs/engineering/DRAGON_ASSET_CONTRACT.md), [verification receipt](../docs/reports/2026-10-30-dragon-asset-pipeline.md). The retained loader/controller uses a versioned export with authored blended loops, eight sockets, stable transforms and independent collision. Earlier artwork/rollback, active flight/combat during spelling, collision tuning and saves remain. Matched Blender/browser views, measured resource reduction and final native wrapper pass are recorded, with the initial manifest failure preserved. Human art/sustained performance and deployment remain separate.
 
+## October 31, 2026 — Town Drive junctions and vibration (SD-084)
+
+Owner wording:
+
+> make the correct T intersections but just blocked off by cop cars and barracards.
+> car is vibrating too much as we drive
+
+Routing receipt: **CONFIRMED**, technically verified; human road-recognition and comfort review remain open. [Decision](../docs/decisions/2026-10-31-town-drive-junctions-and-motion.md) and [verification](../docs/reports/2026-10-31-town-drive-junctions-and-motion.md). Correct junction branches and visible route closures; stabilize presentation without changing physics/checkpoints.
+
+
+## October 31, 2026 — Google Maps gate route and proportions (SD-085)
+
+Owner wording:
+
+> please take another look at the layout of the world here in google maps. getting to the hypoluxo gate is straight out of the culdesac, right on green island left on winston trails. look at the proportions closely and make sure we have the world right
+
+Three Google Maps screenshots supplied in chat (two repeat the close neighborhood view). Routing receipt: **CONFIRMED**, technically verified; human road recognition and comfort remain open. [Decision](../docs/decisions/2026-10-31-town-drive-map-proportions.md), [verification](../docs/reports/2026-10-31-town-drive-map-proportions.md). Correct the gate road to Winston Trails South, examine actual street/water/context proportions and preserve the earlier drive improvements.
+
+
+## October 31, 2026 — Town Drive follows the Unity channel (SD-074)
+
+Owner wording:
+
+> another channel is upgrading to unity. please follow suit
+
+Routing receipt: **CONFIRMED direction; C# foundation technically verified, Unity scene migration open.** This repeats the existing SD-072 engine direction for the Town Drive channel after its map correction. [Decision](../docs/decisions/2026-10-31-unity-town-drive-foundation.md), [Town Drive handoff](../docs/engineering/UNITY_TOWN_DRIVE_HANDOFF.md), [verification](../docs/reports/2026-10-31-unity-town-drive-foundation.md). Use the same Unity project, retain the corrected browser route as reference, and begin with C# state/data parity while coordinating around the active Unity writer.
+
+## October 31, 2026 — Unity Dogfight and tactical combat (SD-075)
+
+Owner supplied [the full tactical upgrade request](2026-10-31-unity-dogfight-source.md), preserved verbatim. Engine clarification:
+
+> Unity, carrying over the existing Dogfight controls and behavior (Recommended)
+
+> yeah lets fully migrate to unity for this pass
+
+Routing receipt: **CONFIRMED / verified locally**. Migrated the playable Dogfight encounter to the existing Unity project; preserve flight, live spelling, breath and encounter-only save boundaries. Add localized damage, prioritized warnings, limited salvage-funded repairs and deliberate limited-turn missiles. Root owns the separate Dogfight scene/build; Launch and Town Drive channel files remain independently owned. [Decision](../docs/decisions/2026-10-31-unity-dogfight.md). All eight requested flows pass in both actual Unity browser backends; see [the receipt and screenshots](../docs/reports/2026-10-31-unity-dogfight.md). Next: owner feel/audio review and sustained performance. No deployment.
+
+
+## October 31, 2026 — Continue the detailed Unity Town Drive scene (SD-074 continuation)
+
+Owner wording:
+
+> ok do we have to wait for the other channel in order to continue
+
+After the next-step explanation (detailed scenery/minivan and corrected layout, isolated work while coordinating Editor access):
+
+> ok so go ahead
+
+Routing receipt: **CONFIRMED / technically verified**, continuing SD-074. [Final evidence](../docs/reports/2026-10-31-unity-town-drive-scene.md) records the integrated build, complete drive/reload and renderer/focus checks; human art/comfort and release remain open. [Decision](../docs/decisions/2026-10-31-unity-town-drive-scene.md). Implement the detailed playable Unity scene and its bindings in the existing project, preserving the browser reference, assets, route, cabin, traffic, controls and save boundaries. No new story direction or deployment.
+
+
+## October 31, 2026 — Continue Dogfight art (SD-077)
+
+Owner wording:
+
+> ok change and ok continue with art and such. gameplay is solid
+
+Routing receipt: **CONFIRMED / verified first environment increment**. The owner endorses the current gameplay feel and authorizes art continuation; this is not blanket art/release approval. Preserve combat rules, movement, controls and collider boundaries. First bounded increment: asteroid PBR surfaces, a less synthetic gas giant and decorative rings, with calmer sky exposure. [Decision](../docs/decisions/2026-10-31-dogfight-art-continuation.md). No new source-dragon redesign or external generation.
+
+Verification: final Unity Web build and 11 Chrome cases per WebGPU/WebGL2 pass; [receipt and gallery](../docs/reports/2026-10-31-dogfight-environment-art.md). Gameplay tuning retained; further geometry/dragon art and human visual approval remain open.
+
+
+## October 31, 2026 — Near-atmosphere battlefield and Blender dragon upgrade (SD-078)
+
+Owner wording:
+
+> rocks look better.
+>
+> make the planet more in range as if we are close to the planet's atompshere. then we're going to need a lot more thoughtful detail. id also like to see the improvement on the dragon now. update blender with the badass lookwe've agered upon
+
+The supplied gameplay screenshot shows the current gunmetal/crimson dragon in the Unity Dogfight encounter, with the planet outside the view. It is appearance context, not new runtime media or a separate approved asset.
+
+Routing receipt: **CONFIRMED / verified for named local source/player checks**. Rock appearance receives the owner's positive review; the previous “gameplay is solid” remains the gameplay baseline. Bring the battlefield visually close to a broad planetary horizon/atmospheric limb, and continue the agreed SD-059 mechanical-dragon art in Blender rather than limiting this increment to scenery. Preserve the original source and comparison collections, version a distinct upgraded source/game candidate, retain the nine rest bones/clips/sockets, and inspect the export in the actual Unity player. Gunmetal primary armor, crimson plates/membranes, intentional joint mechanisms and restrained orange energy remain the direction. [Decision](../docs/decisions/2026-10-31-near-orbit-dragon-art.md). Geometry, exposure and resource budgets are reversible implementation choices; source/export preservation and final Unity checks are now recorded in [the receipt/gallery](../docs/reports/2026-10-31-near-orbit-heroic-dragon.md). Final Web build, 69 tests and 11 Chrome cases per WebGPU/WebGL2 pass; short samples are about 59 fps. Owner art approval, sustained performance and minor sky-seam cleanup remain open. No combat tuning, landing/atmosphere simulation, new campaign planet assignment or deployment is implied.
+
+
+## October 31, 2026 — Larger and more menacing dragon in view (SD-079)
+
+Owner wording:
+
+> it should also be a big bigger in view and more menacing somehow
+
+Routing receipt: **CONFIRMED / verified for named technical checks**. In the ongoing SD-078 dragon review, “it” refers to the dragon. Treat this as a bounded presentation pass: a closer readable chase view, stronger visual presence/posture and intentional lighting within the agreed gunmetal/crimson mechanical design. Preserve the gameplay baseline, input/aiming, combat timings/resources, authored source scale, independent collision and save boundaries. [Decision](../docs/decisions/2026-10-31-dragon-screen-presence.md). Root will inspect and implement render-only changes; no new source changes, build pass or appearance approval is claimed at intake. SD-078 remains verified for its exact earlier artifact; this follow-on gets its own receipt and screenshots. No deployment.
+
+
+Final technical evidence: 9.8 m camera/cadence/rim changes, combined camera/audio Web build, final 69 tests and 11 Chrome cases per backend pass; [receipt/screenshots](../docs/reports/2026-10-31-dragon-screen-presence.md). Tested player retains mechanical v005; organic v006 is source-only. No owner menace/comfort or sustained-performance approval.
+
+## October 31, 2026 — Blender Undo and purple organic-dragon reference (SD-080)
+
+Owner wording:
+
+> i hit undo in blender.
+> make it look like that please.
+
+The owner supplied an image reference with this request: an organic-looking purple dragon with a powerful chest, long curved neck, predatory head, swept horns, visible scales, violet wing membranes and claws. This description records the chat reference's visual role only. No local image filename, download, source author, license, exported texture or external upload is assumed.
+
+Initial routing receipt: **CONFIRMED / in-progress at intake**. The reported Undo and replacement reference mean the preceding mechanical result is not accepted as the next art direction. Inspect the actual post-Undo live Blender state and preserve it before making a fresh versioned candidate; do not automatically reapply the gunmetal/crimson mechanical edits. Follow the living purple-scaled silhouette/material direction in the attached reference. [Decision](../docs/decisions/2026-10-31-purple-organic-dragon.md). SD-078's v005 source/export/build remain historical technical evidence and rollback, not approval of the new selected appearance. SD-079's bigger/more-menacing framing intent can continue where compatible, but its mechanical styling assumptions are superseded; rendering edits and an EditMode run are in progress, with no new player build yet. Root owns Blender. New source/export/Unity appearance and performance verification are pending; no story/backstory, combat, save, deployment or external-asset permission change is implied.
+
+
+First-source checkpoint: the actual post-Undo state was preserved separately. A first organic v006 source is implemented and visually inspected, with its own 15-bone rig; [source receipt/gallery](../docs/reports/2026-10-31-purple-organic-dragon.md). Anatomy remains stylized and needs sculpture; no optimized/baked organic export, validated deformation/clips or Unity promotion is claimed. The prior mechanical player is retained for separate camera/audio checks, not reinstated as the selected art direction.
+
+October 31 continuation, exact owner wording:
+
+> continue then
+
+Continuation routing: **CONFIRMED / in-progress, same SD-080**. Continue the purple organic candidate through targeted face, wing and scale refinement, a flight-ready pose/export, and actual Unity integration with evidence at each stage. Preserve the post-Undo recovery and earlier reviewed sources. Root remains the sole live Blender/Unity writer; existing movement, combat, collision and save boundaries remain intact. This authorizes the next useful local work, not a claim that the new art/export/player is already verified or owner-approved. [Continuation checks](../docs/reports/2026-10-31-purple-organic-dragon.md#october-31-continuation--refinement-to-player).
+
+Continuation outcome: **IMPLEMENTED / technically VERIFIED for bounded organic v007 integration**. Final Web build and 11 Chrome cases per WebGPU/WebGL2 pass; mouth-origin checks align and scoped saves remain unchanged. Isolated WebGPU 58.1 fps / WebGL2 24.3 fps at 1366×768; fallback below 30 fps remains an explicit limit. [Final receipt/gallery](../docs/reports/2026-10-31-purple-organic-dragon.md). Owner art approval, foot/wing/sculpt refinement and fallback LOD/performance remain open; installed-Chrome repository QA passes (237 units, 49 development, nine production, build/18 reference checks); earlier failures retained. Preserve all earlier failure and recovery evidence.
+
+## October 31, 2026 — Better, heavier Dogfight sound (SD-081)
+
+Owner wording:
+
+> sounds are dinkey too. please use better ones
+
+Routing receipt: **CONFIRMED / verified for named technical checks**. Improve the weight and quality of the actual Dogfight cues, preserving existing sound controls and action timing. An audio audit and heavier candidate versions are underway; file existence or technical playback does not establish human mix approval. [Decision](../docs/decisions/2026-10-31-dogfight-heavier-audio.md). Keep SD-080's purple organic-dragon focus and compatible SD-079 camera steering. No new paid library, voice cloning, external upload or deployment is implied.
+
+Final technical evidence: five licensed v002 cues, file metrics, protected voices/ducking/headroom and final build/both 11-case browser runs pass; [receipt/audition](../docs/reports/2026-10-31-dogfight-heavier-audio.md). Sound-enabled breath exercised, but no captured waveform or human mix approval.
+
+## October 31, 2026 — Flying and fire-breath video reference (SD-082)
+
+Owner wording:
+
+> gemini_generated_video_c520671c.mp4 theres the dragon flying and breathire fire for reference
+
+Routing receipt: **CONFIRMED reference purpose / verified local reference inspection**. The exact file was found at repo root: 11,872,323 bytes, 20.032 seconds, 1280×720/24 fps, with audio; SHA-256 `b9cf5757b2d738faf3e31b557ff1712609ba8cdfdfb7dedce67f1243dde8cd86`. Root inspected five locally extracted frames; see [receipt](../docs/reports/2026-10-31-purple-dragon-motion-reference.md). Use the clip for SD-080 flying and fire-breath motion/appearance guidance, then record observed timing/shape details with provenance. [Decision](../docs/decisions/2026-10-31-purple-dragon-motion-reference.md). The request calls it a reference; it does not authorize publishing the clip, exporting it as a runtime cinematic, uploading private media or inferring its license/provider from the filename. Current organic Blender work, larger screen presence and gameplay boundaries continue.
+
 
 ## October 31, 2026 — reconciled incoming planning and intake
 
@@ -706,4 +1139,4 @@ Source: owner, Space Dragon chat.
 
 Receipt: **SD-071** · CONFIRMED request · The Drive folder was created but contained zero audio files. An original 16-cue synthesized starter bank, manifest, source generator, sound preview and licensing workflow were committed to [the audio bank](../assets/game/audio/starter/). Those files were checked for byte-for-byte reproduction. This is **not** a transfer of Sonniss/BOOM recordings and **not** final cinematic-quality sound design; professional sourcing, listening QA and game integration remain open.
 
-Merge routing receipt: incoming SD-014/015/016/017/018/027 duplicate existing SD-028/029/030/031/032/033 and retain those canonical IDs. New records use SD-062–071. SD-061 is reserved for concurrent visual-foundation work; next unused is SD-072. This merge reconciles records and existing implementations; it does not add deployment, final art approval or a new mission.
+Historical October 31 merge routing receipt: incoming SD-014/015/016/017/018/027 duplicate existing SD-028/029/030/031/032/033 and retain those canonical IDs. That reconciliation assigned SD-062–071 and reserved SD-061 for concurrent visual-foundation work. Its next-ID pointer was SD-072. The [November 1 crosswalk](../docs/decisions/2026-11-01-unity-integration-identifiers.md) now includes SD-061 and maps later local collisions to SD-083–085; next unused is SD-086. This reconciliation changes tracking, not creative authority, deployment, final art approval or mission scope.

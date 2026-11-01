@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "operation": "Lossless decoding of embedded WebP to PNG for glTFast 6.20; no geometry, rig, material, skin or animation changes.",
+  "tool": "tools/unity/export-town-drive-scene.pedestrians.mjs",
+  "sharpVersion": "0.35.5",
+  "sourceProvenance": "Sources~/pedestrians/PROVENANCE.json",
+  "license": "MIT",
+  "licenseFile": "Sources~/pedestrians/LICENSE-Microsoft-Rocketbox.txt",
+  "conversions": [
+    {
+      "id": "adult-male",
+      "appearance": 0,
+      "path": "Meshes/pedestrians/adult-male.glb",
+      "sourcePath": "Sources~/pedestrians/adult-male.glb",
+      "provenancePath": "Meshes/pedestrians/PROVENANCE.json",
+      "clipName": "walk",
+      "bytes": 4544164,
+      "sha256": "01b5153a3dc19054a299c2dc943f38faa0bade2c6c6822efa92b92c163e352c1",
+      "sourceSha256": "12929a45957d2a106f73ce0779c95b1697fb2b4cc0df4e7d53e25bdf9a5ca670",
+      "meshCount": 1,
+      "primitiveCount": 2,
+      "skinCount": 1,
+      "jointCount": 80,
+      "animationCount": 1,
+      "accessorCount": 48,
+      "textureCount": 4,
+      "evidence": {
+        "unchangedJson": [
+          "asset",
+          "meshes",
+          "accessors",
+          "nodes",
+          "skins",
+          "animations",
+          "scenes",
+          "materials",
+          "samplers"
+        ],
+        "jsonHashes": [
+          {
+            "key": "meshes",
+            "sha256": "a11ea854f97ad84fbe04b15032d427ba56b0073b1cd5b940e4a36e9326204c7d"
+          },
+          {
+            "key": "accessors",
+            "sha256": "356f5a6613e370463f64e6b55c75f6d44ec8af1fdace3645326da3b5bd4a94f3"
+          },
+          {
+            "key": "nodes",
+            "sha256": "dfedea1ba5f1ecbd85b83a6ba52c2ba5d55d451f6164b3e43c3705e9ad128ed1"
+          },
+          {
+            "key": "skins",
+            "sha256": "3bd3e5caaa6d7e036de4e18762f3108eb743392801766cd3f18c1e92fda669f4"
+          },
+          {
+            "key": "animations",
+            "sha256": "5f93af16a2f380fe09f1aa305c5e0eb0b77355a7813ab0d8bbac2e6cd93af52a"
+          }
+        ],
+        "nonImageBufferBytes": 268664,
+        "nonImageBufferSha256": "11f2f7ba6b49312bb1568bf96221ca4015d4e3ae076f4831d407fa3d27a9578c",
+        "nonImageBufferIdentical": true,
+        "textures": [
+          {
+            "image": 0,
+            "name": "m001_body_normal.png",
+            "width": 1024,
+            "height": 1024,
+            "decodedRgbaSha256": "cba33fda107bdd5a7f7e3ddb416b316c70dec979b2d57429a27d33ccf264e252",
+            "decodedPixelsIdentical": true
+          },
+          {
+            "image": 1,
+            "name": "m001_body_color.png",
+            "width": 1024,
+            "height": 1024,
+            "decodedRgbaSha256": "aeac22b83d80316aaa594f64fe935dc5b499e9fac27391494e857947f8371f67",
+            "decodedPixelsIdentical": true
+          },
+          {
+            "image": 2,
+            "name": "m001_head_normal.png",
+            "width": 1024,
+            "height": 1024,
+            "decodedRgbaSha256": "fc4eb060e5d3ff77181b6a1dd8270f0a18f84e081d4d575c0d91be947337d01e",
+            "decodedPixelsIdentical": true
+          },
+          {
+            "image": 3,
+            "name": "m001_head_color.png",
+            "width": 1024,
+            "height": 1024,
+            "decodedRgbaSha256": "e19d1936d7ddd560be9164cfd983cb4a134cb63d03b7ab89086d6424e95b78ec",
+            "decodedPixelsIdentical": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "adult-female",
+      "appearance": 1,
+      "path": "Meshes/pedestrians/adult-female.glb",
+      "sourcePath": "Sources~/pedestrians/adult-female.glb",
+      "provenancePath": "Meshes/pedestrians/PROVENANCE.json",
+      "clipName": "walk",
+      "bytes": 6485708,
+      "sha256": "5897ab03b6981eea5770fd3b5502643df96f331116854b7da32816e0937af60b",
+      "sourceSha256": "7fcd61c1b330b7f998de6b5aedeab71e549cdca344cb47de8d96aaa20f6e4b9c",
+      "meshCount": 1,
+      "primitiveCount": 3,
+      "skinCount": 1,
+      "jointCount": 80,
+      "animationCount": 1,
+      "accessorCount": 64,
+      "textureCount": 5,
+      "evidence": {
+        "unchangedJson": [
+          "asset",
+          "meshes",
+          "accessors",
+          "nodes",
+          "skins",
+          "animations",
+          "scenes",
+          "materials",
+          "samplers"
+        ],
+        "jsonHashes": [
+          {
+            "key": "meshes",
+            "sha256": "fce6156b0bacc08f0ac0e320c97ff43c23c9101bed4b1efdf73edf5475357a5c"
+          },
+          {
+            "key": "accessors",
+            "sha256": "6806cd57f0eb8000637be2b8d467d3b830b5d7f32237d610902220779c971d2f"
+          },
+          {
+            "key": "nodes",
+            "sha256": "8a7102e66ce3aee8fec46494385ce99b442d39af45de166dd67ee5071e042b56"
+          },
+          {
+            "key": "skins",
+            "sha256": "4aa76ca0b8bedaff8382c4823ec0a0077f1163082c7e725377c5ee0eca47b980"
+          },
+          {
+            "key": "animations",
+            "sha256": "aba3fe7118af950977ebdb41436ff2737a8b5de6186a53f33ee69b1e5d6431a4"
+          }
+        ],
+        "nonImageBufferBytes": 365888,
+        "nonImageBufferSha256": "f5dd4260bf0a2ef4df86342c35d489e402cf9d6260e13fbdeb97f2a43a846200",
+        "nonImageBufferIdentical": true,
+        "textures": [
+          {
+            "image": 0,
+            "name": "f002_body_normal.png",
+            "width": 1024,
+            "height": 1024,
+            "decodedRgbaSha256": "fb13347692da2531023362539b74e0bc17c5d0d8e079ce9ae304bf57146122b9",
+            "decodedPixelsIdentical": true
+          },
+          {
+            "image": 1,
+            "name": "f002_body_color.png",
+            "width": 1024,
+            "height": 1024,
+            "decodedRgbaSha256": "a034af5174df636598b7bcfc512a69074ff039ef17ec08bf7a5e724b27ed8302",
+            "decodedPixelsIdentical": true
+          },
+          {
+            "image": 2,
+            "name": "f002_head_normal.png",
+            "width": 1024,
+            "height": 1024,
+            "decodedRgbaSha256": "4c0bb8478f857cebb686dc80679626e5b2f6b660f970944eee179160c49c8d7f",
+            "decodedPixelsIdentical": true
+          },
+          {
+            "image": 3,
+            "name": "f002_head_color.png",
+            "width": 1024,
+            "height": 1024,
+            "decodedRgbaSha256": "fc6877c576a0a4772f3cc5d904dc97dc55d17cacd40b8441407a209702be2704",
+            "decodedPixelsIdentical": true
+          },
+          {
+            "image": 4,
+            "name": "f002_opacity_color.png",
+            "width": 1024,
+            "height": 1024,
+            "decodedRgbaSha256": "e9c9107abd675ec219dedb2cb941cbe00b78afdb5b912658aa70d1f49d0937f4",
+            "decodedPixelsIdentical": true
+          }
+        ]
+      }
+    }
+  ]
+}

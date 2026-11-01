@@ -1,8 +1,64 @@
 # Dragon asset contract
 
+**Current candidate — SD-080, organic v007:** [the owner's purple organic direction after Blender Undo](../decisions/2026-10-31-purple-organic-dragon.md) now has a separate refined source, flight bind, baked game export and additive Unity intake. Its **15-bone `violet-organic-15` profile is independent of the mechanical rest/inverse-bind contract**. Export, lossless optimization, intake and the bounded Unity integration are verified. The GPUBatched-configured player passed **11/11 cases on both WebGPU and WebGL2**. Isolated frame samples averaged **17.207 ms WebGPU / 41.184 ms WebGL2**; the fallback remains below the 30 fps target and this is not release or final-art approval. [Source/export evidence and remaining art limits](../reports/2026-10-31-purple-organic-dragon.md), [skinning audit](UNITY_DOGFIGHT_HANDOFF.md#mesh-deformation-audit--verified-player-candidate).
+
+**Preserved verified rollback — SD-078:** heroic v005 retains its nine rest bones/inverse binds, 901 pivots, eight sockets and three clips. Its [player evidence](../reports/2026-10-31-near-orbit-heroic-dragon.md) remains specific to v005; it is not evidence for organic v007. Prior v003 source/export and the historical Three.js contract remain intact. [Unity selection/build guide](UNITY_DOGFIGHT_HANDOFF.md).
+
+**Unity follow-through — October 31, SD-072:** [the Unity handoff](UNITY_DOGFIGHT_HANDOFF.md) carries versioned assets, articulation and gameplay boundaries into the existing Unity project. The historical sections retain the verified Three.js baseline; the organic section defines the new candidate. Unity coordinates, materials, animation and gameplay parity require their own checks. Preserve source and rollback exports.
+
 SD-060 — confirmed owner request, October 30, 2026; implemented and technically verified for the named local checks on October 31. [The receipt](../reports/2026-10-30-dragon-asset-pipeline.md) owns artifact identities, screenshots, measured results and remaining limits. This contract covers the existing Three.js Dogfight Lab, not an engine migration or campaign integration.
 
 The gameplay controller remains authoritative for movement, orientation, health, collision, attack timing and saves. Blender supplies render geometry, materials, bone animation and attachment nodes. Animation cannot move the gameplay root or grant damage/rewards.
+
+## Organic v007: measured source and Unity contract
+
+The checked-in [violet-contract-v007.json](../../unity/SpaceDragon/Assets/SpaceDragon/Dogfight/violet-contract-v007.json) owns exact transforms, bounds, material declarations and clip samples/counts. [asset-receipt-v004.json](../../unity/SpaceDragon/Assets/SpaceDragon/Dogfight/asset-receipt-v004.json) adds this export and chains the preceding intake; `material-contract-v004.json` and `violet-export-receipt-v007.json` preserve its material and source identities. Do not replace historical receipts or compare this anatomy against mechanical rest matrices.
+
+| Item | Verified export value |
+| --- | --- |
+| Editable source | `assets/source/local/spacecraft/space-dragon-spacecraft/Space Dragon-v007-violet-flight.blend`; SHA-256 `4f0c14cead3303d68ee18e4e0070f102f5ec0320c145c778ee7b616db05a1870` |
+| Runtime intake | `unity/SpaceDragon/Assets/SpaceDragon/Dogfight/Imported/dragon-violet-v007.glb`; **36,615,112 bytes**, SHA-256 `0df6f9fdb1d33e5142ffd4e05de83c55664a69a17277c801a6e96f509453eaff` |
+| Geometry | **2 meshes, 12 primitives/materials, 263,352 triangles, 361,614 unique position vertices**; source counts are not measured Unity draw calls |
+| Skin | One independently authored flight skin; maximum four normalized influences; 15 bones and its own inverse binds |
+| Images | Three 2048² skin maps and three 1024² membrane maps: base color, tangent normal and ORM; AO stays separate from base color |
+| Texture estimate | **62,914,560 bytes** RGBA8 level zero only; excludes mipmaps, Unity formats/copies and driver allocation; not measured VRAM |
+
+The 15 bones are `Root`, `Neck`, `Head`, `Jaw`, `Wing_L`, `Wing_R`, `Fore_L`, `Fore_R`, `Hind_L`, `Hind_R`, and `Tail_0`–`Tail_4`. `Head` follows `Neck`, `Jaw` follows `Head`, and each later tail bone follows the preceding tail bone. `Neck`, limbs, wings and `Tail_0` follow `Root`. The source standing rig and recovery collections remain separate from `VioletFlightRig`; the old nine-bone requirement applies only to the mechanical profile.
+
+GLB metadata is `assetContractVersion: 2`, `rigProfile: "violet-organic-15"`, `metersPerUnit: 1`, forward **-Z**, up **+Y**, and `authoredPresentation: true`. The preparation recipe bakes its 0.82 source scale and centre adjustment into the independent flight mesh/rest; **do not apply another 0.82 scale at runtime**. Unity keeps authored metre scale beneath `Dragon.GameplayRoot.+Z-metres` → `Dragon.VisualMotion.bank-roll` → `Dragon.SourceBasis.minusZ-to-plusZ.Y180` → `DragonViolet.v007.Organic`. glTFast mirrors source X once; the single Y180 basis adapts the -Z nose to gameplay +Z. No recentering from animated bounds or second mirror is allowed.
+
+Measured source bounds are `(-5.02985281, -1.22348908, -3.72217935)` to `(5.02985281, 1.63034162, 3.75390165)`. The flight-bind ground marker is **Y = -1.22348906 m**: level placement would put the root 1.22348906 m above that plane. This is metadata for inspection, not proof of a planted landing pose. The gameplay collision remains the independent **3.3 m sphere**; broader wings and different anatomy do not change hit or movement rules.
+
+| Exact socket name | Parent | Source GLB rest point (X, Y, Z), metres |
+| --- | --- | --- |
+| `socket_muzzle` | `Head` | `(0, -0.25709234, -3.72780929)` |
+| `socket_wing_l` | `Wing_L` | `(-3.01304857, 0.58132315, -0.31935879)` |
+| `socket_wing_r` | `Wing_R` | `(3.01304857, 0.58132315, -0.31935879)` |
+| `socket_thruster_l` | `Root` | `(-0.44999999, 0.04999991, 0.74999993)` |
+| `socket_thruster_r` | `Root` | `(0.44999999, 0.04999991, 0.74999993)` |
+| `socket_target` | `Root` | `(0, 0.14999992, -0.25000003)` |
+| `socket_camera` | `Root` | `(0, 0.44999985, 0.2)` |
+| `socket_ground` | `Root` | `(0, -1.22348906, 0.00000003)` |
+
+These are measured model-space points, not parent-local coordinates or hardcoded world-space fire origins. All suffixes are lowercase. The muzzle now follows **Head**, rather than the mechanical Root attachment; plasma, glow and charged breath must use its current imported transform through neck motion, banking and rolls. Camera tracking stays in the stable gameplay frame. Wing/thruster markers do not themselves introduce new effects.
+
+Exported **Flight/Glide are 1.6 s**, **Boost is 1.2 s**, each with 13 looping rotation-only channels. Root and Jaw are excluded: gameplay owns movement and the attack timeline owns jaw opening. `DragonPresentation` samples the actual imported clips for all 15 bones and blends with a 0.18 s response; visual cadence retimes those samples, so clip duration is not a promise of literal runtime stroke duration. Organic playback requires all three authored clips, skips mechanical wing/tail offsets and generated armor, and has no silent mechanical fallback. The bounded player suite covers pause/restart and live muzzle alignment; prolonged deformation, broader device coverage and final art review remain separate.
+
+All twelve exported surfaces are dielectric (`metallicFactor = 0`). Continuous skin and membrane use baked maps; small physical scales/keratin/teeth use explicit PBR constants, while mouth/eye/iris remain separate. Membrane is opaque, double-sided core PBR; Blender subsurface/transmission is not reproduced. Import checks must preserve map bindings, tangent bases, roughness, normal scale and effective iris emission without applying mechanical recoloring. Emission strength is corrected once on generated material clones; bloom is separate.
+
+`tools/verify-violet-dragon.mjs` validates this profile against its own receipt. `tools/optimize-violet-dragon.mjs` retains raw/unwelded exports, removes unused animation sampler data and performs lossless welding while checking exact images, indexed attributes, clips, sockets and transforms. The actual Khronos validator run reports **0 errors, 2 skinned-mesh-parent warnings and 76 informational notices**; these do not establish runtime parity. See the source report for detail. Unity import/build, browser play, matched inspection screenshots and device measurements remain separate gates.
+
+The fresh final-code [Unity EditMode result](../../artifacts/unity/dogfight-editmode-20261101-014202-708-15624.xml) is **74/74 passed, zero skipped**. The [final neutral/front/side capture](../../artifacts/unity/violet-final-inspection/runs/2026-11-01T01-42-53-909Z/report.json) uses the GPUBatched-configured `01:24:33` player and unchanged v007 GLB. All three views and the source flight render were visually reviewed: geometry remains intact, with hotter Unity highlights on the head/horns/membranes. The capture recorded no page/console errors or storage writes. This supersedes the earlier CPU inspection as the current capture pointer; it does not erase that checkpoint or establish final art approval.
+
+### Mesh deformation: verified player candidate, profiling open
+
+The inspected project settings contained `gpuSkinning: 0` and `meshDeformation: 0` (CPU configuration). `DogfightProject` now requests `PlayerSettings.meshDeformation = MeshDeformation.GPUBatched` inside the existing settings-restoration transaction; `SPACE_DRAGON_DOGFIGHT_SKINNING=cpu` selects a CPU comparison/rollback build. Build receipts distinguish `configuredMeshDeformation`, `originalMeshDeformation` and `restoredMeshDeformation`. A restored CPU project setting does not mean the generated player was configured for CPU; read that build's receipt.
+
+Unity documents the legacy false→CPU/true→GPUBatched mapping in [PlayerSettings.gpuSkinning](https://docs.unity.com/en-us/engine/6000.6/script-reference/unityeditor/playersettings/gpuskinning) and lists GPU skinning among its [WebGPU features](https://docs.unity.com/en-us/engine/6000.5/manual/platform-specific/webgl/develop/graphics/web-gpu/features). **A configured setting or observed WebGPU renderer is not proof of actual GPU skinning execution or absence of fallback.** The build at `2026-11-01T01:24:33.8193339Z` succeeded with GPUBatched configured and original/restored CPU settings. Both backend player suites passed 11/11 cases. Isolated 1366×768 natural-flight samples, without competing tests, measured WebGPU **17.207 ms mean / 21.000 ms p95** (about 58.12 fps reciprocal mean) and WebGL2 **41.184 ms mean / 63.000 ms p95** (about 24.28 fps). These are short wall-clock frame samples, not GPU timing or proof of skinning execution. WebGL2 misses the 30 fps fallback target; mesh LOD and backend profiling are the next performance work. Earlier approximately 34 ms / 55 ms samples overlapped legacy tests and cannot establish a CPU/GPU speedup. A separate isolated native-Chrome `npm run check` completed successfully: 237 unit tests, TypeScript/Vite build, 49 development browser tests, 9 production browser tests and 18 reference inventory checks. [Complete log](../../artifacts/violet-contract-audit/npm-check-native-isolated.log). This does not establish a software-rendered CI pass or explain the earlier interrupted SwiftShader failure causally. The [handoff audit](UNITY_DOGFIGHT_HANDOFF.md#mesh-deformation-audit--verified-player-candidate) links the final runs and preserves the earlier failed browser check separately.
+
+## Historical mechanical / Three.js profile
+
+The sections below retain the SD-060/v003 baseline and its later mechanical v005 continuity. Their nine-bone rests, one-second clips, socket positions, contact height, shaders and source-generation commands **do not apply to organic v007**. The [Unity handoff](UNITY_DOGFIGHT_HANDOFF.md) documents current profile selection, rollback and the new development inspection mode.
 
 ## Coordinates and ownership
 

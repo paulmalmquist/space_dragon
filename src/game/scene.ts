@@ -9,7 +9,13 @@ import { ShadowGenerator } from '@babylonjs/core/Lights/Shadows/shadowGenerator'
 import '@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { Mesh } from '@babylonjs/core/Meshes/mesh';
-import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
+import type { PBRMaterial } from '@babylonjs/core/Materials/PBR/pbrMaterial';
+import { createFirstContactVisuals, addArrivalGroundDetail, VISUAL_SHOTS } from './visual/first-contact-visuals';
+import type { VisualShot } from './visual/first-contact-visuals';
+import { createRenderQualityController } from './runtime/quality-controller';
+import { isVisualQuality } from './runtime/quality';
+import type { VisualQuality } from './runtime/quality';
+import { createRenderPerformanceMonitor } from './runtime/performance';
 import { createInitialState } from './state';
 import type { GameState } from './state';
 import { loadPodAsset } from './pod-asset';
@@ -33,7 +39,7 @@ export interface NavigationSnapshot {
 
 export function createFirstContact(canvas: HTMLCanvasElement) {
   const engine = new Engine(canvas, true, { stencil: true }, true);
-  engine.setHardwareScalingLevel(Math.max(1, window.devicePixelRatio / 1.5));
+  const quality = createRenderQualityController(engine, canvas, 'balanced');
   const scene = new Scene(engine);
   scene.clearColor = new Color4(0.025, 0.047, 0.085, 1);
   const camera = new ArcRotateCamera('first-contact.camera', -Math.PI / 2.6, 1.05, 12, new Vector3(0, 1, 0), scene);
@@ -48,47 +54,55 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   let cameraAnchor = new Vector3(-3.3, 1.1, 0);
   const cameraPan = new Vector3();
   scene.activeCamera = camera;
+  const presentation = createFirstContactVisuals(scene, [camera, follow.camera]);
+  presentation.setQuality(quality.profile);
+  const performanceMonitor = createRenderPerformanceMonitor(scene, engine, canvas);
   const sky = new HemisphericLight('moonlight', new Vector3(0.2, 1, 0.4), scene);
-  sky.intensity = 0.72;
-  sky.diffuse = new Color3(0.55, 0.7, 1);
-  sky.groundColor = new Color3(0.12, 0.2, 0.3);
-  const glow = new PointLight('arrival.light', new Vector3(3.5, 2.5, -1.5), scene);
-  glow.diffuse = new Color3(0.25, 0.8, 1);
-  glow.intensity = 0.95;
-  glow.range = 12;
-  const warm = new PointLight('home.light', new Vector3(-3, 3, 0), scene);
-  warm.diffuse = new Color3(1, 0.64, 0.4);
-  warm.intensity = 0.8;
-  warm.range = 10;
+  sky.intensity = 0.24;
+  sky.diffuse = new Color3(0.52, 0.67, 1);
+  sky.groundColor = new Color3(0.09, 0.12, 0.13);
+  const glow = new PointLight('arrival.light', new Vector3(3.5, 1.4, -0.6), scene);
+  glow.diffuse = new Color3(0.18, 0.7, 1);
+  glow.intensity = 8;
+  glow.falloffType = PointLight.FALLOFF_PHYSICAL;
+  glow.range = 8;
+  const warm = new PointLight('home.light', new Vector3(-3.6, 2.8, -1.1), scene);
+  warm.diffuse = new Color3(1, 0.67, 0.36);
+  warm.intensity = 22;
+  warm.falloffType = PointLight.FALLOFF_PHYSICAL;
+  warm.range = 9;
   const moon = new DirectionalLight('moon.key', new Vector3(-0.4, -1, 0.3), scene);
   moon.position.set(0, 10, -6);
-  moon.intensity = 0.35;
+  moon.intensity = 1.1;
   moon.diffuse = new Color3(0.7, 0.82, 1);
-  const shadows = new ShadowGenerator(512, moon);
+  const shadows = new ShadowGenerator(quality.profile.shadowMapSize, moon);
   shadows.usePercentageCloserFiltering = true;
   shadows.filteringQuality = ShadowGenerator.QUALITY_LOW;
-  shadows.darkness = 0.32;
-  const material = (name: string, color: string, emissive?: string) => {
-    const mat = new StandardMaterial(name, scene);
-    mat.diffuseColor = Color3.FromHexString(color);
-    mat.specularColor = new Color3(0.22, 0.25, 0.3);
-    if (emissive) mat.emissiveColor = Color3.FromHexString(emissive);
-    return mat;
-  };
-  const groundMat = material('yard.grass', '#294b42');
-  const floorMat = material('home.floor', '#8c6950');
-  const wallMat = material('home.wall', '#89928e');
-  const armor = material('pod.armor', '#788c9c');
+  shadows.darkness = 0.2;
+  shadows.bias = 0.0005;
+  shadows.normalBias = 0.02;
+  moon.shadowMinZ = 0.5;
+  moon.shadowMaxZ = 35;
+  const material = presentation.material;
+  const groundMat = material('yard.grass', '#b8caaa', undefined, 1);
+  const floorMat = material('home.floor', '#c1a181', undefined, 0.72);
+  const wallMat = material('home.wall', '#acb5af', undefined, 0.96);
+  presentation.surface(groundMat, 'grass', 12, 9);
+  presentation.surface(floorMat, 'wood', 3, 2);
+  presentation.surface(wallMat, 'plaster', 1);
+  const armor = material('pod.armor', '#788c9c', undefined, 0.38, 0.72);
   armor.emissiveColor = new Color3(0.025, 0.045, 0.065);
-  const dark = material('pod.joints', '#101b2d');
-  const cyan = material('signal.energy', '#61d9ef', '#2589a0');
-  const gold = material('home.warm', '#d8aa79', '#493125');
-  const patioMat = material('yard.patio', '#747d80');
+  const dark = material('pod.joints', '#19232d', undefined, 0.52, 0.4);
+  const cyan = material('signal.energy', '#61d9ef', '#63d9ff', 0.27, 0.1);
+  cyan.emissiveColor.scaleInPlace(2.1);
+  const gold = material('home.warm', '#cbaa80', undefined, 0.62);
+  const patioMat = material('yard.patio', '#a7aeac', undefined, 0.94);
+  presentation.surface(patioMat, 'concrete', 2);
   const trim = material('home.trim', '#d1c6af');
   const sofaMat = material('home.sofa-fabric', '#4e6771');
-  const glass = material('home.window', '#305f72', '#133848');
+  const glass = material('home.window', '#305f72', '#133848', 0.18, 0.25);
   const staticBoxes: Mesh[] = [];
-  const box = (name: string, size: [number, number, number], pos: [number, number, number], mat: StandardMaterial) => {
+  const box = (name: string, size: [number, number, number], pos: [number, number, number], mat: PBRMaterial) => {
     const mesh = MeshBuilder.CreateBox(name, { width: size[0], height: size[1], depth: size[2] }, scene);
     mesh.position.set(...pos);
     mesh.material = mat;
@@ -133,6 +147,9 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   for (let i = 0; i < 7; i++) box(`garage.door-slat.${i}`, [3, 0.025, 0.075], [7.7, 0.15 + i * 0.36, 5.62], wallMat);
   box('garage.window', [1.5, 0.32, 0.08], [7.7, 2, 5.58], glass);
   box('garage.roof', [4.5, 0.2, 3.3], [7.7, 3.36, 7.1], dark);
+  const lamp = material('home.lamp-shade', '#f7d5a2', '#ffcf85', 0.65);
+  box('home.practical-lamp', [0.38, 0.3, 0.38], [-3.6, 2.7, -1.1], lamp);
+  box('home.lamp-stem', [0.05, 2.4, 0.05], [-3.6, 1.2, -1.1], dark);
   const pod = MeshBuilder.CreateCylinder('pod.shell', { height: 2.2, diameterTop: 1.15, diameterBottom: 1.75, tessellation: 8 }, scene);
   pod.position.set(3.5, 1.25, 0);
   pod.scaling.set(1, 1.25, 1);
@@ -145,8 +162,10 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   const beacon = MeshBuilder.CreateCylinder('pod.beacon', { height: 2.4, diameter: 0.045, tessellation: 10 }, scene);
   beacon.position.set(3.5, 3.2, 0);
   beacon.material = cyan;
+  const fallbackPanels: Mesh[] = [];
   for (let i = 0; i < 3; i++) {
     const panel = box(`pod.panel.${i}`, [0.55, 0.15, 1.4], [3.5, 0.18, 0], dark);
+    fallbackPanels.push(panel);
     panel.rotation.y = i * Math.PI * 2 / 3;
     panel.position.x += Math.sin(panel.rotation.y) * 1.2;
     panel.position.z += Math.cos(panel.rotation.y) * 1.2;
@@ -168,16 +187,18 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     return mesh;
   });
   // Furniture and fencing are static. Batch by material; retain individually controlled props.
-  for (const mat of [groundMat, floorMat, wallMat, armor, dark, cyan, gold, patioMat, trim, sofaMat, glass]) {
-    const batch = staticBoxes.filter(mesh => mesh.material === mat && mesh !== screen);
+  for (const mat of [groundMat, floorMat, wallMat, armor, dark, cyan, gold, patioMat, trim, sofaMat, glass, lamp]) {
+    const batch = staticBoxes.filter(mesh => mesh.material === mat && mesh !== screen && !fallbackPanels.includes(mesh));
     if (batch.length < 2) continue;
     const merged = Mesh.MergeMeshes(batch, true, true);
     if (merged) {
       merged.name = `environment.${mat.name}`;
       merged.receiveShadows = true;
       merged.isPickable = false;
+      if (mat !== groundMat && mat !== floorMat && mat !== patioMat) shadows.addShadowCaster(merged);
     }
   }
+  addArrivalGroundDetail(scene, material);
   const avatar = createPlayerAvatar(scene);
   avatar.meshes.forEach(mesh => shadows.addShadowCaster(mesh));
   avatar.setEnabled(false);
@@ -207,6 +228,7 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   let drag: { id: number; x: number; y: number } | undefined;
   let selected = 0;
   let paused = false;
+  let visualShot: VisualShot | null = null;
   let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let podAsset: Awaited<ReturnType<typeof loadPodAsset>> | undefined;
   let assetError = '';
@@ -218,8 +240,10 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     pod.setEnabled(false);
     ring.setEnabled(false);
     beacon.setEnabled(false);
+    fallbackPanels.forEach(panel => panel.setEnabled(false));
     asset.setOpen(navigationEnabled ? navigationPodOpen : !['living-room', 'signal', 'backyard'].includes(state.phase));
     canvas.dataset.assetLoaded = 'true';
+    performanceMonitor.reset();
   }).catch(error => {
     assetError = error instanceof Error ? error.message : 'Pod asset failed to load';
     canvas.dataset.assetLoaded = 'false';
@@ -229,6 +253,24 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
   let elapsed = 0;
   const frameTimes: number[] = [];
   let rendered = false;
+  let visualReadyFrames = 0;
+  let savedStoryCamera: { alpha: number; beta: number; radius: number; target: Vector3 } | undefined;
+  const clearVisualShot = () => {
+    if (!visualShot) return;
+    visualShot = null;
+    if (savedStoryCamera) {
+      camera.alpha = savedStoryCamera.alpha;
+      camera.beta = savedStoryCamera.beta;
+      camera.radius = savedStoryCamera.radius;
+      camera.setTarget(savedStoryCamera.target);
+      savedStoryCamera = undefined;
+    }
+    camera.inertialAlphaOffset = camera.inertialBetaOffset = camera.inertialRadiusOffset = 0;
+    if (navigationEnabled) { camera.detachControl(); scene.activeCamera = follow.camera; }
+    else scene.activeCamera = camera;
+    navigationInput = { forward: 0, right: 0 };
+    performanceMonitor.reset();
+  };
   const emitNavigation = () => navigationListener?.(copyExplorationState(exploration), nearestInteraction(exploration));
   const refreshNavigationProps = () => {
     const hasModule = exploration.collected.includes('training-module');
@@ -246,13 +288,13 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     };
   };
   const pointerDown = (event: PointerEvent) => {
-    if (!navigationEnabled || paused || event.button !== 0) return;
+    if (!navigationEnabled || visualShot || paused || event.button !== 0) return;
     drag = { id: event.pointerId, x: event.clientX, y: event.clientY };
     canvas.setPointerCapture(event.pointerId);
     canvas.focus({ preventScroll: true });
   };
   const pointerMove = (event: PointerEvent) => {
-    if (!drag || drag.id !== event.pointerId || !navigationEnabled || paused) return;
+    if (!drag || drag.id !== event.pointerId || !navigationEnabled || visualShot || paused) return;
     follow.rotate((event.clientX - drag.x) * 0.007, (event.clientY - drag.y) * 0.005);
     drag.x = event.clientX;
     drag.y = event.clientY;
@@ -276,7 +318,7 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     const delta = Math.min(engine.getDeltaTime(), 50);
     const dt = delta / 1000;
     elapsed += delta / 1000;
-    if (navigationEnabled) {
+    if (navigationEnabled && !visualShot) {
       const previous = exploration;
       exploration = moveExploration(exploration, navigationInput, follow.yaw, dt);
       const speed = Math.hypot(exploration.player.x - previous.player.x, exploration.player.z - previous.player.z) / Math.max(dt, 0.001);
@@ -289,37 +331,47 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       practiceRoot.rotation.y = reducedMotion ? 0 : elapsed * 0.7;
       practiceCore.position.y = reducedMotion ? 0.92 : 0.92 + Math.sin(elapsed * 2) * 0.06;
     }
-    ring.rotation.y = reducedMotion ? 0 : elapsed * 0.35;
-    glow.intensity = 0.95 + (reducedMotion ? 0 : Math.sin(elapsed * 2) * 0.1);
-    screen.scaling.x = (navigationEnabled ? elapsed < computerSignalUntil : state.phase === 'signal') && !reducedMotion ? 1 + Math.sin(elapsed * 7) * 0.035 : 1;
+    const still = reducedMotion || visualShot !== null;
+    ring.rotation.y = still ? 0 : elapsed * 0.35;
+    glow.intensity = 8 + (still ? 0 : Math.sin(elapsed * 2) * 0.35);
+    screen.scaling.x = (navigationEnabled ? elapsed < computerSignalUntil : state.phase === 'signal') && !still ? 1 + Math.sin(elapsed * 7) * 0.035 : 1;
     markers.forEach((marker, index) => {
       marker.isVisible = !navigationEnabled && state.phase === 'scan';
-      marker.scaling.setAll(index === selected ? 1.7 + (reducedMotion ? 0 : Math.sin(elapsed * 3) * 0.1) : 1);
+      marker.scaling.setAll(index === selected ? 1.7 + (still ? 0 : Math.sin(elapsed * 3) * 0.1) : 1);
     });
     projection.isVisible = !navigationEnabled && ['scan', 'archive', 'map'].includes(state.phase);
-    projection.alpha = reducedMotion ? 0.8 : 0.7 + Math.sin(elapsed * 3) * 0.12;
+    projection.alpha = still ? 0.8 : 0.7 + Math.sin(elapsed * 3) * 0.12;
     frames++;
     frameTimes.push(engine.getDeltaTime());
     if (frameTimes.length > 120) frameTimes.shift();
   });
+  scene.onAfterRenderObservable.add(() => {
+    const ready = !!podAsset && presentation.snapshot().environment !== 'loading' && scene.isReady();
+    visualReadyFrames = ready ? visualReadyFrames + 1 : 0;
+    canvas.dataset.visualReady = String(visualReadyFrames >= 3);
+  });
   scene.onAfterRenderObservable.addOnce(() => { rendered = true; canvas.dataset.rendered = 'true'; });
   engine.runRenderLoop(() => { if (!paused) scene.render(); });
-  const resize = () => engine.resize();
+  const resize = () => { quality.resize(); engine.resize(); performanceMonitor.reset(); };
   window.addEventListener('resize', resize);
   return {
     setStoryState(value: GameState, target = 0) {
       const changedPhase = value.phase !== state.phase;
+      if (changedPhase) clearVisualShot();
       state = value;
       selected = target;
       const home = ['living-room', 'signal'].includes(state.phase);
       cameraAnchor = home ? new Vector3(-3.3, 1.1, 0) : new Vector3(3.5, 1.1, 0);
       if (changedPhase) cameraPan.setAll(0);
-      camera.setTarget(cameraAnchor.add(cameraPan));
-      camera.radius = home ? 11 : 7;
-      if (changedPhase) { camera.alpha = -Math.PI / 2.6; camera.beta = 1.05; }
+      if (!visualShot) {
+        camera.setTarget(cameraAnchor.add(cameraPan));
+        camera.radius = home ? 11 : 7;
+        if (changedPhase) { camera.alpha = -Math.PI / 2.6; camera.beta = 1.05; }
+      }
       if (!navigationEnabled) podAsset?.setOpen(!['living-room', 'signal', 'backyard'].includes(state.phase));
     },
     setNavigationEnabled(value: boolean) {
+      clearVisualShot();
       navigationEnabled = value;
       navigationInput = { forward: 0, right: 0 };
       moving = false;
@@ -349,12 +401,12 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       refreshNavigationProps();
       emitNavigation();
     },
-    setNavigationInput(value: NavigationInput) { navigationInput = navigationEnabled && !paused ? { ...value } : { forward: 0, right: 0 }; },
-    rotateNavigationCamera(deltaYaw: number, deltaPitch = 0) { if (navigationEnabled && !paused) follow.rotate(deltaYaw, deltaPitch); },
+    setNavigationInput(value: NavigationInput) { navigationInput = navigationEnabled && !visualShot && !paused ? { ...value } : { forward: 0, right: 0 }; },
+    rotateNavigationCamera(deltaYaw: number, deltaPitch = 0) { if (navigationEnabled && !visualShot && !paused) follow.rotate(deltaYaw, deltaPitch); },
     recenterNavigationCamera() { if (navigationEnabled) follow.recenter(exploration.player); },
     interactNavigation() {
       const target = nearestInteraction(exploration);
-      const result = interact(exploration, navigationEnabled && !paused ? target?.id ?? '' : '');
+      const result = interact(exploration, navigationEnabled && !visualShot && !paused ? target?.id ?? '' : '');
       exploration = result.state;
       if (result.status === 'success' && target?.id === 'pod') { navigationPodOpen = true; podAsset?.setOpen(true); }
       if (result.status === 'success' && target?.id === 'computer') computerSignalUntil = elapsed + 4;
@@ -368,9 +420,42 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       return () => { if (navigationListener === listener) navigationListener = undefined; };
     },
     getNavigationSnapshot,
+    setVisualQuality(value: VisualQuality) {
+      if (!isVisualQuality(value)) return;
+      const profile = quality.setQuality(value);
+      presentation.setQuality(profile);
+      shadows.mapSize = profile.shadowMapSize;
+      shadows.filteringQuality = value === 'low' || value === 'balanced' ? ShadowGenerator.QUALITY_LOW : ShadowGenerator.QUALITY_MEDIUM;
+      visualReadyFrames = 0;
+      canvas.dataset.visualReady = 'false';
+      performanceMonitor.reset();
+    },
+    setVisualShot(value: VisualShot | null) {
+      if (value === null) { clearVisualShot(); return; }
+      if (navigationEnabled) return;
+      if (!Object.hasOwn(VISUAL_SHOTS, value)) return;
+      if (!visualShot) savedStoryCamera = { alpha: camera.alpha, beta: camera.beta, radius: camera.radius, target: camera.target.clone() };
+      visualShot = value;
+      navigationInput = { forward: 0, right: 0 };
+      moving = false;
+      cancelDrag();
+      const shot = VISUAL_SHOTS[value];
+      scene.activeCamera = camera;
+      camera.setTarget(shot.target);
+      camera.alpha = shot.alpha;
+      camera.beta = shot.beta;
+      camera.radius = shot.radius;
+      camera.inertialAlphaOffset = camera.inertialBetaOffset = camera.inertialRadiusOffset = 0;
+      camera.attachControl(canvas, true);
+      visualReadyFrames = 0;
+      canvas.dataset.visualReady = 'false';
+      performanceMonitor.reset();
+    },
+    resetPerformanceSample() { performanceMonitor.reset(); },
     setReducedMotion(value: boolean) { reducedMotion = value; },
     setPaused(value: boolean) {
       paused = value;
+      performanceMonitor.setPaused(value);
       if (value) { navigationInput = { forward: 0, right: 0 }; cancelDrag(); moving = false; }
     },
     point(key: string) {
@@ -381,7 +466,7 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       if (key === 'ArrowDown') camera.beta = Math.min(1.45, camera.beta + 0.08);
     },
     controlCamera(input: CameraInput, deltaSeconds: number) {
-      if (paused || navigationEnabled || !Number.isFinite(deltaSeconds) || deltaSeconds <= 0) return;
+      if (paused || navigationEnabled || visualShot || !Number.isFinite(deltaSeconds) || deltaSeconds <= 0) return;
       const dt = Math.min(deltaSeconds, 0.05);
       camera.alpha += input.lookX * 1.8 * dt;
       camera.beta = Math.max(0.35, Math.min(1.45, camera.beta + input.lookY * 1.25 * dt));
@@ -402,6 +487,9 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       meshes: scene.meshes.length, activeMeshes: scene.getActiveMeshes().length,
       triangles: scene.meshes.reduce((total, mesh) => total + mesh.getTotalIndices(), 0) / 3,
       renderer: `WebGL ${engine.webGLVersion}`,
+      visual: { ...presentation.snapshot(), ...quality.snapshot(), shot: visualShot, ready: visualReadyFrames >= 3,
+        camera: { alpha: camera.alpha, beta: camera.beta, radius: camera.radius, target: camera.target.asArray() } },
+      performance: performanceMonitor.snapshot(quality.profile.targetFrameMs),
       navigation: getNavigationSnapshot(),
       camera: { alpha: camera.alpha, beta: camera.beta, radius: camera.radius,
         target: { x: camera.target.x, y: camera.target.y, z: camera.target.z } },
@@ -414,6 +502,7 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       canvas.removeEventListener('pointercancel', pointerUp);
       canvas.removeEventListener('lostpointercapture', pointerUp);
       navigationListener = undefined;
+      performanceMonitor.dispose(); presentation.dispose();
       podAsset?.dispose(); scene.dispose(); engine.dispose();
     },
   };

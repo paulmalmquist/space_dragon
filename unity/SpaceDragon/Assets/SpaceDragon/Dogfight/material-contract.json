@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "note": "Exact GLB JSON membership is decoded by Node. Only hasEmissionStrength=true requires a reset-from-imported material clone; clearcoat-only materials must never get a fabricated emissive extension.",
+  "models": [
+    {
+      "file": "dragon-flight-v003.glb",
+      "sha256": "1446d3c3c9606a61ad8d871473ce5b1242107c0a6d52b59c795102adb74f853c",
+      "materials": [
+        {
+          "index": 0,
+          "name": "SD3_Exposed directional metal",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0.02500000037252903,
+          "normalScale": 1
+        },
+        {
+          "index": 1,
+          "name": "SD3_Flexible graphite joints",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0.02500000037252903,
+          "normalScale": 1
+        },
+        {
+          "index": 2,
+          "name": "SD3_Dark painted armor_Atlas",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0.18000000715255737,
+          "normalScale": 0.18
+        },
+        {
+          "index": 3,
+          "name": "SD3_Exposed directional metal_Atlas",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0.02500000037252903,
+          "normalScale": 0.7200000286102295
+        },
+        {
+          "index": 4,
+          "name": "SD3_Flexible graphite joints_Atlas",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0.02500000037252903,
+          "normalScale": 0.7200000286102295
+        },
+        {
+          "index": 5,
+          "name": "SD3_Crimson painted armor",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0.18000000715255737,
+          "normalScale": 1
+        },
+        {
+          "index": 6,
+          "name": "SD3_Crimson painted armor_Atlas",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0.18000000715255737,
+          "normalScale": 0.22
+        },
+        {
+          "index": 7,
+          "name": "SD3_Dark painted armor",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0.18000000715255737,
+          "normalScale": 1
+        },
+        {
+          "index": 8,
+          "name": "SD3_Internal orange energy_Atlas",
+          "hasEmissionStrength": true,
+          "sourceFactor": [
+            1,
+            0.08500000089406967,
+            0.008999999612569809
+          ],
+          "strength": 3.200000047683716,
+          "effectiveFactor": [
+            3.200000047683716,
+            0.27200000691413884,
+            0.028799999189376813
+          ],
+          "clearcoat": 0.02500000037252903,
+          "normalScale": 0.7200000286102295
+        },
+        {
+          "index": 9,
+          "name": "SD3_Structured crimson membrane",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0.02500000037252903,
+          "normalScale": 1
+        }
+      ]
+    },
+    {
+      "file": "drone.glb",
+      "sha256": "28fe73860616abc79c256c842ace570c839cf6212b3c0e92a1692942925e5407",
+      "materials": [
+        {
+          "index": 0,
+          "name": "Drone ceramic gunmetal",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1
+        },
+        {
+          "index": 1,
+          "name": "Amber reactor",
+          "hasEmissionStrength": true,
+          "sourceFactor": [
+            1,
+            0.27368420392192294,
+            0.0473684235292789
+          ],
+          "strength": 2.849999964237213,
+          "effectiveFactor": [
+            2.849999964237213,
+            0.7799999713897705,
+            0.13500000536441803
+          ],
+          "clearcoat": 0,
+          "normalScale": 1
+        },
+        {
+          "index": 2,
+          "name": "Machined silver edges",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1
+        },
+        {
+          "index": 3,
+          "name": "Engine black",
+          "hasEmissionStrength": false,
+          "sourceFactor": [
+            0,
+            0,
+            0
+          ],
+          "strength": 1,
+          "effectiveFactor": [
+            0,
+            0,
+            0
+          ],
+          "clearcoat": 0,
+          "normalScale": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Continue Space Dragon from a fresh chat
 
+**Current ID routing — November 1:** read the [integration crosswalk](../decisions/2026-11-01-unity-integration-identifiers.md). Main SD-062–071 retain their intake/story/controller/audio meanings. Historical local Unity First Contact SD-062 is now SD-083; local junction SD-063 is SD-084; local map-proportions SD-064 is SD-085. SD-061 and SD-072–082 keep their meanings. Next unused is SD-086; check the ledger and coordinate before allocation. Original owner wording and historical verification scopes remain intact.
+
 Open this repository in the new chat's workspace and give your ideas in ordinary language. You do not need to reconstruct the previous conversation or write a technical brief.
 
 A starter you can reuse:
@@ -7,6 +9,18 @@ A starter you can reuse:
 > Here are more Space Dragon ideas. Follow AGENTS.md, read the current campaign structure, and reconcile these into the repo's story and plan: …
 
 ## What agents read
+
+**Active audio/reference follow-ons — SD-081/082:** [heavier Dogfight sound](../decisions/2026-10-31-dogfight-heavier-audio.md) has five v002 cues technically verified in the new player, with human mix review open; the owner-named [flying/fire-breath clip](../decisions/2026-10-31-purple-dragon-motion-reference.md) was found at repo root and five extracted frames inspected. Its original stays local/reference-only; recorded observations are not runtime-use/publication permission or human mix approval. Organic SD-080 Blender work and compatible closer framing remain active.
+
+**Latest dragon appearance — SD-080:** the purple organic v007 dragon is now integrated and technically verified in the actual Unity player; [receipt/gallery](../reports/2026-10-31-purple-organic-dragon.md). Final build and both 11-case Chrome suites pass, with isolated WebGPU 58.1 fps / WebGL2 24.3 fps at 1366×768. The fallback misses 30 fps; next work is fallback LOD/performance and source foot/wing/sculpt polish, not another engine migration. Owner art approval remains open. Preserve the post-Undo recovery, source/export versions and mechanical rollback; use the independent 15-bone contract. Installed-Chrome repository QA passes: 237 units, build, 49 development, nine production and 18 reference checks; earlier failures remain recorded.
+
+**Earlier framing steering — SD-079:** [larger, more menacing dragon presentation](../decisions/2026-10-31-dragon-screen-presence.md) is technically verified for 9.8 m camera/cadence/rim changes on retained mechanical v005, alongside new audio. [Historical SD-079 player receipt](../reports/2026-10-31-dragon-screen-presence.md) records the final build and 11 Chrome cases per backend. Those counts apply to the mechanical player tested then. SD-080 now separately verifies organic v007; preserve the earlier SD-079/078 evidence and the original Undo recovery.
+
+**Historical mechanical art and retained scenery — SD-078:** [near-orbit scenery and heroic Blender v005](../decisions/2026-10-31-near-orbit-dragon-art.md) is locally implemented and technically verified; [receipt/gallery](../reports/2026-10-31-near-orbit-heroic-dragon.md). That intake added `dragon-heroic-v005.glb`; SD-080 now selects organic v007, while v005/v004/v003 remain recovery/rollback. The owner likes the rocks and says gameplay is solid; the mechanical result was later superseded by the organic reference. Preserve its historical nine-bone/clip/socket contract and sources as rollback; use the separate 15-bone contract for current v007. Near-orbit placement is presentation, not atmospheric traversal; minor sky seam and sustained performance remain open.
+
+**Cinematic video direction:** [SD-076](../decisions/2026-10-31-google-vids-manual-exports.md) selects Google Vids with manual exports. Runway is parked; do not request reconnection or build a provider integration for current work. Preserve and inspect each delivered file locally, prepare a separate runtime derivative, and verify its Unity playback/handoff. No Google Vids export has been received or tested. SD-073's Blender animatic and frozen player retain their historical verification; do not relabel them as Google Vids output.
+
+**Unity direction:** the owner asked channels to follow the Unity upgrade on October 31. [SD-072](../decisions/2026-10-31-unity-channel-alignment.md) directs future production work to the existing `unity/SpaceDragon` project and C#. SD-075 explicitly requests a fully migrated playable Dogfight encounter for this pass. Use [its runtime, controls and build guide](../engineering/UNITY_DOGFIGHT.md) and [verification receipt](../reports/2026-10-31-unity-dogfight.md), alongside [the preserved migration contract](../engineering/UNITY_DOGFIGHT_HANDOFF.md). Inspect active work and coordinate file/Editor ownership before editing. Retain browser labs as behavior/save references. A fresh chat must not restart the engine evaluation or conflate the separate First Contact, LaunchLab and Dogfight scenes.
 
 `AGENTS.md` routes a new agent to project status, vision, the idea inbox and the current milestone. `CLAUDE.md` imports that same file. For story and mission work, [CAMPAIGN_STRUCTURE.md](../story/CAMPAIGN_STRUCTURE.md) and its linked decision hold the latest confirmed structure and party rules. Older treatment details do not override them.
 

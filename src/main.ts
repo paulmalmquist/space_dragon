@@ -8,6 +8,7 @@ import { createNarrator } from './game/narrator';
 import { copyExplorationState, createExplorationState } from './game/navigation';
 import type { InteractionTarget } from './game/navigation';
 import { loadExploration, saveExploration } from './game/exploration-save';
+import { connectVisualControls } from './ui/visual-controls';
 import { createControllerInput } from './game/gamepad';
 import type { ControllerConnection } from './game/gamepad';
 
@@ -68,7 +69,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <p id="render-error" class="render-error" role="alert" hidden></p>
     </section>
     <div class="below-scene"><div><p id="save-status" role="status"></p><p id="narrator-status" role="status"></p><p id="controller-status" role="status"></p></div>
-      <div class="settings"><label><input id="reduce-motion" type="checkbox"> Less motion</label><button id="restart" class="quiet">Start again</button></div></div>
+      <div class="settings"><label>Graphics <select id="visual-quality" aria-label="Graphics quality"><option value="low">Low</option><option value="balanced" selected>Balanced</option><option value="high">High</option><option value="cinematic">Cinematic</option></select></label><label><input id="reduce-motion" type="checkbox"> Less motion</label><button id="restart" class="quiet">Start again</button></div></div>
     <footer><span>Provisional home and character. Future video references will inform this space.</span><span id="controls-legend">ARROWS · POINT &nbsp; SPACE / ENTER · ACTION &nbsp; H · LISTEN &nbsp; F1 · HELP &nbsp; ESC · PAUSE</span></footer>
   </main>
   ${import.meta.env.DEV ? `<dialog id="notebook" aria-labelledby="notebook-title"><form id="idea-form">
@@ -104,6 +105,7 @@ let view: ReturnType<typeof createFirstContact> | undefined;
 const narrator = createNarrator(message => { $('narrator-status').textContent = message; });
 try { view = createFirstContact($<HTMLCanvasElement>('game')); }
 catch { $('render-error').hidden = false; $('render-error').textContent = 'The 3D view could not start. Try Chrome with WebGL enabled. The story controls still work.'; }
+const disposeVisualControls = connectVisualControls(view);
 view?.setExplorationState(explorationState);
 view?.onNavigationUpdate((next, target) => {
   explorationState = copyExplorationState(next);
@@ -383,9 +385,10 @@ render(false);
 if (import.meta.env.DEV) {
   Object.defineProperty(window, '__SPACE_DRAGON__', { value: Object.freeze({
     snapshot: () => ({ ...view?.snapshot(), state: JSON.parse(JSON.stringify(state)), exploration: copyExplorationState(explorationState), selectedTarget, paused, started, mode: navigationMode ? 'exploration' : 'story', speechEnabled: narrator.isEnabled(), controller: controller?.snapshot() }),
+    resetPerformanceSample: () => view?.resetPerformanceSample(),
   }), configurable: true });
   void import('./ui/notebook').then(({ connectNotebook }) => connectNotebook(() => {
     clearMovement(); clearTimeout(hintTimer); narrator.stop(); view?.setPaused(true);
   }, () => { clearMovement(); view?.setPaused(paused); if (started && !paused) (navigationMode ? $('game') : $('action')).focus({ preventScroll: true }); scheduleHint(); }));
 }
-window.addEventListener('pagehide', event => { clearMovement(); if (!event.persisted) { clearTimeout(hintTimer); controller?.dispose(); narrator.dispose(); view?.dispose(); } });
+window.addEventListener('pagehide', event => { clearMovement(); if (!event.persisted) { clearTimeout(hintTimer); disposeVisualControls(); controller?.dispose(); narrator.dispose(); view?.dispose(); } });

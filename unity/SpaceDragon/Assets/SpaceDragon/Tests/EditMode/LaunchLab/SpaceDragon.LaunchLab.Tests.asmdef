@@ -1,0 +1,8 @@
+{
+  "name": "SpaceDragon.LaunchLab.Tests",
+  "rootNamespace": "SpaceDragon.LaunchLab.Tests",
+  "references": ["SpaceDragon.LaunchLab"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

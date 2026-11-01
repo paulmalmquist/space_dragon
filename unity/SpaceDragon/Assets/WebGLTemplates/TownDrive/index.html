@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Town Drive Lab</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#03070d;color:#edf4f6;font:15px system-ui,sans-serif}
+    #unity-canvas{display:block;width:100%;height:100%;outline:none;background:#03070d;touch-action:none}
+    .overlay{position:fixed;inset:0;display:grid;place-content:center;text-align:center;background:#07111eef;padding:24px;z-index:2}
+    .overlay[hidden]{display:none}h1{font-size:20px;letter-spacing:.2em;margin:0 0 18px}p{max-width:36em;line-height:1.5}
+    progress{width:min(320px,75vw);height:7px;accent-color:#ed7c4e;border:0;margin:14px auto}
+    button{justify-self:center;color:inherit;background:#263d4a;border:1px solid #91aab8;border-radius:4px;padding:10px 18px;font:inherit;cursor:pointer}
+    button:focus-visible{outline:2px solid #f6b26b;outline-offset:3px}
+  </style>
+</head>
+<body>
+  <canvas id="unity-canvas" width="1280" height="720" tabindex="0" aria-label="Town Drive driving game"></canvas>
+  <div class="overlay" id="loading" role="status" aria-live="polite">
+    <h1>TOWN DRIVE LAB</h1><p id="loading-label">Preparing your drive… 0%</p><progress id="loading-progress" max="1" value="0"></progress>
+  </div>
+  <div class="overlay" id="error" role="alert" hidden><h1>DRIVE UNAVAILABLE</h1><p id="error-message"></p><button id="retry">Try again</button></div>
+  <script>
+    const canvas = document.querySelector('#unity-canvas');
+    const startedAt = performance.now();
+    let snapshotTimer = null;
+    const api = window.__SPACE_DRAGON_TOWN_DRIVE__ = {
+      instance: null, latestSnapshot: null, ready: false, readyMs: null,
+      receiveSnapshot(json) {
+        try { api.latestSnapshot = typeof json === 'string' ? JSON.parse(json) : json; }
+        catch (error) { api.lastSnapshotError = String(error); }
+      },
+      send(method, arg) {
+        if (!api.instance || typeof method !== 'string' || !/^[A-Za-z][A-Za-z0-9_]*$/.test(method)) return false;
+        if (arg === undefined) api.instance.SendMessage('TownDriveRuntime', method);
+        else api.instance.SendMessage('TownDriveRuntime', method, typeof arg === 'number' ? arg : String(arg));
+        return true;
+      },
+      snapshot() {
+        return { ...api.latestSnapshot, browser: {
+          readyMs: api.readyMs, canvasWidth: canvas.width, canvasHeight: canvas.height,
+          cssWidth: canvas.clientWidth, cssHeight: canvas.clientHeight, devicePixelRatio,
+          wasmHeapAllocatedBytes: null,
+          jsHeapUsedBytes: performance.memory?.usedJSHeapSize ?? null,
+          memoryScope: 'WASM heap allocation is unavailable (not exported); optional JS heap excludes native/GPU memory.'
+        }};
+      }
+    };
+    canvas.addEventListener('contextmenu', event => event.preventDefault());
+    canvas.addEventListener('pointerdown', () => canvas.focus());
+    canvas.addEventListener('keydown', event => {
+      if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Tab'].includes(event.key)) event.preventDefault();
+    });
+    document.querySelector('#retry').addEventListener('click', () => location.reload());
+    function fail(message) {
+      document.querySelector('#loading').hidden = true;
+      document.querySelector('#error').hidden = false;
+      document.querySelector('#error-message').textContent = String(message);
+    }
+    function startSnapshots() {
+      if (snapshotTimer !== null) return;
+      api.send('RequestSnapshot');
+      snapshotTimer = setInterval(() => { if (!document.hidden) api.send('RequestSnapshot'); }, 250);
+    }
+    window.addEventListener('pagehide', () => { clearInterval(snapshotTimer); snapshotTimer = null; });
+    window.addEventListener('pageshow', () => { if (api.instance) startSnapshots(); });
+    const buildUrl = 'Build';
+    const config = {
+      dataUrl: buildUrl + '/{{{ DATA_FILENAME }}}', frameworkUrl: buildUrl + '/{{{ FRAMEWORK_FILENAME }}}',
+      codeUrl: buildUrl + '/{{{ CODE_FILENAME }}}', streamingAssetsUrl: 'StreamingAssets',
+      companyName: {{{ JSON.stringify(COMPANY_NAME) }}}, productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+      productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}}, devicePixelRatio: 1, matchWebGLToCanvasSize: true,
+      showBanner: (message, type) => { if (type === 'error') fail(message); else console.warn(message); }
+    };
+    const loader = document.createElement('script');
+    loader.src = buildUrl + '/{{{ LOADER_FILENAME }}}';
+    loader.onerror = () => fail('The drive player could not load. Start the local Town Drive review server and try again.');
+    loader.onload = () => createUnityInstance(canvas, config, progress => {
+      document.querySelector('#loading-progress').value = progress;
+      document.querySelector('#loading-label').textContent = `Preparing your drive… ${Math.round(progress * 100)}%`;
+    }).then(instance => {
+      api.instance = instance; api.ready = true; api.readyMs = performance.now() - startedAt;
+      document.querySelector('#loading').hidden = true; canvas.focus(); startSnapshots();
+    }).catch(fail);
+    document.body.append(loader);
+  </script>
+</body>
+</html>

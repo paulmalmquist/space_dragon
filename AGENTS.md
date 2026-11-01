@@ -2,6 +2,8 @@
 
 ## Start with the task, not the entire archive
 
+**Current cross-channel production direction:** [SD-072 Unity alignment](docs/decisions/2026-10-31-unity-channel-alignment.md) directs subsequent production work toward Unity/C# in the existing `unity/SpaceDragon` project. Coordinate with its active writer; do not create a competing project or run simultaneous Editors/builds. Preserve Babylon/Three.js labs as behavior references and rollback while features migrate. For dragon/flight work, read the [Unity handoff](docs/engineering/UNITY_DOGFIGHT_HANDOFF.md). Historical candidate-only language does not override this later owner direction; completed migration and improved visual quality still require evidence.
+
 Read [project status](docs/project/STATUS.md), [the vision](docs/project/VISION.md), [the idea inbox](ideas/INBOX.md), and [the current milestone](docs/plans/CURRENT_MILESTONE.md); inspect actual files, commands, branch and working-tree changes before editing. A local Babylon/TypeScript prototype now exists; finished art, website integration and backend services remain pending. Do not invent a connected Blender session or hosting configuration.
 
 Load only the relevant contract:
@@ -57,6 +59,8 @@ The owner’s [Town Drive override (SD-052)](docs/decisions/2026-10-30-town-driv
 Canonical skills live in `.agents/skills/`: `sd-build-feature`, `sd-blender-asset`, `sd-playtest`. `.claude/skills/` contains generated mirrors; edit canonical files, then run the sync command. `CLAUDE.md` imports this file. These instructions do not grant tools or override host permissions.
 
 ## Commands available now
+
+For Unity work, use the existing [Unity project commands](unity/SpaceDragon/README.md) and coordinate exclusive Editor/build ownership. Record EditMode tests, player build and actual browser play separately. The npm/Python commands below continue to check the retained browser prototypes and repository foundation; they do not establish a passing Unity build or migrated Dogfight.
 
 Run from the repository root with Python 3.10+ (`python` or `py -3` may replace `python3` on Windows):
 

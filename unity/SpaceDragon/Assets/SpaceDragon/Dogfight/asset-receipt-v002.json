@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 2,
+  "scope": "Local Unity Dogfight migration of existing game assets; no new source art, family likeness, external upload or publication approval.",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "gameplayForward": "+Z",
+    "sourceForward": "-Z",
+    "basisEuler": [
+      0,
+      180,
+      0
+    ],
+    "collisionRadius": 3.3,
+    "groundContactY": -0.665026843547821
+  },
+  "provenance": {
+    "assets": "public/assets/manifest.json",
+    "audio": "assets/source/audio/sonniss-gdc-2026/game-cues.json",
+    "license": "https://sonniss.com/gdc-bundle-license/",
+    "thirdPartyNotice": "Imported/NOTICE.md",
+    "rightsStatus": "Original supplied Seele drone/environment retain their existing local-experiment rights limitations."
+  },
+  "sourceFiles": [
+    {
+      "source": "public/assets/dogfight/models/dragon-flight-v003.glb",
+      "destination": "Imported/dragon-flight-v003.glb",
+      "bytes": 9653504,
+      "sha256": "1446d3c3c9606a61ad8d871473ce5b1242107c0a6d52b59c795102adb74f853c"
+    },
+    {
+      "source": "public/assets/dogfight/models/drone.glb",
+      "destination": "Imported/drone.glb",
+      "bytes": 538788,
+      "sha256": "28fe73860616abc79c256c842ace570c839cf6212b3c0e92a1692942925e5407"
+    },
+    {
+      "source": "public/assets/dogfight/textures/nebula.jpg",
+      "destination": "Imported/nebula.jpg",
+      "bytes": 100054,
+      "sha256": "6824a4c9b203258f1d0d1b591730029efb47d929ebe3a3a74db691fbed5ca9de"
+    },
+    {
+      "source": "public/assets/dogfight/textures/planet.jpg",
+      "destination": "Imported/planet.jpg",
+      "bytes": 82871,
+      "sha256": "7a6e78ab88f9bcfaef21c7cbfc5a166a36d9a79695b2affbe7af600194d06bc1"
+    },
+    {
+      "source": "public/assets/dogfight/NOTICE.md",
+      "destination": "Imported/NOTICE.md",
+      "bytes": 2113,
+      "sha256": "802bb42acab36c33e7a5631fcd2ab375b58ac2047a4ce27dc0252326b1362bec"
+    },
+    {
+      "source": "public/assets/audio/sonniss-gdc-2026/dragon-roar-v001.wav",
+      "destination": "Imported/dragon-roar-v001.wav",
+      "bytes": 38478,
+      "sha256": "99bf925e7542adb58c135ab7dca794c8c92b6370290250d67d02ac13d0ec1326"
+    },
+    {
+      "source": "public/assets/audio/sonniss-gdc-2026/fire-breath-v001.wav",
+      "destination": "Imported/fire-breath-v001.wav",
+      "bytes": 55278,
+      "sha256": "b65546032e3590e54e0fdce92f6cc7aa3f733d0cb148cbb047d04da0db32e531"
+    },
+    {
+      "source": "public/assets/audio/sonniss-gdc-2026/machine-blast-v001.wav",
+      "destination": "Imported/machine-blast-v001.wav",
+      "bytes": 81678,
+      "sha256": "63da3996977c0932aa5fe1bcc46da31044706a89c2eb8cc0a9b5aca0bccf21d1"
+    },
+    {
+      "source": "public/assets/audio/sonniss-gdc-2026/metal-impact-v001.wav",
+      "destination": "Imported/metal-impact-v001.wav",
+      "bytes": 23118,
+      "sha256": "e59e17993e5ae2490678f2bcb24e90dfd9fc2294e2c84154873920259147bd6b"
+    },
+    {
+      "source": "public/assets/audio/sonniss-gdc-2026/jet-surge-v001.wav",
+      "destination": "Imported/jet-surge-v001.wav",
+      "bytes": 33678,
+      "sha256": "3cbeb13f87b9b55dae46a2da6991dbe23a11dfc12c2c01e859f48b0b6ec05ec8"
+    },
+    {
+      "source": "public/assets/dogfight/textures/nebula.jpg",
+      "destination": "Imported/nebula-sky.jpg",
+      "bytes": 100054,
+      "sha256": "6824a4c9b203258f1d0d1b591730029efb47d929ebe3a3a74db691fbed5ca9de"
+    }
+  ],
+  "files": [
+    {
+      "destination": "Imported/dragon-flight-v003.glb",
+      "bytes": 9653504,
+      "sha256": "1446d3c3c9606a61ad8d871473ce5b1242107c0a6d52b59c795102adb74f853c"
+    },
+    {
+      "destination": "Imported/drone.glb",
+      "bytes": 538788,
+      "sha256": "28fe73860616abc79c256c842ace570c839cf6212b3c0e92a1692942925e5407"
+    },
+    {
+      "destination": "Imported/nebula.jpg",
+      "bytes": 100054,
+      "sha256": "6824a4c9b203258f1d0d1b591730029efb47d929ebe3a3a74db691fbed5ca9de"
+    },
+    {
+      "destination": "Imported/planet.jpg",
+      "bytes": 82871,
+      "sha256": "7a6e78ab88f9bcfaef21c7cbfc5a166a36d9a79695b2affbe7af600194d06bc1"
+    },
+    {
+      "destination": "Imported/NOTICE.md",
+      "bytes": 2113,
+      "sha256": "802bb42acab36c33e7a5631fcd2ab375b58ac2047a4ce27dc0252326b1362bec"
+    },
+    {
+      "destination": "Imported/dragon-roar-v001.wav",
+      "bytes": 38478,
+      "sha256": "99bf925e7542adb58c135ab7dca794c8c92b6370290250d67d02ac13d0ec1326"
+    },
+    {
+      "destination": "Imported/fire-breath-v001.wav",
+      "bytes": 55278,
+      "sha256": "b65546032e3590e54e0fdce92f6cc7aa3f733d0cb148cbb047d04da0db32e531"
+    },
+    {
+      "destination": "Imported/machine-blast-v001.wav",
+      "bytes": 81678,
+      "sha256": "63da3996977c0932aa5fe1bcc46da31044706a89c2eb8cc0a9b5aca0bccf21d1"
+    },
+    {
+      "destination": "Imported/metal-impact-v001.wav",
+      "bytes": 23118,
+      "sha256": "e59e17993e5ae2490678f2bcb24e90dfd9fc2294e2c84154873920259147bd6b"
+    },
+    {
+      "destination": "Imported/jet-surge-v001.wav",
+      "bytes": 33678,
+      "sha256": "3cbeb13f87b9b55dae46a2da6991dbe23a11dfc12c2c01e859f48b0b6ec05ec8"
+    },
+    {
+      "destination": "material-contract.json",
+      "bytes": 6359,
+      "sha256": "55697210f37e6d3de32bcabeb70ed8e53bbe496963c1c356c3dbbd0fb122f6b4"
+    },
+    {
+      "destination": "asset-receipt.json",
+      "bytes": 5043,
+      "sha256": "50792b61ecc24b708c21e3bb4acb3c3f0c13b2f426230f84a583da1e59120848"
+    },
+    {
+      "destination": "Imported/nebula-sky.jpg",
+      "bytes": 100054,
+      "sha256": "6824a4c9b203258f1d0d1b591730029efb47d929ebe3a3a74db691fbed5ca9de"
+    }
+  ],
+  "previousReceipt": "asset-receipt.json",
+  "uniqueOriginalSources": 10
+}

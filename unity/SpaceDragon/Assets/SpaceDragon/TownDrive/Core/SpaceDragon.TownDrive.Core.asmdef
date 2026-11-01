@@ -1,0 +1,7 @@
+{
+  "name": "SpaceDragon.TownDrive.Core",
+  "rootNamespace": "SpaceDragon.TownDrive",
+  "references": [],
+  "autoReferenced": true,
+  "noEngineReferences": true
+}

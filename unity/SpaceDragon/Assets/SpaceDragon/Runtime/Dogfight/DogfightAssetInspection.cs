@@ -1,0 +1,162 @@
+using System;
+using System.Runtime.InteropServices;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+
+namespace SpaceDragon.Dogfight
+{
+    /// <summary>
+    /// Explicit development URL mode: ?inspect=dragon. Creates an isolated neutral
+    /// scene from the selected imported asset before encounter Start executes.
+    /// Normal Dogfight startup is untouched; this mode never runs combat or saves.
+    /// </summary>
+    public sealed class DogfightAssetInspection : MonoBehaviour
+    {
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        GameObject inspected;
+        Camera cameraView;
+        Cubemap reflection;
+        string selectedView;
+        float frameTotal, framePeak;
+        int frames;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void OpenRequestedInspection()
+        {
+            if (Query("inspect") != "dragon") return;
+            var originalScene = SceneManager.GetActiveScene();
+            if (originalScene.name != "Dogfight") return;
+            var source = GameObject.Find("DragonViolet.v007.Organic") ?? GameObject.Find("DragonHeroic.v005.Authored");
+            if (source == null) { Debug.LogError("Dragon inspection cannot find the selected imported asset."); return; }
+
+            var clone = Instantiate(source);
+            clone.name = source.name + ".Inspection";
+            clone.transform.SetParent(null, false);
+            clone.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            clone.transform.localScale = Vector3.one;
+            // Inspect the unanimated flight bind pose, matching the Blender still.
+            foreach (var animator in clone.GetComponentsInChildren<Animator>(true)) animator.enabled = false;
+            foreach (var animation in clone.GetComponentsInChildren<Animation>(true)) animation.enabled = false;
+            foreach (var renderer in clone.GetComponentsInChildren<SkinnedMeshRenderer>(true)) renderer.updateWhenOffscreen = true;
+            var scene = SceneManager.CreateScene("Dogfight.NeutralAssetInspection");
+            SceneManager.MoveGameObjectToScene(clone, scene);
+            SceneManager.SetActiveScene(scene);
+            // The clone already lives in the new scene. Deactivate old roots now
+            // so no encounter/AI/HUD Start runs while asynchronous unload finishes.
+            foreach (var root in originalScene.GetRootGameObjects()) root.SetActive(false);
+            var host = new GameObject("DogfightEncounter").AddComponent<DogfightAssetInspection>();
+            host.inspected = clone;
+            host.selectedView = Query("inspectionview");
+            host.ConfigureScene();
+            SceneManager.UnloadSceneAsync(originalScene);
+        }
+
+        static string Query(string key)
+        {
+            if (!Uri.TryCreate(Application.absoluteURL, UriKind.Absolute, out var url)) return "";
+            foreach (var part in url.Query.TrimStart('?').Split('&'))
+            {
+                var pair = part.Split(new[] { '=' }, 2);
+                if (pair.Length == 2 && Uri.UnescapeDataString(pair[0]) == key) return Uri.UnescapeDataString(pair[1]);
+            }
+            return "";
+        }
+
+        void ConfigureScene()
+        {
+            RenderSettings.skybox = null; RenderSettings.fog = false;
+            RenderSettings.ambientMode = AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = new Color(.30f,.32f,.36f);
+            RenderSettings.ambientEquatorColor = new Color(.18f,.19f,.21f);
+            RenderSettings.ambientGroundColor = new Color(.075f,.075f,.085f);
+            RenderSettings.ambientIntensity = 1;
+            reflection = new Cubemap(16, TextureFormat.RGBAHalf, false) { name = "Inspection neutral reflection", wrapMode = TextureWrapMode.Clamp };
+            for (int face = 0; face < 6; face++)
+            {
+                float value = face == (int)CubemapFace.PositiveY ? .65f : face == (int)CubemapFace.NegativeY ? .10f : .30f;
+                var pixels = new Color[16*16];
+                for (int i = 0; i < pixels.Length; i++) pixels[i] = new Color(value,value,value,1);
+                reflection.SetPixels(pixels, (CubemapFace)face);
+            }
+            reflection.Apply(false, true);
+            RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
+            RenderSettings.customReflectionTexture = reflection; RenderSettings.reflectionIntensity = .75f;
+            Directional("Inspection key", new Vector3(-5,8,-5), 2.1f, Color.white, true);
+            Directional("Inspection fill", new Vector3(5,3,-1), .55f, new Color(.88f,.93f,1), false);
+            Directional("Inspection rim", new Vector3(1,5,6), 1.2f, Color.white, false);
+
+            cameraView = new GameObject("Inspection.Camera.50mm").AddComponent<Camera>();
+            cameraView.tag = "MainCamera"; cameraView.clearFlags = CameraClearFlags.SolidColor;
+            cameraView.backgroundColor = new Color(.105f,.115f,.135f);
+            cameraView.nearClipPlane = .05f; cameraView.farClipPlane = 200;
+            cameraView.allowHDR = true; cameraView.allowMSAA = true;
+            cameraView.usePhysicalProperties = true; cameraView.sensorSize = new Vector2(36,24);
+            cameraView.focalLength = 50; cameraView.gateFit = Camera.GateFitMode.Vertical;
+            // A fresh camera has no postprocessing enabled; the isolated scene
+            // contains no gameplay volume. Keep this adapter engine-only.
+            Vector3 position;
+            switch (selectedView)
+            {
+                case "front": position = new Vector3(0,2,-16); break;
+                case "side": position = new Vector3(-16,3,0); break;
+                case "rear": position = new Vector3(0,3,16); break;
+                default:
+                    selectedView = "blender-neutral";
+                    // Blender (10,12,6), target (0,0,.1), 50 mm on36 mm sensor.
+                    // Blender +Y nose -> glTF -Z; glTFast mirrors source X.
+                    // The inspection clone intentionally has no gameplay Y180 basis.
+                    position = new Vector3(-10,6,-12); break;
+            }
+            cameraView.transform.SetPositionAndRotation(position, Quaternion.identity);
+            cameraView.transform.LookAt(new Vector3(0,.1f,0));
+            Application.targetFrameRate = 60;
+            Debug.Log("SPACE_DRAGON_INSPECTION_READY " + inspected.name + " view=" + selectedView
+                + "; use1200x800 capture for matching Blender framing; neutral lighting is an approximation, not Cycles parity.");
+        }
+
+        static void Directional(string name, Vector3 position, float intensity, Color color, bool shadows)
+        {
+            var light = new GameObject(name).AddComponent<Light>();
+            light.type = LightType.Directional; light.color = color; light.intensity = intensity;
+            light.transform.position = position; light.transform.LookAt(Vector3.zero);
+            light.shadows = shadows ? LightShadows.Soft : LightShadows.None;
+            light.shadowBias = .03f; light.shadowNormalBias = .12f;
+        }
+
+        void Update() { frames++; frameTotal += Time.unscaledDeltaTime; framePeak = Mathf.Max(framePeak, Time.unscaledDeltaTime); }
+        [Serializable] sealed class InspectionSnapshot
+        {
+            public string mode, view, model, lighting, sourceCamera, graphics, device;
+            public bool combatActive, savesWritten;
+            public int width, height, renderers, skinnedRenderers, frameSamples;
+            public long modelTriangles;
+            public float frameMeanMs, framePeakMs, focalLength, verticalFov;
+            public Vector3 cameraPosition, cameraTarget;
+        }
+        // Same local browser bridge as Dogfight; no normal encounter API changes.
+        public void ResetMeasurement() { frames = 0; frameTotal = framePeak = 0; }
+        public void RequestSnapshot()
+        {
+            if (inspected == null || cameraView == null) return;
+            long triangles = 0;
+            foreach (var mesh in inspected.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+                for (int i = 0; i < mesh.sharedMesh.subMeshCount; i++) triangles += mesh.sharedMesh.GetIndexCount(i) / 3;
+            var snapshot = new InspectionSnapshot { mode = "asset-inspection", view = selectedView, model = inspected.name,
+                graphics = SystemInfo.graphicsDeviceType.ToString(), device = SystemInfo.graphicsDeviceName,
+                combatActive = false, savesWritten = false, lighting = "Neutral real-time studio approximation; no gameplay sky, fog or postprocessing",
+                sourceCamera = "Blender (10,12,6), target(0,0,.1),50mm/36x24mm; matching capture1200x800", width = Screen.width, height = Screen.height,
+                renderers = inspected.GetComponentsInChildren<Renderer>(true).Length, skinnedRenderers = inspected.GetComponentsInChildren<SkinnedMeshRenderer>(true).Length,
+                modelTriangles = triangles, frameSamples = frames, frameMeanMs = frames > 0 ? frameTotal/frames*1000 : 0, framePeakMs = framePeak*1000,
+                focalLength = cameraView.focalLength, verticalFov = cameraView.fieldOfView, cameraPosition = cameraView.transform.position, cameraTarget = new Vector3(0,.1f,0) };
+#if UNITY_WEBGL && !UNITY_EDITOR
+            SD_DogfightSnapshot(JsonUtility.ToJson(snapshot));
+#endif
+        }
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")] static extern void SD_DogfightSnapshot(string json);
+#endif
+        void OnDestroy() { if (reflection != null) Destroy(reflection); }
+#endif
+    }
+}

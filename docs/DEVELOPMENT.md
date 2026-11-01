@@ -2,6 +2,30 @@
 
 Paul can use chat, [the inbox](../ideas/INBOX.md), or the notebook opened by `Start Space Dragon.cmd`. Agents own the commands below. See [AGENTS.md](../AGENTS.md) and [current status](project/STATUS.md) first.
 
+## Unity First Contact foundation
+
+Forward production uses the existing `unity/SpaceDragon` project under [SD-072](decisions/2026-10-31-unity-channel-alignment.md). Follow its [batch setup/test/build and local-play commands](../unity/SpaceDragon/README.md); coordinate one Editor/build process at a time. The [comparison receipt](reports/2026-10-31-unity-production-candidate.md) records actual WebGPU/WebGL2 play, Windows rendering and this laptop's bounded measurements. Browser-prototype npm checks below continue to cover those retained runtimes; they do not replace Unity checks.
+
+## First Contact visual review — SD-061
+
+The **Graphics** selector offers Low, Balanced, High and Cinematic. It saves a separate display preference; campaign rewards and exploration saves are untouched. Presets cap internal render density/pixel count, shadow size and bloom. These are manual choices, not automatic hardware ratings. High/Cinematic do not supersample above the current device pixel ratio.
+
+In development, expand **Visual review** below the scene for Home/Arrival/Pod detail cameras, a performance overlay and local JSON measurement export. Camera presets frame the current story phase and award nothing. Walking uses its own follow camera. Select Player camera or advance the phase to leave a review view. Fixed views suppress cosmetic motion; ordinary views retain the existing Less motion preference.
+
+For repeatable local captures, start a separate fixture server and run the installed-Chrome harness:
+
+```powershell
+$env:SPACE_DRAGON_TESTING='1'
+npm.cmd run dev -- --port 5191
+# In another terminal:
+$env:SPACE_DRAGON_REVIEW_URL='http://127.0.0.1:5191/space-dragon/'
+node tools/capture-visual-foundation.mjs
+```
+
+The harness writes `artifacts/visual-foundation/index.html`, native-renderer information, same-camera images and JSON samples. Preserve earlier `before/home.png` and `before/arrival.png` to compare revisions; missing prior captures are explicitly labeled. Each default ten-second run reports up to 300 trailing rendered-frame intervals after 60 warmup intervals. Read `elapsedMs` for the measured window. Median/p95/max, >50 ms spikes, draw calls and actual canvas dimensions are measurements; preset frame budgets are targets. Pause gaps are excluded. Development-network totals include Vite modules and are not a production download figure. Final hardware endurance, human visual review and a stronger computer remain separate checks.
+
+The Earth visual module reuses already manifest-listed CC0 material maps and a subdued daylight HDR environment. It is a provisional night treatment around the existing original Blender pod, not finished house art or a new night HDR capture. See [the reconciled plan](plans/PRODUCTION_VISUAL_FOUNDATION.md).
+
 ## Reproduce the workspace
 
 Node 24 LTS and Python 3.10+ are required. On this Windows machine both are already present.

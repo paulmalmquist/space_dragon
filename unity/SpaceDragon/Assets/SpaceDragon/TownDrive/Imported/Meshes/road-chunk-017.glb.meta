@@ -1,0 +1,82 @@
+fileFormatVersion: 2
+guid: 160638b56c9891d4dadb39779bf5a641
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 0
+    generateMipMaps: 1
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 0
+    lightIntensityFactor: 1
+    sceneObjectCreation: 1
+  assetDependencies:
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\aaecaf484299a3ec2480f5c8.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\aaecaf484299a3ec2480f5c8.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\b861bebf4d29944103877d8c.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\b861bebf4d29944103877d8c.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\6188e2a51087c2d26bcc4961.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\6188e2a51087c2d26bcc4961.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\651124c33f08d34975103338.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\651124c33f08d34975103338.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\ff122ee6fd73a1451d8db2a9.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\ff122ee6fd73a1451d8db2a9.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\180609d8822eaa69f2f31c64.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\180609d8822eaa69f2f31c64.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\efabbeaea772617c1c8697ff.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\efabbeaea772617c1c8697ff.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\5c684fcee8539c2a4c787e12.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\5c684fcee8539c2a4c787e12.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\a305293c1fc70188897140b1.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\a305293c1fc70188897140b1.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\8a18fdf60f32b5c07f9aeaa2.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\8a18fdf60f32b5c07f9aeaa2.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\675d2766412cb1e8f1b13e62.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\675d2766412cb1e8f1b13e62.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\1d443fcac87778bd64d6626a.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\1d443fcac87778bd64d6626a.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\588e96e1d6cc522fd3cc6928.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\588e96e1d6cc522fd3cc6928.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\3d1df2c521584d3b89e09623.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\3d1df2c521584d3b89e09623.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\c51019396aeb914b6f322a0b.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\c51019396aeb914b6f322a0b.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\d3ccbb5fb4cefdd45b9e818c.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\d3ccbb5fb4cefdd45b9e818c.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\2976aedf58bf9ba5df5829e1.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\2976aedf58bf9ba5df5829e1.png
+  - type: 1
+    originalUri: Assets\SpaceDragon\TownDrive\Imported\Textures\92ebec8a6dcab2ad991e2314.png
+    assetPath: Assets\SpaceDragon\TownDrive\Imported\Textures\92ebec8a6dcab2ad991e2314.png
+  reportItems: []

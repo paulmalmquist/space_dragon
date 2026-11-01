@@ -1,5 +1,9 @@
 # What we are making
 
+**Current dragon visual direction — SD-080:** the owner's post-Undo reference selects an organic-looking purple dragon with a powerful chest, curved neck, predatory head/horns, scales and violet membranes. [Decision](../decisions/2026-10-31-purple-organic-dragon.md). This supersedes the mechanical appearance for the next candidate while preserving prior sources/runtime as rollback; it does not rewrite story origins or imply completed art/player verification.
+
+**Production direction — October 31, SD-072:** continue toward Unity/C# using the existing Unity project and the other channel's foundation. [The alignment decision](../decisions/2026-10-31-unity-channel-alignment.md) preserves browser delivery, shared Blender art, gameplay contracts and the existing labs as migration references. The engine choice is direction, not a claim of completed migration or AAA visual quality.
+
 Space Dragon is a browser family adventure about Paul, Maria, Luke, Luna, and Lyla. Familiar Florida surroundings open into a larger rescue story. Exploration, early learning, racing, playful combat, and family teamwork all contribute to the experience.
 
 Paul supplies creative ideas without organizing technical requirements. Agents preserve those thoughts, connect them to decisions, maintain dependencies, make routine engineering choices, and show a playable result that can be adjusted.
@@ -12,7 +16,7 @@ Paul supplies creative ideas without organizing technical requirements. Agents p
 
 The [Act I story](../story/ACT_I_BUILD_THE_DRAGON.md) remains the canonical opening: living-room computer, interrupted signal, backyard arrival and suits, scattered town components, assembly of a pre-existing dragon design, and a choice to answer an SOS in another universe. The equipment was deliberately sent, reached this family accidentally, and did not select them in advance. They did not invent the dragon.
 
-The [story index](../story/README.md) and [production scripts](../story/scripts/README.md) organize the later writing. The owner approved [Morrow and his arc](../story/VILLAIN_ARC.md) as the reason for the SOS: his held note creates the Quiet, the neighbor accepts his offer and takes the Bridge, returns in the Rest Garden, and Morrow ends as the Lodestar (SD-065–066). **Heartnote** is the current replacement for the retired term “home note.” Dialogue, mechanics, appearance and other names retain their proposal status. The selected First Contact implementation does not imply that these later story beats are implemented.
+The [story index](../story/README.md) and [production scripts](../story/scripts/README.md) organize the later writing. The owner approved [Morrow and his arc](../story/VILLAIN_ARC.md) as the reason for the SOS: his held note creates the Quiet, the neighbor accepts his offer and takes the Bridge, returns in the Rest Garden, and Morrow ends as the Lodestar (SD-065–066). **Heartnote** is the proposed replacement for the retired term “home note”; the owner requested the rename but has not separately approved this replacement word. Dialogue, mechanics, appearance and other names retain their proposal status. The selected First Contact implementation does not imply that these later story beats are implemented.
 
 **Confirmed language direction — SD-069:** the game is in English, including signs and learning prompts. The suits supply a one-line explanation for mutual understanding; translation is not a gameplay mechanic. [Language](../story/LANGUAGE_AND_TRANSLATION.md) retires glyph decoding, dropped words and translation meters while keeping the Core's separate companion arc.
 

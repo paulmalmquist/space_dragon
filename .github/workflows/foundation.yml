@@ -34,7 +34,7 @@ jobs:
       matrix:
         include:
           - suite: earth
-            command: npm test -- tests/first-contact.spec.ts tests/navigation.spec.ts tests/gamepad.spec.ts
+            command: npm test -- tests/first-contact.spec.ts tests/navigation.spec.ts tests/gamepad.spec.ts tests/visual-foundation.spec.ts
           - suite: drive
             command: npm test -- tests/drive.spec.ts tests/drive-traffic.spec.ts
           - suite: dogfight

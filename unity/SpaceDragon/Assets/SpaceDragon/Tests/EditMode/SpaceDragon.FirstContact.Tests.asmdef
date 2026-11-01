@@ -1,0 +1,8 @@
+{
+  "name": "SpaceDragon.FirstContact.Tests",
+  "rootNamespace": "SpaceDragon.FirstContact.Tests",
+  "references": ["SpaceDragon.FirstContact"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

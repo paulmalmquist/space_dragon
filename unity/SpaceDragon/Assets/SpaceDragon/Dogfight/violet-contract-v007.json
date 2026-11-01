@@ -1,0 +1,1102 @@
+{
+  "schemaVersion": 2,
+  "file": "dragon-violet-v007.glb",
+  "sha256": "0df6f9fdb1d33e5142ffd4e05de83c55664a69a17277c801a6e96f509453eaff",
+  "bytes": 36615112,
+  "rigProfile": "violet-organic-15",
+  "authoredPresentation": true,
+  "coordinateSystem": {
+    "metersPerUnit": 1,
+    "sourceForward": "-Z",
+    "sourceUp": "+Y",
+    "gameplayForward": "+Z",
+    "sourceBasisYawDegrees": 180
+  },
+  "sourceBlend": "assets/source/local/spacecraft/space-dragon-spacecraft/Space Dragon-v007-violet-flight.blend",
+  "sourceSha256": "4f0c14cead3303d68ee18e4e0070f102f5ec0320c145c778ee7b616db05a1870",
+  "exportReceiptSha256": "645d39d94ef40661fcfb51ec550f7e4af8483e74b73ba04698c8eed9e952d987",
+  "triangles": 263352,
+  "instanceTriangles": 263352,
+  "meshes": 2,
+  "primitives": 12,
+  "bones": [
+    "Root",
+    "Neck",
+    "Head",
+    "Jaw",
+    "Wing_L",
+    "Wing_R",
+    "Fore_L",
+    "Fore_R",
+    "Hind_L",
+    "Hind_R",
+    "Tail_0",
+    "Tail_1",
+    "Tail_2",
+    "Tail_3",
+    "Tail_4"
+  ],
+  "boneRest": [
+    {
+      "name": "Root",
+      "parent": "VioletFlightRig",
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0.99026801,
+        -0.13917306,
+        0,
+        0,
+        0.13917306,
+        0.99026801,
+        0,
+        0,
+        -0.98400003,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Fore_L",
+      "parent": "Root",
+      "worldMatrix": [
+        0.98085727,
+        -0.13052028,
+        0.14451073,
+        0,
+        -0.16706807,
+        -0.18281381,
+        0.96884854,
+        0,
+        -0.10003584,
+        -0.97444532,
+        -0.20112004,
+        0,
+        -0.50020003,
+        0.20804514,
+        -0.47391272,
+        1
+      ]
+    },
+    {
+      "name": "Fore_R",
+      "parent": "Root",
+      "worldMatrix": [
+        0.98085727,
+        0.13052028,
+        -0.14451073,
+        0,
+        0.16706807,
+        -0.18281381,
+        0.96884854,
+        0,
+        0.10003584,
+        -0.97444532,
+        -0.20112004,
+        0,
+        0.50020003,
+        0.20804514,
+        -0.47391272,
+        1
+      ]
+    },
+    {
+      "name": "Hind_L",
+      "parent": "Root",
+      "worldMatrix": [
+        0.88728803,
+        -0.40877772,
+        0.21359059,
+        0,
+        -0.37033215,
+        -0.35541085,
+        0.85821749,
+        0,
+        -0.27490778,
+        -0.84058547,
+        -0.46673526,
+        0,
+        -0.50840002,
+        -0.14819002,
+        0.6443486,
+        1
+      ]
+    },
+    {
+      "name": "Hind_R",
+      "parent": "Root",
+      "worldMatrix": [
+        0.88728803,
+        0.40877772,
+        -0.21359059,
+        0,
+        0.37033215,
+        -0.35541085,
+        0.85821749,
+        0,
+        0.27490778,
+        -0.84058547,
+        -0.46673526,
+        0,
+        0.50840002,
+        -0.14819002,
+        0.6443486,
+        1
+      ]
+    },
+    {
+      "name": "Neck",
+      "parent": "Root",
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0.0923766,
+        -0.99572409,
+        0,
+        0,
+        0.99572409,
+        0.0923766,
+        0,
+        0,
+        -0.04381285,
+        -0.38055225,
+        1
+      ]
+    },
+    {
+      "name": "Head",
+      "parent": "Neck",
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -0.10579624,
+        -0.99438778,
+        0,
+        0,
+        0.9943879,
+        -0.10579625,
+        0,
+        0,
+        0.10175304,
+        -1.94960187,
+        1
+      ]
+    },
+    {
+      "name": "Jaw",
+      "parent": "Head",
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -0.32059065,
+        -0.9472178,
+        0,
+        0,
+        0.94721791,
+        -0.32059064,
+        0,
+        0,
+        0.04230462,
+        -2.28972329,
+        1
+      ]
+    },
+    {
+      "name": "Tail_0",
+      "parent": "Root",
+      "worldMatrix": [
+        0.57394263,
+        0.81472399,
+        0.08255053,
+        0,
+        0.19513456,
+        -0.23397153,
+        0.95245983,
+        0,
+        0.79530635,
+        -0.53054894,
+        -0.29326711,
+        0,
+        0,
+        -0.26239957,
+        0.89225605,
+        1
+      ]
+    },
+    {
+      "name": "Tail_1",
+      "parent": "Tail_0",
+      "worldMatrix": [
+        0.05369669,
+        0.98146123,
+        0.18398586,
+        0,
+        0.31878827,
+        -0.19145911,
+        0.9282873,
+        0,
+        0.94630374,
+        0.00880655,
+        -0.32315915,
+        0,
+        0.12299995,
+        -0.40987987,
+        1.49262424,
+        1
+      ]
+    },
+    {
+      "name": "Tail_2",
+      "parent": "Tail_1",
+      "worldMatrix": [
+        -0.52340743,
+        0.75219305,
+        0.40031297,
+        0,
+        0.50110197,
+        -0.10824969,
+        0.85859102,
+        0,
+        0.68916002,
+        0.64999068,
+        -0.32026682,
+        0,
+        0.32799996,
+        -0.53299956,
+        2.08956882,
+        1
+      ]
+    },
+    {
+      "name": "Tail_3",
+      "parent": "Tail_2",
+      "worldMatrix": [
+        -0.66544505,
+        0.29427034,
+        0.68599435,
+        0,
+        0.72027263,
+        0.01190679,
+        0.69358871,
+        0,
+        0.19593464,
+        0.9556482,
+        -0.21987818,
+        0,
+        0.67239997,
+        -0.60739806,
+        2.6796658,
+        1
+      ]
+    },
+    {
+      "name": "Tail_4",
+      "parent": "Tail_3",
+      "worldMatrix": [
+        -0.34967169,
+        -0.03196028,
+        0.93632724,
+        0,
+        0.92276694,
+        0.16102425,
+        0.35010361,
+        0,
+        -0.16196077,
+        0.98643298,
+        -0.02681365,
+        0,
+        1.23000031,
+        -0.59818057,
+        3.2166086,
+        1
+      ]
+    },
+    {
+      "name": "Wing_L",
+      "parent": "Root",
+      "worldMatrix": [
+        0.10704264,
+        0.4191553,
+        -0.90158234,
+        0,
+        -0.99411605,
+        0.06025236,
+        -0.09001699,
+        0,
+        0.01659143,
+        0.90591307,
+        0.4231385,
+        0,
+        -0.59040004,
+        0.43448889,
+        -0.09998854,
+        1
+      ]
+    },
+    {
+      "name": "Wing_R",
+      "parent": "Root",
+      "worldMatrix": [
+        0.10704264,
+        -0.4191553,
+        0.90158234,
+        0,
+        0.99411605,
+        0.06025236,
+        -0.09001699,
+        0,
+        -0.01659143,
+        0.90591307,
+        0.4231385,
+        0,
+        0.59040004,
+        0.43448889,
+        -0.09998854,
+        1
+      ]
+    }
+  ],
+  "inverseBindSha256": "81a1292687d12e4bb0a504cbdda2c989bb1f4e569c4828fe3266eae4e544d0dc",
+  "bounds": {
+    "min": [
+      -5.02985281,
+      -1.22348908,
+      -3.72217935
+    ],
+    "max": [
+      5.02985281,
+      1.63034162,
+      3.75390165
+    ],
+    "size": [
+      10.05970562,
+      2.8538307,
+      7.476081
+    ]
+  },
+  "sockets": [
+    {
+      "name": "socket_muzzle",
+      "parent": "Head",
+      "position": [
+        0,
+        -0.25709234,
+        -3.72780929
+      ],
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0.99999999,
+        6e-8,
+        0,
+        0,
+        -9e-8,
+        0.99999993,
+        0,
+        0,
+        -0.25709234,
+        -3.72780929,
+        1
+      ]
+    },
+    {
+      "name": "socket_wing_l",
+      "parent": "Wing_L",
+      "position": [
+        -3.01304857,
+        0.58132315,
+        -0.31935879
+      ],
+      "worldMatrix": [
+        0.99999989,
+        -1.1e-7,
+        4e-8,
+        0,
+        2.3e-7,
+        0.99999989,
+        -4e-8,
+        0,
+        1.3e-7,
+        -1.3e-7,
+        0.9999997,
+        0,
+        -3.01304857,
+        0.58132315,
+        -0.31935879,
+        1
+      ]
+    },
+    {
+      "name": "socket_wing_r",
+      "parent": "Wing_R",
+      "position": [
+        3.01304857,
+        0.58132315,
+        -0.31935879
+      ],
+      "worldMatrix": [
+        0.99999989,
+        1.1e-7,
+        -4e-8,
+        0,
+        -2.3e-7,
+        0.99999989,
+        -4e-8,
+        0,
+        -1.3e-7,
+        -1.3e-7,
+        0.9999997,
+        0,
+        3.01304857,
+        0.58132315,
+        -0.31935879,
+        1
+      ]
+    },
+    {
+      "name": "socket_thruster_l",
+      "parent": "Root",
+      "position": [
+        -0.44999999,
+        0.04999991,
+        0.74999993
+      ],
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1.00000006,
+        6e-8,
+        0,
+        0,
+        -6e-8,
+        1.00000006,
+        0,
+        -0.44999999,
+        0.04999991,
+        0.74999993,
+        1
+      ]
+    },
+    {
+      "name": "socket_thruster_r",
+      "parent": "Root",
+      "position": [
+        0.44999999,
+        0.04999991,
+        0.74999993
+      ],
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1.00000006,
+        6e-8,
+        0,
+        0,
+        -6e-8,
+        1.00000006,
+        0,
+        0.44999999,
+        0.04999991,
+        0.74999993,
+        1
+      ]
+    },
+    {
+      "name": "socket_target",
+      "parent": "Root",
+      "position": [
+        0,
+        0.14999992,
+        -0.25000003
+      ],
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1.00000006,
+        6e-8,
+        0,
+        0,
+        -6e-8,
+        1.00000006,
+        0,
+        0,
+        0.14999992,
+        -0.25000003,
+        1
+      ]
+    },
+    {
+      "name": "socket_camera",
+      "parent": "Root",
+      "position": [
+        0,
+        0.44999985,
+        0.2
+      ],
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1.00000006,
+        6e-8,
+        0,
+        0,
+        -6e-8,
+        1.00000006,
+        0,
+        0,
+        0.44999985,
+        0.2,
+        1
+      ]
+    },
+    {
+      "name": "socket_ground",
+      "parent": "Root",
+      "position": [
+        0,
+        -1.22348906,
+        3e-8
+      ],
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1.00000006,
+        6e-8,
+        0,
+        0,
+        -6e-8,
+        1.00000006,
+        0,
+        0,
+        -1.22348906,
+        3e-8,
+        1
+      ]
+    }
+  ],
+  "contactY": -1.22348906,
+  "clips": [
+    {
+      "name": "Boost",
+      "durationSeconds": 1.2000000476837158,
+      "channels": [
+        {
+          "bone": "Fore_L",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Fore_R",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Hind_L",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Hind_R",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Neck",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Head",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Tail_0",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Tail_1",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Tail_2",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Tail_3",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Tail_4",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Wing_L",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        },
+        {
+          "bone": "Wing_R",
+          "samples": 37,
+          "duration": 1.2000000476837158
+        }
+      ]
+    },
+    {
+      "name": "Flight",
+      "durationSeconds": 1.600000023841858,
+      "channels": [
+        {
+          "bone": "Fore_L",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Fore_R",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Hind_L",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Hind_R",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Neck",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Head",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Tail_0",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Tail_1",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Tail_2",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Tail_3",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Tail_4",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Wing_L",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Wing_R",
+          "samples": 49,
+          "duration": 1.600000023841858
+        }
+      ]
+    },
+    {
+      "name": "Glide",
+      "durationSeconds": 1.600000023841858,
+      "channels": [
+        {
+          "bone": "Fore_L",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Fore_R",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Hind_L",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Hind_R",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Neck",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Head",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Tail_0",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Tail_1",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Tail_2",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Tail_3",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Tail_4",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Wing_L",
+          "samples": 49,
+          "duration": 1.600000023841858
+        },
+        {
+          "bone": "Wing_R",
+          "samples": 49,
+          "duration": 1.600000023841858
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "name": "SD080_Violet_v007_Baked_Skin_r3",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 0,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 1,
+      "baseColorTexture": true,
+      "normalTexture": true,
+      "roughnessTexture": true,
+      "occlusionTexture": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SD080_Violet_Scale amethyst_v007.001 game constant.001",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 1,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 0.5199999809265137,
+      "baseColorTexture": false,
+      "normalTexture": false,
+      "roughnessTexture": false,
+      "occlusionTexture": false,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SD080_Violet_Scale dark plum_v007.001 game constant.001",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 1,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 0.5199999809265137,
+      "baseColorTexture": false,
+      "normalTexture": false,
+      "roughnessTexture": false,
+      "occlusionTexture": false,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SD080_Violet_Scale lilac ridge_v007.001 game constant.001",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 1,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 0.5199999809265137,
+      "baseColorTexture": false,
+      "normalTexture": false,
+      "roughnessTexture": false,
+      "occlusionTexture": false,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SD080_Violet_Near black keratin_v007.001 game constant.001",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 1,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 0.3799999952316284,
+      "baseColorTexture": false,
+      "normalTexture": false,
+      "roughnessTexture": false,
+      "occlusionTexture": false,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SD080_Violet_Ventral lilac plates_v007.001 game constant.001",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 1,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 0.5199999809265137,
+      "baseColorTexture": false,
+      "normalTexture": false,
+      "roughnessTexture": false,
+      "occlusionTexture": false,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SD080_Violet_Living mouth tissue_v007.001 game constant.001",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 1,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 0.5199999809265137,
+      "baseColorTexture": false,
+      "normalTexture": false,
+      "roughnessTexture": false,
+      "occlusionTexture": false,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "VD7 Dark violet eyeball.001 game constant.001",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 1,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 0.5199999809265137,
+      "baseColorTexture": false,
+      "normalTexture": false,
+      "roughnessTexture": false,
+      "occlusionTexture": false,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SD080_Violet_Violet iris energy_v007.001 game constant.001",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 1,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 0.5199999809265137,
+      "baseColorTexture": false,
+      "normalTexture": false,
+      "roughnessTexture": false,
+      "occlusionTexture": false,
+      "emissiveFactor": [
+        0.4000000059604645,
+        0.02500000037252903,
+        1
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "VD7 Recessed pupil and nostril.001 game constant.001",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 1,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 0.5199999809265137,
+      "baseColorTexture": false,
+      "normalTexture": false,
+      "roughnessTexture": false,
+      "occlusionTexture": false,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SD080_Violet_Warm ivory teeth_v007.001 game constant.001",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 1,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 0.5199999809265137,
+      "baseColorTexture": false,
+      "normalTexture": false,
+      "roughnessTexture": false,
+      "occlusionTexture": false,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    },
+    {
+      "name": "SD080_Violet_v007_Baked_Membrane",
+      "metallicFactor": 0,
+      "metallicTextureMaximum": 0,
+      "effectiveMetallicMaximum": 0,
+      "roughnessFactor": 1,
+      "baseColorTexture": true,
+      "normalTexture": true,
+      "roughnessTexture": true,
+      "occlusionTexture": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "doubleSided": true,
+      "alphaMode": "OPAQUE"
+    }
+  ],
+  "textures": [
+    {
+      "name": "violet-body-normal",
+      "size": [
+        2048,
+        2048
+      ],
+      "bytes": 3873812
+    },
+    {
+      "name": "violet-body-orm",
+      "size": [
+        2048,
+        2048
+      ],
+      "bytes": 1532782
+    },
+    {
+      "name": "violet-body-base-color",
+      "size": [
+        2048,
+        2048
+      ],
+      "bytes": 2156754
+    },
+    {
+      "name": "violet-body-normal",
+      "size": [
+        1024,
+        1024
+      ],
+      "bytes": 335712
+    },
+    {
+      "name": "violet-body-orm",
+      "size": [
+        1024,
+        1024
+      ],
+      "bytes": 808852
+    },
+    {
+      "name": "violet-body-base-color",
+      "size": [
+        1024,
+        1024
+      ],
+      "bytes": 903279
+    }
+  ],
+  "estimatedTextureRgbaBytes": 62914560,
+  "textureMemoryMethod": "RGBA8 uncompressed level-zero estimate; Unity format, duplication and mipmaps are not measured.",
+  "limitations": [
+    "Structural verification is not a deformation, appearance, performance or release approval."
+  ],
+  "gameplay": {
+    "collisionShape": "sphere",
+    "collisionRadiusMetres": 3.3,
+    "collisionPolicy": "Retained gameplay sphere; render anatomy does not silently rebalance hits."
+  },
+  "status": "STRUCTURALLY VERIFIED CANDIDATE; Unity import, deformation, appearance, performance and owner review remain separate."
+}

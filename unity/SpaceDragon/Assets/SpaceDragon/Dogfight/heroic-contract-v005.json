@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "file": "dragon-heroic-v005.glb",
+  "sha256": "94f17d2c3f0026364aeffd7d5ceb0876f9f8e9c65ed66067c82f27260116fa60",
+  "bytes": 13072136,
+  "triangles": 90630,
+  "authoredArmor": true,
+  "sourceBlend": "C:\\Projects\\space_dragon\\assets\\source\\local\\spacecraft\\space-dragon-spacecraft\\Space Dragon Spacecraft-v005-heroic.blend",
+  "sourceSha256": "ce7177b05b5c6b8b8f322bcc64c3dafa2c3f5e72c225d114e0db53ce88dbf925",
+  "verification": {
+    "result": "PASS",
+    "candidate": "assets/game/local/spacecraft/space-dragon-spacecraft/heroic-v005/dragon-heroic-v005.glb",
+    "baseline": "public/assets/dogfight/models/dragon-flight-v003.glb",
+    "sha256": "94f17d2c3f0026364aeffd7d5ceb0876f9f8e9c65ed66067c82f27260116fa60",
+    "bytes": 13072136,
+    "meshes": 45,
+    "primitives": 45,
+    "triangles": 90630,
+    "vertices": 141521,
+    "materials": 10,
+    "preservedComponentPivots": 901,
+    "maxPivotError": 0,
+    "bones": [
+      "Root",
+      "Wing_L",
+      "Wing_R",
+      "Jaw",
+      "Tail_0",
+      "Tail_1",
+      "Tail_2",
+      "Tail_3",
+      "Tail_4"
+    ],
+    "sockets": [
+      "socket_muzzle",
+      "socket_wing_l",
+      "socket_wing_r",
+      "socket_thruster_l",
+      "socket_thruster_r",
+      "socket_target",
+      "socket_camera",
+      "socket_ground"
+    ],
+    "clips": [
+      "Flight",
+      "Glide",
+      "Boost"
+    ],
+    "inverseBindMatrices": "identical",
+    "animationChannels": "byte-identical decoded times/quaternions",
+    "textures": [
+      {
+        "name": "SD059_section_normal",
+        "size": [
+          1024,
+          1024
+        ],
+        "bytes": 504268
+      },
+      {
+        "name": "SD059_section_ao-SD059_section_roughness",
+        "size": [
+          1024,
+          1024
+        ],
+        "bytes": 670151
+      },
+      {
+        "name": "SD5_membrane_normal",
+        "size": [
+          1024,
+          1024
+        ],
+        "bytes": 1619353
+      },
+      {
+        "name": "SD5_membrane_color",
+        "size": [
+          1024,
+          1024
+        ],
+        "bytes": 379774
+      },
+      {
+        "name": "SD5_membrane_roughness",
+        "size": [
+          1024,
+          1024
+        ],
+        "bytes": 524649
+      }
+    ],
+    "scope": "Geometry-changing candidate structure, rig, mapped surfaces and original attachments. Not visual/art/performance approval."
+  }
+}

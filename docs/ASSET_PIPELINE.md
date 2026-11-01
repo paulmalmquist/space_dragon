@@ -6,6 +6,8 @@ For external Seele deliveries, start at [seeles-assets](../seeles-assets/README.
 
 ## Work locations
 
+**Cinematic video — SD-076:** use [Google Vids with manual exports](decisions/2026-10-31-google-vids-manual-exports.md). Preserve each delivered original under a versioned `assets/source/local/cinematics/` folder; inspect/hash it locally and create separate reviewed runtime derivatives under `assets/game/local/cinematics/`. Promote only selected derivatives to the target Unity build after playback/handoff checks. Runway is parked; neither provider automation nor a new exported clip is claimed. Existing Blender source/video receipts retain their original provenance.
+
 Seele also supplies prototype games, starting with dragon dogfighting. [The prototype integration plan](engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](../seeles-assets/README.md) extend this asset process to source code, controls and mechanics. Keep raw deliveries separate, choose a bounded migration after inspection, and promote reviewed assets through the same source/export/runtime boundaries below.
 
 The existing local `assets/reference/seele/` delivery path is ignored as raw intake, alongside the canonical `seeles-assets/incoming/` drop folder. Preserve files in place while delivery/inspection is ongoing; source references do not become runtime assets or committed dependencies merely by being in the workspace.
@@ -21,9 +23,17 @@ Store a short receipt beside each candidate: stable asset ID, source `.blend` ve
 3. Name meshes, pivots, joints, and clips deliberately. Export only the intended collection to a fresh GLB. glTF uses its own coordinate conventions; review the exported orientation in the browser rather than adding an unexplained second axis conversion.
 4. Inventory and validate the original export with the commands below. Resolve missing textures and unexpected extensions before optimizing.
 5. Create a separate optimized candidate. Choose transformations for this asset's needs. Compare node names, hierarchy, clips, material appearance, file size, and load behavior before and after.
-6. Review in the selected runtime (currently Babylon): scale, camera distances, materials, transparency, normals, shadows, animation transitions, interaction pivots, and assembly states. Save browser screenshots and measured results with the asset receipt.
+6. Review in the target runtime: Unity for forward production under [SD-072](decisions/2026-10-31-unity-channel-alignment.md), with the retained Babylon/Three scenes as references. Check scale, camera distances, materials, transparency, normals, shadows, animation transitions, interaction pivots, and assembly states. Save browser screenshots and measured results with the asset receipt.
 
 Blender's exporter supports recognized glTF materials and animations rather than every Blender shader or simulation. Bake or re-create unsupported effects deliberately and compare the result. The [Blender glTF development manual](https://docs.blender.org/manual/en/dev/addons/scene_gltf2.html) describes current export behavior; inspect the installed Blender version's options during the first real export because development documentation can include newer features.
+
+## Unity candidate imports
+
+Editable masters and references keep the locations above. `unity/SpaceDragon/Assets/SpaceDragon/Imported/` holds selected game inputs and reproducible texture derivatives, not a second Blender master or a reference-media archive. Do not place private references, source photographs or editable `.blend` files under Unity `Assets/`.
+
+The First Contact candidate copies the original pod v002 GLB and existing CC0 surface/HDR inputs through `node tools/unity/prepare-assets.mjs`. Its `Imported/asset-receipt.json` records provenance, hashes and transformations. A checkout with those prepared inputs uses `--verify` without needing ignored local source folders; pull Git LFS objects before verification. The Editor generator preserves required pod nodes, triangle count and the exported clip, and explicitly corrects the unsupported emissive-strength extension from the source GLB. Generated scene/materials live in `Assets/SpaceDragon/Generated/`; local player builds live in ignored `Builds/`.
+
+Use the [Unity project commands](../unity/SpaceDragon/README.md) and [actual comparison receipt](reports/2026-10-31-unity-production-candidate.md). Import success, browser validation, human art review and release approval remain separate. New dragon imports must follow the [Unity dragon handoff](engineering/UNITY_DOGFIGHT_HANDOFF.md) rather than inheriting the pod's verification.
 
 ## Commands
 

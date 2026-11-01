@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "scope": "SD-073 local LaunchLab; existing original dragon only; no family likeness, source photos or new external assets.",
+  "source": "public/assets/dogfight/models/dragon-flight-v003.glb",
+  "sourceSha256": "1446d3c3c9606a61ad8d871473ce5b1242107c0a6d52b59c795102adb74f853c",
+  "audio": {
+    "source": "public/assets/audio/sonniss-gdc-2026/jet-surge-v001.wav",
+    "sha256": "3cbeb13f87b9b55dae46a2da6991dbe23a11dfc12c2c01e859f48b0b6ec05ec8",
+    "publisher": "344 Audio / Air Designed",
+    "license": "Existing Sonniss GDC 2026 licensed game cue; not an original score.",
+    "provenance": "assets/source/audio/sonniss-gdc-2026/game-cues.json",
+    "duration": 0.7,
+    "format": "mono 24kHz PCM16 WAV"
+  },
+  "files": [
+    {
+      "destination": "Imported/dragon-flight-v003.glb",
+      "bytes": 9653504,
+      "sha256": "1446d3c3c9606a61ad8d871473ce5b1242107c0a6d52b59c795102adb74f853c"
+    },
+    {
+      "destination": "Imported/jet-surge-v001.wav",
+      "bytes": 33678,
+      "sha256": "3cbeb13f87b9b55dae46a2da6991dbe23a11dfc12c2c01e859f48b0b6ec05ec8"
+    },
+    {
+      "destination": "launch-choreography-v001.json",
+      "bytes": 218778,
+      "sha256": "7495e4bd5272d03cabb93eb2267612942ae0a59d1ceefebb3f3d53cc38410c12"
+    }
+  ]
+}
