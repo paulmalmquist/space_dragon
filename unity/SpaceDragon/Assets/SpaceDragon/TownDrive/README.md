@@ -37,3 +37,16 @@ That command runs only the two Town Drive EditMode test assemblies and writes fr
 `TownDriveJson.Load(TextAsset)` validates the scene's explicit data reference using Unity's serializer; `Parse(string)` supports a host-provided JSON source. Construct `DriveRoute` and `DriveSimulation` from it. Supply semantic `DriveInput` at exactly 1/60 s; keep bounded frame accumulation in the eventual runtime adapter. Use `DrivePresentation.Interpolate` for car and camera together, snapping both on reset/pause/discontinuity. Rendering and animation must not advance checkpoints or write saves.
 
 The [visual/behavior handoff](../../../../../docs/engineering/UNITY_TOWN_DRIVE_HANDOFF.md) describes reuse of the existing detailed world and minivan. Keep the browser Drive Lab available until the Unity replacement has passed the [migration receipt](../../../../../docs/reports/2026-10-31-unity-town-drive-foundation.md) and the later scene/player checks.
+
+## November 1 surface and landscape pass
+
+Town Drive owns scanned CC0 roof/stucco inputs in `Art/v002` and reproducible surface, roof and garden derivatives in `Generated`. Physical UV mapping preserves imported positions, indices, normals and bounds. Low planting adds no colliders or game state. Six scene tests cover the original integration and new persisted art. See the [art receipt](../../../../../docs/reports/2026-11-01-town-drive-surface-art.md) for build/player evidence, source provenance and visual limits.
+
+## Foliage, facades and cabin — v003
+
+Fuller authored palm crowns replace only visible source leaves at their existing anchors; original parts remain for rollback. Spatially batched facade trim and cabin microstructure are separate native derivatives. A single low-resolution rear-camera-style mirror captures at most six times per second, only in visible unpaused cabin view. Ten scene tests and expanded actual-player checks cover this increment; see [the v003 receipt](../../../../../docs/reports/2026-11-01-town-drive-foliage-cabin.md).
+
+
+## Reference-led road paint and Blender plants — v004
+
+The current authoring pass removes blanket residential stripes and replaces the remaining marked spans with thin connected ribbons. Three local Blender exports provide fan palms, feather palms and clipped hedge foliage, including a bounded hedge row along existing Hypoluxo walls. Prior imported geometry, v003 palm art, route data and collisions remain recoverable. `prepare-town-drive-reference.mjs --verify` checks the selected embedded runtime assets and their provenance; `.blend` masters and original video frames stay outside Unity Assets. Fourteen scene cases cover the combined scene. See [the v004 receipt](../../../../../docs/reports/2026-11-01-town-drive-reference-road-assets.md) for actual results and visual limitations.

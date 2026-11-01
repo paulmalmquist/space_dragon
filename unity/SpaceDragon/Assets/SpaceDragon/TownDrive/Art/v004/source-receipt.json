@@ -1,0 +1,300 @@
+{
+  "status": "AUTHORING / EXPORT CANDIDATE; Unity runtime review is separate",
+  "blender": "5.2.1 LTS",
+  "revision": "r05",
+  "units": "metres; Blender Z up, GLB +Y up via standard exporter; ground pivot",
+  "reference": [
+    {
+      "video": "IMG_5754.MOV",
+      "seconds": [
+        35,
+        45
+      ],
+      "observation": "Tall pale trunks with dense drooping pinnate crowns."
+    },
+    {
+      "video": "IMG_5754.MOV",
+      "seconds": [
+        255,
+        270,
+        360
+      ],
+      "observation": "Dense rounded fan crowns, narrow gray-brown trunk and retained brown lower fronds."
+    },
+    {
+      "video": "IMG_5754.MOV",
+      "seconds": [
+        135,
+        150,
+        165,
+        180
+      ],
+      "observation": "Continuous clipped broadleaf hedge masses beside the arterial."
+    }
+  ],
+  "sources": [
+    {
+      "path": "assets/source/local/drive-materials/v001/palm_tree_bark_diff_1k.jpg",
+      "sha256": "38da1d987ea88af120cedd66ad7d2f26ea3351d23c061e7d22bebc37ed22d9ef",
+      "bytes": 1974940
+    },
+    {
+      "path": "assets/source/local/drive-materials/v001/palm_tree_bark_nor_gl_1k.jpg",
+      "sha256": "37fb300d7db0b3c6de701d533c6fdf0ec7a1028f244813eee63c9a63a867257d",
+      "bytes": 1514646
+    },
+    {
+      "path": "assets/source/local/drive-materials/v001/palm_tree_bark_rough_1k.jpg",
+      "sha256": "60e84bf7bdd366509d9176fdce72abfdf50da0975bf1d01b5469d20468e8232a",
+      "bytes": 1350564
+    },
+    {
+      "path": "assets/source/local/town-drive/vegetation-v001/island_tree_02/textures/island_tree_02_leaves_diff_1k.jpg",
+      "sha256": "f56d762a1507754752abf164cc12acbc1e87ce87fa609ac44b98a1b0037c89d8",
+      "bytes": 191886
+    },
+    {
+      "path": "assets/source/local/town-drive/vegetation-v001/island_tree_02/textures/island_tree_02_leaves_nor_gl_1k.jpg",
+      "sha256": "07ba461c0c95da4e49a42981766bdb6191d4c3c4d815796c082266dcc3cecdb8",
+      "bytes": 379443
+    },
+    {
+      "path": "assets/source/local/town-drive/vegetation-v001/island_tree_02/textures/island_tree_02_leaves_arm_1k.jpg",
+      "sha256": "90da3a072dbcb052715b1313b9dbc69a4aa8a09a31a4b3868411a2bb51d72037",
+      "bytes": 489476
+    },
+    {
+      "path": "assets/source/local/town-drive/vegetation-v001/island_tree_02/textures/island_tree_02_branches_diff_1k.jpg",
+      "sha256": "bee5ec22196e9e31ad0c95a5a9b4636571cc0124d5bb27a92f1e307d289cc60d",
+      "bytes": 528304
+    },
+    {
+      "path": "assets/source/local/town-drive/vegetation-v001/island_tree_02/textures/island_tree_02_branches_nor_gl_1k.jpg",
+      "sha256": "2d67393ba76a0f49cf965fa0c99d8c16268e71e87b1203d35539bfdb971a514e",
+      "bytes": 819101
+    },
+    {
+      "path": "assets/source/local/town-drive/vegetation-v001/island_tree_02/textures/island_tree_02_branches_arm_1k.jpg",
+      "sha256": "9e3f82263247ce4f619692cea4c4f6fe9936ff465a86623481849062642c7d05",
+      "bytes": 484806
+    },
+    {
+      "path": "assets/source/local/town-drive/vegetation-v001/island_tree_02/alpha.png",
+      "sha256": "f4341f147988dbe6b58d9ca841a8f0e4bcff25bc40d05f9877da82006d489c39",
+      "bytes": 57438
+    }
+  ],
+  "rights": [
+    {
+      "asset": "Palm Tree Bark",
+      "page": "https://polyhaven.com/a/palm_tree_bark",
+      "authors": {
+        "Dimitrios Savva": "Photography",
+        "Rico Cilliers": "Processing"
+      },
+      "license": "CC0-1.0",
+      "licensePage": "https://polyhaven.com/license"
+    },
+    {
+      "asset": "Island Tree 02 leaf atlas",
+      "page": "https://polyhaven.com/a/island_tree_02",
+      "authors": {
+        "Rob Tuytel": "Scanning, processing",
+        "Rico Cilliers": "Cleanup, processing"
+      },
+      "license": "CC0-1.0",
+      "licensePage": "https://polyhaven.com/license"
+    }
+  ],
+  "modifications": "Original Blender trunk/crown/branch/leaf geometry; reference-led silhouette and trimmed hedge envelope. Existing CC0 scanned bark and broadleaf maps are reused with alpha packed into the leaf texture. Palm leaflet color/vein pattern is original procedural texture, not a photographic scan. No footage/frame/reference board embedded. No animation or armature. Powered by Poly Haven.",
+  "assets": [
+    {
+      "id": "royal-palm",
+      "path": "assets/game/local/town-drive/reference-v004/r05/royal-palm-v004.glb",
+      "sha256": "c0fd3c14c26784b1e589979e8d112e097f11905227810217df7fd7bc54c8390f",
+      "bytes": 6339472,
+      "nodes": [
+        "TownDrive.Reference.RoyalPalm",
+        "RoyalPalm.LOD0",
+        "RoyalPalm.LOD1",
+        "RoyalPalm.LOD0.Trunk",
+        "RoyalPalm.LOD0.Crown",
+        "RoyalPalm.LOD1.Trunk",
+        "RoyalPalm.LOD1.Crown"
+      ],
+      "levels": [
+        {
+          "name": "RoyalPalm.LOD0",
+          "triangles": 8864,
+          "meshCount": 2,
+          "boundsBlenderZUp": {
+            "min": [
+              -3.6675472259521484,
+              -3.92301869392395,
+              -0.011749598197638988
+            ],
+            "max": [
+              3.6641855239868164,
+              3.753326416015625,
+              8.77198314666748
+            ]
+          }
+        },
+        {
+          "name": "RoyalPalm.LOD1",
+          "triangles": 2192,
+          "meshCount": 2,
+          "boundsBlenderZUp": {
+            "min": [
+              -3.584200620651245,
+              -3.831519365310669,
+              -0.01168489083647728
+            ],
+            "max": [
+              3.539238929748535,
+              3.678772211074829,
+              8.764366149902344
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "fan-palm",
+      "path": "assets/game/local/town-drive/reference-v004/r05/fan-palm-v004.glb",
+      "sha256": "d1427d4929c5f2b396537ae945ce13214beedd18fa8c97c678f7eff4a9e0d293",
+      "bytes": 6477064,
+      "nodes": [
+        "TownDrive.Reference.FanPalm",
+        "FanPalm.LOD0",
+        "FanPalm.LOD1",
+        "FanPalm.LOD0.Trunk",
+        "FanPalm.LOD0.Crown",
+        "FanPalm.LOD1.Trunk",
+        "FanPalm.LOD1.Crown"
+      ],
+      "levels": [
+        {
+          "name": "FanPalm.LOD0",
+          "triangles": 8592,
+          "meshCount": 2,
+          "boundsBlenderZUp": {
+            "min": [
+              -2.3225302696228027,
+              -2.1030020713806152,
+              -0.012798524461686611
+            ],
+            "max": [
+              2.146707534790039,
+              2.2637436389923096,
+              7.525988578796387
+            ]
+          }
+        },
+        {
+          "name": "FanPalm.LOD1",
+          "triangles": 1548,
+          "meshCount": 2,
+          "boundsBlenderZUp": {
+            "min": [
+              -2.241244316101074,
+              -2.088628053665161,
+              -0.012728225439786911
+            ],
+            "max": [
+              2.150041103363037,
+              2.2047369480133057,
+              7.470021724700928
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "clipped-hedge",
+      "path": "assets/game/local/town-drive/reference-v004/r05/clipped-hedge-v004.glb",
+      "sha256": "70ae41f6ebce2087e4d384ea91c614392f2c5418bbbb5eed680913478a285e3d",
+      "bytes": 4224816,
+      "nodes": [
+        "TownDrive.Reference.ClippedHedge",
+        "ClippedHedge.LOD0",
+        "ClippedHedge.LOD1",
+        "ClippedHedge.LOD0.Branches",
+        "ClippedHedge.LOD0.Leaves",
+        "ClippedHedge.LOD1.Branches",
+        "ClippedHedge.LOD1.Leaves"
+      ],
+      "levels": [
+        {
+          "name": "ClippedHedge.LOD0",
+          "triangles": 4452,
+          "meshCount": 2,
+          "boundsBlenderZUp": {
+            "min": [
+              -1.7229468822479248,
+              -0.7979450225830078,
+              -0.004997801035642624
+            ],
+            "max": [
+              1.6561535596847534,
+              0.7699376344680786,
+              1.53815758228302
+            ]
+          }
+        },
+        {
+          "name": "ClippedHedge.LOD1",
+          "triangles": 1136,
+          "meshCount": 2,
+          "boundsBlenderZUp": {
+            "min": [
+              -1.8730679750442505,
+              -0.9800456166267395,
+              -0.0036816452629864216
+            ],
+            "max": [
+              1.774736762046814,
+              0.912112832069397,
+              1.7129859924316406
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "source": {
+    "path": "assets/source/local/town-drive/reference-v004/r05/town-drive-reference-v004-r05.blend",
+    "sha256": "d37a5081929c84aa66ec872399c40f6ccb963c330799b6bbb8707fa11983d6ac",
+    "bytes": 12914122
+  },
+  "renders": [
+    "assets/source/local/town-drive/reference-v004/r05/review/three-assets-far.png"
+  ],
+  "script": {
+    "path": "tools/blender/build-town-drive-reference-v004.py",
+    "sha256": "dc63e4584a5cebe78a641da5f8bd9ef6f6e82aa880a9fce67dd615bb3cd58880",
+    "command": "Blender 5.2 --background --factory-startup --disable-autoexec --threads 4 --python tools/blender/build-town-drive-reference-v004.py -- --repo <art checkout> --source-library <live checkout> --revision r05 --lod-review-only"
+  },
+  "technicalValidation": {
+    "gltfValidator": "PASS: all three exports; no errors, warnings, infos or hints",
+    "embeddedTextures": "PASS: all images and buffers embedded, no animation/camera/reference boards",
+    "alpha": "PASS: hedge photo foliage MASK .42; other surfaces OPAQUE; foliage double-sided",
+    "nearParity": "PASS: every position, normal, tangent, UV and index component byte/count/type is identical to accepted r04 near geometry. See near-parity.json.",
+    "reopen": "r04 source and GLBs PASS; changed r05 export reopen check is recorded separately in reopen-verification.json.",
+    "runtime": "Unity integration and actual player review remain separate"
+  },
+  "agentVisualInspection": {
+    "near": "r04 near source and reopened GLB inspected by author and root. r05 near geometry byte-identical. Fuller royal crown, rounded fan crown with brown lower fronds and dense photographically textured hedge accepted for Unity comparison, not owner photorealism approval.",
+    "far": "r04 mass loss corrected in r05: fan retains32fronds, royal20fronds with wider proxy leaflets, hedge400leafcards. Actual r05 far render inspected; foliage volume better retained, still deliberately simplified at full-frame close-up.",
+    "remainingLimits": [
+      "Procedural fan/royal leaf geometry remains apparent in closeups.",
+      "Far leaf shapes are broader proxies; should transition only at distant viewing scale.",
+      "No actual Unity/browser review by this authoring subagent."
+    ]
+  },
+  "reviewRenders": [
+    "assets/source/local/town-drive/reference-v004/r05/review/three-assets-far.png"
+  ],
+  "acceptedNearRenders": "assets/source/local/town-drive/reference-v004/r04/review",
+  "freeze": "Selected r05 GLB bytes frozen for Unity integration; subsequent validation receipts do not modify runtime models."
+}

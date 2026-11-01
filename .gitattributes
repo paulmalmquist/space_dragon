@@ -68,3 +68,8 @@ unity/SpaceDragon/Assets/SpaceDragon/Dogfight/oscar-mechanical-export-receipt-v0
 # Versioned satellite derivatives; retain source hashes without bloating ordinary Git history.
 unity/SpaceDragon/Assets/SpaceDragon/Dogfight/Imported/PlanetSatellite-v001/*.png filter=lfs diff=lfs merge=lfs -text
 unity/SpaceDragon/Assets/SpaceDragon/Dogfight/Imported/PlanetSatellite-v001/*.txt text eol=lf
+
+# Packaged Town Drive art license text stays portable.
+unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Art/**/*.txt text eol=lf
+# Preserve the Blender receipt's hash-pinned original bytes across checkout.
+unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Art/v004/source-receipt.json -text whitespace=cr-at-eol

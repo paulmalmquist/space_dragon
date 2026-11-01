@@ -76,9 +76,9 @@ try {
     if (-not (Test-Path -LiteralPath $testPath) -or (Get-Item -LiteralPath $testPath).LastWriteTimeUtc -lt $runStarted) { throw 'Town Drive scene test results are missing or stale.' }
     [xml]$results = Get-Content -LiteralPath $testPath
     $cases = @($results.SelectNodes('//test-case'))
-    if ($results.'test-run'.result -ne 'Passed' -or $cases.Count -ne 4 -or
+    if ($results.'test-run'.result -ne 'Passed' -or $cases.Count -ne 14 -or
         @($cases | Where-Object { $_.result -ne 'Passed' -or $_.fullname -notlike 'SpaceDragon.TownDrive.Editor.Tests.TownDriveSceneTests.*' }).Count -ne 0) {
-      throw "All four Town Drive scene acceptance cases must pass. See $testPath"
+      throw "All fourteen Town Drive scene acceptance cases must pass. See $testPath"
     }
   } else {
     $receiptRelative = switch ($Action) {
@@ -116,4 +116,4 @@ try {
 if ($changedShared.Count) { throw 'Shared Unity settings/package changes require review before this operation can be accepted.' }
 Write-Output "Town Drive $Action passed. Log: $logPath"
 if ($Action -in @('BuildWeb','BuildWindows')) { Write-Output "Development semantic review hooks: $([bool]$ReviewBuild)" }
-if ($Action -eq 'TestScene') { Write-Output "Four scene acceptance tests passed: $testPath" }
+if ($Action -eq 'TestScene') { Write-Output "Fourteen scene acceptance tests passed: $testPath" }

@@ -1180,3 +1180,31 @@ Source: owner, Space Dragon chat, America/New_York; accompanied by an in-game sc
 > basic attack change to two lasers (one from each wing) that dont take any time to arrive at the target
 
 Routing receipt: **SD-086 continuation** · **CONFIRMED** direction · **IMPLEMENTED / VERIFIED for named local v002 checks**. [Spacecraft decision](../docs/decisions/2026-11-01-dragon-shaped-spacecraft.md) records the overrides to organic flapping and fresh-press-only B for the current Oscar profile, while preserving original assets/clips and previous candidates for rollback. Affected files: Unity flight/camera state, encounter input and wing-laser queries, dragon/wing/weapon presentation, planetary materials and the [combat/input contract](../docs/gameplay/INTERACTION_CONTRACTS.md). Final `oscar-spacecraft-v002` passes **103 Unity tests**, Web build, **11/11 Chrome cases per WebGPU/WebGL2** and separate AI neutral/gameplay review; short 1366×768 samples are **59.70 / 59.41 fps**. [Receipt/gallery](../docs/reports/2026-11-01-dragon-spacecraft-pass.md) records actual evidence and organic-body, framing, cloud/fire and memory-counter limits. No new Blender export is claimed; v009/source GLBs are unchanged. Next: owner visual/feel review; human appearance/comfort/sound and release remain open. This intake adds no deployment, new provider upload or campaign/save scope.
+
+## November 1, 2026 — Continue Unity Town Drive photorealism (SD-074 continuation)
+
+Owner wording:
+
+> continue photorealism
+>
+> ok continue judging visual result
+
+Routing receipt: **CONFIRMED / technically verified; agent visual review complete**, continuing SD-052/074. [Decision](../docs/decisions/2026-11-01-town-drive-surface-art.md) and [evidence](../docs/reports/2026-11-01-town-drive-surface-art.md). Correct physical surface tiling, improve roof/stucco materials, low residential planting and daylight in the existing Unity scene; preserve mapped geometry, behavior and saves. Human art approval remains separate.
+
+
+## November 1, 2026 — Continue Town Drive foliage and cabin realism (SD-074 continuation)
+
+Owner wording:
+
+> continue with photorealism
+
+Routing receipt: **CONFIRMED / technically verified; agent visual inspection complete**, continuing SD-052/074 after PR #32. [Decision](../docs/decisions/2026-11-01-town-drive-foliage-cabin.md). Improve the conspicuously sparse palm crowns, repeated facade treatment and cabin materials/rear view in the existing Unity project, preserving route/anchors and driving state. Actual before/after player checks and performance samples inform acceptance; no full photorealism or production deployment claim.
+
+
+## November 1, 2026 — Reference-led road markings and Blender realism (SD-074 continuation)
+
+Owner wording:
+
+> please take another lap through my reference video and come up with legitimate ideas for increasing the realism of the current iteration. the yellow lines are not straight (and not present in many of the example video's cases) and we need more photo realistic blender assets too. start with those and input them in the game
+
+Routing receipt: **CONFIRMED / technically verified; agent visual inspection complete**, continuing SD-052/074. [Decision](../docs/decisions/2026-11-01-town-drive-reference-road-assets.md), [evidence](../docs/reports/2026-11-01-town-drive-reference-road-assets.md). Sampled both supplied timelines, corrected paint presence/geometry, authored and integrated three Blender plant families. Fourteen scene checks, both browser backends, focus recovery and full lap/reload pass. Driving/map/save data and source assets are preserved. Recorded remaining foliage darkness, repeated surroundings and memory cost; full photorealism remains unfinished.

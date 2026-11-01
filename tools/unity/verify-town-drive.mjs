@@ -26,6 +26,18 @@ const report = { runId, startedAt: new Date().toISOString(), url: url.href, resu
 let browser, context, page, saveTimer;
 let saving = Promise.resolve();
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+async function recordLinearMemory(label) {
+  const allocatedBytes = await page.evaluate(() => {
+    const module = window.__SPACE_DRAGON_TOWN_DRIVE__?.instance?.Module;
+    // HEAPU32 is an observed export in this Unity build. Other heap names
+    // may be unexported getter traps; inspect the data property safely.
+    const view = module && Object.getOwnPropertyDescriptor(module, 'HEAPU32')?.value;
+    return view?.buffer?.byteLength ?? null;
+  });
+  (report.linearMemorySamples ??= []).push({ label, allocatedBytes,
+    allocatedMiB: allocatedBytes === null ? null : allocatedBytes / 1048576,
+    scope: 'Allocated WebAssembly linear-memory capacity at this sample, not live allocations, JavaScript/GPU memory or total process memory.' });
+}
 async function saveReport() {
   const text = JSON.stringify(report, null, 2);
   saving = saving.catch(() => {}).then(async () => {
@@ -60,6 +72,67 @@ async function waitState(predicate, label, timeout = 45000) {
   }
   throw new Error(`${label} timed out: ${JSON.stringify(state)}`);
 }
+// PlayerPrefs.Save queues asynchronous IDBFS work. An immediate reload can
+// interrupt that write even after the runtime reports "Checkpoint saved".
+// Observe the existing write; never call FS.syncfs or repair storage for a test.
+async function waitForDurableTownDriveSave() {
+  const started = Date.now();
+  const handle = await page.waitForFunction(async key => {
+    const mountNode = window.__SPACE_DRAGON_TOWN_DRIVE__?.instance?.Module?.__unityIdbfsMount;
+    if (mountNode?.mount?.idbPersistState !== 0) return false;
+    const pending = [];
+    function visit(node, filePath) {
+      if (node.contents instanceof Uint8Array) {
+        const bytes = node.contents.slice(0, node.usedBytes ?? node.contents.length);
+        // Unity owns the preference-file encoding. Inspect only files carrying
+        // this lab's key; compare raw bytes rather than reconstructing the file.
+        const containsKey = ['utf-8', 'utf-16le'].some(encoding => new TextDecoder(encoding).decode(bytes).includes(key));
+        if (containsKey) pending.push({ filePath, bytes });
+      } else if (node.contents && typeof node.contents === 'object') {
+        for (const [name, child] of Object.entries(node.contents)) visit(child, filePath + '/' + name);
+      }
+    }
+    visit(mountNode, mountNode.mount.mountpoint);
+    if (!pending.length) return false;
+    if (!(await indexedDB.databases()).some(db => db.name === '/idbfs')) return false;
+    const stored = await new Promise((resolve, reject) => {
+      let database;
+      const timeout = setTimeout(() => { database?.close(); reject(new Error('Read-only persistence inspection timed out.')); }, 5000);
+      const finish = (error, value) => { clearTimeout(timeout); database?.close(); error ? reject(error) : resolve(value); };
+      const request = indexedDB.open('/idbfs');
+      // Never create a database if storage disappears between discovery/open.
+      request.onupgradeneeded = () => request.transaction.abort();
+      request.onerror = () => finish(request.error);
+      request.onsuccess = () => {
+        database = request.result;
+        if (!database.objectStoreNames.contains('FILE_DATA')) { finish(null, null); return; }
+        const transaction = database.transaction('FILE_DATA', 'readonly');
+        const values = new Map();
+        transaction.onerror = () => finish(transaction.error);
+        transaction.onabort = () => finish(transaction.error || new Error('Persistence inspection aborted.'));
+        transaction.oncomplete = () => finish(null, values);
+        const store = transaction.objectStore('FILE_DATA');
+        for (const { filePath } of pending) {
+          const read = store.get(filePath);
+          read.onsuccess = () => values.set(filePath, read.result?.contents);
+        }
+      };
+    });
+    if (!stored || mountNode.mount.idbPersistState !== 0) return false;
+    const files = [];
+    for (const { filePath, bytes } of pending) {
+      const saved = stored.get(filePath);
+      if (!(saved instanceof Uint8Array) || saved.length !== bytes.length || !bytes.every((value, i) => value === saved[i])) return false;
+      const hash = await crypto.subtle.digest('SHA-256', saved);
+      files.push({ path: filePath, bytes: saved.length,
+        sha256: Array.from(new Uint8Array(hash), value => value.toString(16).padStart(2, '0')).join('') });
+    }
+    return { key, database: '/idbfs', store: 'FILE_DATA', persistState: 0, files,
+      scope: 'Read-only persisted bytes match the key-scoped in-memory preference file after Unity IDBFS commit. No test-triggered synchronization.' };
+  }, 'space-dragon.unity.drive.v1', { timeout: 30000, polling: 100 });
+  const result = await handle.jsonValue(); await handle.dispose();
+  return { ...result, waitMs: Date.now() - started };
+}
 async function tap(key) { await page.keyboard.down(key); await delay(100); await page.keyboard.up(key); }
 async function release() {
   if (!page || page.isClosed()) return;
@@ -67,8 +140,10 @@ async function release() {
 }
 async function capture(name) {
   const file = path.join(runOutput, name + '.png');
+  const beforeCapture = await snapshot();
   await page.screenshot({ path: file });
-  const state = await snapshot(); report.screenshots.push({ name, path: file, state });
+  const state = await snapshot(); report.screenshots.push({ name, path: file, state, beforeCapture,
+    stateScope: 'Snapshots bracket the screenshot. During driving, state is the post-capture pose, not exact pixel-time telemetry.' });
   return state;
 }
 async function runCase(name, action) {
@@ -121,6 +196,7 @@ try {
     assert(state.trafficCount > 0 && state.pedestrianCount > 0);
     assert(state.graphicsDeviceType && state.graphicsDeviceName, 'Actual renderer identity is recorded.');
     if (forceWebGL2) assert.equal(state.graphicsDeviceType, 'OpenGLES3');
+    await recordLinearMemory('scene-ready');
     return state;
   });
   await runCase('keyboard-drive-steer-brake', async () => {
@@ -145,13 +221,26 @@ try {
     await tap('c'); const cabin = await waitState(s => s.cameraMode === 'cabin', 'cabin camera');
     assert(cabin.cabinVisible && close(cabin.frontGlazingAlpha,.10) && cabin.dashboardMph>=0);
     assert(close(cabin.cabinEyeLocal.x,-.46) && close(cabin.cabinEyeLocal.y,1.42) && close(cabin.cabinEyeLocal.z,.42));
+    const mirror = await waitState(s => s.rearViewSupported && s.rearViewActive && s.rearViewCaptures > 0, 'live rear view');
+    const cabinStart = await snapshot(), cabinStartedAt = Date.now();
+    report.warmedCabinWindow = await waitState(s => s.frames >= cabinStart.frames + 240, '240 cabin frames with live rear view', 90000);
+    await recordLinearMemory('warmed-cabin');
+    report.cabinCaptureWindow = { wallMs: Date.now() - cabinStartedAt, captures: report.warmedCabinWindow.rearViewCaptures - cabinStart.rearViewCaptures };
+    assert(report.cabinCaptureWindow.captures <= Math.ceil(report.cabinCaptureWindow.wallMs * .006) + 1, 'Rear view stays within its six-capture-per-second budget.');
+    assert(report.warmedCabinWindow.rearViewCaptures > mirror.rearViewCaptures, 'Rear view updates while active.');
+    await tap('Escape'); const mirrorPaused = await waitState(s => s.paused, 'cabin pause');
+    await delay(600); const mirrorHeld = await snapshot();
+    assert.equal(mirrorHeld.rearViewCaptures, mirrorPaused.rearViewCaptures, 'Paused mirror does not render hidden work.');
+    await tap('Escape'); await waitState(s => !s.paused && s.rearViewCaptures > mirrorPaused.rearViewCaptures, 'live rear view resumes');
     await capture('cabin-forward');
     await page.keyboard.down('q'); await delay(600); const left = await capture('cabin-left'); await page.keyboard.up('q');
     assert(left.lookYaw < cabin.lookYaw - .1);
     await page.keyboard.down('e'); await delay(600); const right = await capture('cabin-right'); await page.keyboard.up('e');
     assert(right.lookYaw > left.lookYaw + .1);
     await tap('c'); const chase = await waitState(s => s.cameraMode === 'chase', 'chase camera restored'); assert(close(chase.frontGlazingAlpha,.55));
-    return { cabin, left, right };
+    await delay(500); const mirrorOff = await snapshot();
+    assert.equal(mirrorOff.rearViewActive, false); assert.equal(mirrorOff.rearViewCaptures, chase.rearViewCaptures, 'Chase view has no mirror rendering cost.');
+    return { cabin, left, right, mirror, mirrorPaused, mirrorHeld, mirrorOff };
   });
   await runCase('reset-snaps-common-car-camera-presentation', async () => {
     await tap('r'); const state = await waitState(s => Math.abs(s.speed) < .01, 'reset');
@@ -164,6 +253,9 @@ try {
   await runCase('checkpoint-save-and-reload', async () => {
     const before = await snapshot();
     await tap('f'); const saved = await waitState(s => s.assist !== before.assist, 'assist setting saved');
+    report.persistence = { before, saved }; await saveReport();
+    const committed = await waitForDurableTownDriveSave();
+    report.persistence.committed = committed; await saveReport();
     await page.reload({ waitUntil: 'domcontentloaded', timeout: 90000 });
     const restored = await waitState(s => s.ready, 'player reload', 180000);
     assert.equal(restored.assist, saved.assist); assert.deepEqual(restored.visited, saved.visited);
@@ -172,16 +264,25 @@ try {
     await page.locator('#unity-canvas').click({ position: { x: 640, y: 360 } });
     if (restored.paused) { await tap('Escape'); await waitState(s => !s.paused, 'resume after reload'); }
     if (restored.assist) { await tap('f'); await waitState(s => !s.assist, 'normal handling restored'); }
-    return { before, saved, restored };
+    return { before, saved, committed, restored };
   });
   const warmStart = await snapshot();
   report.warmedStationaryWindow = await waitState(s => s.frames >= warmStart.frames + 240,
     '240 rendered frames after reload', 60000);
   report.frameTimingScope = 'Last 240 Unity Update wall intervals after the reload warmup; not GPU timings or an endurance/performance approval.';
+  await recordLinearMemory('warmed-chase-after-reload');
   if (fullLap) await runCase('complete-real-fixed-step-lap-with-semantic-controls', async () => {
     await tap('r'); await waitState(s => Math.abs(s.speed) < .01, 'home reset before complete lap');
     let state = await snapshot(), previous = state; const started = Date.now(), startElapsed = state.elapsed;
     const checkpoints = [state.checkpointId], samples = []; let maximumStep = 0, contactSnapshots = 0, lastSample = -1;
+    const reviewViews = [
+      { s: 70, name: 'route-green-island' }, { s: 110, name: 'route-local-taper' }, { s: 145, name: 'route-splitter-approach' },
+      { s: 225, name: 'route-winston-trails' }, { s: 310, name: 'route-visitors-gate' },
+      { s: 500, name: 'route-hypoluxo' }, { s: 1120, name: 'route-jog-palms' },
+      { s: 1660, name: 'route-lantana' }, { s: 2190, name: 'route-hagen-ranch' }
+    ];
+    const capturedViews = new Set();
+    await tap('c'); await waitState(s => s.cameraMode === 'cabin', 'driver view for route art inspection');
     assert.equal(state.checkpointId, 'home'); assert.equal(state.completed, false);
     while (!state.completed && Date.now() - started < 1200000) {
       assert.equal(state.paused, false, 'Full lap remains actively simulated.');
@@ -201,6 +302,9 @@ try {
       maximumStep=Math.max(maximumStep,displacement);
       assert(displacement <= Math.max(2,elapsed*40+1), 'No world-pose teleport during semantic driving.');
       if(state.bonkSeconds>0)contactSnapshots++;
+      for (const view of reviewViews) if (state.routeS >= view.s && !capturedViews.has(view.name)) {
+        await capture(view.name); capturedViews.add(view.name);
+      }
       if(checkpoints.at(-1)!==state.checkpointId){checkpoints.push(state.checkpointId);await capture('checkpoint-'+checkpoints.length);}
       const sampleBucket=Math.floor((state.elapsed-startElapsed)/10);
       if(sampleBucket>lastSample){lastSample=sampleBucket;samples.push({elapsed:state.elapsed,x:state.x,z:state.z,s:state.routeS,speed:state.speed,checkpointId:state.checkpointId});report.lapProgress=samples.at(-1);await saveReport();}
@@ -210,12 +314,15 @@ try {
     assert.deepEqual(state.visited,['home','leg-1','leg-2','leg-3','leg-4']);
     assert.deepEqual(checkpoints,['home','leg-1','leg-2','leg-3','leg-4','home']);
     assert(state.elapsed-startElapsed>180, 'Real simulation time must cover a full drive.');
+    assert.equal(capturedViews.size, reviewViews.length, 'Every reference-review road span was driven and captured.');
     await capture('complete-home');
+    report.completedPersistence = await waitForDurableTownDriveSave(); await saveReport();
     await page.reload({waitUntil:'domcontentloaded',timeout:90000});const restored=await waitState(s=>s.ready,'completed save reload',180000);
     assert.equal(restored.completed,true);assert.deepEqual(restored.visited,state.visited);assert.equal(restored.checkpointId,'home');
     return{semanticInputOnly:true,wallSeconds:(Date.now()-started)/1000,simulatedSeconds:state.elapsed-startElapsed,checkpoints,maximumObservedDisplacement:maximumStep,contactSnapshots,samples,completed:state,restored};
   });
   report.final = await snapshot();
+  await recordLinearMemory(fullLap ? 'completed-lap-after-reload' : 'end');
 } catch (error) { report.fatal = String(error.stack || error); console.error(error); }
 finally {
   clearInterval(saveTimer); try { await release(); } catch {}

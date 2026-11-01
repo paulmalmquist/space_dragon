@@ -22,8 +22,8 @@ namespace SpaceDragon.TownDrive.Editor
             var sun = new GameObject("TownDrive.Daylight.Sun").AddComponent<Light>();
             sun.type = LightType.Directional;
             sun.transform.rotation = Quaternion.LookRotation(new Vector3(-.55f, -.85f, -.38f));
-            sun.color = new Color(1, .95f, .84f);
-            sun.intensity = 2.1f;
+            sun.color = new Color(1, .97f, .92f);
+            sun.intensity = 1.6f;
             sun.shadows = LightShadows.Soft;
             sun.GetUniversalAdditionalLightData().usePipelineSettings = true;
             RenderSettings.sun = sun;
@@ -37,12 +37,17 @@ namespace SpaceDragon.TownDrive.Editor
                 AssetDatabase.CreateAsset(sky, skyPath);
             }
             sky.SetTexture("_Tex", cube);
-            sky.SetFloat("_Exposure", .6f);
+            sky.SetFloat("_Exposure", .85f);
             sky.SetFloat("_Rotation", 270);
             EditorUtility.SetDirty(sky);
             RenderSettings.skybox = sky;
-            RenderSettings.ambientMode = AmbientMode.Skybox;
-            RenderSettings.ambientIntensity = .6f;
+            // Explicit outdoor fill avoids inheriting another scene's stale/default
+            // ambient probe. It is fixed lighting, not a claim of baked GI.
+            RenderSettings.ambientMode = AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = new Color(.48f,.58f,.68f);
+            RenderSettings.ambientEquatorColor = new Color(.31f,.34f,.36f);
+            RenderSettings.ambientGroundColor = new Color(.14f,.15f,.12f);
+            RenderSettings.ambientIntensity = 1;
             RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
             RenderSettings.customReflectionTexture = cube;
             RenderSettings.reflectionIntensity = .6f;
@@ -72,8 +77,8 @@ namespace SpaceDragon.TownDrive.Editor
             if (profile == null) { profile = ScriptableObject.CreateInstance<VolumeProfile>(); AssetDatabase.CreateAsset(profile, profilePath); }
             Component<Tonemapping>(profile).mode.Override(TonemappingMode.ACES);
             var grade = Component<ColorAdjustments>(profile);
-            grade.postExposure.Override(1);
-            grade.contrast.Override(13);
+            grade.postExposure.Override(.25f);
+            grade.contrast.Override(5);
             var volume = new GameObject("TownDrive.Daylight.Grade").AddComponent<Volume>();
             volume.isGlobal = true;
             volume.sharedProfile = profile;
