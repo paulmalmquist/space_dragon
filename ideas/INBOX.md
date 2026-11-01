@@ -1159,3 +1159,12 @@ Owner wording:
 > ok continue judging visual result
 
 Routing receipt: **CONFIRMED / technically verified; agent visual review complete**, continuing SD-052/074. [Decision](../docs/decisions/2026-11-01-town-drive-surface-art.md) and [evidence](../docs/reports/2026-11-01-town-drive-surface-art.md). Correct physical surface tiling, improve roof/stucco materials, low residential planting and daylight in the existing Unity scene; preserve mapped geometry, behavior and saves. Human art approval remains separate.
+
+
+## November 1, 2026 — Continue Town Drive foliage and cabin realism (SD-074 continuation)
+
+Owner wording:
+
+> continue with photorealism
+
+Routing receipt: **CONFIRMED / technically verified; agent visual inspection complete**, continuing SD-052/074 after PR #32. [Decision](../docs/decisions/2026-11-01-town-drive-foliage-cabin.md). Improve the conspicuously sparse palm crowns, repeated facade treatment and cabin materials/rear view in the existing Unity project, preserving route/anchors and driving state. Actual before/after player checks and performance samples inform acceptance; no full photorealism or production deployment claim.

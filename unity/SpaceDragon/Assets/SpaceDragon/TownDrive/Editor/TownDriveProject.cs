@@ -141,6 +141,8 @@ namespace SpaceDragon.TownDrive.Editor
             ApplySurfaceArt(world);
             ApplyRoofAndWallArt(world);
             ApplyGardenArt(world);
+            ApplyFoliageArt(world);
+            ApplyResidentialArt(world);
             ConfigureLighting();
             var camera = new GameObject("TownDrive.Camera").AddComponent<Camera>();
             camera.tag = "MainCamera";
@@ -153,6 +155,7 @@ namespace SpaceDragon.TownDrive.Editor
             camera.transform.LookAt(player.transform.position + Vector3.up * 1.1f);
             camera.GetUniversalAdditionalCameraData().renderPostProcessing = true;
             camera.gameObject.AddComponent<AudioListener>();
+            ApplyCabinArt(player, camera);
             var closureIds = new HashSet<string>(data.closureObstacles.Select(obstacle => obstacle.id));
             var obstacles = (manifest.obstacles ?? Array.Empty<DriveObstacle>()).Where(obstacle => !closureIds.Contains(obstacle.id)).ToList();
             foreach (var parked in manifest.parkedVehicles) foreach (double along in new[] { -1.1, 0, 1.1 })

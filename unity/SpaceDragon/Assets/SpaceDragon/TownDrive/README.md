@@ -41,3 +41,7 @@ The [visual/behavior handoff](../../../../../docs/engineering/UNITY_TOWN_DRIVE_H
 ## November 1 surface and landscape pass
 
 Town Drive owns scanned CC0 roof/stucco inputs in `Art/v002` and reproducible surface, roof and garden derivatives in `Generated`. Physical UV mapping preserves imported positions, indices, normals and bounds. Low planting adds no colliders or game state. Six scene tests cover the original integration and new persisted art. See the [art receipt](../../../../../docs/reports/2026-11-01-town-drive-surface-art.md) for build/player evidence, source provenance and visual limits.
+
+## Foliage, facades and cabin — v003
+
+Fuller authored palm crowns replace only visible source leaves at their existing anchors; original parts remain for rollback. Spatially batched facade trim and cabin microstructure are separate native derivatives. A single low-resolution rear-camera-style mirror captures at most six times per second, only in visible unpaused cabin view. Ten scene tests and expanded actual-player checks cover this increment; see [the v003 receipt](../../../../../docs/reports/2026-11-01-town-drive-foliage-cabin.md).
