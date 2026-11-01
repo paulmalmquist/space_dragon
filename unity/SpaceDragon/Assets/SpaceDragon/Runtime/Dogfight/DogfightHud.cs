@@ -140,6 +140,8 @@ namespace SpaceDragon.Dogfight
                     Brackets(new Rect(p.x-22,p.y-20,44,40),color);
                     Text(new Rect(p.x-85,p.y-43,170,22),encounter.Tuning.EnableEnemyRoles?enemy.Combat.Role.ToString().ToUpperInvariant():enemy.Id.ToUpperInvariant(),color,center);
                     if(enemy.Combat.ShieldIntact){Arc(p,36,-175,170,Cyan,3,12);Text(new Rect(p.x-65,p.y-65,130,20),"SHIELDED",Cyan,small);}
+                    if(encounter.Tuning.EnableClawFinisher&&!enemy.Combat.ShieldIntact&&enemy.Health/enemy.Combat.MaximumHealth<encounter.Tuning.FinisherHealthFraction)
+                    {float radius=encounter.ReducedMotion?29:29+3*Mathf.Sin(clock*6);Diamond(p,radius,Amber,3);Text(new Rect(p.x-100,p.y+48,200,22),"WOUNDED — BOOST THROUGH",Amber,center);}
                     if(enemy.Combat.Latched)Text(new Rect(p.x-85,p.y+48,170,22),"LATCHED — ROLL",Red,center);
                     float distance = Vector3.Distance(encounter.Flight.Position,enemy.Position);
                     Text(new Rect(p.x-55,p.y+25,110,22),Mathf.RoundToInt(distance)+" m",color,center);

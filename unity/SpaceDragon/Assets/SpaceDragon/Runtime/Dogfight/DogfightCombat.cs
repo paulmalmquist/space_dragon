@@ -8,6 +8,8 @@ namespace SpaceDragon.Dogfight
     {
         PerfectRollState perfectRoll;
         CombatFeedbackVfx combatFeedback;
+        ClawFinisherState finisher;
+        FinisherFeedbackVfx finisherFeedback;
         readonly List<PerfectRollThreat> rollThreats = new List<PerfectRollThreat>();
         int projectileSequence;
         WaveState waveState;
@@ -21,6 +23,8 @@ namespace SpaceDragon.Dogfight
         void InitializeCombatUpgrades()
         {
             perfectRoll = new PerfectRollState(tuning);
+            finisher = new ClawFinisherState(tuning);
+            finisherFeedback = gameObject.AddComponent<FinisherFeedbackVfx>();finisherFeedback.Setup(visualMotion,tuning);
             waveState = new WaveState(tuning);
             combatFeedback = gameObject.AddComponent<CombatFeedbackVfx>();
             combatFeedback.Setup(visualMotion,tuning);
@@ -28,10 +32,14 @@ namespace SpaceDragon.Dogfight
         void ResetCombatUpgrades()
         {
             perfectRoll.Reset(); combatFeedback.Clear(); projectileSequence = 0; qaCondition = "natural";
+            finisher.Reset();finisherFeedback.Clear();
             waveState.Reset();enemySequence=0;
         }
         float CombatDelta(float realDt)
         {
+            float frozen=!ReducedMotion?Mathf.Min(realDt,finisher.FreezeRemaining):0;
+            finisher.Tick(realDt);
+            realDt-=frozen;
             float scaled = realDt;
             if (!ReducedMotion && perfectRoll.SlowRemaining > 0)
             {
@@ -40,6 +48,20 @@ namespace SpaceDragon.Dogfight
             }
             perfectRoll.Tick(realDt);
             return scaled;
+        }
+
+        void TryFinishers()
+        {
+            foreach(var enemy in enemies)
+            {
+                if(!finisher.TryFinish(enemy.Id,!enemy.Dead,enemy.Combat.ShieldIntact,enemy.Health,enemy.Combat.MaximumHealth,
+                    Flight.Position,Flight.Forward,enemy.Position,Flight.Boosting,ReducedMotion))continue;
+                DamageEnemy(enemy,enemy.Health,WeaponKind.Finisher);
+                Flight.RefillBoost();Flight.AddEvasion(tuning.FinisherEvasionReward);
+                finisherFeedback.Trigger(enemy.Position);sound.PlayHit();sound.PlayExplosion();
+                Message("CLAW FINISH — boost full, evasion restored");
+                break;
+            }
         }
         void RequestCombatRoll(int direction)
         {
@@ -87,6 +109,12 @@ namespace SpaceDragon.Dogfight
         bool CombatQaFixture(string action)
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
+            if(action=="finisher")
+            {
+                fixtureQuiet=fixtureTarget=true;SpawnWave(new[]{EnemyRole.Fighter});ClearProjectiles();
+                enemies[0].Combat.ApplyDamage(WeaponKind.Environment,enemies[0].Health*(1-tuning.FinisherHealthFraction*.8f));
+                return true;
+            }
             if(action.StartsWith("role:"))
             {
                 if(System.Enum.TryParse<EnemyRole>(action.Substring(5),out var role))

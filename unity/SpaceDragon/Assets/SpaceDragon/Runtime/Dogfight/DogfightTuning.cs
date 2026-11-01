@@ -31,6 +31,8 @@ namespace SpaceDragon.Dogfight
         [Header("Claw finisher")]
         public float FinisherHealthFraction = .25f, FinisherRange = 30f, FinisherConeDegrees = 40f,
             FinisherFreezeSeconds = .15f, FinisherEvasionReward = 15f;
+        public float FinisherVisualSeconds = .45f, FinisherLungeDistance = .4f, FinisherShockwaveRadius = 18f,
+            FinisherSlashLength = 10f, FinisherCueOpacity = .65f, FinisherLineWidth = .10f;
         [Header("Wingman")]
         public float WingmanRunSeconds = 4f, WingmanCooldownSeconds = 20f, WingmanDamagePerSecond = 18f,
             WingmanWarningRise = .22f, WingmanWarningCooldown = 8f, WingmanFormationDistance = 22f;
