@@ -11,6 +11,18 @@ namespace SpaceDragon.Dogfight.Tests
         [TearDown] public void TearDown() { Object.DestroyImmediate(tuning); }
         void Lock(TacticalState target = null) { target = target ?? state; target.TickLock(new LockCandidate("bogey")); target.Tick(target.AcquireSeconds); }
 
+        [Test] public void ComebackHullRestoreIsOneShotAndPreservesOtherSystemsAndResources()
+        {
+            Assert.That(state.RestoreComebackHull(30),Is.False);
+            state.ApplyDamage(DragonSystem.Propulsion,40);float propulsion=state.Propulsion;
+            state.ApplyDamage(DragonSystem.Hull,100);Assert.That(state.RestoreComebackHull(30),Is.True);
+            Assert.That(state.Hull,Is.EqualTo(30));Assert.That(state.Propulsion,Is.EqualTo(propulsion));
+            Assert.That(state.Salvage,Is.EqualTo(1));Assert.That(state.RepairsRemaining,Is.EqualTo(3));
+            state.ApplyDamage(DragonSystem.Hull,30);Assert.That(state.RestoreComebackHull(30),Is.False);
+            state.Reset();state.ApplyDamage(DragonSystem.Hull,100);Assert.That(state.RestoreComebackHull(30),Is.True);
+            state.Reset();tuning.EnableComeback=false;state.ApplyDamage(DragonSystem.Hull,100);Assert.That(state.RestoreComebackHull(30),Is.False);
+        }
+
         [Test] public void RestartRestoresAllEncounterResourcesAndClearsDamagePatchesAndTracking()
         {
             state.ApplyDamage(DragonSystem.Propulsion, 50); state.TryStartRepair(DragonSystem.Propulsion); state.Tick(4);

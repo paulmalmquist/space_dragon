@@ -51,6 +51,7 @@ namespace SpaceDragon.Dogfight
         public float RepairBonusRemainingMultiplier = .5f;
         [Header("One comeback per encounter")]
         public float ComebackSeconds = 5f, ComebackHull = 30f, ComebackProtectionSeconds = 2f;
+        public float ComebackDriftMultiplier=.35f, ComebackDriftDrag=.2f, ComebackPitchDegrees=15f, ComebackRollDegrees=55f;
 
         /// <summary>Runs once for old serialized assets; subsequent setup preserves owner overrides.</summary>
         public bool EnsureCombatDefaults()

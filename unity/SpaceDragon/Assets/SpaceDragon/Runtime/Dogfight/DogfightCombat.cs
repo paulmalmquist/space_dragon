@@ -30,6 +30,7 @@ namespace SpaceDragon.Dogfight
             perfectRoll = new PerfectRollState(tuning);
             rockWeapons=new RocksWeaponState(tuning);
             repairCode=new RepairCodeState(tuning);
+            comeback=new ComebackState(tuning);
             finisher = new ClawFinisherState(tuning);
             finisherFeedback = gameObject.AddComponent<FinisherFeedbackVfx>();finisherFeedback.Setup(visualMotion,tuning);
             waveState = new WaveState(tuning);
@@ -42,6 +43,7 @@ namespace SpaceDragon.Dogfight
             perfectRoll.Reset(); combatFeedback.Clear(); projectileSequence = 0; qaCondition = "natural";
             finisher.Reset();finisherFeedback.Clear();
             repairCode.Reset();
+            comeback.Reset();disabledHandled=false;comebackSuccessObserved=0;
             waveState.Reset();enemySequence=0;
             Breath.SetCapacity(tuning.EnableMultiTargetBreath?Mathf.Max(1,tuning.BreathTargetCapacity):1);
             wingman.Reset();wingmanVisual.Clear();
@@ -137,6 +139,7 @@ namespace SpaceDragon.Dogfight
         bool CombatQaFixture(string action)
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
+            if(action=="comeback"){fixtureQuiet=true;ClearProjectiles();HitPlayer(DragonSystem.Hull,tuning.MaxSystemHealth,Flight.Position);return true;}
             if(action=="multi"||action=="wave:targets")
             {
                 fixtureQuiet=true;fixtureTarget=false;fixtureWaveTargets=true;ClearProjectiles();MouseAimMode=true;aim=Vector2.zero;pointerActive=false;

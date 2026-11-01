@@ -18,6 +18,7 @@ namespace SpaceDragon.Dogfight
         float width, height, scale;
         string PrimaryLabel => encounter.UseSpacecraftDragon ? "TWIN LASERS" : "PLASMA";
         public void Configure(DogfightEncounter owner) => encounter = owner;
+        public void ResetClock(){clock=warningAge=0;lastWarning=TacticalWarning.None;}
         void Update()
         {
             if (encounter == null || encounter.Paused) return;
@@ -51,7 +52,7 @@ namespace SpaceDragon.Dogfight
                 { Panel(new Rect(width/2-270,130,540,36),Cyan,.45f); Text(new Rect(width/2-260,134,520,28),encounter.Toast,Cyan,center); }
                 if (encounter.Tactics.IsRepairing) DrawRepairProgress();
                 if (encounter.RepairSelectorOpen && !encounter.Paused && !encounter.Dead) DrawRepairSelector();
-                if (encounter.Won && !encounter.Paused && !encounter.Dead)
+                if (encounter.Won && !encounter.Paused && !encounter.Dead && !encounter.Comeback.Active)
                 {
                     Panel(new Rect(width/2-225,175,450,52),Cyan,.68f);
                     Text(new Rect(width/2-215,179,430,24),"SQUADRON DISABLED",Cyan,center);
@@ -242,6 +243,7 @@ namespace SpaceDragon.Dogfight
         }
         void DrawWord()
         {
+            if(encounter.Comeback.Active){DrawComebackWord();return;}
             var b = encounter.Breath; var rect = new Rect(width-300,height-308,272,176); Panel(rect,Cyan,.91f);
             Text(new Rect(rect.x+16,rect.y+10,240,25),"WORD CHARGE / FIRE BEAM",Cyan,label);
             for (int i=0;i<4;i++)
@@ -274,6 +276,19 @@ namespace SpaceDragon.Dogfight
                 if(burst!=null) Bar(new Rect(rect.x+20,rect.y+129,232,5),burst.Progress,Amber);
             }
             Text(new Rect(rect.x+17,rect.y+151,238,21),"F1  /  CHARGE TOGETHER",Muted,small);
+        }
+        void DrawComebackWord()
+        {
+            var recovery=encounter.Comeback;var rect=new Rect(width/2-215,height/2-100,430,200);Panel(rect,Amber,.94f);
+            Text(new Rect(rect.x+12,rect.y+8,406,30),"REAWAKEN  /  "+recovery.Remaining.ToString("0.0")+" s",Amber,center);
+            for(int i=0;i<ComebackState.Word.Length;i++)
+            {
+                Text(new Rect(rect.x+104+i*56,rect.y+43,48,30),i<recovery.LetterIndex?ComebackState.Word[i].ToString():"_",Cyan,center);
+            }
+            Brackets(new Rect(rect.x+100,rect.y+82,64,64),Amber);
+            Text(new Rect(rect.x+100,rect.y+78,64,72),recovery.ExpectedLetter?.ToString()??"",Amber,letter);
+            Text(new Rect(rect.x+181,rect.y+97,208,35),"PRESS "+recovery.ExpectedLetter,Cyan,title);
+            Text(new Rect(rect.x+12,rect.y+162,406,25),"F1 / WAKE TOGETHER   ·   ONE RECOVERY",Muted,center);
         }
         void DrawFlight()
         {

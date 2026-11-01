@@ -31,6 +31,7 @@ namespace SpaceDragon.Dogfight
         readonly int[] patches = new int[3];
         double repairElapsed, rechargeProgress, lockProgress, lockLossSeconds;
         bool repairBonusApplied;
+        bool comebackHullRestored;
         string trackingId = "";
         LockCandidate candidate;
 
@@ -88,7 +89,7 @@ namespace SpaceDragon.Dogfight
             MissileCharges = ChargeCapacity;
             IsRepairing = IncomingLockedMissile = false;
             RepairSystem = DragonSystem.Hull;
-            repairElapsed = rechargeProgress = 0; repairBonusApplied = false;
+            repairElapsed = rechargeProgress = 0; repairBonusApplied = false; comebackHullRestored=false;
             candidate = default;
             ClearLock();
             LastNotice = "";
@@ -119,6 +120,14 @@ namespace SpaceDragon.Dogfight
         }
 
         public void CancelRepair() { IsRepairing = false; repairElapsed = 0; repairBonusApplied = false; }
+
+        /// <summary>Called only for the one successful ComebackState event. No system,
+        /// salvage or repair resource is replenished, and a second restore is rejected.</summary>
+        public bool RestoreComebackHull(float amount)
+        {
+            if(!tuning.EnableComeback||!IsDestroyed||comebackHullRestored||!Finite(amount)||amount<=0)return false;
+            comebackHullRestored=true;health[0]=Mathf.Min(MaximumHealth,amount);ClearLock();return true;
+        }
 
         /// <summary>Optional code bonus; never commits resources or heals here. Advancing
         /// virtual elapsed time preserves the original progress denominator. The existing
