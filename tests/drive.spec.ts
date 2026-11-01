@@ -305,40 +305,56 @@ test('moving minivan and camera stay attached through steering, cabin switching,
   await page.evaluate((s: number) => (window as unknown as { __TOWN_DRIVE__: DriveDebug }).__TOWN_DRIVE__.inspectAt(s, 'chase'), ROUTE.sections[1].startS + 65);
   await page.keyboard.press('Escape'); await page.keyboard.down('w');
   await expect.poll(async () => (await snapshot(page)).state.speed, { timeout: motionTimeout }).toBeGreaterThan(4);
-  const samples = async (milliseconds: number) => page.evaluate(async milliseconds => {
-    const debug = (window as unknown as { __TOWN_DRIVE__: DriveDebug }).__TOWN_DRIVE__;
-    const data: { x: number; y: number; z: number; bodyY: number; speed: number; yaw: number }[] = [];
-    const end = performance.now() + milliseconds;
-    do {
-      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
-      const snap = debug.snapshot();
-      const m = snap.metrics as { carPosition: number[]; carYaw: number; cameraPosition: number[] };
-      const dx = m.cameraPosition[0] - m.carPosition[0]; const dz = m.cameraPosition[2] - m.carPosition[2];
-      data.push({ x: dx * Math.cos(m.carYaw) - dz * Math.sin(m.carYaw),
-        y: m.cameraPosition[1] - m.carPosition[1], z: dx * Math.sin(m.carYaw) + dz * Math.cos(m.carYaw),
-        bodyY: m.carPosition[1], speed: snap.state.speed, yaw: m.carYaw });
-    } while (performance.now() < end);
-    return data;
-  }, milliseconds);
-  const chaseSample = samples(1000);
-  await page.keyboard.down('d'); await page.waitForTimeout(120); await page.keyboard.up('d');
-  const chase = await chaseSample;
+  // Observe completed scene renders, not elapsed wall time: under SwiftShader a
+  // 120ms key press can fit entirely between frames. No simulation is advanced
+  // by this sampler; keyboard input and the real render loop own every pose.
+  const samples = async (simulationSeconds: number, minimumFrames = 6) => page.evaluate(({ simulationSeconds, minimumFrames, timeout }) => {
+    type Sample = { x: number; y: number; z: number; bodyY: number; speed: number; yaw: number; elapsedSeconds: number };
+    const debug = (window as unknown as { __TOWN_DRIVE__: DriveDebug & {
+      scene: { onAfterRenderObservable: { add(callback: () => void): unknown; remove(observer: unknown): void } };
+    } }).__TOWN_DRIVE__;
+    const data: Sample[] = [];
+    const start = debug.snapshot().state.elapsedSeconds;
+    return new Promise<Sample[]>((resolve, reject) => {
+      const renders = debug.scene.onAfterRenderObservable;
+      const observer = renders.add(() => {
+        const snap = debug.snapshot();
+        const m = snap.metrics as { carPosition: number[]; carYaw: number; cameraPosition: number[] };
+        const dx = m.cameraPosition[0] - m.carPosition[0]; const dz = m.cameraPosition[2] - m.carPosition[2];
+        data.push({ x: dx * Math.cos(m.carYaw) - dz * Math.sin(m.carYaw),
+          y: m.cameraPosition[1] - m.carPosition[1], z: dx * Math.sin(m.carYaw) + dz * Math.cos(m.carYaw),
+          bodyY: m.carPosition[1], speed: snap.state.speed, yaw: m.carYaw, elapsedSeconds: snap.state.elapsedSeconds });
+        if (data.length >= minimumFrames && snap.state.elapsedSeconds - start >= simulationSeconds) {
+          renders.remove(observer); window.clearTimeout(timer); resolve(data);
+        }
+      });
+      const timer = window.setTimeout(() => {
+        renders.remove(observer);
+        reject(new Error(`Camera sampling timed out: ${data.length}/${minimumFrames} rendered frames, ` +
+          `${(data.at(-1)?.elapsedSeconds ?? start) - start}/${simulationSeconds} simulated seconds; last=${JSON.stringify(data.at(-1))}`));
+      }, timeout);
+    });
+  }, { simulationSeconds, minimumFrames, timeout: motionTimeout });
+  const chase = await samples(0, 2);
+  await page.keyboard.down('d');
+  try { chase.push(...await samples(.12, 4)); }
+  finally { await page.keyboard.up('d'); }
   expect(chase.length).toBeGreaterThan(3);
   expect(Math.max(...chase.map(p => Math.abs(p.x)))).toBeLessThan(.001);
   expect(Math.max(...chase.map(p => Math.abs(p.y - 3.55)))).toBeLessThan(.001);
   expect(Math.abs(chase.at(-1)!.yaw - chase[0].yaw)).toBeGreaterThan(.01);
   await page.keyboard.press('v');
-  const cabin = await samples(1000);
+  const cabin = await samples(1);
   expect(cabin.length).toBeGreaterThan(3);
   for (const pose of cabin) {
     expect(pose.x).toBeCloseTo(-.46, 5); expect(pose.y).toBeCloseTo(1.42, 5); expect(pose.z).toBeCloseTo(.42, 5);
     expect(pose.bodyY).toBe(0);
   }
   await page.keyboard.up('w'); await page.keyboard.press('Escape');
-  const parked = await samples(250);
+  const parked = await samples(0, 4);
   expect(parked.every(p => p.speed === 0 && p.bodyY === 0)).toBe(true);
   await page.keyboard.press('r');
-  const reset = await samples(250);
+  const reset = await samples(0, 4);
   expect(reset.every(p => Math.abs(p.x + .46) < .001 && Math.abs(p.z - .42) < .001)).toBe(true);
   expect((await snapshot(page)).state.checkpointId).toBe('home');
   expect(errors).toEqual([]);
