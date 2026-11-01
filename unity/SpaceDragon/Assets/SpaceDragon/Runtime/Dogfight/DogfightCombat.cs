@@ -13,6 +13,7 @@ namespace SpaceDragon.Dogfight
         WingmanState wingman;
         WingmanVisual wingmanVisual;
         readonly List<WingmanCandidate> wingmanCandidates=new List<WingmanCandidate>();
+        readonly List<Vector3> breathBeamEnds=new List<Vector3>();
         public WingmanState Wingman => wingman;
         readonly List<PerfectRollThreat> rollThreats = new List<PerfectRollThreat>();
         int projectileSequence;
@@ -40,6 +41,7 @@ namespace SpaceDragon.Dogfight
             perfectRoll.Reset(); combatFeedback.Clear(); projectileSequence = 0; qaCondition = "natural";
             finisher.Reset();finisherFeedback.Clear();
             waveState.Reset();enemySequence=0;
+            Breath.SetCapacity(tuning.EnableMultiTargetBreath?Mathf.Max(1,tuning.BreathTargetCapacity):1);
             wingman.Reset();wingmanVisual.Clear();
         }
         float CombatDelta(float realDt)
@@ -133,6 +135,12 @@ namespace SpaceDragon.Dogfight
         bool CombatQaFixture(string action)
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
+            if(action=="multi"||action=="wave:targets")
+            {
+                fixtureQuiet=true;fixtureTarget=false;fixtureWaveTargets=true;ClearProjectiles();MouseAimMode=true;aim=Vector2.zero;pointerActive=false;
+                if(action=="multi")SpawnWave(new[]{EnemyRole.Fighter,EnemyRole.Fighter,EnemyRole.Fighter});
+                return true;
+            }
             if(SceneryQaFixture(action))return true;
             if(action=="finisher")
             {

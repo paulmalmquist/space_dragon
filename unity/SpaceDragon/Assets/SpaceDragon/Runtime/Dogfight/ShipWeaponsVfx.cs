@@ -9,16 +9,27 @@ namespace SpaceDragon.Dogfight
     /// attack timers or lock decisions originate here. All phase comes from BreathState.</summary>
     public sealed class ShipWeaponsVfx : MonoBehaviour
     {
+        const int MaximumBeams=3;
         readonly List<UnityEngine.Object> resources=new List<UnityEngine.Object>();
         readonly List<GameObject> objects=new List<GameObject>();
-        readonly LineRenderer[] lasers=new LineRenderer[4], streams=new LineRenderer[4], rings=new LineRenderer[2], sparks=new LineRenderer[10];
+        readonly LineRenderer[] lasers=new LineRenderer[4], streams=new LineRenderer[8], rings=new LineRenderer[2], sparks=new LineRenderer[10];
         Transform mouth,left,right,orb;
         Material laserMaterial,fireMaterial,coreMaterial;
         readonly Vector3[] laserEnds=new Vector3[2];
+        readonly Vector3[] singleEndpoint=new Vector3[1],beamEndpoints=new Vector3[MaximumBeams];
         float pulse,phase;
         bool configured;
         public bool WindupActive {get;private set;}
         public bool BeamActive {get;private set;}
+        public int ActiveBeamCount {get;private set;}
+        public Vector3[] BeamOrigins
+        {
+            get{var result=new Vector3[ActiveBeamCount];for(int i=0;i<result.Length;i++)result[i]=streams[i==0?0:4+(i-1)*2].GetPosition(0);return result;}
+        }
+        public Vector3[] BeamEndpoints
+        {
+            get{var result=new Vector3[ActiveBeamCount];Array.Copy(beamEndpoints,result,result.Length);return result;}
+        }
         public bool LasersActive=>pulse>0;
         public Vector3 WindupOrigin=>orb!=null?orb.position:Vector3.zero;
         public Vector3 BeamOrigin=>streams[0]!=null&&streams[0].enabled?streams[0].GetPosition(0):Vector3.zero;
@@ -46,9 +57,10 @@ namespace SpaceDragon.Dogfight
             coreMaterial=Material(shader,noise,"Hot fire core",new Color(2.3f,1.5f,.38f,.85f),.45f);
             for(int i=0;i<4;i++) lasers[i]=Line("Wing laser "+i,2,i%2==0?laserMaterial:coreMaterial,i%2==0?.16f:.045f);
             for(int i=0;i<4;i++) streams[i]=Line("Fire stream "+i,20,i==1?coreMaterial:fireMaterial,i==1?.19f:i==0?.85f:.21f);
+            for(int i=4;i<streams.Length;i++)streams[i]=Line("Additional breath target "+(1+(i-4)/2)+" layer "+((i-4)%2),20,i%2==1?coreMaterial:fireMaterial,i%2==1?.19f:.85f);
             for(int i=0;i<2;i++) {rings[i]=Line("Reactor compression ring "+i,49,coreMaterial,.035f);rings[i].loop=false;}
             for(int i=0;i<sparks.Length;i++) sparks[i]=Line("Charging intake spark "+i,2,coreMaterial,.035f);
-            var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);go.name="Animated mouth reactor";Destroy(go.GetComponent<Collider>());
+            var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);go.name="Animated mouth reactor";Release(go.GetComponent<Collider>());
             go.GetComponent<Renderer>().sharedMaterial=coreMaterial;go.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;
             orb=go.transform;objects.Add(go);configured=true;Clear();
         }
@@ -72,13 +84,20 @@ namespace SpaceDragon.Dogfight
         }
         public void Tick(float dt,BreathBurst burst,Vector3 endpoint,Vector3 forward,Vector3 up,bool reducedMotion)
         {
-            if(!configured||dt<=0)return;phase+=dt;pulse=Mathf.Max(0,pulse-dt);UpdateLasers();
+            singleEndpoint[0]=endpoint;Tick(dt,burst,singleEndpoint,forward,up,reducedMotion);
+        }
+        public void Tick(float dt,BreathBurst burst,IReadOnlyList<Vector3> endpoints,Vector3 forward,Vector3 up,bool reducedMotion)
+        {
+            if(!configured||dt<=0||float.IsNaN(dt)||float.IsInfinity(dt))return;phase+=dt;pulse=Mathf.Max(0,pulse-dt);UpdateLasers();
             fireMaterial.SetFloat("_Phase",phase);coreMaterial.SetFloat("_Phase",phase);
-            WindupActive=burst!=null&&burst.Stage=="windup";BeamActive=burst!=null&&burst.Stage=="beam";
+            int count=0;
+            if(endpoints!=null)for(int i=0;i<endpoints.Count&&count<MaximumBeams;i++)if(Finite(endpoints[i]))beamEndpoints[count++]=endpoints[i];
+            WindupActive=burst!=null&&burst.Stage=="windup";
+            ActiveBeamCount=burst!=null&&burst.Stage=="beam"?count:0;BeamActive=ActiveBeamCount>0;
             Vector3 origin=mouth.position;
+            Vector3 endpoint=count>0?beamEndpoints[0]:origin+forward;
             Vector3 direction=(endpoint-origin).sqrMagnitude>.001f?(endpoint-origin).normalized:forward;
-            Vector3 side=Vector3.Cross(up,direction).normalized;if(side.sqrMagnitude<.01f)side=Vector3.right;
-            Vector3 vertical=Vector3.Cross(direction,side).normalized;
+            Basis(direction,up,out var side,out var vertical);
             orb.gameObject.SetActive(WindupActive);orb.position=origin;
             float charge=WindupActive?Mathf.Clamp01(burst.Progress):0;
             orb.localScale=Vector3.one*(.12f+charge*.42f)*(1+(!reducedMotion?Mathf.Sin(phase*31)*.06f:0));
@@ -100,21 +119,32 @@ namespace SpaceDragon.Dogfight
             }
             for(int stream=0;stream<streams.Length;stream++)
             {
-                var line=streams[stream];line.enabled=BeamActive;if(!BeamActive)continue;
-                float width=stream==0?.85f:stream==1?.19f:.21f;
-                line.startWidth=width;line.endWidth=width*(stream==0?3.2f:stream==1?1.5f:2);
+                int beam=stream<4?0:1+(stream-4)/2,layer=stream<4?stream:(stream-4)%2;
+                var line=streams[stream];line.enabled=beam<ActiveBeamCount;if(!line.enabled)continue;
+                endpoint=beamEndpoints[beam];direction=(endpoint-origin).sqrMagnitude>.001f?(endpoint-origin).normalized:forward;
+                Basis(direction,up,out side,out vertical);
+                float width=layer==0?.85f:layer==1?.19f:.21f;
+                line.startWidth=width;line.endWidth=width*(layer==0?3.2f:layer==1?1.5f:2);
                 for(int i=0;i<line.positionCount;i++)
                 {
                     float t=i/(float)(line.positionCount-1),envelope=Mathf.Sin(t*Mathf.PI);
                     float a=t*27-phase*(reducedMotion?1:17)+stream*2.1f;
-                    float amplitude=stream<2?.035f:.55f;
+                    float amplitude=layer<2?.035f:.55f;
                     Vector3 offset=(side*Mathf.Sin(a)+vertical*Mathf.Cos(a*1.13f))*envelope*amplitude;
                     line.SetPosition(i,Vector3.Lerp(origin,endpoint,t)+offset);
                 }
             }
         }
+        static bool Finite(Vector3 p)=>!float.IsNaN(p.x)&&!float.IsInfinity(p.x)&&!float.IsNaN(p.y)&&!float.IsInfinity(p.y)&&!float.IsNaN(p.z)&&!float.IsInfinity(p.z);
+        static void Basis(Vector3 direction,Vector3 up,out Vector3 side,out Vector3 vertical)
+        {
+            side=Vector3.Cross(up,direction).normalized;
+            if(side.sqrMagnitude<.01f)side=Vector3.Cross(Mathf.Abs(direction.y)<.9f?Vector3.up:Vector3.right,direction).normalized;
+            vertical=Vector3.Cross(direction,side).normalized;
+        }
         public void Clear()
-        {pulse=phase=0;WindupActive=BeamActive=false;foreach(var obj in objects)if(obj!=null){var line=obj.GetComponent<LineRenderer>();if(line!=null)line.enabled=false;}if(orb!=null)orb.gameObject.SetActive(false);}
-        void OnDestroy(){foreach(var obj in objects)if(obj!=null)Destroy(obj);foreach(var item in resources)if(item!=null)Destroy(item);}
+        {pulse=phase=0;ActiveBeamCount=0;Array.Clear(beamEndpoints,0,beamEndpoints.Length);WindupActive=BeamActive=false;foreach(var obj in objects)if(obj!=null){var line=obj.GetComponent<LineRenderer>();if(line!=null)line.enabled=false;}if(orb!=null)orb.gameObject.SetActive(false);}
+        void OnDestroy(){foreach(var obj in objects)if(obj!=null)Release(obj);foreach(var item in resources)if(item!=null)Release(item);}
+        static void Release(UnityEngine.Object item){if(item==null)return;if(Application.isPlaying)Destroy(item);else DestroyImmediate(item);}
     }
 }
