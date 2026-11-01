@@ -1,6 +1,6 @@
 # Unity Dogfight encounter
 
-**Current organic Unity integration â€” SD-080:** the selected violet-v007 asset is technically verified in the final GPUBatched-configured Development build with 11 Chrome cases per WebGPU/WebGL2. [Current source/player receipt](../reports/2026-10-31-purple-organic-dragon.md), [independent 15-bone asset contract](DRAGON_ASSET_CONTRACT.md#organic-v007-measured-source-and-unity-contract), [current intake/selection commands](UNITY_DOGFIGHT_HANDOFF.md#current-organic-v007-handoff). Isolated 1366Ã—768 samples are 58.1 fps WebGPU / 24.3 fps WebGL2; fallback below 30 fps is a known limit. Owner appearance approval remains open. Preserve v005 as rollback; the mechanical-specific instructions below are historical and do not override the current organic contract.
+**Current organic Unity integration — SD-080:** the selected violet-v007 asset is technically verified in the final GPUBatched-configured Development build with 11 Chrome cases per WebGPU/WebGL2. [Current source/player receipt](../reports/2026-10-31-purple-organic-dragon.md), [independent 15-bone asset contract](DRAGON_ASSET_CONTRACT.md#organic-v007-measured-source-and-unity-contract), [current intake/selection commands](UNITY_DOGFIGHT_HANDOFF.md#current-organic-v007-handoff). Isolated 1366×768 samples are 58.1 fps WebGPU / 24.3 fps WebGL2; fallback below 30 fps is a known limit. Owner appearance approval remains open. Preserve v005 as rollback; the mechanical-specific instructions below are historical and do not override the current organic contract.
 
 SD-075 implements the playable encounter in the existing Unity project. SD-078 now selects the additive heroic v005 dragon and near-orbit presentation; [its receipt/gallery](../reports/2026-10-31-near-orbit-heroic-dragon.md) records the final tested artifact and limits. The browser Three.js lab remains a rollback reference. This scene does not read or write campaign checkpoints, inventory, learner records or PlayerPrefs.
 
@@ -36,6 +36,7 @@ The generated scene is `Assets/SpaceDragon/Dogfight/Generated/Dogfight.unity`. I
 | Boost | Shift, finite energy |
 | Barrel roll / evasive turn | Q/E / hold B while steering; finite evasion energy. A roll within 0.4 s of a predicted hit refunds its cost. |
 | Twin wing lasers / camera zoom | Left / right mouse; lasers hit immediately |
+| Wingman strafe | T; locked target or nearest living enemy; 20-second cooldown |
 | Guided missile | Enter or middle mouse, after a clear sustained lock |
 | Word-charged breath | Space after spelling and breath target lock |
 | Assisted word charge | F1, no independent mastery recorded |

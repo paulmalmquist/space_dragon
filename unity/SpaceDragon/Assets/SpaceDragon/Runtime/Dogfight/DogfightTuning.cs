@@ -38,12 +38,14 @@ namespace SpaceDragon.Dogfight
             WingmanWarningRise = .22f, WingmanWarningCooldown = 8f, WingmanFormationDistance = 22f;
         public float WingmanShieldedHullFloor = 1f;
         public float WingmanWarningWindowSeconds = .6f;
+        public float WingmanVisualScale = 1.25f, WingmanStrafeRadius = 32f, WingmanVisualSpeed = 180f, WingmanBeamWidth = .12f;
         [Header("Scenery weapons")]
         public int GasPocketCount = 4;
         public float RockShotNearRange = 160f, RockShotEvasionReward = 15f,
             GasEnemyRadius = 120f, GasPlayerRadius = 40f, GasEnemyDamage = 240f, GasPlayerDamage = 30f;
         [Header("Word and repair upgrades")]
         public int BreathTargetCapacity = 3, RepairCodeLength = 3, RepairSumMaximum = 5;
+        public int RepairDigitMaximum = 9;
         public float RepairBonusRemainingMultiplier = .5f;
         [Header("One comeback per encounter")]
         public float ComebackSeconds = 5f, ComebackHull = 30f, ComebackProtectionSeconds = 2f;

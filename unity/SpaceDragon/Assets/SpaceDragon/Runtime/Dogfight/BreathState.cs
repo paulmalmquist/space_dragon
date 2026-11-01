@@ -55,7 +55,7 @@ namespace SpaceDragon.Dogfight
         private const double Epsilon = .000001;
         private static readonly string[] DefaultWords = { "LION", "PINK", "COIN", "KING", "SONG" };
         // Key names remain in the input adapter; these letters overlap its flight controls.
-        private const string ReservedLetters = "WADZQEBXRFM";
+        private const string ReservedLetters = "WADZQEBXRFMT";
         private readonly string[] words;
         private readonly Random random;
         private readonly List<string> bag = new List<string>();

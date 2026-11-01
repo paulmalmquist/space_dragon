@@ -10,6 +10,10 @@ namespace SpaceDragon.Dogfight
         CombatFeedbackVfx combatFeedback;
         ClawFinisherState finisher;
         FinisherFeedbackVfx finisherFeedback;
+        WingmanState wingman;
+        WingmanVisual wingmanVisual;
+        readonly List<WingmanCandidate> wingmanCandidates=new List<WingmanCandidate>();
+        public WingmanState Wingman => wingman;
         readonly List<PerfectRollThreat> rollThreats = new List<PerfectRollThreat>();
         int projectileSequence;
         WaveState waveState;
@@ -26,6 +30,7 @@ namespace SpaceDragon.Dogfight
             finisher = new ClawFinisherState(tuning);
             finisherFeedback = gameObject.AddComponent<FinisherFeedbackVfx>();finisherFeedback.Setup(visualMotion,tuning);
             waveState = new WaveState(tuning);
+            wingman=new WingmanState(tuning);wingmanVisual=new WingmanVisual();wingmanVisual.Setup(tuning);
             combatFeedback = gameObject.AddComponent<CombatFeedbackVfx>();
             combatFeedback.Setup(visualMotion,tuning);
         }
@@ -34,6 +39,7 @@ namespace SpaceDragon.Dogfight
             perfectRoll.Reset(); combatFeedback.Clear(); projectileSequence = 0; qaCondition = "natural";
             finisher.Reset();finisherFeedback.Clear();
             waveState.Reset();enemySequence=0;
+            wingman.Reset();wingmanVisual.Clear();
         }
         float CombatDelta(float realDt)
         {
@@ -62,6 +68,23 @@ namespace SpaceDragon.Dogfight
                 Message("CLAW FINISH — boost full, evasion restored");
                 break;
             }
+        }
+
+        void SendWingman()
+        {
+            wingmanCandidates.Clear();foreach(var e in enemies)wingmanCandidates.Add(new WingmanCandidate(e.Id,e.Position,!e.Dead));
+            string target=WingmanState.SelectTarget(Tactics.LockedTargetId,wingmanCandidates,Flight.Position);
+            if(wingman.TrySend(target)){sound.PlayLaunch();Message("WINGMAN — strafing run (lab placeholder)");}
+            else Message(string.IsNullOrEmpty(target)?"No wingman target":"Wingman recharging");
+        }
+        void TickWingman(float dt)
+        {
+            var target=enemies.Find(e=>e.Id==wingman.TargetId&&!e.Dead);
+            var hit=wingman.Tick(dt,target!=null);
+            if(hit.HasValue&&target!=null&&!Blocked(Flight.Position,target.Position))
+                DamageEnemy(target,hit.Value.Damage,WeaponKind.Wingman);
+            float tracking=0;foreach(var enemy in enemies)if(!enemy.Dead)tracking=Mathf.Max(tracking,enemy.TargetProgress);
+            if(wingman.ObserveTracking(tracking,dt)){Message("WINGMAN: On your tail!");sound.PlayLockStart();}
         }
         void RequestCombatRoll(int direction)
         {
