@@ -1,0 +1,192 @@
+{
+  "version": 2,
+  "provider": "Poly Haven",
+  "credit": "Powered by Poly Haven",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "recipe": "Unchanged diffuse RGB and OpenGL normal direction; 1024px 8-bit PNG. Mask R=0 metal, G=source AO, B=0, A=1-roughness. No AI generation.",
+  "assets": [
+    {
+      "id": "clay_roof_tiles_02",
+      "url": "https://polyhaven.com/a/clay_roof_tiles_02",
+      "authors": {
+        "Amal Kumar": "All"
+      },
+      "sourceDimensionsMillimetres": [
+        2500,
+        2500
+      ],
+      "sourceFiles": [
+        {
+          "sha256": "227a062b38b170e02c27eaa513dae45dc8bc893a62cbd8d0c08e2c32b381fc25",
+          "slot": "diffuse",
+          "bytes": 903929,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/clay_roof_tiles_02/clay_roof_tiles_02_diff_1k.jpg",
+          "path": "clay_roof_tiles_02/diffuse.jpg",
+          "md5": "43c45fa3ac4c68ffb28aa813cec32608"
+        },
+        {
+          "sha256": "c7b859bf83efb4d431536337e737435e324d95a3c8cdf06f04e384c21e941809",
+          "slot": "normal",
+          "bytes": 5640394,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/clay_roof_tiles_02/clay_roof_tiles_02_nor_gl_1k.png",
+          "path": "clay_roof_tiles_02/normal.png",
+          "md5": "929933df9ee11da6352d214919f45234"
+        },
+        {
+          "sha256": "6d7596c4f3644ac50237381aeadf58f9b68a6dddeb66b6eef4f64462dcbbf82f",
+          "slot": "roughness",
+          "bytes": 341520,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/clay_roof_tiles_02/clay_roof_tiles_02_rough_1k.jpg",
+          "path": "clay_roof_tiles_02/roughness.jpg",
+          "md5": "f26a67aa20fbdcb7b70b85ccf4153245"
+        },
+        {
+          "sha256": "c4e1bf5a1b51bb49ec08a3afa68941a4d74c4792d38d85576f81ada86d5d8214",
+          "slot": "occlusion",
+          "bytes": 577838,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/clay_roof_tiles_02/clay_roof_tiles_02_ao_1k.jpg",
+          "path": "clay_roof_tiles_02/occlusion.jpg",
+          "md5": "d3a385916cd071a2449445c8448f7184"
+        }
+      ]
+    },
+    {
+      "id": "grey_roof_tiles_02",
+      "url": "https://polyhaven.com/a/grey_roof_tiles_02",
+      "authors": {
+        "Rob Tuytel": "All"
+      },
+      "sourceDimensionsMillimetres": [
+        1500,
+        1500
+      ],
+      "sourceFiles": [
+        {
+          "sha256": "3f001b2f07b5b1f4f8475187ed8fde2699319b15dfcf72ea4741570679560fe7",
+          "slot": "diffuse",
+          "bytes": 402212,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grey_roof_tiles_02/grey_roof_tiles_02_diff_1k.jpg",
+          "path": "grey_roof_tiles_02/diffuse.jpg",
+          "md5": "1c0ba5a73f832ae3e47921f083a38163"
+        },
+        {
+          "sha256": "679990ddbc1b43c6dac3800cffc9c68ab3156247a25ea1429a6e65634de91a68",
+          "slot": "normal",
+          "bytes": 5918153,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/grey_roof_tiles_02/grey_roof_tiles_02_nor_gl_1k.png",
+          "path": "grey_roof_tiles_02/normal.png",
+          "md5": "a497fcb1b918c1f95d67fd2e05a203cd"
+        },
+        {
+          "sha256": "0af82d86578118d8bf90a58a1b2107c24ee4763bec2a3e91bbf28772198185e9",
+          "slot": "roughness",
+          "bytes": 346538,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grey_roof_tiles_02/grey_roof_tiles_02_rough_1k.jpg",
+          "path": "grey_roof_tiles_02/roughness.jpg",
+          "md5": "7527fc78bd6f9ade635b7d86c7ebcec0"
+        },
+        {
+          "sha256": "a1128ea1f04430f6ae8f24c9d76078bef33b37a7d7956d4c50915eb213dbcb5a",
+          "slot": "occlusion",
+          "bytes": 307191,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grey_roof_tiles_02/grey_roof_tiles_02_ao_1k.jpg",
+          "path": "grey_roof_tiles_02/occlusion.jpg",
+          "md5": "4e7054a9b69553ac50ebf5c9ddd22c0d"
+        }
+      ]
+    },
+    {
+      "id": "white_stucco",
+      "url": "https://polyhaven.com/a/white_stucco",
+      "authors": {
+        "Amal Kumar": "All"
+      },
+      "sourceDimensionsMillimetres": [
+        1998.0629682540894,
+        1998.0640411376953
+      ],
+      "sourceFiles": [
+        {
+          "sha256": "5f2d11f5675ffe679155d8e38ed8eaa9b9972126675641e4977c8a4f905f276b",
+          "slot": "diffuse",
+          "bytes": 557550,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/white_stucco/white_stucco_diff_1k.jpg",
+          "path": "white_stucco/diffuse.jpg",
+          "md5": "34b66656dbf2a90eec29306deb1a20d0"
+        },
+        {
+          "sha256": "0d2f0911ca98b84f78fcf35878e027bdaffb6d661d763f6141642e5581b06d69",
+          "slot": "normal",
+          "bytes": 5675112,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/white_stucco/white_stucco_nor_gl_1k.png",
+          "path": "white_stucco/normal.png",
+          "md5": "0c91c3962f11cf0536857a5e7ffc8a06"
+        },
+        {
+          "sha256": "04866e5a27a96148a744c526babad0abc27fe8c1b4c0c7edae65583d1ed6afb1",
+          "slot": "roughness",
+          "bytes": 347861,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/white_stucco/white_stucco_rough_1k.jpg",
+          "path": "white_stucco/roughness.jpg",
+          "md5": "bf6289112520870861b21620fdf9c4d1"
+        },
+        {
+          "sha256": "c7da3f7ccdb1f9688b472e235ce7ada684dc8262c0f175edd4122f3d6c5021ef",
+          "slot": "occlusion",
+          "bytes": 477195,
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/white_stucco/white_stucco_ao_1k.jpg",
+          "path": "white_stucco/occlusion.jpg",
+          "md5": "b6a0ecd7726bbd223fc5bfe01738f561"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "clay_roof_tiles_02/albedo.png",
+      "bytes": 2832999,
+      "sha256": "61da1a3ae3d8480ebdc49108e8a34fd70b0fb5e354e18c95bb514feaf1a05fd6"
+    },
+    {
+      "path": "clay_roof_tiles_02/normal.png",
+      "bytes": 2849895,
+      "sha256": "5d7f8a122668ff537bb0ef7a2ab0bcc1d569611ccd7685a805acc5abf16b628d"
+    },
+    {
+      "path": "clay_roof_tiles_02/mask.png",
+      "bytes": 1870144,
+      "sha256": "7562cd74d6952c595ca6002f39558ccace8e1f9d885a002f4cd0fb4fd98ad456"
+    },
+    {
+      "path": "grey_roof_tiles_02/albedo.png",
+      "bytes": 1494956,
+      "sha256": "5c8187b96ff4009699c64046676b5eca7d218362e6ec8431ba82b0da8acabdd2"
+    },
+    {
+      "path": "grey_roof_tiles_02/normal.png",
+      "bytes": 2143703,
+      "sha256": "a8853bc404f721c1b85be22e8fb506e946ee3b5e43271f5573eff8a3ee81807f"
+    },
+    {
+      "path": "grey_roof_tiles_02/mask.png",
+      "bytes": 1895322,
+      "sha256": "2e9653f65908437c196d390c6f0d7f63500991aa16f47f9931c60d1d733f4a35"
+    },
+    {
+      "path": "white_stucco/albedo.png",
+      "bytes": 966758,
+      "sha256": "9091cd7808ef5fe553bcdb9983a6b1c7e41782b1931889904fe6b7dddebed892"
+    },
+    {
+      "path": "white_stucco/normal.png",
+      "bytes": 2077295,
+      "sha256": "7888642835f97e44e38d6f6810c17ace202175e48cf96b339f24562662639c2d"
+    },
+    {
+      "path": "white_stucco/mask.png",
+      "bytes": 1051844,
+      "sha256": "7d027c37463e46a178ab895743d5b9a09e58c60551b1a6275068642ca3b88df6"
+    }
+  ]
+}

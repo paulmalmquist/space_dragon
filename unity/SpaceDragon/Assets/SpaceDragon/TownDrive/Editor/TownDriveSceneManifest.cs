@@ -72,6 +72,8 @@ namespace SpaceDragon.TownDrive.Editor
     [Serializable] public sealed class TownDriveSceneFile { public string path, sha256; public long bytes; }
     [Serializable] public sealed class TownDriveSceneReceipt
     {
+        public string artSourceSha256;
+        public int artRoofMeshes, artWallRenderers;
         public string result, unityVersion, scene, createdUtc, sourceRevision, sourceFingerprint, manifestSha256, coordinateBasis, triangleScope, minivanBoundsScope, pipelinePath, rendererPath;
         public int assets, vegetationParts, vegetationLodGroups, parkedVehicles, trafficTemplates, pedestrianTemplates, pedestrianClips,
             contextRoads, contextWaters, estimatedContextLots, junctions, closures, sceneObstacles, materialCount, texturedMaterials,

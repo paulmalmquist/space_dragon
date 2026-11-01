@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 namespace SpaceDragon.TownDrive.Editor.Tests
 {
-    public sealed class TownDriveSceneTests
+    public sealed partial class TownDriveSceneTests
     {
         Scene scene;
         bool openedScene;

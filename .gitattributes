@@ -63,3 +63,6 @@ unity/SpaceDragon/Assets/SpaceDragon/Dogfight/Generated/OscarFullWeights/**/*.as
 unity/SpaceDragon/Assets/SpaceDragon/Dogfight/Generated/OscarBC7/**/*.asset filter=lfs diff=lfs merge=lfs -text
 # Immutable Blender export receipt is hash-pinned with its original line endings.
 unity/SpaceDragon/Assets/SpaceDragon/Dogfight/oscar-export-receipt-v001.json -text whitespace=cr-at-eol
+
+# Packaged Town Drive art license text stays portable.
+unity/SpaceDragon/Assets/SpaceDragon/TownDrive/Art/**/*.txt text eol=lf

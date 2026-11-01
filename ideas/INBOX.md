@@ -1148,3 +1148,14 @@ Source: owner, Space Dragon chat.
 Receipt: **SD-071** · CONFIRMED request · The Drive folder was created but contained zero audio files. An original 16-cue synthesized starter bank, manifest, source generator, sound preview and licensing workflow were committed to [the audio bank](../assets/game/audio/starter/). Those files were checked for byte-for-byte reproduction. This is **not** a transfer of Sonniss/BOOM recordings and **not** final cinematic-quality sound design; professional sourcing, listening QA and game integration remain open.
 
 Historical October 31 merge routing receipt: incoming SD-014/015/016/017/018/027 duplicate existing SD-028/029/030/031/032/033 and retain those canonical IDs. That reconciliation assigned SD-062–071 and reserved SD-061 for concurrent visual-foundation work. Its next-ID pointer was SD-072. The [November 1 crosswalk](../docs/decisions/2026-11-01-unity-integration-identifiers.md) now includes SD-061 and maps later local collisions to SD-083–085; next unused is SD-086. This reconciliation changes tracking, not creative authority, deployment, final art approval or mission scope.
+
+
+## November 1, 2026 — Continue Unity Town Drive photorealism (SD-074 continuation)
+
+Owner wording:
+
+> continue photorealism
+>
+> ok continue judging visual result
+
+Routing receipt: **CONFIRMED / technically verified; agent visual review complete**, continuing SD-052/074. [Decision](../docs/decisions/2026-11-01-town-drive-surface-art.md) and [evidence](../docs/reports/2026-11-01-town-drive-surface-art.md). Correct physical surface tiling, improve roof/stucco materials, low residential planting and daylight in the existing Unity scene; preserve mapped geometry, behavior and saves. Human art approval remains separate.
