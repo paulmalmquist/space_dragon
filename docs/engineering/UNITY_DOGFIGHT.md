@@ -34,8 +34,8 @@ The generated scene is `Assets/SpaceDragon/Dogfight/Generated/Dogfight.unity`. I
 | Recenter target | X |
 | Throttle up/down | R / F |
 | Boost | Shift, finite energy |
-| Barrel roll / break turn | Q/E / B, finite evasion |
-| Ordinary plasma / camera zoom | Left / right mouse |
+| Barrel roll / evasive turn | Q/E / hold B while steering; finite evasion energy |
+| Twin wing lasers / camera zoom | Left / right mouse; lasers hit immediately |
 | Guided missile | Enter or middle mouse, after a clear sustained lock |
 | Word-charged breath | Space after spelling and breath target lock |
 | Assisted word charge | F1, no independent mastery recorded |
@@ -55,7 +55,7 @@ Real exported Flight/Glide/Boost clips are sampled into cached poses with blende
 ## Tactical rules
 
 - Hull reaching zero disables the dragon. Propulsion damage reduces boost bonus while preserving ordinary speed/steering. Weapons damage slows lock acquisition and missile recharge.
-- A repair restores 35 points to one damaged system over four seconds. Start with one salvage; carry at most three; complete at most three repairs per encounter. Cost is committed only on success. A substantial hit interrupts without spending. Repairing permits maneuvering and plasma/breath, but disables boost and missile launch.
+- A repair restores 35 points to one damaged system over four seconds. Start with one salvage; carry at most three; complete at most three repairs per encounter. Cost is committed only on success. A substantial hit interrupts without spending. Repairing permits maneuvering and ordinary fire/breath, but disables boost and missile launch.
 - Each disabled bogey drops one recoverable item. Up to six remain, oldest evicted first. Wreck velocity decays toward a gentle drift; pickup radius is 18m. Full inventory leaves the item. Pickup never restores repair activations.
 - Two guided-missile charges refill sequentially, 15 seconds each with intact weapons. A lock requires 1.5 seconds of sustained in-range, in-cone, unobstructed tracking; small visibility loss gets a 0.2-second grace. The launch still requires current clear visibility. Limited turn rate and actual collision let missiles miss or hit scenery. Rolls break hostile seekers into ballistic flight; they do not delete projectiles or grant immunity.
 - Warning priority is imminent hull failure, incoming guided missile, critical system, caution. Alarm cadence is centralized; damage does not stack continuous alarm loops.

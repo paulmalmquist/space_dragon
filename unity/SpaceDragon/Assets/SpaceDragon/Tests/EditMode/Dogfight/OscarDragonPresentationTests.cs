@@ -150,5 +150,116 @@ namespace SpaceDragon.Dogfight.Tests
             for(int i=0;i<3;i++) Step(.1f,false);
             view.ResetPose(); phase=0; previous=1; Step(.1f,false);
         }
+
+        void AddSpacecraftSockets()
+        {
+            Child("socket_wing_l",wing);
+            var opposite=Child("arm_stretch.r",root);opposite.localPosition=new Vector3(-1,.5f,0);
+            Child("socket_wing_r",opposite);
+        }
+
+        [Test] public void SpacecraftHoldsExportedGlidePoseThroughBoostAndFullRollButKeepsJawAttack()
+        {
+            AddSpacecraftSockets();
+            // Even a future animated Glide must remain fixed at its authored
+            // start pose in spacecraft mode; neither thrust nor time flaps it.
+            clips[1].SetCurve("rig/root.x/arm_stretch.l",typeof(Transform),"localPosition.x",AnimationCurve.Linear(0,1.4f,1,2.4f));
+            var position=actor.transform.position;var rotation=actor.transform.rotation;
+            view.Configure(motion,model,clips[0],clips[1],clips[2],rigProfile:Profile(),spacecraft:true);
+            Assert.True(view.UsesSpacecraftMode);Assert.True(view.UsesAuthoredClips);Assert.True(view.IsGliding);
+            Assert.AreEqual("ShipCruise",view.ActiveState);Assert.AreEqual(1120,view.PropulsionTriangles);
+            Assert.AreSame(muzzle,view.MuzzleTransform);Assert.AreSame(muzzle,view.DamageAttachment(2));
+            var heldWing=wing.localRotation;
+            for(int i=0;i<=24;i++)
+            {
+                float roll=i*Mathf.PI/12;
+                view.SetPropulsion(1,true,false,true);
+                view.Tick(.1f,i*.1f,true,.22f,roll,-.32f,1.4f);
+                Assert.That(wing.localPosition.x,Is.EqualTo(1.4f).Within(.0001f));
+                Assert.That(wing.localScale.y,Is.EqualTo(1.4f).Within(.0001f));
+                Assert.That(root.localPosition.y,Is.EqualTo(.4f).Within(.0001f));
+                Assert.Less(Quaternion.Angle(heldWing,wing.localRotation),.02f);
+                Assert.Less(Quaternion.Angle(Quaternion.AngleAxis((.22f+roll)*Mathf.Rad2Deg,Vector3.forward),motion.localRotation),.03f);
+            }
+            var expectedJaw=Quaternion.Euler(9,0,0)*Quaternion.AngleAxis(-.32f*Mathf.Rad2Deg,Vector3.up);
+            Assert.Less(Quaternion.Angle(expectedJaw,jaw.localRotation),.02f);
+            Assert.AreEqual(position,actor.transform.position);Assert.AreEqual(rotation,actor.transform.rotation);
+            Assert.AreEqual(Vector3.zero,motion.localPosition);Assert.AreEqual(Quaternion.identity,basis.localRotation);
+            Assert.AreEqual("ShipBoost",view.ActiveState);Assert.Greater(view.PropulsionLevel,1.7f);
+            float level=view.PropulsionLevel;var frozen=motion.localRotation;
+            view.SetPaused(true);view.SetPropulsion(0,false,true,true);view.Tick(.2f,100,false,0,0,0,0);
+            Assert.AreEqual(level,view.PropulsionLevel);Assert.AreEqual(frozen,motion.localRotation);
+            view.SetPaused(false);view.Tick(.25f,100,false,0,0,0,0);
+            Assert.Less(view.PropulsionLevel,level);Assert.AreEqual("ShipBrake",view.ActiveState);
+            view.ResetPose();Assert.AreEqual("ShipCruise",view.ActiveState);
+            Assert.That(view.PropulsionLevel,Is.EqualTo(.6f));Assert.AreEqual(Quaternion.identity,motion.localRotation);
+        }
+
+        [Test] public void SpacecraftAttachmentsFollowWingsWithoutPhysicsAndCleanupAllowsOriginalFlightRollback()
+        {
+            AddSpacecraftSockets();
+            view.Configure(motion,model,clips[0],clips[1],clips[2],rigProfile:Profile(),spacecraft:true);
+            Assert.AreSame(view.LaserMuzzleLeft,view.Socket("socket_laser_l"));
+            Assert.AreSame(view.NozzleRight,view.Socket("socket_wing_exhaust_r"));
+            Assert.AreNotSame(view.LaserMuzzleLeft,view.LaserMuzzleRight);
+            Assert.Greater(Vector3.Dot(view.LaserMuzzleLeft.position-view.NozzleLeft.position,view.LaserMuzzleLeft.forward),1.2f);
+            Assert.True(view.LaserMuzzleLeft.IsChildOf(wing));
+            Assert.AreEqual(0,model.GetComponentsInChildren<Collider>(true).Length);
+            Assert.AreEqual(0,model.GetComponentsInChildren<Rigidbody>(true).Length);
+            Assert.AreEqual(0,model.GetComponentsInChildren<Animator>(true).Length);
+            foreach(var renderer in model.GetComponentsInChildren<Renderer>(true))
+                if(renderer.name.StartsWith("Exhaust",StringComparison.Ordinal)||renderer.name=="Engine aperture")
+                    Assert.AreEqual(UnityEngine.Rendering.ShadowCastingMode.Off,renderer.shadowCastingMode);
+            view.SetPropulsion(float.NaN,false,false,false);view.Tick(.25f,1,false,0,0,0,0);
+            Assert.False(float.IsNaN(view.PropulsionLevel));
+            view.ResetPose();
+            view.Configure(motion,model,clips[0],clips[1],clips[2],rigProfile:Profile());
+            Assert.False(view.UsesSpacecraftMode);Assert.IsNull(view.LaserMuzzleLeft);Assert.IsNull(view.Socket("socket_laser_l"));
+            Assert.AreEqual(0,view.PropulsionTriangles);Assert.AreEqual(0,model.GetComponentsInChildren<MeshRenderer>(true).Length);
+            view.Tick(.1f,.1f,false,0,0,0,0);
+            Assert.That(wing.localPosition.x,Is.EqualTo(1.2f).Within(.0001f));
+        }
+
+        [Test] public void MetallicWingInstancesReuseSourceMapsAndRestoreOriginalMaterialsOnRollback()
+        {
+            AddSpacecraftSockets();
+            var shader=Shader.Find(WingPropulsion.WingShader);Assert.NotNull(shader);
+            var material=new Material(shader) {name="OscarGame_CUERPO_1032_512"};
+            var body=new Material(shader) {name="OscarGame_CUERPO_1015_512"};
+            var texture=new Texture2D(4,4);var normal=new Texture2D(4,4);var mask=new Texture2D(4,4);var emission=new Texture2D(4,4);
+            var renderer=Child("Measured wing material test",model).gameObject.AddComponent<MeshRenderer>();
+            try
+            {
+                material.SetTexture("_BaseMap",texture);material.SetTexture("_NormalMap",normal);
+                material.SetTexture("_MaskMap",mask);material.SetTexture("_EmissionMap",emission);
+                material.SetTextureScale("_BaseMap",new Vector2(2,3));material.SetFloat("_Metallic",.2f);
+                renderer.sharedMaterials=new[]{material,body};
+                view.Configure(motion,model,clips[0],clips[1],clips[2],rigProfile:Profile(),spacecraft:true);
+                Assert.AreEqual(1,view.WingMaterialCount);var replacement=renderer.sharedMaterials[0];
+                Assert.AreNotSame(material,replacement);Assert.AreSame(body,renderer.sharedMaterials[1]);
+                Assert.AreSame(texture,replacement.GetTexture("_BaseMap"));Assert.AreSame(normal,replacement.GetTexture("_NormalMap"));
+                Assert.AreSame(mask,replacement.GetTexture("_MaskMap"));Assert.AreSame(emission,replacement.GetTexture("_EmissionMap"));
+                Assert.AreEqual(new Vector2(2,3),replacement.GetTextureScale("_BaseMap"));
+                Assert.That(material.GetFloat("_Metallic"),Is.EqualTo(.2f));Assert.That(replacement.GetFloat("_Metallic"),Is.EqualTo(.72f));
+                Assert.That(replacement.GetFloat("_Smoothness"),Is.EqualTo(.45f));Assert.That(replacement.GetFloat("_NormalStrength"),Is.EqualTo(.22f));
+                Assert.That(Vector4.Distance(replacement.GetColor("_PlateColor"),new Color(.32f,.36f,.40f)),Is.LessThan(.0001f));
+                view.Configure(motion,model,clips[0],clips[1],clips[2],rigProfile:Profile());
+                Assert.AreSame(material,renderer.sharedMaterials[0]);Assert.AreSame(body,renderer.sharedMaterials[1]);
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(actor);actor=null;
+                foreach(var resource in new UnityEngine.Object[]{material,body,texture,normal,mask,emission})UnityEngine.Object.DestroyImmediate(resource);
+            }
+        }
+
+        [Test] public void SpacecraftModeRequiresMeasuredOscarRigAndBothWingSockets()
+        {
+            Assert.Throws<ArgumentException>(()=>view.Configure(motion,model,clips[0],clips[1],clips[2],spacecraft:true));
+            var other=Profile();other.id="different-rig";
+            Assert.Throws<ArgumentException>(()=>view.Configure(motion,model,clips[0],clips[1],clips[2],rigProfile:other,spacecraft:true));
+            Assert.Throws<ArgumentException>(()=>view.Configure(motion,model,clips[0],clips[1],clips[2],rigProfile:Profile(),spacecraft:true));
+            Assert.False(view.UsesSpacecraftMode);
+        }
     }
 }

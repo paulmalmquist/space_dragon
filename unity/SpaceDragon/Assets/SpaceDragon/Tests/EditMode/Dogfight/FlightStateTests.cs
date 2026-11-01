@@ -58,7 +58,7 @@ namespace SpaceDragon.Dogfight.Tests
             Assert.That(flight.RequestRoll(1), Is.True); Assert.That(flight.RequestRoll(-1), Is.False); Assert.That(flight.RequestBreak(1), Is.False);
             Assert.That(flight.EvasionEnergy, Is.EqualTo(60)); Assert.That(flight.RollSerial, Is.EqualTo(1));
             Advance(flight, flight.Tuning.RollDuration / 2);
-            Assert.That(flight.Position.y, Is.GreaterThan(4)); Assert.That(Mathf.Abs(flight.RollAngle), Is.GreaterThan(3));
+            Assert.That(flight.Position.y, Is.EqualTo(2.4f).Within(.002)); Assert.That(Mathf.Abs(flight.RollAngle), Is.GreaterThan(3));
             Assert.That(flight.Rotation, Is.EqualTo(Quaternion.identity)); Assert.That(flight.Up, Is.EqualTo(Vector3.up));
             Advance(flight, flight.Tuning.RollDuration / 2);
             Assert.That(flight.RollOffset, Is.EqualTo(Vector3.zero)); Assert.That(flight.Position.y, Is.Zero.Within(.00001));
@@ -107,6 +107,149 @@ namespace SpaceDragon.Dogfight.Tests
             Advance(slow, 2.8f, fps: 30); Advance(fast, 2.8f, fps: 120);
             Assert.That(slow.EvasionEnergy, Is.EqualTo(fast.EvasionEnergy).Within(.02));
             Assert.That(slow.EvasionEnergy, Is.EqualTo(93).Within(.02));
+        }
+
+        [Test]
+        public void TimedBreakEndsInsideTheTickAndCreditsItsIdleRemainder()
+        {
+            var flight = new FlightState(new FlightTuning { BreakDuration = .004f });
+            Assert.That(flight.RequestBreak(1), Is.True);
+            flight.Tick(.01f, default);
+            Assert.That(flight.BreakActive, Is.False);
+            Assert.That(flight.BreaksCompleted, Is.EqualTo(1));
+            Assert.That(flight.BreakCooldown, Is.EqualTo(.5f - .006f).Within(.00001));
+            Assert.That(flight.Speed, Is.EqualTo(54 - 90 * .004f + 36 * .006f).Within(.00001),
+                "Only the active 4 ms may brake; normal acceleration resumes for the remaining 6 ms.");
+            Advance(flight, 1.794f);
+            Assert.That(flight.EvasionEnergy, Is.EqualTo(75).Within(.002));
+            Advance(flight, .25f);
+            Assert.That(flight.EvasionEnergy, Is.EqualTo(79.5f).Within(.002));
+        }
+
+        [Test]
+        public void HeldBreakExhaustionEndsPoweredSteeringAtItsExactEnergyBoundary()
+        {
+            var tuning = new FlightTuning { EvasionCapacity = 100, BreakCost = 99.88f };
+            var flight = new FlightState(tuning);
+            float activeSeconds = (tuning.EvasionCapacity - tuning.BreakCost) / tuning.HeldBreakDrainPerSecond;
+            flight.Tick(.01f, new FlightInput(Vector2.right, 0, false, true));
+            Assert.That(flight.BreakActive, Is.False); Assert.That(flight.EvasionEnergy, Is.Zero);
+            Assert.That(flight.BreaksCompleted, Is.EqualTo(1));
+            Assert.That(flight.BreakCooldown, Is.EqualTo(.5f - (.01f - activeSeconds)).Within(.00001));
+            Assert.That(flight.Speed, Is.EqualTo(54 - 90 * activeSeconds + 36 * (.01f - activeSeconds)).Within(.00001));
+            Advance(flight, 4, new FlightInput(Vector2.right, 0, false, true));
+            Assert.That(flight.EvasionEnergy, Is.Zero); Assert.That(flight.BreakSerial, Is.EqualTo(1));
+        }
+
+        [TestCase(-1)] [TestCase(1)]
+        public void RollHasOneSmoothRevolutionWithStableEntryBankAndBoundedPhysicalMotion(int direction)
+        {
+            const float dt = 1f / 120;
+            var flight = new FlightState();
+            Advance(flight, .6f, new FlightInput(new Vector2(-direction, 0)));
+            float bank = flight.Bank;
+            Assert.That(flight.RequestRoll(direction), Is.True);
+            float lastAngle = 0, maximumRate = 0, firstRate = 0, finalRate = 0;
+            float accumulatedDegrees = 0;
+            Quaternion previous = Quaternion.AngleAxis(bank * Mathf.Rad2Deg, Vector3.forward);
+            int frame = 0;
+            while (flight.RollActive && frame++ < 300)
+            {
+                flight.Tick(dt, new FlightInput(new Vector2(direction, .2f)));
+                float angle = flight.RollActive ? -direction * flight.RollAngle : 2 * Mathf.PI;
+                float rate = (angle - lastAngle) / dt;
+                Assert.That(rate, Is.GreaterThanOrEqualTo(-.00001f), "No reverse spin during bank/steer changes.");
+                Assert.That(flight.Bank, Is.EqualTo(bank).Within(.000001f));
+                maximumRate = Mathf.Max(maximumRate, rate);
+                if (frame == 1) firstRate = rate;
+                if (!flight.RollActive) finalRate = rate;
+                var rotation = Quaternion.AngleAxis((flight.Bank + flight.RollAngle) * Mathf.Rad2Deg, Vector3.forward);
+                float stepDegrees = Quaternion.Angle(previous, rotation);
+                Assert.That(stepDegrees, Is.LessThan(3), "End wrap must be an equivalent orientation, not a snap.");
+                accumulatedDegrees += stepDegrees;
+                Assert.That(flight.RollOffset.magnitude, Is.LessThanOrEqualTo(2.401f));
+                previous = rotation; lastAngle = angle;
+            }
+            Assert.That(flight.RollsCompleted, Is.EqualTo(1));
+            Assert.That(accumulatedDegrees, Is.EqualTo(360).Within(1));
+            Assert.That(maximumRate, Is.LessThan(6));
+            Assert.That(firstRate, Is.LessThan(.02)); Assert.That(finalRate, Is.LessThan(.02));
+            Assert.That(flight.EvasionEnergy, Is.EqualTo(60).Within(.001));
+        }
+
+        [TestCase(-1)] [TestCase(1)]
+        public void HoldingBreakKeepsSteeringLiveAndTurnsMoreSharplyUntilRelease(int direction)
+        {
+            var flight = new FlightState(); var ordinary = new FlightState();
+            var held = new FlightInput(new Vector2(direction, 0), 0, true, true);
+            Advance(flight, .45f, held);
+            Advance(ordinary, .45f, new FlightInput(new Vector2(direction, 0)));
+            Assert.That(flight.HeldBreakActive, Is.True);
+            Assert.That(flight.BreakSerial, Is.EqualTo(1));
+            Assert.That(Vector3.Angle(flight.Forward, Vector3.forward), Is.GreaterThan(Vector3.Angle(ordinary.Forward, Vector3.forward) + 30));
+            Assert.That(flight.Speed, Is.EqualTo(54 * .58f).Within(.001));
+            Assert.That(flight.Boosting, Is.False); Assert.That(flight.BoostEnergy, Is.EqualTo(4.5f));
+            Assert.That(flight.EvasionEnergy, Is.EqualTo(100 - 25 - .45f * 30).Within(.002));
+            Advance(flight, .35f, new FlightInput(new Vector2(-direction, .5f), 0, false, true));
+            Assert.That(flight.YawRate * direction, Is.LessThan(0), "Holding B must accept a new steering direction.");
+            Assert.That(flight.PitchRate, Is.GreaterThan(1));
+            Assert.That(flight.BreakSerial, Is.EqualTo(1)); Assert.That(flight.RollSerial, Is.Zero);
+            Advance(flight, .1f);
+            Assert.That(flight.BreakActive, Is.False); Assert.That(flight.BreaksCompleted, Is.EqualTo(1));
+            Assert.That(flight.Speed, Is.GreaterThan(54 * .58f));
+            Assert.That(flight.BreakCooldown, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void HeldBreakExhaustionRequiresReleaseAndDoesNotRechargeOrRetriggerWhileHeld()
+        {
+            var flight = new FlightState(); var held = new FlightInput(Vector2.zero, 0, false, true);
+            Advance(flight, 3, held);
+            Assert.That(flight.BreakActive, Is.False); Assert.That(flight.EvasionEnergy, Is.Zero);
+            Assert.That(flight.BreakSerial, Is.EqualTo(1)); Assert.That(flight.BreaksCompleted, Is.EqualTo(1));
+            Assert.That(flight.Forward, Is.EqualTo(Vector3.forward), "A neutral hold brakes without choosing a turn for the pilot.");
+            Advance(flight, 8, held);
+            Assert.That(flight.EvasionEnergy, Is.Zero); Assert.That(flight.BreakSerial, Is.EqualTo(1));
+            Advance(flight, flight.Tuning.EvasionRechargeDelay);
+            Assert.That(flight.EvasionEnergy, Is.Zero.Within(.002));
+            Advance(flight, 2);
+            Assert.That(flight.EvasionEnergy, Is.EqualTo(36).Within(.002));
+            flight.Tick(1f / 60, held);
+            Assert.That(flight.HeldBreakActive, Is.True); Assert.That(flight.BreakSerial, Is.EqualTo(2));
+            Assert.That(flight.EvasionEnergy, Is.LessThan(11));
+        }
+
+        [Test]
+        public void CancelledHeldBreakKeepsItsCostAndNeedsAReleasedButtonBeforeRestart()
+        {
+            var flight = new FlightState(); var held = new FlightInput(Vector2.right, 0, false, true);
+            Advance(flight, .25f, held); float paidEnergy = flight.EvasionEnergy;
+            flight.CancelHeldBreak();
+            Assert.That(flight.BreakActive, Is.False); Assert.That(flight.BreaksCompleted, Is.Zero);
+            Assert.That(flight.EvasionEnergy, Is.EqualTo(paidEnergy));
+            foreach (float dt in new[] { 0, -1, float.NaN }) flight.Tick(dt, held);
+            Assert.That(flight.EvasionEnergy, Is.EqualTo(paidEnergy));
+            Advance(flight, 1, held);
+            Assert.That(flight.BreakSerial, Is.EqualTo(1)); Assert.That(flight.BreakActive, Is.False);
+            flight.Tick(1f / 60, default); flight.Tick(1f / 60, held);
+            Assert.That(flight.BreakSerial, Is.EqualTo(2)); Assert.That(flight.HeldBreakActive, Is.True);
+            flight.Reset(); Advance(flight, .1f, held);
+            Assert.That(flight.BreakSerial, Is.EqualTo(1)); Assert.That(flight.EvasionEnergy, Is.EqualTo(72).Within(.001));
+        }
+
+        [Test]
+        public void HeldBreakUsesTheSameResourceAndHeadingAtThirtyAndOneHundredTwentyHz()
+        {
+            var slow = new FlightState(); var fast = new FlightState();
+            var held = new FlightInput(new Vector2(.7f, -.3f), 0, false, true);
+            Advance(slow, 1.2f, held, 30); Advance(fast, 1.2f, held, 120);
+            Assert.That(Vector3.Distance(slow.Position, fast.Position), Is.LessThan(.02));
+            Assert.That(Vector3.Angle(slow.Forward, fast.Forward), Is.LessThan(.02));
+            Assert.That(slow.EvasionEnergy, Is.EqualTo(39).Within(.003));
+            Assert.That(slow.EvasionEnergy, Is.EqualTo(fast.EvasionEnergy).Within(.003));
+            Assert.That(slow.BreakElapsed, Is.EqualTo(1.2f).Within(.001));
+            Advance(slow, 1.8f); Advance(fast, 1.8f);
+            Assert.That(slow.EvasionEnergy, Is.EqualTo(fast.EvasionEnergy).Within(.003));
         }
 
         [Test]

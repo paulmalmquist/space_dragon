@@ -67,6 +67,7 @@ namespace SpaceDragon.Dogfight
         readonly Dictionary<string,Transform> salvageVisuals = new Dictionary<string,Transform>();
         readonly List<string> removedSalvage = new List<string>();
         readonly List<BreathCandidate> breathCandidates = new List<BreathCandidate>();
+        readonly List<WingLaserTarget> laserTargets = new List<WingLaserTarget>();
         readonly List<GameObject> rocks = new List<GameObject>();
         readonly List<Vector3> rockPositions = new List<Vector3>(),rockScales = new List<Vector3>();
         readonly List<Mesh> generatedMeshes = new List<Mesh>();
@@ -75,13 +76,16 @@ namespace SpaceDragon.Dogfight
         DragonPresentation presentation; DamageVfx damageVfx; DogfightAudio sound; SalvageField salvage;
         readonly ChaseCameraState chaseCamera = new ChaseCameraState();
         Transform starfield;
-        LineRenderer beam, beamCore; Transform windupOrb; Light mouthLight;
+        ShipWeaponsVfx weaponVfx; Light mouthLight;
         ProfilerRecorder draws, triangles;
         Vector2 aim, pointer; Vector2 previousPointer;
         Vector3 wreckVelocity;
         // Read-only verification evidence captured from the actual spawned visual.
         Vector3 lastPlasmaOrigin, lastPlasmaMuzzle;
         bool lastPlasmaRecorded;
+        Vector3 lastLaserLeftOrigin,lastLaserRightOrigin,lastLaserLeftSocket,lastLaserRightSocket,lastLaserLeftEnd,lastLaserRightEnd;
+        float lastLaserFiredAt,lastLaserResolvedAt;int laserBeamsFired;
+        bool lastLaserLeftHit,lastLaserRightHit;
         Collider lastRock;
         bool pointerActive, initialized, lastBeam, selectorConsumed, combatArmed;
         float elapsed, fireClock, collisionGrace, hitGrace, missileClock, toastTime, repairHold, deathTime;
@@ -104,6 +108,7 @@ namespace SpaceDragon.Dogfight
 
         public bool UseAuthoredArmor;
         public bool UseOrganicDragon;
+        public bool UseSpacecraftDragon;
         public DragonRigProfile MeasuredDragonProfile;
         public TextAsset DragonAttribution;
         public string DragonTextureMode="source";
@@ -114,12 +119,11 @@ namespace SpaceDragon.Dogfight
         {
             if(playerRoot==null || model==null || tuning==null || gameCamera==null) { Debug.LogError("Dogfight scene is missing generated references"); enabled=false;return; }
             Tactics=new TacticalState(tuning); Flight=new FlightState(FlightSettings); Breath=new BreathState(); salvage=new SalvageField(tuning);
-            presentation=gameObject.AddComponent<DragonPresentation>(); presentation.Configure(visualMotion,model,flightClip,glideClip,boostClip,UseAuthoredArmor,UseOrganicDragon,MeasuredDragonProfile);
+            presentation=gameObject.AddComponent<DragonPresentation>(); presentation.Configure(visualMotion,model,flightClip,glideClip,boostClip,UseAuthoredArmor,UseOrganicDragon,MeasuredDragonProfile,UseSpacecraftDragon);
             damageVfx=gameObject.AddComponent<DamageVfx>(); damageVfx.Configure(playerRoot,presentation);
             sound=gameObject.AddComponent<DogfightAudio>(); sound.Configure(roarClip,breathClip,blastClip,metalClip,surgeClip);
             var hud=gameObject.AddComponent<DogfightHud>(); hud.Configure(this);
-            beam=MakeBeam("Charged fire beam",.62f,EnemyProjectileMaterial); beamCore=MakeBeam("White hot beam core",.18f,ProjectileMaterial);
-            windupOrb=Primitive("Mouth charge",PrimitiveType.Sphere,ProjectileMaterial,Vector3.one*.1f); windupOrb.gameObject.SetActive(false);
+            weaponVfx=gameObject.AddComponent<ShipWeaponsVfx>();weaponVfx.Configure(presentation.MuzzleTransform,LaserLeft,LaserRight);
             mouthLight=new GameObject("Restrained breath illumination").AddComponent<Light>(); mouthLight.type=LightType.Point;mouthLight.range=12;mouthLight.color=new Color(1,.22f,.035f);mouthLight.enabled=false;
             BuildAsteroids();
             starfield=GameObject.Find("Space.starfield.background-only")?.transform;
@@ -144,6 +148,9 @@ namespace SpaceDragon.Dogfight
             elapsed=fireClock=collisionGrace=hitGrace=toastTime=repairHold=deathTime=0;missileClock=HostileMissileInterval;lastRock=null;AsteroidClearance=-1;
             shotsFired=ordinaryHits=missileHits=enemiesDestroyed=pickups=damageHits=collisionHits=launchAttempts=rejectedLaunches=repairStarts=interruptionObserved=lastRoll=0;
             lastPlasmaRecorded=false;lastPlasmaOrigin=lastPlasmaMuzzle=Vector3.zero;
+            laserBeamsFired=0;lastLaserFiredAt=lastLaserResolvedAt=0;lastLaserLeftHit=lastLaserRightHit=false;
+            lastLaserLeftOrigin=lastLaserRightOrigin=lastLaserLeftSocket=lastLaserRightSocket=lastLaserLeftEnd=lastLaserRightEnd=Vector3.zero;
+            weaponVfx.Clear();
             aim=Vector2.zero;pointer=Vector2.zero;pointerActive=false;previousPointer=Mouse.current?.position.ReadValue()??Vector2.zero;RepairSelectorOpen=false;selectorConsumed=false;lastBeam=false;
             foreach(var e in enemies) { e.Pilot.Reset();e.Health=EnemyHull;e.Dead=false;e.TargetProgress=0;e.Locked=false;e.Position=e.Pilot.Position;e.Visual.gameObject.SetActive(true);e.Visual.position=e.Position; }
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
@@ -183,7 +190,7 @@ namespace SpaceDragon.Dogfight
         }
         FlightInput ReadInput(Keyboard k,Mouse m,float dt,ref bool fire,ref bool launch,ref bool breathFire)
         {
-            Vector2 steer=Vector2.zero;float throttle=0;bool boost=false;
+            Vector2 steer=Vector2.zero;float throttle=0;bool boost=false,breakHeld=false;
             if(k!=null)
             {
                 steer=new Vector2((k.rightArrowKey.isPressed?1:0)-(k.leftArrowKey.isPressed?1:0),(k.upArrowKey.isPressed?1:0)-(k.downArrowKey.isPressed?1:0));
@@ -193,7 +200,8 @@ namespace SpaceDragon.Dogfight
                 else if(pointerActive && !RepairSelectorOpen) aim=pointer;
                 if(k.xKey.wasPressedThisFrame){aim=Vector2.zero;pointerActive=false;}
                 if(k.qKey.wasPressedThisFrame)Flight.RequestRoll(-1);if(k.eKey.wasPressedThisFrame)Flight.RequestRoll(1);
-                if(k.bKey.wasPressedThisFrame){if(steer.x==0)Flight.RequestBreak();else Flight.RequestBreak(steer.x>0?1:-1);}
+                if(UseSpacecraftDragon)breakHeld=k.bKey.isPressed;
+                else if(k.bKey.wasPressedThisFrame){if(steer.x==0)Flight.RequestBreak();else Flight.RequestBreak(steer.x>0?1:-1);}
                 throttle=(k.rKey.isPressed?1:0)-(k.fKey.isPressed?1:0);boost=k.leftShiftKey.isPressed||k.rightShiftKey.isPressed;
                 if(k.tabKey.isPressed && !selectorConsumed && !Tactics.IsRepairing) {repairHold+=dt;if(repairHold>.15f)RepairSelectorOpen=true;}
                 if(k.tabKey.wasReleasedThisFrame){repairHold=0;selectorConsumed=false;RepairSelectorOpen=false;}
@@ -205,13 +213,13 @@ namespace SpaceDragon.Dogfight
             if(m!=null) {fire=m.leftButton.isPressed&&!RepairSelectorOpen;launch|=m.middleButton.wasPressedThisFrame&&!RepairSelectorOpen;}
             if(!combatArmed)
             {
-                bool held=(m!=null&&(m.leftButton.isPressed||m.middleButton.isPressed)) || (k!=null&&(k.leftShiftKey.isPressed||k.rightShiftKey.isPressed||k.enterKey.isPressed||k.spaceKey.isPressed));
+                bool held=(m!=null&&(m.leftButton.isPressed||m.middleButton.isPressed)) || (k!=null&&(k.leftShiftKey.isPressed||k.rightShiftKey.isPressed||k.enterKey.isPressed||k.spaceKey.isPressed||k.bKey.isPressed));
                 if(!held)combatArmed=true;
-                fire=launch=breathFire=boost=false;
+                fire=launch=breathFire=boost=breakHeld=false;
             }
             if(steer==Vector2.zero && pointerActive && !MouseAimMode&&!RepairSelectorOpen) steer=Vector2.ClampMagnitude(pointer*1.18f,1);
             aim=new Vector2(Mathf.Clamp(aim.x,-.94f,.94f),Mathf.Clamp(aim.y,-.88f,.88f));
-            return new FlightInput(steer,throttle,boost);
+            return new FlightInput(steer,throttle,boost,breakHeld);
         }
 
         void Simulate(float dt,FlightInput input,bool fire)
@@ -230,7 +238,7 @@ namespace SpaceDragon.Dogfight
                 e.TargetProgress=e.Pilot.TargetProgress;e.Locked=e.Pilot.Locked;
                 if(shot.HasValue && !Quiet) SpawnBolt(shot.Value.Origin,shot.Value.Direction*210,true,7);
             }
-            if(fire && fireClock<=0) {FirePlasma();fireClock=FireInterval;}
+            if(fire && fireClock<=0) {if(UseSpacecraftDragon)FireWingLasers();else FirePlasma();fireClock=FireInterval;}
             if(missileClock<=0 && !Quiet) {SpawnIncomingMissile();missileClock=HostileMissileInterval;}
             ResolveBolts(dt);ResolveMissiles(dt);ResolveRockCollision(previousPosition);
             if(Dead){OnDestroyed();return;}
@@ -272,15 +280,44 @@ namespace SpaceDragon.Dogfight
             return id==null?default:new LockCandidate(id);
         }
         Vector3 Muzzle => presentation!=null&&presentation.MuzzleTransform!=null?presentation.MuzzleTransform.position:Flight.Position+Flight.Forward*3.66f;
+        Transform LaserLeft=>presentation.LaserMuzzleLeft??presentation.Socket("socket_wing_l");
+        Transform LaserRight=>presentation.LaserMuzzleRight??presentation.Socket("socket_wing_r");
         static bool Blocked(Vector3 from,Vector3 to) => Physics.Linecast(from,to,EnvironmentMask,QueryTriggerInteraction.Ignore);
 
-        void FirePlasma()
+        void FireWingLasers()
         {
             Vector3 dir=(AimWorld-Muzzle).normalized;float best=.135f*Mathf.Rad2Deg;EnemyView assist=null;
             foreach(var e in enemies)if(!e.Dead && Vector3.Distance(Muzzle,e.Position)<650 && !Blocked(Muzzle,e.Position))
             {float angle=Vector3.Angle(dir,e.Position-Muzzle);if(angle<best){best=angle;assist=e;}}
-            if(assist!=null)dir=Vector3.Slerp(dir,(assist.Position+assist.Pilot.Velocity*.25f-Muzzle).normalized,.82f);
-            SpawnBolt(Muzzle,dir*330+Flight.Velocity,false,8);shotsFired++;sound.PlayFire();
+            Vector3 point=assist!=null?assist.Position:AimWorld;
+            laserTargets.Clear();for(int i=0;i<enemies.Count;i++)if(!enemies[i].Dead)laserTargets.Add(new WingLaserTarget(i,enemies[i].Position));
+            lastLaserLeftOrigin=lastLaserLeftSocket=LaserLeft.position;lastLaserRightOrigin=lastLaserRightSocket=LaserRight.position;
+            // Both rays observe the same pre-volley world before either can destroy a target.
+            var leftHit=QueryLaser(lastLaserLeftOrigin,point);var rightHit=QueryLaser(lastLaserRightOrigin,point);
+            lastLaserFiredAt=elapsed;lastLaserLeftEnd=leftHit.Endpoint;lastLaserRightEnd=rightHit.Endpoint;
+            lastLaserLeftHit=leftHit.TargetIndex>=0;lastLaserRightHit=rightHit.TargetIndex>=0;
+            ResolveLaser(leftHit);ResolveLaser(rightHit);lastLaserResolvedAt=elapsed;
+            weaponVfx.PulseLasers(leftHit.Endpoint,rightHit.Endpoint);shotsFired++;laserBeamsFired+=2;sound.PlayFire();
+        }
+        void FirePlasma()
+        {
+            Vector3 direction=(AimWorld-Muzzle).normalized;float best=.135f*Mathf.Rad2Deg;EnemyView assist=null;
+            foreach(var enemy in enemies)if(!enemy.Dead&&Vector3.Distance(Muzzle,enemy.Position)<650&&!Blocked(Muzzle,enemy.Position))
+            {float angle=Vector3.Angle(direction,enemy.Position-Muzzle);if(angle<best){best=angle;assist=enemy;}}
+            if(assist!=null)direction=Vector3.Slerp(direction,(assist.Position+assist.Pilot.Velocity*.25f-Muzzle).normalized,.82f);
+            SpawnBolt(Muzzle,direction*330+Flight.Velocity,false,8);shotsFired++;sound.PlayFire();
+        }
+        WingLaserHit QueryLaser(Vector3 origin,Vector3 point)
+        {
+            Vector3 direction=(point-origin).normalized;
+            float fraction=Physics.CheckSphere(origin,.08f,EnvironmentMask,QueryTriggerInteraction.Ignore)?0:
+                ObstacleFraction(origin,origin+direction*WingLaserQuery.Range,.08f,out _);
+            return WingLaserQuery.Resolve(origin,direction,laserTargets,Mathf.Min(1,fraction)*WingLaserQuery.Range);
+        }
+        void ResolveLaser(WingLaserHit hit)
+        {
+            if(hit.TargetIndex>=0){DamageEnemy(enemies[hit.TargetIndex],WingLaserQuery.DamagePerWing);ordinaryHits++;damageVfx.Burst(hit.Endpoint,3);}
+            else if(hit.Blocked)damageVfx.Burst(hit.Endpoint,3);
         }
         void SpawnBolt(Vector3 origin,Vector3 velocity,bool hostile,float damage)
         {
@@ -419,7 +456,7 @@ namespace SpaceDragon.Dogfight
             deathTime=0;wreckVelocity=Flight.Velocity*.35f;
             Breath.CancelBurst();Tactics.CancelRepair();damageVfx.CancelRepair();sound.StopCombat();sound.PlayExplosion();damageVfx.Burst(Flight.Position,48);
             for(int i=0;i<3;i++)damageVfx.SetDamage(((DragonSystem)i).ToString().ToLowerInvariant(),1-Tactics.GetHealth((DragonSystem)i)/tuning.MaxSystemHealth);
-            beam.enabled=beamCore.enabled=false;windupOrb.gameObject.SetActive(false);mouthLight.enabled=false;Message("Dragon disabled — crew capsule secure. Restart the encounter.");
+            weaponVfx.Clear();presentation.ShutdownPropulsion();lastBeam=false;mouthLight.enabled=false;Message("Dragon disabled — crew capsule secure. Restart the encounter.");
         }
         public void ChooseRepair(int index)
         {
@@ -431,22 +468,23 @@ namespace SpaceDragon.Dogfight
         }
         void UpdatePresentation(float dt)
         {
-            var burst=Breath.Burst;bool beamActive=burst!=null&&burst.Stage=="beam";float jaw=burst==null?(fireClock>0?-.17f:-.025f):burst.Stage=="windup"?-.10f-.22f*burst.Progress:-.32f;
+            var burst=Breath.Burst;bool beamActive=burst!=null&&burst.Stage=="beam";
+            float jaw=burst==null?(!UseSpacecraftDragon&&fireClock>0?-.18f:-.025f):burst.Stage=="windup"?-.04f-.30f*Mathf.SmoothStep(0,1,burst.Progress):-.36f;
+            presentation.SetPropulsion(Mathf.InverseLerp(20,100,Flight.Speed),Flight.Boosting,Flight.BreakActive,ReducedMotion);
             presentation.Tick(dt,elapsed,Flight.Boosting,Flight.Bank,Flight.RollAngle,jaw,Flight.YawRate);
             for(int i=0;i<3;i++)damageVfx.SetDamage(((DragonSystem)i).ToString().ToLowerInvariant(),1-Tactics.GetHealth((DragonSystem)i)/tuning.MaxSystemHealth);
             damageVfx.SetRepairProgress(Tactics.RepairProgress);damageVfx.Tick(dt);sound.Tick(dt,Flight.Boosting&&!Dead);
             sound.SetAlarm(Dead?DogfightAlarm.None:(DogfightAlarm)(int)Tactics.HighestWarning);
-            windupOrb.gameObject.SetActive(burst!=null&&!beamActive);windupOrb.position=Muzzle;windupOrb.localScale=Vector3.one*(burst==null?.01f:.15f+burst.Progress*.5f);
-            mouthLight.enabled=burst!=null;mouthLight.transform.position=Muzzle;mouthLight.intensity=beamActive?3:burst==null?0:burst.Progress*2;
-            beam.enabled=beamCore.enabled=beamActive;
+            mouthLight.enabled=burst!=null;mouthLight.transform.position=Muzzle;mouthLight.intensity=beamActive?2.2f:burst==null?0:burst.Progress*2.5f;
+            Vector3 end=AimWorld;
             if(beamActive)
             {
                 var target=burst.TargetIds.Length>0?enemies.Find(e=>e.Pilot.Id==burst.TargetIds[0]):null;
-                Vector3 end=target!=null?target.Position:AimWorld;
+                end=target!=null?target.Position:AimWorld;
                 if(Physics.Linecast(Muzzle,end,out RaycastHit hit,EnvironmentMask))end=hit.point;
-                beam.SetPosition(0,Muzzle);beam.SetPosition(1,end);beamCore.SetPosition(0,Muzzle);beamCore.SetPosition(1,end);
                 if(!lastBeam)sound.PlayBreathBeam();
             }
+            weaponVfx.Tick(dt,burst,end,Flight.Forward,Flight.Up,ReducedMotion);
             lastBeam=beamActive;
         }
         void MoveCamera(float dt,bool snap)
@@ -487,8 +525,6 @@ namespace SpaceDragon.Dogfight
         {
             GameObject go=GameObject.CreatePrimitive(kind);go.name=title;Destroy(go.GetComponent<Collider>());var renderer=go.GetComponent<Renderer>();renderer.sharedMaterial=material;renderer.shadowCastingMode=ShadowCastingMode.Off;renderer.receiveShadows=false;go.transform.localScale=scale;return go.transform;
         }
-        LineRenderer MakeBeam(string title,float width,Material material)
-        { var go=new GameObject(title);var line=go.AddComponent<LineRenderer>();line.sharedMaterial=material;line.positionCount=2;line.startWidth=width;line.endWidth=width*.65f;line.numCapVertices=4;line.shadowCastingMode=ShadowCastingMode.Off;line.enabled=false;return line; }
         static float ObstacleFraction(Vector3 from,Vector3 to,float radius,out Vector3 point)
         {Vector3 delta=to-from;point=to;if(delta.sqrMagnitude>.000001f&&Physics.SphereCast(from,radius,delta.normalized,out RaycastHit hit,delta.magnitude,EnvironmentMask,QueryTriggerInteraction.Ignore)){point=hit.point;return hit.distance/delta.magnitude;}return 2;}
         public static bool SegmentSphere(Vector3 from,Vector3 to,Vector3 center,float radius,out float fraction)
@@ -500,7 +536,7 @@ namespace SpaceDragon.Dogfight
         void ClearProjectiles(){foreach(var b in bolts)Destroy(b.Visual.gameObject);bolts.Clear();foreach(var m in missiles)Destroy(m.Visual.gameObject);missiles.Clear();IncomingThreatWorld=null;}
         void Message(string text){toast=text;toastTime=3.5f;}
         public void TogglePause()=>SetPaused(!Paused);
-        void SetPaused(bool value){Paused=value;RepairSelectorOpen=false;repairHold=0;pointerActive=false;previousPointer=Mouse.current?.position.ReadValue()??Vector2.zero;combatArmed=false;presentation.SetPaused(value);damageVfx.SetPaused(value);sound.SetPaused(value);}
+        void SetPaused(bool value){Paused=value;RepairSelectorOpen=false;repairHold=0;pointerActive=false;previousPointer=Mouse.current?.position.ReadValue()??Vector2.zero;combatArmed=false;if(value)Flight.CancelHeldBreak();presentation.SetPaused(value);damageVfx.SetPaused(value);sound.SetPaused(value);}
         void OnApplicationFocus(bool focused){if(!focused&&initialized)SetPaused(true);}
         void OnApplicationPause(bool paused){if(paused&&initialized)SetPaused(true);}
         public void SetSoundEnabled(string value){SoundEnabled=value=="true"||value=="1";if(sound!=null)sound.SetEnabled(SoundEnabled);}
@@ -516,6 +552,10 @@ namespace SpaceDragon.Dogfight
             public int breathLockedCount;
             public int salvage,repairsRemaining,repairsCompleted,repairsInterrupted,missileCharges,missilesLaunched,missileHits,launchAttempts,rejectedLaunches,shotsFired,ordinaryHits,kills,pickups,damageHits,collisionHits,rolls,breaks,letterIndex,breathsFired,breathsResolved,missilesActive,boltsActive,particles,patches,drones,frameSamples,width,height,addedArmorTriangles;
             public long drawCalls,renderTriangles;public Vector3 position,forward,muzzle,muzzleScreen,windupOrigin,beamOrigin,beamCoreOrigin,lastPlasmaOrigin,lastPlasmaMuzzle;public EnemySnapshot[] enemies;public SalvageSnapshot[] debris;
+            public bool spacecraft,breakActive,lasersActive,lastLaserLeftHit,lastLaserRightHit;
+            public float rollAngle,bankAngle,yawRate,lastLaserFiredAt,lastLaserResolvedAt,propulsionLevel;
+            public int laserBeamsFired,playerBoltsActive,propulsionTriangles,wingMaterialCount;
+            public Vector3 lastLaserLeftOrigin,lastLaserRightOrigin,lastLaserLeftSocket,lastLaserRightSocket,lastLaserLeftEnd,lastLaserRightEnd,laserLeft,laserRight,laserVisualLeft,laserVisualRight;
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
             public string skinWeightsStatus,runtimeQualitySkinWeights;
             public int maxMeshInfluences,skinnedMeshCount,unreadableSkinMeshes;
@@ -549,9 +589,15 @@ namespace SpaceDragon.Dogfight
                 particles=damageVfx.ActiveParticles,patches=damageVfx.PatchCount,drones=damageVfx.VisibleDrones,animation=presentation.ActiveState,flightWeight=presentation.FlightWeight,glideWeight=presentation.GlideWeight,boostWeight=presentation.BoostWeight,audio=sound.CueStatus,
                 frameSamples=frameCount,frameMeanMs=frameCount>0?total/frameCount:0,frameP95Ms=frameCount>0?frames[Mathf.Min(frameCount-1,(int)(frameCount*.95f))]:0,width=Screen.width,height=Screen.height,drawCalls=draws.Valid?draws.LastValue:-1,renderTriangles=triangles.Valid?triangles.LastValue:-1,textureAllocatedMiB=textureBytes/1048576,addedArmorTriangles=presentation.AddedTriangles,
                 position=Flight.Position,forward=Flight.Forward,muzzle=Muzzle,modelName=model.name,rigProfile=presentation.RigProfile,muzzleAttached=presentation.MuzzleTransform!=null,muzzleScreen=gameCamera.WorldToViewportPoint(Muzzle),
-                windupActive=windupOrb!=null&&windupOrb.gameObject.activeSelf,windupOrigin=windupOrb!=null?windupOrb.position:Vector3.zero,
-                beamOrigin=beam!=null&&beam.enabled&&beam.positionCount>0?beam.GetPosition(0):Vector3.zero,
-                beamCoreOrigin=beamCore!=null&&beamCore.enabled&&beamCore.positionCount>0?beamCore.GetPosition(0):Vector3.zero,
+                windupActive=weaponVfx.WindupActive,windupOrigin=weaponVfx.WindupOrigin,
+                beamOrigin=weaponVfx.BeamOrigin,beamCoreOrigin=weaponVfx.BeamCoreOrigin,
+                spacecraft=presentation.UsesSpacecraftMode,breakActive=Flight.BreakActive,rollAngle=Flight.RollAngle,bankAngle=Flight.Bank,yawRate=Flight.YawRate,
+                lasersActive=weaponVfx.LasersActive,laserBeamsFired=laserBeamsFired,playerBoltsActive=bolts.FindAll(b=>!b.Hostile).Count,
+                lastLaserFiredAt=lastLaserFiredAt,lastLaserResolvedAt=lastLaserResolvedAt,lastLaserLeftHit=lastLaserLeftHit,lastLaserRightHit=lastLaserRightHit,
+                lastLaserLeftOrigin=lastLaserLeftOrigin,lastLaserRightOrigin=lastLaserRightOrigin,lastLaserLeftSocket=lastLaserLeftSocket,lastLaserRightSocket=lastLaserRightSocket,
+                lastLaserLeftEnd=lastLaserLeftEnd,lastLaserRightEnd=lastLaserRightEnd,laserLeft=LaserLeft.position,laserRight=LaserRight.position,
+                laserVisualLeft=weaponVfx.LeftLaserOrigin,laserVisualRight=weaponVfx.RightLaserOrigin,
+                propulsionTriangles=presentation.PropulsionTriangles,propulsionLevel=presentation.PropulsionLevel,wingMaterialCount=presentation.WingMaterialCount,
                 lastPlasmaRecorded=lastPlasmaRecorded,lastPlasmaOrigin=lastPlasmaOrigin,lastPlasmaMuzzle=lastPlasmaMuzzle,
                 enemies=new EnemySnapshot[enemies.Count],debris=new SalvageSnapshot[salvage.Items.Count]};
 #if DEVELOPMENT_BUILD || UNITY_EDITOR

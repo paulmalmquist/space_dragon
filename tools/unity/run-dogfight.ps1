@@ -62,6 +62,10 @@ try {
   if ($verifyOscar) {
     & node tools/unity/prepare-oscar-dragon.mjs --verify
     if ($LASTEXITCODE -ne 0) { throw 'Oscar v001 intake verification failed. Preserve and prepare its measured candidate before invoking Unity.' }
+    if ($env:SPACE_DRAGON_DOGFIGHT_MECHANICAL -cne 'none') {
+      & node tools/unity/prepare-oscar-mechanical.mjs --verify
+      if ($LASTEXITCODE -ne 0) { throw 'Oscar mechanical accessory verification failed. Preserve and prepare the additive candidate.' }
+    }
   }
   & node tools/unity/prepare-dogfight-audio-v002.mjs --verify
   if ($LASTEXITCODE -ne 0) { throw 'Dogfight audio v002 intake verification failed. Preserve and prepare the layered cues before invoking Unity.' }
@@ -98,6 +102,14 @@ try {
     $null = Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json
     if ($Action -eq 'web' -and -not (Test-Path -LiteralPath (Join-Path $projectPath 'Builds/DogfightWeb/index.html') -PathType Leaf)) {
       throw 'Web build receipt exists but the Dogfight entry page is missing.'
+    }
+    if ($Action -eq 'web' -and $verifyOscar -and $env:SPACE_DRAGON_DOGFIGHT_MECHANICAL -cne 'none') {
+      # Keep the baseline in-game credit and deliver the additive modification
+      # notice beside the player. No external service or publication is involved.
+      Copy-Item -LiteralPath (Join-Path $repoRoot 'assets/source/dragons/oscar-creativo/mechanical-v004-NOTICE.txt') -Destination (Join-Path $projectPath 'Builds/DogfightWeb/dragon-mechanical-NOTICE.txt') -Force
+    }
+    if ($Action -eq 'web') {
+      Copy-Item -LiteralPath (Join-Path $projectPath 'Assets/SpaceDragon/Dogfight/Imported/PlanetSatellite-v001/planet-satellite-v001-NOTICE.txt') -Destination (Join-Path $projectPath 'Builds/DogfightWeb/planet-satellite-v001-NOTICE.txt') -Force
     }
     Write-Output "Receipt: $receiptPath"
   }

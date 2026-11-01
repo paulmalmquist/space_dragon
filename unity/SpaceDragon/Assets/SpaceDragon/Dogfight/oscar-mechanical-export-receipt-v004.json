@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "assetId": "oscar-mechanical-v004",
+  "source": "C:\\Projects\\space_dragon\\assets\\source\\local\\spacecraft\\oscar-dragon\\Oscar Dragon-v009-mechanical-light.blend",
+  "sourceSha256": "91f54072de3e6055d614f6c783c9a82dac9b0ab9d36d33bfcdae335908c8ce0e",
+  "original": "C:\\Projects\\space_dragon\\assets\\source\\local\\spacecraft\\oscar-dragon\\Oscar Dragon-v003-game-fullweights.blend",
+  "originalSha256": "72d4f006c2ce891f47b52553690cb8ce3cb246f3be609c3b35255280f245aabd",
+  "originalUnchanged": true,
+  "output": "C:\\Projects\\space_dragon_oscar_dragon\\assets\\game\\local\\spacecraft\\oscar-dragon\\mechanical-v004\\dragon-oscar-mechanical-v004.glb",
+  "sha256": "b0600d36229760bc7a044c48a658c68a34efa701f2264b684d22cb08a88199e0",
+  "bytes": 455820,
+  "triangles": 11728,
+  "materials": [
+    "OscarMech.Gunmetal",
+    "OscarMech.CrimsonPaint",
+    "OscarMech.MachinedEdges",
+    "OscarMech.AmberReactor"
+  ],
+  "components": [
+    {
+      "name": "OscarMech.Dorsal.2.-1",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.DorsalInset.2.-1",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.Dorsal.2.1",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.DorsalInset.2.1",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.Dorsal.3.-1",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.Dorsal.3.1",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.WingDrive.l",
+      "bone": "arm_stretch.l"
+    },
+    {
+      "name": "OscarMech.WingDrive.Edge.l-1",
+      "bone": "arm_stretch.l"
+    },
+    {
+      "name": "OscarMech.WingDrive.Edge.l1",
+      "bone": "arm_stretch.l"
+    },
+    {
+      "name": "OscarMech.ElbowDrive.l",
+      "bone": "forearm_stretch.l"
+    },
+    {
+      "name": "OscarMech.ElbowDrive.Edge.l-1",
+      "bone": "forearm_stretch.l"
+    },
+    {
+      "name": "OscarMech.ElbowDrive.Edge.l1",
+      "bone": "forearm_stretch.l"
+    },
+    {
+      "name": "OscarMech.WingDrive.r",
+      "bone": "arm_stretch.r"
+    },
+    {
+      "name": "OscarMech.WingDrive.Edge.r-1",
+      "bone": "arm_stretch.r"
+    },
+    {
+      "name": "OscarMech.WingDrive.Edge.r1",
+      "bone": "arm_stretch.r"
+    },
+    {
+      "name": "OscarMech.ElbowDrive.r",
+      "bone": "forearm_stretch.r"
+    },
+    {
+      "name": "OscarMech.ElbowDrive.Edge.r-1",
+      "bone": "forearm_stretch.r"
+    },
+    {
+      "name": "OscarMech.ElbowDrive.Edge.r1",
+      "bone": "forearm_stretch.r"
+    },
+    {
+      "name": "OscarMech.TailCollar.0",
+      "bone": "c_tail_00.x"
+    },
+    {
+      "name": "OscarMech.TailCollar.1",
+      "bone": "c_tail_01.x"
+    },
+    {
+      "name": "OscarMech.TailCollar.2",
+      "bone": "c_tail_02.x"
+    },
+    {
+      "name": "OscarMech.JawHinge.-1",
+      "bone": "head.x"
+    },
+    {
+      "name": "OscarMech.JawHinge.Trim.-1",
+      "bone": "head.x"
+    },
+    {
+      "name": "OscarMech.JawHinge.1",
+      "bone": "head.x"
+    },
+    {
+      "name": "OscarMech.JawHinge.Trim.1",
+      "bone": "head.x"
+    },
+    {
+      "name": "OscarMech.CoolingVent.-1.0",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.CoolingVent.-1.1",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.CoolingVent.-1.2",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.CoolingVent.1.0",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.CoolingVent.1.1",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    },
+    {
+      "name": "OscarMech.CoolingVent.1.2",
+      "bone": "Surface-weighted segmented shell (maximum4)"
+    }
+  ],
+  "sourceBones": 165,
+  "maximumInfluences": 4,
+  "animationPolicy": "Remap surface-weighted shells and rigid collars to original Oscar rig; no duplicate animator or rest change.",
+  "verification": "Exported, visual and Unity validation pending; not owner approved."
+}

@@ -40,7 +40,23 @@ Source: owner, repo-attached chat. Exact wording:
 
 > "C:\Projects\space_dragon\free-dragon-character-3d-by-oscar-creativo" that 3d model should be our baseline. properly done
 
-Routing receipt: **CONFIRMED baseline selection / verified for the bounded Lenovo/Chrome integration**. [Decision](../docs/decisions/2026-11-01-oscar-dragon-baseline.md), [creator credit/provenance](../assets/source/dragons/oscar-creativo/README.md), [verification/history/gallery](../docs/reports/2026-11-01-oscar-dragon-baseline.md). Source/export/full-weight setup, 86 Unity tests, BC7 build and 11/11 cases on both WebGPU/WebGL2 pass; all six matched source/player views are REVIEWED. Lighting/material differences and HUD cropping remain; owner final quality/release approval remains open. Hosted CI and merge delivery are recorded by the resulting PR. Preserve the original package, v007/v005 rollback, creator credit and existing gameplay/save rules. Future art polish is separate from this completed baseline integration.
+Routing receipt: **CONFIRMED baseline selection / verified for the bounded Lenovo/Chrome integration**. [Decision](../docs/decisions/2026-11-01-oscar-dragon-baseline.md), [creator credit/provenance](../assets/source/dragons/oscar-creativo/README.md), [verification/history/gallery](../docs/reports/2026-11-01-oscar-dragon-baseline.md). Source/export/full-weight setup, 86 Unity tests, BC7 build and 11/11 cases on both WebGPU/WebGL2 pass; the root AI agent compared all six matched source/player views; no human/owner review is recorded. Lighting/material differences and HUD cropping remain; owner final quality/release approval remains open. Hosted CI and merge delivery are recorded by the resulting PR. Preserve the original package, v007/v005 rollback, creator credit and existing gameplay/save rules. Future art polish is separate from this completed baseline integration.
+
+### November 1, 2026 (America/New_York) — Oscar presentation polish (SD-086 continuation)
+
+Source: owner, repo-attached chat. Exact wording:
+
+> continue polish
+
+Routing receipt: **CONFIRMED continuation / verified for the bounded Lenovo/Chrome integration**. [Polish receipt](../docs/reports/2026-11-01-oscar-presentation-polish.md). Improve lighting/material response and lower HUD overlap while preserving the selected source/anatomy, attribution, gameplay, active spelling/dodging and saves. The prior baseline remains verified; final expanded `oscar-orbit-v004` setup/build, 86 Unity tests and both 11-case Chrome suites now pass, with matched neutral/HUD observations by AI agents. The earlier screenshot comparison was by the root AI agent, not human review or owner art approval. Continue SD-086; SD-087 belongs to the concurrent Luke work.
+
+### November 1, 2026 (America/New_York) — mechanical dragon and planet detail (SD-086 continuation)
+
+Source: owner, repo-attached chat with a screenshot. Exact wording:
+
+> lets make the dragon look a bit more mechanical while youre at it. hopefully you are mid polish with planet surface
+
+Routing receipt: **CONFIRMED expansion / verified for named local checks**. [Decision](../docs/decisions/2026-11-01-oscar-mechanical-and-near-orbit-polish.md), [active receipt](../docs/reports/2026-11-01-oscar-presentation-polish.md). Add fitted mechanical plates/joint details to a recoverable Oscar derivative while retaining anatomy/animation, and refine near-orbit surface/cloud/atmosphere detail. Original source, baseline and intermediate lighting/HUD evidence remain preserved. Gameplay, collision and saves remain unchanged. The final v009 source/v004 armor with `oscar-orbit-v004` passes source/intake/setup/build, 86 Unity tests and 11/11 WebGPU plus 11/11 WebGL2 cases (~58.7 / 48.6 fps short samples). AI agents inspected matched neutral/HUD/gameplay images; material/lighting differences, occlusion and human art/sound/comfort/release review remain open. Keep SD-086; do not reuse the concurrent Luke SD-087.
 
 <!-- Add your next thought here. No form required. -->
 
@@ -1148,3 +1164,19 @@ Source: owner, Space Dragon chat.
 Receipt: **SD-071** · CONFIRMED request · The Drive folder was created but contained zero audio files. An original 16-cue synthesized starter bank, manifest, source generator, sound preview and licensing workflow were committed to [the audio bank](../assets/game/audio/starter/). Those files were checked for byte-for-byte reproduction. This is **not** a transfer of Sonniss/BOOM recordings and **not** final cinematic-quality sound design; professional sourcing, listening QA and game integration remain open.
 
 Historical October 31 merge routing receipt: incoming SD-014/015/016/017/018/027 duplicate existing SD-028/029/030/031/032/033 and retain those canonical IDs. That reconciliation assigned SD-062–071 and reserved SD-061 for concurrent visual-foundation work. Its next-ID pointer was SD-072. The [November 1 crosswalk](../docs/decisions/2026-11-01-unity-integration-identifiers.md) now includes SD-061 and maps later local collisions to SD-083–085; next unused is SD-086. This reconciliation changes tracking, not creative authority, deployment, final art approval or mission scope.
+
+### November 1, 2026 — dragon-shaped spacecraft and instant wing lasers
+
+Source: owner, Space Dragon chat, America/New_York; accompanied by an in-game screenshot of the Oscar dragon and near-orbit planet. Exact wording:
+
+> better.
+> the planet is still too low fi
+> let's make the dragon wings more for show. this is a dragon shaped spaceship rather than a dragon.
+> we want the propulsion to be shown out of the dragon wings. head doesnt have to move. lets get closer on the dragon ship and make him bigger. wings more metallic
+> the barrel roll is somewhat spastic
+> make holding B sharper turn for evading
+> let's have the windup for fire breath to be a bit more animated
+> make the firebreath more detailed
+> basic attack change to two lasers (one from each wing) that dont take any time to arrive at the target
+
+Routing receipt: **SD-086 continuation** · **CONFIRMED** direction · **IMPLEMENTED / VERIFIED for named local v002 checks**. [Spacecraft decision](../docs/decisions/2026-11-01-dragon-shaped-spacecraft.md) records the overrides to organic flapping and fresh-press-only B for the current Oscar profile, while preserving original assets/clips and previous candidates for rollback. Affected files: Unity flight/camera state, encounter input and wing-laser queries, dragon/wing/weapon presentation, planetary materials and the [combat/input contract](../docs/gameplay/INTERACTION_CONTRACTS.md). Final `oscar-spacecraft-v002` passes **103 Unity tests**, Web build, **11/11 Chrome cases per WebGPU/WebGL2** and separate AI neutral/gameplay review; short 1366×768 samples are **59.70 / 59.41 fps**. [Receipt/gallery](../docs/reports/2026-11-01-dragon-spacecraft-pass.md) records actual evidence and organic-body, framing, cloud/fire and memory-counter limits. No new Blender export is claimed; v009/source GLBs are unchanged. Next: owner visual/feel review; human appearance/comfort/sound and release remain open. This intake adds no deployment, new provider upload or campaign/save scope.

@@ -16,6 +16,7 @@ namespace SpaceDragon.Dogfight
         TacticalWarning lastWarning;
         float warningAge;
         float width, height, scale;
+        string PrimaryLabel => encounter.UseSpacecraftDragon ? "TWIN LASERS" : "PLASMA";
         public void Configure(DogfightEncounter owner) => encounter = owner;
         void Update()
         {
@@ -92,7 +93,7 @@ namespace SpaceDragon.Dogfight
                 if (!enemy.Dead) { acquired = Mathf.Max(acquired,enemy.TargetProgress); enemyLocked |= enemy.Locked; }
             string message; Color color; bool showLockProgress = false;
             if (warning == TacticalWarning.HullImminent) { message = "HULL FAILURE IMMINENT  —  BREAK AWAY / REPAIR"; color = Red; }
-            else if (warning == TacticalWarning.IncomingMissile) { message = "INCOMING MISSILE  —  Q / E ROLL  ·  B BREAK"; color = Red; }
+            else if (warning == TacticalWarning.IncomingMissile) { message = "INCOMING MISSILE  —  Q / E ROLL  ·  HOLD B TURN"; color = Red; }
             else if (warning == TacticalWarning.Critical) { message = "CRITICAL SYSTEM DAMAGE  —  HOLD TAB TO REPAIR"; color = Red; }
             else if (encounter.AsteroidClearance >= 0 && !encounter.Dead) { message = "ASTEROID  /  "+Mathf.CeilToInt(encounter.AsteroidClearance)+" m  —  PULL CLEAR"; color = Amber; }
             else if (enemyLocked || acquired > .15f) { message = enemyLocked ? "ENEMY LOCK  —  Q / E EVADE" : "ENEMY TRACKING  —  KEEP MOVING"; color = Amber; showLockProgress = true; }
@@ -264,12 +265,33 @@ namespace SpaceDragon.Dogfight
             Text(new Rect(width-278,height-70,242,18),"BOOST",Muted,small);
             Bar(new Rect(width-278,height-46,242,4),f.EvasionEnergy/f.Tuning.EvasionCapacity,Amber);
             Text(new Rect(width-278,height-36,242,18),"EVASION",Muted,small);
-            float x = 500,available = width-825;
-            if (available < 350) return;
-            Panel(new Rect(x-6,height-104,available+12,89),Cyan,.82f);
-            Text(new Rect(x,height-97,available,24),"MOUSE: "+(encounter.MouseAimMode?"AIM":"FLY")+"   /   M TO SWITCH",Cyan,center);
-            Text(new Rect(x,height-70,available,24),"ARROWS FLY   WADZ AIM   LMB PLASMA   RMB ZOOM",Muted,center);
-            Text(new Rect(x,height-45,available,24),"SHIFT BOOST   Q/E ROLL   B BREAK   ESC PAUSE",Muted,center);
+            DrawFlightControls();
+        }
+        void DrawFlightControls()
+        {
+            // Short canvases need the left column for radar and system health.
+            // The complete control legend remains available in the pause menu.
+            if (height < 750) return;
+            // Keep the lower center clear for the dragon's torso and tail. The
+            // control placard stays in the left instrument column; a narrow
+            // aspect moves it below the central warning/repair banner region.
+            bool compact = width < 1320;
+            var r = new Rect(32,compact?322:98,compact?252:340,compact?146:124);
+            Panel(r,Cyan,.9f);
+            Text(new Rect(r.x+12,r.y+7,r.width-24,23),"MOUSE: "+(encounter.MouseAimMode?"AIM":"FLY")+"  /  M SWITCH",Cyan,label);
+            Text(new Rect(r.x+12,r.y+33,r.width-24,21),"ARROWS FLY  /  WADZ AIM",Muted,small);
+            Text(new Rect(r.x+12,r.y+55,r.width-24,21),"LMB "+PrimaryLabel+"  /  RMB ZOOM",Muted,small);
+            if (compact)
+            {
+                Text(new Rect(r.x+12,r.y+77,r.width-24,21),"SHIFT BOOST  /  Q/E ROLL",Muted,small);
+                Text(new Rect(r.x+12,r.y+99,r.width-24,21),"HOLD B TURN",Muted,small);
+                Text(new Rect(r.x+12,r.y+121,r.width-24,21),"ESC PAUSE / CONTROLS",Cyan,small);
+            }
+            else
+            {
+                Text(new Rect(r.x+12,r.y+77,r.width-24,21),"SHIFT BOOST  /  Q/E ROLL  /  HOLD B TURN",Muted,small);
+                Text(new Rect(r.x+12,r.y+99,r.width-24,21),"ESC PAUSE / CONTROLS",Cyan,small);
+            }
         }
         void DrawRepairProgress()
         {
@@ -303,7 +325,7 @@ namespace SpaceDragon.Dogfight
         {
             Fill(new Rect(0,0,width,height),new Color(.005f,.015f,.025f,.72f));
             bool hasCredit = encounter.DragonAttribution != null;
-            float panelHeight = hasCredit ? 500 : 372;
+            float panelHeight = hasCredit ? 628 : 500;
             var r = new Rect(width/2-250,height/2-panelHeight/2,500,panelHeight); Panel(r,encounter.Dead?Red:Cyan,.98f);
             string heading = encounter.Dead?"DRAGON DISABLED":"FLIGHT PAUSED";
             Text(new Rect(r.x+20,r.y+24,r.width-40,40),heading,encounter.Dead?Amber:Cyan,overlayTitle);
@@ -313,14 +335,22 @@ namespace SpaceDragon.Dogfight
             if (GUI.Button(new Rect(r.x+65,y,370,40),"SOUND: "+(encounter.SoundEnabled?"ON":"OFF — ENABLE"),button)) encounter.SetSoundEnabled(encounter.SoundEnabled?"false":"true");
             if (GUI.Button(new Rect(r.x+65,y+48,370,40),"REDUCED MOTION: "+(encounter.ReducedMotion?"ON":"OFF"),button)) encounter.SetReducedMotion(encounter.ReducedMotion?"false":"true");
             if (GUI.Button(new Rect(r.x+65,y+96,370,40),"RESTART ENCOUNTER",button)) encounter.RestartEncounter();
-            Text(new Rect(r.x+30,r.y+325,r.width-60,26),"Local lab. Campaign progress and family saves stay separate.",Muted,small);
+            // Always keep the complete legend available, including on canvases
+            // where the compact flight instruments cannot show every reminder.
+            Fill(new Rect(r.x+25,r.y+318,r.width-50,1),new Color(.58f,.91f,.94f,.3f));
+            Text(new Rect(r.x+25,r.y+328,r.width-50,21),"ARROWS / MOUSE FLY  /  WADZ AIM",Cyan,small);
+            Text(new Rect(r.x+25,r.y+350,r.width-50,21),"M SWITCH MOUSE MODE  /  LMB "+PrimaryLabel+"  /  RMB ZOOM",Muted,small);
+            Text(new Rect(r.x+25,r.y+372,r.width-50,21),"SHIFT BOOST  /  Q/E ROLL  /  HOLD B TURN",Muted,small);
+            Text(new Rect(r.x+25,r.y+394,r.width-50,21),"ENTER MISSILE  /  SPACE BEAM  /  HOLD TAB REPAIR",Muted,small);
+            Text(new Rect(r.x+25,r.y+416,r.width-50,21),"F1 CHARGE TOGETHER  /  ESC PAUSE OR RESUME",Muted,small);
+            Text(new Rect(r.x+30,r.y+453,r.width-60,26),"Local lab. Campaign progress and family saves stay separate.",Muted,small);
             if (hasCredit)
             {
-                Text(new Rect(r.x+25,r.y+363,r.width-50,22),"Free Dragon Character 3D by Oscar Creativo",Cyan,small);
-                Text(new Rect(r.x+25,r.y+386,r.width-50,22),"OSCAR CREATIVO · CC BY 4.0 · Modified for Space Dragon",Muted,small);
-                if (GUI.Button(new Rect(r.x+25,r.y+427,218,36),"ORIGINAL MODEL / CREDIT",button))
+                Text(new Rect(r.x+25,r.y+491,r.width-50,22),"Free Dragon Character 3D by Oscar Creativo",Cyan,small);
+                Text(new Rect(r.x+25,r.y+514,r.width-50,22),"OSCAR CREATIVO · CC BY 4.0 · Modified for Space Dragon",Muted,small);
+                if (GUI.Button(new Rect(r.x+25,r.y+555,218,36),"ORIGINAL MODEL / CREDIT",button))
                     Application.OpenURL("https://sketchfab.com/3d-models/free-dragon-character-3d-by-oscar-creativo-443971c0f42a49e5bedc0bfe2b544407");
-                if (GUI.Button(new Rect(r.x+257,r.y+427,218,36),"CC BY 4.0 LICENSE",button))
+                if (GUI.Button(new Rect(r.x+257,r.y+555,218,36),"CC BY 4.0 LICENSE",button))
                     Application.OpenURL("https://creativecommons.org/licenses/by/4.0/");
             }
         }

@@ -24,6 +24,9 @@ namespace SpaceDragon.Dogfight.Editor
         public const string HeroicDragonPath = Imported + "/dragon-heroic-v005.glb";
         public const string VioletDragonPath = Imported + "/dragon-violet-v007.glb";
         public const string OscarDragonPath = Imported + "/dragon-oscar-v001.glb";
+        public const string OscarMechanicalPath = Imported + "/dragon-oscar-mechanical-v004.glb";
+        static bool UsesOscarAccessories => UsesOscarCandidate && Environment.GetEnvironmentVariable("SPACE_DRAGON_DOGFIGHT_MECHANICAL") != "none";
+        static string PresentationVersion => UsesOscarCandidate ? "oscar-spacecraft-v002" : "baseline-v001";
         // Preparing the additive receipt makes the organic candidate available.
         // An explicit local rollback remains possible without deleting any intake.
         // Invalid prepared data fails validation rather than silently falling back.
@@ -83,6 +86,16 @@ namespace SpaceDragon.Dogfight.Editor
             public int sampleRate; public string[] damageSockets;
         }
         [Serializable] sealed class OscarContract : VioletContract { public PresentationDefinition presentation; }
+        [Serializable] sealed class OscarMechanicalContract { public int schemaVersion, triangles; public string file, sha256; public long bytes; }
+        static OscarMechanicalContract ReadMechanicalContract()
+        {
+            var path = Root + "/oscar-mechanical-contract-v004.json";
+            var value = JsonUtility.FromJson<OscarMechanicalContract>(File.ReadAllText(path));
+            if (value == null || value.schemaVersion != 1 || value.file != "dragon-oscar-mechanical-v004.glb"
+                || value.sha256?.Length != 64 || value.triangles <= 0 || value.bytes != new FileInfo(OscarMechanicalPath).Length)
+                throw new InvalidDataException("Invalid additive Oscar mechanical contract. Prepare the versioned candidate first.");
+            return value;
+        }
         static bool Finite(float[] values, int count) => values?.Length == count && values.All(value => !float.IsNaN(value) && !float.IsInfinity(value));
         static VioletContract ReadVioletContract()
         {
@@ -173,7 +186,8 @@ namespace SpaceDragon.Dogfight.Editor
             public string configuredSkinWeights; public string[] configuredSkinWeightsByQuality;
             public ModelEvidence dragon, drone;
             public OscarFullWeightMeshes.Evidence fullSkinWeights;
-            public string textureMode;
+            public OscarMechanicalAccessories.Evidence mechanicalAccessories;
+            public string textureMode, presentationVersion;
             public OscarCompressedTextures.Evidence compressedTextures;
             public int asteroidLayer, msaaSamples, backgroundStars = 5200, backgroundStarDraws = 1;
             public float renderScale, collisionRadius, contactY, missileDamage;
@@ -187,7 +201,8 @@ namespace SpaceDragon.Dogfight.Editor
             public string[] graphicsAPIs; public ulong bytes; public double durationSeconds;
             public string configuredSkinWeights; public string[] configuredSkinWeightsByQuality, originalSkinWeightsByQuality, restoredSkinWeightsByQuality;
             public bool developmentBuild, settingsRestored;
-            public string textureMode;
+            public string textureMode, presentationVersion;
+            public string mechanicalAccessoriesSha256;
         }
 
         [MenuItem("Space Dragon/Dogfight/Generate separate Dogfight scene")]
@@ -215,6 +230,7 @@ namespace SpaceDragon.Dogfight.Editor
             var pipeline = ConfigurePipeline();
             ConfigureModelImport(DragonPath);
             ConfigureModelImport(DronePath);
+            if (UsesOscarAccessories) ConfigureModelImport(OscarMechanicalPath);
             ConfigureTextures();
             var organic = UsesOrganicCandidate;
             var oscar = UsesOscarCandidate;
@@ -248,6 +264,16 @@ namespace SpaceDragon.Dogfight.Editor
             var fullSkinWeights = oscar ? OscarFullWeightMeshes.Restore(dragon,clips,oscarContract.sha256,Generated) : null;
             AnimationClip Clip(string name) => clips.SingleOrDefault(c => c.name == name) ?? throw new InvalidDataException("Imported dragon lost " + name);
             ValidateDragon(dragon, clips);
+            var dragonBodyEvidence = Evidence(dragon, clips, dragonMaterials, true);
+            OscarMechanicalAccessories.Evidence mechanicalAccessories = null;
+            if (UsesOscarAccessories)
+            {
+                var addon = ReadMechanicalContract();
+                mechanicalAccessories = OscarMechanicalAccessories.Prepare(dragon, Prefab(OscarMechanicalPath),
+                    OscarMechanicalPath, addon.sha256, Generated);
+                if (mechanicalAccessories.triangles != addon.triangles)
+                    throw new InvalidDataException("Oscar accessory triangle count changed on import.");
+            }
 
             // Correct the drone's existing amber reactor extension too. The
             // generated prefab references immutable geometry and corrected cloned
@@ -284,6 +310,7 @@ namespace SpaceDragon.Dogfight.Editor
             var host = new GameObject("DogfightEncounter").AddComponent<DogfightEncounter>();
             host.UseAuthoredArmor = true; // Both candidates own their surfaces; no generated armor overlay.
             host.UseOrganicDragon = organic;
+            host.UseSpacecraftDragon = oscar;
             host.DragonTextureMode = textureMode;
             if (oscar)
             {
@@ -315,9 +342,9 @@ namespace SpaceDragon.Dogfight.Editor
                 configuredSkinWeights = QualitySettings.skinWeights.ToString(),
                 configuredSkinWeightsByQuality = oscar ? CaptureSkinWeights().Select(value=>value.ToString()).ToArray() : null,
                 graphicsAPIs = PlayerSettings.GetGraphicsAPIs(BuildTarget.WebGL).Select(a => a.ToString()).ToArray(),
-                dragon = Evidence(dragon, clips, dragonMaterials, true), drone = droneEvidence,
-                fullSkinWeights = fullSkinWeights,
-                textureMode = textureMode, compressedTextures = compressedTextures,
+                dragon = dragonBodyEvidence, drone = droneEvidence,
+                fullSkinWeights = fullSkinWeights, mechanicalAccessories = mechanicalAccessories,
+                textureMode = textureMode, compressedTextures = compressedTextures, presentationVersion = PresentationVersion,
                 coordinates = oscar ? "Metres/+Y up/+Z gameplay. GameplayRoot -> visual bank/roll -> identity source basis -> measured +Z GLB; glTFast performs handedness conversion. Source normalization is already baked."
                     : "Metres/+Y up/+Z gameplay. GameplayRoot -> visual bank/roll -> single Y180 source basis -> unchanged -Z GLB; glTFast performs handedness conversion.",
                 asteroidLayer = AsteroidLayer, msaaSamples = pipeline.msaaSampleCount, renderScale = pipeline.renderScale,
@@ -455,6 +482,11 @@ namespace SpaceDragon.Dogfight.Editor
             Required(settings, "importSettings.nodeNameMethod").intValue = 1;
             Required(settings, "importSettings.generateMipMaps").boolValue = true;
             Required(settings, "instantiationSettings.skinUpdateWhenOffscreen").boolValue = true;
+            // The animated body receives an identity scene wrapper automatically.
+            // glTFast omits it on a single-root, animation-free accessory unless
+            // requested; keep both normalized OscarAssetRoots inside wrappers.
+            if (path == OscarMechanicalPath)
+                Required(settings, "instantiationSettings.sceneObjectCreation").intValue = 1; // Always
             settings.ApplyModifiedPropertiesWithoutUndo(); importer.SaveAndReimport();
         }
 
@@ -493,9 +525,13 @@ namespace SpaceDragon.Dogfight.Editor
                 light.shadowBias = .035f; light.shadowNormalBias = .25f;
                 return light;
             }
-            RenderSettings.sun = Directional("Space.key.warm", new Vector3(-30, 45, 25), new Color(1, .94f, .86f), 3.2f, true);
-            Directional("Space.rim.neutral", new Vector3(20, 8, -35), new Color(.84f, .88f, 1), 1.3f, false);
-            Directional("Space.fill.warm", new Vector3(-20, -10, -20), new Color(.96f, .85f, .72f), .65f, false);
+            // Preserve the authored Oscar PBR maps. Shape its highlights with the
+            // light rig rather than flattening metallic/roughness or repainting it.
+            bool oscar = UsesOscarCandidate;
+            RenderSettings.sun = Directional("Space.key.warm", new Vector3(-30, 45, 25), new Color(1, .94f, .86f), oscar ? 2.6f : 3.2f, true);
+            Directional("Space.rim.neutral", new Vector3(20, 8, -35), new Color(.84f, .88f, 1), oscar ? .75f : 1.3f, false);
+            Directional("Space.fill.planet-bounce", new Vector3(-20, -10, -20),
+                oscar ? new Color(.56f, .69f, .9f) : new Color(.96f, .85f, .72f), oscar ? .4f : .65f, false);
             var cube = AssetDatabase.LoadAssetAtPath<Cubemap>(Imported + "/nebula.jpg") ?? throw new InvalidDataException("Nebula cubemap import failed.");
             var panorama = AssetDatabase.LoadAssetAtPath<Texture2D>(Imported + "/nebula-sky.jpg") ?? throw new InvalidDataException("Visible panoramic sky import failed.");
             var sky = MaterialAsset("Nebula sky", "Skybox/Panoramic");
@@ -507,7 +543,7 @@ namespace SpaceDragon.Dogfight.Editor
             RenderSettings.ambientEquatorColor = new Color(.11f, .115f, .125f);
             RenderSettings.ambientGroundColor = new Color(.055f, .05f, .045f);
             RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
-            RenderSettings.customReflectionTexture = cube; RenderSettings.reflectionIntensity = .42f;
+            RenderSettings.customReflectionTexture = cube; RenderSettings.reflectionIntensity = oscar ? .25f : .42f;
             CreateStarfield();
             var planet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             planet.name = "Near orbit planet.visual-only";
@@ -521,7 +557,7 @@ namespace SpaceDragon.Dogfight.Editor
             var profile = AssetDatabase.LoadAssetAtPath<VolumeProfile>(Generated + "/SpaceGrade.asset");
             if (profile == null) { profile = ScriptableObject.CreateInstance<VolumeProfile>(); AssetDatabase.CreateAsset(profile, Generated + "/SpaceGrade.asset"); }
             Volume<Tonemapping>(profile).mode.Override(TonemappingMode.ACES);
-            Volume<ColorAdjustments>(profile).postExposure.Override(.14f);
+            Volume<ColorAdjustments>(profile).postExposure.Override(oscar ? 0 : .14f);
             var bloom = Volume<Bloom>(profile); bloom.threshold.Override(1.15f); bloom.intensity.Override(.28f); bloom.scatter.Override(.55f);
             var volume = new GameObject("Space.global-grade").AddComponent<Volume>(); volume.isGlobal = true; volume.sharedProfile = profile;
             EditorUtility.SetDirty(profile); EditorUtility.SetDirty(sky); EditorUtility.SetDirty(surface);
@@ -590,6 +626,13 @@ namespace SpaceDragon.Dogfight.Editor
             var renderer = anchor.GetComponent<Renderer>(); renderer.sharedMaterial = material;
             renderer.shadowCastingMode = ShadowCastingMode.Off; renderer.receiveShadows = false;
             renderer.enabled = false; anchor.SetActive(false);
+            foreach(string shader in new[]{"SpaceDragon/Dogfight/Weapon Energy","SpaceDragon/Dogfight/Spacecraft Wing","SpaceDragon/Dogfight/Wing Exhaust"})
+            {
+                var retained=MaterialAsset(shader.Substring(shader.LastIndexOf('/')+1)+".runtime-retained",shader);
+                var holder=GameObject.CreatePrimitive(PrimitiveType.Quad);holder.name=shader+".retained-not-rendered";
+                Object.DestroyImmediate(holder.GetComponent<Collider>());holder.GetComponent<Renderer>().sharedMaterial=retained;
+                holder.GetComponent<Renderer>().enabled=false;holder.SetActive(false);
+            }
         }
         static Transform Child(string name, Transform parent) { var item = new GameObject(name).transform; item.SetParent(parent, false); return item; }
         static GameObject Prefab(string path) => AssetDatabase.LoadAssetAtPath<GameObject>(path) ?? throw new InvalidDataException("glTFast failed to create prefab " + path);
@@ -844,7 +887,8 @@ namespace SpaceDragon.Dogfight.Editor
                 receipt = new BuildReceipt { unityVersion = Application.unityVersion, createdUtc = DateTime.UtcNow.ToString("O"),
                     target = target.ToString(), output = output, result = report.summary.result.ToString(), scene = ScenePath, sourceSha256 = DragonHash,
                     dragonVersion = SelectedAsset,
-                    textureMode = UsesOscarCandidate ? OscarCompressedTextures.SelectedMode : "source",
+                    textureMode = UsesOscarCandidate ? OscarCompressedTextures.SelectedMode : "source", presentationVersion = PresentationVersion,
+                    mechanicalAccessoriesSha256 = UsesOscarAccessories ? ReadMechanicalContract().sha256 : null,
                     configuredMeshDeformation = PlayerSettings.meshDeformation.ToString(), originalMeshDeformation = settings.MeshDeformationBefore,
                     configuredSkinWeights = QualitySettings.skinWeights.ToString(), originalSkinWeightsByQuality = settings.SkinWeightsBefore,
                     configuredSkinWeightsByQuality = UsesOscarCandidate ? CaptureSkinWeights().Select(value=>value.ToString()).ToArray() : null,

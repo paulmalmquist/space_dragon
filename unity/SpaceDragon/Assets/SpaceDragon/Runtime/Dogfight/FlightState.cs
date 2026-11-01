@@ -12,9 +12,10 @@ namespace SpaceDragon.Dogfight
         public float BoostSpeed = 148, BoostCapacity = 4.5f, BoostRechargeRate = .58f;
         public float BoostRechargeDelay = 1.3f, BoostRestartThreshold = .9f;
         public float EvasionCapacity = 100, RollCost = 40, BreakCost = 25, EvasionRechargeRate = 18, EvasionRechargeDelay = 1.8f;
-        public float RollDuration = 1.05f, RollRadius = 2.6f, RollCooldown = .35f;
+        public float RollDuration = 1.35f, RollRadius = 1.2f, RollCooldown = .35f;
         public float BreakDuration = .85f, BreakCooldown = .5f, BreakTurnMultiplier = 2.3f, BreakSpeedFactor = .7f;
         public float BreakBankAngle = 1.45f, BreakSteeringResponse = 12, BreakDeceleration = 90, BreakMomentumResponse = 9;
+        public float HeldBreakDrainPerSecond = 30, HeldBreakTurnMultiplier = 3, HeldBreakSpeedFactor = .58f, HeldBreakBankAngle = 1.05f;
         public float MaxStep = .1f;
 
         internal void Validate()
@@ -27,7 +28,8 @@ namespace SpaceDragon.Dogfight
             if (MinSpeed <= 0 || CruiseSpeed < MinSpeed || MaxSpeed < CruiseSpeed || BoostSpeed < MaxSpeed ||
                 RollDuration <= 0 || BreakDuration <= 0 || MaxStep <= 0 || MaxStep > .25f ||
                 BoostCapacity <= 0 || BoostRestartThreshold > BoostCapacity || EvasionCapacity <= 0 ||
-                RollCost > EvasionCapacity || BreakCost > EvasionCapacity)
+                RollCost > EvasionCapacity || BreakCost > EvasionCapacity || HeldBreakDrainPerSecond <= 0 ||
+                BreakSpeedFactor > 1 || HeldBreakSpeedFactor > 1)
                 throw new ArgumentException("Invalid flight speed, timing or resource bounds.");
         }
     }
@@ -38,8 +40,9 @@ namespace SpaceDragon.Dogfight
         public Vector2 Steer; // Right / up. Input adapters decide keyboard versus mouse priority.
         public float Throttle;
         public bool Boost;
-        public FlightInput(Vector2 steer, float throttle = 0, bool boost = false)
-        { Steer = steer; Throttle = throttle; Boost = boost; }
+        public bool BreakHeld; // Hold plus current steering requests a powered evasive turn.
+        public FlightInput(Vector2 steer, float throttle = 0, bool boost = false, bool breakHeld = false)
+        { Steer = steer; Throttle = throttle; Boost = boost; BreakHeld = breakHeld; }
     }
 
     /// <summary>Authoritative metre/second flight; +Z forward, +Y up. No scene, save or damage ownership.</summary>
@@ -64,6 +67,7 @@ namespace SpaceDragon.Dogfight
         public float EvasionEnergy { get; private set; }
         public bool RollActive { get; private set; }
         public bool BreakActive { get; private set; }
+        public bool HeldBreakActive => BreakActive && heldBreakMode;
         public int RollSerial { get; private set; }
         public int RollsCompleted { get; private set; }
         public int BreakSerial { get; private set; }
@@ -77,7 +81,8 @@ namespace SpaceDragon.Dogfight
         private Vector3 cruiseVelocity;
         private Quaternion rollBasis;
         private int rollDirection, breakDirection;
-        private float rechargeDelay, evasionRechargeDelay;
+        private bool heldBreakMode, breakButtonHeld, breakExhaustedUntilRelease;
+        private float rechargeDelay, evasionRechargeDelay, rollBank;
         private const float Epsilon = .000001f;
 
         public FlightState(FlightTuning tuning = null) { Tuning = tuning ?? new FlightTuning(); Tuning.Validate(); Reset(); }
@@ -89,9 +94,10 @@ namespace SpaceDragon.Dogfight
             Position = Vector3.zero; Rotation = Quaternion.identity; Speed = CruiseSpeed = Tuning.CruiseSpeed;
             Velocity = cruiseVelocity = Vector3.forward * Speed; RollOffset = Vector3.zero; rollBasis = Quaternion.identity;
             YawRate = PitchRate = Bank = RollAngle = RollElapsed = BreakElapsed = RollCooldown = BreakCooldown = 0;
-            rechargeDelay = evasionRechargeDelay = 0; rollDirection = breakDirection = 0;
+            rechargeDelay = evasionRechargeDelay = rollBank = 0; rollDirection = breakDirection = 0;
             BoostEnergy = Tuning.BoostCapacity; EvasionEnergy = Tuning.EvasionCapacity;
             Boosting = BoostLocked = RollActive = BreakActive = false;
+            heldBreakMode = breakButtonHeld = breakExhaustedUntilRelease = false;
             RollSerial = RollsCompleted = BreakSerial = BreaksCompleted = ManeuverSerial = 0; LastManeuverRejection = null;
         }
 
@@ -113,8 +119,9 @@ namespace SpaceDragon.Dogfight
             if (RollActive) RollCooldown = Mathf.Max(RollCooldown, Tuning.RollCooldown);
             if (BreakActive) BreakCooldown = Mathf.Max(BreakCooldown, Tuning.BreakCooldown);
             RollActive = BreakActive = Boosting = false;
+            heldBreakMode = false;
             RollOffset = Vector3.zero; RollAngle = Bank = YawRate = PitchRate = RollElapsed = BreakElapsed = 0;
-            rollDirection = breakDirection = 0; rollBasis = Rotation;
+            rollDirection = breakDirection = 0; rollBank = 0; rollBasis = Rotation;
         }
 
         private bool AcceptManeuver(int direction, float cost)
@@ -130,30 +137,82 @@ namespace SpaceDragon.Dogfight
         {
             if (!AcceptManeuver(direction, Tuning.RollCost)) return false;
             RollActive = true; RollElapsed = 0; rollDirection = direction; RollSerial++;
-            rollBasis = Rotation; RollOffset = Vector3.zero; return true;
+            rollBasis = Rotation; rollBank = Bank; RollOffset = Vector3.zero; return true;
         }
         public bool RequestBreak(int direction)
         {
             if (!AcceptManeuver(direction, Tuning.BreakCost)) return false;
-            BreakActive = true; BreakElapsed = 0; breakDirection = direction; BreakSerial++; return true;
+            BreakActive = true; heldBreakMode = false; BreakElapsed = 0; breakDirection = direction; BreakSerial++; return true;
         }
         public bool RequestBreak() => RequestBreak(Mathf.Abs(Bank) > Epsilon ? -(int)Mathf.Sign(Bank) : -1);
+
+        /// <summary>
+        /// Release an interrupted held turn without refunding energy or counting
+        /// completion. The physical button must be released before another hold.
+        /// Call when focus/pause clears the input adapter, not on every frame.
+        /// </summary>
+        public void CancelHeldBreak()
+        {
+            if (!HeldBreakActive) return;
+            FinishBreak(false);
+            breakButtonHeld = true;
+        }
+
+        private void ReadHeldBreak(bool held)
+        {
+            if (!held)
+            {
+                if (HeldBreakActive) FinishBreak(true);
+                breakExhaustedUntilRelease = false;
+            }
+            else if (!breakButtonHeld)
+            {
+                // A neutral hold brakes but does not invent a turn direction.
+                // Steering remains live throughout the powered maneuver.
+                if (AcceptManeuver(1, Tuning.BreakCost))
+                {
+                    BreakActive = heldBreakMode = true;
+                    BreakElapsed = 0; breakDirection = 0; BreakSerial++;
+                }
+                else if (LastManeuverRejection == "energy") breakExhaustedUntilRelease = true;
+            }
+            breakButtonHeld = held;
+        }
 
         public void Tick(float dt, FlightInput input, float propulsionBoostMultiplier = 1, bool boostAllowed = true)
         {
             if (!Finite(dt) || dt <= 0) return;
             dt = Mathf.Min(dt, Tuning.MaxStep); // Suspension is not a teleport/catch-up request.
+            ReadHeldBreak(input.BreakHeld);
             propulsionBoostMultiplier = Finite(propulsionBoostMultiplier) ? Mathf.Clamp(propulsionBoostMultiplier, 0, 2) : 1;
             TickSegment(dt, input, propulsionBoostMultiplier, boostAllowed);
         }
         private void TickSegment(float dt, FlightInput input, float boostMultiplier, bool boostAllowed)
         {
+            if (BreakActive)
+            {
+                // End the powered phase at its actual time, before consuming the
+                // rest of a render tick. Otherwise FinishBreak resets the delay
+                // after UpdateEvasion credited idle time, losing up to a slice
+                // of recharge/cooldown (and giving free braking after exhaustion).
+                float remaining = HeldBreakActive ? EvasionEnergy / Tuning.HeldBreakDrainPerSecond :
+                    Mathf.Max(0, Tuning.BreakDuration - BreakElapsed);
+                if (remaining <= 0)
+                {
+                    if (HeldBreakActive) breakExhaustedUntilRelease = true;
+                    FinishBreak(true);
+                }
+                else if (remaining < dt)
+                {
+                    TickSegment(remaining, input, boostMultiplier, boostAllowed);
+                    TickSegment(dt - remaining, input, boostMultiplier, boostAllowed);
+                    return;
+                }
+            }
             if (BreakActive && dt > 1f / 120 + Epsilon)
             {
-                float maneuverTime = Mathf.Min(dt, Mathf.Max(0, Tuning.BreakDuration - BreakElapsed));
-                int slices = Mathf.Max(1, Mathf.CeilToInt(maneuverTime * 120 - Epsilon));
-                for (int i = 0; i < slices; i++) TickSegment(maneuverTime / slices, input, boostMultiplier, boostAllowed);
-                if (dt - maneuverTime > Epsilon) TickSegment(dt - maneuverTime, input, boostMultiplier, boostAllowed);
+                int slices = Mathf.Max(1, Mathf.CeilToInt(dt * 120 - Epsilon));
+                for (int i = 0; i < slices; i++) TickSegment(dt / slices, input, boostMultiplier, boostAllowed);
                 return;
             }
             UpdateEvasion(dt);
@@ -174,23 +233,36 @@ namespace SpaceDragon.Dogfight
                 if (rechargeDelay <= Epsilon) BoostEnergy = Mathf.Min(Tuning.BoostCapacity, BoostEnergy + Tuning.BoostRechargeRate * dt);
             }
             float boostSpeed = CruiseSpeed + Mathf.Max(0, Tuning.BoostSpeed - CruiseSpeed) * boostMultiplier;
-            float desiredSpeed = BreakActive ? Mathf.Max(Tuning.MinSpeed, CruiseSpeed * Tuning.BreakSpeedFactor) : Boosting ? boostSpeed : CruiseSpeed;
+            float brakeFactor = HeldBreakActive ? Tuning.HeldBreakSpeedFactor : Tuning.BreakSpeedFactor;
+            float desiredSpeed = BreakActive ? Mathf.Max(Tuning.MinSpeed, CruiseSpeed * brakeFactor) : Boosting ? boostSpeed : CruiseSpeed;
             Speed += Mathf.Clamp(desiredSpeed - Speed, -(BreakActive ? Tuning.BreakDeceleration : Tuning.Acceleration) * dt, Tuning.Acceleration * dt);
-            float yawTarget = BreakActive ? breakDirection * Tuning.TurnRate * Tuning.BreakTurnMultiplier : steer * Tuning.TurnRate * (Boosting ? .75f : 1);
+            float yawTarget = HeldBreakActive ? steer * Tuning.TurnRate * Tuning.HeldBreakTurnMultiplier :
+                BreakActive ? breakDirection * Tuning.TurnRate * Tuning.BreakTurnMultiplier : steer * Tuning.TurnRate * (Boosting ? .75f : 1);
             YawRate = Damp(YawRate, yawTarget, BreakActive ? Tuning.BreakSteeringResponse : Tuning.SteeringResponse, dt);
-            PitchRate = Damp(PitchRate, pitch * Tuning.PitchRate, Tuning.SteeringResponse, dt);
+            PitchRate = Damp(PitchRate, pitch * Tuning.PitchRate * (HeldBreakActive ? Tuning.HeldBreakTurnMultiplier : 1),
+                HeldBreakActive ? Tuning.BreakSteeringResponse : Tuning.SteeringResponse, dt);
             // Local Y then X preserves the legacy YXZ integration after the +Z basis conversion.
             Rotation = (Rotation * Quaternion.AngleAxis(YawRate * dt * Mathf.Rad2Deg, Vector3.up) *
                 Quaternion.AngleAxis(-PitchRate * dt * Mathf.Rad2Deg, Vector3.right)).normalized;
             Vector3 desired = Forward * Speed;
             cruiseVelocity = Vector3.Lerp(cruiseVelocity, desired, 1 - Mathf.Exp(-(BreakActive ? Tuning.BreakMomentumResponse : Tuning.MomentumResponse) * dt));
             Velocity = cruiseVelocity; Position += cruiseVelocity * dt;
-            Bank = Damp(Bank, BreakActive ? -breakDirection * Tuning.BreakBankAngle : -steer * Tuning.BankAngle, Tuning.BankResponse, dt);
+            // Hold the entry bank through the revolution. Damping it toward
+            // neutral here would briefly reverse a roll's slow entry/exit.
+            float bankTarget = HeldBreakActive ? -steer * Tuning.HeldBreakBankAngle :
+                BreakActive ? -breakDirection * Tuning.BreakBankAngle : -steer * Tuning.BankAngle;
+            Bank = RollActive ? rollBank : Damp(Bank, bankTarget, Tuning.BankResponse, dt);
             UpdateRoll(dt); UpdateBreak(dt);
         }
         private void UpdateEvasion(float dt)
         {
-            float remaining = RollActive ? Tuning.RollDuration - RollElapsed : BreakActive ? Tuning.BreakDuration - BreakElapsed : 0;
+            if (breakExhaustedUntilRelease && breakButtonHeld)
+            {
+                evasionRechargeDelay = Tuning.EvasionRechargeDelay;
+                return;
+            }
+            float remaining = RollActive ? Tuning.RollDuration - RollElapsed : HeldBreakActive ? dt :
+                BreakActive ? Tuning.BreakDuration - BreakElapsed : 0;
             float activeTime = Mathf.Min(dt, Mathf.Max(0, remaining));
             if (activeTime > 0) evasionRechargeDelay = Tuning.EvasionRechargeDelay;
             float idleTime = dt - activeTime, waiting = Mathf.Min(idleTime, evasionRechargeDelay);
@@ -202,7 +274,7 @@ namespace SpaceDragon.Dogfight
             if (!RollActive) { RollCooldown = Mathf.Max(0, RollCooldown - dt); return; }
             RollElapsed = Mathf.Min(Tuning.RollDuration, RollElapsed + dt);
             if (Tuning.RollDuration - RollElapsed < Epsilon) RollElapsed = Tuning.RollDuration;
-            float t = RollElapsed / Tuning.RollDuration, eased = t * t * t * (10 + t * (-15 + t * 6));
+            float t = RollElapsed / Tuning.RollDuration, eased = RollProgress(t);
             float angle = eased * Mathf.PI * 2; RollAngle = -rollDirection * angle;
             Vector3 offset = t >= 1 ? Vector3.zero : rollBasis * new Vector3(rollDirection * Tuning.RollRadius * Mathf.Sin(angle), Tuning.RollRadius * (1 - Mathf.Cos(angle)), 0);
             Vector3 delta = offset - RollOffset; Position += delta;
@@ -213,9 +285,39 @@ namespace SpaceDragon.Dogfight
         private void UpdateBreak(float dt)
         {
             if (!BreakActive) { BreakCooldown = Mathf.Max(0, BreakCooldown - dt); return; }
+            if (heldBreakMode)
+            {
+                BreakElapsed += dt;
+                EvasionEnergy = Mathf.Max(0, EvasionEnergy - Tuning.HeldBreakDrainPerSecond * dt);
+                if (EvasionEnergy <= Epsilon)
+                {
+                    EvasionEnergy = 0; breakExhaustedUntilRelease = true;
+                    FinishBreak(true);
+                }
+                return;
+            }
             BreakElapsed = Mathf.Min(Tuning.BreakDuration, BreakElapsed + dt);
             if (Tuning.BreakDuration - BreakElapsed < Epsilon) BreakElapsed = Tuning.BreakDuration;
-            if (BreakElapsed >= Tuning.BreakDuration) { BreakActive = false; BreakCooldown = Tuning.BreakCooldown; BreaksCompleted++; }
+            if (BreakElapsed >= Tuning.BreakDuration) FinishBreak(true);
+        }
+        private void FinishBreak(bool completed)
+        {
+            BreakActive = heldBreakMode = false;
+            BreakCooldown = Tuning.BreakCooldown;
+            evasionRechargeDelay = Tuning.EvasionRechargeDelay;
+            if (completed) BreaksCompleted++;
+        }
+        private static float RollProgress(float t)
+        {
+            // Integrate cosine velocity ramps over the first/last 20%, leaving
+            // a steady middle. Peak rate is only 1.25x the mean (old quintic:
+            // 1.875x), with zero velocity and acceleration at both endpoints.
+            const float ramp = .2f;
+            if (t <= 0) return 0;
+            if (t >= 1) return 1;
+            if (t < ramp) return (t - ramp / Mathf.PI * Mathf.Sin(Mathf.PI * t / ramp)) * .5f / (1 - ramp);
+            if (t > 1 - ramp) return 1 - RollProgress(1 - t);
+            return (t - ramp * .5f) / (1 - ramp);
         }
     }
 }
