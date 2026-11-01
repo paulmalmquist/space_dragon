@@ -1,0 +1,4 @@
+Powered by Poly Haven
+CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
+Asset license: https://polyhaven.com/license
+See provenance.json for authors, source URLs, hashes and conversion.

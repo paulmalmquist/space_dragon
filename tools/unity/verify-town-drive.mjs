@@ -60,6 +60,67 @@ async function waitState(predicate, label, timeout = 45000) {
   }
   throw new Error(`${label} timed out: ${JSON.stringify(state)}`);
 }
+// PlayerPrefs.Save queues asynchronous IDBFS work. An immediate reload can
+// interrupt that write even after the runtime reports "Checkpoint saved".
+// Observe the existing write; never call FS.syncfs or repair storage for a test.
+async function waitForDurableTownDriveSave() {
+  const started = Date.now();
+  const handle = await page.waitForFunction(async key => {
+    const mountNode = window.__SPACE_DRAGON_TOWN_DRIVE__?.instance?.Module?.__unityIdbfsMount;
+    if (mountNode?.mount?.idbPersistState !== 0) return false;
+    const pending = [];
+    function visit(node, filePath) {
+      if (node.contents instanceof Uint8Array) {
+        const bytes = node.contents.slice(0, node.usedBytes ?? node.contents.length);
+        // Unity owns the preference-file encoding. Inspect only files carrying
+        // this lab's key; compare raw bytes rather than reconstructing the file.
+        const containsKey = ['utf-8', 'utf-16le'].some(encoding => new TextDecoder(encoding).decode(bytes).includes(key));
+        if (containsKey) pending.push({ filePath, bytes });
+      } else if (node.contents && typeof node.contents === 'object') {
+        for (const [name, child] of Object.entries(node.contents)) visit(child, filePath + '/' + name);
+      }
+    }
+    visit(mountNode, mountNode.mount.mountpoint);
+    if (!pending.length) return false;
+    if (!(await indexedDB.databases()).some(db => db.name === '/idbfs')) return false;
+    const stored = await new Promise((resolve, reject) => {
+      let database;
+      const timeout = setTimeout(() => { database?.close(); reject(new Error('Read-only persistence inspection timed out.')); }, 5000);
+      const finish = (error, value) => { clearTimeout(timeout); database?.close(); error ? reject(error) : resolve(value); };
+      const request = indexedDB.open('/idbfs');
+      // Never create a database if storage disappears between discovery/open.
+      request.onupgradeneeded = () => request.transaction.abort();
+      request.onerror = () => finish(request.error);
+      request.onsuccess = () => {
+        database = request.result;
+        if (!database.objectStoreNames.contains('FILE_DATA')) { finish(null, null); return; }
+        const transaction = database.transaction('FILE_DATA', 'readonly');
+        const values = new Map();
+        transaction.onerror = () => finish(transaction.error);
+        transaction.onabort = () => finish(transaction.error || new Error('Persistence inspection aborted.'));
+        transaction.oncomplete = () => finish(null, values);
+        const store = transaction.objectStore('FILE_DATA');
+        for (const { filePath } of pending) {
+          const read = store.get(filePath);
+          read.onsuccess = () => values.set(filePath, read.result?.contents);
+        }
+      };
+    });
+    if (!stored || mountNode.mount.idbPersistState !== 0) return false;
+    const files = [];
+    for (const { filePath, bytes } of pending) {
+      const saved = stored.get(filePath);
+      if (!(saved instanceof Uint8Array) || saved.length !== bytes.length || !bytes.every((value, i) => value === saved[i])) return false;
+      const hash = await crypto.subtle.digest('SHA-256', saved);
+      files.push({ path: filePath, bytes: saved.length,
+        sha256: Array.from(new Uint8Array(hash), value => value.toString(16).padStart(2, '0')).join('') });
+    }
+    return { key, database: '/idbfs', store: 'FILE_DATA', persistState: 0, files,
+      scope: 'Read-only persisted bytes match the key-scoped in-memory preference file after Unity IDBFS commit. No test-triggered synchronization.' };
+  }, 'space-dragon.unity.drive.v1', { timeout: 30000, polling: 100 });
+  const result = await handle.jsonValue(); await handle.dispose();
+  return { ...result, waitMs: Date.now() - started };
+}
 async function tap(key) { await page.keyboard.down(key); await delay(100); await page.keyboard.up(key); }
 async function release() {
   if (!page || page.isClosed()) return;
@@ -164,6 +225,9 @@ try {
   await runCase('checkpoint-save-and-reload', async () => {
     const before = await snapshot();
     await tap('f'); const saved = await waitState(s => s.assist !== before.assist, 'assist setting saved');
+    report.persistence = { before, saved }; await saveReport();
+    const committed = await waitForDurableTownDriveSave();
+    report.persistence.committed = committed; await saveReport();
     await page.reload({ waitUntil: 'domcontentloaded', timeout: 90000 });
     const restored = await waitState(s => s.ready, 'player reload', 180000);
     assert.equal(restored.assist, saved.assist); assert.deepEqual(restored.visited, saved.visited);
@@ -172,7 +236,7 @@ try {
     await page.locator('#unity-canvas').click({ position: { x: 640, y: 360 } });
     if (restored.paused) { await tap('Escape'); await waitState(s => !s.paused, 'resume after reload'); }
     if (restored.assist) { await tap('f'); await waitState(s => !s.assist, 'normal handling restored'); }
-    return { before, saved, restored };
+    return { before, saved, committed, restored };
   });
   const warmStart = await snapshot();
   report.warmedStationaryWindow = await waitState(s => s.frames >= warmStart.frames + 240,
@@ -211,6 +275,7 @@ try {
     assert.deepEqual(checkpoints,['home','leg-1','leg-2','leg-3','leg-4','home']);
     assert(state.elapsed-startElapsed>180, 'Real simulation time must cover a full drive.');
     await capture('complete-home');
+    report.completedPersistence = await waitForDurableTownDriveSave(); await saveReport();
     await page.reload({waitUntil:'domcontentloaded',timeout:90000});const restored=await waitState(s=>s.ready,'completed save reload',180000);
     assert.equal(restored.completed,true);assert.deepEqual(restored.visited,state.visited);assert.equal(restored.checkpointId,'home');
     return{semanticInputOnly:true,wallSeconds:(Date.now()-started)/1000,simulatedSeconds:state.elapsed-startElapsed,checkpoints,maximumObservedDisplacement:maximumStep,contactSnapshots,samples,completed:state,restored};

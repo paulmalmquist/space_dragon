@@ -40,6 +40,7 @@ namespace SpaceDragon.TownDrive.Editor
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             var manifest = LoadManifest();
             VerifyExportFiles(manifest);
+            VerifyArtInputs();
             ConfigureTextureImports(manifest);
             var routeAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(DataPath) ?? throw new FileNotFoundException("Town Drive route export is missing.", DataPath);
             var data = TownDriveJson.Load(routeAsset);
@@ -137,6 +138,9 @@ namespace SpaceDragon.TownDrive.Editor
                 model.SetActive(false); people.Add(model); walks.Add(walk);
             }
             templates.SetActive(false);
+            ApplySurfaceArt(world);
+            ApplyRoofAndWallArt(world);
+            ApplyGardenArt(world);
             ConfigureLighting();
             var camera = new GameObject("TownDrive.Camera").AddComponent<Camera>();
             camera.tag = "MainCamera";
@@ -168,6 +172,7 @@ namespace SpaceDragon.TownDrive.Editor
                 scene = ScenePath, createdUtc = DateTime.UtcNow.ToString("O"), sourceRevision = manifest.sourceRevision,
                 sourceFingerprint = data.sourceFingerprint, manifestSha256 = HashFile(ManifestPath), coordinateBasis = "Identity; imported +X/+Z and mapped anchors checked in metres",
                 pipelinePath = PipelinePath, rendererPath = RendererPath,
+                artSourceSha256 = HashFile(ArtInputs + "/provenance.json"), artRoofMeshes = ArtRoofMeshes, artWallRenderers = ArtWallRenderers,
                 assets = manifest.assets.Length, vegetationParts = manifest.vegetationInstances.Length,
                 vegetationLodGroups = vegetation.GetComponentsInChildren<LODGroup>(true).Length, parkedVehicles = manifest.parkedVehicles.Length,
                 trafficTemplates = traffic.Length, pedestrianTemplates = people.Count, pedestrianClips = walks.Count,
@@ -261,7 +266,7 @@ namespace SpaceDragon.TownDrive.Editor
         { public ContextCounts context = new ContextCounts(); public EmptyRecord[] junctions = Array.Empty<EmptyRecord>(), closures = Array.Empty<EmptyRecord>(); }
         [Serializable] sealed class BuildReceipt
         {
-            public string result, unityVersion, scene, output, target, manifestSha256, buildOptions;
+            public string result, unityVersion, scene, output, target, manifestSha256, artSourceSha256, buildOptions;
             public bool developmentBuild, semanticReviewHooks;
             public ulong bytes; public double durationSeconds;
         }
@@ -297,7 +302,7 @@ namespace SpaceDragon.TownDrive.Editor
                     result = "Succeeded", unityVersion = Application.unityVersion, scene = ScenePath, output = output,
                     target = target.ToString(), bytes = report.summary.totalSize, durationSeconds = report.summary.totalTime.TotalSeconds,
                     buildOptions = report.summary.options.ToString(), developmentBuild = actualDevelopment, semanticReviewHooks = actualDevelopment,
-                    manifestSha256 = HashFile(ManifestPath) }, true));
+                    manifestSha256 = HashFile(ManifestPath), artSourceSha256 = HashFile(ArtInputs + "/provenance.json") }, true));
                 Debug.Log("SPACE_DRAGON_TOWN_DRIVE_BUILD_OK " + output);
             }
             finally { if (target == BuildTarget.WebGL) PlayerSettings.WebGL.template = previousTemplate; }
