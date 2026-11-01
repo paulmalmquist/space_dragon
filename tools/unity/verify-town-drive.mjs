@@ -206,13 +206,25 @@ try {
     await tap('c'); const cabin = await waitState(s => s.cameraMode === 'cabin', 'cabin camera');
     assert(cabin.cabinVisible && close(cabin.frontGlazingAlpha,.10) && cabin.dashboardMph>=0);
     assert(close(cabin.cabinEyeLocal.x,-.46) && close(cabin.cabinEyeLocal.y,1.42) && close(cabin.cabinEyeLocal.z,.42));
+    const mirror = await waitState(s => s.rearViewSupported && s.rearViewActive && s.rearViewCaptures > 0, 'live rear view');
+    const cabinStart = await snapshot(), cabinStartedAt = Date.now();
+    report.warmedCabinWindow = await waitState(s => s.frames >= cabinStart.frames + 240, '240 cabin frames with live rear view', 90000);
+    report.cabinCaptureWindow = { wallMs: Date.now() - cabinStartedAt, captures: report.warmedCabinWindow.rearViewCaptures - cabinStart.rearViewCaptures };
+    assert(report.cabinCaptureWindow.captures <= Math.ceil(report.cabinCaptureWindow.wallMs * .006) + 1, 'Rear view stays within its six-capture-per-second budget.');
+    assert(report.warmedCabinWindow.rearViewCaptures > mirror.rearViewCaptures, 'Rear view updates while active.');
+    await tap('Escape'); const mirrorPaused = await waitState(s => s.paused, 'cabin pause');
+    await delay(600); const mirrorHeld = await snapshot();
+    assert.equal(mirrorHeld.rearViewCaptures, mirrorPaused.rearViewCaptures, 'Paused mirror does not render hidden work.');
+    await tap('Escape'); await waitState(s => !s.paused && s.rearViewCaptures > mirrorPaused.rearViewCaptures, 'live rear view resumes');
     await capture('cabin-forward');
     await page.keyboard.down('q'); await delay(600); const left = await capture('cabin-left'); await page.keyboard.up('q');
     assert(left.lookYaw < cabin.lookYaw - .1);
     await page.keyboard.down('e'); await delay(600); const right = await capture('cabin-right'); await page.keyboard.up('e');
     assert(right.lookYaw > left.lookYaw + .1);
     await tap('c'); const chase = await waitState(s => s.cameraMode === 'chase', 'chase camera restored'); assert(close(chase.frontGlazingAlpha,.55));
-    return { cabin, left, right };
+    await delay(500); const mirrorOff = await snapshot();
+    assert.equal(mirrorOff.rearViewActive, false); assert.equal(mirrorOff.rearViewCaptures, chase.rearViewCaptures, 'Chase view has no mirror rendering cost.');
+    return { cabin, left, right, mirror, mirrorPaused, mirrorHeld, mirrorOff };
   });
   await runCase('reset-snaps-common-car-camera-presentation', async () => {
     await tap('r'); const state = await waitState(s => Math.abs(s.speed) < .01, 'reset');

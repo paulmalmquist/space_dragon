@@ -90,6 +90,8 @@ The authoring exporter captures the existing detailed Babylon geometry into per-
 
 The November 1 art generator creates Town-owned physical-scale UV mesh derivatives, scanned URP roof/stucco materials and spatially batched low planting. It preserves source geometry and adds no collision or authoritative state. Art provenance and counts are separate from the unchanged imported-source inventory; [art evidence](../reports/2026-11-01-town-drive-surface-art.md).
 
+The v003 palm/facade/cabin presentation pass keeps its original sources and owns only generated derivatives. `TownDriveRearView` renders a bounded rear-camera-style texture after presentation, only while visible and unpaused in cabin mode; capture counts and CPU wall intervals are observations, not simulation clocks or saves. It does not mutate the shared renderer or introduce layers. [Evidence](../reports/2026-11-01-town-drive-foliage-cabin.md).
+
 Keyboard and review-driver input feed the same semantic driving rules. Focus/pause releases held input; traffic/pedestrian animation observes simulation time. Checkpoint persistence uses separate `space-dragon.unity.drive.v1`/backup keys, ordered-progress validation and future-version protection, with no automatic browser/campaign save migration. Native-core parity, generated-scene validation, actual player behavior and visual/performance acceptance remain separate evidence in the [active scene receipt](../reports/2026-10-31-unity-town-drive-scene.md). The dedicated Development Web player passed its full route/reload and two-backend checks; human quality, full feature parity and release remain separate. The browser Drive Lab remains available as a reference.
 
 ## Unity Dogfight encounter — SD-075

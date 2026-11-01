@@ -17,6 +17,9 @@ namespace SpaceDragon.TownDrive.Runtime
         public string[] visited;
         public int trafficCount,pedestrianCount,visibleTraffic,visiblePedestrians,ticks,frames,dashboardMph,frameSampleCount;
         public float meanFrameMs,p95FrameMs;
+        public bool rearViewActive,rearViewSupported;
+        public int rearViewCaptures;
+        public float rearViewCaptureCpuMs;
         public double frameSeconds,droppedSeconds,displayedYaw,displayedSpeed;
         public Vector3 displayedCarPosition,cameraPosition,cabinEyeLocal;
         public RouteSample targetAhead;
@@ -45,6 +48,7 @@ namespace SpaceDragon.TownDrive.Runtime
         private bool ownsPipeline;
         private TownDriveSession session;
         private TownDriveSave save;
+        private TownDriveRearView rearView;
         private readonly TownDriveInputLatch inputLatch=new TownDriveInputLatch();
         private DriveInput controls;
         private readonly List<Transform> frontWheels=new List<Transform>(),spinWheels=new List<Transform>();
@@ -115,6 +119,7 @@ namespace SpaceDragon.TownDrive.Runtime
                     if(node.name=="drive.car.driver-headrest")headrest=node;
                 }
                 dashboard=TownDriveDashboard.Create(playerRoot);if(dashboard!=null)cabinDetails.Add(dashboard.Root);
+                rearView=playerRoot.GetComponent<TownDriveRearView>();
                 BindFrontGlazing();BindSignalMaterials();driveCamera.nearClipPlane=.06f;driveCamera.farClipPlane=620;ApplyCabinVisibility();ready=true;Render(0,true);RequestSnapshot();
             }
             catch(Exception exception){ready=false;error=exception.Message;Debug.LogException(exception,this);RequestSnapshot();}
@@ -207,6 +212,7 @@ namespace SpaceDragon.TownDrive.Runtime
             driveCamera.transform.SetPositionAndRotation(frame.position,frame.rotation);driveCamera.fieldOfView=frame.fieldOfView;
             dashboard?.Update(renderedPose.speed);
             RenderPopulation();
+            rearView?.Tick(cabin,session.Paused);
             foreach(var light in signalMaterials)
             {
                 var signal=Array.Find(session.Traffic.Signals,item=>item.id==light.id);if(signal==null)continue;
@@ -321,6 +327,7 @@ namespace SpaceDragon.TownDrive.Runtime
                 result.checkpointId=state.checkpointId;result.visited=state.visited;result.completed=state.completed;result.assist=state.assist;result.bonkSeconds=state.bonkSeconds;
                 result.cameraMode=cabin?"cabin":"chase";result.lookYaw=lookYaw;result.cabinVisible=cabin;result.saveStatus=save.Status;result.street=session.Simulation.Route.LabelAt(state.routeS);
                 result.dashboardMph=dashboard==null?-1:dashboard.Mph;
+                if(rearView!=null){result.rearViewActive=rearView.Active;result.rearViewSupported=rearView.Supported;result.rearViewCaptures=rearView.Captures;result.rearViewCaptureCpuMs=(float)rearView.LastCaptureMilliseconds;}
                 result.frontGlazingAlpha=-1;
                 if(frontGlazingMaterials.Count>0)foreach(string property in new[]{"_BaseColor","_Color","baseColorFactor"})
                     if(frontGlazingMaterials[0].HasProperty(property)){result.frontGlazingAlpha=frontGlazingMaterials[0].GetColor(property).a;break;}
