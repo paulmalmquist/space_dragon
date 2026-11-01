@@ -281,6 +281,37 @@ namespace SpaceDragon.Dogfight.Tests
         }
 
         [Test]
+        public void DefaultSpeedMultiplierPreservesFlightExactlyAndInvalidMultiplierDoesNotCorruptState()
+        {
+            var baseline = new FlightState(); var explicitDefault = new FlightState(); var invalid = new FlightState();
+            for (int frame = 0; frame < 240; frame++)
+            {
+                if (frame == 30) { baseline.RequestRoll(1); explicitDefault.RequestRoll(1); invalid.RequestRoll(1); }
+                var input = new FlightInput(new Vector2(.2f, -.1f), .1f, frame > 180);
+                baseline.Tick(1f / 60, input); explicitDefault.Tick(1f / 60, input, speedMultiplier: 1);
+                invalid.Tick(1f / 60, input, speedMultiplier: float.NaN);
+                Assert.That(explicitDefault.Position, Is.EqualTo(baseline.Position)); Assert.That(invalid.Position, Is.EqualTo(baseline.Position));
+                Assert.That(explicitDefault.Speed, Is.EqualTo(baseline.Speed)); Assert.That(explicitDefault.BoostEnergy, Is.EqualTo(baseline.BoostEnergy));
+            }
+        }
+
+        [Test]
+        public void LatchMultiplierReducesActualTravelWithoutChangingThrottleAndReleaseRestoresIt()
+        {
+            var flight = new FlightState();
+            for (int frame = 0; frame < 120; frame++)
+                flight.Tick(1f / 60, new FlightInput(Vector2.zero, 0, true), boostAllowed: false, speedMultiplier: .7f);
+            Assert.That(flight.Speed, Is.EqualTo(54 * .7f).Within(.001));
+            Assert.That(flight.Velocity.magnitude, Is.EqualTo(54 * .7f).Within(.01));
+            Assert.That(flight.CruiseSpeed, Is.EqualTo(54)); Assert.That(flight.Boosting, Is.False);
+            Assert.That(flight.BoostEnergy, Is.EqualTo(4.5f)); Assert.That(flight.EvasionEnergy, Is.EqualTo(100));
+            for (int frame = 0; frame < 60; frame++) flight.Tick(1f / 60, default);
+            Assert.That(flight.Speed, Is.EqualTo(54).Within(.001));
+            flight.Tick(1f / 60, new FlightInput(Vector2.zero, 0, true));
+            Assert.That(flight.Boosting, Is.True);
+        }
+
+        [Test]
         public void InvalidOrPausedTimeDoesNotAdvanceAndResetClearsAllManeuvers()
         {
             var flight = new FlightState(); flight.RequestBreak(1); Advance(flight, .2f);

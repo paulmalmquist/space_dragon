@@ -24,6 +24,10 @@ namespace SpaceDragon.Dogfight
         public float RacerStrafeWidth = 150f, RacerStrafeSpeed = 2.4f, RacerAssistMultiplier = .15f,
             RacerStationSpeed = 110f, GrapplerCloseSpeed = 95f, GunshipStationSpeed = 8f;
         public float WaveDelaySeconds = 2f;
+        public Vector3 GrapplerLatchOffset = new Vector3(4,0,-1);
+        public float GrapplerStunDriftSpeed = 35f;
+        public EnemyWaveDefinition[] Waves = DogfightWaveList.CreateDefault();
+        public float RoleVisualScale = 1f, RoleShieldOpacity = .28f, RoleCuePulseHz = 2f;
         [Header("Claw finisher")]
         public float FinisherHealthFraction = .25f, FinisherRange = 30f, FinisherConeDegrees = 40f,
             FinisherFreezeSeconds = .15f, FinisherEvasionReward = 15f;
@@ -31,6 +35,7 @@ namespace SpaceDragon.Dogfight
         public float WingmanRunSeconds = 4f, WingmanCooldownSeconds = 20f, WingmanDamagePerSecond = 18f,
             WingmanWarningRise = .22f, WingmanWarningCooldown = 8f, WingmanFormationDistance = 22f;
         public float WingmanShieldedHullFloor = 1f;
+        public float WingmanWarningWindowSeconds = .6f;
         [Header("Scenery weapons")]
         public int GasPocketCount = 4;
         public float RockShotNearRange = 160f, RockShotEvasionReward = 15f,

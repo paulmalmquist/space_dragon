@@ -10,6 +10,9 @@ namespace SpaceDragon.Dogfight
         CombatFeedbackVfx combatFeedback;
         readonly List<PerfectRollThreat> rollThreats = new List<PerfectRollThreat>();
         int projectileSequence;
+        WaveState waveState;
+        int enemySequence;
+        public bool HasGrappler { get { foreach(var e in enemies)if(!e.Dead&&e.Combat.Latched)return true;return false; } }
         string qaCondition = "natural";
         public float CurrentCombatTimeScale => !ReducedMotion && perfectRoll != null && perfectRoll.SlowRemaining > 0
             ? Mathf.Clamp01(tuning.PerfectRollTimeScale) : 1f;
@@ -18,12 +21,14 @@ namespace SpaceDragon.Dogfight
         void InitializeCombatUpgrades()
         {
             perfectRoll = new PerfectRollState(tuning);
+            waveState = new WaveState(tuning);
             combatFeedback = gameObject.AddComponent<CombatFeedbackVfx>();
             combatFeedback.Setup(visualMotion,tuning);
         }
         void ResetCombatUpgrades()
         {
             perfectRoll.Reset(); combatFeedback.Clear(); projectileSequence = 0; qaCondition = "natural";
+            waveState.Reset();enemySequence=0;
         }
         float CombatDelta(float realDt)
         {
@@ -46,15 +51,48 @@ namespace SpaceDragon.Dogfight
                     tuning.MissileLifetimeSeconds-missile.State.Age));
             int before = perfectRoll.Serial;
             if (!perfectRoll.TryRoll(Flight,direction,rollThreats)) return;
+            foreach(var enemy in enemies)if(enemy.Combat.ShakeOff()){Message("Grappler shaken off — stunned");enemy.Pilot.BreakLock();}
             if (perfectRoll.Serial != before)
             {
                 combatFeedback.PerfectRoll(); sound.PlayPerfectRoll(); Message("PERFECT ROLL — evasion restored");
             }
         }
 
+        void SpawnWave(EnemyRole[] specifiedRoles=null)
+        {
+            foreach(var enemy in enemies){enemy.RoleVisual?.Dispose();Destroy(enemy.Visual.gameObject);}
+            enemies.Clear();
+            var roles=specifiedRoles??waveState.CurrentRoles;
+            for(int i=0;i<roles.Length;i++)
+            {
+                var obj=dronePrefab!=null?Instantiate(dronePrefab):GameObject.CreatePrimitive(PrimitiveType.Cube);
+                obj.name="LAB PLACEHOLDER "+roles[i]+" "+(enemySequence+1);obj.transform.localScale=Vector3.one*3;
+                foreach(var collider in obj.GetComponentsInChildren<Collider>())Destroy(collider);
+                var state=new EnemyRoleState(roles[i],tuning);
+                var pilot=new RolePilotState(i,state,tuning);pilot.Reset(Flight.Position);
+                var view=new EnemyView{Id="wraith-"+enemySequence,CombatId=enemySequence++,Combat=state,
+                    Pilot=pilot.Pilot,RolePilot=pilot,Position=pilot.Position,Visual=obj.transform};
+                view.Visual.SetPositionAndRotation(view.Position,pilot.Rotation*Quaternion.Euler(0,180,0));
+                view.RoleVisual=new EnemyRoleVisual();view.RoleVisual.Setup(view.Visual,state.Role,tuning);
+                enemies.Add(view);
+            }
+            if(tuning.EnableEnemyRoles)
+            {
+                var role=roles[roles.Length-1];if(waveState.Index==waveState.Count-1)role=roles[0];
+                Message("WAVE "+(waveState.Index+1)+" / "+waveState.Count+" — "+enemies.Find(e=>e.Combat.Role==role).Combat.Hint);
+                sound.PlayEnemyRole(role);
+            }
+        }
+
         bool CombatQaFixture(string action)
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
+            if(action.StartsWith("role:"))
+            {
+                if(System.Enum.TryParse<EnemyRole>(action.Substring(5),out var role))
+                {fixtureQuiet=true;fixtureTarget=role!=EnemyRole.Grappler;SpawnWave(new[]{role});ClearProjectiles();MouseAimMode=true;aim=Vector2.zero;pointerActive=false;}
+                return true;
+            }
             if (action == "upgrades:off" || action == "upgrades:on")
             {
                 bool enabled = action.EndsWith(":on");

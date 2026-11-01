@@ -196,15 +196,16 @@ namespace SpaceDragon.Dogfight
             breakButtonHeld = held;
         }
 
-        public void Tick(float dt, FlightInput input, float propulsionBoostMultiplier = 1, bool boostAllowed = true)
+        public void Tick(float dt, FlightInput input, float propulsionBoostMultiplier = 1, bool boostAllowed = true, float speedMultiplier = 1)
         {
             if (!Finite(dt) || dt <= 0) return;
             dt = Mathf.Min(dt, Tuning.MaxStep); // Suspension is not a teleport/catch-up request.
             ReadHeldBreak(input.BreakHeld);
             propulsionBoostMultiplier = Finite(propulsionBoostMultiplier) ? Mathf.Clamp(propulsionBoostMultiplier, 0, 2) : 1;
-            TickSegment(dt, input, propulsionBoostMultiplier, boostAllowed);
+            speedMultiplier = Finite(speedMultiplier) ? Mathf.Clamp01(speedMultiplier) : 1;
+            TickSegment(dt, input, propulsionBoostMultiplier, boostAllowed, speedMultiplier);
         }
-        private void TickSegment(float dt, FlightInput input, float boostMultiplier, bool boostAllowed)
+        private void TickSegment(float dt, FlightInput input, float boostMultiplier, bool boostAllowed, float speedMultiplier)
         {
             if (BreakActive)
             {
@@ -221,15 +222,15 @@ namespace SpaceDragon.Dogfight
                 }
                 else if (remaining < dt)
                 {
-                    TickSegment(remaining, input, boostMultiplier, boostAllowed);
-                    TickSegment(dt - remaining, input, boostMultiplier, boostAllowed);
+                    TickSegment(remaining, input, boostMultiplier, boostAllowed, speedMultiplier);
+                    TickSegment(dt - remaining, input, boostMultiplier, boostAllowed, speedMultiplier);
                     return;
                 }
             }
             if (BreakActive && dt > 1f / 120 + Epsilon)
             {
                 int slices = Mathf.Max(1, Mathf.CeilToInt(dt * 120 - Epsilon));
-                for (int i = 0; i < slices; i++) TickSegment(dt / slices, input, boostMultiplier, boostAllowed);
+                for (int i = 0; i < slices; i++) TickSegment(dt / slices, input, boostMultiplier, boostAllowed, speedMultiplier);
                 return;
             }
             UpdateEvasion(dt);
@@ -252,6 +253,9 @@ namespace SpaceDragon.Dogfight
             float boostSpeed = CruiseSpeed + Mathf.Max(0, Tuning.BoostSpeed - CruiseSpeed) * boostMultiplier;
             float brakeFactor = HeldBreakActive ? Tuning.HeldBreakSpeedFactor : Tuning.BreakSpeedFactor;
             float desiredSpeed = BreakActive ? Mathf.Max(Tuning.MinSpeed, CruiseSpeed * brakeFactor) : Boosting ? boostSpeed : CruiseSpeed;
+            // A latch changes actual travel speed, not stored throttle or system health.
+            // The encounter separately supplies its existing boost-allowed gate.
+            desiredSpeed *= speedMultiplier;
             Speed += Mathf.Clamp(desiredSpeed - Speed, -(BreakActive ? Tuning.BreakDeceleration : Tuning.Acceleration) * dt, Tuning.Acceleration * dt);
             float yawTarget = HeldBreakActive ? steer * Tuning.TurnRate * Tuning.HeldBreakTurnMultiplier :
                 BreakActive ? breakDirection * Tuning.TurnRate * Tuning.BreakTurnMultiplier : steer * Tuning.TurnRate * (Boosting ? .75f : 1);

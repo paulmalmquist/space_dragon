@@ -171,6 +171,19 @@ namespace SpaceDragon.Dogfight
             Play(boost != null ? boost : tones["launch"],.65f,1.15f);
             Play(tones["locked"],.22f,1);
         }
+        public void PlayEnemyRole(EnemyRole role)
+        {
+            if(!CanPlay)return;
+            // Distinct existing pulse shapes/pitches, no extra voices or imported
+            // sounds. Caller announces role entry, never calls this every frame.
+            switch(role)
+            {
+                case EnemyRole.Fighter: Play(tones["fire"],.28f,1);break;
+                case EnemyRole.Racer: Play(tones["lockStart"],.44f,1.4f);break;
+                case EnemyRole.Grappler: Play(metal!=null?metal:tones["repair"],.48f,.72f);break;
+                case EnemyRole.Gunship: Play(tones["critical"],.5f,.70f);break;
+            }
+        }
         public void PlayBreathWindup()
         {
             if (!CanPlay) return;
