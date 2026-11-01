@@ -146,6 +146,23 @@ namespace SpaceDragon.Dogfight
         }
         public bool RequestBreak() => RequestBreak(Mathf.Abs(Bank) > Epsilon ? -(int)Mathf.Sign(Bank) : -1);
 
+        /// <summary>Bounded encounter reward. The granting state owns its once-only guard;
+        /// this does not reset maneuver cooldowns, recharge delay or held-button intent.</summary>
+        public void AddEvasion(float amount)
+        {
+            if (!Finite(amount) || amount <= 0) return;
+            EvasionEnergy += Mathf.Min(amount, Mathf.Max(0, Tuning.EvasionCapacity - EvasionEnergy));
+        }
+
+        /// <summary>Restore the existing boost reservoir without changing speed or input.
+        /// A reward can immediately make exhausted boost available on the next live tick.</summary>
+        public void RefillBoost()
+        {
+            BoostEnergy = Tuning.BoostCapacity;
+            BoostLocked = false;
+            rechargeDelay = 0;
+        }
+
         /// <summary>
         /// Release an interrupted held turn without refunding energy or counting
         /// completion. The physical button must be released before another hold.

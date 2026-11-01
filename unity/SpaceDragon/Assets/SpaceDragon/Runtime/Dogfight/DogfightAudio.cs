@@ -163,6 +163,14 @@ namespace SpaceDragon.Dogfight
             lockClock = .7f; Play(tones["lockStart"],.5f,1);
         }
         public void PlayLockConfirmed() { if (CanPlay) Play(tones["locked"],.65f,1); }
+        public void PlayPerfectRoll()
+        {
+            if (!CanPlay) return;
+            // Reuse the recorded surge as a short dodge whoosh and an existing
+            // quiet confirmation tone; both stay within the bounded effects bus.
+            Play(boost != null ? boost : tones["launch"],.65f,1.15f);
+            Play(tones["locked"],.22f,1);
+        }
         public void PlayBreathWindup()
         {
             if (!CanPlay) return;

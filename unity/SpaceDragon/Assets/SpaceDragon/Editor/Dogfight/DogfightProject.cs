@@ -26,7 +26,7 @@ namespace SpaceDragon.Dogfight.Editor
         public const string OscarDragonPath = Imported + "/dragon-oscar-v001.glb";
         public const string OscarMechanicalPath = Imported + "/dragon-oscar-mechanical-v004.glb";
         static bool UsesOscarAccessories => UsesOscarCandidate && Environment.GetEnvironmentVariable("SPACE_DRAGON_DOGFIGHT_MECHANICAL") != "none";
-        static string PresentationVersion => UsesOscarCandidate ? "oscar-spacecraft-v002" : "baseline-v001";
+        static string PresentationVersion => UsesOscarCandidate ? "combat-upgrades-stage1" : "baseline-v001";
         // Preparing the additive receipt makes the organic candidate available.
         // An explicit local rollback remains possible without deleting any intake.
         // Invalid prepared data fails validation rather than silently falling back.
@@ -307,6 +307,9 @@ namespace SpaceDragon.Dogfight.Editor
                 tuning.MissileDamage = 120; // Two hits against the encounter's 216-health drones.
                 AssetDatabase.CreateAsset(tuning, tuningPath);
             }
+            if (tuning.EnsureCombatDefaults()) EditorUtility.SetDirty(tuning);
+            Directory.CreateDirectory("Builds");
+            File.WriteAllText("Builds/dogfight-combat-tuning.json", JsonUtility.ToJson(tuning, true));
             var host = new GameObject("DogfightEncounter").AddComponent<DogfightEncounter>();
             host.UseAuthoredArmor = true; // Both candidates own their surfaces; no generated armor overlay.
             host.UseOrganicDragon = organic;

@@ -253,6 +253,34 @@ namespace SpaceDragon.Dogfight.Tests
         }
 
         [Test]
+        public void EvasionRewardsAreBoundedAndDoNotChangeManeuverOrBoostState()
+        {
+            var flight = new FlightState(); flight.RequestRoll(1);
+            flight.AddEvasion(15);
+            Assert.That(flight.EvasionEnergy, Is.EqualTo(75)); Assert.That(flight.RollActive, Is.True);
+            Assert.That(flight.RollSerial, Is.EqualTo(1)); Assert.That(flight.BoostEnergy, Is.EqualTo(4.5f));
+            foreach (float amount in new[] { 0, -15, float.NaN, float.PositiveInfinity }) flight.AddEvasion(amount);
+            Assert.That(flight.EvasionEnergy, Is.EqualTo(75));
+            flight.AddEvasion(float.MaxValue); Assert.That(flight.EvasionEnergy, Is.EqualTo(100));
+            Advance(flight, flight.Tuning.RollDuration);
+            Assert.That(flight.RequestRoll(1), Is.False, "A resource reward must not clear maneuver cooldown.");
+        }
+
+        [Test]
+        public void BoostRefillClearsExhaustionWithoutChangingSpeedEvasionOrInput()
+        {
+            var flight = new FlightState(); Advance(flight, 4.6f, new FlightInput(Vector2.zero, 0, true));
+            Assert.That(flight.BoostLocked, Is.True);
+            float speed = flight.Speed;
+            flight.RefillBoost(); flight.RefillBoost();
+            Assert.That(flight.BoostEnergy, Is.EqualTo(flight.Tuning.BoostCapacity)); Assert.That(flight.BoostLocked, Is.False);
+            Assert.That(flight.Speed, Is.EqualTo(speed)); Assert.That(flight.EvasionEnergy, Is.EqualTo(100));
+            Assert.That(flight.Boosting, Is.False, "Only fresh live input should decide whether to spend the refill.");
+            flight.Tick(1f / 60, new FlightInput(Vector2.zero, 0, true));
+            Assert.That(flight.Boosting, Is.True); Assert.That(flight.BoostEnergy, Is.LessThan(flight.Tuning.BoostCapacity));
+        }
+
+        [Test]
         public void InvalidOrPausedTimeDoesNotAdvanceAndResetClearsAllManeuvers()
         {
             var flight = new FlightState(); flight.RequestBreak(1); Advance(flight, .2f);
