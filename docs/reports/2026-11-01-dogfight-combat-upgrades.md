@@ -4,6 +4,8 @@
 
 **State:** IMPLEMENTED and technically VERIFIED for the checks below, including SD-089 controller software bindings. AI visual review has limitations; owner/family approval remains pending. No deployment or merge.
 
+Review: [PR #35](https://github.com/paulmalmquist/space_dragon/pull/35), branch `feat/dogfight-combat-upgrades`, open and unmerged. The original checkout and other channels' work remain untouched.
+
 ## Baseline and scope
 
 Worktree `C:\Projects\space_dragon_oscar_dragon`, branch `feat/dogfight-combat-upgrades`. Baseline commit `901862a` preserves the preceding Oscar spacecraft pass. `7b5a732` reconciles remote main `5b86dda` while retaining both Town Drive and Dogfight records. Only inbox and LFS attributes required additive conflict resolution. Original checkout and other channels remain untouched. No Unity Editor was active at preflight.
