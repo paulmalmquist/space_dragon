@@ -9,6 +9,9 @@ namespace SpaceDragon.Dogfight
     /// disable, reward or move anything. Its optional parent-local lunge offset is
     /// composed by the encounter after DragonPresentation writes its base pose.
     /// </summary>
+    // Explicit Tick remains the only time source. Enable edit-mode lifetime
+    // callbacks so removing a preview also releases its generated materials.
+    [ExecuteAlways]
     public sealed class FinisherFeedbackVfx : MonoBehaviour
     {
         const int RingSegments=32,SlashSamples=7;

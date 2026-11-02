@@ -1,5 +1,7 @@
 # Decision — Keyboard-first input
 
+**Later Unity Dogfight scope — SD-089, November 1:** the owner now explicitly requests PlayStation bindings in the current pass and plans to bring the controller next test. [Current mapping/verification boundary](2026-11-01-unity-dogfight-playstation-input.md). Keyboard remains a complete supported path; its primary status does not defer this authorized controller work. Physical DualShock 4/DualSense USB/Bluetooth and haptics remain NOT TESTED. The original decision below retains its historical scope.
+
 **Recorded:** October 29, 2026  
 **Status:** CONFIRMED owner direction.  
 **Decision source:** the owner, in conversation: "Gotta work on keyboard for now unless I plug in an Xbox controller and that works out of the gate."

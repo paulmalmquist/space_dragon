@@ -15,6 +15,10 @@ namespace SpaceDragon.Dogfight
         public bool EnableIndependentBank = true;
         public float IndependentBankDegrees = 65f;
 
+        [Header("Controller — PlayStation / standard gamepad")]
+        public float ControllerStickDeadzone = .16f, ControllerTriggerThreshold = .2f,
+            ControllerRepairHoldSeconds = .15f, ControllerAimRate = .9f;
+
         [Header("Perfect roll")]
         public float PerfectRollWindow = .4f, PerfectRollRadius = 3.3f,
             PerfectRollSlowSeconds = .35f, PerfectRollTimeScale = .4f;

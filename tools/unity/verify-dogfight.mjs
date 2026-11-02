@@ -19,9 +19,13 @@ const runOutput = path.join(output, 'runs', runId);
 await mkdir(runOutput, { recursive: true });
 const forceWebGL2 = process.env.SPACE_DRAGON_DOGFIGHT_WEBGL2 === '1';
 const performanceOnly = process.env.SPACE_DRAGON_DOGFIGHT_PERF_ONLY === '1';
+const baselineMode = process.env.SPACE_DRAGON_DOGFIGHT_BASELINE === '1';
 const report = {
   runId, startedAt: new Date().toISOString(), url: url.href, viewport: [1366, 768], forceWebGL2,
-  command: process.argv.join(' '), result: 'RUNNING', performanceOnly,
+  command: process.argv.join(' '), result: 'RUNNING', performanceOnly, baselineMode,
+  baselineScope: baselineMode
+    ? 'All eight SD-090 combat upgrade flags and independent wing bank are explicitly disabled through the development comparison fixture at startup and every restart. Existing eleven-case assertions are unchanged.'
+    : 'Upgrade flags are not changed by this verifier. This run must not be described as an all-flags-off baseline.',
   scope: 'Installed Chrome, normal GPU configuration, actual Unity player and browser keyboard/mouse events. Development fixtures arrange quiet threats, a moving-relative target, damage, supplies and a collider; real simulation resolves locks, projectiles, collection, repairs and losses. No clocks or authoritative counters are advanced by the verifier.',
   performanceScope: 'The separate natural encounter sample uses no quiet/target/damage fixtures. resetPerf clears measurement counters only. Unity frame intervals are wall-clock Update intervals, not GPU execution time; draw counters are last-frame observations and texture memory is Unity allocation, not driver VRAM. Ten-second sampling is not endurance or a quality approval.',
   limitations: ['Physical controller, human sound audibility, comfort, family usability and final art approval are NOT TESTED.', 'Condition fixtures are compiled into this development review player; these tests do not validate release-player fixture exclusion.', 'Headless installed Chrome is not a human play session. Renderer identity is recorded rather than inferred from launch options.'],
@@ -124,20 +128,28 @@ async function fixture(action) {
   report.fixtures.push({ case: currentCase, action, wallMs: Date.now() });
   await send('QaFixture', action);
 }
+function assertBaselineFlags(state) {
+  if (!baselineMode) return;
+  for (const name of ['perfectRoll', 'enemyRoles', 'clawFinisher', 'wingman', 'rockWeapons', 'multiTargetBreath', 'repairCode', 'comeback', 'independentBank'])
+    assert.match(state.combatFlags || '', new RegExp(`${name}=False(?:;|$)`), `Baseline must disable ${name}.`);
+}
 async function restart(mode = 'quiet') {
   await releaseInputs();
   await page.locator('#unity-canvas').focus();
   // One browser operation prevents a rendered frame between restart and fixture isolation.
-  await page.evaluate(mode => {
+  await page.evaluate(({mode, baselineMode}) => {
     const api = window.__SPACE_DRAGON_DOGFIGHT__;
-    api.send('RestartEncounter');
+    if (baselineMode) api.send('QaFixture', 'upgrades:off');
+    else api.send('RestartEncounter');
     if (mode) api.send('QaFixture', mode);
     api.send('RequestSnapshot');
-  }, mode);
+  }, {mode, baselineMode});
+  if (baselineMode) report.fixtures.push({ case: currentCase, action: 'upgrades:off', resetsEncounter: true, baselineComparison: true, wallMs: Date.now() });
   if (mode) report.fixtures.push({ case: currentCase, action: mode, afterRestart: true, wallMs: Date.now() });
   const state = await waitState(s => !s.dead && !s.paused && s.hull === 100 && s.propulsion === 100 && s.weapons === 100 &&
     s.salvage === 1 && s.repairsRemaining === 3 && s.missileCharges === 2 && s.missilesLaunched === 0 && s.kills === 0,
   'complete encounter restart', 30000, true);
+  assertBaselineFlags(state);
   if (mode) assert.equal(state.fixture, true, 'This harness requires the development condition fixtures.');
   await waitSim(.15); // The runtime requires fresh neutral input after restart.
   return state;
@@ -330,6 +342,13 @@ try {
   })()));
   await page.goto(url.href, { waitUntil: 'domcontentloaded', timeout: 180000 });
   report.initial = await waitState(s => s.scene === 'Unity Dogfight' && s.frameSamples > 2, 'Unity player and snapshot bridge ready', 240000, true);
+  if (baselineMode) {
+    report.beforeBaselineFixture = report.initial;
+    await fixture('upgrades:off');
+    report.initial = await waitState(s => !s.dead && !s.paused && s.hull === 100 && s.kills === 0 && s.rolls === 0,
+      'explicit all-flags-off baseline startup', 30000, true);
+    assertBaselineFlags(report.initial);
+  }
   assert.equal(report.initial.authoredClips, true, 'Imported authored flight clips must be connected.');
   assert.equal(report.initial.organicRig, organic, 'The actual player must select the expected rig adapter.');
   assert.equal(report.initial.modelName, oscar ? 'DragonOscar.v001.Authored' : organic ? 'DragonViolet.v007.Organic' : 'DragonHeroic.v005.Authored');

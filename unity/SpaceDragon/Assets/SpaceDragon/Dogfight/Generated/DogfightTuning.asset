@@ -12,6 +12,106 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc176bfb73b2b5a4da4abbedb6f27b0b, type: 3}
   m_Name: DogfightTuning
   m_EditorClassIdentifier: SpaceDragon.Dogfight::SpaceDragon.Dogfight.DogfightTuning
+  EnablePerfectRoll: 1
+  EnableEnemyRoles: 1
+  EnableClawFinisher: 1
+  EnableWingman: 1
+  EnableRockWeapons: 1
+  EnableMultiTargetBreath: 1
+  EnableRepairCode: 1
+  EnableComeback: 1
+  CombatSchema: 1
+  EnableIndependentBank: 1
+  IndependentBankDegrees: 65
+  ControllerStickDeadzone: 0.16
+  ControllerTriggerThreshold: 0.2
+  ControllerRepairHoldSeconds: 0.15
+  ControllerAimRate: 0.9
+  PerfectRollWindow: 0.4
+  PerfectRollRadius: 3.3
+  PerfectRollSlowSeconds: 0.35
+  PerfectRollTimeScale: 0.4
+  PerfectRollVisualSeconds: 0.35
+  PerfectRollOpacity: 0.32
+  PerfectRollFlareSpeed: 18
+  PerfectRollOutlineWidth: 0.045
+  PerfectRollFlareWidth: 0.035
+  PerfectRollFlareLength: 0.65
+  FighterHealth: 216
+  RacerHealth: 60
+  GrapplerHealth: 180
+  GunshipHealth: 300
+  GunshipShieldHalfAngleDegrees: 70
+  GrapplerLatchRange: 18
+  GrapplerSpeedMultiplier: 0.7
+  GrapplerStunSeconds: 2
+  RacerStrafeWidth: 150
+  RacerStrafeSpeed: 2.4
+  RacerAssistMultiplier: 0.15
+  RacerStationSpeed: 110
+  GrapplerCloseSpeed: 95
+  GunshipStationSpeed: 8
+  WaveDelaySeconds: 2
+  GrapplerLatchOffset: {x: 4, y: 0, z: -1}
+  GrapplerStunDriftSpeed: 35
+  Waves:
+  - Roles: 000000000000000000000000i
+  - Roles: 000000000000000002000000i
+  - Roles: 000000000100000001000000i
+  - Roles: 030000000000000000000000i
+  RoleVisualScale: 1
+  RoleShieldOpacity: 0.28
+  RoleCuePulseHz: 2
+  FinisherHealthFraction: 0.25
+  FinisherRange: 30
+  FinisherConeDegrees: 40
+  FinisherFreezeSeconds: 0.15
+  FinisherEvasionReward: 15
+  FinisherVisualSeconds: 0.45
+  FinisherLungeDistance: 0.4
+  FinisherShockwaveRadius: 18
+  FinisherSlashLength: 10
+  FinisherCueOpacity: 0.65
+  FinisherLineWidth: 0.1
+  WingmanRunSeconds: 4
+  WingmanCooldownSeconds: 20
+  WingmanDamagePerSecond: 18
+  WingmanWarningRise: 0.22
+  WingmanWarningCooldown: 8
+  WingmanFormationDistance: 22
+  WingmanShieldedHullFloor: 1
+  WingmanWarningWindowSeconds: 0.6
+  WingmanVisualScale: 1.25
+  WingmanStrafeRadius: 32
+  WingmanVisualSpeed: 180
+  WingmanBeamWidth: 0.12
+  GasPocketCount: 4
+  RockShotNearRange: 160
+  RockShotEvasionReward: 15
+  GasEnemyRadius: 120
+  GasPlayerRadius: 40
+  GasEnemyDamage: 240
+  GasPlayerDamage: 30
+  GasImpactTolerance: 0.5
+  GasHissRange: 220
+  GasHissInterval: 3
+  GasMarkerScale: 1.15
+  GasMarkerOpacity: 0.55
+  GasVentLength: 0.25
+  GasVentPulseHz: 1.3
+  GasHissGain: 0.16
+  BreathTargetCapacity: 3
+  RepairCodeLength: 3
+  RepairSumMaximum: 5
+  RepairDigitMaximum: 9
+  RepairBonusRemainingMultiplier: 0.5
+  ComebackSeconds: 5
+  ComebackHull: 30
+  ComebackProtectionSeconds: 2
+  ComebackDriftMultiplier: 0.35
+  ComebackDriftDrag: 0.2
+  ComebackPitchDegrees: 15
+  ComebackRollDegrees: 55
   MaxSystemHealth: 100
   LocalizedHullShare: 0.35
   MinimumBoostMultiplier: 0.65

@@ -48,9 +48,10 @@ namespace SpaceDragon.Dogfight
         }
         void MissileRockImpact(MissileView missile,Vector3 point)
         {
-            if(missile.Hostile&&rockWeapons.TryRockShot(missile.Id,point,Flight.Position))
-            {rockShotCount++;Flight.AddEvasion(tuning.RockShotEvasionReward);damageVfx.Burst(point,48);sound.PlayExplosion();Message("ROCK SHOT! Evasion restored");}
-            DetonateGasAt(point);
+            bool rewarded=missile.Hostile&&rockWeapons.TryRockShot(missile.Id,point,Flight.Position);
+            bool gasHit=DetonateGasAt(point);
+            if(rewarded)
+            {rockShotCount++;Flight.AddEvasion(tuning.RockShotEvasionReward);damageVfx.Burst(point,48);sound.PlayExplosion();Message(gasHit?"ROCK SHOT! Gas pocket detonated — evasion restored":"ROCK SHOT! Evasion restored");}
         }
         void TickSceneryWeapons(float dt)
         {
@@ -87,7 +88,10 @@ namespace SpaceDragon.Dogfight
             if(action=="rockshot")
             {
                 fixtureQuiet=true;ClearProjectiles();
-                rocks[rocks.Count-1].transform.position=Flight.Position+Flight.Forward*70;
+                // Keep this condition a solid, non-gas interception; gas has its own fixture.
+                var solid=rocks.FindLast(rock=>!gasRocks.Contains(rock));
+                if(solid==null)return false;
+                solid.transform.position=Flight.Position+Flight.Forward*70;
                 AddMissile(Flight.Position+Flight.Forward*140,-Flight.Forward,"dragon",true);return true;
             }
 #endif

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SpaceDragon.Dogfight
 {
-    // Adapter hooks for SD-088. State classes own rules; these hooks supply scene facts.
+    // Adapter hooks for SD-090. State classes own rules; these hooks supply scene facts.
     public sealed partial class DogfightEncounter
     {
         PerfectRollState perfectRoll;
@@ -12,6 +12,7 @@ namespace SpaceDragon.Dogfight
         FinisherFeedbackVfx finisherFeedback;
         WingmanState wingman;
         WingmanVisual wingmanVisual;
+        Vector3? wingmanBeamEndpoint;
         readonly List<WingmanCandidate> wingmanCandidates=new List<WingmanCandidate>();
         readonly List<Vector3> breathBeamEnds=new List<Vector3>();
         public WingmanState Wingman => wingman;
@@ -22,8 +23,9 @@ namespace SpaceDragon.Dogfight
         public bool HasGrappler { get { foreach(var e in enemies)if(!e.Dead&&e.Combat.Latched)return true;return false; } }
         string qaCondition = "natural";
         float independentBankInput;
-        public float CurrentCombatTimeScale => !ReducedMotion && perfectRoll != null && perfectRoll.SlowRemaining > 0
-            ? Mathf.Clamp01(tuning.PerfectRollTimeScale) : 1f;
+        bool pendingMissile,pendingBreath;
+        public float CurrentCombatTimeScale => !ReducedMotion && finisher != null && finisher.IsFrozen ? 0 :
+            !ReducedMotion && perfectRoll != null && perfectRoll.SlowRemaining > 0 ? Mathf.Clamp01(tuning.PerfectRollTimeScale) : 1f;
         public string CombatFlags => $"perfectRoll={tuning.EnablePerfectRoll};enemyRoles={tuning.EnableEnemyRoles};clawFinisher={tuning.EnableClawFinisher};wingman={tuning.EnableWingman};rockWeapons={tuning.EnableRockWeapons};multiTargetBreath={tuning.EnableMultiTargetBreath};repairCode={tuning.EnableRepairCode};comeback={tuning.EnableComeback};independentBank={tuning.EnableIndependentBank}";
 
         void InitializeCombatUpgrades()
@@ -43,12 +45,13 @@ namespace SpaceDragon.Dogfight
         {
             perfectRoll.Reset(); combatFeedback.Clear(); projectileSequence = 0; qaCondition = "natural";
             independentBankInput=0;
+            pendingMissile=pendingBreath=false;
             finisher.Reset();finisherFeedback.Clear();
             repairCode.Reset();
             comeback.Reset();disabledHandled=false;comebackSuccessObserved=0;
             waveState.Reset();enemySequence=0;
             Breath.SetCapacity(tuning.EnableMultiTargetBreath?Mathf.Max(1,tuning.BreathTargetCapacity):1);
-            wingman.Reset();wingmanVisual.Clear();
+            wingman.Reset();wingmanVisual.Clear();wingmanBeamEndpoint=null;
         }
         float CombatDelta(float realDt)
         {
@@ -88,10 +91,22 @@ namespace SpaceDragon.Dogfight
         }
         void TickWingman(float dt)
         {
+            if(!FlightState.Finite(dt)||dt<=0)return;
             var target=enemies.Find(e=>e.Id==wingman.TargetId&&!e.Dead);
             var hit=wingman.Tick(dt,target!=null);
-            if(hit.HasValue&&target!=null&&!Blocked(Flight.Position,target.Position))
-                DamageEnemy(target,hit.Value.Damage,WeaponKind.Wingman);
+            wingmanBeamEndpoint=null;
+            if(hit.HasValue&&target!=null)
+            {
+                var pose=WingmanAttackPose.Sample(Flight,target.Position,wingman.RunRemaining,tuning);
+                // Read authoritative trajectory geometry, never the lagged rendered ally.
+                // A weapon stopped by a gas asteroid detonates it just like player fire.
+                if(Physics.CheckSphere(pose.BeamOrigin,Mathf.Max(.001f,tuning.WingmanBeamWidth*.5f),EnvironmentMask,QueryTriggerInteraction.Ignore))
+                {wingmanBeamEndpoint=pose.BeamOrigin;DetonateGasAt(pose.BeamOrigin);}
+                else if(Physics.Linecast(pose.BeamOrigin,target.Position,out RaycastHit blocker,EnvironmentMask,QueryTriggerInteraction.Ignore))
+                {wingmanBeamEndpoint=blocker.point;DetonateGasAt(blocker.point);}
+                else
+                {wingmanBeamEndpoint=target.Position;DamageEnemy(target,hit.Value.Damage,WeaponKind.Wingman,pose.BeamOrigin);}
+            }
             float tracking=0;foreach(var enemy in enemies)if(!enemy.Dead)tracking=Mathf.Max(tracking,enemy.TargetProgress);
             if(wingman.ObserveTracking(tracking,dt)){Message("WINGMAN: On your tail!");sound.PlayLockStart();}
         }

@@ -1,4 +1,6 @@
-# Owner source — SD-088
+# Owner source — SD-090
+
+Tracking correction only: the Oscar worktree's earlier SD-088 label is a historical alias for SD-090; the original attachment below is unchanged. [Collision crosswalk](../docs/decisions/2026-11-01-combat-controller-identifiers.md).
 
 Captured November 1, 2026 (America/New_York). CONFIRMED local implementation request; work state tracked separately.
 

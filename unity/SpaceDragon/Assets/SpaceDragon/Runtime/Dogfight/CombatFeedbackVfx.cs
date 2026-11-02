@@ -9,6 +9,10 @@ namespace SpaceDragon.Dogfight
     /// accepted roll pose; it never samples/replaces skin meshes, moves the ship,
     /// advances combat time or decides whether a roll deserves a reward.
     /// </summary>
+    // No automatic Update: explicit encounter ticks remain the only time source.
+    // ExecuteAlways also delivers destruction callbacks for edit-mode previews
+    // so their runtime-created materials cannot leak when the owner is removed.
+    [ExecuteAlways]
     public sealed class CombatFeedbackVfx : MonoBehaviour
     {
         const int FlareCount = 8;

@@ -1,1 +1,1 @@
-{"name":"SpaceDragon.Dogfight.Tests","references":["SpaceDragon.Dogfight","SpaceDragon.Dogfight.Editor","Unity.Collections"],"includePlatforms":["Editor"],"optionalUnityReferences":["TestAssemblies"],"autoReferenced":false}
+{"name":"SpaceDragon.Dogfight.Tests","references":["SpaceDragon.Dogfight","SpaceDragon.Dogfight.Editor","Unity.Collections","Unity.InputSystem"],"includePlatforms":["Editor"],"optionalUnityReferences":["TestAssemblies"],"autoReferenced":false}

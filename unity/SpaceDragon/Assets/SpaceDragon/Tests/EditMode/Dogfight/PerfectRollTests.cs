@@ -21,6 +21,16 @@ namespace SpaceDragon.Dogfight.Tests
             int steps = Mathf.CeilToInt(seconds * 120);
             for (int i = 0; i < steps; i++) flight.Tick(seconds / steps, default);
         }
+        static void FinishRollAndCooldown(FlightState flight)
+        {
+            // Existing flight starts its full cooldown on the frame which ends
+            // the roll. A combined duration+cooldown split into arbitrary frame
+            // lengths can finish the roll one frame late and still be cooling.
+            Advance(flight, flight.Tuning.RollDuration);
+            Assert.That(flight.RollActive, Is.False, "The complete roll phase must finish before its recovery phase.");
+            Advance(flight, flight.Tuning.RollCooldown + .001f);
+            Assert.That(flight.RollCooldown, Is.Zero.Within(.000001f));
+        }
         PerfectRollThreat Incoming(FlightState flight, int id, float contactSeconds, float life = 2) =>
             new PerfectRollThreat(id, flight.Position + Vector3.forward * (tuning.PerfectRollRadius + 100 * contactSeconds),
                 flight.Velocity - Vector3.forward * 100, life);
@@ -89,7 +99,7 @@ namespace SpaceDragon.Dogfight.Tests
             var flight = new FlightState(); var state = new PerfectRollState(tuning);
             state.TryRoll(flight, 1, new[] { Incoming(flight, 1, .2f), Incoming(flight, 1, .2f) });
             Assert.That(state.HarmlessCount, Is.EqualTo(1)); Assert.That(state.Serial, Is.EqualTo(1));
-            Advance(flight, flight.Tuning.RollDuration + flight.Tuning.RollCooldown + .001f);
+            FinishRollAndCooldown(flight);
             Assert.That(state.TryRoll(flight, -1, new[] { Incoming(flight, 1, .2f) }), Is.True);
             Assert.That(state.Serial, Is.EqualTo(1)); Assert.That(flight.EvasionEnergy, Is.EqualTo(60).Within(.001));
             Assert.That(state.IsHarmless(1), Is.True, "Protection lasts until encounter reset, not the slow-motion timer.");
@@ -107,7 +117,7 @@ namespace SpaceDragon.Dogfight.Tests
             Assert.That(state.TryRoll(flight, 1, new[] { Incoming(flight, 1, .1f) }), Is.False);
             Advance(flight, flight.Tuning.RollCooldown + .001f);
             Assert.That(state.TryRoll(flight, 1, null), Is.True);
-            Advance(flight, flight.Tuning.RollDuration + flight.Tuning.RollCooldown + .001f);
+            FinishRollAndCooldown(flight);
             Assert.That(state.TryRoll(flight, 1, new[] { Incoming(flight, 1, .1f) }), Is.False);
             Assert.That(flight.LastManeuverRejection, Is.EqualTo("energy"));
             Assert.That(flight.EvasionEnergy, Is.EqualTo(20).Within(.001));

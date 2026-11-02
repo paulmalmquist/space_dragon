@@ -53,5 +53,17 @@ namespace SpaceDragon.Dogfight.Tests
             visual.Dispose();Assert.True(obj==null);Assert.True(mesh==null);Assert.True(material==null);
             visual.Setup(tuning);visual.Tick(.1f,flight,state,null,true);Assert.False(visual.Visible);Assert.AreEqual(0,visual.OwnedRendererCount);
         }
+        [Test] public void SceneryClippedBeamUsesExactlyTheAuthoritativeAttackPoseAndEndpoint()
+        {
+            var target=new Vector3(0,0,140);var rockHit=new Vector3(-10,4,75);
+            state.TrySend("target");state.Tick(1,true);
+            var pose=WingmanAttackPose.Sample(flight,target,state.RunRemaining,tuning);
+            visual.Tick(.1f,flight,state,target,rockHit,false);
+            Assert.True(visual.BeamVisible);Assert.AreEqual(pose.Position,visual.Position);
+            Assert.AreEqual(pose.BeamOrigin,visual.BeamOrigin);Assert.AreEqual(rockHit,visual.BeamEndpoint);
+            visual.Tick(0,flight,state,target,null,false);Assert.AreEqual(rockHit,visual.BeamEndpoint);
+            visual.Tick(.1f,flight,state,target,null,false);Assert.False(visual.BeamVisible);
+            Assert.True(state.Running,"Rendering a blocked/missing beam cannot cancel the attack state.");
+        }
     }
 }

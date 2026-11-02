@@ -13,17 +13,21 @@ namespace SpaceDragon.Dogfight
         {
             if(!Tactics.IsDestroyed||comeback.Active||disabledHandled)return;
             if(!comeback.TryBegin()){OnDestroyed();return;}
+            RepairSelectorOpen=false;repairHold=0;selectorConsumed=false;
+            BlockControllerUntilRelease();
             wreckVelocity=Flight.Velocity*tuning.ComebackDriftMultiplier;
             Flight.ResolveContact(Flight.Position,wreckVelocity);
             Breath.CancelBurst();Tactics.CancelRepair();repairCode.Cancel();damageVfx.CancelRepair();
             wingman.CancelRun();wingmanVisual.Clear();weaponVfx.Clear();combatFeedback.Clear();finisherFeedback.Clear();
             perfectRoll.ClearSlowMotion();finisher.PauseClearFreeze();sound.StopCombat();sound.PlayHit();
             presentation.ShutdownPropulsion();mouthLight.enabled=false;lastBeam=false;combatArmed=false;
+            pendingMissile=pendingBreath=false;
             Message("WAKE THE SHIP — spell SONG or F1 together");
         }
         void TickComeback(Keyboard keyboard,float dt)
         {
             comeback.Tick(dt);elapsed+=dt;
+            if(comeback.Active)ReadControllerComeback();
             if(comeback.Active&&keyboard!=null)
             {
                 if(keyboard.f1Key.wasPressedThisFrame)comeback.Assist();
@@ -39,7 +43,7 @@ namespace SpaceDragon.Dogfight
                 enemy.RoleVisual.Tick(enemy.Combat,elapsed,ReducedMotion);
                 if(shot.HasValue&&!Quiet)SpawnBolt(shot.Value.Origin,shot.Value.Direction*210,true,7);
             }
-            ResolveBolts(dt);ResolveMissiles(dt);damageVfx.Tick(dt);
+            ResolveBolts(dt);ResolveMissiles(dt);damageVfx.Tick(dt);TickSceneryWeapons(dt);
             if(!ReducedMotion)visualMotion.Rotate(tuning.ComebackPitchDegrees*dt,0,tuning.ComebackRollDegrees*dt,Space.Self);
             if(comeback.SucceededSerial>comebackSuccessObserved)
             {

@@ -7,6 +7,9 @@ namespace SpaceDragon.Dogfight
 {
     /// <summary>Render-only wing laser pulses and staged fire reactor. No damage,
     /// attack timers or lock decisions originate here. All phase comes from BreathState.</summary>
+    // This has no automatic Update. Edit-mode lifetime callbacks release owned
+    // preview geometry/materials just as player destruction does.
+    [ExecuteAlways]
     public sealed class ShipWeaponsVfx : MonoBehaviour
     {
         const int MaximumBeams=3;
@@ -60,7 +63,7 @@ namespace SpaceDragon.Dogfight
             for(int i=4;i<streams.Length;i++)streams[i]=Line("Additional breath target "+(1+(i-4)/2)+" layer "+((i-4)%2),20,i%2==1?coreMaterial:fireMaterial,i%2==1?.19f:.85f);
             for(int i=0;i<2;i++) {rings[i]=Line("Reactor compression ring "+i,49,coreMaterial,.035f);rings[i].loop=false;}
             for(int i=0;i<sparks.Length;i++) sparks[i]=Line("Charging intake spark "+i,2,coreMaterial,.035f);
-            var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);go.name="Animated mouth reactor";Release(go.GetComponent<Collider>());
+            var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);go.name="Animated mouth reactor";go.transform.SetParent(transform,true);Release(go.GetComponent<Collider>());
             go.GetComponent<Renderer>().sharedMaterial=coreMaterial;go.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;
             orb=go.transform;objects.Add(go);configured=true;Clear();
         }
@@ -68,7 +71,7 @@ namespace SpaceDragon.Dogfight
         {var m=new Material(shader){name=name};m.SetTexture("_NoiseTex",noise);m.SetColor("_Tint",tint);m.SetFloat("_Flame",flame);resources.Add(m);return m;}
         LineRenderer Line(string name,int count,Material material,float width)
         {
-            var go=new GameObject(name);objects.Add(go);var line=go.AddComponent<LineRenderer>();
+            var go=new GameObject(name);go.transform.SetParent(transform,true);objects.Add(go);var line=go.AddComponent<LineRenderer>();
             line.sharedMaterial=material;line.positionCount=count;line.useWorldSpace=true;line.startWidth=width;line.endWidth=width;
             line.shadowCastingMode=ShadowCastingMode.Off;line.receiveShadows=false;line.numCapVertices=3;line.numCornerVertices=2;
             line.textureMode=LineTextureMode.Stretch;line.enabled=false;return line;

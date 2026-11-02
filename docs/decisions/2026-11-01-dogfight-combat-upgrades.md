@@ -1,4 +1,6 @@
-# SD-088 — staged Unity Dogfight combat upgrades
+# SD-090 — staged Unity Dogfight combat upgrades
+
+**Identifier correction:** this worktree initially called this request SD-088, which was already assigned to the concurrent Town Drive slice. SD-090 is canonical; old combat commit messages retain SD-088 as a historical alias. [Crosswalk](2026-11-01-combat-controller-identifiers.md). The later [SD-089 controller follow-up](2026-11-01-unity-dogfight-playstation-input.md) extends this pass's input scope without changing the eight combat stages.
 
 November 1, 2026. Authority **CONFIRMED owner request**; implementation **in-progress**, verification pending. [Original attachment](../../ideas/2026-11-01-dogfight-combat-upgrades-source.md), [evidence](../reports/2026-11-01-dogfight-combat-upgrades.md).
 
