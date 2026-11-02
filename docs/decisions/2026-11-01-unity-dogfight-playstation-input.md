@@ -1,6 +1,6 @@
 # SD-089 — PlayStation controls for Unity Dogfight
 
-**Recorded:** November 1, 2026. **Authority:** CONFIRMED owner direction. **Work state:** in-progress; bindings are IMPLEMENTED with passing software unit coverage, while final player/browser and physical verification remain pending.
+**Recorded:** November 1, 2026. **Authority:** CONFIRMED owner direction. **Work state:** verified for named software checks; bindings are IMPLEMENTED. Physical controller and human review remain pending.
 
 Owner wording, verbatim:
 
@@ -34,6 +34,6 @@ Normal repair remains fully usable without entering the optional digit code. Thi
 
 ## Verification boundaries
 
-Verify state/input routing, repeat guards, menu/repair priority, focus/pause/restart, disconnect/reconnect fallback and simulated controller browser flows separately from physical play. The latest combined [265/265 EditMode tests pass](../../artifacts/unity/dogfight-editmode-20261102-000041-113-32444.xml), including controller software routing. Setup verifies serialized stick dead zone .16, trigger threshold .2, repair hold .15 s and aim rate .9. Final v002 build/browser verification remains pending; record that artifact and actual player checks in [the combat receipt](../reports/2026-11-01-dogfight-combat-upgrades.md). Earlier keyboard/repository browser passes and the software unit result do not establish physical controller behavior.
+Verify state/input routing, repeat guards, menu/repair priority, focus/pause/restart, disconnect/reconnect fallback and simulated controller browser flows separately from physical play. The latest combined [265/265 EditMode tests pass](../../artifacts/unity/dogfight-editmode-20261102-000041-113-32444.xml), including controller software routing. Setup verifies serialized stick dead zone .16, trigger threshold .2, repair hold .15 s and aim rate .9. Final `combat-upgrades-v002` Web build and **21 combat/controller + 11 all-switches-off cases per Chrome WebGPU/WebGL2 backend (32 each)** pass; [the combat receipt](../reports/2026-11-01-dogfight-combat-upgrades.md) records the artifact, software/simulated-pad checks, earlier failures and minor visual follow-ups. Next is the physical PlayStation/family test, not expanded feature scope. Earlier keyboard/repository browser passes and the software unit result do not establish physical controller behavior.
 
 **NOT TESTED:** physical DualShock 4 or DualSense enumeration, USB or Bluetooth pairing/reconnection, exact browser button mapping, stick drift/latency, control feel and haptics. Rumble, adaptive triggers, touchpad gestures, speaker and motion sensing are not promised by this pass. At the next owner test, record the actual controller, connection, Lenovo/Chrome versions and observed behavior before claiming hardware support. No deployment, driver installation, purchase or external service is authorized by this binding request.
