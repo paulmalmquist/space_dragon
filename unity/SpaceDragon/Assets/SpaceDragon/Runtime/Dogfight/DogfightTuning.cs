@@ -6,6 +6,70 @@ namespace SpaceDragon.Dogfight
     [CreateAssetMenu(menuName = "Space Dragon/Dogfight/Tactical tuning", fileName = "DogfightTuning")]
     public sealed class DogfightTuning : ScriptableObject
     {
+        [Header("Combat upgrades — lab switches, all optional")]
+        public bool EnablePerfectRoll = true, EnableEnemyRoles = true, EnableClawFinisher = true,
+            EnableWingman = true, EnableRockWeapons = true, EnableMultiTargetBreath = true,
+            EnableRepairCode = true, EnableComeback = true;
+        [HideInInspector] public int CombatSchema;
+        [Header("Independent bank — RMB plus existing Q/E keys")]
+        public bool EnableIndependentBank = true;
+        public float IndependentBankDegrees = 65f;
+
+        [Header("Controller — PlayStation / standard gamepad")]
+        public float ControllerStickDeadzone = .16f, ControllerTriggerThreshold = .2f,
+            ControllerRepairHoldSeconds = .15f, ControllerAimRate = .9f;
+
+        [Header("Perfect roll")]
+        public float PerfectRollWindow = .4f, PerfectRollRadius = 3.3f,
+            PerfectRollSlowSeconds = .35f, PerfectRollTimeScale = .4f;
+        public float PerfectRollVisualSeconds = .35f, PerfectRollOpacity = .32f, PerfectRollFlareSpeed = 18f;
+        public float PerfectRollOutlineWidth = .045f, PerfectRollFlareWidth = .035f, PerfectRollFlareLength = .65f;
+        [Header("Enemy roles — placeholder rules")]
+        public float FighterHealth = 216f, RacerHealth = 60f, GrapplerHealth = 180f, GunshipHealth = 300f;
+        public float GunshipShieldHalfAngleDegrees = 70f, GrapplerLatchRange = 18f,
+            GrapplerSpeedMultiplier = .7f, GrapplerStunSeconds = 2f;
+        public float RacerStrafeWidth = 150f, RacerStrafeSpeed = 2.4f, RacerAssistMultiplier = .15f,
+            RacerStationSpeed = 110f, GrapplerCloseSpeed = 95f, GunshipStationSpeed = 8f;
+        public float WaveDelaySeconds = 2f;
+        public Vector3 GrapplerLatchOffset = new Vector3(4,0,-1);
+        public float GrapplerStunDriftSpeed = 35f;
+        public EnemyWaveDefinition[] Waves = DogfightWaveList.CreateDefault();
+        public float RoleVisualScale = 1f, RoleShieldOpacity = .28f, RoleCuePulseHz = 2f;
+        [Header("Claw finisher")]
+        public float FinisherHealthFraction = .25f, FinisherRange = 30f, FinisherConeDegrees = 40f,
+            FinisherFreezeSeconds = .15f, FinisherEvasionReward = 15f;
+        public float FinisherVisualSeconds = .45f, FinisherLungeDistance = .4f, FinisherShockwaveRadius = 18f,
+            FinisherSlashLength = 10f, FinisherCueOpacity = .65f, FinisherLineWidth = .10f;
+        [Header("Wingman")]
+        public float WingmanRunSeconds = 4f, WingmanCooldownSeconds = 20f, WingmanDamagePerSecond = 18f,
+            WingmanWarningRise = .22f, WingmanWarningCooldown = 8f, WingmanFormationDistance = 22f;
+        public float WingmanShieldedHullFloor = 1f;
+        public float WingmanWarningWindowSeconds = .6f;
+        public float WingmanVisualScale = 1.25f, WingmanStrafeRadius = 32f, WingmanVisualSpeed = 180f, WingmanBeamWidth = .12f;
+        [Header("Scenery weapons")]
+        public int GasPocketCount = 4;
+        public float RockShotNearRange = 160f, RockShotEvasionReward = 15f,
+            GasEnemyRadius = 120f, GasPlayerRadius = 40f, GasEnemyDamage = 240f, GasPlayerDamage = 30f;
+        public float GasImpactTolerance = .5f, GasHissRange = 220f, GasHissInterval = 3f;
+        public float GasMarkerScale = 1.15f, GasMarkerOpacity = .55f, GasVentLength = .25f, GasVentPulseHz = 1.3f, GasHissGain = .16f;
+        [Header("Word and repair upgrades")]
+        public int BreathTargetCapacity = 3, RepairCodeLength = 3, RepairSumMaximum = 5;
+        public int RepairDigitMaximum = 9;
+        public float RepairBonusRemainingMultiplier = .5f;
+        [Header("One comeback per encounter")]
+        public float ComebackSeconds = 5f, ComebackHull = 30f, ComebackProtectionSeconds = 2f;
+        public float ComebackDriftMultiplier=.35f, ComebackDriftDrag=.2f, ComebackPitchDegrees=15f, ComebackRollDegrees=55f;
+
+        /// <summary>Runs once for old serialized assets; subsequent setup preserves owner overrides.</summary>
+        public bool EnsureCombatDefaults()
+        {
+            if (CombatSchema >= 1) return false;
+            EnablePerfectRoll = EnableEnemyRoles = EnableClawFinisher = EnableWingman =
+                EnableRockWeapons = EnableMultiTargetBreath = EnableRepairCode = EnableComeback = true;
+            CombatSchema = 1;
+            return true;
+        }
+
         [Header("Systems and localized damage")]
         [Min(1)] public float MaxSystemHealth = 100f;
         [Range(0, 1)] public float LocalizedHullShare = .35f;

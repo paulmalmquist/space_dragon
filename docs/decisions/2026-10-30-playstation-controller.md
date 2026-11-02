@@ -1,5 +1,7 @@
 # Decision — PlayStation controller input for the browser prototype
 
+**Later Unity Dogfight request — SD-089, November 1:** [the owner now includes controller bindings in the current combat pass](2026-11-01-unity-dogfight-playstation-input.md) and will bring a pad next test. That new Unity mapping does not inherit this Earth/browser adapter's simulated results. Physical DualShock 4/DualSense USB/Bluetooth, feel and haptics remain NOT TESTED; no rumble is promised. Keep the earlier runtime-specific mapping and evidence below intact.
+
 > Originally imported from `origin/main@96002d7` for [SD-046 Town Drive](2026-10-30-town-drive-lab.md). The October 31 merge of `origin/main@65f908b` adapts the original controller work to the current walking and version-2 First Contact runtime. Its incoming SD-038 is recorded as **SD-070** in the merged ledger; this branch's existing SD-038 keeps its own meaning.
 
 **Recorded:** October 30, 2026

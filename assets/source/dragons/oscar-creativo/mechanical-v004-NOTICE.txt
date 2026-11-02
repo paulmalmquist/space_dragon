@@ -1,0 +1,22 @@
+Space Dragon additive mechanical candidate v004
+
+Based on FREE DRAGON CHARACTER 3D BY Oscar Creativo
+By OSCAR CREATIVO (https://sketchfab.com/oscar_creativo)
+Source: https://sketchfab.com/3d-models/free-dragon-character-3d-by-oscar-creativo-443971c0f42a49e5bedc0bfe2b544407
+License: Creative Commons Attribution 4.0 International (https://creativecommons.org/licenses/by/4.0/)
+Character FREE DRAGON By Oscar Creativo All rights reserved www.oscarcreativo.co
+
+Additional Space Dragon modifications, November 1, 2026:
+- Added separate rear-saddle gunmetal/crimson armor plates, amber cooling vents,
+  wing/tail collars and cheek guards; original anatomy and membranes remain.
+- Retained named editable parts and a separate optimized accessory collection.
+- Joined the new game accessories into one skinned mesh with four PBR materials.
+- New fitted shells use up to four transferred skin influences; collars are rigid.
+- Exported an independent accessory GLB for binding to the original 165-bone rig.
+- Original dragon geometry, textures, full skin weights, clips and sockets are unchanged.
+
+Original FBX SHA-256: 5995203e4c99d683be82ce7157f6e3e40341f56d8de46ba9578f6d47123d8ea4
+Baseline game GLB SHA-256: 7c9ed83fef05fc1d2b3bf868e44f5893742dad1682d2368c78ca24acd1ed3292
+Accessory GLB SHA-256: b0600d36229760bc7a044c48a658c68a34efa701f2264b684d22cb08a88199e0
+
+No endorsement by the original creator is implied.

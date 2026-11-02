@@ -1,6 +1,14 @@
 # CB-004 - Dragon flight and defensive space combat
 
-**Authority:** CONFIRMED fighter-jet direction; detailed mechanics PROPOSED. **Maturity:** SPECIFIED. **Gameplay evidence:** NOT TESTED.
+**Authority:** CONFIRMED fighter-jet direction and scoped SD-090 lab rules; other detailed mechanics below remain PROPOSED. **Maturity:** SD-090 lab IMPLEMENTED; broader defense experiment SPECIFIED. **Gameplay evidence:** final v002 Web build, 265/265 EditMode tests and 21 combat/controller + 11 baseline cases per Chrome WebGPU/WebGL2 backend pass. This is technical verification of the named lab scope, not acceptance of the broader defense experiment.
+
+## Current lab increment — SD-090
+
+The later [SD-089 PlayStation request](../decisions/2026-11-01-unity-dogfight-playstation-input.md) adds implemented controller bindings without new combat rules; controller software coverage is included in the 265/265 passing EditMode run and the final passing combat/controller browser suites. Physical input is not inferred from simulated-pad checks. Help/recovery remains marked assisted and uses the same state as keyboard input. Physical controller/USB/Bluetooth/feel/haptics are NOT TESTED; the owner plans to bring the pad next test. Do not mark the broader flight/deflection experiment accepted from controller mapping tests.
+
+The [owner's eight-stage direction](../decisions/2026-11-01-dogfight-combat-upgrades.md) is implemented in Unity with independent comparison switches: perfect rolls, Fighter/Racer/Grappler/Gunship waves, automatic boost-pass finishers, T-key wingman, scenery weapons, three-target breath, optional repair code and one SONG comeback. Independent right-mouse + Q/E bank is also implemented after the owner clarified tilt without heading change. T is the only added key. [Guide](../engineering/UNITY_DOGFIGHT.md), [pending verification](../reports/2026-11-01-dogfight-combat-upgrades.md).
+
+These are labeled lab mechanics, not approved campaign enemy identities, crew roles, upgrades or replacements for the proposed defense contract below. Perfect-roll harmlessness applies only to qualifying projectile IDs; it is not a general parry/reflection implementation. Optional repair and timed SONG recovery have narrowly scoped live-input exceptions. State grants outcomes once; effects do not award damage/resources. Exclusive setup, 265/265 EditMode tests, the final v002 Web build and both 32-case Chrome backend totals pass. Minor visual follow-ups and earlier failures remain in the receipt. Human difficulty/fun, comfort and sound remain NOT TESTED; the registry's older defense experiments are not marked passed by these changes.
 
 ## Player outcome and hypothesis
 

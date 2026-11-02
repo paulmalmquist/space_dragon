@@ -31,6 +31,8 @@ namespace SpaceDragon.Dogfight
         Transform motion, model;
         SampledDragonRig measuredRig;
         DragonRigProfile measuredProfile;
+        WingPropulsion wingPropulsion;
+        static readonly float[] ShipPoseWeights = { 0, 1, 0 };
         Vector3 motionRestPosition;
         Quaternion motionRestRotation;
         bool configured, paused, organic;
@@ -54,6 +56,17 @@ namespace SpaceDragon.Dogfight
         public int AnimatedTransformCount => measuredRig != null ? measuredRig.AnimatedCount : boneCount - 2;
         public Transform DamageAttachment(int system) => measuredProfile?.damageSockets?.Length == 3 && system >= 0 && system < 3 ? Socket(measuredProfile.damageSockets[system]) : null;
         public bool UsesMeasuredRig => measuredRig != null;
+        public bool UsesSpacecraftMode { get; private set; }
+        public Transform LaserMuzzleLeft => wingPropulsion?.LaserLeft;
+        public Transform LaserMuzzleRight => wingPropulsion?.LaserRight;
+        public Transform NozzleLeft => wingPropulsion?.NozzleLeft;
+        public Transform NozzleRight => wingPropulsion?.NozzleRight;
+        public float PropulsionLevel => wingPropulsion?.Level ?? 0;
+        public bool PropulsionBoosting => wingPropulsion?.Boosting ?? false;
+        public bool PropulsionBraking => wingPropulsion?.Braking ?? false;
+        public int PropulsionTriangles => wingPropulsion?.Triangles ?? 0;
+        public int WingMaterialCount => wingPropulsion?.WingMaterialCount ?? 0;
+        public void ShutdownPropulsion() => wingPropulsion?.Shutdown();
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
         [Serializable] public sealed class SkinWeightEvidence
         {
@@ -76,11 +89,14 @@ namespace SpaceDragon.Dogfight
         public float StrokePhase => Mathf.Clamp01(strokeTime / Mathf.Max(.01f, strokeDuration));
 
         public void Configure(Transform visualMotion, Transform importedModel,
-            AnimationClip flight, AnimationClip glide, AnimationClip boost, bool authoredArmor = false, bool organic = false, DragonRigProfile rigProfile = null)
+            AnimationClip flight, AnimationClip glide, AnimationClip boost, bool authoredArmor = false, bool organic = false, DragonRigProfile rigProfile = null, bool spacecraft = false)
         {
             if (visualMotion == null || importedModel == null || visualMotion == importedModel)
                 throw new ArgumentException("Dragon requires separate visual-motion and imported-model roots.");
-            configured = false; UsesAuthoredClips = false;
+            if (spacecraft && (rigProfile == null || rigProfile.id != "oscar-creativo-flight"))
+                throw new ArgumentException("The spacecraft wing adapter requires the measured Oscar rig.");
+            configured = false; UsesAuthoredClips = false; UsesSpacecraftMode = false;
+            wingPropulsion?.Dispose(); wingPropulsion = null;
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
             SkinWeights=new SkinWeightEvidence();
             Textures=new TextureRuntimeEvidence();
@@ -113,6 +129,15 @@ namespace SpaceDragon.Dogfight
                 {
                     renderer.shadowCastingMode = ShadowCastingMode.On; renderer.receiveShadows = true;
                     if (renderer is SkinnedMeshRenderer skin) { skin.updateWhenOffscreen = true; skin.quality = SkinQuality.Auto; }
+                }
+                if (spacecraft)
+                {
+                    wingPropulsion = new WingPropulsion(model,Socket("socket_wing_l"),Socket("socket_wing_r"));
+                    nodes.Add("socket_laser_l",wingPropulsion.LaserLeft);
+                    nodes.Add("socket_laser_r",wingPropulsion.LaserRight);
+                    nodes.Add("socket_wing_exhaust_l",wingPropulsion.NozzleLeft);
+                    nodes.Add("socket_wing_exhaust_r",wingPropulsion.NozzleRight);
+                    UsesSpacecraftMode = true;
                 }
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
                 if(rigProfile.id=="oscar-creativo-flight") {CaptureSkinWeights();CaptureTextures();}
@@ -177,6 +202,8 @@ namespace SpaceDragon.Dogfight
 
         public Transform Socket(string name) => name != null && nodes.TryGetValue(name, out var node) ? node : null;
         public void SetPaused(bool value) => paused = value;
+        public void SetPropulsion(float thrust01, bool boosting, bool braking, bool reducedMotion)
+            => wingPropulsion?.SetDemand(thrust01,boosting,braking,reducedMotion);
 
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
         void CaptureSkinWeights()
@@ -243,6 +270,23 @@ namespace SpaceDragon.Dogfight
             float target = boost ? 1 : 0, decay = Mathf.Exp(-4 * dt);
             float integrated = target * dt + (boostWeight - target) * (1 - decay) / 4;
             boostWeight = target + (boostWeight - target) * decay;
+            if (UsesSpacecraftMode)
+            {
+                // A dragon-shaped spacecraft holds the authored extended-wing
+                // silhouette. Glide is a fixed exported pose, never another clock.
+                // In particular, head/neck/root translation and flap animation do
+                // not run when thrust changes. The jaw alone retains attack motion.
+                weights[0] = 0; weights[1] = 1 - boostWeight; weights[2] = boostWeight;
+                ActiveState = boost ? "ShipBoost" : wingPropulsion.Braking ? "ShipBrake" : "ShipCruise";
+                gliding = true;
+                measuredRig.Advance(0,ShipPoseWeights,jawRadians);
+                motion.localPosition = motionRestPosition;
+                // Roll remains unwrapped. Slerping Euler/shortest-path rotations
+                // here would reverse direction through the middle of a full roll.
+                motion.localRotation = motionRestRotation * Quaternion.AngleAxis((bankRadians + rollRadians) * Mathf.Rad2Deg,Vector3.forward);
+                wingPropulsion.Tick(dt,animationTime);
+                return;
+            }
             strokeTime += dt + .4f * integrated;
             while (strokeTime >= strokeDuration)
             {
@@ -330,6 +374,12 @@ namespace SpaceDragon.Dogfight
             weights[0] = 1; weights[1] = weights[2] = 0; random = 8147;
             strokeTime = boostWeight = animationTime = 0; gliding = false;
             strokes = 2 + Mathf.FloorToInt(Random01() * 2); StartStroke(); ActiveState = "Flight";
+            if (UsesSpacecraftMode)
+            {
+                measuredRig.Advance(0,ShipPoseWeights,0);
+                weights[0] = weights[2] = 0; weights[1] = 1;
+                gliding = true; ActiveState = "ShipCruise"; wingPropulsion.Reset();
+            }
         }
 
         void BuildArmorAccents()
@@ -421,6 +471,6 @@ namespace SpaceDragon.Dogfight
             foreach (var mesh in ownedMeshes) if (mesh != null) Destroy(mesh);
             details.Clear(); ownedMeshes.Clear(); AddedTriangles = 0;
         }
-        void OnDestroy() => DisposeDetails();
+        void OnDestroy() { wingPropulsion?.Dispose(); wingPropulsion = null; DisposeDetails(); }
     }
 }

@@ -98,6 +98,12 @@ try {
     [path.join(repo, 'tools/unity', oscar ? 'prepare-oscar-dragon.mjs' : organic ? 'prepare-violet-dragon.mjs' : 'prepare-heroic-dragon.mjs'), '--verify'],
     {cwd: repo, encoding: 'utf8', maxBuffer: 4*1024*1024}).trim());
   report.modelContract = JSON.parse(await artifact(intake + (oscar ? 'oscar-contract-v001.json' : organic ? 'violet-contract-v007.json' : 'heroic-contract-v005.json')));
+  const oscarReference = report.buildReceipt.mechanicalAccessoriesSha256 ? 'oscar-mechanical-v004' : 'oscar-dragon-v001';
+  if (oscar && report.buildReceipt.mechanicalAccessoriesSha256) {
+    report.mechanicalContract = JSON.parse(await artifact(intake + 'oscar-mechanical-contract-v004.json'));
+    assert.equal(report.mechanicalContract.sha256,report.buildReceipt.mechanicalAccessoriesSha256);
+    report.comparison.reference = `artifacts/blender/${oscarReference}/neutral.png`;
+  }
   await artifact(intake + (oscar ? 'asset-receipt-v005.json' : organic ? 'asset-receipt-v004.json' : 'asset-receipt-v003.json'));
   assert.equal(report.buildReceipt.sourceSha256, report.modelContract.sha256, 'Player must contain the selected model.');
   assert.equal(report.buildReceipt.dragonVersion || 'heroic-v005', report.selectedAsset);
@@ -115,7 +121,7 @@ try {
       if (oscar) {
         report.comparison.additionalReferences = [];
         for (const view of ['front', 'side']) {
-          const relative = `artifacts/blender/oscar-dragon-v001/${view}.png`;
+          const relative = `artifacts/blender/${oscarReference}/${view}.png`;
           const bytes = await artifact(relative);
           await writeFile(path.join(runOutput, `blender-${view}.png`), bytes);
           report.comparison.additionalReferences.push({view, source: relative, sha256: sha(bytes)});
@@ -148,7 +154,9 @@ try {
     const ready = await waitState(state => state.mode === 'asset-inspection' && state.view === view && state.frameSamples > 2,
       'actual isolated inspection scene ready', 240000);
     assert.equal(ready.model, oscar ? 'DragonOscar.v001.Authored.Inspection' : organic ? 'DragonViolet.v007.Organic.Inspection' : 'DragonHeroic.v005.Authored.Inspection');
-    assert.equal(ready.modelTriangles, report.modelContract.instanceTriangles || report.modelContract.triangles);
+    const spacecraft=url.searchParams.get('presentation')==='spacecraft';
+    if(spacecraft){assert.equal(ready.presentation,'spacecraft');assert.equal(ready.wingMaterialCount,2);assert.equal(ready.propulsionTriangles,1120);}
+    assert.equal(ready.modelTriangles, (report.modelContract.instanceTriangles || report.modelContract.triangles) + (report.mechanicalContract?.triangles || 0)+(spacecraft?ready.propulsionTriangles:0));
     assert.equal(ready.combatActive, false); assert.equal(ready.savesWritten, false);
     assert.equal(ready.width, 1200); assert.equal(ready.height, 800);
     assert.equal(ready.browser.canvasWidth, 1200); assert.equal(ready.browser.canvasHeight, 800);

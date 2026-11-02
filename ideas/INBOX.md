@@ -40,7 +40,23 @@ Source: owner, repo-attached chat. Exact wording:
 
 > "C:\Projects\space_dragon\free-dragon-character-3d-by-oscar-creativo" that 3d model should be our baseline. properly done
 
-Routing receipt: **CONFIRMED baseline selection / verified for the bounded Lenovo/Chrome integration**. [Decision](../docs/decisions/2026-11-01-oscar-dragon-baseline.md), [creator credit/provenance](../assets/source/dragons/oscar-creativo/README.md), [verification/history/gallery](../docs/reports/2026-11-01-oscar-dragon-baseline.md). Source/export/full-weight setup, 86 Unity tests, BC7 build and 11/11 cases on both WebGPU/WebGL2 pass; all six matched source/player views are REVIEWED. Lighting/material differences and HUD cropping remain; owner final quality/release approval remains open. Hosted CI and merge delivery are recorded by the resulting PR. Preserve the original package, v007/v005 rollback, creator credit and existing gameplay/save rules. Future art polish is separate from this completed baseline integration.
+Routing receipt: **CONFIRMED baseline selection / verified for the bounded Lenovo/Chrome integration**. [Decision](../docs/decisions/2026-11-01-oscar-dragon-baseline.md), [creator credit/provenance](../assets/source/dragons/oscar-creativo/README.md), [verification/history/gallery](../docs/reports/2026-11-01-oscar-dragon-baseline.md). Source/export/full-weight setup, 86 Unity tests, BC7 build and 11/11 cases on both WebGPU/WebGL2 pass; the root AI agent compared all six matched source/player views; no human/owner review is recorded. Lighting/material differences and HUD cropping remain; owner final quality/release approval remains open. Hosted CI and merge delivery are recorded by the resulting PR. Preserve the original package, v007/v005 rollback, creator credit and existing gameplay/save rules. Future art polish is separate from this completed baseline integration.
+
+### November 1, 2026 (America/New_York) — Oscar presentation polish (SD-086 continuation)
+
+Source: owner, repo-attached chat. Exact wording:
+
+> continue polish
+
+Routing receipt: **CONFIRMED continuation / verified for the bounded Lenovo/Chrome integration**. [Polish receipt](../docs/reports/2026-11-01-oscar-presentation-polish.md). Improve lighting/material response and lower HUD overlap while preserving the selected source/anatomy, attribution, gameplay, active spelling/dodging and saves. The prior baseline remains verified; final expanded `oscar-orbit-v004` setup/build, 86 Unity tests and both 11-case Chrome suites now pass, with matched neutral/HUD observations by AI agents. The earlier screenshot comparison was by the root AI agent, not human review or owner art approval. Continue SD-086; SD-087 belongs to the concurrent Luke work.
+
+### November 1, 2026 (America/New_York) — mechanical dragon and planet detail (SD-086 continuation)
+
+Source: owner, repo-attached chat with a screenshot. Exact wording:
+
+> lets make the dragon look a bit more mechanical while youre at it. hopefully you are mid polish with planet surface
+
+Routing receipt: **CONFIRMED expansion / verified for named local checks**. [Decision](../docs/decisions/2026-11-01-oscar-mechanical-and-near-orbit-polish.md), [active receipt](../docs/reports/2026-11-01-oscar-presentation-polish.md). Add fitted mechanical plates/joint details to a recoverable Oscar derivative while retaining anatomy/animation, and refine near-orbit surface/cloud/atmosphere detail. Original source, baseline and intermediate lighting/HUD evidence remain preserved. Gameplay, collision and saves remain unchanged. The final v009 source/v004 armor with `oscar-orbit-v004` passes source/intake/setup/build, 86 Unity tests and 11/11 WebGPU plus 11/11 WebGL2 cases (~58.7 / 48.6 fps short samples). AI agents inspected matched neutral/HUD/gameplay images; material/lighting differences, occlusion and human art/sound/comfort/release review remain open. Keep SD-086; do not reuse the concurrent Luke SD-087.
 
 <!-- Add your next thought here. No form required. -->
 
@@ -1149,6 +1165,21 @@ Receipt: **SD-071** · CONFIRMED request · The Drive folder was created but con
 
 Historical October 31 merge routing receipt: incoming SD-014/015/016/017/018/027 duplicate existing SD-028/029/030/031/032/033 and retain those canonical IDs. That reconciliation assigned SD-062–071 and reserved SD-061 for concurrent visual-foundation work. Its next-ID pointer was SD-072. The [November 1 crosswalk](../docs/decisions/2026-11-01-unity-integration-identifiers.md) now includes SD-061 and maps later local collisions to SD-083–085; next unused is SD-086. This reconciliation changes tracking, not creative authority, deployment, final art approval or mission scope.
 
+### November 1, 2026 — dragon-shaped spacecraft and instant wing lasers
+
+Source: owner, Space Dragon chat, America/New_York; accompanied by an in-game screenshot of the Oscar dragon and near-orbit planet. Exact wording:
+
+> better.
+> the planet is still too low fi
+> let's make the dragon wings more for show. this is a dragon shaped spaceship rather than a dragon.
+> we want the propulsion to be shown out of the dragon wings. head doesnt have to move. lets get closer on the dragon ship and make him bigger. wings more metallic
+> the barrel roll is somewhat spastic
+> make holding B sharper turn for evading
+> let's have the windup for fire breath to be a bit more animated
+> make the firebreath more detailed
+> basic attack change to two lasers (one from each wing) that dont take any time to arrive at the target
+
+Routing receipt: **SD-086 continuation** · **CONFIRMED** direction · **IMPLEMENTED / VERIFIED for named local v002 checks**. [Spacecraft decision](../docs/decisions/2026-11-01-dragon-shaped-spacecraft.md) records the overrides to organic flapping and fresh-press-only B for the current Oscar profile, while preserving original assets/clips and previous candidates for rollback. Affected files: Unity flight/camera state, encounter input and wing-laser queries, dragon/wing/weapon presentation, planetary materials and the [combat/input contract](../docs/gameplay/INTERACTION_CONTRACTS.md). Final `oscar-spacecraft-v002` passes **103 Unity tests**, Web build, **11/11 Chrome cases per WebGPU/WebGL2** and separate AI neutral/gameplay review; short 1366×768 samples are **59.70 / 59.41 fps**. [Receipt/gallery](../docs/reports/2026-11-01-dragon-spacecraft-pass.md) records actual evidence and organic-body, framing, cloud/fire and memory-counter limits. No new Blender export is claimed; v009/source GLBs are unchanged. Next: owner visual/feel review; human appearance/comfort/sound and release remain open. This intake adds no deployment, new provider upload or campaign/save scope.
 
 ## November 1, 2026 — Continue Unity Town Drive photorealism (SD-074 continuation)
 
@@ -1177,3 +1208,20 @@ Owner wording:
 > please take another lap through my reference video and come up with legitimate ideas for increasing the realism of the current iteration. the yellow lines are not straight (and not present in many of the example video's cases) and we need more photo realistic blender assets too. start with those and input them in the game
 
 Routing receipt: **CONFIRMED / technically verified; agent visual inspection complete**, continuing SD-052/074. [Decision](../docs/decisions/2026-11-01-town-drive-reference-road-assets.md), [evidence](../docs/reports/2026-11-01-town-drive-reference-road-assets.md). Sampled both supplied timelines, corrected paint presence/geometry, authored and integrated three Blender plant families. Fourteen scene checks, both browser backends, focus recovery and full lap/reload pass. Driving/map/save data and source assets are preserved. Recorded remaining foliage darkness, repeated surroundings and memory cost; full photorealism remains unfinished.
+
+
+### November 1, 2026 — skillful combat without more controls (SD-090)
+
+Owner source: [complete attached brief and directional-movement wording](2026-11-01-dogfight-combat-upgrades-source.md). Authority **CONFIRMED**; work state **verified for named local technical checks — IMPLEMENTED**. All eight reversible Unity encounter stages are committed: perfect roll, enemy roles/waves, claw finishers, wingman, scenery weapons, multi-lock breath, optional repair code and one SONG comeback. At most one new key (T); no campaign changes. Preserve the tested spacecraft baseline and latest Town Drive work. [Decision](../docs/decisions/2026-11-01-dogfight-combat-upgrades.md), [receipt](../docs/reports/2026-11-01-dogfight-combat-upgrades.md). The chat summary says WAKE, but the detailed attachment explicitly chooses SONG to avoid reserved flight keys; use SONG. “Plasma” means the existing twin-laser ordinary weapon.
+
+Owner clarification, November 1: **“Tilt/bank left independently”.** Implemented as right mouse + Q/E, visual tilt without heading or travel change, through separate `EnableIndependentBank`; right mouse still zooms and Q/E alone retain full rolls. Final `combat-upgrades-v002` passes setup, **265/265 EditMode tests**, Web build and **21 combat/controller + 11 all-switches-off cases per Chrome WebGPU/WebGL2 backend (32 each)**. Separate repository checks pass **54 development / nine production** cases. The receipt retains earlier failures and visual follow-ups; dedicated natural-flight measurements remain separate. Next: the physical PlayStation/family test. Human fun/comfort/sound and sustained performance remain NOT TESTED; release NOT APPROVED. PR delivery pending; no merge/deploy.
+
+Tracking correction: this combat request is canonical **SD-090**. Early local records and commit messages used SD-088 before discovering that the concurrent filmed Town Drive slice already owned that ID. Preserve both histories; [crosswalk](../docs/decisions/2026-11-01-combat-controller-identifiers.md).
+
+### November 1, 2026 — PlayStation bindings in this pass (SD-089)
+
+Owner wording, verbatim:
+
+> in this pass, bind to playstation controller too. ill bring it next test
+
+Routing receipt: **CONFIRMED / technically verified for named software checks — IMPLEMENTED**. Implemented the [agreed controller mapping](../docs/decisions/2026-11-01-unity-dogfight-playstation-input.md) in the existing Unity Dogfight combat pass, preserving keyboard/mouse and state/save boundaries. Sticks fly/aim; triggers fire/zoom; bumpers roll or bank with L2; face buttons boost/turn/missile/breath; D-pad supplies help/SONG, wingman and throttle; Share/Create plus D-pad selects repair; Options and D-pad/Cross/Circle operate menus. The combined 265/265 EditMode run passes with controller software coverage; setup verifies stick dead zone .16, trigger threshold .2, repair hold .15 s and aim rate .9. The final v002 Web build and **21 combat/controller + 11 all-switches-off cases on each Chrome WebGPU/WebGL2 backend** pass. Controller input is simulated; the next gate is the physical PlayStation/family test. The owner will bring a physical pad next test: DualShock 4/DualSense USB/Bluetooth, actual control feel and haptics remain NOT TESTED, with no rumble promise. Earlier keyboard and simulated Earth-adapter evidence does not verify this Unity mapping. Main/local ID checks and the SD-088/090 correction are preserved in the [crosswalk](../docs/decisions/2026-11-01-combat-controller-identifiers.md). No merge/deployment follows.

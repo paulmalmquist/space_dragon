@@ -5,8 +5,8 @@ namespace SpaceDragon.Dogfight
     /// <summary>Follow the moving gameplay frame before damping; speed must not add trailing lag.</summary>
     public sealed class ChaseCameraState
     {
-        // SD-079: closer hero framing without scaling the actor or its hit shapes.
-        public const float CruiseDistance = 9.8f, CruiseHeight = 3.55f;
+        // Ship framing: larger in view without scaling the actor or hit shapes.
+        public const float CruiseDistance = 8.0f, CruiseHeight = 3.1f;
         public const float LookAhead = 42f, LookHeight = 1.2f;
         public Vector3 Position { get; private set; }
         public Quaternion Rotation { get; private set; } = Quaternion.identity;
@@ -22,7 +22,7 @@ namespace SpaceDragon.Dogfight
             if(!snap&&dt>0){Vector3 delta=Anchor-previousAnchor;Position+=delta;look+=delta;}
             if(snap||dt>0){previousAnchor=Anchor;hasAnchor=true;}
             float normal=Mathf.InverseLerp(54,88,flight.Speed),boost=Mathf.InverseLerp(88,148,flight.Speed);
-            float setback=reducedMotion?0:.8f*normal+1.2f*boost;
+            float setback=reducedMotion?0:.4f*normal+.7f*boost;
             float response=snap?1:1-Mathf.Exp(-9*dt);
             Position=Vector3.Lerp(Position,Anchor-flight.Forward*(CruiseDistance+setback)+flight.Up*CruiseHeight,response);
             look=Vector3.Lerp(look,Anchor+flight.Forward*LookAhead+flight.Up*LookHeight,snap?1:1-Mathf.Exp(-11*dt));

@@ -19,9 +19,13 @@ const runOutput = path.join(output, 'runs', runId);
 await mkdir(runOutput, { recursive: true });
 const forceWebGL2 = process.env.SPACE_DRAGON_DOGFIGHT_WEBGL2 === '1';
 const performanceOnly = process.env.SPACE_DRAGON_DOGFIGHT_PERF_ONLY === '1';
+const baselineMode = process.env.SPACE_DRAGON_DOGFIGHT_BASELINE === '1';
 const report = {
   runId, startedAt: new Date().toISOString(), url: url.href, viewport: [1366, 768], forceWebGL2,
-  command: process.argv.join(' '), result: 'RUNNING', performanceOnly,
+  command: process.argv.join(' '), result: 'RUNNING', performanceOnly, baselineMode,
+  baselineScope: baselineMode
+    ? 'All eight SD-090 combat upgrade flags and independent wing bank are explicitly disabled through the development comparison fixture at startup and every restart. Existing eleven-case assertions are unchanged.'
+    : 'Upgrade flags are not changed by this verifier. This run must not be described as an all-flags-off baseline.',
   scope: 'Installed Chrome, normal GPU configuration, actual Unity player and browser keyboard/mouse events. Development fixtures arrange quiet threats, a moving-relative target, damage, supplies and a collider; real simulation resolves locks, projectiles, collection, repairs and losses. No clocks or authoritative counters are advanced by the verifier.',
   performanceScope: 'The separate natural encounter sample uses no quiet/target/damage fixtures. resetPerf clears measurement counters only. Unity frame intervals are wall-clock Update intervals, not GPU execution time; draw counters are last-frame observations and texture memory is Unity allocation, not driver VRAM. Ten-second sampling is not endurance or a quality approval.',
   limitations: ['Physical controller, human sound audibility, comfort, family usability and final art approval are NOT TESTED.', 'Condition fixtures are compiled into this development review player; these tests do not validate release-player fixture exclusion.', 'Headless installed Chrome is not a human play session. Renderer identity is recorded rather than inferred from launch options.'],
@@ -92,7 +96,8 @@ async function snapshot() {
     paused: state.paused, dead: state.dead, hull: state.hull, missileCharges: state.missileCharges,
     repairing: state.repairing, repairProgress: state.repairProgress, repairsCompleted: state.repairsCompleted,
     repairsInterrupted: state.repairsInterrupted, salvage: state.salvage, lockState: state.lockState,
-    breathPhase: state.breathPhase, beam: state.beam, fixture: state.fixture });
+    breathPhase: state.breathPhase, beam: state.beam, fixture: state.fixture,
+    rollAngle:state.rollAngle,bankAngle:state.bankAngle,yawRate:state.yawRate,breakActive:state.breakActive,propulsionLevel:state.propulsionLevel });
   return state;
 }
 async function waitState(predicate, label, timeout = 45000, allowDead = false) {
@@ -123,20 +128,28 @@ async function fixture(action) {
   report.fixtures.push({ case: currentCase, action, wallMs: Date.now() });
   await send('QaFixture', action);
 }
+function assertBaselineFlags(state) {
+  if (!baselineMode) return;
+  for (const name of ['perfectRoll', 'enemyRoles', 'clawFinisher', 'wingman', 'rockWeapons', 'multiTargetBreath', 'repairCode', 'comeback', 'independentBank'])
+    assert.match(state.combatFlags || '', new RegExp(`${name}=False(?:;|$)`), `Baseline must disable ${name}.`);
+}
 async function restart(mode = 'quiet') {
   await releaseInputs();
   await page.locator('#unity-canvas').focus();
   // One browser operation prevents a rendered frame between restart and fixture isolation.
-  await page.evaluate(mode => {
+  await page.evaluate(({mode, baselineMode}) => {
     const api = window.__SPACE_DRAGON_DOGFIGHT__;
-    api.send('RestartEncounter');
+    if (baselineMode) api.send('QaFixture', 'upgrades:off');
+    else api.send('RestartEncounter');
     if (mode) api.send('QaFixture', mode);
     api.send('RequestSnapshot');
-  }, mode);
+  }, {mode, baselineMode});
+  if (baselineMode) report.fixtures.push({ case: currentCase, action: 'upgrades:off', resetsEncounter: true, baselineComparison: true, wallMs: Date.now() });
   if (mode) report.fixtures.push({ case: currentCase, action: mode, afterRestart: true, wallMs: Date.now() });
   const state = await waitState(s => !s.dead && !s.paused && s.hull === 100 && s.propulsion === 100 && s.weapons === 100 &&
     s.salvage === 1 && s.repairsRemaining === 3 && s.missileCharges === 2 && s.missilesLaunched === 0 && s.kills === 0,
   'complete encounter restart', 30000, true);
+  assertBaselineFlags(state);
   if (mode) assert.equal(state.fixture, true, 'This harness requires the development condition fixtures.');
   await waitSim(.15); // The runtime requires fresh neutral input after restart.
   return state;
@@ -248,6 +261,13 @@ try {
   report.head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: repo, encoding: 'utf8' }).trim();
   for (const relative of ['unity/SpaceDragon/Builds/DogfightWeb/build-receipt.json',
     'unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight/DogfightEncounter.cs',
+    'unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight/FlightState.cs',
+    'unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight/WingPropulsion.cs',
+    'unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight/ShipWeaponsVfx.cs',
+    'unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight/WingLaserQuery.cs',
+    'unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight/SpacecraftWing.shader',
+    'unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight/WeaponEnergy.shader',
+    'assets/source/environments/near-orbit-nasa-v001/provenance.json',
     'unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight/TacticalState.cs',
     'unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight/HomingMissile.cs', 'tools/unity/verify-dogfight.mjs']) {
     const bytes = await artifact(relative);
@@ -272,12 +292,20 @@ try {
   report.modelContract = JSON.parse(await artifact(intakeRoot + (oscar ? 'oscar-contract-v001.json' : organic ? 'violet-contract-v007.json' : 'heroic-contract-v005.json')));
   report.intakeReceipt = JSON.parse(await artifact(intakeRoot + (oscar ? 'asset-receipt-v005.json' : organic ? 'asset-receipt-v004.json' : 'asset-receipt-v003.json')));
   if (oscar) report.fullSkinMetadata = JSON.parse(await artifact(intakeRoot + report.modelContract.skinRestoration.metadata));
-  if (oscar && report.buildReceipt.textureMode === 'bc7') {
+  if (oscar && (report.buildReceipt.textureMode === 'bc7' || report.buildReceipt.mechanicalAccessoriesSha256)) {
     report.setupReceipt = JSON.parse(await artifact('unity/SpaceDragon/Builds/dogfight-setup-receipt.json'));
     await artifact('unity/SpaceDragon/Assets/SpaceDragon/Editor/Dogfight/OscarCompressedTextures.cs');
     assert.equal(report.setupReceipt.sourceSha256, report.modelContract.sha256);
-    assert.equal(report.setupReceipt.textureMode, 'bc7');
-    assert(report.setupReceipt.compressedTextures.uniqueTextures > 0, 'Measured texture derivative receipt is required.');
+    assert.equal(report.setupReceipt.textureMode, report.buildReceipt.textureMode);
+    if (report.buildReceipt.textureMode === 'bc7') assert(report.setupReceipt.compressedTextures.uniqueTextures > 0, 'Measured texture derivative receipt is required.');
+  }
+  if (oscar && report.buildReceipt.mechanicalAccessoriesSha256) {
+    report.mechanicalContract = JSON.parse(await artifact(intakeRoot + 'oscar-mechanical-contract-v004.json'));
+    report.mechanicalIntake = JSON.parse(execFileSync(process.execPath,[path.join(repo,'tools/unity/prepare-oscar-mechanical.mjs'),'--verify'],{cwd:repo,encoding:'utf8'}).trim());
+    assert.equal(report.mechanicalContract.sha256, report.buildReceipt.mechanicalAccessoriesSha256);
+    assert.equal(report.setupReceipt.mechanicalAccessories.sourceSha256, report.mechanicalContract.sha256);
+    assert.equal(report.setupReceipt.mechanicalAccessories.triangles, report.mechanicalContract.triangles);
+    assert.equal(report.setupReceipt.presentationVersion, report.buildReceipt.presentationVersion);
   }
   assert.equal(report.intakeReceipt.schemaVersion, oscar ? 5 : organic ? 4 : 3);
   assert.equal(report.buildReceipt.result, 'Succeeded', 'A completed player build is required.');
@@ -314,15 +342,30 @@ try {
   })()));
   await page.goto(url.href, { waitUntil: 'domcontentloaded', timeout: 180000 });
   report.initial = await waitState(s => s.scene === 'Unity Dogfight' && s.frameSamples > 2, 'Unity player and snapshot bridge ready', 240000, true);
+  if (baselineMode) {
+    report.beforeBaselineFixture = report.initial;
+    await fixture('upgrades:off');
+    report.initial = await waitState(s => !s.dead && !s.paused && s.hull === 100 && s.kills === 0 && s.rolls === 0,
+      'explicit all-flags-off baseline startup', 30000, true);
+    assertBaselineFlags(report.initial);
+  }
   assert.equal(report.initial.authoredClips, true, 'Imported authored flight clips must be connected.');
   assert.equal(report.initial.organicRig, organic, 'The actual player must select the expected rig adapter.');
   assert.equal(report.initial.modelName, oscar ? 'DragonOscar.v001.Authored' : organic ? 'DragonViolet.v007.Organic' : 'DragonHeroic.v005.Authored');
-  if (oscar) assert.equal(report.initial.rigProfile, 'oscar-creativo-flight', 'The selected model must use its measured full-TRS adapter.');
   if (oscar) {
+    assert.equal(report.initial.rigProfile, 'oscar-creativo-flight', 'The selected model must use its measured full-TRS adapter.');
+    assert.equal(report.initial.spacecraft,true,'The selected Oscar player uses the ship presentation.');
+    assert.equal(report.initial.wingMaterialCount,2,'Both main wings have metallic material instances.');
+    assert(report.initial.propulsionTriangles>0&&report.initial.propulsionLevel>0,'Wing engine geometry and active propulsion must be present.');
+    assert(distance(report.initial.laserLeft,report.initial.laserRight)>2,'Laser mounts must be separate on the wings.');
+  }
+  if (oscar) {
+    const addonEvidence = report.buildReceipt.mechanicalAccessoriesSha256 ? report.setupReceipt.mechanicalAccessories : null;
     assert.equal(report.initial.skinWeightsStatus, 'READABLE_FULL_WEIGHT_DATA', 'The built player must expose actual retained mesh weights.');
     assert.equal(report.initial.maxMeshInfluences, report.modelContract.maxInfluencesPerVertex);
-    assert.equal(report.initial.skinnedMeshCount, report.fullSkinMetadata.meshes.length);
-    assert.equal(report.initial.totalPositiveInfluences, report.fullSkinMetadata.meshes.reduce((sum, mesh) => sum + mesh.weights.count, 0));
+    assert.equal(report.initial.skinnedMeshCount, report.fullSkinMetadata.meshes.length + (addonEvidence?.renderers || 0));
+    assert.equal(report.initial.totalPositiveInfluences, report.fullSkinMetadata.meshes.reduce((sum, mesh) => sum + mesh.weights.count, 0)
+      + (addonEvidence?.positiveInfluences || 0));
     assert.equal(report.initial.runtimeQualitySkinWeights, 'Unlimited');
     assert.equal(report.initial.allRendererQualityAuto, true);
     assert.equal(report.initial.unreadableSkinMeshes, 0);
@@ -339,7 +382,7 @@ try {
     }
   }
   assert.equal(report.initial.muzzleAttached, true, 'The actual imported mouth socket must be connected.');
-  if (organic || oscar) assert.equal(report.initial.addedArmorTriangles, 0, 'Authored organic anatomy must not receive the mechanical armor generator.');
+  if (organic || oscar) assert.equal(report.initial.addedArmorTriangles, 0, 'Do not add the legacy procedural overlay; imported fitted accessories are measured separately.');
   assert.match(report.initial.audio || '', /Five layered licensed Sonniss v002 cues/,
     'All five upgraded recorded cues must be bound in the actual player. This does not establish human mix quality.');
   if (forceWebGL2) assert.equal(report.initial.graphics, 'OpenGLES3', 'The explicit WebGL2 verification must use the OpenGLES3 backend.');
@@ -357,8 +400,8 @@ try {
     const steadyCruise = await waitSim(2);
     assert(distance(steadyCruise.forward, { x: 0, y: 0, z: 1 }) <= .03,
       `Neutral startup must keep +Z forward; observed ${JSON.stringify(steadyCruise.forward)}.`);
-    assert(Number.isFinite(steadyCruise.cameraTrailingDistance) && Math.abs(steadyCruise.cameraTrailingDistance - 9.8) <= .2,
-      `Steady-cruise camera must trail by 9.8 ± 0.2 m; observed ${steadyCruise.cameraTrailingDistance}.`);
+    assert(Number.isFinite(steadyCruise.cameraTrailingDistance) && Math.abs(steadyCruise.cameraTrailingDistance - 8) <= .2,
+      `Steady-cruise camera must trail by 8 ± 0.2 m; observed ${steadyCruise.cameraTrailingDistance}.`);
     await fixture('resetPerf');
     const before = await snapshot(); assert.equal(before.fixture, false);
     const wallStart = performance.now();
@@ -372,9 +415,15 @@ try {
     assert(Number.isFinite(after.frameMeanMs) && after.frameMeanMs > 0 && Number.isFinite(after.frameP95Ms) && after.frameP95Ms > 0);
     sample.measured = {meanFrameMs: after.frameMeanMs, p95FrameMs: after.frameP95Ms, observedFrames: after.frameSamples,
       approximateFps: 1000 / after.frameMeanMs, drawCallsLastFrame: after.drawCalls, trianglesLastFrame: after.renderTriangles,
-      textureAllocatedMiB: after.textureAllocatedMiB, selectedModelTriangles: report.modelContract.instanceTriangles || report.modelContract.triangles};
+      textureAllocatedMiB: after.textureAllocatedMiB, selectedModelTriangles: (report.modelContract.instanceTriangles || report.modelContract.triangles)
+        + (report.mechanicalContract?.triangles || 0), propulsionTriangles:after.propulsionTriangles};
     if (!(after.drawCalls > 0 && after.renderTriangles > 0)) report.limitations.push('Render draw/triangle counters unavailable or zero in the observed frame; no invented renderer-cost measurement.');
     if (!(after.textureAllocatedMiB > 0)) report.limitations.push('Runtime texture allocation was unavailable in this sample.');
+    const knownModelMiB=(report.setupReceipt?.compressedTextures?.compressedPayloadBytes||0)/1048576;
+    if(after.textureAllocatedMiB<knownModelMiB){
+      sample.measured.textureAllocationReliable=false;
+      report.limitations.push('Unity texture allocation underreports this backend: its total is below the known loaded model BC7 payload. Do not treat it as GPU texture memory. Use WebGL2 allocation and analytical asset payload separately.');
+    }else sample.measured.textureAllocationReliable=true;
     await capture('natural-flight'); return sample;
   });
 
@@ -394,13 +443,27 @@ try {
     const boostBefore = await snapshot(); await page.keyboard.down('Shift');
     const boost = await waitState(s => s.boosting && s.speed > boostBefore.speed + 10 && s.boostEnergy < boostBefore.boostEnergy, 'finite-energy boost'); await page.keyboard.up('Shift');
     await tap('q'); const roll = await waitState(s => s.rolls >= 1 && s.evasion < 95, 'left barrel roll spends energy');
-    await waitSim(1.6); await tap('b'); const hardBreak = await waitState(s => s.breaks >= 1, 'physical break maneuver');
-    await waitSim(3.2); await tap('e'); const otherRoll = await waitState(s => s.rolls >= 2, 'right barrel roll');
+    await capture('roll-left-entry');await waitSim(.35);await capture('roll-left-mid');
+    await waitSim(1.6);const turnBefore=await snapshot();
+    await page.keyboard.down('ArrowRight');await page.keyboard.down('b');
+    const hardBreak=await waitState(s=>s.breakActive&&s.breaks>=1&&s.yawRate>2.5&&s.elapsed-turnBefore.elapsed>.4,'held B tightens live steering');
+    assert(hardBreak.speed<turnBefore.speed&&hardBreak.evasion<turnBefore.evasion,'Held turn brakes and drains evasion energy.');
+    await capture('held-evasive-turn');
+    await page.keyboard.up('b');await page.keyboard.up('ArrowRight');
+    await waitState(s=>!s.breakActive,'release B ends the powered turn');
+    await waitState(s=>s.evasion>=50&&!s.breakActive,'energy recharges for the opposite roll');await tap('e'); const otherRoll = await waitState(s => s.rolls >= 2, 'right barrel roll');
     await tap('Escape'); const paused = await waitState(s => s.paused, 'Escape pauses');
     await page.keyboard.down('ArrowUp'); await delay(600); const still = await snapshot(); await page.keyboard.up('ArrowUp');
     assert.equal(still.elapsed, paused.elapsed); assert(distance(still.position, paused.position) < .001);
-    await tap('Escape'); await waitState(s => !s.paused, 'Escape resumes'); await releaseInputs(); await waitSim(.2);
-    await capture('flight-controls'); return { before, arrow, aimBefore, aimAfter, mouse, zoom, boost, roll, hardBreak, otherRoll, paused, still };
+    await tap('Escape'); await waitState(s => !s.paused, 'Escape resumes'); await releaseInputs();
+    await waitState(s=>s.evasion>=50&&s.rollAngle===0,'energy recharges before the held-turn pause check');
+    await page.keyboard.down('ArrowLeft');await page.keyboard.down('b');
+    await waitState(s=>s.breakActive,'new held turn before pause');
+    await tap('Escape');const pausedTurn=await waitState(s=>s.paused&&!s.breakActive,'pause cancels the held turn');
+    await tap('Escape');await waitState(s=>!s.paused,'resume with B still physically held');
+    const heldAfterResume=await waitSim(.4);assert.equal(heldAfterResume.breakActive,false,'B must be released before rearming after pause.');
+    await releaseInputs();await waitSim(.2);
+    await capture('flight-controls'); return { before, arrow, aimBefore, aimAfter, mouse, zoom, boost, roll, hardBreak, otherRoll, paused, still, pausedTurn, heldAfterResume };
   });
 
   await runCase('invalid-launch-does-not-spend', async () => {
@@ -420,7 +483,19 @@ try {
     let plasma;
     try { plasma = await trackUntil(id, s => s.ordinaryHits > firstHit.ordinaryHits, 'ordinary plasma follows the independent target'); }
     finally { await page.mouse.up({ button: 'left' }); }
-    mouthCheck(plasma, 'plasma'); await captureMouth('ordinary-fire-mouth');
+    if(plasma.spacecraft){
+      assert(plasma.laserBeamsFired>=2&&plasma.laserBeamsFired===plasma.shotsFired*2,'Every volley fires two wing lasers.');
+      assert.equal(plasma.playerBoltsActive,0,'Instant primary fire has no travelling player bolts.');
+      assert.equal(plasma.lastLaserFiredAt,plasma.lastLaserResolvedAt,'Both rays resolve in the firing simulation tick.');
+      assert(plasma.lastLaserLeftHit&&plasma.lastLaserRightHit,'Both wing rays hit the currently aimed target.');
+      for(const side of ['Left','Right'])assert(distance(plasma[`lastLaser${side}Origin`],plasma[`lastLaser${side}Socket`])<.02,'Laser origin must use its named wing socket.');
+      await aimAt(id);await page.mouse.down({button:'left'});
+      try {
+        const live=await waitState(s=>s.lasersActive,'visible laser pulse');
+        assert(distance(live.laserVisualLeft,live.laserLeft)<.02&&distance(live.laserVisualRight,live.laserRight)<.02,'Both actual rendered pulses must start at their live wing attachments.');
+        await capture('twin-wing-lasers');
+      }finally{await page.mouse.up({button:'left'});}
+    }else{mouthCheck(plasma,'plasma');await captureMouth('ordinary-fire-mouth');}
     await trackUntil(id, s => s.lockState === 'Locked' && s.lockedTarget === id, 'reconfirm second deliberate launch');
     await page.mouse.down({ button: 'middle' }); await delay(100); await page.mouse.up({ button: 'middle' });
     const spent = await waitState(s => s.missilesLaunched === 2 && s.missileCharges === 0, 'middle button spends the second charge');
@@ -503,13 +578,14 @@ try {
     // Observe both short-lived stages before any potentially blocking screenshot.
     // Slow capture must not make a resolved attack look like a missing beam.
     mouthCheck(windup, 'windup');
+    const windupCapture=await captureMouth('breath-windup-mouth',windup);
     const beam = await waitState(s => s.beam && s.breathPhase === 'Burst', 'windup transitions into visible fire beam');
     mouthCheck(beam, 'beam');
     const attackCapture = await captureMouth('breath-attack-mouth', beam);
     const impact = await waitState(s => s.breathsResolved === 1 && s.kills === 1 && s.breathPhase === 'Charging', 'one breath resolves one target and starts the next word');
     assert.equal(impact.breathsFired, 1); assert.equal(impact.letterIndex, 0); assert.notEqual(impact.word, before.word);
     assert.equal(impact.missilesLaunched, 0); assert.equal(impact.missileCharges, 2);
-    assert(distance(impact.position, windup.position) > 5); return { before, flying, ready, windup, beam, attackCapture, impact };
+    assert(distance(impact.position, windup.position) > 5); return { before, flying, ready, windup, windupCapture, beam, attackCapture, impact };
   });
 
   await runCase('full-inventory-leaves-recoverable-salvage', async () => {
@@ -531,12 +607,14 @@ try {
     const lossCondition = collision.dead ? 'observed collider impact was fatal' : 'explicit fatal-damage fixture after a separately observed collider impact';
     if (!collision.dead) await fixture('disable');
     const lost = await waitState(s => s.dead && s.hull === 0 && s.collisionHits > 0, 'disabled encounter', 30000, true);
+    assert.equal(lost.propulsionLevel,0,'Destroyed ship engines shut down.');assert.equal(lost.lasersActive,false);assert.equal(lost.beam,false);
     assert.equal(lost.repairing, false); await capture('dragon-disabled');
     await page.keyboard.down('Tab'); await tap('1'); await page.keyboard.up('Tab'); await tap('Enter'); await delay(400);
     const stillDisabled = await snapshot(); assert.equal(stillDisabled.hull, 0);
     assert.equal(stillDisabled.salvage, lost.salvage); assert.equal(stillDisabled.repairsRemaining, lost.repairsRemaining);
     assert.equal(stillDisabled.missilesLaunched, lost.missilesLaunched);
     const recovered = await restart('quiet');
+    if(recovered.spacecraft)assert(recovered.propulsionLevel>0,'Restart restores wing propulsion.');
     assert.equal(recovered.repairsCompleted, 0); assert.equal(recovered.repairsInterrupted, 0); assert.equal(recovered.patches, 0);
     assert.equal(recovered.pickups, 0); assert.equal(recovered.breathsFired, 0); assert.equal(recovered.missilesActive, 0);
     await capture('restart-restored'); return { before, collision, lossCondition, lost, stillDisabled, recovered };
