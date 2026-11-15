@@ -1,0 +1,12 @@
+{
+  "name": "SpaceDragon.Playground.Editor",
+  "rootNamespace": "SpaceDragon.Playground.Editor",
+  "references": [
+    "SpaceDragon.Playground",
+    "SpaceDragon.Traversal.Core",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime"
+  ],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

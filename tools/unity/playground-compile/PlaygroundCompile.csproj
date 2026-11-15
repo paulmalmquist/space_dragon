@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Compiles the Luke's Playground Unity sources outside the Editor to catch C# errors early.
+    UnityEngine comes from the public 2021.3 reference modules and UnityEditor from the public
+    2021.1 SDK package; Input System and URP are small hand-written stubs of the members used.
+    It proves the code compiles against those shapes. It does not prove a Unity 6 import,
+    a scene generation, a build or anything visual: those need the pinned Editor.
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);CS0649;CS0169;CS0414;MSB3277;MSB3243</NoWarn>
+    <DefineConstants>$(DefineConstants);UNITY_EDITOR;SPACE_DRAGON_REFERENCE_2021</DefineConstants>
+    <SpaceDragonAssets>$(MSBuildThisFileDirectory)../../../unity/SpaceDragon/Assets/SpaceDragon</SpaceDragonAssets>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageDownload Include="UnityEngine.Modules" Version="[2021.3.33]" />
+    <PackageDownload Include="Unity3D.SDK" Version="[2021.1.14.1]" />
+    <Reference Include="$(NuGetPackageRoot)unityengine.modules/2021.3.33/lib/net45/*.dll" Private="false" />
+    <Reference Include="$(NuGetPackageRoot)unity3d.sdk/2021.1.14.1/lib/UnityEditor.dll" Private="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(SpaceDragonAssets)/Traversal/Core/*.cs" Link="Core/%(Filename)%(Extension)" />
+    <Compile Include="$(SpaceDragonAssets)/Playground/Runtime/*.cs" Link="Runtime/%(Filename)%(Extension)" />
+    <Compile Include="$(SpaceDragonAssets)/Playground/Editor/*.cs" Link="Editor/%(Filename)%(Extension)" />
+    <Compile Include="Stubs/*.cs" />
+  </ItemGroup>
+</Project>

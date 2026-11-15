@@ -619,8 +619,8 @@
         },
         {
           "path": "assets/playground/hero/PROVENANCE.json",
-          "bytes": 17896,
-          "sha256": "08f9140250cc07adf1e04892b618ec5ff182ab9108ba92e3c281ebcc09f873a6"
+          "bytes": 18011,
+          "sha256": "710183ac0e66d4339aec2b6fbf121b6e7a6af59e0e717cc883013000fffce1a4"
         },
         {
           "path": "assets/playground/hero/playground-kid-body-color.png",
@@ -654,13 +654,13 @@
         },
         {
           "path": "assets/playground/hero/playground-kid.bin",
-          "bytes": 1259160,
-          "sha256": "add2ce7d74c6d9a9b4dcdf61ed6f7d92f1d6328833c2b99ba51d25bd26511a3b"
+          "bytes": 1385848,
+          "sha256": "488f8ff3e01ed05f3f10f163aba2c6b0622dfa632d486e5e76bcaa9406e8ad04"
         },
         {
           "path": "assets/playground/hero/playground-kid.gltf",
-          "bytes": 77817,
-          "sha256": "9da545edea8397f876997437d5ba9e2baae319eef0095f7a369c0e4fdca35cda"
+          "bytes": 76896,
+          "sha256": "f346a976a8b4f4ca3985094407941ff3f60edf8a689d8c79f27d64749f64b9ad"
         }
       ]
     }

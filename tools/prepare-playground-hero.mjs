@@ -285,6 +285,8 @@ async function build(target, io, textures) {
   document.getRoot().getAsset().copyright = 'Copyright (c) 2020 Microsoft; MIT License';
   document.getRoot().getAsset().generator = 'tools/prepare-playground-hero.mjs';
   await document.transform(prune());
+  // Plain accessors only: sparse blend-shape storage is optional for importers to support.
+  for (const accessor of gltf.listAccessors()) accessor.setSparse(false);
   buffer.setURI('playground-kid.bin');
 
   const directory = path.join(root, target.directory);
@@ -413,6 +415,7 @@ async function main() {
         'Copy clip rotations onto the child skeleton by exact bone name; the adult face rig is not copied.',
         'Scale hip height by the child/adult leg-length ratio, plant the lowest foot contact, remove forward travel.',
         'Rotate each locomotion loop to start at the left foot forward so walk, run and sprint blend in phase.',
+        'Write every accessor densely (no sparse storage) and no glTF extensions, for the widest importer support.',
       ],
       meanSpecular: specular,
       roughnessCurves: ROUGHNESS,

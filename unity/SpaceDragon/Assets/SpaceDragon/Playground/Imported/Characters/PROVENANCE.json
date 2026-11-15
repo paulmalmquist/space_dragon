@@ -121,7 +121,8 @@
       "For Unity, also write URP metallic-smoothness maps (metallic 0, smoothness = 1 - roughness in alpha).",
       "Copy clip rotations onto the child skeleton by exact bone name; the adult face rig is not copied.",
       "Scale hip height by the child/adult leg-length ratio, plant the lowest foot contact, remove forward travel.",
-      "Rotate each locomotion loop to start at the left foot forward so walk, run and sprint blend in phase."
+      "Rotate each locomotion loop to start at the left foot forward so walk, run and sprint blend in phase.",
+      "Write every accessor densely (no sparse storage) and no glTF extensions, for the widest importer support."
     ],
     "meanSpecular": {
       "body": 0.0315,
@@ -190,13 +191,13 @@
         },
         {
           "file": "playground-kid.bin",
-          "bytes": 1259160,
-          "sha256": "add2ce7d74c6d9a9b4dcdf61ed6f7d92f1d6328833c2b99ba51d25bd26511a3b"
+          "bytes": 1385848,
+          "sha256": "488f8ff3e01ed05f3f10f163aba2c6b0622dfa632d486e5e76bcaa9406e8ad04"
         },
         {
           "file": "playground-kid.gltf",
-          "bytes": 77817,
-          "sha256": "9da545edea8397f876997437d5ba9e2baae319eef0095f7a369c0e4fdca35cda"
+          "bytes": 76896,
+          "sha256": "f346a976a8b4f4ca3985094407941ff3f60edf8a689d8c79f27d64749f64b9ad"
         }
       ],
       "joints": 80,
@@ -387,13 +388,13 @@
         },
         {
           "file": "playground-kid.bin",
-          "bytes": 1259160,
-          "sha256": "add2ce7d74c6d9a9b4dcdf61ed6f7d92f1d6328833c2b99ba51d25bd26511a3b"
+          "bytes": 1385848,
+          "sha256": "488f8ff3e01ed05f3f10f163aba2c6b0622dfa632d486e5e76bcaa9406e8ad04"
         },
         {
           "file": "playground-kid.gltf",
-          "bytes": 77817,
-          "sha256": "9da545edea8397f876997437d5ba9e2baae319eef0095f7a369c0e4fdca35cda"
+          "bytes": 76896,
+          "sha256": "f346a976a8b4f4ca3985094407941ff3f60edf8a689d8c79f27d64749f64b9ad"
         }
       ],
       "joints": 80,
