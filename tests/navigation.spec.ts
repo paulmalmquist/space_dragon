@@ -51,6 +51,9 @@ async function walkAxis(page: Page, axis: 'x' | 'z', destination: number) {
 }
 
 async function expectStopped(page: Page, before?: ExplorationState['player']) {
+  // The hero now carries a short stride of momentum after a key is released. Wait for
+  // rest first, then require stillness: a stuck key would never come to rest at all.
+  await expect.poll(async () => (await navigation(page)).moving, { timeout: 15_000 }).toBe(false);
   const initial = before ?? (await navigation(page)).state.player;
   await page.waitForTimeout(250);
   const after = (await navigation(page)).state.player;

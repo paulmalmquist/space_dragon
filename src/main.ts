@@ -5,8 +5,9 @@ import type { StoryAction } from './game/state';
 import { loadCheckpoint, saveCheckpoint } from './game/checkpoint';
 import { storyContent, hintPrompt, SUIT_CARDS } from './game/first-contact-content';
 import { createNarrator } from './game/narrator';
-import { copyExplorationState, createExplorationState } from './game/navigation';
+import { copyExplorationState, createExplorationState, sparkCount, SPARK_IDS } from './game/navigation';
 import type { InteractionTarget } from './game/navigation';
+import type { NavigationStatus } from './game/scene';
 import { loadExploration, saveExploration } from './game/exploration-save';
 import { connectVisualControls } from './ui/visual-controls';
 import { createControllerInput } from './game/gamepad';
@@ -27,13 +28,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <p class="intro-copy">One family. One strange signal.<br>A whole adventure waiting outside.</p></section>
     <section class="play-area" id="play-area" aria-label="First Contact adventure">
       <canvas id="game" aria-label="3D view of the family home and rescue pod" tabindex="0"></canvas>
+      <div id="nav-speed" class="nav-speed" aria-hidden="true"></div>
       <div class="scene-label"><span class="live-dot"></span> <span id="location"></span></div>
       <button class="quiet scene-pause" id="pause" aria-label="Pause adventure">Ⅱ Pause</button>
       <div id="navigation-hud" class="navigation-hud" hidden>
-        <p class="eyebrow">HOME · BACKYARD · GARAGE</p><h2>A little room to explore.</h2>
-        <p>Visit the computer, open the pod, and find the practice module.</p>
-        <p id="nav-inventory" data-count="0">Practice module: 0 / 1</p>
-        <p id="nav-message" role="status" aria-live="polite">WASD or arrows to walk. Space or Enter to use a nearby object.</p>
+        <p class="eyebrow">HOME BLOCK · SUIT PRACTICE</p><h2>Run. Jump. Swing.</h2>
+        <p class="nav-brief">Find the twelve practice sparks around the block. Nothing here can go wrong.</p>
+        <p id="nav-sparks" class="nav-count" data-count="0"><span aria-hidden="true">◆</span> Practice sparks: 0 / 12</p>
+        <p id="nav-inventory" class="nav-count" data-count="0"><span aria-hidden="true">▣</span> Practice module: 0 / 1</p>
+        <p id="nav-message" role="status" aria-live="polite">WASD or arrows to move. Space jumps. Hold Shift to sprint, or to swing while in the air.</p>
       </div>
       <div id="nav-target" class="nav-target" hidden>Move close to something to interact.</div>
       <div id="world-cue" class="world-cue" aria-hidden="true"><span>◇</span></div>
@@ -59,9 +62,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <button class="round-tool" id="help" aria-label="More help (F1)">?<small>F1 · Help</small></button>
       </div>
       <div id="begin-screen" class="screen-overlay"><div class="welcome"><span class="welcome-symbol" aria-hidden="true">✧</span><p class="eyebrow">LET’S PLAY TOGETHER</p><h2>Ready to explore?</h2>
-        <p>Walk around the home and backyard.<br>Find things, look closer, and see what happens.</p>
+        <p>Run, jump and swing around the home block.<br>Find things, look closer, and see what happens.</p>
         <button class="primary" id="begin-explore"><span>➜</span> Walk around</button>
-        <p class="welcome-controls">WASD / arrows · Walk &nbsp; Space / Enter · Interact</p>
+        <p class="welcome-controls">WASD / arrows · Move &nbsp; Space · Jump &nbsp; Shift · Sprint / Swing &nbsp; Enter · Use</p>
         <p class="eyebrow story-choice">OR PLAY THE FIRST CONTACT STORY</p>
         <button class="quiet" id="begin-sound">Start adventure with sound</button><button class="quiet" id="begin-quiet">Play quietly</button>
         <p class="voice-label">Placeholder computer narrator · no family recordings</p></div></div>
@@ -70,7 +73,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </section>
     <div class="below-scene"><div><p id="save-status" role="status"></p><p id="narrator-status" role="status"></p><p id="controller-status" role="status"></p></div>
       <div class="settings"><label>Graphics <select id="visual-quality" aria-label="Graphics quality"><option value="low">Low</option><option value="balanced" selected>Balanced</option><option value="high">High</option><option value="cinematic">Cinematic</option></select></label><label><input id="reduce-motion" type="checkbox"> Less motion</label><button id="restart" class="quiet">Start again</button></div></div>
-    <footer><span>Provisional home and character. Future video references will inform this space.</span><span id="controls-legend">ARROWS · POINT &nbsp; SPACE / ENTER · ACTION &nbsp; H · LISTEN &nbsp; F1 · HELP &nbsp; ESC · PAUSE</span></footer>
+    <footer><span>Provisional practice block and suit pilot. Not the real home, a family likeness or a story mission.</span><span id="controls-legend">ARROWS · POINT &nbsp; SPACE / ENTER · ACTION &nbsp; H · LISTEN &nbsp; F1 · HELP &nbsp; ESC · PAUSE</span></footer>
   </main>
   ${import.meta.env.DEV ? `<dialog id="notebook" aria-labelledby="notebook-title"><form id="idea-form">
     <div class="dialog-top"><p class="eyebrow">YOUR IDEAS, IN ANY ORDER</p><button type="button" id="notebook-close" class="quiet">Close</button></div>
@@ -92,6 +95,13 @@ let explorationCanSave = explorationLoaded.canSave;
 let navigationMode = false;
 let nearbyTarget: InteractionTarget | null = null;
 const heldMovementKeys = new Set<string>();
+let jumpHeld = false;
+let powerHeld = false;
+let controllerJump = false;
+let controllerPower = false;
+let controllerPressUsed = false;
+let navigationStatus: NavigationStatus | undefined;
+let announcedSparks = -1;
 let controllerMovement = { forward: 0, right: 0 };
 let controllerPointed = 0;
 let controller: ReturnType<typeof createControllerInput> | undefined;
@@ -104,15 +114,26 @@ let currentPrompt = '';
 let view: ReturnType<typeof createFirstContact> | undefined;
 const narrator = createNarrator(message => { $('narrator-status').textContent = message; });
 try { view = createFirstContact($<HTMLCanvasElement>('game')); }
-catch { $('render-error').hidden = false; $('render-error').textContent = 'The 3D view could not start. Try Chrome with WebGL enabled. The story controls still work.'; }
+catch (error) { console.error('The 3D view failed to start:', error); $('render-error').hidden = false; $('render-error').textContent = 'The 3D view could not start. Try Chrome with WebGL enabled. The story controls still work.'; }
 const disposeVisualControls = connectVisualControls(view);
 view?.setExplorationState(explorationState);
-view?.onNavigationUpdate((next, target) => {
+view?.onNavigationUpdate((next, target, status) => {
+  const stopped = Boolean(navigationStatus?.moving) && !status.moving;
   explorationState = copyExplorationState(next);
   nearbyTarget = target;
+  navigationStatus = status;
   if (!navigationMode || !started) return;
+  const sparks = sparkCount(explorationState);
+  if (announcedSparks >= 0 && sparks > announcedSparks) {
+    // A reward is made durable at once, never when a sound or effect finishes.
+    persistExploration();
+    say(sparks === SPARK_IDS.length
+      ? 'All twelve practice sparks found! You know every move this suit has. They are practice items, not story parts.'
+      : `Practice spark ${sparks} of ${SPARK_IDS.length}.`);
+  }
+  announcedSparks = sparks;
   renderNavigationHud();
-  if (!paused && performance.now() - lastExplorationSave > 1500) persistExploration();
+  if (!paused && (stopped || performance.now() - lastExplorationSave > 1500)) persistExploration();
 });
 const motion = $<HTMLInputElement>('reduce-motion');
 motion.checked = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -122,6 +143,7 @@ setMotion();
 
 function say(prompt: string) { currentPrompt = prompt; $('spoken-caption').textContent = prompt; if (navigationMode) $('nav-message').textContent = prompt; narrator.say(prompt); }
 function soundButton() {
+  view?.setSoundEnabled(narrator.isEnabled());
   $('sound-state').textContent = narrator.isEnabled() ? 'Sound on' : 'Sound off';
   $('sound').setAttribute('aria-label', `Turn narrator sound ${narrator.isEnabled() ? 'off' : 'on'}`);
 }
@@ -192,7 +214,7 @@ function apply(intent: StoryAction) {
 function action() {
   if (!started || paused || document.querySelector('dialog[open]')) return;
   if (navigationMode) {
-    if (!nearbyTarget) { say('Walk closer to the computer, pod, or practice module. Then press Space or Enter.'); return; }
+    if (!nearbyTarget) { say('Walk closer to the computer, pod, or practice module. Then press Enter.'); return; }
     const result = view?.interactNavigation();
     if (result) { explorationState = copyExplorationState(result.state); say(result.notice); persistExploration(); }
     return;
@@ -237,10 +259,12 @@ function syncMovement() {
   view?.setNavigationInput({
     forward: bounded(Number(heldMovementKeys.has('w') || heldMovementKeys.has('arrowup')) - Number(heldMovementKeys.has('s') || heldMovementKeys.has('arrowdown')) + controllerMovement.forward),
     right: bounded(Number(heldMovementKeys.has('d') || heldMovementKeys.has('arrowright')) - Number(heldMovementKeys.has('a') || heldMovementKeys.has('arrowleft')) + controllerMovement.right),
+    jump: jumpHeld || controllerJump, power: powerHeld || controllerPower,
   });
 }
 function clearMovement() {
   heldMovementKeys.clear(); controllerMovement = { forward: 0, right: 0 }; controllerPointed = 0;
+  jumpHeld = powerHeld = controllerJump = controllerPower = false; controllerPressUsed = true;
   controller?.reset(); syncMovement(); if (navigationMode && started) persistExploration();
 }
 function renderControllerStatus() {
@@ -248,7 +272,7 @@ function renderControllerStatus() {
   if (controllerConnection.status !== 'connected') { $('controller-status').textContent = controllerConnection.message; return; }
   const primary = controllerConnection.kind === 'playstation' ? '✕' : controllerConnection.kind === 'xbox' ? 'A' : 'Primary button';
   $('controller-status').textContent = !started ? `Controller connected · ${primary} start walking · First Contact is also available below`
-    : navigationMode ? `Controller connected · Left stick / D-pad walk · Right stick look · ${primary} interact`
+    : navigationMode ? `Controller connected · Left stick / D-pad move · Right stick look · ${primary} jump or use · R2 sprint / swing`
       : `Controller connected · ${primary} continue · Left stick / D-pad pan or point scanner · Right stick look · L2/R2 zoom`;
 }
 function renderNavigationHud() {
@@ -259,20 +283,33 @@ function renderNavigationHud() {
   $('nav-target').hidden = false;
   $('mode-story').setAttribute('aria-pressed', 'false');
   $('mode-explore').setAttribute('aria-pressed', 'true');
-  $('location').textContent = explorationState.player.x < -0.5 ? 'HOME · LIVING ROOM' : 'HOME · BACKYARD';
+  const place = navigationStatus ?? explorationState.player;
+  $('location').textContent = place.x < -0.5 && place.x > -7.5 && Math.abs(place.z) < 3 ? 'HOME · LIVING ROOM'
+    : place.x >= -0.5 && place.x <= 10 && Math.abs(place.z) <= 5.3 ? 'HOME · BACKYARD'
+      : place.x > 15 ? 'HOME BLOCK · LAKE DOCK' : place.x < -20 ? 'HOME BLOCK · STREET' : 'HOME BLOCK';
   $('restart').textContent = 'Reset walk';
   $('help').hidden = false;
   $('action-icon').textContent = nearbyTarget ? '✋' : '➜';
   $('action-text').textContent = nearbyTarget?.prompt ?? 'Move closer to interact';
   $<HTMLButtonElement>('action').disabled = !nearbyTarget;
-  $('nav-target').textContent = nearbyTarget ? `${nearbyTarget.label} · SPACE / ENTER` : 'Explore the home and backyard';
-  const count = explorationState.collected.length;
+  const candidate = navigationStatus?.candidate ?? null;
+  $('nav-target').textContent = nearbyTarget ? `${nearbyTarget.label} · SPACE / ENTER`
+    : navigationStatus?.mode === 'swing' ? 'Swinging · let go of SHIFT to fly · SPACE to leap off'
+      : candidate === 'perch' ? 'Hold SHIFT · zip to the gold perch ring'
+        : candidate === 'swing' ? 'Hold SHIFT · swing from the glowing ring' : 'Explore the home block';
+  $('nav-target').dataset.state = nearbyTarget ? 'use' : candidate ? 'tether' : navigationStatus?.mode === 'swing' ? 'swing' : 'idle';
+  const count = Number(explorationState.collected.includes('training-module'));
   $('nav-inventory').dataset.count = String(count);
-  $('nav-inventory').textContent = `Practice module: ${count} / 1`;
-  $('controls-legend').textContent = 'WASD / ARROWS · WALK   DRAG / Q E · CAMERA   R · RECENTER   SPACE / ENTER · INTERACT   ESC · PAUSE';
+  $('nav-inventory').lastChild!.textContent = ` Practice module: ${count} / 1`;
+  const sparks = sparkCount(explorationState);
+  $('nav-sparks').dataset.count = String(sparks);
+  $('nav-sparks').lastChild!.textContent = ` Practice sparks: ${sparks} / ${SPARK_IDS.length}`;
+  $('nav-speed').style.opacity = String(Math.max(0, Math.min(0.85, ((navigationStatus?.speed ?? 0) - 8) / 9)));
+  document.body.dataset.heroMode = navigationStatus?.mode ?? 'ground';
+  $('controls-legend').textContent = 'WASD / ARROWS · MOVE   SPACE · JUMP, AGAIN TO HOP   SHIFT · SPRINT / SWING   ENTER / F · USE   DRAG / Q E · CAMERA   R · RECENTER   ESC · PAUSE';
   if (displayedTarget !== (nearbyTarget?.id ?? null)) {
     displayedTarget = nearbyTarget?.id ?? null;
-    currentPrompt = nearbyTarget ? `${nearbyTarget.prompt}. Press Space or Enter.` : 'Use W A S D or the arrows to walk. Move close to a glowing object, then press Space or Enter. Q and E turn the camera. R brings it back behind you.';
+    currentPrompt = nearbyTarget ? `${nearbyTarget.prompt}. Press Space or Enter.` : 'Use W A S D or the arrows to move. Space jumps; press it again in the air to hop higher. Hold Shift to sprint, and hold it in the air to swing from a glowing ring. Move close to a glowing object, then press Space or Enter.';
     $('nav-message').textContent = currentPrompt;
     if (nearbyTarget && !paused) narrator.say(currentPrompt);
   }
@@ -280,6 +317,7 @@ function renderNavigationHud() {
 function beginExploration() {
   clearMovement();
   navigationMode = true; started = true; paused = false; displayedTarget = undefined;
+  announcedSparks = sparkCount(explorationState);
   $('begin-screen').hidden = true; $('pause-screen').hidden = true; $('play-modes').hidden = false;
   clearTimeout(hintTimer); narrator.stop();
   $('save-status').textContent = explorationLoaded.notice || 'Your place and practice module save on this device.';
@@ -299,14 +337,14 @@ $('begin-sound').addEventListener('click', () => begin(true));
 $('begin-quiet').addEventListener('click', () => begin(false));
 $('action').addEventListener('click', event => { if (event.detail < 2) action(); });
 $('repeat').addEventListener('click', repeatPrompt);
-$('help').addEventListener('click', () => { if (started && !paused) { if (navigationMode) say('Walk through the wide doorway to the backyard. The computer, glowing pod, and practice module work when you stand close. Press Space or Enter to interact.'); else apply({ type: 'help', from: state.phase }); (navigationMode ? $('game') : $('action')).focus({ preventScroll: true }); } });
+$('help').addEventListener('click', () => { if (started && !paused) { if (navigationMode) say('Walk through the wide doorway to the backyard. The computer, glowing pod, and practice module work when you stand close: press Space or Enter. Outside, Space jumps and a second press hops higher. Step onto the trampoline for a big bounce. Hold Shift in the air to swing from a glowing ring; gold rings set you down on a roof. You cannot fail: the suit always brings you back.'); else apply({ type: 'help', from: state.phase }); (navigationMode ? $('game') : $('action')).focus({ preventScroll: true }); } });
 $('pause').addEventListener('click', () => setPaused(true));
 $('resume').addEventListener('click', () => setPaused(false));
 $('sound').addEventListener('click', () => { narrator.setEnabled(!narrator.isEnabled()); soundButton(); if (started && !paused) { if (narrator.isEnabled()) say(currentPrompt); $('action').focus({ preventScroll: true }); } });
 $('restart').addEventListener('click', () => {
   if (navigationMode) {
     if (!window.confirm('Reset this walk? Your practice position and module will start again. First Contact story progress is kept.')) return;
-    clearMovement(); explorationState = createExplorationState(); explorationCanSave = true;
+    clearMovement(); explorationState = createExplorationState(); explorationCanSave = true; announcedSparks = 0;
     const notice = saveExploration(explorationState, undefined, { allowOverwriteUnsupported: true });
     $('save-status').textContent = notice;
     if (notice.startsWith('Practice position and module saved')) savedExplorationJson = JSON.stringify(explorationState);
@@ -339,6 +377,12 @@ document.addEventListener('keydown', event => {
     }
     if (key === 'q' || key === 'e') { event.preventDefault(); view?.rotateNavigationCamera(key === 'q' ? -0.22 : 0.22); return; }
     if (key === 'r') { event.preventDefault(); view?.recenterNavigationCamera(); return; }
+    if (key === 'shift') { powerHeld = true; syncMovement(); return; }
+    if (key === 'f') { event.preventDefault(); action(); return; }
+    // Space uses a nearby object when one is offered; everywhere else it jumps.
+    if (key === ' ' && !view?.navigationTarget() && !(target.closest('button') && !['action', 'game'].includes(target.id))) {
+      event.preventDefault(); jumpHeld = true; view?.pressNavigationJump(); syncMovement(); return;
+    }
   }
   if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
     event.preventDefault();
@@ -353,15 +397,25 @@ document.addEventListener('keydown', event => {
 });
 document.addEventListener('keyup', event => {
   const key = event.key.toLowerCase();
+  if (key === ' ' && jumpHeld) { jumpHeld = false; syncMovement(); }
+  if (key === 'shift' && powerHeld) { powerHeld = false; syncMovement(); }
   if (heldMovementKeys.delete(key)) { syncMovement(); persistExploration(); }
 });
 document.addEventListener('visibilitychange', () => { if (document.hidden) setPaused(true); });
 window.addEventListener('blur', () => setPaused(true));
 controller = createControllerInput({
-  onAdvance: () => { if (!started) beginExploration(); else action(); },
+  onAdvance: () => {
+    if (!started) { beginExploration(); controllerPressUsed = true; }
+    // In the practice space the primary button uses a nearby object, otherwise it jumps while held.
+    else if (navigationMode) { controllerPressUsed = Boolean(view?.navigationTarget()); if (controllerPressUsed) action(); else view?.pressNavigationJump(); }
+    else action();
+  },
   onCamera: (input, dt) => {
     if (!started || paused || document.querySelector('dialog[open]')) return;
     if (navigationMode) {
+      const held = controller?.snapshot().advanceHeld ?? false;
+      if (!held) controllerPressUsed = false;
+      controllerJump = held && !controllerPressUsed; controllerPower = input.zoom > 0.35;
       controllerMovement = { forward: -input.panY, right: input.panX }; syncMovement();
       view?.rotateNavigationCamera(input.lookX * 1.8 * dt, input.lookY * 1.25 * dt); return;
     }
@@ -377,7 +431,7 @@ controller = createControllerInput({
   },
   onStatus: connection => {
     controllerConnection = connection; renderControllerStatus();
-    if (connection.status !== 'connected') { controllerMovement = { forward: 0, right: 0 }; syncMovement(); }
+    if (connection.status !== 'connected') { controllerMovement = { forward: 0, right: 0 }; controllerJump = controllerPower = false; syncMovement(); }
   },
   isActive: () => !paused && !document.querySelector('dialog[open]'),
 });
@@ -386,6 +440,8 @@ if (import.meta.env.DEV) {
   Object.defineProperty(window, '__SPACE_DRAGON__', { value: Object.freeze({
     snapshot: () => ({ ...view?.snapshot(), state: JSON.parse(JSON.stringify(state)), exploration: copyExplorationState(explorationState), selectedTarget, paused, started, mode: navigationMode ? 'exploration' : 'story', speechEnabled: narrator.isEnabled(), controller: controller?.snapshot() }),
     resetPerformanceSample: () => view?.resetPerformanceSample(),
+    // Art review helper for screenshots; play and tests move the hero with real input.
+    reviewPose: (pose: { x: number; z: number; yaw: number; y?: number }, cameraYaw?: number, cameraPitch?: number) => view?.reviewPose(pose, cameraYaw, cameraPitch),
   }), configurable: true });
   void import('./ui/notebook').then(({ connectNotebook }) => connectNotebook(() => {
     clearMovement(); clearTimeout(hintTimer); narrator.stop(); view?.setPaused(true);

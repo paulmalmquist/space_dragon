@@ -1,8 +1,9 @@
-import { copyExplorationState, createExplorationState, isExplorationState, recoverExplorationState } from './navigation.ts';
+import { copyExplorationState, createExplorationState, EXPLORATION_VERSION, isExplorationState, migrateExplorationState, recoverExplorationState } from './navigation.ts';
 import type { ExplorationState } from './navigation.ts';
 import type { SaveStorage } from './checkpoint.ts';
 
 // Independent from First Contact's v1/v2 checkpoints: this is a reversible practice space.
+// The storage key keeps its original name; the payload carries its own schema version (now 2).
 export const EXPLORATION_SAVE_KEY = 'space-dragon.exploration.v1';
 export const EXPLORATION_BACKUP_KEY = 'space-dragon.exploration.v1.backup';
 export interface LoadedExploration { state: ExplorationState; notice: string; canSave: boolean; }
@@ -13,7 +14,7 @@ function parsed(raw: string | null): unknown {
   try { return JSON.parse(raw); } catch { return null; }
 }
 function futureVersion(value: unknown): boolean {
-  return typeof value === 'object' && value !== null && 'version' in value && typeof value.version === 'number' && value.version > 1;
+  return typeof value === 'object' && value !== null && 'version' in value && typeof value.version === 'number' && value.version > EXPLORATION_VERSION;
 }
 function storageOrBrowser(storage?: SaveStorage): SaveStorage { return storage ?? globalThis.localStorage; }
 
@@ -29,6 +30,9 @@ export function loadExploration(storage?: SaveStorage): LoadedExploration {
       notice: 'This practice save is from a newer build. It is preserved until you explicitly reset this practice space.',
     };
     if (isExplorationState(primary)) return { state: copyExplorationState(primary), canSave: true, notice: 'Your practice position and module are restored.' };
+    // An earlier build's save upgrades in memory; its bytes stay until the next successful save backs them up.
+    const migrated = migrateExplorationState(primary);
+    if (migrated) return { state: migrated, canSave: true, notice: 'Your practice position and module are restored.' };
     const recovered = recoverExplorationState(primary);
     if (recovered) return { state: recovered, canSave: true, notice: 'Your saved position was unsafe. You are back at the room entrance; your practice module is preserved.' };
     const backup = parsed(target.getItem(EXPLORATION_BACKUP_KEY));

@@ -2,6 +2,8 @@ import { defineConfig } from '@playwright/test';
 
 const previewPort = Number(process.env.SPACE_DRAGON_PREVIEW_PORT ?? 4177);
 const nativeChrome = process.env.SPACE_DRAGON_NATIVE_CHROME === '1' && !process.env.CI;
+// Opt-in for hosts that preinstall a Chromium build other than this Playwright's pinned revision.
+const chromiumPath = process.env.SPACE_DRAGON_CHROMIUM_PATH;
 
 /** Exercises the static artifact, where development tools must not exist. */
 export default defineConfig({
@@ -21,7 +23,7 @@ export default defineConfig({
     deviceScaleFactor: process.env.CI ? 0.5 : 1,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
-    launchOptions: nativeChrome ? {} : { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
+    launchOptions: nativeChrome ? {} : { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'], ...(chromiumPath ? { executablePath: chromiumPath } : {}) },
   },
   webServer: {
     command: `npm run preview -- --port ${previewPort}`,

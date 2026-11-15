@@ -154,13 +154,23 @@ body[data-mode="exploration"] #archive-card,
 body[data-mode="exploration"] #town-map,
 body[data-mode="exploration"] #crew-strip,
 body[data-mode="exploration"] #world-cue { display: none !important; }
-.navigation-hud { position: absolute; top: 57px; left: 24px; width: 280px; padding: 17px 20px; border: 1px solid #76a0b52e; border-radius: 9px; background: #0a1829d9; backdrop-filter: blur(8px); pointer-events: none; }
-.navigation-hud .eyebrow { font-size: 8px; margin: 0 0 10px; }
-.navigation-hud h2 { font-size: 21px; margin: 8px 0; }
-.navigation-hud > p { color: #adbfcd; font-size: 11px; line-height: 1.65; }
-.navigation-hud #nav-inventory { color: #e5d3a7; border-top: 1px solid #ffffff12; padding-top: 10px; margin-bottom: 6px; }
-.navigation-hud #nav-message { color: #a8dce2; font-size: 11px; margin-bottom: 0; }
-.nav-target { position: absolute; bottom: 106px; left: 50%; transform: translateX(-50%); color: #e5eff4; background: #091829dc; border: 1px solid #6c95a64d; border-radius: 20px; padding: 9px 18px; font-size: 12px; white-space: nowrap; pointer-events: none; }
+.navigation-hud { position: absolute; top: 54px; left: 22px; width: 268px; padding: 14px 17px 15px; border: 1px solid #76a0b52e; border-left: 2px solid #7fe3ef; border-radius: 4px 10px 10px 4px; background: linear-gradient(120deg, #0a1829e6, #0a182999); backdrop-filter: blur(8px); pointer-events: none; }
+.navigation-hud .eyebrow { font-size: 8px; margin: 0 0 6px; }
+.navigation-hud h2 { font-size: 20px; margin: 4px 0 6px; }
+.navigation-hud > p { color: #adbfcd; font-size: 11px; line-height: 1.6; margin: 6px 0; }
+.navigation-hud .nav-count { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: 12px; font-variant-numeric: tabular-nums; }
+.navigation-hud .nav-count span { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 5px; background: #ffffff10; }
+.navigation-hud #nav-sparks { color: #ffe3a1; border-top: 1px solid #ffffff12; padding-top: 10px; margin-top: 10px; }
+.navigation-hud #nav-sparks[data-count="12"] { color: #9bf2c8; }
+.navigation-hud #nav-inventory { color: #bfd3df; }
+.navigation-hud #nav-message { color: #a8dce2; font-size: 11px; margin: 9px 0 0; }
+.nav-target { position: absolute; bottom: 106px; left: 50%; transform: translateX(-50%); color: #e5eff4; background: #091829dc; border: 1px solid #6c95a64d; border-radius: 20px; padding: 9px 18px; font-size: 12px; white-space: nowrap; pointer-events: none; transition: border-color .18s, color .18s, box-shadow .18s; }
+.nav-target[data-state="use"] { border-color: #a6f0f6; color: #d9fbff; box-shadow: 0 0 22px #6de8f233; }
+.nav-target[data-state="tether"] { border-color: #7fe3ef; color: #bdf6fb; }
+.nav-target[data-state="swing"] { border-color: #ffd98f; color: #ffe8b8; box-shadow: 0 0 22px #ffd98f2e; }
+/* Speed vignette: opacity follows the hero's speed. Presentation only; removed by Less motion. */
+.nav-speed { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .25s; background: radial-gradient(ellipse at center, transparent 52%, #7fe3ef14 78%, #0a1829a8 100%); }
+.less-motion .nav-speed, body:not([data-mode="exploration"]) .nav-speed { display: none; }
 body[data-mode="exploration"] .action-bar .primary:disabled { opacity: .65; background: #334f60; border-color: #557382; color: #c1d3db; }
 body[data-mode="exploration"] .play-area { height: 700px; }
 @media (max-width: 900px) {
@@ -169,7 +179,7 @@ body[data-mode="exploration"] .play-area { height: 700px; }
 }
 @media (max-width: 750px) {
   .navigation-hud { top: 60px; left: 12px; width: min(230px, calc(100% - 24px)); padding: 12px; }
-  .navigation-hud h2 { font-size: 17px; }.navigation-hud > p { font-size: 10px; }.navigation-hud > p:not(#nav-message):not(#nav-inventory):not(.eyebrow) { display: none; }
+  .navigation-hud h2 { font-size: 17px; }.navigation-hud > p { font-size: 10px; }.navigation-hud > .nav-brief { display: none; }
   .nav-target { max-width: calc(100% - 25px); font-size: 10px; text-align: center; white-space: normal; }
   body[data-mode="exploration"] .play-area { height: 720px; }
   .play-modes .quiet { font-size: 9px; padding: 7px; }
