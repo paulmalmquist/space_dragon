@@ -72,9 +72,10 @@ test('third-person movement stops at a wall and passes through the actual doorwa
   expect((await navigation(page)).state.collected).toEqual([]);
   await expect(page.locator('body')).toHaveAttribute('data-phase', 'living-room');
 
-  // Space with nothing to use is now a jump. Let the hero land before the timed wall
-  // approach: software rendering advances capped simulation frames slower than wall time.
-  await expect.poll(async () => (await navigation(page)).status.mode, { timeout: 20_000 }).toBe('ground');
+  // Space with nothing to use is now a jump. The press is applied on the next simulation
+  // step, so wait for take-off and then for the landing before the wall approach.
+  await expect.poll(async () => (await navigation(page)).status.mode, { timeout: 20_000, intervals: [30, 50, 80] }).toBe('air');
+  await expect.poll(async () => (await navigation(page)).status.mode, { timeout: 20_000, intervals: [30, 50, 80] }).toBe('ground');
 
   // The solid east wall blocks this route until the player lines up with its opening.
   await page.keyboard.down('ArrowRight');
@@ -83,9 +84,7 @@ test('third-person movement stops at a wall and passes through the actual doorwa
   await page.keyboard.up('ArrowRight');
   const atWall = await navigation(page);
   expect(atWall.state.player.x).toBeLessThanOrEqual(-0.87);
-  // Steering now turns the hero through a short arc, so allow a few centimetres of drift.
-  // Sliding along the wall into the doorway (its edge is at z = -1) would still fail here.
-  expect(atWall.state.player.z).toBeCloseTo(-1.5, 1);
+  expect(atWall.state.player.z).toBeCloseTo(-1.5, 2);
   // The visible cutaway wall is low; the camera can see over it while feet stay blocked.
   expect(atWall.cameraPosition.y).toBeGreaterThan(1.5);
   expect(Math.hypot(
@@ -148,6 +147,9 @@ test('nearby actions and one practice pickup persist independently of the story 
   await expect(page.locator('#nav-message')).toContainText('collected');
   for (let press = 0; press < 3; press++) await page.keyboard.press('Space');
   expect((await navigation(page)).state.collected).toEqual(['training-module']);
+  // With nothing left to use here, Space jumps. Let the hero land and settle so the pose
+  // compared after the reload is the one that was saved at rest.
+  await expectStopped(page);
   const beforeReload = (await navigation(page)).state;
   expect(await page.evaluate(key => localStorage.getItem(key), storySaveKey)).toBe(story);
   const saved = JSON.parse((await page.evaluate(key => localStorage.getItem(key), EXPLORATION_SAVE_KEY))!);

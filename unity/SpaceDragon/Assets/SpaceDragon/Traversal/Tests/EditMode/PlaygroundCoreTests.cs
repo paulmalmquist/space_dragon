@@ -248,6 +248,26 @@ namespace SpaceDragon.Traversal.Tests
         }
 
         [Test]
+        public void AHeroAtRestIsBitStable()
+        {
+            foreach (double yaw in new[] { 0, 0.1404878048780487, -2.9, Math.PI, 1e-12 })
+            {
+                var hero = HeroSimulation.Create(world, -2, -1.5, yaw);
+                double x = hero.x, y = hero.y, z = hero.z, facing = hero.yaw;
+                for (int step = 0; step < 600; step++) hero = HeroSimulation.Step(world, hero, new HeroInput());
+                Assert.AreEqual(x, hero.x); Assert.AreEqual(y, hero.y); Assert.AreEqual(z, hero.z);
+                Assert.AreEqual(facing, hero.yaw, "idle facing from " + yaw);
+            }
+            var session = new PlaygroundSession(world);
+            for (int frame = 0; frame < 30; frame++) session.Advance(1.0 / 60, 1, 0, false, false);
+            for (int frame = 0; frame < 60; frame++) session.Advance(1.0 / 60, 0, 0, false, false);
+            string settled = PlaygroundSession.Encode(session.Snapshot());
+            for (int frame = 0; frame < 120; frame++) session.Advance(1.0 / 60, 0, 0, false, false);
+            Assert.AreEqual(settled, PlaygroundSession.Encode(session.Snapshot()), "a resting hero saves the same text every time");
+            Assert.AreEqual(world.spawn.z, session.Hero.z, "walking straight picks up no sideways travel");
+        }
+
+        [Test]
         public void ATetherTargetIsOfferedOnlyWhenOneCouldBeTaken()
         {
             var session = new PlaygroundSession(world);

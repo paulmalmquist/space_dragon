@@ -238,7 +238,9 @@ namespace SpaceDragon.Traversal
             if (flat > 0.4) target = Math.Atan2(hero.vx, hero.vz);
             else if (magnitude > 0.1) target = Math.Atan2(moveX, moveZ);
             double turn = T.turnRate * dt;
-            hero.yaw = WrapAngle(hero.yaw + TraversalGeometry.Clamp(WrapAngle(target - hero.yaw), -turn, turn));
+            double delta = WrapAngle(target - hero.yaw);
+            // Leave a settled facing untouched: re-wrapping an unchanged angle adds rounding noise each step.
+            if (Math.Abs(delta) > 1e-9) hero.yaw = WrapAngle(hero.yaw + TraversalGeometry.Clamp(delta, -turn, turn));
         }
 
         private static void Release(HeroState hero, bool jumpOff, TraversalTuning T)

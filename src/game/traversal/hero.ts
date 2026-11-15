@@ -229,7 +229,9 @@ function face(hero: HeroState, moveX: number, moveZ: number, magnitude: number, 
   if (flat > 0.4) target = Math.atan2(hero.vx, hero.vz);
   else if (magnitude > 0.1) target = Math.atan2(moveX, moveZ);
   const turn = T.turnRate * dt;
-  hero.yaw = wrapAngle(hero.yaw + clamp(wrapAngle(target - hero.yaw), -turn, turn));
+  const delta = wrapAngle(target - hero.yaw);
+  // Leave a settled facing untouched: re-wrapping an unchanged angle adds rounding noise each step.
+  if (Math.abs(delta) > 1e-9) hero.yaw = wrapAngle(hero.yaw + clamp(delta, -turn, turn));
 }
 
 function release(hero: HeroState, jumpOff: boolean, T: TraversalTuning): void {

@@ -42,6 +42,11 @@ namespace SpaceDragon.Playground
         public const string SaveKey = "space-dragon.playground.v1";
         public const string BackupKey = "space-dragon.playground.v1.backup";
         private const float BaseFov = 59f, BaseDistance = 3.8f, BasePitch = 0.39f, FocusHeight = 1.18f;
+        /// <summary>
+        /// Above an ordinary run and an ordinary jump: only sprints, hops, bounces and swings turn the
+        /// camera. Otherwise a jump while strafing would rotate the view and curve the hero.
+        /// </summary>
+        private const float FollowSpeed = 5.6f;
 
         [SerializeField] private PersonAvatar avatar;
         [SerializeField] private Camera gameCamera;
@@ -349,7 +354,7 @@ namespace SpaceDragon.Playground
             float fast = Mathf.Clamp01((flat - 5) / 9);
             manualLook = Mathf.Max(0, manualLook - dt);
             bool driven = hero.mode != HeroMode.Ground || hero.powerHeld;
-            if (driven && manualLook <= 0 && flat > 5 && !snap)
+            if (driven && manualLook <= 0 && flat > FollowSpeed && !snap)
             {
                 float follow = (1.1f + fast * 1.5f) * (hero.mode == HeroMode.Swing ? 1.25f : 1);
                 float heading = Mathf.Atan2((float)hero.vx, (float)hero.vz);

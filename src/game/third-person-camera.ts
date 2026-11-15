@@ -18,6 +18,12 @@ export interface CameraSubject {
 const BASE_FOV = 1.03;
 const BASE_DISTANCE = 3.8;
 const BASE_PITCH = 0.39;
+/**
+ * Above an ordinary run (4.6 m/s) and an ordinary jump (5.2 m/s): only sprints, hops, bounces
+ * and swings turn the camera. Otherwise a jump while strafing would rotate the view, and with
+ * it the meaning of "right", curving the hero.
+ */
+const FOLLOW_SPEED = 5.6;
 
 /**
  * A damped chase camera. Mouse and keyboard turn it; while the hero runs on suit power,
@@ -59,7 +65,7 @@ export function createThirdPersonCamera(scene: Scene) {
       // Ease behind the direction of travel only for deliberate fast movement, so a walk
       // with plain keys keeps a steady frame and camera-relative keys stay predictable.
       const driven = hero.mode !== 'ground' || hero.powerHeld;
-      if (driven && manual <= 0 && flat > 5 && !snap) {
+      if (driven && manual <= 0 && flat > FOLLOW_SPEED && !snap) {
         const follow = (1.1 + fast * 1.5) * (hero.mode === 'swing' ? 1.25 : 1);
         yaw = wrap(yaw + wrap(Math.atan2(hero.vx, hero.vz) - yaw) * (1 - Math.exp(-follow * dt)));
       }

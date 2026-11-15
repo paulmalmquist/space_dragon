@@ -316,7 +316,7 @@ namespace SpaceDragon.Playground.Editor
             }
             Block("Driveway", -22, -17.5f, -0.1f, 0.02f, 3.4f, 7.6f, m.concrete, ground, false);
             Block("Front-walk", -22, -17.5f, -0.1f, 0.02f, -0.6f, 0.6f, m.concrete, ground, false);
-            Block("Seawall", shore - 0.25f, shore + 0.05f, -1.5f, 0.08f, -60, 60, m.concrete, ground);
+            Block("Seawall", shore - 0.25f, shore + 0.05f, -1.5f, 0.025f, -60, 60, m.concrete, ground); // Flush with the lawn: the level has no kerb here.
             for (float z = -120; z < 119.9f; z += 40) Block("Lake", shore, 180, -1.4f, -0.25f, z, z + 40, m.water, ground, false);
             // Lights of the far shore.
             uint seed = 20261115;

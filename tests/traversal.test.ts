@@ -62,6 +62,24 @@ test('a step never mutates its input, ignores unusable time and is exactly repea
   for (const value of Object.values(first)) if (typeof value === 'number') assert.ok(Number.isFinite(value));
 });
 
+test('a hero at rest is bit-stable: standing still never drifts position or facing', () => {
+  // Found by a browser check on hosted CI: re-wrapping an unchanged yaw added rounding noise each step.
+  for (const yaw of [0, 0.1404878048780487, -2.9, Math.PI, 1e-12]) {
+    let hero = createHero(HOME_BLOCK, { x: -2, z: -1.5, yaw });
+    const start = { x: hero.x, y: hero.y, z: hero.z, yaw: hero.yaw };
+    for (let step = 0; step < 600; step++) hero = stepHero(HOME_BLOCK, hero, IDLE_INPUT);
+    assert.deepEqual({ x: hero.x, y: hero.y, z: hero.z, yaw: hero.yaw }, start, `idle from yaw ${yaw}`);
+  }
+  // After a walk and a stop, the pose settles and then stays exactly where it is.
+  let hero = play(createHero(HOME_BLOCK, { x: 4, z: -8, yaw: 0 }), [{ seconds: 0.6, moveX: 0.7, moveZ: 0.3 }, { seconds: 0.6, moveX: 0, moveZ: 0 }]);
+  const rest = { x: hero.x, z: hero.z, yaw: hero.yaw };
+  hero = play(hero, [{ seconds: 2 }]);
+  assert.deepEqual({ x: hero.x, z: hero.z, yaw: hero.yaw }, rest);
+  // Walking straight never picks up sideways travel.
+  const walker = play(createHero(HOME_BLOCK, HOME_BLOCK.spawn), [{ seconds: 2, moveX: 1 }]);
+  assert.equal(walker.z, HOME_BLOCK.spawn.z);
+});
+
 test('running builds and sheds speed quickly; suit power sprints; diagonals are not faster', () => {
   const run = play(createHero(W, lawn), [{ seconds: 1, moveX: 1 }]);
   near(run.vx, T.runSpeed, 1e-9);

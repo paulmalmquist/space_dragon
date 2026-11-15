@@ -8,7 +8,7 @@ namespace SpaceDragon.Traversal
     public static class LukePlaygroundData
     {
         public const string WorldId = "luke-playground-v001";
-        public const string SourceFingerprint = "3deac8f67f42a7a6bcc9b6cb4eebbbcf7088bef59dd96d85e319d0a2226e425e";
+        public const string SourceFingerprint = "ee06993326383290429296b1fbcf58a1273619649017fd76293377e02f597efa";
 
         public static TraversalWorld Create()
         {
@@ -185,7 +185,7 @@ namespace SpaceDragon.Traversal
             {
                 name = "door-gate-dock-swing", startX = -2.0, startZ = -1.5, startYaw = 0.0, hasStartY = false, startY = 0.0,
                 segments = new[] { new ProbeSegment { steps = 60, moveX = 0.0, moveZ = 1.0, jump = false, power = false }, new ProbeSegment { steps = 24, moveX = 0.0, moveZ = 0.0, jump = false, power = false }, new ProbeSegment { steps = 312, moveX = 1.0, moveZ = 0.12, jump = false, power = true }, new ProbeSegment { steps = 30, moveX = 1.0, moveZ = 0.12, jump = true, power = true }, new ProbeSegment { steps = 288, moveX = 1.0, moveZ = 0.12, jump = false, power = true }, new ProbeSegment { steps = 180, moveX = 0.0, moveZ = 0.0, jump = false, power = false } },
-                endX = 39.8652674171076, endY = 0.55, endZ = 1.691809011948096, endVx = 0.0, endVy = 0.0, endVz = 0.0, endYaw = 0.8053501011123199,
+                endX = 39.8652674171076, endY = 0.55, endZ = 1.691809011948096, endVx = 0.0, endVy = 0.0, endVz = 0.0, endYaw = 0.8053501011123202,
                 endMode = HeroMode.Ground, endGroundId = "dock-end", events = 29,
                 tethers = new string[] { "dock-lamp-1", "dock-lamp-3" }, collected = new string[] {  },
             },
