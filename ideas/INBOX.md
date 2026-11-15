@@ -1177,3 +1177,26 @@ Owner wording:
 > please take another lap through my reference video and come up with legitimate ideas for increasing the realism of the current iteration. the yellow lines are not straight (and not present in many of the example video's cases) and we need more photo realistic blender assets too. start with those and input them in the game
 
 Routing receipt: **CONFIRMED / technically verified; agent visual inspection complete**, continuing SD-052/074. [Decision](../docs/decisions/2026-11-01-town-drive-reference-road-assets.md), [evidence](../docs/reports/2026-11-01-town-drive-reference-road-assets.md). Sampled both supplied timelines, corrected paint presence/geometry, authored and integrated three Blender plant families. Fourteen scene checks, both browser backends, focus recovery and full lap/reload pass. Driving/map/save data and source assets are preserved. Recorded remaining foliage darkness, repeated surroundings and memory cost; full photorealism remains unfinished.
+
+
+## November 15, 2026 — Polish every facet; more like Spider-Man and the dogfight (SD-087)
+
+Owner wording:
+
+> Polish all facets of this game I'm trying to make. Make it more like spiderman and the dog fight. Needs to have higher quality visuals and better more polished gameplay. Inventory then improve
+
+Routing receipt: **CONFIRMED direction / browser reference technically verified; agent visual inspection only**, SD-087. [Decision](../docs/decisions/2026-11-15-hero-traversal-polish.md), [evidence](../docs/reports/2026-11-15-lukes-playground-and-hero-traversal.md). The inventory found the on-foot Earth slice weakest, so it gained momentum running, a held-height jump, a thruster hop, tether swings on marked anchors and a safety catch instead of any fail state, in a rebuilt generic home block with twelve practice sparks; the core was ported to engine-free C# with golden parity. Original presentation only: no Marvel names, marks, suit designs or audio. Dogfight Lab presentation polish was started and is **parked** (interrupted mid-change; the owner then redirected to Unity); Town Drive was not touched.
+
+
+## November 15, 2026 — Unity, native; Luke's playground; a hero who looks like a person (SD-088)
+
+Owner wording:
+
+> We're moving to unity and doesn't have to be browser based. I want it good
+> Do Luke's playground for me. That indoor scene needs to look like a person. As Photo realistic as possible
+
+Followed by:
+
+> Continue
+
+Routing receipt: **CONFIRMED direction / IMPLEMENTED; Unity import, play and builds NOT TESTED (no Editor in the cloud session)**, SD-088. [Decision](../docs/decisions/2026-11-15-unity-native-lukes-playground.md), [Unity runbook](../docs/engineering/UNITY_PLAYGROUND_HANDOFF.md), [evidence](../docs/reports/2026-11-15-lukes-playground-and-hero-traversal.md). Luke's Playground is a generated Unity scene in the existing `unity/SpaceDragon` project: the practice block plus a backyard playset (ramp, tower, slide, monkey bars), starting indoors in the living room. The hero is a realistic **generic licensed** child model (Microsoft Rocketbox, MIT), not Luke's likeness; no family photo was read. The same model replaces the suited proxy in the browser reference, where it was inspected. Higher-fidelity likeness work (scan, MetaHuman-class tools) stays OPEN for an owner decision.

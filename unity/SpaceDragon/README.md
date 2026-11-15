@@ -10,6 +10,20 @@ LaunchLab's [own instructions](LAUNCH_LAB.md) isolate its prepared inputs, scene
 
 The target is **Unity 6000.6.7f1**, URP **17.6.0**, Input System **1.20.1** and Unity glTFast **6.20.0**. `Packages/manifest.json` pins direct dependencies; the Editor writes `packages-lock.json` after resolution. The installed Editor and generated receipt, rather than this target alone, establish what actually ran. The project requires a local Unity license and Web Build Support for its browser build.
 
+## Luke's Playground (SD-088)
+
+A generated on-foot scene with a realistic generic licensed hero stand-in. **IMPLEMENTED; not yet run in Unity.** From the repository root with no other Editor open on this project:
+
+```powershell
+npm run unity:playground:verify
+npm run unity:playground:setup
+npm run unity:playground:test
+npm run unity:playground:windows
+npm run unity:playground:play
+```
+
+Or, with the Editor open: **Space Dragon > Luke's Playground > Generate scene**, then Play. Controls, first-run checks and likely failure points are in the [runbook](../../docs/engineering/UNITY_PLAYGROUND_HANDOFF.md). Only `Assets/SpaceDragon/Playground/Generated` is written; other channels' scenes and settings are read, never edited.
+
 ## Reproduce the candidate
 
 From the repository root, verify the supplied candidate inputs and use the batch entry point:

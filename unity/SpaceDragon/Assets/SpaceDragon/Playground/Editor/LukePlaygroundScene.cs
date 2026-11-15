@@ -670,6 +670,8 @@ namespace SpaceDragon.Playground.Editor
             var root = new GameObject("Living-room").transform;
             root.SetParent(parent, false);
             float floor = F(HomeBlockScenery.HomeFloor);
+            // A pale ceiling just under the roof's dark underside; well above the hero's head.
+            Block("room.ceiling", -7.4, -0.6, 2.5, 2.56, -2.9, 2.9, m.trim, root, false);
             // Desk and screen (collision: computer-desk).
             Block("desk.top", -5.3, -2.7, floor + 0.72, floor + 0.77, 0.45, 1.55, m.deckWood, root);
             Block("desk.side-w", -5.3, -5.24, floor, floor + 0.72, 0.5, 1.5, m.deckWood, root);

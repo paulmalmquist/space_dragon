@@ -12,6 +12,7 @@ Load only the relevant contract:
 - Learning: [learning rules](docs/learning/LEARNING_RULES.md).
 - Art: [Blender handoff](docs/BLENDER_CHARACTER_HANDOFF.md).
 - Seele or prototype imports: [prototype integration](docs/engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](seeles-assets/README.md); the first track is dragon dogfighting. Include an initial import-versus-refactor assessment.
+- On-foot traversal or Luke's Playground: [traversal decision](docs/decisions/2026-11-15-hero-traversal-polish.md), [Unity-native decision](docs/decisions/2026-11-15-unity-native-lukes-playground.md) and [runbook](docs/engineering/UNITY_PLAYGROUND_HANDOFF.md). The hero stand-in is a generic licensed model, never a family likeness.
 - Verification/release: [quality gates](docs/engineering/QUALITY_GATES.md).
 
 ## Turn unordered ideas into changes

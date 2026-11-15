@@ -37,6 +37,9 @@ npm.cmd run doctor
 npm.cmd start
 ```
 
+When the pinned Playwright browser cannot be downloaded (for example in a cloud container), point both Playwright configs at an installed Chromium instead: set `SPACE_DRAGON_CHROMIUM_PATH` to its executable. Results from a different browser build are still software-rendered checks, not device evidence.
+
+
 The server binds to this computer at `http://127.0.0.1:5173/space-dragon/`. Stop it with Ctrl+C. The launcher performs `npm ci` if its Vite dependency is missing. If port 5173 is already in use, use that running workspace or stop it before starting another. It will not silently switch ports.
 
 The optional Windows media-tool setup is `powershell -NoProfile -ExecutionPolicy Bypass -File tools/setup-tools.ps1`. See [toolchain](TOOLCHAIN.md) for user-local installs, checksums, platform requirements, and optional art applications.
