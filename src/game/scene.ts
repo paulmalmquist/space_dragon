@@ -31,6 +31,8 @@ import { supportAt } from './traversal/world';
 import { createHomeBlockView } from './world/home-block-view';
 import { MOON_DIRECTION } from './world/scenery';
 import { createHeroAvatar } from './hero/hero-avatar';
+import { loadPersonAvatar } from './hero/person-avatar';
+import type { PersonAvatar } from './hero/person-avatar';
 import { createHeroEffects } from './hero/hero-effects';
 import { createHeroAudio } from './hero/hero-audio';
 
@@ -176,9 +178,13 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     return mesh;
   });
   addArrivalGroundDetail(scene, material);
-  const avatar = createHeroAvatar(scene);
-  avatar.shadowCasters().forEach(mesh => shadows.addShadowCaster(mesh));
-  avatar.setEnabled(false);
+  // The suited proxy shows first and stays as the fallback; the realistic stand-in replaces
+  // it as soon as its model has loaded. Both only read the hero.
+  const proxy = createHeroAvatar(scene);
+  let person: PersonAvatar | null = null;
+  let avatar: Pick<PersonAvatar, 'update' | 'handPosition' | 'setEnabled'> & { snapshot(): object } = proxy;
+  proxy.shadowCasters().forEach(mesh => shadows.addShadowCaster(mesh));
+  proxy.setEnabled(false);
   const effects = createHeroEffects(scene, HOME_BLOCK);
   const audio = createHeroAudio();
   const practiceRoot = prop('practice.module', [0.48, 0.48, 0.48], [6, 0.7, -2.8], gold);
@@ -297,6 +303,22 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
     follow.update(subject(), 0, reducedMotion, true);
     avatar.update({ ...subject(), anchor: null }, 0, reducedMotion, true);
   };
+  canvas.dataset.heroModel = 'loading';
+  void loadPersonAvatar(scene).then(loaded => {
+    person = loaded;
+    proxy.shadowCasters().forEach(mesh => shadows.removeShadowCaster(mesh));
+    proxy.setEnabled(false);
+    loaded.shadowCasters().forEach(mesh => shadows.addShadowCaster(mesh));
+    // Non-emissive meshes join the glow pass only to hide halos behind the body.
+    presentation.includeInGlow(loaded.meshes);
+    avatar = loaded;
+    loaded.setEnabled(navigationEnabled);
+    loaded.update({ ...subject(), anchor: null }, 0, reducedMotion, true);
+    canvas.dataset.heroModel = 'person';
+  }).catch(error => {
+    console.error('The realistic hero model did not load; the suited proxy stays in use.', error);
+    canvas.dataset.heroModel = 'proxy';
+  });
   const getNavigationSnapshot = (): NavigationSnapshot => {
     const value = follow.snapshot();
     return {
@@ -366,7 +388,10 @@ export function createFirstContact(canvas: HTMLCanvasElement) {
       const pose = savablePose(hero);
       if (pose && (pose.x !== exploration.player.x || pose.z !== exploration.player.z || pose.yaw !== exploration.player.yaw)) exploration = { ...exploration, player: pose };
       moving = Math.hypot(hero.vx, hero.vz) > 0.05 || hero.mode !== 'ground';
-      if (exploration.collected.length !== before.collected.length) audio.chime(sparkCount(exploration) === SPARK_IDS.length);
+      if (exploration.collected.length !== before.collected.length) {
+        audio.chime(sparkCount(exploration) === SPARK_IDS.length);
+        person?.celebrate();
+      }
       // Offer a tether target while airborne, or on the ground while sprinting on suit power.
       const aiming = hero.mode === 'air' || (hero.mode === 'ground' && navigationInput.power && Math.hypot(hero.vx, hero.vz) > 3);
       if (aiming) {

@@ -14,6 +14,7 @@ interface NavigationSnapshot {
   focusPosition: { x: number; y: number; z: number };
   cameraClipped: boolean;
   moving: boolean;
+  status: { mode: string };
 }
 interface Snapshot { navigation: NavigationSnapshot; paused: boolean; }
 const snapshot = (page: Page) => page.evaluate(() =>
@@ -71,14 +72,20 @@ test('third-person movement stops at a wall and passes through the actual doorwa
   expect((await navigation(page)).state.collected).toEqual([]);
   await expect(page.locator('body')).toHaveAttribute('data-phase', 'living-room');
 
+  // Space with nothing to use is now a jump. Let the hero land before the timed wall
+  // approach: software rendering advances capped simulation frames slower than wall time.
+  await expect.poll(async () => (await navigation(page)).status.mode, { timeout: 20_000 }).toBe('ground');
+
   // The solid east wall blocks this route until the player lines up with its opening.
   await page.keyboard.down('ArrowRight');
-  await expect.poll(async () => (await navigation(page)).state.player.x, { timeout: 5_000 }).toBeGreaterThan(-1.05);
+  await expect.poll(async () => (await navigation(page)).state.player.x, { timeout: 20_000 }).toBeGreaterThan(-1.05);
   await page.waitForTimeout(350);
   await page.keyboard.up('ArrowRight');
   const atWall = await navigation(page);
   expect(atWall.state.player.x).toBeLessThanOrEqual(-0.87);
-  expect(atWall.state.player.z).toBeCloseTo(-1.5, 2);
+  // Steering now turns the hero through a short arc, so allow a few centimetres of drift.
+  // Sliding along the wall into the doorway (its edge is at z = -1) would still fail here.
+  expect(atWall.state.player.z).toBeCloseTo(-1.5, 1);
   // The visible cutaway wall is low; the camera can see over it while feet stay blocked.
   expect(atWall.cameraPosition.y).toBeGreaterThan(1.5);
   expect(Math.hypot(
