@@ -1200,3 +1200,12 @@ Followed by:
 > Continue
 
 Routing receipt: **CONFIRMED direction / IMPLEMENTED; Unity import, play and builds NOT TESTED (no Editor in the cloud session)**, SD-088. [Decision](../docs/decisions/2026-11-15-unity-native-lukes-playground.md), [Unity runbook](../docs/engineering/UNITY_PLAYGROUND_HANDOFF.md), [evidence](../docs/reports/2026-11-15-lukes-playground-and-hero-traversal.md). Luke's Playground is a generated Unity scene in the existing `unity/SpaceDragon` project: the practice block plus a backyard playset (ramp, tower, slide, monkey bars), starting indoors in the living room. The hero is a realistic **generic licensed** child model (Microsoft Rocketbox, MIT), not Luke's likeness; no family photo was read. The same model replaces the suited proxy in the browser reference, where it was inspected. Higher-fidelity likeness work (scan, MetaHuman-class tools) stays OPEN for an owner decision.
+
+
+## November 16, 2026 — What's next toward a playable game; Luke's battle arena and stealth (SD-089)
+
+Owner wording:
+
+> Ok what's next for improvement towards a playable game? Luke's battle arena testing his abilities and stealth needs work
+
+Routing receipt: **CONFIRMED direction / browser reference technically verified under software rendering; Unity IMPLEMENTED, NOT TESTED; rules and numbers PROPOSED**, SD-089. [Decision](../docs/decisions/2026-11-16-lukes-arena-abilities-and-stealth.md), [evidence](../docs/reports/2026-11-16-lukes-arena-abilities-and-stealth.md), [what comes next](../docs/project/ROADMAP.md). No arena, enemy or stealth rule existed, so "needs work" was read as "build it". **Luke's Arena** is a third lab (`/arena/`, and `Space Dragon > Luke's Arena > Generate scene` in Unity): an ability course (Spider Climb on marked walls, zip, chimney), a three-wave battle ring (Tether Snare, Spider Pounce, telegraphed robots, one-button action) and a stealth yard (sight cones cut off by cover, noise, quiet takedowns only from where a robot cannot see, a floodlight that holds and sets Luke back with nothing lost). Three stars per trial; nobody is hurt, nothing can be lost and nothing needs reading. Spider Climb joined the shared hero rules. It implements part of the PROPOSED combat design without approving it; story unlock order, sidekicks, suit design and whether stealth appears in missions stay OPEN. The hero is still the generic licensed stand-in. Not a story mission. No person has played it yet.

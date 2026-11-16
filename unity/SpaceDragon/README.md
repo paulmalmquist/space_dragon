@@ -22,6 +22,8 @@ npm run unity:playground:windows
 npm run unity:playground:play
 ```
 
+**Luke's Arena (SD-089)**, the abilities and stealth lab, is a second generated scene: `npm run unity:arena:setup`, `npm run unity:arena:windows`, `npm run unity:arena:play`, or **Space Dragon > Luke's Arena > Generate scene**. Generate the playground first. It is equally untested in Unity.
+
 Or, with the Editor open: **Space Dragon > Luke's Playground > Generate scene**, then Play. Controls, first-run checks and likely failure points are in the [runbook](../../docs/engineering/UNITY_PLAYGROUND_HANDOFF.md). Only `Assets/SpaceDragon/Playground/Generated` is written; other channels' scenes and settings are read, never edited.
 
 ## Reproduce the candidate
