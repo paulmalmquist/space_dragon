@@ -36,6 +36,24 @@ export interface WaterZone { id: string; minX: number; maxX: number; minZ: numbe
 export interface WorldBounds { minX: number; maxX: number; minZ: number; maxZ: number; }
 export interface SparkSpot { id: string; x: number; y: number; z: number; }
 
+/**
+ * A marked wall face the hero can climb (Spider Climb). Only authored faces are climbable.
+ * `axis` is the horizontal axis the wall faces along; the climbable side looks toward
+ * positive `axis` when `facing` is 1 and toward negative when it is -1.
+ */
+export interface ClimbSurface {
+  id: string;
+  axis: 'x' | 'z';
+  /** Coordinate of the wall plane on `axis`. */
+  at: number;
+  facing: 1 | -1;
+  /** Extent along the other horizontal axis. */
+  min: number; max: number;
+  minY: number;
+  /** Top of the wall. The hero mantles onto the surface behind it when there is room. */
+  maxY: number;
+}
+
 export interface TraversalWorld {
   id: string;
   bounds: WorldBounds;
@@ -45,6 +63,8 @@ export interface TraversalWorld {
   sparks: readonly SparkSpot[];
   recoveries: readonly Recovery[];
   spawn: { x: number; z: number; yaw: number };
+  /** Optional: worlds without climbable faces simply omit it. */
+  climbs?: readonly ClimbSurface[];
 }
 
 export function clamp(value: number, low: number, high: number): number { return value < low ? low : value > high ? high : value; }

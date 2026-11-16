@@ -34,6 +34,7 @@ export default defineConfig({
       input: {
         home: fileURLToPath(new URL('./index.html', import.meta.url)),
         drive: fileURLToPath(new URL('./drive/index.html', import.meta.url)),
+        arena: fileURLToPath(new URL('./arena/index.html', import.meta.url)),
         dogfight: fileURLToPath(new URL('./dogfight/index.html', import.meta.url)),
       },
     },

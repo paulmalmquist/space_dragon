@@ -1,7 +1,7 @@
 /**
  * Engine-free motion rules for the realistic hero stand-in: which locomotion loops play at a
  * given ground speed, how fast the stride advances, and the procedural poses layered on top
- * while jumping, falling, swinging and landing. Babylon and Unity both read these numbers;
+ * while jumping, falling, swinging, landing, climbing and reeling from a bonk. Babylon and Unity both read these numbers;
  * tools/unity/export-traversal.mjs writes the C# copy.
  *
  * Presentation only. Nothing here reads or writes game state.
@@ -37,6 +37,15 @@ export const MOTION = Object.freeze({
   legLength: 0.6286,
   blinkSeconds: 0.14,
   blinkEvery: [2.4, 5.6] as readonly [number, number],
+  /** Climbing: how quickly the pose takes over (per second) and reach cycles per metre of wall covered. */
+  climbBlendRate: 12,
+  climbCyclesPerMetre: 0.85,
+  /** Dizzy after a bonk: head sway in degrees, sways per second, and how far the knees sag (share of a full landing). */
+  dizzySway: 11,
+  dizzyRate: 1.4,
+  dizzyCrouch: 0.45,
+  /** How quickly the dizzy, lifted and reaching stances fade in and out, per second. */
+  stanceBlendRate: 10,
 });
 
 /**
@@ -85,9 +94,22 @@ export type PoseAxis = 'x' | 'y' | 'z';
  * forward; about +z a hanging limb swings toward the hero's right.
  */
 export interface PoseTurn { bone: string; axis: PoseAxis; degrees: number; }
-export interface Pose { id: 'rise' | 'fall' | 'swing' | 'land'; turns: readonly PoseTurn[]; }
+export interface Pose { id: 'rise' | 'fall' | 'swing' | 'land' | 'climbLeft' | 'climbRight' | 'dizzy'; turns: readonly PoseTurn[]; }
 
 const turn = (bone: string, axis: PoseAxis, degrees: number): PoseTurn => Object.freeze({ bone: `Bip01 ${bone}`, axis, degrees });
+/** The same pose for the other side of the body: left and right bones swap, sideways turns reverse. */
+const mirrored = (turns: readonly PoseTurn[]): readonly PoseTurn[] => Object.freeze(turns.map(item => Object.freeze({
+  bone: item.bone.replace(/^Bip01 ([LR]) /, (_match, side: string) => `Bip01 ${side === 'L' ? 'R' : 'L'} `),
+  axis: item.axis, degrees: item.axis === 'x' ? item.degrees : -item.degrees,
+})));
+// Left hand high on the wall, right hand at the shoulder, right knee up and turned out, left leg long.
+const CLIMB_LEFT: readonly PoseTurn[] = Object.freeze([
+  turn('Spine1', 'x', 6), turn('Head', 'x', -18),
+  turn('L UpperArm', 'x', -125), turn('L UpperArm', 'z', -8), turn('L Forearm', 'x', -8),
+  turn('R UpperArm', 'x', -55), turn('R UpperArm', 'z', 10), turn('R Forearm', 'x', -60),
+  turn('R Thigh', 'x', -70), turn('R Thigh', 'y', 38), turn('R Calf', 'x', 95),
+  turn('L Thigh', 'x', -15), turn('L Calf', 'x', 25),
+]);
 
 /** Parents are listed before their children so each turn sees its parent's final pose. */
 export const POSES: readonly Pose[] = Object.freeze([
@@ -119,7 +141,25 @@ export const POSES: readonly Pose[] = Object.freeze([
     turn('R UpperArm', 'z', 14), turn('R UpperArm', 'x', 10),
     turn('L UpperArm', 'z', -14), turn('L UpperArm', 'x', 10),
   ]) }),
+  // The two halves of a climbing reach; the runtime cross-fades them as the wall goes by.
+  Object.freeze({ id: 'climbLeft', turns: CLIMB_LEFT }),
+  Object.freeze({ id: 'climbRight', turns: mirrored(CLIMB_LEFT) }),
+  // Bonked: slumped, arms loose. The runtime adds the sway and the sagging knees.
+  Object.freeze({ id: 'dizzy', turns: Object.freeze([
+    turn('Spine1', 'x', 12), turn('Head', 'x', 14),
+    turn('R UpperArm', 'z', 20), turn('R Forearm', 'x', -35),
+    turn('L UpperArm', 'z', -20), turn('L Forearm', 'x', -35),
+  ]) }),
 ] as const);
+
+/**
+ * Weights of the left-high and right-high climbing poses for a reach phase in cycles.
+ * They always sum to one, so a climber at rest holds whichever reach it stopped in.
+ */
+export function climbReach(phase: number): [number, number] {
+  const left = 0.5 + 0.5 * Math.sin((Number.isFinite(phase) ? phase : 0) * Math.PI * 2);
+  return [left, 1 - left];
+}
 
 /** Leg turns in the land pose are unit multipliers of MOTION.landBend; the rest are degrees. */
 export const LAND_LEG_BONES: readonly string[] = Object.freeze(['Thigh', 'Calf', 'Foot'].flatMap(part => [`Bip01 R ${part}`, `Bip01 L ${part}`]));

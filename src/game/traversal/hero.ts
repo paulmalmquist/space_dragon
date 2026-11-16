@@ -1,17 +1,18 @@
 import { TRAVERSAL_STEP, TUNING } from './tuning.ts';
 import type { TraversalTuning } from './tuning.ts';
 import { ceilingAt, clamp, finite, pointInSolid, supportAt, topAt, waterAt } from './world.ts';
-import type { Anchor, Recovery, TraversalWorld } from './world.ts';
+import type { Anchor, ClimbSurface, Recovery, TraversalWorld } from './world.ts';
 
 /**
  * Authoritative on-foot hero: momentum running, a held-height jump, one thruster hop,
- * tether swings on marked anchors and a safety catch instead of any fail state.
+ * tether swings on marked anchors, climbing on marked faces and a safety catch instead of
+ * any fail state.
  * Pure and fixed-step: no renderer, DOM, storage or wall clock. Presentation observes it.
  */
-export type HeroMode = 'ground' | 'air' | 'swing' | 'catch';
+export type HeroMode = 'ground' | 'air' | 'swing' | 'catch' | 'climb';
 
 /** One-step notifications for effects and sound. They never own progress. */
-export const HERO_EVENT = Object.freeze({ jump: 1, hop: 2, attach: 4, release: 8, land: 16, bounce: 32, catch: 64, recover: 128 });
+export const HERO_EVENT = Object.freeze({ jump: 1, hop: 2, attach: 4, release: 8, land: 16, bounce: 32, catch: 64, recover: 128, climb: 256, mantle: 512 });
 
 export interface HeroState {
   x: number; y: number; z: number;
@@ -43,6 +44,10 @@ export interface HeroState {
   safeX: number; safeY: number; safeZ: number; safeYaw: number;
   impact: number;
   events: number;
+  /** The marked face being climbed, or an empty string. */
+  climbId: string;
+  /** Time before a face can be grabbed again after jumping off one. */
+  climbCooldown: number;
 }
 
 export interface HeroInput {
@@ -78,6 +83,7 @@ export function createHero(world: TraversalWorld, pose: { x: number; z: number; 
     tetherId: '', ropeLength: 0, ropeTarget: 0, swingTime: 0, swingDirX: 0, swingDirZ: 1, tetherCooldown: 0, lastAnchorId: '', lastAnchorAge: 0,
     catchTime: 0, catchX: x, catchY: support.height, catchZ: z,
     safeX: x, safeY: support.height, safeZ: z, safeYaw: yaw, impact: 0, events: 0,
+    climbId: '', climbCooldown: 0,
   };
 }
 
@@ -440,6 +446,112 @@ function stepFree(world: TraversalWorld, hero: HeroState, moveX: number, moveZ: 
   }
 }
 
+function climbById(world: TraversalWorld, id: string): ClimbSurface | null {
+  if (world.climbs) for (const surface of world.climbs) if (surface.id === id) return surface;
+  return null;
+}
+
+/** True when a standing body at these feet overlaps no solid it could not step onto. */
+function bodyFits(world: TraversalWorld, x: number, z: number, feet: number, T: TraversalTuning): boolean {
+  for (const solid of world.solids) {
+    const cx = clamp(x, solid.minX, solid.maxX);
+    const cz = clamp(z, solid.minZ, solid.maxZ);
+    const dx = x - cx;
+    const dz = z - cz;
+    if (dx * dx + dz * dz >= T.radius * T.radius - 1e-10) continue;
+    if (topAt(solid, cx, cz) <= feet + T.stepHeight || solid.minY >= feet + T.height) continue;
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Spider Climb: walking into a marked face grabs it. Nothing else in the level is climbable.
+ * Returns true when the hero attached this step.
+ */
+function tryClimb(world: TraversalWorld, hero: HeroState, moveX: number, moveZ: number, magnitude: number, T: TraversalTuning): boolean {
+  if (!world.climbs || hero.climbCooldown > 0 || magnitude <= 0 || (hero.mode !== 'ground' && hero.mode !== 'air')) return false;
+  for (const surface of world.climbs) {
+    const alongX = surface.axis === 'z';
+    const out = ((alongX ? hero.z : hero.x) - surface.at) * surface.facing;
+    if (out < -1e-6 || out > T.radius + T.climbReach) continue;
+    const along = alongX ? hero.x : hero.z;
+    if (along < surface.min + T.radius || along > surface.max - T.radius) continue;
+    if (hero.y < surface.minY - 0.05 || hero.y > surface.maxY - 0.02) continue;
+    // Pushing toward the wall is what asks for the climb.
+    if (-(alongX ? moveZ : moveX) * surface.facing < T.climbPush) continue;
+    if (alongX) hero.z = surface.at + surface.facing * T.radius; else hero.x = surface.at + surface.facing * T.radius;
+    hero.mode = 'climb'; hero.climbId = surface.id;
+    hero.vx = 0; hero.vy = 0; hero.vz = 0;
+    hero.yaw = alongX ? (surface.facing > 0 ? Math.PI : 0) : (surface.facing > 0 ? -Math.PI / 2 : Math.PI / 2);
+    hero.groundId = ''; hero.tetherId = ''; hero.jumpBuffer = 0; hero.cutEligible = false; hero.hopAvailable = true;
+    hero.airTime = 0; hero.groundTime = 0; hero.coyote = 0;
+    hero.events |= HERO_EVENT.climb;
+    return true;
+  }
+  return false;
+}
+
+/**
+ * On a marked face: pushing toward the wall climbs, pulling away descends, sideways shuffles.
+ * Jump springs off; the top mantles onto the surface behind the edge when a body fits there.
+ */
+function stepClimb(world: TraversalWorld, hero: HeroState, moveX: number, moveZ: number, jumpPressed: boolean, dt: number, T: TraversalTuning): void {
+  const surface = climbById(world, hero.climbId);
+  if (!surface) { hero.mode = 'air'; hero.climbId = ''; return; }
+  const alongX = surface.axis === 'z';
+  const nx = alongX ? 0 : surface.facing;
+  const nz = alongX ? surface.facing : 0;
+  const into = -(moveX * nx + moveZ * nz);
+  // The stick is a world-space intent, so its part along the wall shuffles the same way in the world.
+  const side = alongX ? moveX : moveZ;
+  hero.vx = 0; hero.vy = 0; hero.vz = 0;
+  hero.airTime = 0; hero.groundTime = 0; hero.coyote = 0;
+  if (jumpPressed) {
+    hero.mode = 'air'; hero.climbId = ''; hero.climbCooldown = T.climbCooldown;
+    hero.vx = nx * T.wallJumpOut + (alongX ? side * 2 : 0); hero.vz = nz * T.wallJumpOut + (alongX ? 0 : side * 2); hero.vy = T.wallJumpUp;
+    hero.hopAvailable = true; hero.cutEligible = false; hero.jumpBuffer = 0;
+    hero.yaw = Math.atan2(nx, nz);
+    hero.events |= HERO_EVENT.jump;
+    return;
+  }
+  const was = alongX ? hero.x : hero.z;
+  const fromY = hero.y;
+  const along = clamp(was + side * T.climbSide * dt, surface.min + T.radius, surface.max - T.radius);
+  if (alongX) hero.x = along; else hero.z = along;
+  let y = hero.y + (into > 0 ? into * T.climbSpeed : into * T.climbDown) * dt;
+  if (into < 0) {
+    // Stepping off at the foot of the wall.
+    const floor = supportAt(world, hero.x, hero.z, hero.y, T.stepHeight);
+    if (y <= floor.height) {
+      hero.y = floor.height; hero.mode = 'ground'; hero.groundId = floor.id; hero.climbId = '';
+      hero.coyote = T.coyote; hero.climbCooldown = T.climbCooldown;
+      return;
+    }
+    if (y < surface.minY) y = surface.minY;
+  }
+  const hold = surface.maxY - T.climbTop;
+  if (y >= hold) {
+    if (into > 0.2) {
+      const topX = hero.x - nx * (T.radius + T.mantleInset);
+      const topZ = hero.z - nz * (T.radius + T.mantleInset);
+      const top = supportAt(world, topX, topZ, surface.maxY, T.stepHeight);
+      if (top.height >= surface.maxY - T.stepHeight && top.bounce <= 0 && bodyFits(world, topX, topZ, top.height, T)) {
+        hero.x = topX; hero.z = topZ; hero.y = top.height;
+        hero.mode = 'ground'; hero.groundId = top.id; hero.climbId = '';
+        hero.coyote = T.coyote; hero.hopAvailable = true;
+        hero.events |= HERO_EVENT.mantle;
+        return;
+      }
+    }
+    y = hold;
+  }
+  hero.y = y;
+  // Report the real motion on the wall; every way off the wall sets its own velocity above.
+  hero.vy = (y - fromY) / dt;
+  if (alongX) hero.vx = (along - was) / dt; else hero.vz = (along - was) / dt;
+}
+
 /** Advance one fixed step. The input state is never mutated. */
 export function stepHero(world: TraversalWorld, state: HeroState, input: HeroInput, dt: number = TRAVERSAL_STEP, tuning: TraversalTuning = TUNING): HeroState {
   if (!finite(dt) || dt <= 0) return state;
@@ -456,10 +568,15 @@ export function stepHero(world: TraversalWorld, state: HeroState, input: HeroInp
   hero.jumpHeld = jumpHeld; hero.powerHeld = power;
   hero.jumpBuffer = jumpPressed ? T.jumpBuffer : Math.max(0, state.jumpBuffer - dt);
   hero.tetherCooldown = Math.max(0, state.tetherCooldown - dt);
+  hero.climbCooldown = Math.max(0, state.climbCooldown - dt);
   hero.lastAnchorAge = state.lastAnchorAge + dt;
   if (hero.mode === 'catch') { stepCatch(world, hero, dt, T); return hero; }
-  if (hero.mode === 'swing') stepSwing(world, hero, moveX, moveZ, magnitude, jumpPressed, power, dt, T);
-  else stepFree(world, hero, moveX, moveZ, magnitude, jumpPressed, jumpHeld, power, powerPressed, dt, T);
+  if (hero.mode === 'climb') stepClimb(world, hero, moveX, moveZ, jumpPressed, dt, T);
+  else if (hero.mode === 'swing') stepSwing(world, hero, moveX, moveZ, magnitude, jumpPressed, power, dt, T);
+  else {
+    stepFree(world, hero, moveX, moveZ, magnitude, jumpPressed, jumpHeld, power, powerPressed, dt, T);
+    tryClimb(world, hero, moveX, moveZ, magnitude, T);
+  }
   const zone = waterAt(world, hero.x, hero.z);
   if ((zone && hero.y < T.catchDepth) || hero.y < -6 || !finite(hero.x) || !finite(hero.y) || !finite(hero.z)) {
     if (!finite(hero.x) || !finite(hero.y) || !finite(hero.z)) { hero.x = hero.safeX; hero.y = hero.safeY; hero.z = hero.safeZ; }

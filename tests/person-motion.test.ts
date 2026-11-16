@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import {
   GRIP_BONE, HEAD_BONE, LAND_LEG_BONES, LOCOMOTION, MOTION, POSES, TETHER_ARMS,
-  crouchDrop, locomotionWeights, strideCyclesPerSecond,
+  climbReach, crouchDrop, locomotionWeights, strideCyclesPerSecond,
 } from '../src/game/hero/person-motion.ts';
 
 interface ClipReport { id: string; durationSeconds: number; naturalSpeedMetresPerSecond: number; loopClosureDegrees: number; channels: number; legRatio: number; }
@@ -99,4 +99,26 @@ test('motion numbers and bones match the shipped hero model in both runtimes', a
     assert.deepEqual(legs, [...legs].sort((a, b) => a - b), `${pose.id} ${side}leg order`);
     assert.deepEqual(arm, [...arm].sort((a, b) => a - b), `${pose.id} ${side}arm order`);
   }
+});
+
+test('climbing cross-fades two mirrored reaches that always add up to a whole pose', () => {
+  const left = POSES.find(pose => pose.id === 'climbLeft')!, right = POSES.find(pose => pose.id === 'climbRight')!;
+  assert.equal(left.turns.length, right.turns.length);
+  left.turns.forEach((item, index) => {
+    const twin = right.turns[index];
+    assert.equal(twin.bone, item.bone.replace(/^Bip01 ([LR]) /, (_match, side: string) => `Bip01 ${side === 'L' ? 'R' : 'L'} `));
+    assert.equal(twin.axis, item.axis);
+    assert.equal(twin.degrees, item.axis === 'x' ? item.degrees : -item.degrees, `${item.bone} ${item.axis} mirrors`);
+  });
+  // One hand is always the high one.
+  const high = (pose: typeof left, side: string) => pose.turns.find(item => item.bone === `Bip01 ${side} UpperArm` && item.axis === 'x')!.degrees;
+  assert.ok(high(left, 'L') < high(left, 'R') && high(right, 'R') < high(right, 'L'));
+  for (let phase = -1; phase <= 3; phase += 0.01) {
+    const [a, b] = climbReach(phase);
+    assert.ok(a >= 0 && a <= 1 && Math.abs(a + b - 1) < 1e-12);
+  }
+  assert.deepEqual(climbReach(0), [0.5, 0.5]);
+  assert.ok(climbReach(0.25)[0] > 0.999 && climbReach(0.75)[1] > 0.999, 'each reach is held fully once per cycle');
+  assert.deepEqual(climbReach(Number.NaN), [0.5, 0.5]);
+  assert.ok(MOTION.dizzyCrouch > 0 && MOTION.dizzyCrouch <= 1 && MOTION.climbCyclesPerMetre > 0);
 });

@@ -120,6 +120,8 @@ export function createHeroAudio() {
       tone(1320, 1326, 0.28, 0.07, 'triangle', 0.09);
       if (complete) tone(1760, 1768, 0.5, 0.08, 'triangle', 0.2);
     },
+    /** The two building blocks, for labs that add their own cues on the same voices and volume. */
+    tone, hiss,
     snapshot: () => ({ enabled, paused, played, voices, context: context?.state ?? 'none' }),
     dispose() {
       enabled = false;

@@ -19,6 +19,12 @@ export interface AvatarFrame {
   events: number;
   /** World position of the tether anchor while swinging. */
   anchor: { x: number; y: number; z: number } | null;
+  /** 0 to 1: reeling after a bonk. Optional stances are honoured by the realistic stand-in only. */
+  dizzy?: number;
+  /** 0 to 1: lifted off the ground and held still. */
+  lifted?: number;
+  /** A point the right hand reaches toward, such as a snared robot. */
+  reach?: { x: number; y: number; z: number } | null;
 }
 
 /**

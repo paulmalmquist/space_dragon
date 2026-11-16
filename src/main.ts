@@ -18,6 +18,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <a class="wordmark" href="./" aria-label="Space Dragon home"><span class="mark">✧</span> SPACE DRAGON</a>
     <a class="quiet drive-link" href="${import.meta.env.BASE_URL}drive/">Town Drive Lab ↗</a>
     <a class="quiet dogfight-link" href="${import.meta.env.BASE_URL}dogfight/">Dogfight Lab ↗</a>
+    <a class="quiet arena-link" href="${import.meta.env.BASE_URL}arena/">Luke's Arena ↗</a>
     <span class="build-label">FIRST CONTACT <span class="build-dot"></span> PLAYABLE DRAFT</span>
     <nav id="play-modes" class="play-modes" aria-label="Choose an adventure" hidden><button class="quiet" id="mode-explore">Walk around</button><button class="quiet" id="mode-story">First Contact</button></nav>
     <button class="quiet" id="sound" aria-label="Turn narrator sound on">♫ <span id="sound-state">Sound off</span></button>

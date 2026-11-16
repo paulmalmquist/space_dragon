@@ -5,6 +5,7 @@ import { HOME_BLOCK } from './traversal/home-block';
 import { HERO_EVENT } from './traversal/hero';
 import type { HeroState } from './traversal/hero';
 import { clipBoom } from './traversal/world';
+import type { TraversalWorld } from './traversal/world';
 
 export interface CameraSubject {
   hero: HeroState;
@@ -16,8 +17,8 @@ export interface CameraSubject {
 }
 
 const BASE_FOV = 1.03;
-const BASE_DISTANCE = 3.8;
-const BASE_PITCH = 0.39;
+/** Framing for a lab that needs to see more of the floor around the hero. */
+export interface CameraFraming { distance?: number; pitch?: number; }
 /**
  * Above an ordinary run (4.6 m/s) and an ordinary jump (5.2 m/s): only sprints, hops, bounces
  * and swings turn the camera. Otherwise a jump while strafing would rotate the view, and with
@@ -30,7 +31,9 @@ const FOLLOW_SPEED = 5.6;
  * flies or swings it eases behind the direction of travel, widens with speed and never
  * passes through the level. It observes the hero and owns no gameplay state.
  */
-export function createThirdPersonCamera(scene: Scene) {
+export function createThirdPersonCamera(scene: Scene, world: TraversalWorld = HOME_BLOCK, framing: CameraFraming = {}) {
+  const BASE_DISTANCE = framing.distance ?? 3.8;
+  const BASE_PITCH = framing.pitch ?? 0.39;
   const camera = new FreeCamera('navigation.follow-camera', new Vector3(0, 2.4, -4), scene);
   camera.inputs.clear();
   camera.minZ = 0.08;
@@ -91,7 +94,7 @@ export function createThirdPersonCamera(scene: Scene) {
       const angle = Math.max(0.1, Math.min(1.1, pitch + tilt));
       const horizontal = Math.cos(angle) * distance;
       const desired = { x: focus.x - Math.sin(yaw) * horizontal, y: focus.y + Math.sin(angle) * distance, z: focus.z - Math.cos(yaw) * horizontal };
-      const clear = clipBoom(HOME_BLOCK, focus, desired, subject.cutaway);
+      const clear = clipBoom(world, focus, desired, subject.cutaway);
       clipped = clear < 0.999;
       const allowed = Math.max(0.35, distance * clear);
       // Pull in at once, ease back out, so the camera never rests inside a wall.

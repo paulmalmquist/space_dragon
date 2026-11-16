@@ -37,6 +37,18 @@ export const TUNING = Object.freeze({
   edgeGrace: 0.08,
   maxMove: 0.12,
 
+  // Spider Climb: only on marked faces.
+  climbReach: 0.16,
+  climbSpeed: 3.4,
+  climbDown: 3.9,
+  climbSide: 2.6,
+  climbTop: 0.22,
+  climbPush: 0.45,
+  mantleInset: 0.34,
+  wallJumpOut: 4.6,
+  wallJumpUp: 7.8,
+  climbCooldown: 0.3,
+
   tetherRange: 16,
   tetherMinRise: 1.5,
   tetherIdeal: 9,

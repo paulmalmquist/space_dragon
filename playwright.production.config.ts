@@ -8,7 +8,7 @@ const chromiumPath = process.env.SPACE_DRAGON_CHROMIUM_PATH;
 /** Exercises the static artifact, where development tools must not exist. */
 export default defineConfig({
   testDir: './tests',
-  testMatch: ['production.spec.ts', 'navigation.production.spec.ts', 'dogfight.production.spec.ts', 'drive.production.spec.ts'],
+  testMatch: ['production.spec.ts', 'navigation.production.spec.ts', 'dogfight.production.spec.ts', 'drive.production.spec.ts', 'arena.production.spec.ts'],
   fullyParallel: false,
   workers: 1,
   timeout: process.env.CI ? 90_000 : 45_000,

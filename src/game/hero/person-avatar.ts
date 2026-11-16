@@ -9,8 +9,8 @@ import { HERO_EVENT } from '../traversal/hero';
 import { TUNING } from '../traversal/tuning';
 import type { AvatarFrame } from './hero-avatar';
 import {
-  GRIP_BONE, LAND_LEG_BONES, LOCOMOTION, MOTION, POSES, TETHER_ARMS,
-  crouchDrop, locomotionWeights, strideCyclesPerSecond,
+  GRIP_BONE, HEAD_BONE, LAND_LEG_BONES, LOCOMOTION, MOTION, POSES, TETHER_ARMS,
+  climbReach, crouchDrop, locomotionWeights, strideCyclesPerSecond,
 } from './person-motion';
 
 interface Clip { frames: number; rotations: (Float32Array | undefined)[]; height: Float32Array | null; }
@@ -114,6 +114,7 @@ export async function loadPersonAvatar(scene: Scene) {
   const poses = POSES.map(pose => ({ id: pose.id, turns: pose.turns.map(item => ({ ...item, node: need(item.bone), leg: LAND_LEG_BONES.includes(item.bone) })) }));
   const arms = TETHER_ARMS.map(item => ({ node: need(item.bone), tip: need(item.tip), weight: item.weight }));
   const grip = need(GRIP_BONE);
+  const head = need(HEAD_BONE);
 
   const parentLinear = new Matrix(), parentInverse = new Matrix(), turnMatrix = new Matrix(), local = new Matrix(), scratchA = new Matrix(), scratchB = new Matrix();
   const turnQuaternion = new Quaternion();
@@ -149,6 +150,8 @@ export async function loadPersonAvatar(scene: Scene) {
   const weights = [1, 0, 0, 0];
   let idleTime = 0, stride = 0, yaw = 0, lastYaw = 0, lean = 0, roll = 0;
   let swing = 0, airborne = 0, rising = 0, squash = 0, joy = 0, awe = 0;
+  let climb = 0, climbPhase = 0, dizzy = 0, lifted = 0, reach = 0, sway = 0;
+  const reachPoint = new Vector3();
   let blink = 0, nextBlink = 2.2, blinkSeed = 7;
   const anchorPoint = new Vector3(), axes = { x: new Vector3(), y: new Vector3(0, 1, 0), z: new Vector3() };
   const blended = [0, 0, 0, 0];
@@ -168,7 +171,7 @@ export async function loadPersonAvatar(scene: Scene) {
     const { hero } = frame;
     const speed = Math.hypot(hero.vx, hero.vz);
     const grounded = hero.mode === 'ground';
-    if (snap) { yaw = lastYaw = hero.yaw; lean = roll = swing = airborne = rising = squash = 0; weights.fill(0); weights[0] = 1; }
+    if (snap) { yaw = lastYaw = hero.yaw; lean = roll = swing = airborne = rising = squash = climb = dizzy = lifted = reach = 0; weights.fill(0); weights[0] = 1; }
     const turnRate = dt > 0 ? wrap(hero.yaw - lastYaw) / dt : 0;
     lastYaw = hero.yaw;
     yaw += wrap(hero.yaw - yaw) * (snap ? 1 : 1 - Math.exp(-18 * dt));
@@ -191,7 +194,14 @@ export async function loadPersonAvatar(scene: Scene) {
     swing = damp(swing, hero.mode === 'swing' ? 1 : 0, MOTION.swingBlendRate, dt);
     airborne = damp(airborne, hero.mode === 'air' || hero.mode === 'catch' ? 1 : 0, MOTION.airBlendRate, dt);
     rising = damp(rising, hero.vy > 0.5 ? 1 : 0, 9, dt);
-    const land = Math.sin(Math.min(1, squash) * Math.PI * 0.5);
+    climb = damp(climb, hero.mode === 'climb' ? 1 : 0, MOTION.climbBlendRate, dt);
+    if (hero.mode === 'climb') climbPhase = (climbPhase + dt * MOTION.climbCyclesPerMetre * Math.hypot(hero.vx, hero.vy, hero.vz)) % 1;
+    dizzy = damp(dizzy, Math.max(0, Math.min(1, frame.dizzy ?? 0)), MOTION.stanceBlendRate, dt);
+    lifted = damp(lifted, Math.max(0, Math.min(1, frame.lifted ?? 0)), MOTION.stanceBlendRate, dt);
+    reach = damp(reach, frame.reach ? 1 : 0, MOTION.stanceBlendRate, dt);
+    if (frame.reach) reachPoint.set(frame.reach.x, frame.reach.y, frame.reach.z);
+    sway = (sway + dt * MOTION.dizzyRate) % 1;
+    const land = Math.max(Math.sin(Math.min(1, squash) * Math.PI * 0.5), dizzy * MOTION.dizzyCrouch);
 
     // Base pose: weighted blend of the loops, sampled directly from their keys.
     let height = 0;
@@ -226,7 +236,7 @@ export async function loadPersonAvatar(scene: Scene) {
       pitch += (Math.atan2(forward, up) * 0.75 - pitch) * swing;
       bank += (-Math.atan2(side, up) * 0.6 - bank) * swing;
     }
-    if (airborne > 0.01) pitch += airborne * Math.max(-0.25, Math.min(0.3, -hero.vy * 0.014 + speed * 0.01));
+    if (airborne > 0.01) pitch += airborne * (1 - lifted) * Math.max(-0.25, Math.min(0.3, -hero.vy * 0.014 + speed * 0.01));
     lean = snap ? pitch : damp(lean, pitch, 10, dt);
     roll = snap ? bank : damp(roll, bank, 9, dt);
     const calm = reducedMotion ? 0.5 : 1;
@@ -237,8 +247,11 @@ export async function loadPersonAvatar(scene: Scene) {
     // Procedural poses, strongest last: jump and fall, the tether reach, the landing crouch.
     axes.x.set(Math.cos(yaw), 0, -Math.sin(yaw));
     axes.z.set(Math.sin(yaw), 0, Math.cos(yaw));
+    const [reachLeft, reachRight] = climbReach(climbPhase);
+    const aloft = Math.max(airborne, lifted), up = rising * (1 - lifted);
     const amount: Record<string, number> = {
-      rise: airborne * rising * (1 - swing), fall: airborne * (1 - rising) * (1 - swing), swing, land,
+      rise: aloft * up * (1 - swing), fall: aloft * (1 - up) * (1 - swing), swing, land,
+      climbLeft: climb * reachLeft, climbRight: climb * reachRight, dizzy,
     };
     for (const pose of poses) {
       const weight = amount[pose.id];
@@ -253,6 +266,13 @@ export async function loadPersonAvatar(scene: Scene) {
       anchorPoint.set(frame.anchor.x, frame.anchor.y, frame.anchor.z);
       for (const arm of arms) aim(arm.node, arm.tip, anchorPoint, arm.weight * swing);
     }
+    // The right arm points along a snare line; the left stays free for balance.
+    const pointing = reach * (1 - swing) * (1 - climb);
+    if (pointing > 0.02) for (const arm of arms.slice(0, 2)) aim(arm.node, arm.tip, reachPoint, arm.weight * pointing);
+    if (dizzy > 0.02 && !reducedMotion) {
+      Quaternion.RotationAxisToRef(axes.z, Math.sin(sway * Math.PI * 2) * MOTION.dizzySway * dizzy * Math.PI / 180, turnQuaternion);
+      applyWorld(head, turnQuaternion);
+    }
 
     // Face: blinking, a wide-eyed look at speed, a smile after a pickup.
     nextBlink -= dt;
@@ -263,7 +283,7 @@ export async function loadPersonAvatar(scene: Scene) {
     }
     blink = Math.max(0, blink - dt);
     const lid = Math.sin(Math.min(1, blink / MOTION.blinkSeconds) * Math.PI);
-    awe = damp(awe, hero.mode === 'swing' || (hero.mode === 'air' && Math.abs(hero.vy) > 6) ? 1 : 0, 6, dt);
+    awe = damp(awe, hero.mode === 'swing' || lifted > 0.5 || (hero.mode === 'air' && Math.abs(hero.vy) > 6) ? 1 : 0, 6, dt);
     joy = Math.max(0, joy - dt * 0.45);
     for (const target of face.blink) target.influence = lid;
     for (const target of face.wide) target.influence = awe * 0.6 * (1 - lid);
@@ -281,7 +301,7 @@ export async function loadPersonAvatar(scene: Scene) {
     /** A short smile, for example after collecting a practice spark. */
     celebrate: () => { joy = 1.6; },
     update,
-    snapshot: () => ({ kind: 'person' as const, gait: 1 - weights[0], swing, airborne, squash, weights: [...weights], bones: bones.length }),
+    snapshot: () => ({ kind: 'person' as const, gait: 1 - weights[0], swing, airborne, squash, climb, dizzy, lifted, reach, weights: [...weights], bones: bones.length }),
     dispose: () => { container.dispose(); body.dispose(); root.dispose(); },
   };
 }
