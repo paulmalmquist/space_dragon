@@ -13,6 +13,8 @@ namespace SpaceDragon.Traversal
         public const double MaxStrideRate = 1.45, MinStrideRate = 0.55, BlendRate = 9.0, AirBlendRate = 12.0, SwingBlendRate = 10.0;
         public const double LandBend = 40.0, LandRecover = 3.6, LegLength = 0.6286;
         public const double BlinkSeconds = 0.14, BlinkEveryMin = 2.4, BlinkEveryMax = 5.6;
+        public const double ClimbBlendRate = 12.0, ClimbCyclesPerMetre = 0.85, StanceBlendRate = 10.0;
+        public const double DizzySway = 11.0, DizzyRate = 1.4, DizzyCrouch = 0.45;
         public const string GripBone = "Bip01 R Finger2", HeadBone = "Bip01 Head";
         public static readonly PoseSpec[] Poses =
         {
@@ -70,6 +72,47 @@ namespace SpaceDragon.Traversal
                 new PoseTurn { bone = "Bip01 L UpperArm", axis = 'z', degrees = -14.0, landLeg = false },
                 new PoseTurn { bone = "Bip01 L UpperArm", axis = 'x', degrees = 10.0, landLeg = false },
             } },
+            new PoseSpec { id = "climbLeft", turns = new[]
+            {
+                new PoseTurn { bone = "Bip01 Spine1", axis = 'x', degrees = 6.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 Head", axis = 'x', degrees = -18.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L UpperArm", axis = 'x', degrees = -125.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L UpperArm", axis = 'z', degrees = -8.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L Forearm", axis = 'x', degrees = -8.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R UpperArm", axis = 'x', degrees = -55.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R UpperArm", axis = 'z', degrees = 10.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R Forearm", axis = 'x', degrees = -60.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R Thigh", axis = 'x', degrees = -70.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R Thigh", axis = 'y', degrees = 38.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R Calf", axis = 'x', degrees = 95.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L Thigh", axis = 'x', degrees = -15.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L Calf", axis = 'x', degrees = 25.0, landLeg = false },
+            } },
+            new PoseSpec { id = "climbRight", turns = new[]
+            {
+                new PoseTurn { bone = "Bip01 Spine1", axis = 'x', degrees = 6.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 Head", axis = 'x', degrees = -18.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R UpperArm", axis = 'x', degrees = -125.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R UpperArm", axis = 'z', degrees = 8.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R Forearm", axis = 'x', degrees = -8.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L UpperArm", axis = 'x', degrees = -55.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L UpperArm", axis = 'z', degrees = -10.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L Forearm", axis = 'x', degrees = -60.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L Thigh", axis = 'x', degrees = -70.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L Thigh", axis = 'y', degrees = -38.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L Calf", axis = 'x', degrees = 95.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R Thigh", axis = 'x', degrees = -15.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R Calf", axis = 'x', degrees = 25.0, landLeg = false },
+            } },
+            new PoseSpec { id = "dizzy", turns = new[]
+            {
+                new PoseTurn { bone = "Bip01 Spine1", axis = 'x', degrees = 12.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 Head", axis = 'x', degrees = 14.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R UpperArm", axis = 'z', degrees = 20.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 R Forearm", axis = 'x', degrees = -35.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L UpperArm", axis = 'z', degrees = -20.0, landLeg = false },
+                new PoseTurn { bone = "Bip01 L Forearm", axis = 'x', degrees = -35.0, landLeg = false },
+            } },
         };
         public static readonly TetherArm[] TetherArms =
         {
@@ -95,5 +138,7 @@ namespace SpaceDragon.Traversal
         };
         public static readonly double[] CrouchEnvelopes = { 0.0, 0.25, 0.5, 1.0 };
         public static readonly double[] CrouchDrops = { 0.0, 0.00954984645652604, 0.037909218573977964, 0.14706446305541043 };
+        public static readonly double[] ClimbPhases = { 0.0, 0.1, 0.25, 0.5, 0.75, 0.9, 1.3 };
+        public static readonly double[] ClimbLeftWeights = { 0.5, 0.7938926261462366, 1.0, 0.5000000000000001, 0.0, 0.20610737385376332, 0.9755282581475768 };
     }
 }

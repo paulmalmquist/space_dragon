@@ -23,7 +23,11 @@ test("committed Luke's Playground C# matches the TypeScript source", async () =>
   const scenery = await readFile(`${core}/HomeBlockScenery.cs`, 'utf8');
   for (const name of ['Houses', 'BackdropHouses', 'Lamps', 'Poles', 'Pilings', 'Palms', 'Trees', 'Cars', 'Fences', 'Hedges', 'RoofMasts']) assert.ok(scenery.includes(`[] ${name} =`), name);
   const motion = await readFile(`${core}/PersonMotionData.cs`, 'utf8');
-  for (const pose of ['rise', 'fall', 'swing', 'land']) assert.ok(motion.includes(`id = "${pose}"`), pose);
+  for (const pose of ['rise', 'fall', 'swing', 'land', 'climbLeft', 'climbRight', 'dizzy']) assert.ok(motion.includes(`id = "${pose}"`), pose);
+  // The Unity avatar gives every exported pose its own weight and leaves an unknown one out.
+  const avatar = await readFile('unity/SpaceDragon/Assets/SpaceDragon/Playground/Runtime/PersonAvatar.cs', 'utf8');
+  for (const pose of ['rise', 'fall', 'swing', 'land', 'climbLeft', 'climbRight', 'dizzy']) assert.ok(avatar.includes(`case "${pose}":`), `${pose} is handled`);
+  assert.match(avatar, /default: weight = 0; break;/);
 });
 
 test('every new Unity asset has a meta file and the hero model is plain glTF', async () => {

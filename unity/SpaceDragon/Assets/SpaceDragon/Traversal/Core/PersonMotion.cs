@@ -4,7 +4,8 @@ namespace SpaceDragon.Traversal
 {
     /// <summary>
     /// Engine-free motion rules for the realistic hero stand-in: which locomotion loops play at a
-    /// ground speed, how fast the stride advances and how far the hips drop in a landing crouch.
+    /// ground speed, how fast the stride advances, how far the hips drop in a landing crouch and
+    /// how a climb alternates its two reaches.
     /// A port of src/game/hero/person-motion.ts; PersonMotionData carries its numbers and
     /// reference samples. Presentation only: nothing here reads or writes game state.
     /// </summary>
@@ -62,6 +63,13 @@ namespace SpaceDragon.Traversal
             double bend = Math.Max(0, Math.Min(1, envelope)) * PersonMotionData.LandBend * Math.PI / 180;
             return PersonMotionData.LegLength * (1 - Math.Cos(bend));
         }
+
+        /// <summary>
+        /// Weight of the left-high climbing pose for a reach phase in cycles; the right-high pose
+        /// takes the rest, so a climber at rest holds whichever reach it stopped in.
+        /// </summary>
+        public static double ClimbLeftWeight(double phase) =>
+            0.5 + 0.5 * Math.Sin((TraversalGeometry.Finite(phase) ? phase : 0) * Math.PI * 2);
 
         /// <summary>Frame-rate independent approach used for every presentation blend.</summary>
         public static double Damp(double current, double target, double rate, double seconds) =>

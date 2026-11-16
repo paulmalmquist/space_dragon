@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace SpaceDragon.Traversal
 {
-    public enum HeroMode { Ground, Air, Swing, Catch }
+    public enum HeroMode { Ground, Air, Swing, Catch, Climb }
 
     /// <summary>One-step notifications for effects and sound. They never own progress.</summary>
     [Flags]
-    public enum HeroEvent { None = 0, Jump = 1, Hop = 2, Attach = 4, Release = 8, Land = 16, Bounce = 32, Catch = 64, Recover = 128 }
+    public enum HeroEvent { None = 0, Jump = 1, Hop = 2, Attach = 4, Release = 8, Land = 16, Bounce = 32, Catch = 64, Recover = 128, Climb = 256, Mantle = 512 }
 
     [Serializable]
     public struct HeroInput
@@ -42,13 +42,16 @@ namespace SpaceDragon.Traversal
         public double safeX, safeY, safeZ, safeYaw;
         public double impact;
         public HeroEvent events;
+        /// <summary>Marked face being climbed, or empty.</summary>
+        public string climbId = "";
+        public double climbCooldown;
 
         public HeroState Clone() => (HeroState)MemberwiseClone();
     }
 
     /// <summary>
-    /// Momentum running, a held-height jump, one thruster hop, tether swings on marked anchors and a
-    /// safety catch instead of any fail state. Pure and fixed-step: no scene, storage or wall clock.
+    /// Momentum running, a held-height jump, one thruster hop, tether swings on marked anchors, Spider
+    /// Climb on marked faces and a safety catch instead of any fail state. Pure and fixed-step: no scene, storage or wall clock.
     /// A line-for-line port of src/game/traversal/hero.ts, checked by tools/unity/traversal-parity.
     /// </summary>
     public static class HeroSimulation
@@ -478,6 +481,114 @@ namespace SpaceDragon.Traversal
             }
         }
 
+        /// <summary>True when a standing body at these feet overlaps no solid it could not step onto.</summary>
+        private static bool BodyFits(TraversalWorld world, double x, double z, double feet, TraversalTuning T)
+        {
+            foreach (var solid in world.solids)
+            {
+                double cx = TraversalGeometry.Clamp(x, solid.minX, solid.maxX);
+                double cz = TraversalGeometry.Clamp(z, solid.minZ, solid.maxZ);
+                double dx = x - cx;
+                double dz = z - cz;
+                if (dx * dx + dz * dz >= T.radius * T.radius - 1e-10) continue;
+                if (TraversalGeometry.TopAt(solid, cx, cz) <= feet + T.stepHeight || solid.minY >= feet + T.height) continue;
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Spider Climb: walking into a marked face grabs it. Nothing else in the level is climbable.
+        /// Returns true when the hero attached this step.
+        /// </summary>
+        private static bool TryClimb(TraversalWorld world, HeroState hero, double moveX, double moveZ, double magnitude, TraversalTuning T)
+        {
+            if (world.climbs == null || hero.climbCooldown > 0 || magnitude <= 0 || (hero.mode != HeroMode.Ground && hero.mode != HeroMode.Air)) return false;
+            foreach (var surface in world.climbs)
+            {
+                bool alongX = surface.alongX;
+                double outward = ((alongX ? hero.z : hero.x) - surface.at) * surface.facing;
+                if (outward < -1e-6 || outward > T.radius + T.climbReach) continue;
+                double along = alongX ? hero.x : hero.z;
+                if (along < surface.min + T.radius || along > surface.max - T.radius) continue;
+                if (hero.y < surface.minY - 0.05 || hero.y > surface.maxY - 0.02) continue;
+                // Pushing toward the wall is what asks for the climb.
+                if (-(alongX ? moveZ : moveX) * surface.facing < T.climbPush) continue;
+                if (alongX) hero.z = surface.at + surface.facing * T.radius; else hero.x = surface.at + surface.facing * T.radius;
+                hero.mode = HeroMode.Climb; hero.climbId = surface.id;
+                hero.vx = 0; hero.vy = 0; hero.vz = 0;
+                hero.yaw = alongX ? (surface.facing > 0 ? Math.PI : 0) : (surface.facing > 0 ? -Math.PI / 2 : Math.PI / 2);
+                hero.groundId = ""; hero.tetherId = ""; hero.jumpBuffer = 0; hero.cutEligible = false; hero.hopAvailable = true;
+                hero.airTime = 0; hero.groundTime = 0; hero.coyote = 0;
+                hero.events |= HeroEvent.Climb;
+                return true;
+            }
+            return false;
+        }
+
+        private static void StepClimb(TraversalWorld world, HeroState hero, double moveX, double moveZ, bool jumpPressed, double dt, TraversalTuning T)
+        {
+            var surface = world.FindClimb(hero.climbId);
+            if (surface == null) { hero.mode = HeroMode.Air; hero.climbId = ""; return; }
+            bool alongX = surface.alongX;
+            double nx = alongX ? 0 : surface.facing;
+            double nz = alongX ? surface.facing : 0;
+            double into = -(moveX * nx + moveZ * nz);
+            // The stick is a world-space intent, so its part along the wall shuffles the same way in the world.
+            double side = alongX ? moveX : moveZ;
+            hero.vx = 0; hero.vy = 0; hero.vz = 0;
+            hero.airTime = 0; hero.groundTime = 0; hero.coyote = 0;
+            if (jumpPressed)
+            {
+                hero.mode = HeroMode.Air; hero.climbId = ""; hero.climbCooldown = T.climbCooldown;
+                hero.vx = nx * T.wallJumpOut + (alongX ? side * 2 : 0); hero.vz = nz * T.wallJumpOut + (alongX ? 0 : side * 2); hero.vy = T.wallJumpUp;
+                hero.hopAvailable = true; hero.cutEligible = false; hero.jumpBuffer = 0;
+                hero.yaw = Math.Atan2(nx, nz);
+                hero.events |= HeroEvent.Jump;
+                return;
+            }
+            double was = alongX ? hero.x : hero.z;
+            double fromY = hero.y;
+            double along = TraversalGeometry.Clamp(was + side * T.climbSide * dt, surface.min + T.radius, surface.max - T.radius);
+            if (alongX) hero.x = along; else hero.z = along;
+            double y = hero.y + (into > 0 ? into * T.climbSpeed : into * T.climbDown) * dt;
+            if (into < 0)
+            {
+                // Stepping off at the foot of the wall.
+                var floor = TraversalGeometry.SupportAt(world, hero.x, hero.z, hero.y, T.stepHeight);
+                if (y <= floor.height)
+                {
+                    hero.y = floor.height; hero.mode = HeroMode.Ground; hero.groundId = floor.id; hero.climbId = "";
+                    hero.coyote = T.coyote; hero.climbCooldown = T.climbCooldown;
+                    return;
+                }
+                if (y < surface.minY) y = surface.minY;
+            }
+            double hold = surface.maxY - T.climbTop;
+            if (y >= hold)
+            {
+                if (into > 0.2)
+                {
+                    double topX = hero.x - nx * (T.radius + T.mantleInset);
+                    double topZ = hero.z - nz * (T.radius + T.mantleInset);
+                    var top = TraversalGeometry.SupportAt(world, topX, topZ, surface.maxY, T.stepHeight);
+                    if (top.height >= surface.maxY - T.stepHeight && top.bounce <= 0 && BodyFits(world, topX, topZ, top.height, T))
+                    {
+                        hero.x = topX; hero.z = topZ; hero.y = top.height;
+                        hero.mode = HeroMode.Ground; hero.groundId = top.id; hero.climbId = "";
+                        hero.coyote = T.coyote; hero.hopAvailable = true;
+                        hero.events |= HeroEvent.Mantle;
+                        return;
+                    }
+                }
+                y = hold;
+            }
+            hero.y = y;
+            // Report the real motion on the wall; every way off the wall sets its own velocity above.
+            hero.vy = (y - fromY) / dt;
+            if (alongX) hero.vx = (along - was) / dt; else hero.vz = (along - was) / dt;
+        }
+
         /// <summary>Advance one fixed step. The input state is never mutated.</summary>
         public static HeroState Step(TraversalWorld world, HeroState state, HeroInput input, double dt = TraversalTuning.Step, TraversalTuning tuning = null)
         {
@@ -497,9 +608,15 @@ namespace SpaceDragon.Traversal
             hero.jumpBuffer = jumpPressed ? T.jumpBuffer : Math.Max(0, state.jumpBuffer - dt);
             hero.tetherCooldown = Math.Max(0, state.tetherCooldown - dt);
             hero.lastAnchorAge = state.lastAnchorAge + dt;
+            hero.climbCooldown = Math.Max(0, state.climbCooldown - dt);
             if (hero.mode == HeroMode.Catch) { StepCatch(world, hero, dt, T); return hero; }
-            if (hero.mode == HeroMode.Swing) StepSwing(world, hero, moveX, moveZ, magnitude, jumpPressed, power, dt, T);
-            else StepFree(world, hero, moveX, moveZ, magnitude, jumpPressed, jumpHeld, power, powerPressed, dt, T);
+            if (hero.mode == HeroMode.Climb) StepClimb(world, hero, moveX, moveZ, jumpPressed, dt, T);
+            else if (hero.mode == HeroMode.Swing) StepSwing(world, hero, moveX, moveZ, magnitude, jumpPressed, power, dt, T);
+            else
+            {
+                StepFree(world, hero, moveX, moveZ, magnitude, jumpPressed, jumpHeld, power, powerPressed, dt, T);
+                TryClimb(world, hero, moveX, moveZ, magnitude, T);
+            }
             var zone = TraversalGeometry.WaterAt(world, hero.x, hero.z);
             bool finite = TraversalGeometry.Finite(hero.x) && TraversalGeometry.Finite(hero.y) && TraversalGeometry.Finite(hero.z);
             if ((zone != null && hero.y < T.catchDepth) || hero.y < -6 || !finite)

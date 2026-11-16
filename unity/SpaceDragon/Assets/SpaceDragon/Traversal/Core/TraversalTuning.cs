@@ -18,6 +18,8 @@ namespace SpaceDragon.Traversal
         public double airAccel = 16, airSpeed = 5.2, airDrag = 0.25, jumpSpeed = 8.6, hopSpeed = 9, hopPush = 2.2;
         public double gravityRise = -22, gravityCut = -48, gravityFall = -30, terminal = 34, coyote = 0.12, jumpBuffer = 0.14;
         public double stepHeight = 0.36, placeReach = 0.8, airStepHeight = 0.26, stepDown = 0.4, edgeGrace = 0.08, maxMove = 0.12;
+        public double climbReach = 0.16, climbSpeed = 3.4, climbDown = 3.9, climbSide = 2.6, climbTop = 0.22, climbPush = 0.45;
+        public double mantleInset = 0.34, wallJumpOut = 4.6, wallJumpUp = 7.8, climbCooldown = 0.3;
         public double tetherRange = 16, tetherMinRise = 1.5, tetherIdeal = 9, tetherMinAir = 0.16, tetherMinAlign = 0.1;
         public double tetherRechain = 0.24, tetherForget = 0.9, tetherSightStep = 0.6;
         public double ropeMin = 0.9, ropeMax = 15, reelRate = 10, swingGravity = -24, swingPump = 6, swingSteer = 0.4, swingSideDamp = 4;

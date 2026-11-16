@@ -95,7 +95,11 @@ namespace SpaceDragon.Traversal.Tests
             Assert.AreEqual(1, weights[0]);
             Assert.Throws<ArgumentException>(() => PersonMotion.LocomotionWeights(1, new double[2]));
             Assert.AreEqual(4, PersonMotionData.ClipIds.Length);
-            Assert.AreEqual(4, PersonMotionData.Poses.Length);
+            Assert.AreEqual(7, PersonMotionData.Poses.Length);
+            CollectionAssert.AreEqual(new[] { "rise", "fall", "swing", "land", "climbLeft", "climbRight", "dizzy" }, Array.ConvertAll(PersonMotionData.Poses, pose => pose.id));
+            for (int index = 0; index < PersonMotionData.ClimbPhases.Length; index++)
+                Assert.AreEqual(PersonMotionData.ClimbLeftWeights[index], PersonMotion.ClimbLeftWeight(PersonMotionData.ClimbPhases[index]), 1e-12);
+            Assert.AreEqual(0.5, PersonMotion.ClimbLeftWeight(double.NaN));
             foreach (var pose in PersonMotionData.Poses) foreach (var turn in pose.turns)
             {
                 StringAssert.StartsWith("Bip01 ", turn.bone);

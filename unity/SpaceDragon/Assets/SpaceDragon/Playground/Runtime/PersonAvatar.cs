@@ -18,13 +18,20 @@ namespace SpaceDragon.Playground
         public float impact;
         public bool hasAnchor;
         public Vector3 anchor;
+        /// <summary>0 to 1: reeling after a bonk.</summary>
+        public float dizzy;
+        /// <summary>0 to 1: lifted off the ground and held still.</summary>
+        public float lifted;
+        /// <summary>A point the right hand reaches toward, such as a snared robot.</summary>
+        public bool hasReach;
+        public Vector3 reach;
     }
 
     /// <summary>
     /// A realistic child stand-in for the hero: a generic licensed model, never a family likeness
     /// (see Imported/Characters/PROVENANCE.json). Baked idle, walk, run and sprint loops are blended
-    /// by ground speed; jumping, falling, swinging and landing are procedural poses layered on top
-    /// in world space. A port of src/game/hero/person-avatar.ts using the same numbers.
+    /// by ground speed; jumping, falling, swinging, landing, climbing and reeling from a bonk are
+    /// procedural poses layered on top in world space. A port of src/game/hero/person-avatar.ts using the same numbers.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class PersonAvatar : MonoBehaviour
@@ -41,7 +48,7 @@ namespace SpaceDragon.Playground
         private struct Shape { public SkinnedMeshRenderer skin; public int index; public float full; }
 
         private Transform[] bones = Array.Empty<Transform>();
-        private Transform hips, grip;
+        private Transform hips, grip, head;
         private Turn[][] poses = Array.Empty<Turn[]>();
         private Arm[] arms = Array.Empty<Arm>();
         private Shape[] blinkShapes, wideShapes, smileShapes, jawShapes, browShapes;
@@ -51,12 +58,16 @@ namespace SpaceDragon.Playground
         private readonly double[] weights = { 1, 0, 0, 0 };
         private float idleTime, stride, yaw, lastYaw, lean, roll;
         private float swing, airborne, rising, squash, joy, awe;
+        private float climb, climbPhase, dizzy, lifted, reach, sway;
+        private Vector3 reachPoint;
         private float blink, nextBlink = 2.2f;
         private uint blinkSeed = 7;
 
         public bool Bound => bound;
         public float Swing => swing;
         public float Airborne => airborne;
+        public float Climb => climb;
+        public float Dizzy => dizzy;
         /// <summary>Share of the pose coming from the moving loops rather than the standing one.</summary>
         public float Gait => (float)(1 - weights[0]);
 
@@ -118,6 +129,7 @@ namespace SpaceDragon.Playground
             }
             arms = armList.ToArray();
             named.TryGetValue(PersonMotionData.GripBone, out grip);
+            named.TryGetValue(PersonMotionData.HeadBone, out head);
 
             blinkShapes = Shapes("EyeBlinkLeft", "EyeBlinkRight");
             wideShapes = Shapes("EyeWideLeft", "EyeWideRight");
@@ -169,7 +181,7 @@ namespace SpaceDragon.Playground
             bool grounded = frame.mode == HeroMode.Ground;
             if (snap)
             {
-                yaw = lastYaw = frame.yaw; lean = roll = swing = airborne = rising = squash = 0;
+                yaw = lastYaw = frame.yaw; lean = roll = swing = airborne = rising = squash = climb = dizzy = lifted = reach = 0;
                 weights[0] = 1; weights[1] = weights[2] = weights[3] = 0;
             }
             float turnRate = dt > 0 ? Mathf.DeltaAngle(lastYaw * Mathf.Rad2Deg, frame.yaw * Mathf.Rad2Deg) * Mathf.Deg2Rad / dt : 0;
@@ -198,7 +210,14 @@ namespace SpaceDragon.Playground
             swing = Damp(swing, frame.mode == HeroMode.Swing ? 1 : 0, PersonMotionData.SwingBlendRate, dt);
             airborne = Damp(airborne, frame.mode == HeroMode.Air || frame.mode == HeroMode.Catch ? 1 : 0, PersonMotionData.AirBlendRate, dt);
             rising = Damp(rising, frame.velocity.y > 0.5f ? 1 : 0, 9, dt);
-            float land = Mathf.Sin(Mathf.Min(1, squash) * Mathf.PI * 0.5f);
+            climb = Damp(climb, frame.mode == HeroMode.Climb ? 1 : 0, PersonMotionData.ClimbBlendRate, dt);
+            if (frame.mode == HeroMode.Climb) climbPhase = Mathf.Repeat(climbPhase + dt * (float)PersonMotionData.ClimbCyclesPerMetre * frame.velocity.magnitude, 1);
+            dizzy = Damp(dizzy, Mathf.Clamp01(frame.dizzy), PersonMotionData.StanceBlendRate, dt);
+            lifted = Damp(lifted, Mathf.Clamp01(frame.lifted), PersonMotionData.StanceBlendRate, dt);
+            reach = Damp(reach, frame.hasReach ? 1 : 0, PersonMotionData.StanceBlendRate, dt);
+            if (frame.hasReach) reachPoint = frame.reach;
+            sway = Mathf.Repeat(sway + dt * (float)PersonMotionData.DizzyRate, 1);
+            float land = Mathf.Max(Mathf.Sin(Mathf.Min(1, squash) * Mathf.PI * 0.5f), dizzy * (float)PersonMotionData.DizzyCrouch);
 
             // Base pose: a weighted blend of the baked loops.
             int boneCount = bones.Length;
@@ -251,18 +270,31 @@ namespace SpaceDragon.Playground
                 pitch += (Mathf.Atan2(forward, up) * 0.75f - pitch) * swing;
                 bank += (-Mathf.Atan2(side, up) * 0.6f - bank) * swing;
             }
-            if (airborne > 0.01f) pitch += airborne * Mathf.Clamp(-frame.velocity.y * 0.014f + planar * 0.01f, -0.25f, 0.3f);
+            if (airborne > 0.01f) pitch += airborne * (1 - lifted) * Mathf.Clamp(-frame.velocity.y * 0.014f + planar * 0.01f, -0.25f, 0.3f);
             lean = snap ? pitch : Damp(lean, pitch, 10, dt);
             roll = snap ? bank : Damp(roll, bank, 9, dt);
             body.localRotation = Quaternion.Euler(lean * Mathf.Rad2Deg, 0, roll * Mathf.Rad2Deg);
             body.localPosition = new Vector3(0, -(float)PersonMotion.CrouchDrop(land), 0);
 
-            // Procedural poses: jump and fall, the tucked swing, the landing crouch.
+            // Procedural poses: jump and fall, the tucked swing, the landing crouch, the two climbing reaches, the bonk.
             Vector3 right = heading * Vector3.right, ahead = heading * Vector3.forward;
+            float reachLeft = (float)PersonMotion.ClimbLeftWeight(climbPhase);
+            float aloft = Mathf.Max(airborne, lifted), upward = rising * (1 - lifted);
             for (int poseIndex = 0; poseIndex < poses.Length; poseIndex++)
             {
-                string id = PersonMotionData.Poses[poseIndex].id;
-                float weight = id == "rise" ? airborne * rising * (1 - swing) : id == "fall" ? airborne * (1 - rising) * (1 - swing) : id == "swing" ? swing : land;
+                float weight;
+                switch (PersonMotionData.Poses[poseIndex].id)
+                {
+                    case "rise": weight = aloft * upward * (1 - swing); break;
+                    case "fall": weight = aloft * (1 - upward) * (1 - swing); break;
+                    case "swing": weight = swing; break;
+                    case "land": weight = land; break;
+                    case "climbLeft": weight = climb * reachLeft; break;
+                    case "climbRight": weight = climb * (1 - reachLeft); break;
+                    case "dizzy": weight = dizzy; break;
+                    // A pose this build does not know is left out rather than guessed at.
+                    default: weight = 0; break;
+                }
                 if (weight <= 0.002f) continue;
                 foreach (var turn in poses[poseIndex])
                 {
@@ -278,10 +310,24 @@ namespace SpaceDragon.Playground
                     Vector3 origin = arm.bone.position;
                     Vector3 from = arm.tip.position - origin, to = frame.anchor - origin;
                     if (from.sqrMagnitude < 1e-10f || to.sqrMagnitude < 1e-10f) continue;
-                    Quaternion reach = Quaternion.Slerp(Quaternion.identity, Quaternion.FromToRotation(from, to), arm.weight * swing);
-                    arm.bone.rotation = reach * arm.bone.rotation;
+                    Quaternion towardAnchor = Quaternion.Slerp(Quaternion.identity, Quaternion.FromToRotation(from, to), arm.weight * swing);
+                    arm.bone.rotation = towardAnchor * arm.bone.rotation;
                 }
             }
+            // The right arm points along a snare line; the left stays free for balance.
+            float pointing = reach * (1 - swing) * (1 - climb);
+            if (pointing > 0.02f)
+            {
+                for (int index = 0; index < Mathf.Min(2, arms.Length); index++)
+                {
+                    Vector3 origin = arms[index].bone.position;
+                    Vector3 from = arms[index].tip.position - origin, to = reachPoint - origin;
+                    if (from.sqrMagnitude < 1e-10f || to.sqrMagnitude < 1e-10f) continue;
+                    arms[index].bone.rotation = Quaternion.Slerp(Quaternion.identity, Quaternion.FromToRotation(from, to), arms[index].weight * pointing) * arms[index].bone.rotation;
+                }
+            }
+            if (dizzy > 0.02f && head != null)
+                head.rotation = Quaternion.AngleAxis(Mathf.Sin(sway * Mathf.PI * 2) * (float)PersonMotionData.DizzySway * dizzy, ahead) * head.rotation;
 
             // Face: blinking, a wide-eyed look at speed, a smile after a pickup.
             nextBlink -= dt;
@@ -293,7 +339,7 @@ namespace SpaceDragon.Playground
             }
             blink = Mathf.Max(0, blink - dt);
             float lid = Mathf.Sin(Mathf.Min(1, blink / (float)PersonMotionData.BlinkSeconds) * Mathf.PI);
-            awe = Damp(awe, frame.mode == HeroMode.Swing || (frame.mode == HeroMode.Air && Mathf.Abs(frame.velocity.y) > 6) ? 1 : 0, 6, dt);
+            awe = Damp(awe, frame.mode == HeroMode.Swing || lifted > 0.5f || (frame.mode == HeroMode.Air && Mathf.Abs(frame.velocity.y) > 6) ? 1 : 0, 6, dt);
             joy = Mathf.Max(0, joy - dt * 0.45f);
             SetShapes(blinkShapes, lid);
             SetShapes(wideShapes, awe * 0.6f * (1 - lid));

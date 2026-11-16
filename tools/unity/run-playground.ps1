@@ -1,18 +1,20 @@
 param(
-  [ValidateSet('setup','test','windows','web','play')][string]$Action = 'setup',
+  [ValidateSet('setup','test','windows','web','play','arena-setup','arena-windows','arena-web','arena-play')][string]$Action = 'setup',
   [string]$EditorPath
 )
-# Luke's Playground runner. setup generates the scene, test runs the engine-free EditMode
-# tests inside Unity, windows/web build a player and play starts the Windows build.
+# Luke's Playground and Luke's Arena runner. setup generates the scene, test runs the engine-free
+# EditMode tests inside Unity (both labs), windows/web build a player and play starts the Windows
+# build. The arena-* actions do the same for Luke's Arena.
 # It never stops or competes with an Editor that already has this project open.
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $projectPath = (Resolve-Path (Join-Path $repoRoot 'unity/SpaceDragon')).Path
 $artifactPath = Join-Path $repoRoot 'artifacts/unity'
 $pinnedVersion = '6000.6.7f1'
-$windowsPlayer = Join-Path $projectPath 'Builds/Playground/Windows/LukePlayground.exe'
-if ($Action -eq 'play') {
-  if (-not (Test-Path -LiteralPath $windowsPlayer -PathType Leaf)) { throw "Build the player first: npm run unity:playground:windows" }
+$isArena = $Action -like 'arena-*'
+$windowsPlayer = Join-Path $projectPath $(if ($isArena) { 'Builds/Arena/Windows/LukeArena.exe' } else { 'Builds/Playground/Windows/LukePlayground.exe' })
+if ($Action -eq 'play' -or $Action -eq 'arena-play') {
+  if (-not (Test-Path -LiteralPath $windowsPlayer -PathType Leaf)) { throw "Build the player first: npm run unity:$(if ($isArena) { 'arena' } else { 'playground' }):windows" }
   Start-Process -FilePath $windowsPlayer
   Write-Output "Started $windowsPlayer"
   return
@@ -44,7 +46,7 @@ foreach ($runningEditor in $runningEditors) {
   $commandLine = $runningEditor.CommandLine.Replace('/', '\')
   if ($commandLine.IndexOf($normalizedProject, [StringComparison]::OrdinalIgnoreCase) -ge 0 -or
       $commandLine.IndexOf('unity\SpaceDragon', [StringComparison]::OrdinalIgnoreCase) -ge 0) {
-    throw "SpaceDragon already has an active Unity Editor (PID $($runningEditor.ProcessId)). Use its menu Space Dragon > Luke's Playground > Generate scene instead, or close it first; no process was stopped."
+    throw "SpaceDragon already has an active Unity Editor (PID $($runningEditor.ProcessId)). Use its menu Space Dragon > Luke's Playground (or Luke's Arena) > Generate scene instead, or close it first; no process was stopped."
   }
 }
 
@@ -55,6 +57,8 @@ try {
   if ($LASTEXITCODE -ne 0) { throw 'The hero model does not match its provenance record. Run: node tools/prepare-playground-hero.mjs' }
   & node --experimental-strip-types tools/unity/export-playground.mjs --verify
   if ($LASTEXITCODE -ne 0) { throw 'Generated playground C# is out of date. Run: npm run unity:playground:export' }
+  & node --experimental-strip-types tools/unity/export-arena.mjs --verify
+  if ($LASTEXITCODE -ne 0) { throw 'Generated arena C# is out of date. Run: npm run unity:arena:export' }
   & node tools/unity/ensure-metas.mjs Playground Traversal --check
   if ($LASTEXITCODE -ne 0) { throw 'A Unity .meta file is missing. Run: node tools/unity/ensure-metas.mjs Playground Traversal' }
   $runStarted = [DateTime]::UtcNow
@@ -67,6 +71,9 @@ try {
     'test' { $arguments += @('-nographics', '-runTests', '-testPlatform', 'EditMode', '-assemblyNames', 'SpaceDragon.Traversal.Tests', '-testResults', $resultPath) }
     'windows' { $arguments += @('-quit', '-buildTarget', 'Win64', '-executeMethod', 'SpaceDragon.Playground.Editor.LukePlaygroundProject.BuildWindows') }
     'web' { $arguments += @('-quit', '-buildTarget', 'WebGL', '-executeMethod', 'SpaceDragon.Playground.Editor.LukePlaygroundProject.BuildWeb') }
+    'arena-setup' { $arguments += @('-nographics', '-quit', '-executeMethod', 'SpaceDragon.Playground.Editor.LukePlaygroundProject.SetupArena') }
+    'arena-windows' { $arguments += @('-quit', '-buildTarget', 'Win64', '-executeMethod', 'SpaceDragon.Playground.Editor.LukePlaygroundProject.BuildArenaWindows') }
+    'arena-web' { $arguments += @('-quit', '-buildTarget', 'WebGL', '-executeMethod', 'SpaceDragon.Playground.Editor.LukePlaygroundProject.BuildArenaWeb') }
   }
   $quotedArguments = $arguments | ForEach-Object { '"' + $_.Replace('"', '\"') + '"' }
   $editorProcess = Start-Process -FilePath $EditorPath -ArgumentList $quotedArguments -WindowStyle Hidden -PassThru
@@ -86,13 +93,17 @@ try {
     }
     Write-Output "EditMode results: $resultPath"
   } else {
-    $receiptRelative = switch ($Action) { 'setup' { 'Builds/playground-setup-receipt.json' } 'windows' { 'Builds/Playground/Windows/build-receipt.json' } 'web' { 'Builds/Playground/Web/build-receipt.json' } }
+    $receiptRelative = switch ($Action) {
+      'setup' { 'Builds/playground-setup-receipt.json' } 'windows' { 'Builds/Playground/Windows/build-receipt.json' } 'web' { 'Builds/Playground/Web/build-receipt.json' }
+      'arena-setup' { 'Builds/arena-setup-receipt.json' } 'arena-windows' { 'Builds/Arena/Windows/build-receipt.json' } 'arena-web' { 'Builds/Arena/Web/build-receipt.json' }
+    }
     $receiptPath = Join-Path $projectPath $receiptRelative
     if (-not (Test-Path -LiteralPath $receiptPath -PathType Leaf)) { throw "Missing playground receipt: $receiptPath" }
     if ((Get-Item -LiteralPath $receiptPath).LastWriteTimeUtc -lt $runStarted) { throw 'Playground receipt is stale; this run is not verified.' }
     $null = Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json
     Write-Output "Receipt: $receiptPath"
     if ($Action -eq 'windows') { Write-Output "Play it: npm run unity:playground:play" }
+    if ($Action -eq 'arena-windows') { Write-Output "Play it: npm run unity:arena:play" }
   }
   Write-Output "Unity playground $Action completed. Log: $logPath"
 } finally { Pop-Location }

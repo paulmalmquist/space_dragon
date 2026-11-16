@@ -8,7 +8,7 @@ namespace SpaceDragon.Traversal
     public static class LukePlaygroundData
     {
         public const string WorldId = "luke-playground-v001";
-        public const string SourceFingerprint = "ee06993326383290429296b1fbcf58a1273619649017fd76293377e02f597efa";
+        public const string SourceFingerprint = "ae19e7781a4c0e840505deb45c246ad34fbad2ae8d238f808d365e329ade2a01";
 
         public static TraversalWorld Create()
         {

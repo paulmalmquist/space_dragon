@@ -29,6 +29,18 @@ namespace SpaceDragon.Traversal
         public bool perch;
     }
 
+    /// <summary>
+    /// A marked wall face the hero can climb. `alongX` faces run along x at a fixed z (`at`);
+    /// otherwise they run along z at a fixed x. `facing` is the side the hero hangs on: +1 or -1.
+    /// </summary>
+    [Serializable]
+    public sealed class ClimbSurface
+    {
+        public string id;
+        public bool alongX;
+        public double at, facing, min, max, minY, maxY;
+    }
+
     [Serializable] public sealed class WaterZone { public string id; public double minX, maxX, minZ, maxZ, surface, bed; }
     [Serializable] public sealed class SparkSpot { public string id; public double x, y, z; }
     [Serializable] public sealed class Recovery { public string id; public double x, y, z, yaw; }
@@ -46,10 +58,18 @@ namespace SpaceDragon.Traversal
         public SparkSpot[] sparks;
         public Recovery[] recoveries;
         public SpawnPose spawn;
+        /// <summary>Marked faces for Spider Climb; empty in levels without any.</summary>
+        public ClimbSurface[] climbs = new ClimbSurface[0];
 
         public Anchor FindAnchor(string anchorId)
         {
             foreach (var anchor in anchors) if (anchor.id == anchorId) return anchor;
+            return null;
+        }
+
+        public ClimbSurface FindClimb(string climbId)
+        {
+            if (climbs != null) foreach (var surface in climbs) if (surface.id == climbId) return surface;
             return null;
         }
     }

@@ -8,7 +8,7 @@ namespace SpaceDragon.Traversal
     public static class HomeBlockData
     {
         public const string WorldId = "home-block-v001";
-        public const string SourceFingerprint = "c091e63a3a18ff243597a40916e5cd9613cd895b5939499ff297521baf0d246c";
+        public const string SourceFingerprint = "ef529b802d2d930a45c2f2c16b34f5b4fb3fcde965aa00318e299140cc046391";
 
         public static TraversalWorld Create()
         {

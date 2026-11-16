@@ -150,6 +150,8 @@ const M = motion.MOTION;
 person.push(`        public const double MaxStrideRate = ${number(M.maxStrideRate)}, MinStrideRate = ${number(M.minStrideRate)}, BlendRate = ${number(M.blendRate)}, AirBlendRate = ${number(M.airBlendRate)}, SwingBlendRate = ${number(M.swingBlendRate)};`);
 person.push(`        public const double LandBend = ${number(M.landBend)}, LandRecover = ${number(M.landRecover)}, LegLength = ${number(M.legLength)};`);
 person.push(`        public const double BlinkSeconds = ${number(M.blinkSeconds)}, BlinkEveryMin = ${number(M.blinkEvery[0])}, BlinkEveryMax = ${number(M.blinkEvery[1])};`);
+person.push(`        public const double ClimbBlendRate = ${number(M.climbBlendRate)}, ClimbCyclesPerMetre = ${number(M.climbCyclesPerMetre)}, StanceBlendRate = ${number(M.stanceBlendRate)};`);
+person.push(`        public const double DizzySway = ${number(M.dizzySway)}, DizzyRate = ${number(M.dizzyRate)}, DizzyCrouch = ${number(M.dizzyCrouch)};`);
 person.push(`        public const string GripBone = ${quote(motion.GRIP_BONE)}, HeadBone = ${quote(motion.HEAD_BONE)};`);
 person.push('        public static readonly PoseSpec[] Poses =', '        {');
 for (const pose of motion.POSES) {
@@ -170,6 +172,8 @@ for (const speed of [0, 0.2, 0.799, 1.4, 2.275, 3.3, 4.6, 4.613, 6, 8.2, 30]) {
 person.push('        };');
 person.push(`        public static readonly double[] CrouchEnvelopes = { ${[0, 0.25, 0.5, 1].map(number).join(', ')} };`);
 person.push(`        public static readonly double[] CrouchDrops = { ${[0, 0.25, 0.5, 1].map(value => number(motion.crouchDrop(value))).join(', ')} };`);
+person.push(`        public static readonly double[] ClimbPhases = { ${[0, 0.1, 0.25, 0.5, 0.75, 0.9, 1.3].map(number).join(', ')} };`);
+person.push(`        public static readonly double[] ClimbLeftWeights = { ${[0, 0.1, 0.25, 0.5, 0.75, 0.9, 1.3].map(value => number(motion.climbReach(value)[0])).join(', ')} };`);
 person.push('    }', '}');
 
 const core = join(root, 'unity/SpaceDragon/Assets/SpaceDragon/Traversal/Core');

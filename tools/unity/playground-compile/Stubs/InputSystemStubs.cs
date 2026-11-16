@@ -1,4 +1,4 @@
-// Compile-only shapes of the Input System members the playground reads. Not shipped.
+// Compile-only shapes of the Input System members the playground and the arena read. Not shipped.
 namespace UnityEngine.InputSystem
 {
     namespace Controls
@@ -13,7 +13,7 @@ namespace UnityEngine.InputSystem
     public class Keyboard
     {
         public static Keyboard current => null;
-        public Controls.KeyControl aKey, dKey, wKey, sKey, qKey, eKey, rKey, pKey, spaceKey, enterKey, escapeKey, leftShiftKey, rightShiftKey;
+        public Controls.KeyControl aKey, dKey, wKey, sKey, qKey, eKey, rKey, pKey, fKey, gKey, jKey, kKey, spaceKey, enterKey, escapeKey, leftShiftKey, rightShiftKey;
         public Controls.KeyControl leftArrowKey, rightArrowKey, upArrowKey, downArrowKey;
     }
 
@@ -21,7 +21,7 @@ namespace UnityEngine.InputSystem
     {
         public static Gamepad current => null;
         public Controls.StickControl leftStick, rightStick;
-        public Controls.ButtonControl buttonSouth, startButton, rightStickButton, rightTrigger, leftTrigger;
+        public Controls.ButtonControl buttonSouth, buttonWest, buttonEast, buttonNorth, startButton, rightStickButton, rightTrigger, leftTrigger, leftShoulder, rightShoulder;
     }
 
     public class Mouse

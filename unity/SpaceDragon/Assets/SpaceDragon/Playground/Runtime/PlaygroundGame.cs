@@ -405,7 +405,7 @@ namespace SpaceDragon.Playground
             tetherSound = Tone("playground.tether", 0.2f, 900, 1700, 0.35f, 0.25f);
         }
 
-        private static AudioClip Tone(string name, float seconds, float fromHz, float toHz, float gain, float noise)
+        internal static AudioClip Tone(string name, float seconds, float fromHz, float toHz, float gain, float noise)
         {
             const int rate = 44100;
             int count = Mathf.CeilToInt(seconds * rate);
@@ -426,7 +426,7 @@ namespace SpaceDragon.Playground
             return clip;
         }
 
-        private static AudioClip Chime(string name, float[] notes)
+        internal static AudioClip Chime(string name, float[] notes)
         {
             const int rate = 44100;
             const float step = 0.09f, ring = 0.55f;
