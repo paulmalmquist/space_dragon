@@ -66,6 +66,18 @@ Convey scale through the changing horizon, clouds, light and sound instead of bu
 
 The runtime owns the timeline clock and pause state. Avoid independent wall-clock timers that keep firing after blur, skip or teardown. Camera motion is presentation; it never owns inventory or story truth.
 
+## A second kind of handoff: from the dragon to a person (SD-091)
+
+**OWNER IDEA, November 17, BOOKMARKED; nothing built.** In ["The Tunnel Run"](../decisions/2026-11-17-tunnel-run-and-dads-flight.md) Dad ejects from the dragon at speed and the camera follows him into playable flight. The seven steps above still apply. What differs from the launch:
+
+- **The subject changes.** The camera starts on the dragon and ends on a person many times smaller. Plan the close-in as part of the handoff: seed the chase camera for Dad's scale, not the dragon's, and ease distance and field of view together so the walls do not appear to jump.
+- **Two things are moving at the end.** Give the dragon its own authored exit (it pulls up and away) under the director, and release it only after Dad's control is live. One owner per transform still holds for both.
+- **Speed must carry across.** Dad's first playable velocity is the ejection's last authored velocity, in the tunnel's coordinates. A reset to a standing start would be the visible seam.
+- **The first seconds must be forgiving.** A straight, clear stretch of tunnel before the first obstacle, no targets until fresh input has been seen, and no reading at any point.
+- **Skip lands inside the tunnel mouth**, in the same state as watching it through.
+
+The first proof is described in that decision. It reuses the lifecycle the launch already proved and adds no campaign state.
+
 ## Connecting Earth and flight later
 
 The first proof stays entirely in the flight page. There are two subsequent integration choices, which should be measured after the proof:

@@ -237,6 +237,8 @@ The dragon can hover, so it can **take off vertically from the cul-de-sac** and 
 
 The whole family rides in the dragon, but **only the pilot has controls**. Everyone else is a passenger: they appear in cockpit view, cheer at hits, gasp at near-misses, and say an occasional flavor line ("Again!"). That's presentation only, with no abilities, buttons or stations. Threat warnings come from the HUD (a tone plus a direction arrow), not from a crew role.
 
+**Owner idea, November 17 (SD-091):** in "The Tunnel Run" Dad leaves the dragon and flies a tunnel in his own armor. That is the first time a family member acts on their own during a flight level. The [routing decision](../decisions/2026-11-17-tunnel-run-and-dads-flight.md) proposes a reading that keeps this section's rule: one set of controls, passed from the dragon to Dad at an authored moment, and no job for anyone else. Switching between the two at will would change the rule and is OPEN for the owner.
+
 ### Sorties (mission types)
 
 | Sortie | Description |
@@ -245,6 +247,7 @@ The whole family rides in the dragon, but **only the pilot has controls**. Every
 | **Intercept** | Catch the thief drone carrying a stolen part before it escapes. |
 | **Escort** | Protect a flock of hatchlings or a slow ship. |
 | **Strike run** | A trench-run-style dive along the Forge Ring to disable sleepwalking sentry turrets. |
+| **Tunnel run** (OWNER IDEA, November 17, SD-091; BOOKMARKED, not built) | A tunnel too narrow for the dragon. Dad ejects, his black-and-red armor ignites flight thrusters, and the camera follows him from the cinematic into playable third-person flight: dodging obstacles, disabling small unmanned targets. Placement, controls and how it sits with the one-pilot rule are PROPOSED or OPEN: see [the decision](../decisions/2026-11-17-tunnel-run-and-dads-flight.md). |
 | **Ring and canyon run** | Aerobatics and racing through rings, canyons and restored spires. No enemies. |
 | **Formation flight** | Fly in formation with woken star-dragons as wingmen ("break left!"). |
 | **Flight school** | Builder Bug target drones and rings. Teaches each tier with no failure. |

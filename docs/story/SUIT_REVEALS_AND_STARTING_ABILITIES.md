@@ -343,7 +343,7 @@ The full treatment above is the target, not a requirement for the first build.
 
 | | Exploration | Support / defense | Passive | Later unlock (not at start) |
 | --- | --- | --- | --- | --- |
-| **Paul** | Heavy Lift, Thruster Hop | Knit Repair | — | Dragon Punch |
+| **Paul** | Heavy Lift, Thruster Hop | Knit Repair | — | Dragon Punch; flight thrusters (OWNER IDEA, SD-091; when he earns them is OPEN) |
 | **Maria** | — | Healing Pulse, Family Shield | Soothe, drones' auto-heal | (open) |
 | **Luke** | Spider Climb, Tether | — | Safety Catch | Spider Pounce |
 | **Luna** | Slip 'n Slide, Unstick | Splat (enemy slip) | — | Sticky bubble goo |
@@ -366,5 +366,5 @@ How these abilities combine in fights, including alley-oop tandems and the drago
 - Whether Luna touching the light during Maria's reveal works for you, or whether Maria's suit should form on its own.
 - **Lyla's suit color**, including whether "the color hasn't settled yet" should be a story element.
 - Ability names. All are working titles, and the kids could name some.
-- Exact palettes for Paul and Luke. Whether suits retract to a wrist cuff.
+- Luke's exact palette. **Paul's armor is black and red**, in the owner's words (November 17, [SD-091](../decisions/2026-11-17-tunnel-run-and-dads-flight.md)); its design is still open. Whether suits retract to a wrist cuff.
 - The "Iron… / Spider… / Not yet!" gag: keep it, or avoid any reference to the inspirations on screen.

@@ -58,3 +58,7 @@ Luke as the setter ("Throw me, Dad!" the other way round), the optional "perfect
 - Nothing was run in Unity. The sidekick there is drawn from primitives by code written without an Editor.
 - No person has played it. Whether a child finds the ring, wants to stand still for a throw in the middle of a fight, or finds the dive too strong is unknown. The scripted two-player clear of the ring takes 44 seconds: the alley-oop is strong on purpose and is a first guess.
 - No purchase, hosting change, deployment, new external tool, likeness or voice is part of this work.
+
+## Update — black and red (November 17, 2026, SD-091)
+
+Later the same day the owner described Dad's armor as black and red, in [the Tunnel Run idea](2026-11-17-tunnel-run-and-dads-flight.md). The placeholder figure was first drawn blue-grey because his palette was OPEN; it now wears black and red in the browser lab and in the Unity runtime's code. It is still a placeholder: helmeted, no face, not a likeness and not a suit design.

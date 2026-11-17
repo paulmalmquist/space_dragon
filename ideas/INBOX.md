@@ -1218,3 +1218,30 @@ Owner wording:
 > What's next
 
 Routing receipt: **an open question, answered in the conversation and then routed by the agent; the sidekick and alley-oop concepts are CONFIRMED (SD-034, October 29), every detail built here is PROPOSED; browser reference technically verified under software rendering; Unity IMPLEMENTED, NOT TESTED**, SD-090. [Decision](../docs/decisions/2026-11-17-lukes-sidekick-and-first-alley-oop.md), [evidence](../docs/reports/2026-11-17-lukes-sidekick-and-first-alley-oop.md), [roadmap](../docs/project/ROADMAP.md). The answer given: first the Unity scenes need to be seen running on the Lenovo and Luke needs to play the arena, both of which need the owner; the next step that needs neither is the mission sidekick. **The owner did not ask for a sidekick by name**; the agent took the roadmap's third step and says so. Luke's Arena now has Dad as a placeholder sidekick (helmeted, no face, not a likeness): he follows on his own, and one button asks him: beside him an alley-oop (a throw, a slow moment, a dive that powers the nearest robot down), anywhere else a stun that sets up Luke's finish. In the stealth yard he waits at the gate. Nothing new is saved and no star depends on him. Who the sidekick is, whether he should help unasked, the bindings and every number stay OPEN for the owner. No person has played it yet.
+
+
+## November 17, 2026 — Cinematic: "The Tunnel Run" (SD-091)
+
+Owner wording:
+
+> Here's an idea
+>
+> Cinematic: “The Tunnel Run”
+>
+> The dragon races toward a narrow enemy tunnel at tremendous speed. It's too large to fit.
+>
+> Dad makes a split-second decision.
+>
+> Ejection: Dad launches out of the dragon, barrel-rolling through the air at full speed.
+>
+> Transformation: His black-and-red armor ignites its personal flight thrusters.
+>
+> Transition: The camera follows Dad seamlessly from cinematic into playable third-person flight.
+>
+> Combat: He rockets into the tunnel, dodging obstacles and engaging smaller enemy targets.
+>
+> Inspiration: The Death Star trench run from Star Wars: Episode IV, with Iron Man-style flight mechanics.
+>
+> Gameplay opportunity: Seamless switching between dragon-scale space combat and individual high-speed flight.
+
+Routing receipt: **OWNER IDEA, BOOKMARKED; captured and routed; the set piece is parked and nothing of it is built**, SD-091. [Decision](../docs/decisions/2026-11-17-tunnel-run-and-dads-flight.md). Not a duplicate: two dragon trench runs are already drafted (the Forge strike run and the run along the Barge), but in both the dragon flies the trench. New here are a place the dragon cannot go, Dad flying on his own, a cinematic that hands control from a vehicle to a person, and **Dad's armor being black and red** (his palette was OPEN). PROPOSED placement is the Forge Ring, where the drafts already feature Dad; the Barge is the alternative. It touches the CONFIRMED one-pilot, no-crew-roles rule: the PROPOSED reading keeps one set of controls and passes them from the dragon to Dad at an authored moment; switching at will would change that rule and needs the owner. The no-fail, unmanned-targets and no-reading-at-speed safeguards apply to Dad's flight as they do to the dragon's. Acted on now: Dad's placeholder in Luke's Arena wears black and red. Parked because it belongs to the Unity flight scenes on the Lenovo, needs a person-sized flight controller, a tunnel and a dragon-to-person handoff that do not exist, and would be a fourth layer on work nobody has yet played. Revisit when the owner says to build it or the Unity flight scenes are next extended; the first slice is described in the decision. Four questions for the owner are listed there.
