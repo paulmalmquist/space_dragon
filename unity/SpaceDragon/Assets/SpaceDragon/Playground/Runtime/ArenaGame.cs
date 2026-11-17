@@ -13,7 +13,7 @@ namespace SpaceDragon.Playground
     {
         public Material shell, dark, mower, drone, pip, pipSpent, gem, gemTaken, lane, target, quiet, wrap, star, beam;
         public Material eyeCalm, eyeCurious, eyeAlert, eyeHeld, eyeOff, fanCalm, fanCurious, fanAlert;
-        /// <summary>The sidekick's placeholder armour. Left empty by scenes generated before he existed; the drone metal stands in.</summary>
+        /// <summary>The red of the sidekick's black-and-red placeholder armour. Left empty by scenes generated before he existed; the drone metal stands in.</summary>
         public Material sidekick;
         public Mesh diamond;
     }
@@ -482,7 +482,7 @@ namespace SpaceDragon.Playground
             return line;
         }
 
-        /// <summary>A helmeted adult in plain armour, about 1.85 m tall, with jointed arms and legs. A placeholder for Dad.</summary>
+        /// <summary>A helmeted adult in black and red armour, about 1.85 m tall, with jointed arms and legs. A placeholder for Dad, not a suit design.</summary>
         private SidekickView BuildSidekick(Transform parent)
         {
             var view = new SidekickView();
@@ -497,7 +497,7 @@ namespace SpaceDragon.Playground
             Part(PrimitiveType.Sphere, "plate", chest, armour, new Vector3(0, 0.08f, 0.01f), new Vector3(0.54f, 0.42f, 0.34f));
             Part(PrimitiveType.Sphere, "light", chest, art.star, new Vector3(0, 0.11f, 0.165f), new Vector3(0.13f, 0.13f, 0.05f), false);
             view.head = Pivot("head", chest, new Vector3(0, 0.33f, 0.01f));
-            Part(PrimitiveType.Sphere, "helmet", view.head, armour, new Vector3(0, 0.03f, 0), new Vector3(0.29f, 0.31f, 0.3f));
+            Part(PrimitiveType.Sphere, "helmet", view.head, art.dark, new Vector3(0, 0.03f, 0), new Vector3(0.29f, 0.31f, 0.3f));
             // A dark visor: there is no face under it.
             Part(PrimitiveType.Sphere, "visor", view.head, art.eyeOff, new Vector3(0, 0.03f, 0.09f), new Vector3(0.23f, 0.12f, 0.13f), false);
             for (int index = 0; index < 2; index++)
@@ -505,16 +505,16 @@ namespace SpaceDragon.Playground
                 float side = index == 0 ? -1 : 1;
                 view.shoulders[index] = Pivot("shoulder", chest, new Vector3(side * 0.27f, 0.2f, 0));
                 Part(PrimitiveType.Sphere, "pad", view.shoulders[index], armour, Vector3.zero, new Vector3(0.27f, 0.21f, 0.26f));
-                Part(PrimitiveType.Capsule, "upper-arm", view.shoulders[index], armour, new Vector3(0, -0.16f, 0), new Vector3(0.16f, 0.18f, 0.16f));
+                Part(PrimitiveType.Capsule, "upper-arm", view.shoulders[index], art.dark, new Vector3(0, -0.16f, 0), new Vector3(0.16f, 0.18f, 0.16f));
                 view.elbows[index] = Pivot("elbow", view.shoulders[index], new Vector3(0, -0.33f, 0));
-                Part(PrimitiveType.Capsule, "forearm", view.elbows[index], art.dark, new Vector3(0, -0.15f, 0), new Vector3(0.13f, 0.17f, 0.13f));
+                Part(PrimitiveType.Capsule, "forearm", view.elbows[index], armour, new Vector3(0, -0.15f, 0), new Vector3(0.13f, 0.17f, 0.13f));
                 var fist = Part(PrimitiveType.Sphere, "fist", view.elbows[index], armour, new Vector3(0, -0.34f, 0), Vector3.one * 0.14f);
                 if (index == 1) view.hand = fist;
                 view.hips[index] = Pivot("hip", hipsNode, new Vector3(side * 0.12f, -0.02f, 0));
-                Part(PrimitiveType.Capsule, "thigh", view.hips[index], armour, new Vector3(0, -0.24f, 0), new Vector3(0.2f, 0.27f, 0.2f));
+                Part(PrimitiveType.Capsule, "thigh", view.hips[index], art.dark, new Vector3(0, -0.24f, 0), new Vector3(0.2f, 0.27f, 0.2f));
                 view.knees[index] = Pivot("knee", view.hips[index], new Vector3(0, -0.49f, 0));
-                Part(PrimitiveType.Capsule, "shin", view.knees[index], art.dark, new Vector3(0, -0.23f, 0), new Vector3(0.15f, 0.25f, 0.15f));
-                Part(PrimitiveType.Cube, "boot", view.knees[index], armour, new Vector3(0, -0.475f, 0.06f), new Vector3(0.135f, 0.11f, 0.31f));
+                Part(PrimitiveType.Capsule, "shin", view.knees[index], armour, new Vector3(0, -0.23f, 0), new Vector3(0.15f, 0.25f, 0.15f));
+                Part(PrimitiveType.Cube, "boot", view.knees[index], art.dark, new Vector3(0, -0.475f, 0.06f), new Vector3(0.135f, 0.11f, 0.31f));
             }
             // The ring to stand in for a throw, and a marker over his head when the throw is on offer.
             view.ring = Circle("Sidekick.ring", parent, (float)layout.rules.oopReach, 0.07f, art.star);

@@ -21,6 +21,7 @@ export interface SidekickFrame {
  * The sidekick as a placeholder: a helmeted adult in plain armour, built from simple rounded
  * parts and posed procedurally. He stands in for Dad in the lab. It is not a likeness of
  * anyone and not an approved suit design; there is no face under the visor.
+ * The colours are the owner's: Dad's armour is black and red (SD-091).
  */
 export function createSidekickFigure(scene: Scene) {
   const root = new TransformNode('sidekick.root', scene);
@@ -33,8 +34,9 @@ export function createSidekickFigure(scene: Scene) {
     value.roughness = roughness; value.metallic = metallic; value.maxSimultaneousLights = 4;
     return value;
   };
-  const armor = pbr('sidekick.armor', '#3d5871', 0.38, 0.45);
-  const under = pbr('sidekick.undersuit', '#151c25', 0.74, 0.1);
+  const armor = pbr('sidekick.armor', '#a5211d', 0.36, 0.5);
+  const plate = pbr('sidekick.plate', '#17191d', 0.3, 0.6);
+  const under = pbr('sidekick.undersuit', '#0b0d10', 0.74, 0.1);
   const visor = pbr('sidekick.visor', '#0b1118', 0.12, 0.6);
   visor.emissiveColor = new Color3(0.14, 0.08, 0.02);
   const glow = new StandardMaterial('sidekick.seam-light', scene);
@@ -104,16 +106,16 @@ export function createSidekickFigure(scene: Scene) {
     [slab(0.32, 0.34, 0.15, 0, 0.1, -0.19), under], [capsule(0.13, 0.07, 0.07, 0, 0.29, 0), under],
     [ball(0.13, 0.13, 0.05, 0, 0.11, 0.165, 8), glow], [slab(0.016, 0.22, 0.014, -0.13, 0.07, 0.158), glow], [slab(0.016, 0.22, 0.014, 0.13, 0.07, 0.158), glow],
   ]);
-  part(head, [[ball(0.29, 0.31, 0.3, 0, 0.03, 0, 10), armor], [ball(0.23, 0.12, 0.13, 0, 0.03, 0.09, 8), visor], [slab(0.25, 0.05, 0.06, 0, -0.09, 0.08), armor], [band(0.22, 0.03, 0, -0.11, 0), under]]);
+  part(head, [[ball(0.29, 0.31, 0.3, 0, 0.03, 0, 10), plate], [ball(0.23, 0.12, 0.13, 0, 0.03, 0.09, 8), visor], [slab(0.25, 0.05, 0.06, 0, -0.09, 0.08), armor], [band(0.22, 0.03, 0, -0.11, 0), under]]);
   for (const { side, shoulder, elbow } of arms) {
-    part(shoulder, [[capsule(0.36, 0.085, 0.072, 0, -0.16, 0), armor], [band(0.16, 0.022, 0, -0.3, 0), glow]]);
+    part(shoulder, [[capsule(0.36, 0.085, 0.072, 0, -0.16, 0), plate], [band(0.16, 0.022, 0, -0.3, 0), glow]]);
     part(elbow, [[capsule(0.34, 0.068, 0.058, 0, -0.15, 0), under], [capsule(0.21, 0.078, 0.07, 0, -0.12, 0), armor], [ball(0.14, 0.15, 0.14, 0, -0.34, 0, 6), armor],
       [slab(0.035, 0.035, 0.06, side * 0.055, -0.22, 0.02), glow]]);
   }
   for (const { hip, knee } of legs) {
-    part(hip, [[capsule(0.55, 0.11, 0.085, 0, -0.24, 0), armor], [band(0.2, 0.024, 0, -0.42, 0), glow]]);
+    part(hip, [[capsule(0.55, 0.11, 0.085, 0, -0.24, 0), plate], [band(0.2, 0.024, 0, -0.42, 0), glow]]);
     part(knee, [[capsule(0.5, 0.08, 0.064, 0, -0.23, 0), under], [capsule(0.3, 0.09, 0.078, 0, -0.16, 0.006), armor],
-      [slab(0.135, 0.11, 0.31, 0, -0.475, 0.06), armor], [slab(0.12, 0.022, 0.28, 0, -0.53, 0.06), glow]]);
+      [slab(0.135, 0.11, 0.31, 0, -0.475, 0.06), plate], [slab(0.12, 0.022, 0.28, 0, -0.53, 0.06), glow]]);
   }
 
   // Animation state: presentation only, safe to discard at any time.
@@ -170,7 +172,7 @@ export function createSidekickFigure(scene: Scene) {
   return {
     root, meshes,
     /** Solid parts only: thin light strips add shadow passes without a visible shadow. */
-    shadowCasters: () => meshes.filter(mesh => mesh.material === armor || mesh.material === under),
+    shadowCasters: () => meshes.filter(mesh => mesh.material === armor || mesh.material === plate || mesh.material === under),
     /** World position of the right hand, where a stun leaves the suit. */
     handPosition: () => { hand.computeWorldMatrix(true); return hand.getAbsolutePosition(); },
     setEnabled: (enabled: boolean) => root.setEnabled(enabled),
