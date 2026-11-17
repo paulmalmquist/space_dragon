@@ -3,6 +3,8 @@
 **Date:** October 28, 2026; party constraints updated October 30, 2026.
 
 **Status:** PROPOSED combat design for owner review, constrained by the **CONFIRMED** mission-party direction below. Not implemented and not current scope: [the current milestone](../plans/CURRENT_MILESTONE.md) explicitly excludes complete combat systems from SD-M1. Treat the compatible proposals as candidates for a future combat prototype.
+**First runnable slice (SD-089, November 16):** [Luke's Arena](../decisions/2026-11-16-lukes-arena-abilities-and-stealth.md) makes a small part of this design playable for one hero: sparks, suit energy and the bonk, telegraphs of a second or more, Tether Snare, Spider Pounce, Spider Climb, and stealth by sight, cover and height. It is a lab for judging these proposals, not approval of them; parries and unlock order are not in it. **Second slice (SD-090, November 17):** [one sidekick and one alley-oop](../decisions/2026-11-17-lukes-sidekick-and-first-alley-oop.md) joined it: Dad follows on his own, his one button is Power Toss into Web Dive beside him and a Stun elsewhere. The owner did not ask for that slice by name; who the sidekick is, the button's meaning and every number remain OPEN here.
+**Dad's weapons (owner, November 17, [SD-092](../decisions/2026-11-17-dads-armor-and-weapons.md)):** "repulsors and samurai style katana with a red light saber on the ground"; his armor is always black with red glowing trim. CONFIRMED that he carries them. PROPOSED: it is one sword with a blade of red light, the weapons only ever meet machines and marked objects, the repulsors apply Stunned at range and the katana is his finish up close. OPEN: one sword or two, whether the katana replaces Dragon Punch, when he gets them and their names on screen. None is built; nothing below was rewritten for them.
 **Builds on:** [suit reveals and starting abilities](../story/SUIT_REVEALS_AND_STARTING_ABILITIES.md), the [interaction contracts](INTERACTION_CONTRACTS.md), the [learning rules](../learning/LEARNING_RULES.md), the [architecture](../engineering/ARCHITECTURE.md), and the [Act I](../story/ACT_I_BUILD_THE_DRAGON.md) / [Act II](../story/ACT_II_ANSWER_THE_CALL.md) story docs.
 
 **Companion notebook:** the [combat notebook](../combat/README.md) turns this design into numbered experiments and 43 Given/When/Then test specifications. These include an **optional** precision-parry profile (CB-002) and a pilot-controlled dragon deflection experiment (CB-004). Neither is required for children or for story progress, and neither restores dragon crew roles.
@@ -29,7 +31,7 @@ Every suit applies one main **status**. A status is a visible state on an enemy 
 | --- | --- | --- | --- |
 | **Slipped** | Luna (Splat) | The enemy slides and can't steer or stop. Chargers spin out. | Pink puddle under the enemy, a wobble animation, a squelch sound and a spiral icon. |
 | **Tethered** | Luke (Tether / Pounce) | The enemy is held by a glowing line and can be pulled or pinned briefly. | A visible line, a taut "twang" sound and a hook icon. |
-| **Stunned** | Paul (Dragon Punch, Slam) | The enemy is knocked dizzy and stops acting. | Circling stars, a bell "bong" and a star icon. |
+| **Stunned** | Paul (Dragon Punch, Slam; his repulsors, PROPOSED under SD-092) | The enemy is knocked dizzy and stops acting. | Circling stars, a bell "bong" and a star icon. |
 | **Exposed** | Lyla (Scan) | The enemy's weak point lights up, and the next hit there disables it at once. | A bright target ring on one spot, a rising "ding" and an eye icon. |
 | **Bubbled** | Maria (Family Shield, reshaped) | The enemy is enclosed in a shield bubble and floats helplessly. | A purple translucent sphere, a soft "bwomp" and a bubble icon. |
 
@@ -236,6 +238,8 @@ The dragon can hover, so it can **take off vertically from the cul-de-sac** and 
 
 The whole family rides in the dragon, but **only the pilot has controls**. Everyone else is a passenger: they appear in cockpit view, cheer at hits, gasp at near-misses, and say an occasional flavor line ("Again!"). That's presentation only, with no abilities, buttons or stations. Threat warnings come from the HUD (a tone plus a direction arrow), not from a crew role.
 
+**Owner idea, November 17 (SD-091):** in "The Tunnel Run" Dad leaves the dragon and flies a tunnel in his own armor. That is the first time a family member acts on their own during a flight level. The [routing decision](../decisions/2026-11-17-tunnel-run-and-dads-flight.md) proposes a reading that keeps this section's rule: one set of controls, passed from the dragon to Dad at an authored moment, and no job for anyone else. Switching between the two at will would change the rule and is OPEN for the owner.
+
 ### Sorties (mission types)
 
 | Sortie | Description |
@@ -244,6 +248,7 @@ The whole family rides in the dragon, but **only the pilot has controls**. Every
 | **Intercept** | Catch the thief drone carrying a stolen part before it escapes. |
 | **Escort** | Protect a flock of hatchlings or a slow ship. |
 | **Strike run** | A trench-run-style dive along the Forge Ring to disable sleepwalking sentry turrets. |
+| **Tunnel run** (OWNER IDEA, November 17, SD-091; BOOKMARKED, not built) | A tunnel too narrow for the dragon. Dad ejects, his black-and-red armor ignites flight thrusters, and the camera follows him from the cinematic into playable third-person flight: dodging obstacles, disabling small unmanned targets. Placement, controls and how it sits with the one-pilot rule are PROPOSED or OPEN: see [the decision](../decisions/2026-11-17-tunnel-run-and-dads-flight.md). His weapon in the tunnel would be his repulsors (PROPOSED, [SD-092](../decisions/2026-11-17-dads-armor-and-weapons.md)). |
 | **Ring and canyon run** | Aerobatics and racing through rings, canyons and restored spires. No enemies. |
 | **Formation flight** | Fly in formation with woken star-dragons as wingmen ("break left!"). |
 | **Flight school** | Builder Bug target drones and rings. Teaches each tier with no failure. |

@@ -1,0 +1,8 @@
+{
+  "name": "SpaceDragon.Traversal.Tests",
+  "rootNamespace": "SpaceDragon.Traversal.Tests",
+  "references": ["SpaceDragon.Traversal.Core"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

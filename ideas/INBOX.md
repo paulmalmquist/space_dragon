@@ -1177,3 +1177,82 @@ Owner wording:
 > please take another lap through my reference video and come up with legitimate ideas for increasing the realism of the current iteration. the yellow lines are not straight (and not present in many of the example video's cases) and we need more photo realistic blender assets too. start with those and input them in the game
 
 Routing receipt: **CONFIRMED / technically verified; agent visual inspection complete**, continuing SD-052/074. [Decision](../docs/decisions/2026-11-01-town-drive-reference-road-assets.md), [evidence](../docs/reports/2026-11-01-town-drive-reference-road-assets.md). Sampled both supplied timelines, corrected paint presence/geometry, authored and integrated three Blender plant families. Fourteen scene checks, both browser backends, focus recovery and full lap/reload pass. Driving/map/save data and source assets are preserved. Recorded remaining foliage darkness, repeated surroundings and memory cost; full photorealism remains unfinished.
+
+
+## November 15, 2026 — Polish every facet; more like Spider-Man and the dogfight (SD-087)
+
+Owner wording:
+
+> Polish all facets of this game I'm trying to make. Make it more like spiderman and the dog fight. Needs to have higher quality visuals and better more polished gameplay. Inventory then improve
+
+Routing receipt: **CONFIRMED direction / browser reference technically verified; agent visual inspection only**, SD-087. [Decision](../docs/decisions/2026-11-15-hero-traversal-polish.md), [evidence](../docs/reports/2026-11-15-lukes-playground-and-hero-traversal.md). The inventory found the on-foot Earth slice weakest, so it gained momentum running, a held-height jump, a thruster hop, tether swings on marked anchors and a safety catch instead of any fail state, in a rebuilt generic home block with twelve practice sparks; the core was ported to engine-free C# with golden parity. Original presentation only: no Marvel names, marks, suit designs or audio. Dogfight Lab presentation polish was started and is **parked** (interrupted mid-change; the owner then redirected to Unity); Town Drive was not touched.
+
+
+## November 15, 2026 — Unity, native; Luke's playground; a hero who looks like a person (SD-088)
+
+Owner wording:
+
+> We're moving to unity and doesn't have to be browser based. I want it good
+> Do Luke's playground for me. That indoor scene needs to look like a person. As Photo realistic as possible
+
+Followed by:
+
+> Continue
+
+Routing receipt: **CONFIRMED direction / IMPLEMENTED; Unity import, play and builds NOT TESTED (no Editor in the cloud session)**, SD-088. [Decision](../docs/decisions/2026-11-15-unity-native-lukes-playground.md), [Unity runbook](../docs/engineering/UNITY_PLAYGROUND_HANDOFF.md), [evidence](../docs/reports/2026-11-15-lukes-playground-and-hero-traversal.md). Luke's Playground is a generated Unity scene in the existing `unity/SpaceDragon` project: the practice block plus a backyard playset (ramp, tower, slide, monkey bars), starting indoors in the living room. The hero is a realistic **generic licensed** child model (Microsoft Rocketbox, MIT), not Luke's likeness; no family photo was read. The same model replaces the suited proxy in the browser reference, where it was inspected. Higher-fidelity likeness work (scan, MetaHuman-class tools) stays OPEN for an owner decision.
+
+
+## November 16, 2026 — What's next toward a playable game; Luke's battle arena and stealth (SD-089)
+
+Owner wording:
+
+> Ok what's next for improvement towards a playable game? Luke's battle arena testing his abilities and stealth needs work
+
+Routing receipt: **CONFIRMED direction / browser reference technically verified under software rendering; Unity IMPLEMENTED, NOT TESTED; rules and numbers PROPOSED**, SD-089. [Decision](../docs/decisions/2026-11-16-lukes-arena-abilities-and-stealth.md), [evidence](../docs/reports/2026-11-16-lukes-arena-abilities-and-stealth.md), [what comes next](../docs/project/ROADMAP.md). No arena, enemy or stealth rule existed, so "needs work" was read as "build it". **Luke's Arena** is a third lab (`/arena/`, and `Space Dragon > Luke's Arena > Generate scene` in Unity): an ability course (Spider Climb on marked walls, zip, chimney), a three-wave battle ring (Tether Snare, Spider Pounce, telegraphed robots, one-button action) and a stealth yard (sight cones cut off by cover, noise, quiet takedowns only from where a robot cannot see, a floodlight that holds and sets Luke back with nothing lost). Three stars per trial; nobody is hurt, nothing can be lost and nothing needs reading. Spider Climb joined the shared hero rules. It implements part of the PROPOSED combat design without approving it; story unlock order, sidekicks, suit design and whether stealth appears in missions stay OPEN. The hero is still the generic licensed stand-in. Not a story mission. No person has played it yet.
+
+
+## November 17, 2026 — What's next (SD-090)
+
+Owner wording:
+
+> What's next
+
+Routing receipt: **an open question, answered in the conversation and then routed by the agent; the sidekick and alley-oop concepts are CONFIRMED (SD-034, October 29), every detail built here is PROPOSED; browser reference technically verified under software rendering; Unity IMPLEMENTED, NOT TESTED**, SD-090. [Decision](../docs/decisions/2026-11-17-lukes-sidekick-and-first-alley-oop.md), [evidence](../docs/reports/2026-11-17-lukes-sidekick-and-first-alley-oop.md), [roadmap](../docs/project/ROADMAP.md). The answer given: first the Unity scenes need to be seen running on the Lenovo and Luke needs to play the arena, both of which need the owner; the next step that needs neither is the mission sidekick. **The owner did not ask for a sidekick by name**; the agent took the roadmap's third step and says so. Luke's Arena now has Dad as a placeholder sidekick (helmeted, no face, not a likeness): he follows on his own, and one button asks him: beside him an alley-oop (a throw, a slow moment, a dive that powers the nearest robot down), anywhere else a stun that sets up Luke's finish. In the stealth yard he waits at the gate. Nothing new is saved and no star depends on him. Who the sidekick is, whether he should help unasked, the bindings and every number stay OPEN for the owner. No person has played it yet.
+
+
+## November 17, 2026 — Cinematic: "The Tunnel Run" (SD-091)
+
+Owner wording:
+
+> Here's an idea
+>
+> Cinematic: “The Tunnel Run”
+>
+> The dragon races toward a narrow enemy tunnel at tremendous speed. It's too large to fit.
+>
+> Dad makes a split-second decision.
+>
+> Ejection: Dad launches out of the dragon, barrel-rolling through the air at full speed.
+>
+> Transformation: His black-and-red armor ignites its personal flight thrusters.
+>
+> Transition: The camera follows Dad seamlessly from cinematic into playable third-person flight.
+>
+> Combat: He rockets into the tunnel, dodging obstacles and engaging smaller enemy targets.
+>
+> Inspiration: The Death Star trench run from Star Wars: Episode IV, with Iron Man-style flight mechanics.
+>
+> Gameplay opportunity: Seamless switching between dragon-scale space combat and individual high-speed flight.
+
+Routing receipt: **OWNER IDEA, BOOKMARKED; captured and routed; the set piece is parked and nothing of it is built**, SD-091. [Decision](../docs/decisions/2026-11-17-tunnel-run-and-dads-flight.md). Not a duplicate: two dragon trench runs are already drafted (the Forge strike run and the run along the Barge), but in both the dragon flies the trench. New here are a place the dragon cannot go, Dad flying on his own, a cinematic that hands control from a vehicle to a person, and **Dad's armor being black and red** (his palette was OPEN). PROPOSED placement is the Forge Ring, where the drafts already feature Dad; the Barge is the alternative. It touches the CONFIRMED one-pilot, no-crew-roles rule: the PROPOSED reading keeps one set of controls and passes them from the dragon to Dad at an authored moment; switching at will would change that rule and needs the owner. The no-fail, unmanned-targets and no-reading-at-speed safeguards apply to Dad's flight as they do to the dragon's. Acted on now: Dad's placeholder in Luke's Arena wears black and red. Parked because it belongs to the Unity flight scenes on the Lenovo, needs a person-sized flight controller, a tunnel and a dragon-to-person handoff that do not exist, and would be a fourth layer on work nobody has yet played. Revisit when the owner says to build it or the Unity flight scenes are next extended; the first slice is described in the decision. Four questions for the owner are listed there.
+
+
+## November 17, 2026 — Dad's armor and weapons (SD-092)
+
+Owner wording, sent in reply to the Tunnel Run questions:
+
+> Always black with red glowing trim (think iron man with a Darth Vader theme)
+>
+> Weapons are repulsors and samurai style katana with a red light saber on the ground.
+
+Routing receipt: **OWNER DECISION, CONFIRMED for the palette and for the weapons as stated; how the weapons play is PROPOSED or OPEN; none is built**, SD-092. [Decision](../docs/decisions/2026-11-17-dads-armor-and-weapons.md), [evidence](../docs/reports/2026-11-17-dads-armor-and-weapons.md). It answers the fourth Tunnel Run question: Dad's armor is **always** black with red glowing trim. That supersedes the v0.1 candidate of red, graphite and gold and the reading taken earlier the same day, in which whole plates were red. He carries the weapons named. The second sentence can be read as one sword, a katana with a blade of red light (the reading taken), or as a katana and a separate light-sword; which is OPEN. PROPOSED and awaiting the owner: the weapons only ever meet machines and marked objects, the repulsors stun at range, and the blade also cuts marked barriers. OPEN: whether the katana replaces Dragon Punch, when he gets them, their names on screen, and how dark the theme goes. The two film characters are inspirations: the suit, the sword and every name in the game are to be the game's own. Acted on now: Dad's placeholder in Luke's Arena is black with red glowing trim, a sheathed katana on his back and a red emitter in each hand, in the browser lab and in the Unity runtime's code; presentation only, no rule changed. Parked: usable weapons, because nothing more should go onto the arena before someone has played it, how they play is undecided, and Dad is not a playable hero anywhere yet. Revisit when the owner asks for them, Dad becomes a playable leader in a lab, the Tunnel Run is taken up, or a Blender pass on his suit begins.

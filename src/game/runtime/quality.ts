@@ -7,15 +7,17 @@ export interface VisualQualityProfile {
   readonly maxRenderPixels: number;
   readonly shadowMapSize: number;
   readonly bloom: boolean;
+  /** Soft halo around emissive lights; cheaper than bloom and the core of the night look. */
+  readonly glow: boolean;
   readonly samples: number;
   readonly targetFrameMs: number;
 }
 
 export const VISUAL_QUALITY_PRESETS: Readonly<Record<VisualQuality, Readonly<VisualQualityProfile>>> = Object.freeze({
-  low: Object.freeze({ label: 'Low', maxPixelRatio: 0.75, maxRenderPixels: 1280 * 720, shadowMapSize: 256, bloom: false, samples: 1, targetFrameMs: 1000 / 30 }),
-  balanced: Object.freeze({ label: 'Balanced', maxPixelRatio: 1, maxRenderPixels: 1600 * 900, shadowMapSize: 512, bloom: false, samples: 1, targetFrameMs: 1000 / 30 }),
-  high: Object.freeze({ label: 'High', maxPixelRatio: 1.5, maxRenderPixels: 1920 * 1080, shadowMapSize: 1024, bloom: true, samples: 1, targetFrameMs: 1000 / 60 }),
-  cinematic: Object.freeze({ label: 'Cinematic', maxPixelRatio: 2, maxRenderPixels: 2560 * 1440, shadowMapSize: 2048, bloom: true, samples: 2, targetFrameMs: 1000 / 30 }),
+  low: Object.freeze({ label: 'Low', maxPixelRatio: 0.75, maxRenderPixels: 1280 * 720, shadowMapSize: 256, bloom: false, glow: false, samples: 1, targetFrameMs: 1000 / 30 }),
+  balanced: Object.freeze({ label: 'Balanced', maxPixelRatio: 1, maxRenderPixels: 1600 * 900, shadowMapSize: 512, bloom: false, glow: true, samples: 1, targetFrameMs: 1000 / 30 }),
+  high: Object.freeze({ label: 'High', maxPixelRatio: 1.5, maxRenderPixels: 1920 * 1080, shadowMapSize: 1024, bloom: true, glow: true, samples: 1, targetFrameMs: 1000 / 60 }),
+  cinematic: Object.freeze({ label: 'Cinematic', maxPixelRatio: 2, maxRenderPixels: 2560 * 1440, shadowMapSize: 2048, bloom: true, glow: true, samples: 2, targetFrameMs: 1000 / 30 }),
 });
 
 export function isVisualQuality(value: unknown): value is VisualQuality {

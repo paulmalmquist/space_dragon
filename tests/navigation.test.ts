@@ -1,28 +1,26 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  clipCameraPosition, copyExplorationState, createExplorationState, DEFAULT_SPAWN,
-  interact, INTERACTION_TARGETS, isExplorationState, isWalkablePosition, MAX_FRAME_SECONDS,
-  moveExploration, movePlayer, MOVE_SPEED, nearestInteraction, PLAYER_RADIUS, WORLD_COLLIDERS,
+  collectSparks, copyExplorationState, createExplorationState, DEFAULT_SPAWN, COLLECTIBLE_ORDER,
+  interact, INTERACTION_TARGETS, isExplorationState, isWalkablePosition, migrateExplorationState,
+  nearestInteraction, recoverExplorationState, savablePose, SPARK_IDS, sparkCount,
 } from '../src/game/navigation.ts';
-import type { ExplorationState, PlayerPosition } from '../src/game/navigation.ts';
+import type { ExplorationState } from '../src/game/navigation.ts';
 import { EXPLORATION_BACKUP_KEY, EXPLORATION_SAVE_KEY, loadExploration, saveExploration } from '../src/game/exploration-save.ts';
 import { LEGACY_SAVE_KEY, SAVE_KEY } from '../src/game/checkpoint.ts';
 import type { SaveStorage } from '../src/game/checkpoint.ts';
+import { HOME_BLOCK } from '../src/game/traversal/home-block.ts';
+import { createHero } from '../src/game/traversal/hero.ts';
+import { play } from './helpers/traversal.ts';
 
+// Movement, collision, jumping and tether behavior are covered by traversal.test.ts.
 class MemoryStorage implements SaveStorage {
   data = new Map<string, string>();
   writes: string[] = [];
   getItem(key: string) { return this.data.get(key) ?? null; }
   setItem(key: string, value: string) { this.writes.push(key); this.data.set(key, value); }
 }
-function close(actual: number, expected: number, tolerance = 1e-9) { assert.ok(Math.abs(actual - expected) < tolerance, `${actual} != ${expected}`); }
-function at(x: number, z: number): ExplorationState { return { version: 1, player: { x, z, yaw: 0 }, collected: [] }; }
-function walk(start: PlayerPosition, forward: number, right: number, frames: number, seconds = 1 / 60): PlayerPosition {
-  let position = start;
-  for (let index = 0; index < frames; index++) position = movePlayer(position, { forward, right }, 0, seconds);
-  return position;
-}
+function at(x: number, z: number): ExplorationState { return { version: 2, player: { x, z, yaw: 0 }, collected: [] }; }
 
 test('default spawn is clear, saveable, and independent copies do not share inventory/player objects', () => {
   const state = createExplorationState();
@@ -35,93 +33,6 @@ test('default spawn is clear, saveable, and independent copies do not share inve
   copied.player.x = 8;
   copied.collected.push('training-module');
   assert.deepEqual(state, createExplorationState());
-});
-
-test('diagonal input has the same speed as one axis and never mutates the input pose', () => {
-  const start = { x: 6, z: 0, yaw: 0 };
-  const before = JSON.stringify(start);
-  const straight = movePlayer(start, { forward: 1, right: 0 }, 0, 1 / 30);
-  const diagonal = movePlayer(start, { forward: 1, right: 1 }, 0, 1 / 30);
-  close(Math.hypot(diagonal.x - start.x, diagonal.z - start.z), straight.z - start.z);
-  close(diagonal.x - start.x, diagonal.z - start.z);
-  assert.equal(JSON.stringify(start), before);
-});
-
-test('camera yaw controls movement and character facing independently of world axes', () => {
-  const moved = movePlayer({ x: 6, z: 0, yaw: 0 }, { forward: 1, right: 0 }, Math.PI / 2, 1 / 30);
-  close(moved.x, 6 + MOVE_SPEED / 30);
-  close(moved.z, 0);
-  close(moved.yaw, Math.PI / 2);
-  const right = movePlayer({ x: 6, z: 0, yaw: 0 }, { forward: 0, right: 1 }, Math.PI / 2, 1 / 30);
-  close(right.x, 6);
-  close(right.z, -MOVE_SPEED / 30);
-});
-
-test('30/60/120 Hz movement covers the same distance in an unobstructed second', () => {
-  for (const fps of [30, 60, 120]) {
-    const moved = walk({ x: 6, z: 0, yaw: 0 }, 1, 0, fps, 1 / fps);
-    close(moved.x, 6);
-    close(moved.z, MOVE_SPEED);
-  }
-});
-
-test('tab catch-up is bounded; pause, idle, invalid time and held invalid inputs do not move', () => {
-  const start = { x: 6, z: 0, yaw: 0 };
-  close(movePlayer(start, { forward: 1, right: 0 }, 0, 300).z, MOVE_SPEED * MAX_FRAME_SECONDS);
-  for (const seconds of [0, -1, NaN, Infinity]) assert.strictEqual(movePlayer(start, { forward: 1, right: 0 }, 0, seconds), start);
-  assert.strictEqual(movePlayer(start, { forward: 1, right: 0, paused: true }, 0, 1 / 60), start);
-  assert.strictEqual(movePlayer(start, { forward: 0, right: 0 }, 0, 1 / 60), start);
-  assert.strictEqual(movePlayer(start, { forward: NaN, right: Infinity }, 0, 1 / 60), start);
-  const state = at(6, 0);
-  assert.strictEqual(moveExploration(state, { forward: 1, right: 0, paused: true }, 0, 1 / 60), state);
-});
-
-test('the real doorway permits travel in both directions while its adjoining wall blocks', () => {
-  const start = { x: -2, z: 0, yaw: 0 };
-  const outside = walk(start, 0, 1, 60);
-  close(outside.x, 1.2);
-  close(walk(outside, 0, -1, 60).x, start.x);
-  const blocked = walk({ x: -2, z: 2, yaw: 0 }, 0, 1, 180);
-  assert.ok(blocked.x <= -0.4 - PLAYER_RADIUS);
-  assert.equal(isWalkablePosition(blocked), true);
-});
-
-test('furniture, the pod and the outer fence are solid and diagonal contact slides along a wall', () => {
-  const desk = walk({ x: -4, z: -0.5, yaw: 0 }, 1, 0, 180);
-  assert.ok(desk.z <= 0.45 - PLAYER_RADIUS);
-  const sofa = walk({ x: -4, z: -0.5, yaw: 0 }, -1, 0, 180);
-  assert.ok(sofa.z >= -1.25 + PLAYER_RADIUS);
-  const pod = walk({ x: 1, z: 0, yaw: 0 }, 0, 1, 180);
-  assert.ok(pod.x <= 2.65 - PLAYER_RADIUS);
-  const fence = walk({ x: 8, z: 3, yaw: 0 }, 0, 1, 180);
-  assert.ok(fence.x <= 9.9 - PLAYER_RADIUS);
-  const sliding = walk({ x: -1.5, z: 1.4, yaw: 0 }, 1, 1, 30);
-  assert.ok(sliding.x <= -0.6 - PLAYER_RADIUS);
-  assert.ok(sliding.z > 2.1, 'The wall stopped motion parallel to its surface');
-  for (const position of [desk, sofa, pod, fence, sliding]) assert.equal(isWalkablePosition(position), true);
-});
-
-test('thin walls cannot be crossed by large frames, and invalid starting poses recover safely', () => {
-  const thin = [{ id: 'thin', minX: 1.9, maxX: 1.91, minZ: -2, maxZ: 2, minY: 0, maxY: 3 }];
-  let player = { x: 1.5, z: 0, yaw: 0 };
-  for (let index = 0; index < 60; index++) player = movePlayer(player, { forward: 0, right: 1 }, 0, 10, thin);
-  assert.ok(player.x <= 1.9 - PLAYER_RADIUS);
-  for (const position of [{ x: -4, z: 1, yaw: 0 }, { x: -20, z: 0, yaw: 0 }, { x: NaN, z: 0, yaw: 0 }]) {
-    assert.deepEqual(movePlayer(position, { forward: 1, right: 0 }, 0, 1 / 60), DEFAULT_SPAWN);
-  }
-});
-
-test('camera boom clips against height-aware proxies without altering the authoritative player', () => {
-  const state = createExplorationState();
-  const before = JSON.stringify(state);
-  const focus = { x: -2, y: 1.2, z: 0 };
-  const desired = { x: -9, y: 1.2, z: 0 };
-  const clipped = clipCameraPosition(focus, desired);
-  assert.ok(clipped.x > -7.4, 'Camera passed through the west wall');
-  assert.ok(clipped.x < -6, 'Camera did not reach the wall');
-  assert.deepEqual(clipCameraPosition({ ...focus, y: 6 }, { ...desired, y: 6 }), { ...desired, y: 6 });
-  assert.equal(JSON.stringify(state), before);
-  assert.equal(WORLD_COLLIDERS.find((box) => box.id === 'computer-desk')?.maxY, 1.2);
 });
 
 test('nearby targeting is deterministic, requires a safe position, and approaches the computer from its front', () => {
@@ -142,6 +53,7 @@ test('semantic interactions reject distant/unknown actions; computer/pod replay 
     assert.strictEqual(denied.state, initial);
   }
   assert.equal(interact(initial, 'invented-reward').status, 'unknown-target');
+  assert.equal(interact(at(12.2, -6), 'spark-01').status, 'unknown-target', 'sparks are touched, never claimed by an action');
   for (const [id, state] of [['computer', at(-4, 0)], ['pod', at(2, 0)]] as const) {
     const result = interact(state, id);
     assert.equal(result.status, 'success');
@@ -170,15 +82,78 @@ test('practice pickup is awarded once immediately, before presentation; leaving/
   assert.deepEqual(restored.collected, ['training-module']);
 });
 
+test('practice sparks are awarded once by touch, in canonical order, and survive a reload', () => {
+  assert.equal(SPARK_IDS.length, 12);
+  assert.deepEqual(COLLECTIBLE_ORDER.slice(0, 2), ['training-module', 'spark-01']);
+  const spots = new Map(HOME_BLOCK.sparks.map(spark => [spark.id, spark]));
+  const touching = (id: string) => { const spark = spots.get(id)!; return { x: spark.x, y: spark.y - 0.9, z: spark.z }; };
+  const start = at(6, -2.2);
+  assert.strictEqual(collectSparks(start, { x: 6, y: 0, z: -2.2 }), start, 'nothing nearby returns the same state');
+  const first = collectSparks(start, touching('spark-09'));
+  assert.deepEqual(first.collected, ['spark-09']);
+  assert.deepEqual(start.collected, [], 'collection never mutates its input');
+  assert.strictEqual(collectSparks(first, touching('spark-09')), first, 'a held spark is never awarded twice');
+  const second = interact(collectSparks(first, touching('spark-02')), 'training-module').state;
+  assert.deepEqual(second.collected, ['training-module', 'spark-02', 'spark-09'], 'saved order is canonical, not pickup order');
+  assert.equal(sparkCount(second), 2);
+  assert.equal(isExplorationState(second), true);
+  // Just outside the pickup radius is not a touch.
+  const spark = spots.get('spark-01')!;
+  assert.strictEqual(collectSparks(start, { x: spark.x + 1.6, y: spark.y - 0.9, z: spark.z }), start);
+  const storage = new MemoryStorage();
+  assert.match(saveExploration(second, storage), /saved on this device/);
+  const loaded = loadExploration(storage).state;
+  assert.deepEqual(loaded, second);
+  assert.strictEqual(collectSparks(loaded, touching('spark-02')), loaded);
+  let all = start;
+  for (const id of SPARK_IDS) all = collectSparks(all, touching(id));
+  assert.equal(sparkCount(all), 12);
+  assert.equal(isExplorationState(all), true);
+});
+
+test('only a grounded pose at ground level is worth saving', () => {
+  const standing = createHero(HOME_BLOCK, { x: 6, z: -2.2, yaw: 0.5 });
+  assert.deepEqual(savablePose(standing), { x: 6, z: -2.2, yaw: 0.5 });
+  assert.deepEqual(savablePose(createHero(HOME_BLOCK, { x: 28, z: 0, yaw: 0 })), { x: 28, z: 0, yaw: 0 }, 'the dock is safe footing');
+  const jumping = play(standing, [{ seconds: 0.2, jump: true }]);
+  assert.equal(savablePose(jumping), null, 'airborne');
+  const roof = createHero(HOME_BLOCK, { x: -9, z: 1, yaw: 0, y: 6 });
+  assert.ok(roof.y > 4);
+  assert.equal(savablePose(roof), null, 'a rooftop is not restored after a reload');
+});
+
 test('strict exploration validation rejects impossible/duplicate inventory and unsafe or coercible poses', () => {
   const state = createExplorationState();
   for (const value of [
-    null, [], {}, { ...state, version: '1' }, { ...state, player: { x: '-2', z: 0, yaw: 0 } },
+    null, [], {}, { ...state, version: '2' }, { ...state, version: 1 }, { ...state, player: { x: '-2', z: 0, yaw: 0 } },
     { ...state, player: { x: -4, z: 1, yaw: 0 } }, { ...state, player: { x: 200, z: 0, yaw: 0 } },
-    { ...state, player: { x: -2, z: 0, yaw: Infinity } }, { ...state, player: null },
+    { ...state, player: { x: -2, z: 0, yaw: Infinity } }, { ...state, player: null }, { ...state, player: { x: 30, z: 12, yaw: 0 } },
     { ...state, collected: ['training-module', 'training-module'] }, { ...state, collected: ['dragon-wing'] },
-    { ...state, collected: new Array(1) },
+    { ...state, collected: ['spark-02', 'training-module'] }, { ...state, collected: ['spark-13'] },
+    { ...state, collected: new Array(1) }, { ...state, collected: [7] },
   ]) assert.equal(isExplorationState(value), false, JSON.stringify(value));
+});
+
+test('version 1 saves upgrade in memory with their pose and module; nothing else is invented', () => {
+  const legacy = { version: 1, player: { x: 4.5, z: -2.8, yaw: 0.3 }, collected: ['training-module'] };
+  assert.deepEqual(migrateExplorationState(legacy), { version: 2, player: { x: 4.5, z: -2.8, yaw: 0.3 }, collected: ['training-module'] });
+  assert.equal(migrateExplorationState({ ...legacy, collected: ['spark-01'] }), null, 'version 1 never held sparks');
+  assert.equal(migrateExplorationState({ ...legacy, player: { x: 3.5, z: 0, yaw: 0 } }), null, 'an unsafe pose is recovered, not migrated');
+  assert.equal(migrateExplorationState(createExplorationState()), null, 'current saves are not legacy saves');
+  assert.deepEqual(recoverExplorationState({ ...legacy, player: { x: 3.5, z: 0, yaw: 0 } }), { version: 2, player: { ...DEFAULT_SPAWN }, collected: ['training-module'] });
+  const storage = new MemoryStorage();
+  const raw = JSON.stringify(legacy);
+  storage.data.set(EXPLORATION_SAVE_KEY, raw);
+  const loaded = loadExploration(storage);
+  assert.equal(loaded.canSave, true);
+  assert.match(loaded.notice, /restored/);
+  assert.equal(loaded.state.version, 2);
+  assert.deepEqual(loaded.state.collected, ['training-module']);
+  assert.deepEqual(storage.writes, [], 'loading migrates in memory only');
+  assert.equal(storage.getItem(EXPLORATION_SAVE_KEY), raw);
+  assert.match(saveExploration(loaded.state, storage), /saved on this device/);
+  assert.equal(storage.getItem(EXPLORATION_BACKUP_KEY), raw, 'the original version 1 bytes are kept as the backup');
+  assert.equal(JSON.parse(storage.getItem(EXPLORATION_SAVE_KEY)!).version, 2);
 });
 
 test('exploration saves/reloads independently and leaves First Contact v1/v2 bytes untouched', () => {
@@ -198,17 +173,20 @@ test('exploration saves/reloads independently and leaves First Contact v1/v2 byt
   assert.deepEqual(storage.writes, writes, 'Unchanged saves should not keep writing');
 });
 
-test('unsafe/nonfinite saved pose recovers at the entrance while retaining an earned practice module', () => {
-  for (const player of [{ x: -4, z: 1, yaw: 0 }, { x: 200, z: 0, yaw: 0 }, { x: null, z: 0, yaw: 0 }]) {
-    const storage = new MemoryStorage();
-    const raw = JSON.stringify({ version: 1, player, collected: ['training-module'] });
-    storage.data.set(EXPLORATION_SAVE_KEY, raw);
-    const loaded = loadExploration(storage);
-    assert.deepEqual(loaded.state.player, DEFAULT_SPAWN);
-    assert.deepEqual(loaded.state.collected, ['training-module']);
-    assert.match(loaded.notice, /unsafe/);
-    assert.equal(storage.getItem(EXPLORATION_SAVE_KEY), raw);
-    assert.deepEqual(storage.writes, []);
+test('unsafe/nonfinite saved pose recovers at the entrance while retaining earned practice items', () => {
+  for (const version of [1, 2]) {
+    for (const player of [{ x: -4, z: 1, yaw: 0 }, { x: 200, z: 0, yaw: 0 }, { x: null, z: 0, yaw: 0 }]) {
+      const storage = new MemoryStorage();
+      const collected = version === 1 ? ['training-module'] : ['training-module', 'spark-03'];
+      const raw = JSON.stringify({ version, player, collected });
+      storage.data.set(EXPLORATION_SAVE_KEY, raw);
+      const loaded = loadExploration(storage);
+      assert.deepEqual(loaded.state.player, DEFAULT_SPAWN);
+      assert.deepEqual(loaded.state.collected, collected);
+      assert.match(loaded.notice, /unsafe/);
+      assert.equal(storage.getItem(EXPLORATION_SAVE_KEY), raw);
+      assert.deepEqual(storage.writes, []);
+    }
   }
 });
 
@@ -256,7 +234,7 @@ test('blocked reads, primary quota failure and backup failure preserve saved pro
 });
 
 test('invalid inventory/corrupt save never fabricates progress; invalid state cannot be saved', () => {
-  for (const raw of ['{broken', '{"version":1,"player":{},"collected":["dragon-wing"]}', '{"version":1}']) {
+  for (const raw of ['{broken', '{"version":1,"player":{},"collected":["dragon-wing"]}', '{"version":1}', '{"version":2,"player":{"x":-2,"z":-1.5,"yaw":0},"collected":["spark-99"]}']) {
     const storage = new MemoryStorage();
     storage.data.set(EXPLORATION_SAVE_KEY, raw);
     const loaded = loadExploration(storage);

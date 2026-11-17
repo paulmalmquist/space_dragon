@@ -1,0 +1,552 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-15",
+  "status": "IMPLEMENTED; Unity import and owner art review NOT TESTED",
+  "purpose": "Generic realistic child stand-in for the Luke's Playground hero and the indoor scene.",
+  "likeness": "Generic licensed model. No owner photo, family reference, scan, voice or likeness was read, uploaded or used.",
+  "license": "MIT",
+  "copyright": "Copyright (c) 2020 Microsoft",
+  "licenseFile": "LICENSE-Microsoft-Rocketbox.txt",
+  "licenseSha256": "17474e386e0b9e1a700cc3d06b2b0882a2c376d9c6b49c7f8274409b8f8d2352",
+  "upstream": "https://github.com/microsoft/Microsoft-Rocketbox",
+  "upstreamCommit": "0943055db6ec570bcef9f2c8b41c9e5467c808f9",
+  "upstreamFiles": [
+    {
+      "file": "Male_Child_01_facial.fbx",
+      "upstreamPath": "Assets/Avatars/Children/Male_Child_01/Export/Male_Child_01_facial.fbx",
+      "bytes": 1807104,
+      "sha256": "812724cf04cf527af5b96a9196677432f4fd793237d4fe0e7d4d7d0f35cd0445"
+    },
+    {
+      "file": "m_idle_neutral_01.max.fbx",
+      "upstreamPath": "Assets/Animations/all_animations_max_motextr_static/m_idle_neutral_01.max.fbx",
+      "bytes": 2418544,
+      "sha256": "818cc185af21390575f7fbfdeb3012ba2ce5969fbcb220ea725a2617b339a6e2"
+    },
+    {
+      "file": "m_walk_neutral_01.max.fbx",
+      "upstreamPath": "Assets/Animations/all_animations_max_motextr_xy/m_walk_neutral_01.max.fbx",
+      "bytes": 994336,
+      "sha256": "e6805ae6b6b49fe10f06c1b17b14ddde90d09b9fea689ac34793df252f44dcd0"
+    },
+    {
+      "file": "m_run_neutral_01.max.fbx",
+      "upstreamPath": "Assets/Animations/all_animations_max_motextr_xy/m_run_neutral_01.max.fbx",
+      "bytes": 868752,
+      "sha256": "5a22052ea750805ea7e097310f36cd448c838e7c88bc842a78632d9606869fa8"
+    },
+    {
+      "file": "m_run_fast_01.max.fbx",
+      "upstreamPath": "Assets/Animations/all_animations_max_motextr_xy/m_run_fast_01.max.fbx",
+      "bytes": 833040,
+      "sha256": "81d096f62465ae038149e7726485133264e4a47d105d236370b00dc18c650526"
+    },
+    {
+      "file": "cm001_body_color.tga",
+      "upstreamPath": "Assets/Avatars/Children/Male_Child_01/Textures/cm001_body_color.tga",
+      "bytes": 12582956,
+      "sha256": "30af27bae0b425b2ab06f41fffd5c8aef0beca45e94ebb5c6f0c6e73ca808041"
+    },
+    {
+      "file": "cm001_body_normal.tga",
+      "upstreamPath": "Assets/Avatars/Children/Male_Child_01/Textures/cm001_body_normal.tga",
+      "bytes": 12582956,
+      "sha256": "ee925c71edfa9d197f8a5d90110b323e5db75334dc28d2956cb6d58d86405b28"
+    },
+    {
+      "file": "cm001_body_specular.tga",
+      "upstreamPath": "Assets/Avatars/Children/Male_Child_01/Textures/cm001_body_specular.tga",
+      "bytes": 12582956,
+      "sha256": "9818580b9f6258410b61a7fbe13462781823ac0325a03f97256d3409b70313f0"
+    },
+    {
+      "file": "cm001_head_color.tga",
+      "upstreamPath": "Assets/Avatars/Children/Male_Child_01/Textures/cm001_head_color.tga",
+      "bytes": 12582956,
+      "sha256": "8bba0067268dd0b6e17a46a5b2c8090fc149e06776ac29caa89a22f497180580"
+    },
+    {
+      "file": "cm001_head_normal.tga",
+      "upstreamPath": "Assets/Avatars/Children/Male_Child_01/Textures/cm001_head_normal.tga",
+      "bytes": 12582956,
+      "sha256": "b4916e376b3a463d83864b9fc89af6fb7a6e22547c3fb7595ef8cc215d5c5b36"
+    },
+    {
+      "file": "cm001_head_specular.tga",
+      "upstreamPath": "Assets/Avatars/Children/Male_Child_01/Textures/cm001_head_specular.tga",
+      "bytes": 12582956,
+      "sha256": "e2c388d3c0c21eb287ebbeab0df35a4463ab49f9f5fe33881bb4700e0a4ef06b"
+    },
+    {
+      "file": "LICENSE.md",
+      "upstreamPath": "LICENSE.md",
+      "bytes": 1066,
+      "sha256": "17474e386e0b9e1a700cc3d06b2b0882a2c376d9c6b49c7f8274409b8f8d2352"
+    }
+  ],
+  "conversion": {
+    "blender": "Blender 5.0.1 Python module: tools/blender/rocketbox_fbx_to_glb.py (FBX import, glTF export, no edits)",
+    "script": "tools/prepare-playground-hero.mjs",
+    "convertedIntermediates": [
+      {
+        "file": "Male_Child_01_facial.glb",
+        "bytes": 12276248,
+        "sha256": "524b7add8c5544d1dfd027f91c3fbea16998bbbb5ad336ca5ff259ce296e0f3d"
+      },
+      {
+        "file": "m_idle_neutral_01.glb",
+        "bytes": 1865320,
+        "sha256": "806d68daf2e80d305e310c04128f8f2d9255478b5b5702ac7551e7fc819989f3"
+      },
+      {
+        "file": "m_walk_neutral_01.glb",
+        "bytes": 305572,
+        "sha256": "ec7e44b550768a236b917f20c08e7280c8aebda1f619c41956a3a124ff7d88e8"
+      },
+      {
+        "file": "m_run_neutral_01.glb",
+        "bytes": 235776,
+        "sha256": "ba8744d754987ca5a4fc10eeb8c893a8d07dce7c504e44e9abe50e429a0e3e1c"
+      },
+      {
+        "file": "m_run_fast_01.glb",
+        "bytes": 216160,
+        "sha256": "872545a80020072f6adf20e71ae93402ed1855fc3b3cdf5d0ad49943a06176f4"
+      }
+    ],
+    "steps": [
+      "Convert the avatar and four clip FBX files to GLB with Blender; nothing is remodelled or repainted.",
+      "Keep 8 of the upstream facial blend shapes for blinking and expression.",
+      "Decode the upstream TGA textures; derive a non-metallic roughness map from the greyscale specular map.",
+      "For Unity, also write URP metallic-smoothness maps (metallic 0, smoothness = 1 - roughness in alpha).",
+      "Copy clip rotations onto the child skeleton by exact bone name; the adult face rig is not copied.",
+      "Scale hip height by the child/adult leg-length ratio, plant the lowest foot contact, remove forward travel.",
+      "Rotate each locomotion loop to start at the left foot forward so walk, run and sprint blend in phase.",
+      "Write every accessor densely (no sparse storage) and no glTF extensions, for the widest importer support."
+    ],
+    "meanSpecular": {
+      "body": 0.0315,
+      "head": 0.035
+    },
+    "roughnessCurves": {
+      "head": {
+        "base": 0.72,
+        "slope": 1.9,
+        "min": 0.12,
+        "max": 0.72
+      },
+      "body": {
+        "base": 0.95,
+        "slope": 2.2,
+        "min": 0.35,
+        "max": 0.95
+      }
+    }
+  },
+  "outputs": [
+    {
+      "target": "unity",
+      "path": "unity/SpaceDragon/Assets/SpaceDragon/Playground/Imported/Characters/playground-kid.gltf",
+      "textureSize": 2048,
+      "files": [
+        {
+          "file": "playground-kid-body-color.png",
+          "bytes": 5174803,
+          "sha256": "f66245a9d0af3bd1e381726c34a842cfeeb3a661fe7995d61ee73258d7357a36"
+        },
+        {
+          "file": "playground-kid-body-metallic-smoothness.png",
+          "bytes": 1480891,
+          "sha256": "c1b0d4d2db58a7b626858ccb1570ff586e975ee05d1c9752ec4e4ae0c8c2b7d9"
+        },
+        {
+          "file": "playground-kid-body-normal.png",
+          "bytes": 4840312,
+          "sha256": "92d3cd581a212dd4fba78f71e2595ed74ecf7cb5f9e6ac8723235423192d0cde"
+        },
+        {
+          "file": "playground-kid-body-roughness.png",
+          "bytes": 366757,
+          "sha256": "a2de038765fb864363ae5a9a87aa2fedda9b762bf885098c66e64874d3b1da81"
+        },
+        {
+          "file": "playground-kid-head-color.png",
+          "bytes": 3945841,
+          "sha256": "30603d527bd576691dfa5b17befb701970dc3a36e6592821392b9a1bed2d4a47"
+        },
+        {
+          "file": "playground-kid-head-metallic-smoothness.png",
+          "bytes": 1781556,
+          "sha256": "668c70b043b1d9b0552956803b1b95e01abe2634860270feb286013b18732fde"
+        },
+        {
+          "file": "playground-kid-head-normal.png",
+          "bytes": 3547031,
+          "sha256": "6580ecb5c5e07faa2b85d0e9a5f63709055607a654087546d1c2d293546d0454"
+        },
+        {
+          "file": "playground-kid-head-roughness.png",
+          "bytes": 437189,
+          "sha256": "538d561865786ae7bb62b868831a66c0fbd0f345f02c237b705c7a7a8f4957d9"
+        },
+        {
+          "file": "playground-kid.bin",
+          "bytes": 1385848,
+          "sha256": "488f8ff3e01ed05f3f10f163aba2c6b0622dfa632d486e5e76bcaa9406e8ad04"
+        },
+        {
+          "file": "playground-kid.gltf",
+          "bytes": 76896,
+          "sha256": "f346a976a8b4f4ca3985094407941ff3f60edf8a689d8c79f27d64749f64b9ad"
+        }
+      ],
+      "joints": 80,
+      "vertices": 3936,
+      "triangles": 6660,
+      "materials": 2,
+      "blendShapes": [
+        "AK_03_BrowInnerUp",
+        "AK_09_EyeBlinkLeft",
+        "AK_10_EyeBlinkRight",
+        "AK_21_EyeWideLeft",
+        "AK_22_EyeWideRight",
+        "AK_25_JawOpen",
+        "AK_44_MouthSmileLeft",
+        "AK_45_MouthSmileRight"
+      ],
+      "clips": [
+        {
+          "id": "idle",
+          "source": "m_idle_neutral_01",
+          "frames": 351,
+          "durationSeconds": 11.6667,
+          "channels": 52,
+          "legRatio": 0.79,
+          "groundLiftMetres": 0,
+          "loopClosureDegrees": 0.039,
+          "phaseShiftFrames": 0,
+          "naturalSpeedMetresPerSecond": 0,
+          "removedLateralMetres": 0.0118
+        },
+        {
+          "id": "walk",
+          "source": "m_walk_neutral_01",
+          "frames": 37,
+          "durationSeconds": 1.2,
+          "channels": 52,
+          "legRatio": 0.79,
+          "groundLiftMetres": 0.025,
+          "loopClosureDegrees": 0.866,
+          "phaseShiftFrames": 23,
+          "naturalSpeedMetresPerSecond": 0.799,
+          "removedLateralMetres": 0
+        },
+        {
+          "id": "run",
+          "source": "m_run_neutral_01",
+          "frames": 23,
+          "durationSeconds": 0.7333,
+          "channels": 52,
+          "legRatio": 0.79,
+          "groundLiftMetres": 0.0337,
+          "loopClosureDegrees": 0.04,
+          "phaseShiftFrames": 17,
+          "naturalSpeedMetresPerSecond": 2.275,
+          "removedLateralMetres": 0
+        },
+        {
+          "id": "sprint",
+          "source": "m_run_fast_01",
+          "frames": 19,
+          "durationSeconds": 0.6,
+          "channels": 52,
+          "legRatio": 0.79,
+          "groundLiftMetres": 0.0348,
+          "loopClosureDegrees": 0.053,
+          "phaseShiftFrames": 12,
+          "naturalSpeedMetresPerSecond": 4.613,
+          "removedLateralMetres": 0
+        }
+      ],
+      "jointNames": [
+        "Bip01 Pelvis",
+        "Bip01 Spine",
+        "Bip01 Spine1",
+        "Bip01 Spine2",
+        "Bip01 Neck",
+        "Bip01 Head",
+        "Bip01 REye",
+        "Bip01 LEye",
+        "Bip01 MJaw",
+        "Bip01 MBottomLip",
+        "Bip01 MTongue",
+        "Bip01 LMouthBottom",
+        "Bip01 RMouthBottom",
+        "Bip01 RMasseter",
+        "Bip01 LMasseter",
+        "Bip01 MUpperLip",
+        "Bip01 RCaninus",
+        "Bip01 LCaninus",
+        "Bip01 REyeBlinkBottom",
+        "Bip01 LEyeBlinkBottom",
+        "Bip01 RUpperlip",
+        "Bip01 LUpperlip",
+        "Bip01 RMouthCorner",
+        "Bip01 LMouthCorner",
+        "Bip01 RCheek",
+        "Bip01 LCheek",
+        "Bip01 REyeBlinkTop",
+        "Bip01 LEyeBlinkTop",
+        "Bip01 RInnerEyebrow",
+        "Bip01 LInnerEyebrow",
+        "Bip01 MMiddleEyebrow",
+        "Bip01 ROuterEyebrow",
+        "Bip01 LOuterEyebrow",
+        "Bip01 MNose",
+        "Bip01 L Clavicle",
+        "Bip01 L UpperArm",
+        "Bip01 L Forearm",
+        "Bip01 L Hand",
+        "Bip01 L Finger0",
+        "Bip01 L Finger01",
+        "Bip01 L Finger02",
+        "Bip01 L Finger1",
+        "Bip01 L Finger11",
+        "Bip01 L Finger12",
+        "Bip01 L Finger2",
+        "Bip01 L Finger21",
+        "Bip01 L Finger22",
+        "Bip01 L Finger3",
+        "Bip01 L Finger31",
+        "Bip01 L Finger32",
+        "Bip01 L Finger4",
+        "Bip01 L Finger41",
+        "Bip01 L Finger42",
+        "Bip01 R Clavicle",
+        "Bip01 R UpperArm",
+        "Bip01 R Forearm",
+        "Bip01 R Hand",
+        "Bip01 R Finger0",
+        "Bip01 R Finger01",
+        "Bip01 R Finger02",
+        "Bip01 R Finger1",
+        "Bip01 R Finger11",
+        "Bip01 R Finger12",
+        "Bip01 R Finger2",
+        "Bip01 R Finger21",
+        "Bip01 R Finger22",
+        "Bip01 R Finger3",
+        "Bip01 R Finger31",
+        "Bip01 R Finger32",
+        "Bip01 R Finger4",
+        "Bip01 R Finger41",
+        "Bip01 R Finger42",
+        "Bip01 L Thigh",
+        "Bip01 L Calf",
+        "Bip01 L Foot",
+        "Bip01 L Toe0",
+        "Bip01 R Thigh",
+        "Bip01 R Calf",
+        "Bip01 R Foot",
+        "Bip01 R Toe0"
+      ]
+    },
+    {
+      "target": "browser",
+      "path": "public/assets/playground/hero/playground-kid.gltf",
+      "textureSize": 1024,
+      "files": [
+        {
+          "file": "playground-kid-body-color.png",
+          "bytes": 1230329,
+          "sha256": "5e1ef5b376f2363fe1d916b3a9619f7a02919eed7eef7b4e5af04c39b8df6bcd"
+        },
+        {
+          "file": "playground-kid-body-normal.png",
+          "bytes": 1117810,
+          "sha256": "9d2ec0e1dae0fe104855e1c6f664c7592be8ddef1a51d079b38361a3e49e7f69"
+        },
+        {
+          "file": "playground-kid-body-roughness.png",
+          "bytes": 366757,
+          "sha256": "a2de038765fb864363ae5a9a87aa2fedda9b762bf885098c66e64874d3b1da81"
+        },
+        {
+          "file": "playground-kid-head-color.png",
+          "bytes": 938707,
+          "sha256": "ac525423de6fc4b60d1ad4a4e398e9a2b2518c5fcf5bf4f16868749217e5b0c2"
+        },
+        {
+          "file": "playground-kid-head-normal.png",
+          "bytes": 914511,
+          "sha256": "c4aa4b2140b24ad281ff761a440bfc381c7e006c138bf334e146c68254675da4"
+        },
+        {
+          "file": "playground-kid-head-roughness.png",
+          "bytes": 437189,
+          "sha256": "538d561865786ae7bb62b868831a66c0fbd0f345f02c237b705c7a7a8f4957d9"
+        },
+        {
+          "file": "playground-kid.bin",
+          "bytes": 1385848,
+          "sha256": "488f8ff3e01ed05f3f10f163aba2c6b0622dfa632d486e5e76bcaa9406e8ad04"
+        },
+        {
+          "file": "playground-kid.gltf",
+          "bytes": 76896,
+          "sha256": "f346a976a8b4f4ca3985094407941ff3f60edf8a689d8c79f27d64749f64b9ad"
+        }
+      ],
+      "joints": 80,
+      "vertices": 3936,
+      "triangles": 6660,
+      "materials": 2,
+      "blendShapes": [
+        "AK_03_BrowInnerUp",
+        "AK_09_EyeBlinkLeft",
+        "AK_10_EyeBlinkRight",
+        "AK_21_EyeWideLeft",
+        "AK_22_EyeWideRight",
+        "AK_25_JawOpen",
+        "AK_44_MouthSmileLeft",
+        "AK_45_MouthSmileRight"
+      ],
+      "clips": [
+        {
+          "id": "idle",
+          "source": "m_idle_neutral_01",
+          "frames": 351,
+          "durationSeconds": 11.6667,
+          "channels": 52,
+          "legRatio": 0.79,
+          "groundLiftMetres": 0,
+          "loopClosureDegrees": 0.039,
+          "phaseShiftFrames": 0,
+          "naturalSpeedMetresPerSecond": 0,
+          "removedLateralMetres": 0.0118
+        },
+        {
+          "id": "walk",
+          "source": "m_walk_neutral_01",
+          "frames": 37,
+          "durationSeconds": 1.2,
+          "channels": 52,
+          "legRatio": 0.79,
+          "groundLiftMetres": 0.025,
+          "loopClosureDegrees": 0.866,
+          "phaseShiftFrames": 23,
+          "naturalSpeedMetresPerSecond": 0.799,
+          "removedLateralMetres": 0
+        },
+        {
+          "id": "run",
+          "source": "m_run_neutral_01",
+          "frames": 23,
+          "durationSeconds": 0.7333,
+          "channels": 52,
+          "legRatio": 0.79,
+          "groundLiftMetres": 0.0337,
+          "loopClosureDegrees": 0.04,
+          "phaseShiftFrames": 17,
+          "naturalSpeedMetresPerSecond": 2.275,
+          "removedLateralMetres": 0
+        },
+        {
+          "id": "sprint",
+          "source": "m_run_fast_01",
+          "frames": 19,
+          "durationSeconds": 0.6,
+          "channels": 52,
+          "legRatio": 0.79,
+          "groundLiftMetres": 0.0348,
+          "loopClosureDegrees": 0.053,
+          "phaseShiftFrames": 12,
+          "naturalSpeedMetresPerSecond": 4.613,
+          "removedLateralMetres": 0
+        }
+      ],
+      "jointNames": [
+        "Bip01 Pelvis",
+        "Bip01 Spine",
+        "Bip01 Spine1",
+        "Bip01 Spine2",
+        "Bip01 Neck",
+        "Bip01 Head",
+        "Bip01 REye",
+        "Bip01 LEye",
+        "Bip01 MJaw",
+        "Bip01 MBottomLip",
+        "Bip01 MTongue",
+        "Bip01 LMouthBottom",
+        "Bip01 RMouthBottom",
+        "Bip01 RMasseter",
+        "Bip01 LMasseter",
+        "Bip01 MUpperLip",
+        "Bip01 RCaninus",
+        "Bip01 LCaninus",
+        "Bip01 REyeBlinkBottom",
+        "Bip01 LEyeBlinkBottom",
+        "Bip01 RUpperlip",
+        "Bip01 LUpperlip",
+        "Bip01 RMouthCorner",
+        "Bip01 LMouthCorner",
+        "Bip01 RCheek",
+        "Bip01 LCheek",
+        "Bip01 REyeBlinkTop",
+        "Bip01 LEyeBlinkTop",
+        "Bip01 RInnerEyebrow",
+        "Bip01 LInnerEyebrow",
+        "Bip01 MMiddleEyebrow",
+        "Bip01 ROuterEyebrow",
+        "Bip01 LOuterEyebrow",
+        "Bip01 MNose",
+        "Bip01 L Clavicle",
+        "Bip01 L UpperArm",
+        "Bip01 L Forearm",
+        "Bip01 L Hand",
+        "Bip01 L Finger0",
+        "Bip01 L Finger01",
+        "Bip01 L Finger02",
+        "Bip01 L Finger1",
+        "Bip01 L Finger11",
+        "Bip01 L Finger12",
+        "Bip01 L Finger2",
+        "Bip01 L Finger21",
+        "Bip01 L Finger22",
+        "Bip01 L Finger3",
+        "Bip01 L Finger31",
+        "Bip01 L Finger32",
+        "Bip01 L Finger4",
+        "Bip01 L Finger41",
+        "Bip01 L Finger42",
+        "Bip01 R Clavicle",
+        "Bip01 R UpperArm",
+        "Bip01 R Forearm",
+        "Bip01 R Hand",
+        "Bip01 R Finger0",
+        "Bip01 R Finger01",
+        "Bip01 R Finger02",
+        "Bip01 R Finger1",
+        "Bip01 R Finger11",
+        "Bip01 R Finger12",
+        "Bip01 R Finger2",
+        "Bip01 R Finger21",
+        "Bip01 R Finger22",
+        "Bip01 R Finger3",
+        "Bip01 R Finger31",
+        "Bip01 R Finger32",
+        "Bip01 R Finger4",
+        "Bip01 R Finger41",
+        "Bip01 R Finger42",
+        "Bip01 L Thigh",
+        "Bip01 L Calf",
+        "Bip01 L Foot",
+        "Bip01 L Toe0",
+        "Bip01 R Thigh",
+        "Bip01 R Calf",
+        "Bip01 R Foot",
+        "Bip01 R Toe0"
+      ]
+    }
+  ]
+}

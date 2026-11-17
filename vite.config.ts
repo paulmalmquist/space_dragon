@@ -3,7 +3,9 @@ import { fileURLToPath } from 'node:url';
 import { ideaInboxPlugin } from './tools/dev-idea-inbox.ts';
 
 const portArgument = process.argv.indexOf('--port');
-const cacheSuffix = process.env.SPACE_DRAGON_TESTING === '1' ? 'test' : portArgument >= 0 ? process.argv[portArgument + 1] : 'local';
+const portSuffix = portArgument >= 0 ? process.argv[portArgument + 1] : undefined;
+// Concurrent test servers on different ports each keep their own optimizer cache.
+const cacheSuffix = process.env.SPACE_DRAGON_TESTING === '1' ? (portSuffix && portSuffix !== '5175' ? `test-${portSuffix}` : 'test') : portSuffix ?? 'local';
 
 export default defineConfig({
   base: '/space-dragon/',
@@ -32,6 +34,7 @@ export default defineConfig({
       input: {
         home: fileURLToPath(new URL('./index.html', import.meta.url)),
         drive: fileURLToPath(new URL('./drive/index.html', import.meta.url)),
+        arena: fileURLToPath(new URL('./arena/index.html', import.meta.url)),
         dogfight: fileURLToPath(new URL('./dogfight/index.html', import.meta.url)),
       },
     },
