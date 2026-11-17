@@ -13,7 +13,7 @@ Load only the relevant contract:
 - Art: [Blender handoff](docs/BLENDER_CHARACTER_HANDOFF.md).
 - Seele or prototype imports: [prototype integration](docs/engineering/PROTOTYPE_INTEGRATION.md) and [Seele intake](seeles-assets/README.md); the first track is dragon dogfighting. Include an initial import-versus-refactor assessment.
 - On-foot traversal or Luke's Playground: [traversal decision](docs/decisions/2026-11-15-hero-traversal-polish.md), [Unity-native decision](docs/decisions/2026-11-15-unity-native-lukes-playground.md) and [runbook](docs/engineering/UNITY_PLAYGROUND_HANDOFF.md). The hero stand-in is a generic licensed model, never a family likeness.
-- Luke's Arena, on-foot combat or stealth: [arena decision](docs/decisions/2026-11-16-lukes-arena-abilities-and-stealth.md) and the PROPOSED [combat design](docs/gameplay/COMBAT_SYSTEM.md) it implements in part. Nobody is hurt, nothing can be lost and nothing needs reading; never add a fail state.
+- Luke's Arena, on-foot combat or stealth: [arena decision](docs/decisions/2026-11-16-lukes-arena-abilities-and-stealth.md), the [sidekick and alley-oop decision](docs/decisions/2026-11-17-lukes-sidekick-and-first-alley-oop.md) and the PROPOSED [combat design](docs/gameplay/COMBAT_SYSTEM.md) they implement in part. Nobody is hurt, nothing can be lost and nothing needs reading; never add a fail state. The sidekick is a placeholder figure, never a family likeness.
 - Verification/release: [quality gates](docs/engineering/QUALITY_GATES.md).
 
 ## Turn unordered ideas into changes

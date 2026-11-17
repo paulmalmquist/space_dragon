@@ -82,8 +82,9 @@ With the Editor open: **Space Dragon > Luke's Arena > Generate scene**, then Pla
 | --- | --- | --- |
 | Move, jump, sprint / tether, look, recenter, pause | as in the playground | as in the playground; bumpers also sprint |
 | Climb | walk into a wall with lit hand-holds; push toward it to go up, away to come down; Space jumps off | the same with the stick and A / Cross |
-| The one-button action: quiet pounce, pounce or snare, whichever counts | F, J or Enter | X / Square or B / Circle |
+| The one-button action: quiet pounce, pounce or snare, whichever counts | F, J or Enter | X / Square |
 | Always pounce | G or K | Y / Triangle |
+| Ask the sidekick: a throw inside his ring, a stun anywhere else (SD-090) | T or L | B / Circle |
 
 Step over a glowing line to start a trial and back out to stop. There is no fail state: robots power down, Luke is bonked for a moment or set back in hiding, and stars only ever go up.
 
@@ -95,6 +96,7 @@ What to check first:
 4. **The ring.** Walk north from the start into the middle zone. Two robots rise after a moment; a red lane on the floor shows each lunge for a full second before it lands. `F` at the ringed robot.
 5. **The course.** Walk into the lit wall on the west tower. Luke should grab it, climb with alternating reaches and pull up onto the top.
 6. **The HUD** is plain immediate-mode text in built-in fonts: `*` earned star, `o` still possible this try, `-` out of reach.
+7. **The sidekick (SD-090).** A helmeted figure built from primitives should stand beside Luke at the start and follow him, with a gold ring on the floor around him. Stand in the ring and press `T`: Luke should be thrown about five metres up, the camera should back off, and with robots below everything should slow for a second before he dives. Away from him `T` should stun a robot (three stars circle it). In the stealth yard he should stop at the gate. He is drawn by `BuildSidekick` and posed by `PoseSidekick` in `ArenaGame.cs`, both written blind: expect limbs that bend the wrong way before anything else. If the scene was generated before this change his armour falls back to the drone metal; generate again for the blue-grey material.
 
 | Piece | Where | Notes |
 | --- | --- | --- |
