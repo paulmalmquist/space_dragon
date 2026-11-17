@@ -10,7 +10,7 @@ const pad = (axes: number[], pressed: number[] = [], mapping = 'standard') => ({
 test('a standard controller maps to the same few actions as the keyboard, and nothing else is guessed', () => {
   assert.equal(sampleArenaPad(pad([0, 0, 0, 0], [], '')), null, 'an unmapped pad is left alone');
   const idle = sampleArenaPad(pad([0.1, -0.1, 0.05, 0]))!;
-  assert.deepEqual(idle, { forward: 0, right: 0, jump: false, action: false, pounce: false, power: false, lookX: 0, lookY: 0, pause: false }, 'stick drift inside the dead zone is nothing');
+  assert.deepEqual(idle, { forward: 0, right: 0, jump: false, action: false, pounce: false, sidekick: false, power: false, lookX: 0, lookY: 0, pause: false }, 'stick drift inside the dead zone is nothing');
   // Stick up is forward; the sticks are rescaled outside the dead zone and never exceed one.
   const run = sampleArenaPad(pad([0, -1, 1, 0]))!;
   assert.equal(run.forward, 1);
@@ -21,8 +21,12 @@ test('a standard controller maps to the same few actions as the keyboard, and no
   // The d-pad moves too, for small hands.
   assert.deepEqual([sampleArenaPad(pad([0, 0, 0, 0], [12]))!.forward, sampleArenaPad(pad([0, 0, 0, 0], [13]))!.forward, sampleArenaPad(pad([0, 0, 0, 0], [15]))!.right, sampleArenaPad(pad([0, 0, 0, 0], [14]))!.right], [1, -1, 1, -1]);
   assert.equal(sampleArenaPad(pad([0, 0, 0, 0], [0]))!.jump, true);
-  for (const button of [1, 2]) assert.equal(sampleArenaPad(pad([0, 0, 0, 0], [button]))!.action, true, 'either face button beside jump is the one-button action');
-  assert.equal(sampleArenaPad(pad([0, 0, 0, 0], [3]))!.pounce, true);
+  // The four face buttons each do one thing.
+  const face = (button: number) => { const sample = sampleArenaPad(pad([0, 0, 0, 0], [button]))!; return [sample.jump, sample.action, sample.pounce, sample.sidekick]; };
+  assert.deepEqual(face(2), [false, true, false, false], 'X is the one-button action');
+  assert.deepEqual(face(3), [false, false, true, false], 'Y pounces');
+  assert.deepEqual(face(1), [false, false, false, true], 'B asks the sidekick');
+  assert.deepEqual(face(0), [true, false, false, false], 'A jumps');
   for (const button of [4, 5, 6, 7]) assert.equal(sampleArenaPad(pad([0, 0, 0, 0], [button]))!.power, true, 'any bumper or trigger is suit power');
   assert.equal(sampleArenaPad(pad([0, 0, 0, 0], [9]))!.pause, true);
   assert.equal(sampleArenaPad(pad([Number.NaN, Number.POSITIVE_INFINITY, 0, 0]))!.forward, 0, 'bad axis values are ignored');
@@ -42,13 +46,13 @@ function harness() {
 
 test('keys are held values plus counted presses, so a tap between two slow frames is never lost', () => {
   const { input, send, calls } = harness();
-  assert.deepEqual(input.sample(true), { forward: 0, right: 0, jump: false, power: false, action: false, pounce: false, lookX: 0, lookY: 0 });
+  assert.deepEqual(input.sample(true), { forward: 0, right: 0, jump: false, power: false, action: false, pounce: false, sidekick: false, lookX: 0, lookY: 0 });
   // A whole tap of F and of Space between two frames.
   send('keydown', 'f'); send('keyup', 'f');
   send('keydown', ' '); send('keyup', ' ');
   assert.equal(input.sample(true).action, false, 'no longer held');
-  assert.deepEqual(input.takePresses(), { jump: 1, action: 1, pounce: 0 });
-  assert.deepEqual(input.takePresses(), { jump: 0, action: 0, pounce: 0 }, 'taken once');
+  assert.deepEqual(input.takePresses(), { jump: 1, action: 1, pounce: 0, sidekick: 0 });
+  assert.deepEqual(input.takePresses(), { jump: 0, action: 0, pounce: 0, sidekick: 0 }, 'taken once');
   // Held movement, both spellings; opposite keys cancel.
   send('keydown', 'w'); send('keydown', 'ArrowRight'); send('keydown', 'Shift');
   assert.deepEqual([input.sample(true).forward, input.sample(true).right, input.sample(true).power], [1, 1, true]);
@@ -57,7 +61,13 @@ test('keys are held values plus counted presses, so a tap between two slow frame
   send('keyup', 's'); send('keyup', 'w'); send('keyup', 'ArrowRight'); send('keyup', 'Shift');
   // Key repeat is not a new press.
   send('keydown', 'g'); send('keydown', 'g', { repeat: true }); send('keydown', 'k');
-  assert.deepEqual(input.takePresses(), { jump: 0, action: 0, pounce: 2 });
+  assert.deepEqual(input.takePresses(), { jump: 0, action: 0, pounce: 2, sidekick: 0 });
+  // T and L ask the sidekick: held while down, counted once each.
+  send('keydown', 't'); send('keydown', 'L');
+  assert.equal(input.sample(true).sidekick, true);
+  send('keyup', 't'); send('keyup', 'L');
+  assert.equal(input.sample(true).sidekick, false);
+  assert.deepEqual(input.takePresses(), { jump: 0, action: 0, pounce: 0, sidekick: 2 });
   for (const key of ['j', 'Enter', 'F']) send('keydown', key);
   assert.equal(input.takePresses().action, 3, 'F, J and Enter are all the action, in either case');
   // Q and E turn the camera while held.
@@ -76,11 +86,11 @@ test('keys are held values plus counted presses, so a tap between two slow frame
 test('inactive, released or disposed input reads as nothing held', () => {
   const { input, send } = harness();
   send('keydown', 'w'); send('keydown', 'f');
-  assert.deepEqual(input.sample(false), { forward: 0, right: 0, jump: false, power: false, action: false, pounce: false, lookX: 0, lookY: 0 }, 'paused: nothing');
+  assert.deepEqual(input.sample(false), { forward: 0, right: 0, jump: false, power: false, action: false, pounce: false, sidekick: false, lookX: 0, lookY: 0 }, 'paused: nothing');
   assert.equal(input.sample(true).forward, 1, 'still physically held');
   input.release();
   assert.equal(input.sample(true).forward, 0, 'a pause or blur lets go of everything');
-  assert.deepEqual(input.takePresses(), { jump: 0, action: 0, pounce: 0 });
+  assert.deepEqual(input.takePresses(), { jump: 0, action: 0, pounce: 0, sidekick: 0 });
   // Space and Enter on a focused button or link belong to it; the other keys still play.
   class Focused extends EventTarget { closest(selector: string) { return selector.includes('button') ? this : null; } }
   const focused = new Focused();
@@ -89,7 +99,7 @@ test('inactive, released or disposed input reads as nothing held', () => {
   assert.equal(press(' ').defaultPrevented, false);
   assert.equal(press('Enter').defaultPrevented, false);
   press('f');
-  assert.deepEqual(onButton.takePresses(), { jump: 0, action: 1, pounce: 0 });
+  assert.deepEqual(onButton.takePresses(), { jump: 0, action: 1, pounce: 0, sidekick: 0 });
   const { input: second, send: sendSecond } = harness();
   sendSecond('keydown', 'd');
   second.dispose();

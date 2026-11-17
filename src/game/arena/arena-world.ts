@@ -25,6 +25,13 @@ export interface RobotSpec {
 export interface Pickup { id: string; trial: TrialId; x: number; y: number; z: number; }
 export interface HideSpot { id: string; x: number; z: number; yaw: number; }
 export interface BlockSpec { id: string; minX: number; maxX: number; minZ: number; maxZ: number; top: number; look: 'tower' | 'crate' | 'wall' | 'pillar'; }
+export interface SidekickWait { trial: TrialId; x: number; z: number; yaw: number; }
+/**
+ * The mission sidekick: mostly on his own, with one button to ask for help. He keeps to the
+ * ground. In a trial listed under `waits` he stays at that spot outside its floor instead of
+ * following Luke in.
+ */
+export interface SidekickSpec { id: string; x: number; z: number; yaw: number; waits: readonly SidekickWait[]; }
 
 const block = (id: string, minX: number, maxX: number, minZ: number, maxZ: number, top: number, look: BlockSpec['look']): BlockSpec =>
   Object.freeze({ id, minX, maxX, minZ, maxZ, top, look });
@@ -117,6 +124,15 @@ export const HIDE_SPOTS: readonly HideSpot[] = Object.freeze([
   Object.freeze({ id: 'behind-crate-3', x: 17, z: 10.2, yaw: 0 }),
   Object.freeze({ id: 'behind-crate-4', x: 24, z: 9.2, yaw: 0 }),
 ]);
+
+/**
+ * Dad, as a placeholder figure. He starts beside Luke and follows him through the hub, the
+ * course and the ring. Stealth is Luke's own test, so there he keeps watch at the gate.
+ */
+export const SIDEKICK: SidekickSpec = Object.freeze({
+  id: 'dad', x: -1.7, z: -19.4, yaw: 0,
+  waits: Object.freeze([Object.freeze({ trial: 'stealth', x: 14.4, z: -9.7, yaw: 0 })] as const),
+});
 
 const BOUNDS = Object.freeze({ minX: -32, maxX: 32, minZ: -24, maxZ: 24 });
 const SPAWN = Object.freeze({ x: 0, z: -18, yaw: 0 });

@@ -27,8 +27,9 @@ import { createHeroEffects } from '../hero/hero-effects';
 import { HERO_EVENT } from '../traversal/hero';
 import { TRAVERSAL_STEP, TUNING } from '../traversal/tuning';
 import { supportAt } from '../traversal/world';
-import { ARENA, ARENA_EVENT, ROBOT_PROFILES, STAR_MAX } from './arena';
+import { ARENA, ARENA_EVENT, ARENA_LAYOUT, ROBOT_PROFILES, STAR_MAX, diveTargets } from './arena';
 import type { ArenaProgress, ArenaState } from './arena';
+import { createSidekickFigure } from './sidekick-figure';
 import { ANCHORS, BLOCKS, CLIMBS, HIDE_SPOTS, LUKE_ARENA, PICKUPS, ROBOTS, ZONES } from './arena-world';
 import type { RobotSpec, TrialId } from './arena-world';
 
@@ -130,6 +131,10 @@ export function createArenaView(canvas: HTMLCanvasElement) {
     hide: glowMaterial(scene, 'arena.hide', '#6f8dff', 0.55, { fog: false, alpha: 0.22, additive: true }),
     hideEdge: glowMaterial(scene, 'arena.hide-edge', '#8aa2ff', 1.1, { fog: false }),
     catchBeam: glowMaterial(scene, 'arena.catch-beam', '#fff3c4', 1.3, { fog: false, alpha: 0.4, additive: true }),
+    oop: glowMaterial(scene, 'arena.oop', '#ffb347', 1.35, { fog: false }),
+    dive: glowMaterial(scene, 'arena.dive', '#ffe9a8', 1.7, { fog: false }),
+    web: glowMaterial(scene, 'arena.web', '#8ff3ff', 1.5, { fog: false }),
+    stunBeam: glowMaterial(scene, 'arena.stun-beam', '#ffb347', 1.6, { fog: false, alpha: 0.7, additive: true }),
   };
   const eyeMaterials = Object.fromEntries((Object.keys(EYE) as EyeKey[]).map(name => [name, glowMaterial(scene, `arena.eye-${name}`, EYE[name], name === 'off' ? 0.5 : 2, { fog: false })])) as Record<EyeKey, StandardMaterial>;
   const fanMaterials = Object.fromEntries((['calm', 'curious', 'alert'] as const).map(name => {
@@ -459,6 +464,50 @@ export function createArenaView(canvas: HTMLCanvasElement) {
     console.error('The realistic hero model did not load; the suited proxy stays in use.', error);
     canvas.dataset.heroModel = 'proxy';
   });
+
+  // ---------- The sidekick: a placeholder figure, the ring to stand in for a throw, his stun, and the dive ----------
+  const dad = createSidekickFigure(scene);
+  dad.shadowCasters().forEach(mesh => shadows.addShadowCaster(mesh));
+  dad.setEnabled(false);
+  const oopRing = lit(MeshBuilder.CreateTorus('arena.oop-ring', { diameter: ARENA.oopReach * 2, thickness: 0.07, tessellation: 48 }, scene));
+  oopRing.material = G.oop; oopRing.setEnabled(false);
+  // An up arrow over his head: "throw me". A picture, so nothing needs reading.
+  const arrowTexture = new DynamicTexture('arena.oop-arrow', { width: 128, height: 128 }, scene, true);
+  arrowTexture.hasAlpha = true;
+  {
+    const context = arrowTexture.getContext() as CanvasRenderingContext2D;
+    context.clearRect(0, 0, 128, 128);
+    context.beginPath();
+    for (const [x, y] of [[64, 10], [114, 62], [84, 62], [84, 118], [44, 118], [44, 62], [14, 62]]) context.lineTo(x, y);
+    context.closePath();
+    context.lineJoin = 'round'; context.lineWidth = 10; context.strokeStyle = 'rgba(6,10,16,0.9)'; context.stroke();
+    context.fillStyle = '#ffb347'; context.fill();
+    arrowTexture.update();
+  }
+  const arrowMaterial = new StandardMaterial('arena.oop-arrow', scene);
+  arrowMaterial.disableLighting = true; arrowMaterial.emissiveTexture = arrowTexture; arrowMaterial.opacityTexture = arrowTexture;
+  arrowMaterial.diffuseColor = Color3.Black(); arrowMaterial.specularColor = Color3.Black(); arrowMaterial.fogEnabled = false; arrowMaterial.backFaceCulling = false;
+  const oopArrow = MeshBuilder.CreatePlane('arena.oop-arrow', { size: 0.9 }, scene);
+  oopArrow.billboardMode = Mesh.BILLBOARDMODE_ALL; oopArrow.isPickable = false; oopArrow.material = arrowMaterial; oopArrow.setEnabled(false);
+  const line = (name: string, diameter: number, value: Material) => {
+    const mesh = lit(MeshBuilder.CreateCylinder(name, { height: 1, diameter, tessellation: 8 }, scene));
+    mesh.material = value; mesh.rotationQuaternion = new Quaternion(); mesh.setEnabled(false);
+    return mesh;
+  };
+  const stunBeam = line('arena.stun-beam', 0.1, G.stunBeam);
+  const stunStars = Array.from({ length: 3 }, (_unused, index) => {
+    const value = lit(MeshBuilder.CreatePolyhedron(`arena.stun-star.${index}`, { type: 1, size: 0.08 }, scene));
+    value.material = G.star; value.setEnabled(false);
+    return value;
+  });
+  // What a dive will land on glows while time is slow; lines run to each as Luke comes down.
+  const diveRings = Array.from({ length: ARENA.diveCount }, (_unused, index) => {
+    const ring = lit(MeshBuilder.CreateTorus(`arena.dive-ring.${index}`, { diameter: 1, thickness: 0.07, tessellation: 30 }, scene));
+    ring.material = G.dive; ring.billboardMode = Mesh.BILLBOARDMODE_ALL; ring.setEnabled(false);
+    return ring;
+  });
+  const webLines = Array.from({ length: ARENA.diveCount }, (_unused, index) => line(`arena.web-line.${index}`, 0.035, G.web));
+  presentation.includeInGlow(dad.meshes);
   presentation.includeInGlow(glowing);
   presentation.syncGlow();
 
@@ -479,7 +528,17 @@ export function createArenaView(canvas: HTMLCanvasElement) {
   let rendered = false;
   let lastProgress = '';
   let lifted = 0;
+  let oopLook = 0;
   const up = Vector3.Up(), direction = new Vector3();
+  /** Lay a unit-length cylinder between two points. */
+  const stretch = (mesh: Mesh, from: { x: number; y: number; z: number }, toX: number, toY: number, toZ: number) => {
+    direction.set(toX - from.x, toY - from.y, toZ - from.z);
+    const length = Math.max(0.01, direction.length());
+    direction.scaleInPlace(1 / length);
+    Quaternion.FromUnitVectorsToRef(up, direction, mesh.rotationQuaternion!);
+    mesh.position.set(from.x + direction.x * length / 2, from.y + direction.y * length / 2, from.z + direction.z * length / 2);
+    mesh.scaling.y = length;
+  };
 
   function update(frame: ArenaFrame, dt: number, reducedMotion: boolean, snap = false) {
     const { state, previous, events } = frame;
@@ -578,6 +637,48 @@ export function createArenaView(canvas: HTMLCanvasElement) {
       }
     }
 
+    // ----- Sidekick -----
+    const buddy = state.sidekick, buddyBefore = previous.sidekick;
+    dad.setEnabled(buddy.present);
+    const aimedAt = buddy.present && buddy.aimId ? robots.find(robot => robot.spec.id === buddy.aimId) : undefined;
+    const offered = buddy.present && buddy.mode === 'ready';
+    // He can be asked: the ring is faint. Luke is standing in it: the ring is bright and the arrow is up.
+    const listening = buddy.present && buddy.cooldown <= 0 && buddy.timer <= 0 && buddy.mode !== 'wait' && state.bonk <= 0 && state.held <= 0 && state.oop === '';
+    oopRing.setEnabled(listening); oopArrow.setEnabled(offered); stunBeam.setEnabled(Boolean(aimedAt));
+    if (buddy.present) {
+      const hopped = Math.abs(buddy.x - buddyBefore.x) + Math.abs(buddy.z - buddyBefore.z) > 1.5;
+      const bx = hopped || snap ? buddy.x : lerp(buddyBefore.x, buddy.x, alpha), bz = hopped || snap ? buddy.z : lerp(buddyBefore.z, buddy.z, alpha);
+      const byaw = hopped || snap ? buddy.yaw : buddyBefore.yaw + wrap(buddy.yaw - buddyBefore.yaw) * alpha;
+      const speed = hopped || snap ? 0 : Math.hypot(buddy.x - buddyBefore.x, buddy.z - buddyBefore.z) / TRAVERSAL_STEP;
+      dad.update({ x: bx, z: bz, yaw: byaw, speed, mode: buddy.mode }, dt, reducedMotion, snap || hopped);
+      if (events & ARENA_EVENT.zip) emit(zapBurst, buddy.x, 1, buddy.z, reducedMotion ? 8 : 36);
+      if (listening) { oopRing.position.set(bx, 0.05, bz); oopRing.visibility = offered ? (reducedMotion ? 0.95 : 0.78 + Math.sin(elapsed * 7) * 0.2) : 0.3; }
+      if (offered) { oopArrow.position.set(bx, 2.4 + (reducedMotion ? 0 : Math.sin(elapsed * 5) * 0.09), bz); oopArrow.scaling.setAll(reducedMotion ? 1 : 1 + Math.sin(elapsed * 7) * 0.06); }
+      if (aimedAt) {
+        const at = aimedAt.root.position, middle = aimedAt.profile.height * 0.55;
+        stretch(stunBeam, dad.handPosition(), at.x, at.y + middle, at.z);
+        if (events & ARENA_EVENT.stun) emit(sparkBurst, at.x, at.y + middle, at.z, reducedMotion ? 8 : 26);
+      }
+    }
+    // Dizzy stars circle a stunned robot until it wears off.
+    const dazed = robots[state.robots.findIndex(robot => robot.stunned)];
+    stunStars.forEach((value, index) => {
+      value.setEnabled(Boolean(dazed));
+      if (!dazed) return;
+      const angle = (reducedMotion ? 0 : elapsed * 4.5) + index * Math.PI * 2 / 3, at = dazed.root.position;
+      value.position.set(at.x + Math.cos(angle) * (dazed.profile.radius + 0.25), at.y + dazed.profile.height + 0.35, at.z + Math.sin(angle) * (dazed.profile.radius + 0.25));
+    });
+    // The alley-oop: what the dive will land on glows during the slow moment and until Luke comes down.
+    const diving = state.oop === 'hang' ? diveTargets(ARENA_LAYOUT, state).map(robot => robot.id) : state.oop === 'dive' ? state.diveIds : [];
+    diveRings.forEach((ring, index) => {
+      const entry = diving[index] ? robots.find(robot => robot.spec.id === diving[index]) : undefined;
+      ring.setEnabled(Boolean(entry));
+      if (!entry) return;
+      ring.position.copyFrom(entry.root.position); ring.position.y += entry.profile.height * 0.5;
+      ring.scaling.setAll((entry.profile.radius * 2 + (index === 0 ? 1.2 : 0.85)) * (reducedMotion ? 1 : 1 + Math.sin(elapsed * 11 + index) * 0.07));
+    });
+    if (state.oop === 'dive') reachPoint = { x: state.oopToX, y: state.oopToY - 0.15, z: state.oopToZ };
+
     // ----- Floodlight -----
     if (flood && spot) {
       const now = state.robots[robots.indexOf(flood)];
@@ -598,13 +699,22 @@ export function createArenaView(canvas: HTMLCanvasElement) {
     // ----- Hero, camera, tether and snare lines -----
     const anchor = hero.tetherId ? LUKE_ARENA.anchors.find(candidate => candidate.id === hero.tetherId) ?? null : null;
     avatar.update({ ...view, anchor, dizzy: state.bonk > 0 ? 1 : 0, lifted, reach: anchor ? null : reachPoint }, dt, reducedMotion, snap);
-    follow.update(view, dt, reducedMotion, snap);
+    // During an alley-oop the camera backs off and looks between Luke and the floor, so the robots below stay in the picture.
+    oopLook = snap ? 0 : lerp(oopLook, state.oop !== '' ? 1 : 0, 1 - Math.exp(-6 * dt));
+    follow.update({ ...view, y: view.y * (1 - 0.55 * oopLook), pull: 3.4 * oopLook }, dt, reducedMotion, snap);
     // The snare is drawn with the same line as the tether, and shoots out the same way.
     effects.update({ ...view, events: view.events | (events & ARENA_EVENT.snare ? HERO_EVENT.attach : 0), anchor: anchor ?? reachPoint, hand: avatar.handPosition(), candidateId: frame.candidateId,
       floor: supportAt(LUKE_ARENA, view.x, view.z, view.y + 0.05, 0).height, collected: [] }, dt, reducedMotion);
     aimShadows(view.x, view.z);
     if (events & ARENA_EVENT.impact) emit(state.pounceQuiet || events & ARENA_EVENT.quiet ? zapBurst : sparkBurst, view.x, view.y + 0.3, view.z, reducedMotion ? 8 : 30);
     if (events & ARENA_EVENT.hit) emit(sparkBurst, view.x, view.y + 1, view.z, reducedMotion ? 6 : 22);
+    if (events & ARENA_EVENT.toss) emit(sparkBurst, view.x, view.y + 0.2, view.z, reducedMotion ? 8 : 40);
+    // Lines from Luke's hand to the other robots the dive lands on; the first has the tether line itself.
+    webLines.forEach((web, index) => {
+      const entry = state.oop === 'dive' && index > 0 && state.diveIds[index] ? robots.find(robot => robot.spec.id === state.diveIds[index]) : undefined;
+      web.setEnabled(Boolean(entry));
+      if (entry) stretch(web, avatar.handPosition(), entry.root.position.x, entry.root.position.y + entry.profile.height * 0.55, entry.root.position.z);
+    });
     if (events & (ARENA_EVENT.pickup | ARENA_EVENT.star)) { emit(sparkBurst, view.x, view.y + 1, view.z, reducedMotion ? 10 : 44); person?.celebrate(); }
     dizzyStars.forEach((value, index) => {
       value.setEnabled(state.bonk > 0);
@@ -657,6 +767,8 @@ export function createArenaView(canvas: HTMLCanvasElement) {
       robotsShown: robots.filter(robot => robot.root.isEnabled()).length, fansShown: robots.filter(robot => robot.fan?.isEnabled()).length,
       lanesShown: robots.filter(robot => robot.lane?.isEnabled()).length, targetShown: target.isEnabled(), quietShown: targetInner.isEnabled(),
       floodlight: spot ? Math.round(spot.intensity) : 0, avatar: avatar.snapshot(), effects: effects.snapshot(),
+      sidekick: { shown: dad.root.isEnabled(), ...dad.snapshot(), ring: oopRing.isEnabled(), arrow: oopArrow.isEnabled(), beam: stunBeam.isEnabled(), stars: stunStars[0].isEnabled(),
+        diveRings: diveRings.filter(ring => ring.isEnabled()).length, webLines: webLines.filter(web => web.isEnabled()).length },
       camera: follow.snapshot(), visual: { ...presentation.snapshot(), ...quality.snapshot() },
     }),
     dispose() {

@@ -1,6 +1,6 @@
 import './style.css';
 import { createArenaView } from './arena-view';
-import { ARENA, ARENA_EVENT, ARENA_LAYOUT, ROBOT_PROFILES, STAR_MAX, actionFor, createArena, emptyProgress, stepArena } from './arena';
+import { ARENA, ARENA_EVENT, ARENA_LAYOUT, ROBOT_PROFILES, STAR_MAX, actionFor, createArena, emptyProgress, sidekickFor, stepArena } from './arena';
 import type { ActionKind, ArenaState } from './arena';
 import { LUKE_ARENA, PICKUPS } from './arena-world';
 import type { TrialId } from './arena-world';
@@ -20,6 +20,19 @@ const ICON: Record<TrialId | ActionKind, string> = {
   pounce: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 34Q22 2 38 30"/><path d="m30 28 8 3 2-9"/></svg>',
   quiet: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 34Q22 2 38 30"/><path d="m30 28 8 3 2-9"/><path d="M10 12h6M13 9v6" /></svg>',
 };
+/** The sidekick button: what it would do now, or why it would do nothing. */
+type BuddyHint = 'oop' | 'stun' | 'wait' | 'rest' | 'none';
+const BUDDY_ICON: Record<BuddyHint, string> = {
+  // A small figure thrown up from cupped hands.
+  oop: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 30V8M15 17l9-9 9 9"/><path d="M9 34q15 12 30 0"/></svg>',
+  // A star: dizzy.
+  stun: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="m24 7 5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1Z"/></svg>',
+  // An eye: keeping watch at the gate.
+  wait: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 24q17-17 34 0-17 17-34 0Z"/><circle cx="24" cy="24" r="4" class="fill"/></svg>',
+  rest: '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="13"/><path d="M24 15v9l6 4"/></svg>',
+  none: '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="15" r="6"/><path d="M11 40q0-14 13-14t13 14"/></svg>',
+};
+const BUDDY_LABEL: Record<BuddyHint, string> = { oop: 'Throw me!', stun: 'Stun', wait: 'On watch', rest: 'Resting', none: 'Dad' };
 const TRIAL_NAME: Record<TrialId, string> = { course: 'Ability course', ring: 'Battle ring', stealth: 'Stealth yard' };
 const stars = (id: string, label: string) => `<span class="star-row" id="${id}" role="img" aria-label="${label}">${'<i>★</i>'.repeat(STAR_MAX)}</span>`;
 
@@ -48,8 +61,9 @@ document.querySelector('#app')!.innerHTML = `<div class="arena-shell" id="shell"
     <div class="energy" id="energy" role="img" aria-label="Suit energy 4 of 4">${'<i></i>'.repeat(ARENA.energyMax)}</div>
     <div class="ability" id="ability-action" data-kind="none"><kbd>F</kbd><span class="ability-icon" id="action-icon">${ICON.none}</span><em id="action-label">Action</em><b class="cooldown" id="action-cooldown"></b></div>
     <div class="ability" id="ability-pounce"><kbd>G</kbd><span class="ability-icon">${ICON.pounce}</span><em>Pounce</em><b class="cooldown" id="pounce-cooldown"></b></div>
+    <div class="ability buddy" id="ability-sidekick" data-hint="none"><kbd>T</kbd><span class="ability-icon" id="sidekick-icon">${BUDDY_ICON.none}</span><em id="sidekick-label">Dad</em><b class="cooldown" id="sidekick-cooldown"></b></div>
   </div>
-  <div class="arena-controls" id="controls">WASD · MOVE &nbsp; SPACE · JUMP &nbsp; SHIFT · SPRINT / SWING &nbsp; F · ACTION &nbsp; G · POUNCE &nbsp; Q / E OR DRAG · LOOK &nbsp; ESC · PAUSE</div>
+  <div class="arena-controls" id="controls">WASD · MOVE &nbsp; SPACE · JUMP &nbsp; SHIFT · SPRINT / SWING &nbsp; F · ACTION &nbsp; G · POUNCE &nbsp; T · DAD &nbsp; Q / E OR DRAG · LOOK &nbsp; ESC · PAUSE</div>
   <div class="arena-overlay" id="welcome"><div class="arena-card">
     <div class="eyebrow">ABILITY LAB / 03</div>
     <h2>Luke's Arena</h2>
@@ -58,6 +72,7 @@ document.querySelector('#app')!.innerHTML = `<div class="arena-shell" id="shell"
       <li class="trial-course">${ICON.course}<span><strong>Course</strong> Walk into a lit wall to climb it. Zip, squeeze and hop to five sparks.</span></li>
       <li class="trial-ring">${ICON.ring}<span><strong>Ring</strong> Three waves of robots. One button does it: <kbd>F</kbd>. Step aside when the floor turns red.</span></li>
       <li class="trial-stealth">${ICON.stealth}<span><strong>Yard</strong> Reach the vault without being seen. Stay behind them, behind crates, or up high.</span></li>
+      <li class="trial-buddy">${BUDDY_ICON.oop}<span><strong>Dad</strong> He follows you. Stand in his ring and press <kbd>T</kbd>: he throws you, and you dive on the robots. Anywhere else, <kbd>T</kbd> makes him stun one.</span></li>
     </ul>
     <label class="option"><input type="checkbox" id="sound" checked> Sound</label>
     <label class="option"><input type="checkbox" id="motion"> Reduce motion</label>
@@ -90,12 +105,13 @@ async function launch() {
   let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let last = performance.now();
   let toastUntil = 0;
-  let pending = { jump: 0, action: 0, pounce: 0 };
+  let pending = { jump: 0, action: 0, pounce: 0, sidekick: 0 };
   let candidateId: string | null = null;
   let hudKey = '';
   let resetArmed = 0;
   let drag: { id: number; x: number; y: number } | undefined;
   let robotModes = state.robots.map(robot => robot.mode);
+  let buddyFull = 0;
   const frames: number[] = [];
   $<HTMLInputElement>('motion').checked = reducedMotion;
   $('save-status').textContent = loaded.notice;
@@ -113,9 +129,9 @@ async function launch() {
   }
   function setPaused(value: boolean) {
     if (!begun) return;
-    paused = value; accumulator = 0; input.release(); pending = { jump: 0, action: 0, pounce: 0 }; drag = undefined;
+    paused = value; accumulator = 0; input.release(); pending = { jump: 0, action: 0, pounce: 0, sidekick: 0 }; drag = undefined;
     // Returning must not continue a run or a press the player is no longer holding.
-    state = { ...state, hero: settleHero(state.hero), actionHeld: false, pounceHeld: false }; previous = state;
+    state = { ...state, hero: settleHero(state.hero), actionHeld: false, pounceHeld: false, sidekickHeld: false }; previous = state;
     $('paused').hidden = !value;
     $('pause').textContent = value ? '▶ Carry on' : 'Ⅱ Pause';
     audio.setPaused(value);
@@ -125,7 +141,7 @@ async function launch() {
   const input = createArenaInput(window, {
     pause: () => setPaused(!paused),
     recenter: () => view.follow.recenter(state.hero),
-    help: () => toast('Walk into lit walls to climb. F does the right thing to the ringed robot. Purple ring: it cannot see you.', 'help'),
+    help: () => toast('Walk into lit walls to climb. F does the right thing to the ringed robot. Purple ring: it cannot see you. Stand in the ring around Dad and press T: he throws you.', 'help'),
   });
 
   $('begin').onclick = () => {
@@ -136,7 +152,7 @@ async function launch() {
   };
   $('pause').onclick = () => setPaused(!paused);
   $('resume').onclick = () => setPaused(false);
-  $('help').onclick = () => { toast('Walk into lit walls to climb. F does the right thing to the ringed robot. Purple ring: it cannot see you.', 'help'); canvas.focus({ preventScroll: true }); };
+  $('help').onclick = () => { toast('Walk into lit walls to climb. F does the right thing to the ringed robot. Purple ring: it cannot see you. Stand in the ring around Dad and press T: he throws you.', 'help'); canvas.focus({ preventScroll: true }); };
   $('reset').onclick = () => {
     // Two presses within a few seconds: a child's stars are not cleared by one stray click.
     if (performance.now() > resetArmed) { resetArmed = performance.now() + 4000; $('reset').textContent = 'Press again to clear every star'; return; }
@@ -186,6 +202,12 @@ async function launch() {
     if (events & ARENA_EVENT.wave) { audio.tone(440, 444, 0.12, 0.06, 'triangle'); audio.tone(660, 664, 0.16, 0.06, 'triangle', 0.12); }
     if (events & ARENA_EVENT.caught) audio.tone(880, 220, 0.5, 0.08);
     if (events & (ARENA_EVENT.release | ARENA_EVENT.revive)) audio.tone(300, 620, 0.24, 0.06, 'triangle');
+    // The throw goes up, the moment shimmers, the dive comes down; a stun is a bell.
+    if (events & ARENA_EVENT.toss) { audio.tone(180, 760, 0.42, 0.09, 'triangle'); audio.hiss(0.3, 0.07, 900, 0.7, 'highpass'); toast('Rocket Toss!', 'toss'); }
+    if (events & ARENA_EVENT.hang) { audio.tone(1320, 1340, 0.5, 0.035, 'sine'); audio.tone(1980, 1990, 0.5, 0.02, 'sine', 0.05); }
+    if (events & ARENA_EVENT.dive) { audio.tone(900, 160, 0.3, 0.09, 'sawtooth'); audio.hiss(0.26, 0.07, 2400, 0.6, 'highpass'); }
+    if (events & ARENA_EVENT.stun) { audio.tone(660, 640, 0.5, 0.09, 'sine'); audio.tone(1320, 1300, 0.35, 0.04, 'sine', 0.02); }
+    if (events & ARENA_EVENT.zip) audio.hiss(0.18, 0.05, 1800, 1.2, 'bandpass');
     if (events & ARENA_EVENT.pickup) audio.chime(false);
     if (events & ARENA_EVENT.trial) audio.chime(true);
     if (events & ARENA_EVENT.bonk) { audio.tone(420, 110, 0.5, 0.1, 'triangle'); toast('Bonked! Shake it off.', 'bonk'); }
@@ -215,12 +237,18 @@ async function launch() {
     const kind = actionFor(ARENA_LAYOUT, state, aimed);
     const yard = state.robots.filter((_robot, index) => ARENA_LAYOUT.robots[index].trial === 'stealth');
     const watched = yard.some(robot => robot.mode === 'alert' || robot.awareness >= 1) ? 'seen' : yard.some(robot => robot.awareness >= ARENA.unaware || robot.mode === 'curious' || robot.mode === 'search') ? 'looking' : 'hidden';
+    const buddy = state.sidekick;
+    const ask = sidekickFor(ARENA_LAYOUT, state);
+    const hint: BuddyHint = ask !== 'none' ? ask : buddy.mode === 'wait' ? 'wait' : buddy.cooldown > 0 ? 'rest' : 'none';
+    // The cooldown shade empties from whatever it was last set to.
+    if (buddy.cooldown > buddyFull || buddy.cooldown <= 0) buddyFull = buddy.cooldown;
     const lapStars = state.lapTime <= ARENA.courseGold ? 3 : state.lapTime <= ARENA.courseSilver ? 2 : 1;
     const ringStars = state.ringBonks > 0 ? 1 : state.ringHits > 0 ? 2 : 3;
     const yardStars = !state.seen ? 3 : state.catches === 0 ? 2 : 1;
     const key = [state.trial, state.energy, state.bonk > 0, state.held > 0, kind, state.wave, state.waveTimer > 0, state.lap.join(), Math.floor(state.lapTime * 10), state.lapRest > 0,
       progress.courseStars, progress.ringStars, progress.stealthStars, progress.course.length, ringStars, yardStars, watched, state.vaultTaken, state.catches,
-      Math.ceil(state.snareCooldown * 10), Math.ceil(state.pounceCooldown * 10), state.robots.filter(robot => robot.mode !== 'dormant' && robot.mode !== 'resolved').length, input.controller].join('|');
+      Math.ceil(state.snareCooldown * 10), Math.ceil(state.pounceCooldown * 10), state.robots.filter(robot => robot.mode !== 'dormant' && robot.mode !== 'resolved').length, input.controller,
+      hint, Math.ceil(buddy.cooldown * 10), state.oop].join('|');
     if (performance.now() > toastUntil) $('toast').hidden = true;
     if (key === hudKey) return;
     hudKey = key;
@@ -228,7 +256,7 @@ async function launch() {
     $('total').setAttribute('aria-label', `${total} of ${STAR_MAX * 3} stars`);
     setStars('total-course', progress.courseStars); setStars('total-ring', progress.ringStars); setStars('total-stealth', progress.stealthStars);
     $('shell').dataset.trial = state.trial; $('shell').dataset.watched = state.trial === 'stealth' ? watched : '';
-    $('vignette').className = `arena-vignette${state.held > 0 ? ' is-held' : state.bonk > 0 ? ' is-bonked' : state.trial === 'stealth' && watched === 'seen' ? ' is-seen' : ''}`;
+    $('vignette').className = `arena-vignette${state.held > 0 ? ' is-held' : state.bonk > 0 ? ' is-bonked' : state.oop === 'hang' ? ' is-slow' : state.trial === 'stealth' && watched === 'seen' ? ' is-seen' : ''}`;
     $('energy').setAttribute('aria-label', `Suit energy ${state.energy} of ${ARENA.energyMax}`);
     $('energy').querySelectorAll('i').forEach((element, index) => element.classList.toggle('spent', index >= state.energy));
     const action = $('ability-action');
@@ -238,9 +266,13 @@ async function launch() {
     }
     $('action-cooldown').style.height = `${Math.min(100, Math.max(state.snareCooldown / ARENA.snareCooldown, kind === 'none' && aimed ? state.pounceCooldown / ARENA.pounceCooldown : 0) * 100)}%`;
     $('pounce-cooldown').style.height = `${Math.min(100, state.pounceCooldown / ARENA.pounceCooldown * 100)}%`;
+    const chip = $('ability-sidekick');
+    chip.hidden = !buddy.present;
+    if (chip.dataset.hint !== hint) { chip.dataset.hint = hint; $('sidekick-icon').innerHTML = BUDDY_ICON[hint]; $('sidekick-label').textContent = BUDDY_LABEL[hint]; }
+    $('sidekick-cooldown').style.height = `${buddyFull > 0 ? Math.min(100, buddy.cooldown / buddyFull * 100) : 0}%`;
     $('controls').textContent = input.controller
-      ? 'LEFT STICK · MOVE   A · JUMP   TRIGGER · SPRINT / SWING   X · ACTION   Y · POUNCE   RIGHT STICK · LOOK   START · PAUSE'
-      : 'WASD · MOVE   SPACE · JUMP   SHIFT · SPRINT / SWING   F · ACTION   G · POUNCE   Q / E OR DRAG · LOOK   ESC · PAUSE';
+      ? 'LEFT STICK · MOVE   A · JUMP   TRIGGER · SPRINT / SWING   X · ACTION   Y · POUNCE   B · DAD   RIGHT STICK · LOOK   START · PAUSE'
+      : 'WASD · MOVE   SPACE · JUMP   SHIFT · SPRINT / SWING   F · ACTION   G · POUNCE   T · DAD   Q / E OR DRAG · LOOK   ESC · PAUSE';
     const panel = $('trial');
     panel.hidden = state.trial === '';
     $('place').textContent = state.trial ? TRIAL_NAME[state.trial].toUpperCase() : 'TRAINING YARD';
@@ -267,6 +299,7 @@ async function launch() {
       status = state.vaultTaken ? 'Vault reached. Step out and back in to try for more stars.' : state.held > 0 ? 'Caught in the light.'
         : watched === 'seen' ? 'Spotted! Break the line of sight.' : watched === 'looking' ? 'Something is looking your way…' : 'Hidden. Stay behind them, behind crates, or up high.';
     }
+    if (state.oop === 'hang') status = 'Up high! Press F to dive, or just wait.';
     if (state.bonk > 0) status = 'Bonked! Back up in a moment.';
     // A live region announces whenever its text node is replaced, so only touch it when the words change.
     if ($('status').textContent !== status) $('status').textContent = status;
@@ -293,17 +326,21 @@ async function launch() {
         vaultTaken: state.vaultTaken, hideId: state.hideId, targetId: state.targetId, targetQuiet: state.targetQuiet, pounceId: state.pounceId, snareId: state.snareId,
         lap: [...state.lap], lapTime: state.lapTime, ringHits: state.ringHits, progress: { ...state.progress, course: [...state.progress.course] },
         hero: { x: state.hero.x, y: state.hero.y, z: state.hero.z, yaw: state.hero.yaw, mode: state.hero.mode, climbId: state.hero.climbId, tetherId: state.hero.tetherId, groundId: state.hero.groundId },
-        robots: state.robots.map(robot => ({ id: robot.id, mode: robot.mode, timer: robot.timer, sparks: robot.sparks, awareness: robot.awareness, hold: robot.hold, x: robot.x, y: robot.y, z: robot.z, yaw: robot.yaw })),
+        robots: state.robots.map(robot => ({ id: robot.id, mode: robot.mode, timer: robot.timer, sparks: robot.sparks, awareness: robot.awareness, hold: robot.hold, stunned: robot.stunned, x: robot.x, y: robot.y, z: robot.z, yaw: robot.yaw })),
+        sidekick: { ...state.sidekick }, oop: state.oop, diveIds: [...state.diveIds],
       },
       action: actionFor(ARENA_LAYOUT, state, state.robots.find(robot => robot.id === state.targetId)),
+      sidekick: sidekickFor(ARENA_LAYOUT, state),
       view: view.snapshot(), audio: audio.snapshot(),
       meanFrameMs: frames.length ? frames.reduce((sum, value) => sum + value, 0) / frames.length : 0,
     }),
     ...(import.meta.env.DEV ? {
       scene: view.scene,
-      /** Development review and tests only: stand Luke somewhere. Never used by play or saves. */
-      place: (pose: { x: number; z: number; yaw: number; y?: number }, cameraYaw?: number) => {
-        state = { ...state, hero: createHero(LUKE_ARENA, pose), pounceId: '', held: 0, bonk: 0 }; previous = state; accumulator = 0;
+      /** Development review and tests only: stand Luke somewhere, and the sidekick too if asked. Never used by play or saves. */
+      place: (pose: { x: number; z: number; yaw: number; y?: number }, cameraYaw?: number, sidekick?: { x: number; z: number }) => {
+        state = { ...state, hero: createHero(LUKE_ARENA, pose), pounceId: '', held: 0, bonk: 0, oop: '', diveIds: [] };
+        if (sidekick) state = { ...state, sidekick: { ...state.sidekick, x: sidekick.x, z: sidekick.z, mode: 'follow', timer: 0, cooldown: 0, stuck: 0, aimId: '' } };
+        previous = state; accumulator = 0;
         view.follow.recenter(state.hero);
         if (cameraYaw !== undefined) view.follow.rotate(cameraYaw - view.follow.yaw);
         view.update(frame(), 0, reducedMotion, true);
@@ -323,7 +360,7 @@ async function launch() {
     const taken = input.takePresses();
     let events = 0, heroEvents = 0;
     if (active) {
-      pending.jump = Math.min(2, pending.jump + taken.jump); pending.action = Math.min(2, pending.action + taken.action); pending.pounce = Math.min(2, pending.pounce + taken.pounce);
+      pending.jump = Math.min(2, pending.jump + taken.jump); pending.action = Math.min(2, pending.action + taken.action); pending.pounce = Math.min(2, pending.pounce + taken.pounce); pending.sidekick = Math.min(2, pending.sidekick + taken.sidekick);
       if (controls.lookX || controls.lookY) view.follow.rotate(controls.lookX * 2.4 * dt, controls.lookY * 1.3 * dt);
       accumulator += dt;
       while (accumulator >= TRAVERSAL_STEP) {
@@ -331,20 +368,21 @@ async function launch() {
         const moveX = Math.sin(yaw) * controls.forward + Math.cos(yaw) * controls.right;
         const moveZ = Math.cos(yaw) * controls.forward - Math.sin(yaw) * controls.right;
         // A latched press reaches the rules as a real edge: released for one step if still held, then pressed.
-        let jump = controls.jump, action = controls.action, pounce = controls.pounce;
+        let jump = controls.jump, action = controls.action, pounce = controls.pounce, sidekick = controls.sidekick;
         if (pending.jump) { if (state.hero.jumpHeld) jump = false; else { jump = true; pending.jump--; } }
         if (pending.action) { if (state.actionHeld) action = false; else { action = true; pending.action--; } }
         if (pending.pounce) { if (state.pounceHeld) pounce = false; else { pounce = true; pending.pounce--; } }
+        if (pending.sidekick) { if (state.sidekickHeld) sidekick = false; else { sidekick = true; pending.sidekick--; } }
         // Aim where the stick points, or where the camera looks when standing still.
         const steering = Math.hypot(moveX, moveZ) > 0.2;
         previous = state;
-        state = stepArena(state, { moveX, moveZ, jump, power: controls.power, action, pounce, aimX: steering ? moveX : Math.sin(yaw), aimZ: steering ? moveZ : Math.cos(yaw) });
+        state = stepArena(state, { moveX, moveZ, jump, power: controls.power, action, pounce, sidekick, aimX: steering ? moveX : Math.sin(yaw), aimZ: steering ? moveZ : Math.cos(yaw) });
         events |= state.events; heroEvents |= state.hero.events;
         accumulator -= TRAVERSAL_STEP;
       }
       // Offer a tether target while airborne, or on the ground while sprinting on suit power.
       const hero = state.hero;
-      const aiming = !state.pounceId && (hero.mode === 'air' || (hero.mode === 'ground' && controls.power && Math.hypot(hero.vx, hero.vz) > 3));
+      const aiming = !state.pounceId && !state.oop && (hero.mode === 'air' || (hero.mode === 'ground' && controls.power && Math.hypot(hero.vx, hero.vz) > 3));
       if (aiming) {
         const dir = travelDirection(hero, hero.vx, hero.vz);
         const probe = hero.mode === 'ground' ? { ...hero, y: hero.y + 1.2 } : hero;

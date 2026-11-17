@@ -14,6 +14,8 @@ export interface CameraSubject {
   events: number;
   /** The player's house is drawn cut open; the boom may rise over its low walls. */
   cutaway: boolean;
+  /** Extra metres of boom a scene asks for while something big needs to stay in frame. */
+  pull?: number;
 }
 
 const BASE_FOV = 1.03;
@@ -87,7 +89,7 @@ export function createThirdPersonCamera(scene: Scene, world: TraversalWorld = HO
         focus.z += (target.z - focus.z) * side;
         focus.y += (target.y - focus.y) * rise;
       }
-      const wantDistance = BASE_DISTANCE + fast * 1.6 + (hero.mode === 'swing' ? 0.9 : 0);
+      const wantDistance = BASE_DISTANCE + fast * 1.6 + (hero.mode === 'swing' ? 0.9 : 0) + Math.max(0, subject.pull ?? 0);
       distance = !initialized || snap ? wantDistance : distance + (wantDistance - distance) * (1 - Math.exp(-3 * dt));
       // Look slightly up the arc while rising and down while falling fast.
       const tilt = reducedMotion ? 0 : Math.max(-0.14, Math.min(0.2, -hero.vy * 0.008));

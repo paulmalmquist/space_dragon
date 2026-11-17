@@ -410,7 +410,7 @@ test('held and bonked heroes ignore input; the step is pure and repeatable', () 
   const layout = yard([spec('guard', 'iguana', 0, 6, Math.PI)]);
   const start = run(begin(layout, { x: 0, z: -4, yaw: 0 }), layout, 0.7, { moveX: 0.4, moveZ: 0.6 });
   const frozen = JSON.stringify(start);
-  const input: ArenaInput = { moveX: 1, moveZ: -1, jump: true, power: true, action: true, pounce: false, aimX: 0, aimZ: 1 };
+  const input: ArenaInput = { moveX: 1, moveZ: -1, jump: true, power: true, action: true, pounce: false, sidekick: false, aimX: 0, aimZ: 1 };
   const once = stepArena(start, input, STEP, layout);
   const twice = stepArena(start, input, STEP, layout);
   assert.equal(JSON.stringify(start), frozen, 'input state untouched');
@@ -718,7 +718,7 @@ test('thousands of arbitrary inputs keep the arena valid: nobody stuck, lost or 
       state = { ...state, hero: createHero(LUKE_ARENA, { x: stretch.x, z: stretch.z, yaw: 0 }) };
     }
     if (stretch.idle) input = { ...ARENA_IDLE };
-    else if (step % 19 === 0) input = { moveX: random() * 2 - 1, moveZ: random() * 2 - 1, jump: random() < 0.2, power: random() < 0.25, action: random() < 0.3, pounce: random() < 0.1, aimX: random() * 2 - 1, aimZ: random() * 2 - 1 };
+    else if (step % 19 === 0) input = { moveX: random() * 2 - 1, moveZ: random() * 2 - 1, jump: random() < 0.2, power: random() < 0.25, action: random() < 0.3, pounce: random() < 0.1, sidekick: false, aimX: random() * 2 - 1, aimZ: random() * 2 - 1 };
     state = stepArena(state, input, STEP, ARENA_LAYOUT);
     const hero = state.hero;
     assert.ok(Number.isFinite(hero.x) && Number.isFinite(hero.y) && Number.isFinite(hero.z), 'finite');

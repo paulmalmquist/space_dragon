@@ -7,24 +7,30 @@ import { ARENA_SAVE_KEY } from '../src/game/arena/arena-save.ts';
 test.describe.configure({ timeout: 300_000 });
 const slow = { timeout: 150_000, intervals: [60, 120, 200] };
 
-interface Robot { id: string; mode: string; timer: number; sparks: number; awareness: number; hold: number; x: number; y: number; z: number; yaw: number; }
+interface Robot { id: string; mode: string; timer: number; sparks: number; awareness: number; hold: number; stunned: boolean; x: number; y: number; z: number; yaw: number; }
 interface Snapshot {
   begun: boolean; paused: boolean; canSave: boolean; saveNotice: string; action: 'none' | 'snare' | 'pounce' | 'quiet';
+  /** What the sidekick button would do now. */
+  sidekick: 'none' | 'oop' | 'stun';
   state: {
     trial: string; wave: number; waveTimer: number; energy: number; bonk: number; held: number; seen: boolean; catches: number; vaultTaken: boolean; hideId: string;
     targetId: string; targetQuiet: boolean; pounceId: string; snareId: string; lap: string[]; lapTime: number; ringHits: number;
     progress: { course: string[]; courseStars: number; courseBest: number; ringStars: number; ringBest: number; stealthStars: number; quiet: number };
     hero: { x: number; y: number; z: number; yaw: number; mode: string; climbId: string; tetherId: string; groundId: string };
     robots: Robot[];
+    sidekick: { present: boolean; x: number; z: number; yaw: number; mode: string; timer: number; cooldown: number; aimId: string };
+    oop: '' | 'rise' | 'hang' | 'dive'; diveIds: string[];
   };
-  view: { rendered: boolean; robotsShown: number; fansShown: number; lanesShown: number; targetShown: boolean; quietShown: boolean; floodlight: number; avatar: { kind?: string; climb?: number } };
+  view: { rendered: boolean; robotsShown: number; fansShown: number; lanesShown: number; targetShown: boolean; quietShown: boolean; floodlight: number; avatar: { kind?: string; climb?: number };
+    sidekick: { shown: boolean; pose: string; ring: boolean; arrow: boolean; beam: boolean; stars: boolean; diveRings: number; webLines: number } };
 }
-type Hook = { snapshot(): Snapshot; place?(pose: { x: number; z: number; yaw: number; y?: number }, cameraYaw?: number): void };
+type Spot = { x: number; z: number };
+type Hook = { snapshot(): Snapshot; place?(pose: { x: number; z: number; yaw: number; y?: number }, cameraYaw?: number, sidekick?: Spot): void };
 const arena = (page: Page): Promise<Snapshot> => page.evaluate(() => (window as unknown as { __LUKE_ARENA__: Hook }).__LUKE_ARENA__.snapshot());
 const saved = (page: Page) => page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? 'null') as { version: number; arenaId: string; progress: Snapshot['state']['progress'] } | null, ARENA_SAVE_KEY);
-/** Development-only setup: stand Luke somewhere. Everything a test then does is real keyboard or controller input. */
-const place = (page: Page, pose: { x: number; z: number; yaw: number; y?: number }, cameraYaw = pose.yaw) =>
-  page.evaluate(([at, yaw]) => (window as unknown as { __LUKE_ARENA__: Hook }).__LUKE_ARENA__.place!(at as { x: number; z: number; yaw: number }, yaw as number), [pose, cameraYaw] as const);
+/** Development-only setup: stand Luke somewhere, and the sidekick too if given. Everything a test then does is real keyboard or controller input. */
+const place = (page: Page, pose: { x: number; z: number; yaw: number; y?: number }, cameraYaw = pose.yaw, sidekick: Spot | null = null) =>
+  page.evaluate(([at, yaw, dad]) => (window as unknown as { __LUKE_ARENA__: Hook }).__LUKE_ARENA__.place!(at as { x: number; z: number; yaw: number }, yaw as number, (dad as Spot | null) ?? undefined), [pose, cameraYaw, sidekick] as const);
 
 async function begin(page: Page) {
   await page.goto('arena/');
@@ -69,6 +75,12 @@ test('the arena opens in the hub with the realistic stand-in, nine empty stars a
   await expect(page.locator('#trial')).toBeHidden();
   await expect(page.locator('#place')).toHaveText('TRAINING YARD');
   await expect(page.locator('#ability-action')).toHaveAttribute('data-kind', 'none');
+  // The sidekick stands beside Luke, drawn as a placeholder figure, with his own button on the page.
+  expect(start.state.sidekick.present).toBe(true);
+  expect(Math.hypot(start.state.sidekick.x - start.state.hero.x, start.state.sidekick.z - start.state.hero.z)).toBeLessThan(3);
+  expect(start.view.sidekick.shown).toBe(true);
+  await expect(page.locator('#ability-sidekick')).toBeVisible();
+  await expect(page.locator('#ability-sidekick kbd')).toHaveText('T');
   expect(await saved(page), 'opening the arena writes nothing').toBeNull();
   expect(errors).toEqual([]);
 });
@@ -242,6 +254,111 @@ test('reaching the vault earns stars that show on the page and are saved once', 
   expect(errors).toEqual([]);
 });
 
+test('the sidekick follows on his own, and one press beside him is an alley-oop: a throw, a slow moment and a dive', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await begin(page);
+  // Standing still at the start, he steps up: the arrow is over his head and the button says so.
+  await expect.poll(async () => (await arena(page)).state.sidekick.mode, slow).toBe('ready');
+  await expect(page.locator('#ability-sidekick')).toHaveAttribute('data-hint', 'oop');
+  const ready = await arena(page);
+  expect(ready.sidekick).toBe('oop');
+  expect(ready.view.sidekick).toMatchObject({ shown: true, ring: true, arrow: true });
+  // A walk: he comes along without being asked, and is not close enough for a throw while Luke runs.
+  const from = ready.state.sidekick;
+  await page.keyboard.down('w');
+  await expect.poll(async () => (await arena(page)).state.hero.z, slow).toBeGreaterThan(-13.5);
+  const walking = await arena(page);
+  await page.keyboard.up('w');
+  expect(walking.state.sidekick.z).toBeGreaterThan(from.z + 2);
+  expect(Math.hypot(walking.state.sidekick.x - walking.state.hero.x, walking.state.sidekick.z - walking.state.hero.z)).toBeLessThan(5);
+  expect(walking.sidekick).toBe('none');
+  // In the ring with a wave on its way: beside him, T is the throw.
+  await place(page, { x: 0, z: 4, yaw: 0 }, 0, { x: -1.8, z: 3.2 });
+  await expect.poll(async () => { const { state } = await arena(page); return state.trial === 'ring' && state.wave === 1 && state.waveTimer === 0; }, slow).toBe(true);
+  await expect.poll(async () => (await arena(page)).sidekick, slow).toBe('oop');
+  const before = await arena(page);
+  await page.keyboard.press('t');
+  await expect(page.locator('#toast')).toContainText('Rocket Toss');
+  // Up, then the moment: time slows, what the dive will land on glows, and the page says what to do.
+  let top = 0;
+  await expect.poll(async () => { const { state } = await arena(page); top = Math.max(top, state.hero.y); return state.oop; }, slow).toBe('hang');
+  const moment = await arena(page);
+  expect(moment.state.hero.mode).toBe('air');
+  expect(moment.view.sidekick.diveRings).toBeGreaterThanOrEqual(1);
+  await expect(page.locator('#vignette')).toHaveClass(/is-slow/);
+  await expect(page.locator('#status')).toContainText('Up high');
+  expect(moment.state.targetId, 'nothing is ringed in the air').toBe('');
+  // One press of F sends the dive. Luke lands on his feet and a robot has powered down.
+  await page.keyboard.press('f');
+  await expect.poll(async () => { const { state } = await arena(page); top = Math.max(top, state.hero.y); return state.oop === '' && state.hero.mode === 'ground'; }, slow).toBe(true);
+  const after = await arena(page);
+  expect(top, 'thrown well above head height').toBeGreaterThan(4);
+  expect(ringRobots(after).filter(robot => robot.mode === 'resolved').length).toBeGreaterThanOrEqual(1);
+  const sparks = (snapshot: Snapshot) => ringRobots(snapshot).filter(robot => robot.id.includes('iguana-a') || robot.id.includes('iguana-b')).reduce((sum, robot) => sum + robot.sparks, 0);
+  expect(sparks(before) - sparks(after)).toBeGreaterThanOrEqual(2);
+  expect(after.state.diveIds).toEqual([]);
+  expect(after.state.energy, 'nothing touched Luke in the air').toBe(before.state.energy);
+  // He needs a moment before the next one, and the button shows it.
+  expect(after.state.sidekick.cooldown).toBeGreaterThan(0);
+  expect(after.sidekick).toBe('none');
+  await expect(page.locator('#ability-sidekick')).toHaveAttribute('data-hint', 'rest');
+  await expect(page.locator('#vignette')).not.toHaveClass(/is-slow/);
+  expect(errors).toEqual([]);
+});
+
+test('away from the sidekick the same button stuns a robot for Luke to finish; in the stealth yard he keeps watch at the gate', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await begin(page);
+  // Luke up on a ring pillar, out of the sidekick's hands, looking over the ring.
+  await place(page, { x: -6.3, z: 11.7, yaw: 2.2, y: 3.2 }, 2.2, { x: -3.6, z: 8.4 });
+  await expect.poll(async () => { const { state } = await arena(page); return state.trial === 'ring' && state.wave === 1 && state.waveTimer === 0; }, slow).toBe(true);
+  await expect.poll(async () => (await arena(page)).sidekick, slow).toBe('stun');
+  await expect(page.locator('#ability-sidekick')).toHaveAttribute('data-hint', 'stun');
+  expect((await arena(page)).state.hero.y).toBe(3.2);
+  await page.keyboard.press('l');
+  let beam = false;
+  await expect.poll(async () => { const snapshot = await arena(page); beam ||= snapshot.view.sidekick.beam; return ringRobots(snapshot).some(robot => robot.stunned); }, slow).toBe(true);
+  const dizzy = await arena(page);
+  const robot = ringRobots(dizzy).find(candidate => candidate.stunned)!;
+  expect(robot.hold).toBeGreaterThan(0);
+  expect(robot.sparks, 'a stun takes no spark').toBe(2);
+  expect(dizzy.state.oop).toBe('');
+  expect(dizzy.view.sidekick.stars, 'stars circle the stunned robot').toBe(true);
+  expect(beam || dizzy.view.sidekick.beam, 'a line ran from his hand to the robot').toBe(true);
+  expect(dizzy.state.sidekick.cooldown).toBeGreaterThan(0);
+  await expect(page.locator('#ability-sidekick')).toHaveAttribute('data-hint', 'rest');
+  // A stunned robot is an open finish: when F offers the pounce on it, one press powers it down.
+  await expect.poll(async () => {
+    const snapshot = await arena(page);
+    const target = ringRobots(snapshot).find(candidate => candidate.id === robot.id)!;
+    if (target.mode === 'resolved') return 'resolved';
+    if (!target.stunned) return 'wore off';
+    if (snapshot.state.targetId === robot.id && snapshot.action === 'pounce' && !snapshot.state.pounceId) await page.keyboard.press('f');
+    return 'waiting';
+  }, { timeout: 240_000, intervals: [80, 120] }).not.toBe('waiting');
+  const finished = ringRobots(await arena(page)).find(candidate => candidate.id === robot.id)!;
+  expect(['resolved', 'alert', 'search', 'patrol', 'curious', 'windup', 'strike', 'recover']).toContain(finished.mode);
+  expect(finished.stunned).toBe(false);
+  // The stealth yard is Luke's own test: the sidekick stops at the gate and his button rests.
+  await place(page, { x: 14.4, z: -5.6, yaw: 0 }, 0, { x: 11, z: -12 });
+  await expect.poll(async () => (await arena(page)).state.trial).toBe('stealth');
+  await expect.poll(async () => { const { sidekick } = (await arena(page)).state; return sidekick.mode === 'wait' && Math.hypot(sidekick.x - 14.4, sidekick.z + 9.7) < 0.2; }, slow).toBe(true);
+  await expect(page.locator('#ability-sidekick')).toHaveAttribute('data-hint', 'wait');
+  const waiting = await arena(page);
+  expect(waiting.sidekick).toBe('none');
+  expect(waiting.state.sidekick.z, 'outside the yard line').toBeLessThan(-8);
+  await page.keyboard.press('t');
+  await page.waitForTimeout(1200);
+  const still = await arena(page);
+  expect(still.state.oop).toBe('');
+  expect(still.state.hero.mode).toBe('ground');
+  expect(still.state.robots.some(candidate => candidate.stunned)).toBe(false);
+  expect(still.state.seen, 'the sidekick is never what gives Luke away').toBe(false);
+  expect(errors).toEqual([]);
+});
+
 test('pausing stops the run, and coming back never continues a key that is no longer wanted', async ({ page }) => {
   await begin(page);
   await page.keyboard.down('w');
@@ -298,6 +415,13 @@ test('a standard controller plays the arena: stick to move, Start to pause (simu
   await expect.poll(async () => (await arena(page)).state.hero.mode, slow).toBe('air');
   await pad({ button: [0, false] });
   await expect.poll(async () => (await arena(page)).state.hero.mode, slow).toBe('ground');
+  // B asks the sidekick: standing beside him, that is the throw.
+  await expect(page.locator('#controls')).toContainText('B · DAD');
+  await expect.poll(async () => (await arena(page)).sidekick, slow).toBe('oop');
+  await pad({ button: [1, true] });
+  await expect.poll(async () => (await arena(page)).state.hero.y, slow).toBeGreaterThan(3);
+  await pad({ button: [1, false] });
+  await expect.poll(async () => { const { state } = await arena(page); return state.oop === '' && state.hero.mode === 'ground'; }, slow).toBe(true);
   await pad({ button: [9, true] });
   await expect(page.locator('#paused')).toBeVisible();
   await pad({ button: [9, false] });

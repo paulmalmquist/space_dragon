@@ -49,6 +49,7 @@ button:focus-visible,a:focus-visible,canvas:focus-visible{outline:3px solid var(
 .arena-toast{position:absolute;top:28%;left:50%;transform:translateX(-50%);background:#10222fee;border:1px solid var(--line);border-radius:30px;padding:12px 26px;font-size:17px;font-weight:600;box-shadow:0 8px 24px #02080e55;pointer-events:none;white-space:nowrap}
 .arena-toast[data-kind=star]{color:var(--gold);border-color:#ffd45a99;font-size:22px}
 .arena-toast[data-kind=quiet]{color:#d9c4ff;border-color:#a98bff99}
+.arena-toast[data-kind=toss]{color:#ffd9a0;border-color:#ffb34799;font-size:22px}
 .arena-toast[data-kind=help]{white-space:normal;max-width:min(560px,88vw);font-size:14px;font-weight:400;text-align:center}
 .arena-bottom{position:absolute;bottom:34px;left:26px;display:flex;gap:14px;align-items:flex-end;pointer-events:none}
 .energy{display:flex;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
@@ -63,11 +64,16 @@ button:focus-visible,a:focus-visible,canvas:focus-visible{outline:3px solid var(
 .ability[data-kind=snare]{border-color:#8ff3ffaa;color:#b9f6ff}
 .ability[data-kind=pounce]{border-color:#ffffffaa;color:#fff}
 .ability[data-kind=quiet]{border-color:var(--stealth);color:#dccbff;box-shadow:0 0 18px #a98bff66}
+.ability.buddy[hidden]{display:none}
+.ability.buddy[data-hint=none],.ability.buddy[data-hint=rest],.ability.buddy[data-hint=wait]{opacity:.6}
+.ability.buddy[data-hint=stun]{border-color:#ffd45aaa;color:#ffe9a8}
+.ability.buddy[data-hint=oop]{border-color:#ffb347;color:#ffd9a0;box-shadow:0 0 18px #ffb34777}
 .arena-controls{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.6px;text-shadow:0 1px 5px #000c14;color:#fff;white-space:pre}
 .arena-vignette{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s}
 .arena-vignette.is-seen{opacity:1;box-shadow:inset 0 0 120px 20px #ff3b2a55}
 .arena-vignette.is-held{opacity:1;box-shadow:inset 0 0 160px 60px #fff3c488}
 .arena-vignette.is-bonked{opacity:1;box-shadow:inset 0 0 140px 30px #ffd45a55}
+.arena-vignette.is-slow{opacity:1;box-shadow:inset 0 0 150px 40px #cfeaff66}
 .arena-overlay{position:absolute;inset:0;background:#07121cb8;display:grid;place-items:center;backdrop-filter:blur(5px)}
 .arena-card{width:min(560px,92vw);max-height:94dvh;overflow:auto;padding:34px;background:#10222ff5;border:1px solid #6f93a888;border-radius:24px;box-shadow:0 30px 100px #01060b88;display:grid;gap:12px}
 .arena-card .eyebrow{color:#9fd8ff;letter-spacing:3px;font-size:10px}
@@ -81,7 +87,7 @@ button:focus-visible,a:focus-visible,canvas:focus-visible{outline:3px solid var(
 .trial-list li{display:flex;gap:14px;align-items:center;font-size:30px}
 .trial-list li span{font-size:13.5px;line-height:1.45;color:#cfe0ea}
 .trial-list strong{display:block;color:inherit;font-size:14px;letter-spacing:.4px}
-.trial-list .trial-course strong{color:var(--course)}.trial-list .trial-ring strong{color:var(--ring)}.trial-list .trial-stealth strong{color:var(--stealth)}
+.trial-list .trial-course strong{color:var(--course)}.trial-list .trial-ring strong{color:var(--ring)}.trial-list .trial-stealth strong{color:var(--stealth)}.trial-list .trial-buddy{color:#ffb347}.trial-list .trial-buddy strong{color:#ffb347}
 .option{display:flex;gap:10px;align-items:center;font-size:14px;color:#dbe8ef;margin:0!important}
 .option input{accent-color:var(--gold);width:17px;height:17px}
 .arena-stamp{font-size:11px!important;color:#93acbb!important;min-height:1em}

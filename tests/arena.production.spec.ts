@@ -14,9 +14,17 @@ test("the built arena loads, plays from real keys and carries no development too
   expect(hook, 'no placement or scene access in the shipped page').toEqual(['snapshot']);
   await page.locator('#sound').uncheck();
   await page.locator('#begin').click();
-  const z = () => page.evaluate(() => (window as unknown as { __LUKE_ARENA__: { snapshot(): { state: { hero: { z: number } } } } }).__LUKE_ARENA__.snapshot().state.hero.z);
+  type Built = { __LUKE_ARENA__: { snapshot(): { sidekick: string; state: { oop: string; hero: { y: number; z: number; mode: string } } } } };
+  const z = () => page.evaluate(() => (window as unknown as Built).__LUKE_ARENA__.snapshot().state.hero.z);
+  // The sidekick is in the shipped page too: beside him, a real press of T throws Luke, and he lands on his feet.
+  await expect(page.locator('#ability-sidekick')).toBeVisible();
+  await expect.poll(() => page.evaluate(() => (window as unknown as Built).__LUKE_ARENA__.snapshot().sidekick), { timeout: 120_000 }).toBe('oop');
+  await page.keyboard.press('t');
+  await expect.poll(() => page.evaluate(() => (window as unknown as Built).__LUKE_ARENA__.snapshot().state.hero.y), { timeout: 120_000 }).toBeGreaterThan(3);
+  await expect.poll(() => page.evaluate(() => { const { state } = (window as unknown as Built).__LUKE_ARENA__.snapshot(); return state.oop === '' && state.hero.mode === 'ground'; }), { timeout: 120_000 }).toBe(true);
   await page.keyboard.down('w');
-  await expect.poll(z, { timeout: 120_000 }).toBeGreaterThan(-17);
+  const landed = await z();
+  await expect.poll(z, { timeout: 120_000 }).toBeGreaterThan(landed + 1);
   await page.keyboard.up('w');
   await page.keyboard.press('Escape');
   await expect(page.locator('#paused')).toBeVisible();
