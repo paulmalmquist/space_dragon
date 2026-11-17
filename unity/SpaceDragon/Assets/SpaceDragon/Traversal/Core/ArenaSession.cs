@@ -40,7 +40,7 @@ namespace SpaceDragon.Traversal
         public bool MayWriteSave { get; private set; } = true;
 
         double accumulator;
-        int pendingJump, pendingAction, pendingPounce;
+        int pendingJump, pendingAction, pendingPounce, pendingSidekick;
 
         public ArenaSession(ArenaLayout layout, ArenaProgress progress = null)
         {
@@ -57,28 +57,31 @@ namespace SpaceDragon.Traversal
 
         /// <summary>What the one-button action would do right now.</summary>
         public ActionKind Action => ArenaSimulation.ActionFor(Layout, State, State.FindRobot(State.targetId));
+        /// <summary>What the sidekick button would do right now.</summary>
+        public SidekickAsk Sidekick => ArenaSimulation.SidekickFor(Layout, State);
 
         /// <summary>Presses seen between frames. Each is delivered as a real edge on a later step.</summary>
         public void PressJump() { if (pendingJump < 2) pendingJump++; }
         public void PressAction() { if (pendingAction < 2) pendingAction++; }
         public void PressPounce() { if (pendingPounce < 2) pendingPounce++; }
+        public void PressSidekick() { if (pendingSidekick < 2) pendingSidekick++; }
 
         /// <summary>Drops held motion and waiting presses without losing a tether or a fall, for example when pausing.</summary>
         public void Settle()
         {
             var settled = ShallowCopy(State);
             settled.hero = HeroSimulation.Settle(State.hero);
-            settled.actionHeld = false; settled.pounceHeld = false;
+            settled.actionHeld = false; settled.pounceHeld = false; settled.sidekickHeld = false;
             State = settled; Previous = settled;
             accumulator = 0;
-            pendingJump = pendingAction = pendingPounce = 0;
+            pendingJump = pendingAction = pendingPounce = pendingSidekick = 0;
         }
 
         /// <summary>
         /// Advances by real seconds in fixed steps. Movement and aim are world-space intents on the
         /// ground plane. Frames longer than the cap run in slow motion instead of tunnelling.
         /// </summary>
-        public void Advance(double seconds, double moveX, double moveZ, bool jumpHeld, bool powerHeld, bool actionHeld, bool pounceHeld, double aimX, double aimZ)
+        public void Advance(double seconds, double moveX, double moveZ, bool jumpHeld, bool powerHeld, bool actionHeld, bool pounceHeld, double aimX, double aimZ, bool sidekickHeld = false)
         {
             FrameEvents = ArenaEvent.None;
             FrameHeroEvents = HeroEvent.None;
@@ -87,14 +90,15 @@ namespace SpaceDragon.Traversal
             while (accumulator >= TraversalTuning.Step)
             {
                 // A latched press reaches the rules as a real edge: released for one step if still held, then pressed.
-                bool jump = jumpHeld, action = actionHeld, pounce = pounceHeld;
+                bool jump = jumpHeld, action = actionHeld, pounce = pounceHeld, sidekick = sidekickHeld;
                 if (pendingJump > 0) { if (State.hero.jumpHeld) jump = false; else { jump = true; pendingJump--; } }
                 if (pendingAction > 0) { if (State.actionHeld) action = false; else { action = true; pendingAction--; } }
                 if (pendingPounce > 0) { if (State.pounceHeld) pounce = false; else { pounce = true; pendingPounce--; } }
+                if (pendingSidekick > 0) { if (State.sidekickHeld) sidekick = false; else { sidekick = true; pendingSidekick--; } }
                 Previous = State;
                 State = ArenaSimulation.Step(Layout, State, new ArenaInput
                 {
-                    moveX = moveX, moveZ = moveZ, jump = jump, power = powerHeld, action = action, pounce = pounce, aimX = aimX, aimZ = aimZ,
+                    moveX = moveX, moveZ = moveZ, jump = jump, power = powerHeld, action = action, pounce = pounce, sidekick = sidekick, aimX = aimX, aimZ = aimZ,
                 });
                 FrameEvents |= State.events;
                 FrameHeroEvents |= State.hero.events;
@@ -109,7 +113,7 @@ namespace SpaceDragon.Traversal
             var hero = State.hero;
             var tuning = TraversalTuning.Default;
             double planar = Math.Sqrt(hero.vx * hero.vx + hero.vz * hero.vz);
-            bool aiming = State.pounceId.Length == 0 && (hero.mode == HeroMode.Air || (hero.mode == HeroMode.Ground && powerHeld && planar > 3));
+            bool aiming = State.pounceId.Length == 0 && State.oop == OopPhase.None && (hero.mode == HeroMode.Air || (hero.mode == HeroMode.Ground && powerHeld && planar > 3));
             if (!aiming) { CandidateAnchorId = ""; return; }
             HeroSimulation.TravelDirection(hero, hero.vx, hero.vz, out double dirX, out double dirZ);
             HeroState probe = hero;
@@ -132,6 +136,9 @@ namespace SpaceDragon.Traversal
                 lap = source.lap, lapTime = source.lapTime, lapRest = source.lapRest, wave = source.wave, waveTimer = source.waveTimer,
                 ringHits = source.ringHits, ringBonks = source.ringBonks, seen = source.seen, catches = source.catches, vaultTaken = source.vaultTaken,
                 hideId = source.hideId, progress = source.progress, events = ArenaEvent.None,
+                sidekick = source.sidekick, sidekickHeld = source.sidekickHeld, oop = source.oop, oopTime = source.oopTime, oopDuration = source.oopDuration,
+                oopFromX = source.oopFromX, oopFromY = source.oopFromY, oopFromZ = source.oopFromZ, oopToX = source.oopToX, oopToY = source.oopToY, oopToZ = source.oopToZ,
+                diveIds = source.diveIds,
             };
         }
 
@@ -159,7 +166,7 @@ namespace SpaceDragon.Traversal
             State = ArenaSimulation.Create(Layout, progress);
             Previous = State;
             accumulator = 0;
-            pendingJump = pendingAction = pendingPounce = 0;
+            pendingJump = pendingAction = pendingPounce = pendingSidekick = 0;
             CandidateAnchorId = "";
             FrameEvents = ArenaEvent.None; FrameHeroEvents = HeroEvent.None;
             return status;

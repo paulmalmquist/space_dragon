@@ -13,6 +13,8 @@ namespace SpaceDragon.Playground
     {
         public Material shell, dark, mower, drone, pip, pipSpent, gem, gemTaken, lane, target, quiet, wrap, star, beam;
         public Material eyeCalm, eyeCurious, eyeAlert, eyeHeld, eyeOff, fanCalm, fanCurious, fanAlert;
+        /// <summary>The sidekick's placeholder armour. Left empty by scenes generated before he existed; the drone metal stands in.</summary>
+        public Material sidekick;
         public Mesh diamond;
     }
 
@@ -20,7 +22,7 @@ namespace SpaceDragon.Playground
     [Serializable]
     public sealed class ArenaSnapshot
     {
-        public string world, trial, mode, targetId, action, saveNotice;
+        public string world, trial, mode, targetId, action, saveNotice, sidekickMode, sidekickAsk, oop;
         public float x, y, z;
         public int energy, wave, stars, courseStars, ringStars, stealthStars, quiet, robotsShown;
         public bool paused, avatarBound, seen, targetQuiet;
@@ -74,12 +76,27 @@ namespace SpaceDragon.Playground
         private Transform[] dizzyStars = Array.Empty<Transform>();
         private LineRenderer targetRing, quietRing, catchBeam;
 
+        /// <summary>The sidekick as a placeholder figure built from primitives. Not a likeness of anyone.</summary>
+        private sealed class SidekickView
+        {
+            public Transform root, body, head;
+            public Transform[] shoulders = new Transform[2], elbows = new Transform[2], hips = new Transform[2], knees = new Transform[2];
+            public Transform hand, arrow;
+            public LineRenderer ring, beam;
+            public Transform[] stars = Array.Empty<Transform>();
+            public LineRenderer[] diveRings = Array.Empty<LineRenderer>(), webs = Array.Empty<LineRenderer>();
+            public float stride, gait, ready, toss, stun, rest, wait;
+        }
+        private SidekickView dad;
+        private float oopLook;
+
         private float cameraYaw, cameraPitch = BasePitch, cameraDistance = BaseDistance, boom = BaseDistance, manualLook, dip;
         private Vector3 focus;
         private bool cameraReady;
         private RenderPipelineAsset previousDefault, previousQuality;
         private bool ownsPipeline;
         private AudioClip snareSound, pounceSound, impactSound, boopSound, hitSound, alertSound, waveSound, caughtSound, sparkSound, starSound, windupSound, jumpSound, landSound;
+        private AudioClip tossSound, hangSound, diveSound, stunSound;
         private GUIStyle titleStyle, bodyStyle, promptStyle, buttonStyle;
 
         public ArenaSession Session => session;
@@ -180,7 +197,7 @@ namespace SpaceDragon.Playground
         private struct Controls
         {
             public Vector2 move, look;
-            public bool jumpPressed, jumpHeld, power, actionPressed, actionHeld, pouncePressed, pounceHeld, pausePressed, recenter;
+            public bool jumpPressed, jumpHeld, power, actionPressed, actionHeld, pouncePressed, pounceHeld, sidekickPressed, sidekickHeld, pausePressed, recenter;
         }
 
         private Controls ReadControls(float seconds)
@@ -199,6 +216,8 @@ namespace SpaceDragon.Playground
                 input.actionHeld = keyboard.fKey.isPressed || keyboard.jKey.isPressed || keyboard.enterKey.isPressed;
                 input.pouncePressed = keyboard.gKey.wasPressedThisFrame || keyboard.kKey.wasPressedThisFrame;
                 input.pounceHeld = keyboard.gKey.isPressed || keyboard.kKey.isPressed;
+                input.sidekickPressed = keyboard.tKey.wasPressedThisFrame || keyboard.lKey.wasPressedThisFrame;
+                input.sidekickHeld = keyboard.tKey.isPressed || keyboard.lKey.isPressed;
                 input.pausePressed = keyboard.escapeKey.wasPressedThisFrame || keyboard.pKey.wasPressedThisFrame;
                 input.recenter = keyboard.rKey.wasPressedThisFrame;
             }
@@ -210,8 +229,11 @@ namespace SpaceDragon.Playground
                 input.jumpPressed |= gamepad.buttonSouth.wasPressedThisFrame;
                 input.jumpHeld |= gamepad.buttonSouth.isPressed;
                 input.power |= gamepad.rightTrigger.ReadValue() > 0.35f || gamepad.leftTrigger.ReadValue() > 0.35f || gamepad.leftShoulder.isPressed || gamepad.rightShoulder.isPressed;
-                input.actionPressed |= gamepad.buttonWest.wasPressedThisFrame || gamepad.buttonEast.wasPressedThisFrame;
-                input.actionHeld |= gamepad.buttonWest.isPressed || gamepad.buttonEast.isPressed;
+                // The four face buttons each do one thing: A jumps, X is the action, Y pounces, B asks the sidekick.
+                input.actionPressed |= gamepad.buttonWest.wasPressedThisFrame;
+                input.actionHeld |= gamepad.buttonWest.isPressed;
+                input.sidekickPressed |= gamepad.buttonEast.wasPressedThisFrame;
+                input.sidekickHeld |= gamepad.buttonEast.isPressed;
                 input.pouncePressed |= gamepad.buttonNorth.wasPressedThisFrame;
                 input.pounceHeld |= gamepad.buttonNorth.isPressed;
                 input.pausePressed |= gamepad.startButton.wasPressedThisFrame;
@@ -268,7 +290,8 @@ namespace SpaceDragon.Playground
             if (input.jumpPressed) session.PressJump();
             if (input.actionPressed) session.PressAction();
             if (input.pouncePressed) session.PressPounce();
-            session.Advance(seconds, moveX, moveZ, input.jumpHeld, input.power, input.actionHeld, input.pounceHeld, steering ? moveX : Math.Sin(cameraYaw), steering ? moveZ : Math.Cos(cameraYaw));
+            if (input.sidekickPressed) session.PressSidekick();
+            session.Advance(seconds, moveX, moveZ, input.jumpHeld, input.power, input.actionHeld, input.pounceHeld, steering ? moveX : Math.Sin(cameraYaw), steering ? moveZ : Math.Cos(cameraYaw), input.sidekickHeld);
             React();
             Present(seconds, false);
         }
@@ -292,6 +315,11 @@ namespace SpaceDragon.Playground
             if ((events & ArenaEvent.Caught) != 0) { Play(caughtSound, 0.4f); Say("Caught in the light. Back to hiding: try another way."); }
             if ((events & ArenaEvent.Bonk) != 0) Say("Bonked! Shake it off.");
             if ((events & ArenaEvent.Quiet) != 0) Say("Quiet takedown");
+            // The throw goes up, the moment shimmers, the dive comes down; a stun is a bell.
+            if ((events & ArenaEvent.Toss) != 0) { Play(tossSound, 0.45f); Say("Rocket Toss!"); }
+            if ((events & ArenaEvent.Hang) != 0) Play(hangSound, 0.3f);
+            if ((events & ArenaEvent.Dive) != 0) Play(diveSound, 0.45f);
+            if ((events & ArenaEvent.Stun) != 0) Play(stunSound, 0.45f);
             if ((events & ArenaEvent.Pickup) != 0) { Play(sparkSound, 0.5f); if (avatar != null) avatar.Celebrate(); }
             if ((events & ArenaEvent.Trial) != 0 && (events & ArenaEvent.Star) == 0) Say("Done! Try for another star.");
             if ((events & ArenaEvent.Star) != 0) { Play(starSound, 0.55f); Say("New star!"); if (avatar != null) avatar.Celebrate(); }
@@ -436,6 +464,80 @@ namespace SpaceDragon.Playground
             return view;
         }
 
+        private Transform Pivot(string pivotName, Transform parent, Vector3 position)
+        {
+            var pivot = new GameObject(pivotName).transform;
+            pivot.SetParent(parent, false);
+            pivot.localPosition = position;
+            return pivot;
+        }
+
+        private LineRenderer Line(string lineName, Transform parent, float width, Material material)
+        {
+            var line = new GameObject(lineName).AddComponent<LineRenderer>();
+            line.transform.SetParent(parent, false);
+            line.useWorldSpace = true; line.positionCount = 2; line.startWidth = width; line.endWidth = width;
+            line.sharedMaterial = material; line.shadowCastingMode = ShadowCastingMode.Off; line.receiveShadows = false;
+            line.enabled = false;
+            return line;
+        }
+
+        /// <summary>A helmeted adult in plain armour, about 1.85 m tall, with jointed arms and legs. A placeholder for Dad.</summary>
+        private SidekickView BuildSidekick(Transform parent)
+        {
+            var view = new SidekickView();
+            var armour = art.sidekick != null ? art.sidekick : art.drone;
+            view.root = new GameObject("Sidekick").transform;
+            view.root.SetParent(parent, false);
+            view.body = Pivot("body", view.root, Vector3.zero);
+            var hipsNode = Pivot("hips", view.body, new Vector3(0, 1.02f, 0));
+            Part(PrimitiveType.Capsule, "pelvis", hipsNode, art.dark, new Vector3(0, 0.03f, 0), new Vector3(0.34f, 0.17f, 0.3f));
+            Part(PrimitiveType.Capsule, "waist", hipsNode, art.dark, new Vector3(0, 0.24f, 0), new Vector3(0.34f, 0.21f, 0.3f));
+            var chest = Pivot("chest", hipsNode, new Vector3(0, 0.42f, 0));
+            Part(PrimitiveType.Sphere, "plate", chest, armour, new Vector3(0, 0.08f, 0.01f), new Vector3(0.54f, 0.42f, 0.34f));
+            Part(PrimitiveType.Sphere, "light", chest, art.star, new Vector3(0, 0.11f, 0.165f), new Vector3(0.13f, 0.13f, 0.05f), false);
+            view.head = Pivot("head", chest, new Vector3(0, 0.33f, 0.01f));
+            Part(PrimitiveType.Sphere, "helmet", view.head, armour, new Vector3(0, 0.03f, 0), new Vector3(0.29f, 0.31f, 0.3f));
+            // A dark visor: there is no face under it.
+            Part(PrimitiveType.Sphere, "visor", view.head, art.eyeOff, new Vector3(0, 0.03f, 0.09f), new Vector3(0.23f, 0.12f, 0.13f), false);
+            for (int index = 0; index < 2; index++)
+            {
+                float side = index == 0 ? -1 : 1;
+                view.shoulders[index] = Pivot("shoulder", chest, new Vector3(side * 0.27f, 0.2f, 0));
+                Part(PrimitiveType.Sphere, "pad", view.shoulders[index], armour, Vector3.zero, new Vector3(0.27f, 0.21f, 0.26f));
+                Part(PrimitiveType.Capsule, "upper-arm", view.shoulders[index], armour, new Vector3(0, -0.16f, 0), new Vector3(0.16f, 0.18f, 0.16f));
+                view.elbows[index] = Pivot("elbow", view.shoulders[index], new Vector3(0, -0.33f, 0));
+                Part(PrimitiveType.Capsule, "forearm", view.elbows[index], art.dark, new Vector3(0, -0.15f, 0), new Vector3(0.13f, 0.17f, 0.13f));
+                var fist = Part(PrimitiveType.Sphere, "fist", view.elbows[index], armour, new Vector3(0, -0.34f, 0), Vector3.one * 0.14f);
+                if (index == 1) view.hand = fist;
+                view.hips[index] = Pivot("hip", hipsNode, new Vector3(side * 0.12f, -0.02f, 0));
+                Part(PrimitiveType.Capsule, "thigh", view.hips[index], armour, new Vector3(0, -0.24f, 0), new Vector3(0.2f, 0.27f, 0.2f));
+                view.knees[index] = Pivot("knee", view.hips[index], new Vector3(0, -0.49f, 0));
+                Part(PrimitiveType.Capsule, "shin", view.knees[index], art.dark, new Vector3(0, -0.23f, 0), new Vector3(0.15f, 0.25f, 0.15f));
+                Part(PrimitiveType.Cube, "boot", view.knees[index], armour, new Vector3(0, -0.475f, 0.06f), new Vector3(0.135f, 0.11f, 0.31f));
+            }
+            // The ring to stand in for a throw, and a marker over his head when the throw is on offer.
+            view.ring = Circle("Sidekick.ring", parent, (float)layout.rules.oopReach, 0.07f, art.star);
+            view.ring.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            view.ring.gameObject.SetActive(false);
+            view.arrow = Gem("Sidekick.arrow", parent, art.star, 0.3f, out _);
+            view.arrow.gameObject.SetActive(false);
+            view.beam = Line("Sidekick.stun", parent, 0.1f, art.beam);
+            view.stars = new Transform[3];
+            for (int index = 0; index < view.stars.Length; index++) { view.stars[index] = Gem("Stun." + index, parent, art.star, 0.1f, out _); view.stars[index].gameObject.SetActive(false); }
+            int count = layout.rules.diveCount;
+            view.diveRings = new LineRenderer[count];
+            view.webs = new LineRenderer[count];
+            for (int index = 0; index < count; index++)
+            {
+                view.diveRings[index] = Circle("Dive.ring." + index, parent, 0.5f, 0.07f, art.star);
+                view.diveRings[index].gameObject.SetActive(false);
+                view.webs[index] = Line("Dive.web." + index, parent, 0.035f, art.wrap);
+            }
+            view.root.gameObject.SetActive(false);
+            return view;
+        }
+
         private void BuildVisuals()
         {
             var root = new GameObject("Arena.moving").transform;
@@ -462,6 +564,7 @@ namespace SpaceDragon.Playground
             catchBeam.useWorldSpace = true; catchBeam.positionCount = 2; catchBeam.startWidth = 0.16f; catchBeam.endWidth = 0.9f;
             catchBeam.sharedMaterial = art.beam; catchBeam.shadowCastingMode = ShadowCastingMode.Off; catchBeam.receiveShadows = false;
             catchBeam.enabled = false;
+            dad = BuildSidekick(root);
         }
 
         // ---------- Drawing ----------
@@ -586,6 +689,9 @@ namespace SpaceDragon.Playground
                 if (view.lane != null && view.lane.gameObject.activeSelf != showLane) view.lane.gameObject.SetActive(showLane);
             }
 
+            PresentSidekick(state, before, alpha, seconds, snap, position);
+            if (state.oop == OopPhase.Dive) { reachPoint = new Vector3((float)state.oopToX, (float)state.oopToY - 0.15f, (float)state.oopToZ); hasReach = true; }
+
             // ----- Floodlight: a real light, bright where it looks and dark while it rests -----
             if (flood >= 0)
             {
@@ -671,12 +777,123 @@ namespace SpaceDragon.Playground
             }
         }
 
+        private RobotView ViewOf(string id)
+        {
+            if (!string.IsNullOrEmpty(id)) foreach (var view in robots) if (view.spec.id == id) return view;
+            return null;
+        }
+
+        private static void Show(GameObject item, bool visible) { if (item.activeSelf != visible) item.SetActive(visible); }
+
+        /// <summary>The sidekick, the ring to stand in, his stun, and what an alley-oop is about to land on.</summary>
+        private void PresentSidekick(ArenaState state, ArenaState before, float alpha, float seconds, bool snap, Vector3 lukePosition)
+        {
+            if (dad == null) return;
+            var buddy = state.sidekick;
+            var was = before.sidekick;
+            var rules = layout.rules;
+            Show(dad.root.gameObject, buddy.present);
+            bool offered = buddy.present && buddy.mode == SidekickMode.Ready;
+            // He can be asked: the ring is there. Luke is standing in it: the marker is up as well.
+            bool listening = buddy.present && buddy.cooldown <= 0 && buddy.timer <= 0 && buddy.mode != SidekickMode.Wait && state.bonk <= 0 && state.held <= 0 && state.oop == OopPhase.None;
+            Show(dad.ring.gameObject, listening);
+            Show(dad.arrow.gameObject, offered);
+            var aimedAt = buddy.present ? ViewOf(buddy.aimId) : null;
+            if (dad.beam.enabled != (aimedAt != null)) dad.beam.enabled = aimedAt != null;
+            if (buddy.present)
+            {
+                bool hopped = Math.Abs(buddy.x - was.x) + Math.Abs(buddy.z - was.z) > 1.5 || snap;
+                float x = hopped ? (float)buddy.x : Blend(was.x, buddy.x, alpha), z = hopped ? (float)buddy.z : Blend(was.z, buddy.z, alpha);
+                float yaw = hopped ? (float)buddy.yaw : (float)was.yaw + Mathf.DeltaAngle((float)was.yaw * Mathf.Rad2Deg, (float)buddy.yaw * Mathf.Rad2Deg) * Mathf.Deg2Rad * alpha;
+                float dx = (float)(buddy.x - was.x), dz = (float)(buddy.z - was.z);
+                float speed = hopped ? 0 : Mathf.Sqrt(dx * dx + dz * dz) / (float)TraversalTuning.Step;
+                dad.root.SetPositionAndRotation(new Vector3(x, 0, z), Quaternion.Euler(0, yaw * Mathf.Rad2Deg, 0));
+                PoseSidekick(buddy.mode, speed, seconds, snap || hopped);
+                if (listening) dad.ring.transform.position = new Vector3(x, 0.05f, z);
+                if (offered)
+                {
+                    dad.arrow.position = new Vector3(x, 2.4f + 0.09f * Mathf.Sin(clock * 5), z);
+                    dad.arrow.rotation = Quaternion.Euler(0, clock * 120, 0);
+                }
+                if (aimedAt != null)
+                {
+                    dad.beam.SetPosition(0, dad.hand.position);
+                    dad.beam.SetPosition(1, aimedAt.root.position + Vector3.up * ((float)aimedAt.profile.height * 0.55f));
+                }
+            }
+            // Dizzy stars circle a stunned robot until it wears off.
+            RobotView dazed = null;
+            for (int index = 0; index < robots.Length; index++) if (state.robots[index].stunned) dazed = robots[index];
+            for (int index = 0; index < dad.stars.Length; index++)
+            {
+                Show(dad.stars[index].gameObject, dazed != null);
+                if (dazed == null) continue;
+                float angle = clock * 4.5f + index * Mathf.PI * 2 / 3, radius = (float)dazed.profile.radius + 0.25f;
+                dad.stars[index].position = dazed.root.position + new Vector3(Mathf.Cos(angle) * radius, (float)dazed.profile.height + 0.35f, Mathf.Sin(angle) * radius);
+            }
+            // The alley-oop: what the dive will land on is ringed during the slow moment and until Luke comes down.
+            List<RobotState> glowing = state.oop == OopPhase.Hang ? ArenaSimulation.DiveTargets(layout, state) : null;
+            for (int index = 0; index < dad.diveRings.Length; index++)
+            {
+                string id = glowing != null ? (index < glowing.Count ? glowing[index].id : "") : state.oop == OopPhase.Dive && index < state.diveIds.Length ? state.diveIds[index] : "";
+                var target = ViewOf(id);
+                Show(dad.diveRings[index].gameObject, target != null);
+                bool web = target != null && state.oop == OopPhase.Dive && index > 0 && avatar != null;
+                if (dad.webs[index].enabled != web) dad.webs[index].enabled = web;
+                if (target == null) continue;
+                Vector3 centre = target.root.position + Vector3.up * ((float)target.profile.height * 0.5f);
+                float size = ((float)target.profile.radius * 2 + (index == 0 ? 1.2f : 0.85f)) * (1 + 0.07f * Mathf.Sin(clock * 11 + index));
+                var ring = dad.diveRings[index].transform;
+                ring.position = centre;
+                if (gameCamera != null) ring.rotation = Quaternion.LookRotation(centre - gameCamera.transform.position);
+                ring.localScale = Vector3.one * size;
+                if (web) { dad.webs[index].SetPosition(0, avatar.GripPosition); dad.webs[index].SetPosition(1, centre); }
+            }
+        }
+
+        /// <summary>Procedural poses: a walk, cupped hands, arms flung up, one arm out, hands on knees, arms folded.</summary>
+        private void PoseSidekick(SidekickMode mode, float speed, float seconds, bool snap)
+        {
+            float rate = snap ? 1 : 1 - Mathf.Exp(-12 * seconds);
+            dad.ready = Mathf.Lerp(dad.ready, mode == SidekickMode.Ready ? 1 : 0, rate);
+            dad.toss = Mathf.Lerp(dad.toss, mode == SidekickMode.Toss ? 1 : 0, snap ? 1 : 1 - Mathf.Exp(-26 * seconds));
+            dad.stun = Mathf.Lerp(dad.stun, mode == SidekickMode.Stun ? 1 : 0, rate);
+            dad.rest = Mathf.Lerp(dad.rest, mode == SidekickMode.Rest ? 1 : 0, rate);
+            dad.wait = Mathf.Lerp(dad.wait, mode == SidekickMode.Wait ? 1 : 0, rate);
+            dad.gait = Mathf.Lerp(dad.gait, Mathf.Clamp01(speed / 6.5f), rate);
+            dad.stride += speed * seconds / (0.78f + 0.34f * dad.gait) * Mathf.PI;
+            float s = Mathf.Sin(dad.stride), c = Mathf.Cos(dad.stride), run = dad.gait;
+            float posed = Mathf.Clamp01(dad.ready + dad.toss + dad.stun + dad.rest + dad.wait);
+            float crouch = dad.ready * 0.16f + dad.rest * 0.1f - dad.toss * 0.05f;
+            const float Deg = Mathf.Rad2Deg;
+            dad.body.localPosition = new Vector3(0, Mathf.Abs(s) * 0.05f * run - crouch, 0);
+            dad.body.localRotation = Quaternion.Euler((run * 0.2f + dad.ready * 0.16f + dad.rest * 0.44f - dad.toss * 0.2f) * Deg, dad.stun * -0.3f * Deg, 0);
+            for (int index = 0; index < 2; index++)
+            {
+                float side = index == 0 ? -1 : 1;
+                bool right = index == 1;
+                float lift = Mathf.Max(0, side * c);
+                dad.hips[index].localRotation = Quaternion.Euler((-side * s * (0.5f + 0.4f * run) * run * (1 - posed) - crouch * 2.2f - dad.rest * 0.35f + dad.toss * 0.1f) * Deg, 0, 0);
+                dad.knees[index].localRotation = Quaternion.Euler((lift * (0.5f + 0.7f * run) * run * (1 - posed) + crouch * 4.2f + dad.rest * 0.2f + 0.04f) * Deg, 0, 0);
+                float pump = side * s * (0.45f + 0.5f * run) * run * (1 - posed);
+                float shoulderX = pump + dad.ready * -0.62f + dad.toss * -2.85f + dad.stun * (right ? -1.5f : 0.25f) + dad.rest * -0.5f + dad.wait * -0.55f;
+                float shoulderZ = side * (0.1f - dad.ready * 0.36f - dad.toss * 0.12f + dad.stun * (right ? -0.08f : 0.12f) + dad.rest * 0.02f - dad.wait * 0.5f);
+                dad.shoulders[index].localRotation = Quaternion.Euler(shoulderX * Deg, 0, shoulderZ * Deg);
+                float elbowX = -(0.2f + run * 0.9f) * (1 - posed) + dad.ready * -1.05f + dad.toss * -0.12f + dad.stun * (right ? -0.04f : -0.5f) + dad.rest * -0.12f + dad.wait * -1.9f;
+                dad.elbows[index].localRotation = Quaternion.Euler(elbowX * Deg, 0, 0);
+            }
+            dad.head.localRotation = Quaternion.Euler((dad.ready * -0.2f + dad.rest * -0.3f + dad.toss * -0.45f) * Deg, dad.wait * Mathf.Sin(clock * 0.7f) * 0.5f * Deg, 0);
+        }
+
         /// <summary>The same damped chase camera as the playground, framed a little wider to show the floor around Luke.</summary>
         private void UpdateCamera(Vector3 subject, float seconds, bool snap)
         {
             if (gameCamera == null) return;
             var hero = session.State.hero;
             float dt = Mathf.Max(0, seconds);
+            // During an alley-oop the camera backs off and looks between Luke and the floor, so the robots below stay in the picture.
+            oopLook = snap ? 0 : Mathf.Lerp(oopLook, session.State.oop != OopPhase.None ? 1 : 0, 1 - Mathf.Exp(-6 * dt));
+            subject.y *= 1 - 0.55f * oopLook;
             float flat = Mathf.Sqrt((float)(hero.vx * hero.vx + hero.vz * hero.vz));
             float speed = Mathf.Sqrt(flat * flat + (float)(hero.vy * hero.vy));
             float fast = Mathf.Clamp01((flat - 5) / 9);
@@ -702,7 +919,7 @@ namespace SpaceDragon.Playground
                 focus.z += (target.z - focus.z) * side;
                 focus.y += (target.y - focus.y) * rise;
             }
-            float wantDistance = BaseDistance + fast * 1.6f + (hero.mode == HeroMode.Swing ? 0.9f : 0);
+            float wantDistance = BaseDistance + fast * 1.6f + (hero.mode == HeroMode.Swing ? 0.9f : 0) + 3.4f * oopLook;
             cameraDistance = !cameraReady || snap ? wantDistance : cameraDistance + (wantDistance - cameraDistance) * (1 - Mathf.Exp(-3 * dt));
             float tilt = Mathf.Clamp(-(float)hero.vy * 0.008f, -0.14f, 0.2f);
             float angle = Mathf.Clamp(cameraPitch + tilt, 0.1f, 1.1f);
@@ -736,6 +953,10 @@ namespace SpaceDragon.Playground
             waveSound = PlaygroundGame.Chime("arena.wave", new[] { 440f, 660f });
             sparkSound = PlaygroundGame.Chime("arena.spark", new[] { 880f, 1320f });
             starSound = PlaygroundGame.Chime("arena.star", new[] { 660f, 880f, 1100f, 1320f });
+            tossSound = PlaygroundGame.Tone("arena.toss", 0.42f, 180, 760, 0.5f, 0.4f);
+            hangSound = PlaygroundGame.Chime("arena.hang", new[] { 1320f, 1980f });
+            diveSound = PlaygroundGame.Tone("arena.dive", 0.3f, 900, 160, 0.5f, 0.4f);
+            stunSound = PlaygroundGame.Chime("arena.stun", new[] { 660f, 1320f });
         }
 
         private void Play(AudioClip clip, float volume)
@@ -760,12 +981,15 @@ namespace SpaceDragon.Playground
             if (toastTime > 0) return toast;
             if (state.bonk > 0) return "Bonked! Back up in a moment.";
             if (state.held > 0) return "Caught in the light.";
+            if (state.oop == OopPhase.Hang) return "Up high! F to dive, or just wait.";
+            if (state.oop != OopPhase.None) return "Rocket Toss!";
+            string buddy = session.Sidekick == SidekickAsk.Oop ? "T · Dad throws you" : session.Sidekick == SidekickAsk.Stun ? "T · Dad stuns it" : "";
             string action = session.Action == ActionKind.Quiet ? "F · quiet pounce (it cannot see you)" : session.Action == ActionKind.Pounce ? "F · pounce" : session.Action == ActionKind.Snare ? "F · snare" : "";
             if (state.hero.mode == HeroMode.Climb) return "Push toward the wall to climb · SPACE to jump off";
             if (state.trial == TrialId.Course)
                 return state.lapRest > 0 ? "Lap done. Step away and the sparks come back." : state.lap.Count > 0 ? state.lap.Count + " of " + layout.CourseSparkCount + " sparks · " + state.lapTime.ToString("0.0") + " s" : "Walk into a lit wall to climb it. Collect the five sparks.";
             if (state.trial == TrialId.Ring)
-                return state.wave > layout.waves ? "Ring cleared. Step out and back in to go again." : state.waveTimer > 0 ? "Get ready…" : "Wave " + state.wave + " of " + layout.waves + (action.Length > 0 ? " · " + action : "") + " · step aside when the floor turns red";
+                return state.wave > layout.waves ? "Ring cleared. Step out and back in to go again." : state.waveTimer > 0 ? "Get ready…" : "Wave " + state.wave + " of " + layout.waves + (action.Length > 0 ? " · " + action : "") + (buddy.Length > 0 ? " · " + buddy : "") + " · step aside when the floor turns red";
             if (state.trial == TrialId.Stealth)
             {
                 if (state.vaultTaken) return "Vault reached. Step out and back in to try for more stars.";
@@ -779,7 +1003,7 @@ namespace SpaceDragon.Playground
                 }
                 return seen ? "Spotted! Break the line of sight." : looking ? "Something is looking your way…" : action.Length > 0 ? action : "Hidden. Stay behind them, behind crates, or up high.";
             }
-            return "Step over a glowing line to start a trial. Step back out to stop.";
+            return buddy.Length > 0 ? "Step over a glowing line to start a trial · " + buddy : "Step over a glowing line to start a trial. Step back out to stop.";
         }
 
         private void EnsureStyles()
@@ -803,18 +1027,23 @@ namespace SpaceDragon.Playground
             var progress = state.progress;
             var rules = layout.rules;
 
-            GUILayout.BeginArea(new Rect(16, 16, 350, paused ? 400 : 190), GUI.skin.box);
+            GUILayout.BeginArea(new Rect(16, 16, 350, paused ? 440 : 212), GUI.skin.box);
             GUILayout.Label("LUKE'S ARENA", titleStyle);
             int lapStars = state.lapTime <= rules.courseGold ? 3 : state.lapTime <= rules.courseSilver ? 2 : 1;
             GUILayout.Label("Course  " + Stars(progress.courseStars, state.trial == TrialId.Course && state.lap.Count > 0 ? lapStars : 3), bodyStyle);
             GUILayout.Label("Ring    " + Stars(progress.ringStars, state.trial == TrialId.Ring && state.wave <= layout.waves ? (state.ringBonks > 0 ? 1 : state.ringHits > 0 ? 2 : 3) : 3), bodyStyle);
             GUILayout.Label("Yard    " + Stars(progress.stealthStars, state.trial == TrialId.Stealth && !state.vaultTaken ? (!state.seen ? 3 : state.catches == 0 ? 2 : 1) : 3), bodyStyle);
             GUILayout.Label("Suit energy  " + new string('#', Mathf.Max(0, state.energy)) + new string('-', Mathf.Max(0, rules.energyMax - state.energy)), bodyStyle);
+            if (state.sidekick.present)
+            {
+                var ask = session.Sidekick;
+                GUILayout.Label("Dad (T)  " + (ask == SidekickAsk.Oop ? "throw me!" : ask == SidekickAsk.Stun ? "stun it" : state.sidekick.mode == SidekickMode.Wait ? "on watch at the gate" : state.sidekick.cooldown > 0 ? "resting" : "following"), bodyStyle);
+            }
             if (saveNotice.Length > 0) GUILayout.Label(saveNotice, bodyStyle);
             if (paused)
             {
                 GUILayout.Label("Paused. Nobody gets hurt and nothing can be lost.", bodyStyle);
-                GUILayout.Label("WASD / arrows or left stick: move\nSPACE or A: jump · SHIFT or a trigger: sprint, tether in the air\nF or X: the one-button action · G or Y: pounce\nWalk into a lit wall to climb it\nMouse, Q/E or right stick: look · R: recenter", bodyStyle);
+                GUILayout.Label("WASD / arrows or left stick: move\nSPACE or A: jump · SHIFT or a trigger: sprint, tether in the air\nF or X: the one-button action · G or Y: pounce\nT or B: ask Dad. In his ring he throws you; anywhere else he stuns a robot\nWalk into a lit wall to climb it\nMouse, Q/E or right stick: look · R: recenter", bodyStyle);
                 if (GUILayout.Button("Carry on · Escape / Start", buttonStyle)) SetPaused(false);
                 if (!confirmReset) { if (GUILayout.Button("Clear my stars…", buttonStyle)) confirmReset = true; }
                 else
@@ -847,6 +1076,7 @@ namespace SpaceDragon.Playground
                 x = (float)state.hero.x, y = (float)state.hero.y, z = (float)state.hero.z, energy = state.energy, wave = state.wave, stars = session.TotalStars,
                 courseStars = state.progress.courseStars, ringStars = state.progress.ringStars, stealthStars = state.progress.stealthStars, quiet = state.progress.quiet,
                 robotsShown = shown, paused = paused, avatarBound = avatar != null && avatar.Bound, seen = state.seen, targetQuiet = state.targetQuiet,
+                sidekickMode = state.sidekick.present ? state.sidekick.mode.ToString() : "", sidekickAsk = session.Sidekick.ToString(), oop = state.oop.ToString(),
             };
         }
     }

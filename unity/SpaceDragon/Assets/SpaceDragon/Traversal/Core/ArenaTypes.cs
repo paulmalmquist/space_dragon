@@ -11,6 +11,12 @@ namespace SpaceDragon.Traversal
     public enum RobotMode { Dormant, Patrol, Curious, Alert, Windup, Strike, Recover, Search, Resolved }
     /// <summary>What the one-button action would do to a robot right now.</summary>
     public enum ActionKind { None, Snare, Pounce, Quiet }
+    /// <summary>Ready means an alley-oop is on offer this instant; Wait means he is holding back at a trial's line.</summary>
+    public enum SidekickMode { Follow, Wait, Ready, Stun, Toss, Rest }
+    /// <summary>An alley-oop in progress: thrown, floating at the top, then diving.</summary>
+    public enum OopPhase { None, Rise, Hang, Dive }
+    /// <summary>What the sidekick button would do right now.</summary>
+    public enum SidekickAsk { None, Oop, Stun }
 
     /// <summary>One-step notifications for effects, sound and saving. They never own progress.</summary>
     [Flags]
@@ -18,6 +24,7 @@ namespace SpaceDragon.Traversal
     {
         None = 0, Snare = 1, Pounce = 2, Impact = 4, Resolve = 8, Quiet = 16, Hit = 32, Bonk = 64, Revive = 128,
         Caught = 256, Release = 512, Spotted = 1024, Wave = 2048, Pickup = 4096, Trial = 8192, Bounce = 16384, Star = 32768,
+        Toss = 65536, Hang = 131072, Dive = 262144, Stun = 524288, Zip = 1048576,
     }
 
     [Serializable] public sealed class ArenaZone { public TrialId id; public double minX, maxX, minZ, maxZ; }
@@ -37,6 +44,12 @@ namespace SpaceDragon.Traversal
     }
     [Serializable] public sealed class ArenaPickup { public string id; public TrialId trial; public double x, y, z; }
     [Serializable] public sealed class HideSpot { public string id; public double x, z, yaw; }
+    [Serializable] public sealed class SidekickWait { public TrialId trial; public double x, z, yaw; }
+    /// <summary>
+    /// The mission sidekick: mostly on his own, with one button to ask for help. He keeps to the
+    /// ground. In a trial listed under waits he stays at that spot outside its floor.
+    /// </summary>
+    [Serializable] public sealed class SidekickSpec { public string id; public double x, z, yaw; public SidekickWait[] waits = new SidekickWait[0]; }
     /// <summary>A solid as the scene builder should dress it. Collision reads the world's solids, not this.</summary>
     [Serializable] public sealed class ArenaBlock { public string id, look; public double minX, maxX, minZ, maxZ, top; }
 
@@ -54,13 +67,18 @@ namespace SpaceDragon.Traversal
     [Serializable]
     public sealed class ArenaRules
     {
-        public int energyMax, catchHelpMax;
+        public int energyMax, catchHelpMax, diveCount;
         public double mercy, bonkSeconds, holdSeconds, snareRange, snareSeconds, snareCooldown, snareBreak;
         public double pounceRange, pounceSpeed, pounceMin, pounceMax, pounceArc, pounceCooldown, pounceBounce, pouncePin;
         public double unaware, sightAbove, feel, awareNear, awareFar, awareDecay, awareGrace;
         public double curiousSeconds, searchSeconds, loseSightSeconds, noiseRange, sprintNoiseSpeed, landNoiseImpact;
         public double pickupRadius, heroCentre, hideRadius, waveDelay, knockback, knockUp;
         public double catchHelpSeconds, courseSilver, courseGold, lapRest, leaveSeconds;
+        // The sidekick: he follows on his own; one button asks him to stun a robot or to throw Luke.
+        public double sidekickRadius, sidekickHeight, sidekickEye, sidekickSpeed, sidekickGain, sidekickTurn, followNear, followMin, zipDistance, zipStuck;
+        public double stunRange, stunSeconds, stunCooldown, stunPose;
+        public double oopReach, oopStep, oopApex, oopSeek, oopCarry, oopOutMin, oopOutMax, oopOutFree, oopRiseMax, oopHang, oopSlow, oopCooldown, oopRest, tossPose;
+        public double diveRadius, diveSpeed, diveShort, diveLong, divePin, diveMercy;
     }
 
     [Serializable]
@@ -73,6 +91,8 @@ namespace SpaceDragon.Traversal
         public HideSpot[] hides;
         public ArenaBlock[] blocks = new ArenaBlock[0];
         public int waves;
+        /// <summary>Null in a level with no sidekick.</summary>
+        public SidekickSpec sidekick;
         public ArenaRules rules;
         /// <summary>Indexed by RobotKind.</summary>
         public RobotProfile[] profiles;
@@ -101,10 +121,32 @@ namespace SpaceDragon.Traversal
         public double hold;
         /// <summary>True when the hold is a tether line rather than a pin.</summary>
         public bool tethered;
+        /// <summary>True when the hold is the sidekick's stun: dizzy, with no spark taken.</summary>
+        public bool stunned;
         public double strikeX, strikeY, strikeZ, travelled;
 
         public RobotState Clone() => (RobotState)MemberwiseClone();
         public bool InPlay => mode != RobotMode.Dormant && mode != RobotMode.Resolved;
+    }
+
+    [Serializable]
+    public sealed class SidekickState
+    {
+        /// <summary>False in a level with no sidekick; nothing else here is used then.</summary>
+        public bool present;
+        /// <summary>He keeps to the floor, so there is no height.</summary>
+        public double x, z, yaw;
+        public SidekickMode mode;
+        /// <summary>Seconds left in a pose played where he stands: reaching out, throwing, catching his breath.</summary>
+        public double timer;
+        /// <summary>Seconds until he can be asked again.</summary>
+        public double cooldown;
+        /// <summary>Seconds spent pushing against something on the way to Luke.</summary>
+        public double stuck;
+        /// <summary>Robot his stun is aimed at while the pose lasts, for drawing.</summary>
+        public string aimId = "";
+
+        public SidekickState Clone() => (SidekickState)MemberwiseClone();
     }
 
     /// <summary>
@@ -164,6 +206,13 @@ namespace SpaceDragon.Traversal
         public int catches;
         public bool vaultTaken;
         public string hideId = "";
+        public SidekickState sidekick = new SidekickState();
+        public bool sidekickHeld;
+        public OopPhase oop;
+        /// <summary>Seconds in the current phase of the alley-oop, and the length of its dive.</summary>
+        public double oopTime, oopDuration, oopFromX, oopFromY, oopFromZ, oopToX, oopToY, oopToZ;
+        /// <summary>Robots the dive is landing on, nearest first; kept until the landing so lines can be drawn to them.</summary>
+        public string[] diveIds = new string[0];
         public ArenaProgress progress = new ArenaProgress();
         public ArenaEvent events;
 
@@ -183,18 +232,22 @@ namespace SpaceDragon.Traversal
         public bool action;
         /// <summary>Always pounce.</summary>
         public bool pounce;
+        /// <summary>The sidekick button: an alley-oop beside him, a stun anywhere else.</summary>
+        public bool sidekick;
         /// <summary>Camera heading on the ground plane; guides which robot is targeted. Zero means use Luke's facing.</summary>
         public double aimX, aimZ;
     }
 
-    [Serializable] public sealed class ArenaProbeSegment { public int steps; public double moveX, moveZ, aimX, aimZ; public bool jump, power, action, pounce; }
+    [Serializable] public sealed class ArenaProbeSegment { public int steps; public double moveX, moveZ, aimX, aimZ; public bool jump, power, action, pounce, sidekick; }
     /// <summary>A moment of a recorded run: enough of the state to notice any divergence.</summary>
     [Serializable]
     public sealed class ArenaProbeMark
     {
         public int step;
         public double heroX, heroY, heroZ, heroYaw, robotX, robotZ, robotYaw, awareness;
-        public int energy, sparks, heroMode, trial, wave, modes;
+        /// <summary>The sidekick, and how long each robot is still held.</summary>
+        public double dadX, dadZ, dadYaw, holds;
+        public int energy, sparks, heroMode, trial, wave, modes, dadMode, oop, stunned, diving;
     }
     /// <summary>A scripted run recorded from the TypeScript rules; the C# port must pass through the same moments.</summary>
     [Serializable]

@@ -14,13 +14,16 @@ const { TUNING } = await import('../src/game/traversal/tuning.ts');
 test("committed Luke's Arena C# matches the TypeScript source and its recorded runs reach every rule", async () => {
   const result = JSON.parse(run('--experimental-strip-types', 'tools/unity/export-arena.mjs', '--verify').trim().split('\n').at(-1));
   assert.equal(result.verified, true);
-  assert.ok(result.probes >= 11 && result.steps > 30_000 && result.marks > 250);
+  assert.ok(result.probes >= 16 && result.steps > 45_000 && result.marks > 380);
   assert.deepEqual(result.eventsReached, Object.keys(ARENA_EVENT), 'between them the recorded runs raise every arena event');
   for (const mode of ['ground', 'air', 'swing', 'climb']) assert.ok(result.heroModes.includes(mode), mode);
+  assert.deepEqual(result.sidekickModes, ['follow', 'wait', 'ready', 'stun', 'toss', 'rest'], 'the sidekick is seen every way he can stand');
+  assert.deepEqual(result.oopPhases, ['rise', 'hang', 'dive'], 'every phase of an alley-oop is seen');
   const data = await readFile(`${core}/LukeArenaData.cs`, 'utf8');
   assert.match(data, /auto-generated/);
   assert.ok(data.includes(`SourceFingerprint = "${result.sourceFingerprint}"`));
-  for (const id of ['luke-arena-v001', 'course-tower-east', 'yard-catwalk-east', 'ring-anchor', 'yard-floodlight', 'ring-mower', 'vault', 'behind-crate-4']) assert.ok(data.includes(`"${id}"`), id);
+  for (const id of ['luke-arena-v001', 'course-tower-east', 'yard-catwalk-east', 'ring-anchor', 'yard-floodlight', 'ring-mower', 'vault', 'behind-crate-4', 'dad']) assert.ok(data.includes(`"${id}"`), id);
+  assert.match(data, /sidekick = new SidekickSpec \{ id = "dad", [^}]*waits = new\[\] \{ new SidekickWait \{ trial = TrialId\.Stealth,/);
   // Every tunable number is written out, and nothing else is invented.
   for (const [name, value] of Object.entries(ARENA)) assert.match(data, new RegExp(`\\b${name} = ${String(value).replace('.', '\\.')}(\\.0)?,`), name);
   for (const [kind, profile] of Object.entries(ROBOT_PROFILES)) assert.match(data, new RegExp(`sparks = ${profile.sparks}, large = ${profile.large}, radius = [^}]+\\}, // ${kind}`), kind);
@@ -36,6 +39,9 @@ test('the hand-written C# names every event, mode and tuning value the TypeScrip
   assert.deepEqual(names('RobotKind'), Object.keys(ROBOT_PROFILES));
   assert.deepEqual(names('TrialId'), ['none', 'course', 'ring', 'stealth']);
   assert.deepEqual(names('ActionKind'), ['none', 'snare', 'pounce', 'quiet']);
+  assert.deepEqual(names('SidekickMode'), ['follow', 'wait', 'ready', 'stun', 'toss', 'rest']);
+  assert.deepEqual(names('OopPhase'), ['none', 'rise', 'hang', 'dive']);
+  assert.deepEqual(names('SidekickAsk'), ['none', 'oop', 'stun']);
   for (const name of Object.keys(ARENA)) assert.match(types, new RegExp(`\\b${name}\\b`), `ArenaRules has ${name}`);
   for (const name of Object.keys(ROBOT_PROFILES.iguana)) assert.match(types, new RegExp(`\\b${name}\\b`), `RobotProfile has ${name}`);
 

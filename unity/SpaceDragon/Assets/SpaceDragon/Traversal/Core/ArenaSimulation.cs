@@ -9,6 +9,11 @@ namespace SpaceDragon.Traversal
     /// hero it wraps: no scene, storage or clock. Nobody is hurt and nothing can be lost: robots
     /// power down, Luke gets bonked or held for a moment, and every reward is kept.
     /// A line-for-line port of src/game/arena/arena.ts, checked against recorded runs.
+    ///
+    /// The sidekick follows on his own and has one button: next to him it is an alley-oop (he
+    /// throws Luke, time slows at the top, and Luke dives onto the nearest robots); anywhere else
+    /// he stuns a robot so Luke can finish it. An alley-oop's result is applied once, when the
+    /// dive begins; the dive itself only plays it back.
     /// </summary>
     public static class ArenaSimulation
     {
@@ -27,6 +32,12 @@ namespace SpaceDragon.Traversal
             };
         }
 
+        private static SidekickState FreshSidekick(ArenaLayout layout)
+        {
+            var spec = layout.sidekick;
+            return new SidekickState { present = spec != null, x = spec != null ? spec.x : 0, z = spec != null ? spec.z : 0, yaw = spec != null ? spec.yaw : 0 };
+        }
+
         public static ArenaState Create(ArenaLayout layout, ArenaProgress progress = null)
         {
             var robots = new RobotState[layout.robots.Length];
@@ -35,6 +46,7 @@ namespace SpaceDragon.Traversal
             {
                 hero = HeroSimulation.Create(layout.world, layout.world.spawn.x, layout.world.spawn.z, layout.world.spawn.yaw),
                 robots = robots, energy = layout.rules.energyMax, hideId = layout.hides.Length > 0 ? layout.hides[0].id : "",
+                sidekick = FreshSidekick(layout),
                 progress = progress == null ? new ArenaProgress() : progress.Clone(),
             };
         }
@@ -127,7 +139,7 @@ namespace SpaceDragon.Traversal
         /// <summary>What the one-button action would do to a robot right now. The rules and the on-screen hint both ask here.</summary>
         public static ActionKind ActionFor(ArenaLayout layout, ArenaState state, RobotState robot)
         {
-            if (robot == null || state.bonk > 0 || state.held > 0 || state.pounceId.Length > 0 || state.hero.mode == HeroMode.Catch) return ActionKind.None;
+            if (robot == null || state.bonk > 0 || state.held > 0 || state.pounceId.Length > 0 || state.oop != OopPhase.None || state.hero.mode == HeroMode.Catch) return ActionKind.None;
             var hero = state.hero;
             var rules = layout.rules;
             double dx = robot.x - hero.x, dy = robot.y - hero.y, dz = robot.z - hero.z;
@@ -140,7 +152,7 @@ namespace SpaceDragon.Traversal
 
         private static void Resolve(ArenaState state, RobotState robot, bool quiet)
         {
-            robot.sparks = 0; robot.mode = RobotMode.Resolved; robot.hold = 0; robot.tethered = false; robot.awareness = 0;
+            robot.sparks = 0; robot.mode = RobotMode.Resolved; robot.hold = 0; robot.tethered = false; robot.stunned = false; robot.awareness = 0;
             state.events |= ArenaEvent.Resolve;
             if (quiet) { state.progress.quiet += 1; state.events |= ArenaEvent.Quiet; }
             if (state.snareId == robot.id) state.snareId = "";
@@ -180,7 +192,7 @@ namespace SpaceDragon.Traversal
             state.events |= ArenaEvent.Snare;
             robot.sparks -= 1;
             if (robot.sparks <= 0) { Resolve(state, robot, false); return; }
-            robot.hold = rules.snareSeconds; robot.tethered = true;
+            robot.hold = rules.snareSeconds; robot.tethered = true; robot.stunned = false;
             if (robot.awareness < 1) { robot.awareness = 1; MarkSeen(layout, state, robot); }
             robot.lastSeenX = state.hero.x; robot.lastSeenZ = state.hero.z;
             if (robot.kind != RobotKind.Sentry) robot.mode = RobotMode.Alert;
@@ -244,7 +256,7 @@ namespace SpaceDragon.Traversal
             {
                 robot.sparks -= 1;
                 if (robot.sparks <= 0) Resolve(state, robot, false);
-                else { robot.hold = rules.pouncePin; robot.tethered = false; }
+                else { robot.hold = rules.pouncePin; robot.tethered = false; robot.stunned = false; }
             }
             if (robot.InPlay && robot.awareness < 1) { robot.awareness = 1; MarkSeen(layout, state, robot); }
             if (!state.pounceQuiet) Noise(layout, state, x, z);
@@ -328,7 +340,7 @@ namespace SpaceDragon.Traversal
         private static void HitLuke(ArenaLayout layout, ArenaState state, RobotState robot, double dirX, double dirZ)
         {
             var rules = layout.rules;
-            if (state.mercy > 0 || state.bonk > 0 || state.held > 0 || state.pounceId.Length > 0) return;
+            if (state.mercy > 0 || state.bonk > 0 || state.held > 0 || state.pounceId.Length > 0 || state.oop != OopPhase.None) return;
             state.energy -= 1; state.mercy = rules.mercy; state.events |= ArenaEvent.Hit;
             if (state.trial == TrialId.Ring) state.ringHits += 1;
             double length = Math.Sqrt(dirX * dirX + dirZ * dirZ);
@@ -363,7 +375,7 @@ namespace SpaceDragon.Traversal
                 double hx = hero.x - robot.x, hz = hero.z - robot.z;
                 if (robot.hold <= 0 || (robot.tethered && hx * hx + hz * hz > rules.snareBreak * rules.snareBreak))
                 {
-                    robot.hold = 0; robot.tethered = false;
+                    robot.hold = 0; robot.tethered = false; robot.stunned = false;
                     if (state.snareId == robot.id) state.snareId = "";
                     if (robot.kind != RobotKind.Sentry) robot.mode = RobotMode.Alert;
                 }
@@ -403,7 +415,7 @@ namespace SpaceDragon.Traversal
                     if (robot.kind == RobotKind.Sentry)
                     {
                         // The floodlight's catch: Luke is held for a moment and set down out of sight. Nothing is lost.
-                        if (targetable && state.pounceId.Length == 0)
+                        if (targetable && state.pounceId.Length == 0 && state.oop == OopPhase.None)
                         {
                             state.held = rules.holdSeconds; state.seen = true; state.catches += 1; state.events |= ArenaEvent.Caught;
                             var still = hero.Clone();
@@ -493,6 +505,366 @@ namespace SpaceDragon.Traversal
             }
         }
 
+        /// <summary>Push a point that is a circle's centre out of a box on the ground plane.</summary>
+        private static void PushOut(ref double x, ref double z, double minX, double maxX, double minZ, double maxZ, double radius)
+        {
+            double cx = Clamp(x, minX, maxX), cz = Clamp(z, minZ, maxZ);
+            double dx = x - cx, dz = z - cz, d2 = dx * dx + dz * dz;
+            if (d2 >= radius * radius) return;
+            if (d2 > 1e-12) { double d = Math.Sqrt(d2); x = cx + dx / d * radius; z = cz + dz / d * radius; return; }
+            double left = x - minX, right = maxX - x, near = z - minZ, far = maxZ - z;
+            double least = Math.Min(Math.Min(left, right), Math.Min(near, far));
+            if (least == left) x = minX - radius; else if (least == right) x = maxX + radius; else if (least == near) z = minZ - radius; else z = maxZ + radius;
+        }
+
+        /// <summary>Where the sidekick may stand: on the floor, clear of solids, inside the yard and outside any trial he waits at.</summary>
+        public static bool SidekickFree(ArenaLayout layout, double x, double z)
+        {
+            var spec = layout.sidekick;
+            if (spec == null) return false;
+            var rules = layout.rules;
+            var b = layout.world.bounds;
+            double R = rules.sidekickRadius, touching = R * R - 1e-9;
+            if (x < b.minX + R || x > b.maxX - R || z < b.minZ + R || z > b.maxZ - R) return false;
+            foreach (var solid in layout.world.solids)
+            {
+                if (solid.minY >= rules.sidekickHeight || solid.maxY <= TraversalTuning.Default.stepHeight) continue;
+                double dx = x - Clamp(x, solid.minX, solid.maxX), dz = z - Clamp(z, solid.minZ, solid.maxZ);
+                if (dx * dx + dz * dz < touching) return false;
+            }
+            foreach (var wait in spec.waits)
+            {
+                var zone = ZoneOfTrial(layout, wait.trial);
+                double dx = x - Clamp(x, zone.minX, zone.maxX), dz = z - Clamp(z, zone.minZ, zone.maxZ);
+                if (dx * dx + dz * dz < touching) return false;
+            }
+            return true;
+        }
+
+        /// <summary>Walk the sidekick to a point, sliding round solids and the edge of any trial he stays out of.</summary>
+        private static void MoveSidekick(ArenaLayout layout, SidekickState buddy, double nextX, double nextZ)
+        {
+            var spec = layout.sidekick;
+            var rules = layout.rules;
+            var b = layout.world.bounds;
+            double R = rules.sidekickRadius;
+            double atX = nextX, atZ = nextZ;
+            for (int pass = 0; pass < 2; pass++)
+            {
+                foreach (var solid in layout.world.solids)
+                {
+                    if (solid.minY >= rules.sidekickHeight || solid.maxY <= TraversalTuning.Default.stepHeight) continue;
+                    PushOut(ref atX, ref atZ, solid.minX, solid.maxX, solid.minZ, solid.maxZ, R);
+                }
+                foreach (var wait in spec.waits)
+                {
+                    var zone = ZoneOfTrial(layout, wait.trial);
+                    PushOut(ref atX, ref atZ, zone.minX, zone.maxX, zone.minZ, zone.maxZ, R);
+                }
+            }
+            double x = Clamp(atX, b.minX + R, b.maxX - R), z = Clamp(atZ, b.minZ + R, b.maxZ - R);
+            // A corner that cannot be squeezed past is simply not entered.
+            if (SidekickFree(layout, x, z)) { buddy.x = x; buddy.z = z; }
+        }
+
+        /// <summary>Eighths of a turn tried in order when he hops to Luke's side: the side he was on first.</summary>
+        private static readonly int[] ZipTurns = { 0, -1, 1, -2, 2, -3, 3, 4 };
+
+        /// <summary>No family member is ever left behind: too far or stuck, he hops over.</summary>
+        private static void ZipSidekick(ArenaLayout layout, ArenaState state, double goalX, double goalZ, bool exact)
+        {
+            var buddy = state.sidekick;
+            buddy.stuck = 0;
+            double x = goalX, z = goalZ;
+            bool found = exact && SidekickFree(layout, x, z);
+            if (!exact)
+            {
+                double baseAngle = Math.Atan2(buddy.x - goalX, buddy.z - goalZ), ring = layout.rules.followNear + 0.3;
+                for (int index = 0; index < ZipTurns.Length && !found; index++)
+                {
+                    double angle = baseAngle + ZipTurns[index] * Math.PI / 4;
+                    x = goalX + Math.Sin(angle) * ring; z = goalZ + Math.Cos(angle) * ring;
+                    found = SidekickFree(layout, x, z);
+                }
+            }
+            if (!found) return;
+            buddy.x = x; buddy.z = z;
+            buddy.yaw = Math.Atan2(state.hero.x - x, state.hero.z - z);
+            state.events |= ArenaEvent.Zip;
+        }
+
+        /// <summary>The trial line the sidekick is holding back at, if Luke is inside one of those trials.</summary>
+        private static SidekickWait WaitSpot(ArenaLayout layout, ArenaState state)
+        {
+            var spec = layout.sidekick;
+            if (spec != null) foreach (var spot in spec.waits) if (spot.trial == state.trial) return spot;
+            return null;
+        }
+
+        /// <summary>True when the sidekick is there, rested and free to be asked, and Luke is able to ask.</summary>
+        private static bool SidekickListening(ArenaLayout layout, ArenaState state)
+        {
+            var buddy = state.sidekick;
+            if (!buddy.present || buddy.cooldown > 0 || buddy.timer > 0) return false;
+            if (state.bonk > 0 || state.held > 0 || state.pounceId.Length > 0 || state.oop != OopPhase.None || state.hero.mode == HeroMode.Catch) return false;
+            return WaitSpot(layout, state) == null;
+        }
+
+        private static bool OopInReach(ArenaLayout layout, ArenaState state)
+        {
+            var hero = state.hero;
+            var buddy = state.sidekick;
+            var rules = layout.rules;
+            double dx = hero.x - buddy.x, dz = hero.z - buddy.z;
+            return hero.mode == HeroMode.Ground && hero.y <= rules.oopStep && dx * dx + dz * dz <= rules.oopReach * rules.oopReach;
+        }
+
+        /// <summary>The robot the sidekick would stun: the ringed one when he can reach it, otherwise the one nearest Luke.</summary>
+        public static RobotState StunTarget(ArenaLayout layout, ArenaState state)
+        {
+            var buddy = state.sidekick;
+            var hero = state.hero;
+            var rules = layout.rules;
+            RobotState best = null;
+            double bestD2 = double.PositiveInfinity;
+            for (int index = 0; index < state.robots.Length; index++)
+            {
+                var robot = state.robots[index];
+                if (!robot.InPlay || robot.hold > 0 || layout.robots[index].trial != state.trial) continue;
+                var profile = layout.Profile(robot.kind);
+                double dx = robot.x - buddy.x, dz = robot.z - buddy.z;
+                if (dx * dx + dz * dz > rules.stunRange * rules.stunRange) continue;
+                if (!SightLine(layout.world, buddy.x, rules.sidekickEye, buddy.z, robot.x, robot.y + profile.height * 0.5, robot.z)) continue;
+                if (robot.id == state.targetId) return robot;
+                double hx = robot.x - hero.x, hz = robot.z - hero.z, d2 = hx * hx + hz * hz;
+                if (d2 < bestD2) { bestD2 = d2; best = robot; }
+            }
+            return best;
+        }
+
+        /// <summary>What the sidekick button would do right now. The rules and the on-screen hint both ask here.</summary>
+        public static SidekickAsk SidekickFor(ArenaLayout layout, ArenaState state)
+        {
+            if (!SidekickListening(layout, state)) return SidekickAsk.None;
+            if (OopInReach(layout, state)) return SidekickAsk.Oop;
+            return StunTarget(layout, state) != null ? SidekickAsk.Stun : SidekickAsk.None;
+        }
+
+        /// <summary>The robots a dive from where Luke is would land on: the nearest few in sight, closest first.</summary>
+        public static List<RobotState> DiveTargets(ArenaLayout layout, ArenaState state)
+        {
+            var hero = state.hero;
+            var rules = layout.rules;
+            var chosen = new List<RobotState>();
+            double reach = rules.diveRadius * rules.diveRadius;
+            while (chosen.Count < rules.diveCount)
+            {
+                RobotState best = null;
+                double bestD2 = double.PositiveInfinity;
+                for (int index = 0; index < state.robots.Length; index++)
+                {
+                    var robot = state.robots[index];
+                    if (!robot.InPlay || layout.robots[index].trial != state.trial || chosen.Contains(robot)) continue;
+                    double dx = robot.x - hero.x, dz = robot.z - hero.z, d2 = dx * dx + dz * dz;
+                    // Ties keep level order.
+                    if (d2 > reach || d2 >= bestD2) continue;
+                    var profile = layout.Profile(robot.kind);
+                    if (!SightLine(layout.world, hero.x, hero.y + rules.heroCentre, hero.z, robot.x, robot.y + profile.height * 0.5, robot.z)) continue;
+                    bestD2 = d2; best = robot;
+                }
+                if (best == null) break;
+                chosen.Add(best);
+            }
+            return chosen;
+        }
+
+        /// <summary>Dizzy and still for a few seconds. No spark is taken: the finish stays Luke's.</summary>
+        private static void Stun(ArenaLayout layout, ArenaState state, RobotState robot)
+        {
+            var buddy = state.sidekick;
+            var rules = layout.rules;
+            robot.hold = rules.stunSeconds; robot.tethered = false; robot.stunned = true;
+            buddy.cooldown = rules.stunCooldown; buddy.mode = SidekickMode.Stun; buddy.timer = rules.stunPose; buddy.aimId = robot.id;
+            buddy.yaw = Math.Atan2(robot.x - buddy.x, robot.z - buddy.z);
+            state.events |= ArenaEvent.Stun;
+        }
+
+        /// <summary>The throw. Toward the nearest robot, so it carries Luke over the trouble; otherwise the way he is looking.</summary>
+        private static void StartOop(ArenaLayout layout, ArenaState state, double aimX, double aimZ)
+        {
+            var buddy = state.sidekick;
+            var hero = state.hero;
+            var rules = layout.rules;
+            var tuning = TraversalTuning.Default;
+            double up = Math.Sqrt(-2 * tuning.gravityRise * rules.oopApex);
+            double dirX = aimX, dirZ = aimZ, outward = rules.oopOutFree;
+            double aim = Math.Sqrt(dirX * dirX + dirZ * dirZ);
+            if (aim > 1e-6) { dirX /= aim; dirZ /= aim; } else { dirX = Math.Sin(hero.yaw); dirZ = Math.Cos(hero.yaw); }
+            double nearest = rules.oopSeek;
+            for (int index = 0; index < state.robots.Length; index++)
+            {
+                var robot = state.robots[index];
+                if (!robot.InPlay || layout.robots[index].trial != state.trial) continue;
+                double dx = robot.x - hero.x, dz = robot.z - hero.z, flat = Math.Sqrt(dx * dx + dz * dz);
+                if (flat >= nearest) continue;
+                nearest = flat;
+                if (flat > 1e-6) { dirX = dx / flat; dirZ = dz / flat; }
+                outward = Clamp(flat * rules.oopCarry * -tuning.gravityRise / up, rules.oopOutMin, rules.oopOutMax);
+            }
+            // No hop and no early cut on the way up: the throw is the move.
+            var thrown = hero.Clone();
+            thrown.vx = dirX * outward; thrown.vy = up; thrown.vz = dirZ * outward;
+            thrown.mode = HeroMode.Air; thrown.groundId = ""; thrown.climbId = ""; thrown.tetherId = "";
+            thrown.airTime = 0; thrown.coyote = 0; thrown.jumpBuffer = 0; thrown.hopAvailable = false; thrown.cutEligible = false;
+            state.hero = thrown;
+            state.oop = OopPhase.Rise; state.oopTime = 0;
+            buddy.mode = SidekickMode.Toss; buddy.timer = rules.tossPose; buddy.cooldown = rules.oopCooldown;
+            buddy.yaw = Math.Atan2(hero.x - buddy.x, hero.z - buddy.z);
+            state.events |= ArenaEvent.Toss;
+        }
+
+        /// <summary>Back to ordinary flight, with the thruster hop ready.</summary>
+        private static void EndOop(ArenaState state)
+        {
+            state.oop = OopPhase.None; state.diveIds = new string[0];
+            if (state.hero.mode != HeroMode.Air) return;
+            var free = state.hero.Clone();
+            free.hopAvailable = true;
+            state.hero = free;
+        }
+
+        /// <summary>
+        /// The finish, applied exactly once. The nearest robot powers down outright; the others in
+        /// reach lose a spark and are pinned, or power down too if they were already held or stalled.
+        /// </summary>
+        private static void FinishOop(ArenaLayout layout, ArenaState state)
+        {
+            var targets = DiveTargets(layout, state);
+            if (targets.Count == 0) { EndOop(state); return; }
+            var hero = state.hero;
+            var rules = layout.rules;
+            var first = targets[0];
+            double toX = first.x, toY = first.y + layout.Profile(first.kind).height, toZ = first.z;
+            var ids = new string[targets.Count];
+            for (int index = 0; index < targets.Count; index++)
+            {
+                var robot = targets[index];
+                ids[index] = robot.id;
+                // Nobody dives quietly: a robot that had not noticed Luke has now.
+                if (robot.awareness < 1) MarkSeen(layout, state, robot);
+                if (index == 0 || IsVulnerable(robot)) { Resolve(state, robot, false); continue; }
+                robot.sparks -= 1;
+                if (robot.sparks <= 0) { Resolve(state, robot, false); continue; }
+                robot.hold = rules.divePin; robot.tethered = false; robot.stunned = false;
+                robot.awareness = 1; robot.lastSeenX = hero.x; robot.lastSeenZ = hero.z;
+            }
+            double dx = toX - hero.x, dy = toY - hero.y, dz = toZ - hero.z;
+            state.diveIds = ids;
+            state.oop = OopPhase.Dive; state.oopTime = 0;
+            state.oopDuration = Clamp(Math.Sqrt(dx * dx + dy * dy + dz * dz) / rules.diveSpeed, rules.diveShort, rules.diveLong);
+            state.oopFromX = hero.x; state.oopFromY = hero.y; state.oopFromZ = hero.z;
+            state.oopToX = toX; state.oopToY = toY; state.oopToZ = toZ;
+            state.events |= ArenaEvent.Dive;
+        }
+
+        /// <summary>The dive plays back a result that is already in the books: a straight line down to where the first robot was.</summary>
+        private static void StepDive(ArenaLayout layout, ArenaState state, double dt)
+        {
+            var hero = state.hero;
+            var rules = layout.rules;
+            state.oopTime += dt;
+            double u = Math.Min(1, state.oopTime / state.oopDuration);
+            double x = state.oopFromX + (state.oopToX - state.oopFromX) * u;
+            double y = state.oopFromY + (state.oopToY - state.oopFromY) * u;
+            double z = state.oopFromZ + (state.oopToZ - state.oopFromZ) * u;
+            double flatX = state.oopToX - state.oopFromX, flatZ = state.oopToZ - state.oopFromZ;
+            double flat = Math.Sqrt(flatX * flatX + flatZ * flatZ);
+            double yaw = flat > 1e-6 ? Math.Atan2(flatX, flatZ) : hero.yaw;
+            var next = hero.Clone();
+            next.vx = (x - hero.x) / dt; next.vy = (y - hero.y) / dt; next.vz = (z - hero.z) / dt;
+            next.x = x; next.y = y; next.z = z; next.yaw = yaw;
+            next.mode = HeroMode.Air; next.groundId = ""; next.climbId = ""; next.tetherId = "";
+            next.airTime = hero.airTime + dt; next.events = HeroEvent.None; next.impact = 0;
+            if (u < 1) { state.hero = next; return; }
+            state.events |= ArenaEvent.Impact | ArenaEvent.Bounce;
+            Noise(layout, state, x, z);
+            double away = flat > 1e-6 ? -1.6 / flat : 0;
+            next.vx = flatX * away; next.vz = flatZ * away; next.vy = rules.pounceBounce; next.hopAvailable = true; next.cutEligible = false;
+            state.hero = next;
+            state.mercy = Math.Max(state.mercy, rules.diveMercy);
+            state.oop = OopPhase.None; state.diveIds = new string[0];
+        }
+
+        /// <summary>One step of an alley-oop. Luke can steer in the air; nothing can hit or catch him until he lands.</summary>
+        private static void StepOop(ArenaLayout layout, ArenaState state, ArenaInput input, bool pressed, double dt)
+        {
+            if (state.oop == OopPhase.Dive) { StepDive(layout, state, dt); return; }
+            var rules = layout.rules;
+            var steer = new HeroInput { moveX = input.moveX, moveZ = input.moveZ, jump = input.jump, power = false };
+            state.oopTime += dt;
+            if (state.oop == OopPhase.Rise)
+            {
+                state.hero = HeroSimulation.Step(layout.world, state.hero, steer, dt);
+                // Landing on a ledge or grabbing a marked wall on the way up ends the move there: that is the traversal use.
+                if (state.hero.mode != HeroMode.Air || state.oopTime > rules.oopRiseMax) { EndOop(state); return; }
+                if (state.hero.vy > 0) return;
+                // The top of the arc. With robots below, time slows; with none, Luke simply flies on.
+                if (DiveTargets(layout, state).Count == 0) { EndOop(state); return; }
+                state.oop = OopPhase.Hang; state.oopTime = 0; state.events |= ArenaEvent.Hang;
+                return;
+            }
+            state.hero = HeroSimulation.Step(layout.world, state.hero, steer, dt * rules.oopSlow);
+            if (state.hero.mode != HeroMode.Air) { EndOop(state); return; }
+            // One press is enough; with none, the dive goes at the end of the moment.
+            if (pressed || state.oopTime >= rules.oopHang) FinishOop(layout, state);
+        }
+
+        /// <summary>The sidekick's own step: poses play out, then he keeps close to Luke or holds back at a trial's line.</summary>
+        private static void StepSidekick(ArenaLayout layout, ArenaState state, double dt)
+        {
+            var buddy = state.sidekick;
+            if (!buddy.present) return;
+            var hero = state.hero;
+            var rules = layout.rules;
+            buddy.cooldown = Math.Max(0, buddy.cooldown - dt);
+            if (buddy.timer > 0)
+            {
+                buddy.timer -= dt;
+                if (buddy.timer > 0) return;
+                buddy.timer = 0; buddy.aimId = "";
+                // After a throw he catches his breath.
+                if (buddy.mode == SidekickMode.Toss) { buddy.mode = SidekickMode.Rest; buddy.timer = rules.oopRest; return; }
+            }
+            var wait = WaitSpot(layout, state);
+            double goalX = wait != null ? wait.x : hero.x, goalZ = wait != null ? wait.z : hero.z;
+            double dx = goalX - buddy.x, dz = goalZ - buddy.z;
+            double distance = Math.Sqrt(dx * dx + dz * dz);
+            double gap = distance - (wait != null ? 0 : rules.followNear);
+            // Walked into: he backs away, still facing Luke, instead of the two standing in each other.
+            double crowd = wait != null ? 0 : rules.followMin - distance;
+            double speed = crowd > 0 ? Clamp(crowd * rules.sidekickGain * 2, 0, rules.sidekickSpeed) : Clamp(gap * rules.sidekickGain, 0, rules.sidekickSpeed);
+            bool blocked = false;
+            if (speed > 0 && distance > 1e-6)
+            {
+                double step = crowd > 0 ? -Math.Min(crowd, speed * dt) : Math.Min(gap, speed * dt);
+                double fromX = buddy.x, fromZ = buddy.z;
+                MoveSidekick(layout, buddy, buddy.x + dx / distance * step, buddy.z + dz / distance * step);
+                double mx = buddy.x - fromX, mz = buddy.z - fromZ;
+                // Pushing against something is only a problem while there is a floor-level place to get to. Backed against a wall is not stuck.
+                blocked = step > 0 && speed > 1 && Math.Sqrt(mx * mx + mz * mz) < step * 0.35 && (wait != null || (hero.mode == HeroMode.Ground && hero.y <= rules.oopStep));
+            }
+            buddy.stuck = blocked ? buddy.stuck + dt : Math.Max(0, buddy.stuck - 2 * dt);
+            if (distance > rules.zipDistance || buddy.stuck >= rules.zipStuck) ZipSidekick(layout, state, goalX, goalZ, wait != null);
+            else
+            {
+                // Facing: the way he is going; once there, toward Luke, or outward from a trial's line.
+                double facing = wait != null && distance < 0.3 ? wait.yaw : speed > 0.4 && distance > 1e-6 ? Math.Atan2(dx, dz) : Math.Atan2(hero.x - buddy.x, hero.z - buddy.z);
+                double delta = Wrap(facing - buddy.yaw), turn = rules.sidekickTurn * dt;
+                if (Math.Abs(delta) > 1e-9) buddy.yaw = Wrap(buddy.yaw + Clamp(delta, -turn, turn));
+            }
+            buddy.mode = wait != null ? SidekickMode.Wait : SidekickListening(layout, state) && OopInReach(layout, state) ? SidekickMode.Ready : SidekickMode.Follow;
+        }
+
         private static void EnterTrial(ArenaLayout layout, ArenaState state, TrialId trial)
         {
             // Leaving: whatever was chasing loses interest and goes home.
@@ -500,7 +872,7 @@ namespace SpaceDragon.Traversal
             {
                 var robot = state.robots[index];
                 if (!robot.InPlay || layout.robots[index].trial != state.trial) continue;
-                robot.awareness = 0; robot.hold = 0; robot.tethered = false;
+                robot.awareness = 0; robot.hold = 0; robot.tethered = false; robot.stunned = false;
                 if (robot.mode != RobotMode.Patrol) { robot.mode = RobotMode.Patrol; robot.timer = 0; }
             }
             state.snareId = "";
@@ -669,6 +1041,7 @@ namespace SpaceDragon.Traversal
             var state = (ArenaState)CloneShallow(previous);
             state.robots = new RobotState[previous.robots.Length];
             for (int index = 0; index < state.robots.Length; index++) state.robots[index] = previous.robots[index].Clone();
+            state.sidekick = previous.sidekick.Clone();
             state.progress = previous.progress.Clone();
             state.events = ArenaEvent.None;
             state.mercy = Math.Max(0, state.mercy - dt);
@@ -676,7 +1049,8 @@ namespace SpaceDragon.Traversal
             state.pounceCooldown = Math.Max(0, state.pounceCooldown - dt);
             bool actionPressed = input.action && !previous.actionHeld;
             bool pouncePressed = input.pounce && !previous.pounceHeld;
-            state.actionHeld = input.action; state.pounceHeld = input.pounce;
+            bool sidekickPressed = input.sidekick && !previous.sidekickHeld;
+            state.actionHeld = input.action; state.pounceHeld = input.pounce; state.sidekickHeld = input.sidekick;
 
             if (state.bonk > 0)
             {
@@ -698,6 +1072,7 @@ namespace SpaceDragon.Traversal
                 }
             }
             else if (state.pounceId.Length > 0) StepPounce(layout, state, dt);
+            else if (state.oop != OopPhase.None) StepOop(layout, state, input, actionPressed || pouncePressed || sidekickPressed, dt);
             else
             {
                 state.hero = HeroSimulation.Step(world, state.hero, new HeroInput { moveX = input.moveX, moveZ = input.moveZ, jump = input.jump, power = input.power }, dt);
@@ -716,17 +1091,27 @@ namespace SpaceDragon.Traversal
                         else if (choice != ActionKind.None) StartPounce(layout, state, robot);
                     }
                 }
+                if (sidekickPressed)
+                {
+                    SidekickAsk ask = SidekickFor(layout, state);
+                    RobotState dizzy = ask == SidekickAsk.Stun ? StunTarget(layout, state) : null;
+                    if (ask == SidekickAsk.Oop) StartOop(layout, state, input.aimX, input.aimZ);
+                    else if (dizzy != null) Stun(layout, state, dizzy);
+                }
             }
 
             // Robots notice and bother Luke only inside their own trial: stepping out of a zone is always safe.
             bool targetable = state.bonk <= 0 && state.held <= 0;
+            // While Luke floats at the top of an alley-oop the robots below move in slow motion with him.
+            double robotDt = state.oop == OopPhase.Hang ? dt * rules.oopSlow : dt;
             for (int index = 0; index < state.robots.Length; index++)
             {
                 var robot = state.robots[index];
-                if (robot.InPlay) StepRobot(layout, state, robot, targetable && layout.robots[index].trial == state.trial, dt);
+                if (robot.InPlay) StepRobot(layout, state, robot, targetable && layout.robots[index].trial == state.trial, robotDt);
             }
             StepTrials(layout, state, dt);
-            state.targetId = targetable && state.pounceId.Length == 0 ? PickTarget(layout, state, input.aimX, input.aimZ) : "";
+            StepSidekick(layout, state, dt);
+            state.targetId = targetable && state.pounceId.Length == 0 && state.oop == OopPhase.None ? PickTarget(layout, state, input.aimX, input.aimZ) : "";
             var aimed = state.FindRobot(state.targetId);
             state.targetQuiet = aimed != null && QuietOpening(layout, aimed, state.hero);
             if (state.snareId.Length > 0)
@@ -749,6 +1134,9 @@ namespace SpaceDragon.Traversal
                 lap = source.lap, lapTime = source.lapTime, lapRest = source.lapRest, wave = source.wave, waveTimer = source.waveTimer,
                 ringHits = source.ringHits, ringBonks = source.ringBonks, seen = source.seen, catches = source.catches, vaultTaken = source.vaultTaken,
                 hideId = source.hideId, progress = source.progress, events = source.events,
+                sidekick = source.sidekick, sidekickHeld = source.sidekickHeld, oop = source.oop, oopTime = source.oopTime, oopDuration = source.oopDuration,
+                oopFromX = source.oopFromX, oopFromY = source.oopFromY, oopFromZ = source.oopFromZ, oopToX = source.oopToX, oopToY = source.oopToY, oopToZ = source.oopToZ,
+                diveIds = source.diveIds,
             };
         }
 
