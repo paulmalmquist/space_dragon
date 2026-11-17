@@ -42,7 +42,7 @@ November 17, 2026. **OWNER IDEA, captured and routed. BOOKMARKED: wanted, not sc
 | The method for a cinematic that becomes play ([transitions](../engineering/CINEMATIC_TRANSITIONS.md), SD-038), and one verified proof of it, the 12-second launch into flight (SD-073, on the Lenovo). | Method PROPOSED; launch proof technically VERIFIED | Reuse it. The last shot is real-time in the game's own scene; position, heading and speed are matched before control returns; skip, pause and reduced motion reach the same playable state. New here: the subject changes from a dragon to a person many times smaller, so the camera has to close in as it hands over. |
 | Flight-assist tiers: Cadet, Pilot, Ace ([combat design](../gameplay/COMBAT_SYSTEM.md) §6). | PROPOSED | PROPOSED: Dad's flight uses the same tier setting and the same steer, aim and fire controls as the dragon, so nobody relearns the controller in the middle of a set piece. In Cadet he cannot hit the walls at all. |
 | Dad's abilities: Heavy Lift, Thruster Hop, Knit Repair, later Dragon Punch ([suit reveals](../story/SUIT_REVEALS_AND_STARTING_ABILITIES.md) §8). | PROPOSED | Flight thrusters join the "later" column as the owner's idea. "Transformation" suggests this scene is where the hop becomes flight. When and how he earns it is **OPEN**. |
-| Paul's palette. | Was OPEN | **Black and red, in the owner's words.** The suit's design is still OPEN. The placeholder sidekick in Luke's Arena now wears those colors. |
+| Paul's palette. | Was OPEN | **Black and red, in the owner's words.** The suit's design is still OPEN. The placeholder sidekick in Luke's Arena now wears those colors. *Made exact later the same day: always black with red glowing trim ([SD-092](2026-11-17-dads-armor-and-weapons.md)).* |
 | Original presentation only: no film or comic names, marks, designs or music. | Practice recorded under SD-087 | The trench and the armored flyer are inspirations for a feeling. The tunnel, the armor, the enemies, the shots and the sound are to be the game's own. |
 | At most three family members active in a mission; flight is no exception to that cap ([campaign](../story/CAMPAIGN_STRUCTURE.md)). | CONFIRMED | Unaffected: only Dad is active in the tunnel. How the rest of the family is shown while he is gone is staging, OPEN. |
 
@@ -69,7 +69,11 @@ November 17, 2026. **OWNER IDEA, captured and routed. BOOKMARKED: wanted, not sc
 1. **Where does it go?** The Forge Ring strike run, which the drafts already give to Dad, or the Barge near the end?
 2. **Who flies the dragon when Dad jumps?** It holds off on its own, or someone takes over? The rule today is one pilot and no jobs for anyone else.
 3. **Is the switch a scripted moment, or free?** Eject here and get picked up there, or change between dragon and Dad at will in any fight? The second changes the one-pilot rule.
-4. **Is black and red Dad's armor everywhere**, or only how it looks in this scene? It was taken as everywhere.
+4. **Is black and red Dad's armor everywhere**, or only how it looks in this scene? It was taken as everywhere. **Answered the same day: always.** See the update below.
+
+## Update — the fourth question is answered (November 17, 2026, SD-092)
+
+The owner replied: "Always black with red glowing trim (think iron man with a Darth Vader theme)", and added Dad's weapons: "repulsors and samurai style katana with a red light saber on the ground." [The record of that decision](2026-11-17-dads-armor-and-weapons.md) holds the wording, what it supersedes and what is still open. For this set piece it means the armor that ignites is black with red glowing trim, and PROPOSED that his weapon in the tunnel is the repulsors, with the katana kept for the ground. Questions 1 to 3 above are still open, and the set piece is still parked.
 
 ## Boundaries
 

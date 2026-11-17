@@ -62,3 +62,7 @@ Luke as the setter ("Throw me, Dad!" the other way round), the optional "perfect
 ## Update — black and red (November 17, 2026, SD-091)
 
 Later the same day the owner described Dad's armor as black and red, in [the Tunnel Run idea](2026-11-17-tunnel-run-and-dads-flight.md). The placeholder figure was first drawn blue-grey because his palette was OPEN; it now wears black and red in the browser lab and in the Unity runtime's code. It is still a placeholder: helmeted, no face, not a likeness and not a suit design.
+
+## Update — black with red glowing trim, a katana and hand emitters (November 17, 2026, SD-092)
+
+The owner then made it exact: "Always black with red glowing trim", with repulsors and a samurai-style katana as Dad's weapons ([the decision](2026-11-17-dads-armor-and-weapons.md)). The placeholder was redrawn to match in the browser lab and in the Unity runtime's code: black armor, red glowing trim, a sheathed katana across his back and a red emitter in each hand. Nothing in the rules changed. The sword is for show and cannot be drawn; the stun still leaves his open hand as it did before, and now reads as a repulsor. His ring, arrow and stun beam stay amber, because red on the arena floor already means a robot is about to strike. It is still a placeholder: helmeted, no face, not a likeness and not a suit design.

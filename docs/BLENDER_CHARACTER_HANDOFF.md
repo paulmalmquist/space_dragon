@@ -27,7 +27,7 @@ Run `python3 tools/verify_family_references.py` from the repository root. Open `
 
 | Character ID | Confirmed suit concept | Proposals or open decisions |
 |---|---|---|
-| `paul` | Iron Man-inspired powered armor. | Heavy engineering tools and red/graphite/gold palette are proposals. |
+| `paul` | Iron Man-inspired powered armor, **always black with red glowing trim**; his weapons are "repulsors and samurai style katana with a red light saber on the ground" (owner, November 17, 2026, [SD-092](decisions/2026-11-17-dads-armor-and-weapons.md)). | Heavy engineering tools are proposals. The earlier red/graphite/gold palette is superseded. The owner's theme is darker ("a Darth Vader theme"): an inspiration for a feeling, so the helmet, armor shapes and sword must be original designs. One sword or two is OPEN. |
 | `luke` | Iron Spider-inspired suit. | Four retractable mechanical limbs, energy tethers, and red/blue/gold palette are proposed implementations. |
 | `maria` | Purple suit; family healer. | Protective silhouette, healing drones, and shield effects are proposals. |
 | `luna` | Pink suit; shoots goo that makes enemies slip. | Wrist nozzles, visible reservoirs, and later sticky-goo variants are proposals. |

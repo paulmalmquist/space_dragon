@@ -11,11 +11,12 @@
 | The suits come from the backyard arrival. The family didn't own them before, and the children don't earn their defining powers through tests. | Act I §A1-02 |
 | Paul: Iron Man-inspired powered armor. Luke: Iron Spider-inspired suit. Maria: purple, the healer. Luna: pink, goo that makes enemies slip. Lyla: gathers and stores information. | v0.1 C08–C10, Act I |
 | **Lyla's suit color is OPEN.** | AGENTS.md, Act I |
+| **Paul's armor is always black with red glowing trim.** His weapons are "repulsors and samurai style katana with a red light saber on the ground". Whether that is one sword or two, how the weapons play and when he gets them are OPEN. | Owner, November 17, 2026 ([SD-092](../decisions/2026-11-17-dads-armor-and-weapons.md)) |
 | Each person's introductory contribution: Paul moves a heavy panel and repairs a connection. Luke reaches a high fitting with limbs and a tether. Maria protects the group during a power test and restores suit energy. Luna frees a stuck mechanism. Lyla scans the Core and records signal fragments. | Act I §A1-02 table |
 | Retractable helmets keep faces recognizable. The reveals are brief, and there are no five long tutorials. | Act I §A1-02 |
 | The suits are original Space Dragon designs, inspired by the listed armors but not copies of film or game models. | [Blender handoff](../BLENDER_CHARACTER_HANDOFF.md) |
 
-Every visual detail, palette (apart from purple and pink), ability name, number and order below is **PROPOSED**.
+Every visual detail, palette (apart from purple, pink and Paul's black with red glowing trim), ability name, number and order below is **PROPOSED**.
 
 ---
 
@@ -82,10 +83,10 @@ The cut-off line is a running gag: someone always starts to name a famous suit a
 
 | Aspect | Proposed design |
 | --- | --- |
-| Silhouette | The bulkiest of the five: broad shoulders, heavy gauntlets and solid boots. It reads as *strong and protective*, not aggressive. |
-| Palette | Red, graphite and gold is the v0.1 candidate. Not locked. |
+| Silhouette | The bulkiest of the five: broad shoulders, heavy gauntlets and solid boots. It reads as *strong and protective*, not aggressive. The owner's theme for him is darker than this line ("iron man with a Darth Vader theme"); how the two meet is OPEN ([SD-092](../decisions/2026-11-17-dads-armor-and-weapons.md)). |
+| Palette | **Black with red glowing trim, always** (owner, November 17, 2026, [SD-092](../decisions/2026-11-17-dads-armor-and-weapons.md)). The v0.1 candidate of red, graphite and gold is superseded. |
 | Living-material touch | The gauntlet plates overlap like scales and flex when he grips. When damaged, cracks glow and slowly knit shut. |
-| Signature details | A bright chest emblem, boot thrusters with a soft blue glow, and forearm vents that breathe out warm air when he lifts. |
+| Signature details | A bright chest emblem, boot thrusters with a soft blue glow, and forearm vents that breathe out warm air when he lifts. Whether the emblem and the thruster glow turn red with the trim is OPEN. |
 | Helmet | A full faceplate. Comes up for hazards and flight. |
 | Sound | Deep clicks, a low hum and a "whump" when thrusters fire. |
 
@@ -98,6 +99,8 @@ The cut-off line is a running gag: someone always starts to name a famous suit a
 | **Thruster Hop** | A short boot-thruster boost up onto a ledge or across a small gap. | Jump at a hop marker, with an assisted arc that lands automatically. | Not free flight. Flight comes later. | Mission 1 or later; not needed in the backyard. |
 
 **Later, not at start:** *Dragon Punch* (v0.1 proposal), a rocket-assisted strike that breaks marked cracked barriers or pushes an armored robot back. It unlocks during the Act I missions, for example after the Power Module.
+
+**Weapons (owner, November 17, 2026, [SD-092](../decisions/2026-11-17-dads-armor-and-weapons.md)):** "repulsors and samurai style katana with a red light saber on the ground". That he carries them is CONFIRMED. PROPOSED: it is one sword, a katana with a blade of red light; the weapons only ever meet machines and marked objects; the repulsors stun at range; and the blade also cuts marked barriers and cables. OPEN: one sword or two, whether the katana replaces Dragon Punch, when he first has them, and what they are called on screen. None is built.
 
 **Boundary:** Paul's strength can't replace scanning or agility. He can hold the door once someone else finds the mechanism (v0.1).
 
@@ -349,6 +352,8 @@ The full treatment above is the target, not a requirement for the first build.
 | **Luna** | Slip 'n Slide, Unstick | Splat (enemy slip) | — | Sticky bubble goo |
 | **Lyla** | Scan, Holo Replay | — | Record | (open) |
 
+Paul's weapons, repulsors and a katana ([SD-092](../decisions/2026-11-17-dads-armor-and-weapons.md)), are not placed in this table: whether he starts with them or earns them later is OPEN.
+
 How these abilities combine in fights, including alley-oop tandems and the dragon's fighter-jet flight: [combat system](../gameplay/COMBAT_SYSTEM.md).
 
 ## 9. Control and accessibility rules (all suits)
@@ -366,5 +371,6 @@ How these abilities combine in fights, including alley-oop tandems and the drago
 - Whether Luna touching the light during Maria's reveal works for you, or whether Maria's suit should form on its own.
 - **Lyla's suit color**, including whether "the color hasn't settled yet" should be a story element.
 - Ability names. All are working titles, and the kids could name some.
-- Luke's exact palette. **Paul's armor is black and red**, in the owner's words (November 17, [SD-091](../decisions/2026-11-17-tunnel-run-and-dads-flight.md)); its design is still open. Whether suits retract to a wrist cuff.
+- Luke's exact palette. Paul's is settled: **always black with red glowing trim** (owner, November 17, [SD-092](../decisions/2026-11-17-dads-armor-and-weapons.md)); the suit's design is still open. Whether suits retract to a wrist cuff.
+- Paul's weapons ([SD-092](../decisions/2026-11-17-dads-armor-and-weapons.md)): one sword or two, whether they only ever meet machines, when he gets them, whether the katana replaces Dragon Punch, and their names on screen.
 - The "Iron… / Spider… / Not yet!" gag: keep it, or avoid any reference to the inspirations on screen.
