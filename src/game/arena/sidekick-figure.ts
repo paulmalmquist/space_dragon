@@ -21,7 +21,9 @@ export interface SidekickFrame {
  * The sidekick as a placeholder: a helmeted adult in plain armour, built from simple rounded
  * parts and posed procedurally. He stands in for Dad in the lab. It is not a likeness of
  * anyone and not an approved suit design; there is no face under the visor.
- * The colours are the owner's: Dad's armour is black and red (SD-091).
+ * The colours and the weapons are the owner's (SD-092): always black with red glowing trim,
+ * a katana, and an emitter in each hand. The sword and the emitters are for show here:
+ * no rule reads them, and the stun already leaves his open hand.
  */
 export function createSidekickFigure(scene: Scene) {
   const root = new TransformNode('sidekick.root', scene);
@@ -34,15 +36,17 @@ export function createSidekickFigure(scene: Scene) {
     value.roughness = roughness; value.metallic = metallic; value.maxSimultaneousLights = 4;
     return value;
   };
-  const armor = pbr('sidekick.armor', '#a5211d', 0.36, 0.5);
-  const plate = pbr('sidekick.plate', '#17191d', 0.3, 0.6);
-  const under = pbr('sidekick.undersuit', '#0b0d10', 0.74, 0.1);
-  const visor = pbr('sidekick.visor', '#0b1118', 0.12, 0.6);
-  visor.emissiveColor = new Color3(0.14, 0.08, 0.02);
+  // Two blacks, one glossy and one satin, so the plates still read as separate shapes at night.
+  const armor = pbr('sidekick.armor', '#15171c', 0.24, 0.7);
+  const plate = pbr('sidekick.plate', '#22252b', 0.42, 0.55);
+  const under = pbr('sidekick.undersuit', '#08090b', 0.74, 0.1);
+  const visor = pbr('sidekick.visor', '#0a0b0e', 0.12, 0.6);
+  visor.emissiveColor = new Color3(0.16, 0.012, 0.012);
   const glow = new StandardMaterial('sidekick.seam-light', scene);
   glow.disableLighting = true; glow.diffuseColor = Color3.Black(); glow.specularColor = Color3.Black();
-  const seamColor = Color3.FromHexString('#ffb347');
-  glow.emissiveColor = seamColor.scale(1.3);
+  // A deep red, kept below full strength: the page's tone mapping turns a brighter red toward orange.
+  const seamColor = Color3.FromHexString('#ff0a0a');
+  glow.emissiveColor = seamColor.scale(0.8);
 
   function joint(name: string, x: number, y: number, z: number, parent: TransformNode = body) {
     const node = new TransformNode(`sidekick.${name}`, scene);
@@ -105,17 +109,29 @@ export function createSidekickFigure(scene: Scene) {
     [ball(0.54, 0.42, 0.34, 0, 0.08, 0.01), armor], [ball(0.27, 0.21, 0.26, -0.28, 0.2, 0), armor], [ball(0.27, 0.21, 0.26, 0.28, 0.2, 0), armor],
     [slab(0.32, 0.34, 0.15, 0, 0.1, -0.19), under], [capsule(0.13, 0.07, 0.07, 0, 0.29, 0), under],
     [ball(0.13, 0.13, 0.05, 0, 0.11, 0.165, 8), glow], [slab(0.016, 0.22, 0.014, -0.13, 0.07, 0.158), glow], [slab(0.016, 0.22, 0.014, 0.13, 0.07, 0.158), glow],
+    // Trim round each shoulder and down the edges of the back, so a black suit keeps its outline from any side.
+    [band(0.266, 0.018, -0.28, 0.2, 0), glow], [band(0.266, 0.018, 0.28, 0.2, 0), glow],
+    [slab(0.014, 0.22, 0.012, -0.14, 0.1, -0.266), glow], [slab(0.014, 0.22, 0.012, 0.14, 0.1, -0.266), glow],
   ]);
-  part(head, [[ball(0.29, 0.31, 0.3, 0, 0.03, 0, 10), plate], [ball(0.23, 0.12, 0.13, 0, 0.03, 0.09, 8), visor], [slab(0.25, 0.05, 0.06, 0, -0.09, 0.08), armor], [band(0.22, 0.03, 0, -0.11, 0), under]]);
+  // A sheathed katana slung across the back, grip over the right shoulder. A straight stand-in, for show.
+  const sword = joint('katana', 0.02, 0.06, -0.3, chest);
+  sword.rotation.z = -0.6;
+  part(sword, [
+    [slab(0.046, 0.62, 0.03, 0, -0.12, 0), armor], [ball(0.09, 0.018, 0.074, 0, 0.2, 0, 6), plate], [capsule(0.25, 0.021, 0.021, 0, 0.335, 0), under],
+    [slab(0.01, 0.56, 0.008, 0, -0.12, -0.018), glow], [ball(0.04, 0.04, 0.04, 0, 0.468, 0, 6), glow],
+  ]);
+  part(head, [[ball(0.29, 0.31, 0.3, 0, 0.03, 0, 10), plate], [ball(0.23, 0.12, 0.13, 0, 0.03, 0.09, 8), visor], [slab(0.25, 0.05, 0.06, 0, -0.09, 0.08), armor], [band(0.22, 0.03, 0, -0.11, 0), under],
+    [slab(0.13, 0.016, 0.02, 0, 0.04, 0.146), glow]]);
   for (const { side, shoulder, elbow } of arms) {
     part(shoulder, [[capsule(0.36, 0.085, 0.072, 0, -0.16, 0), plate], [band(0.16, 0.022, 0, -0.3, 0), glow]]);
+    // The last piece is the emitter in the hand: it faces whatever the arm points at.
     part(elbow, [[capsule(0.34, 0.068, 0.058, 0, -0.15, 0), under], [capsule(0.21, 0.078, 0.07, 0, -0.12, 0), armor], [ball(0.14, 0.15, 0.14, 0, -0.34, 0, 6), armor],
-      [slab(0.035, 0.035, 0.06, side * 0.055, -0.22, 0.02), glow]]);
+      [slab(0.035, 0.035, 0.06, side * 0.055, -0.22, 0.02), glow], [ball(0.08, 0.03, 0.08, 0, -0.408, 0, 6), glow]]);
   }
   for (const { hip, knee } of legs) {
     part(hip, [[capsule(0.55, 0.11, 0.085, 0, -0.24, 0), plate], [band(0.2, 0.024, 0, -0.42, 0), glow]]);
     part(knee, [[capsule(0.5, 0.08, 0.064, 0, -0.23, 0), under], [capsule(0.3, 0.09, 0.078, 0, -0.16, 0.006), armor],
-      [slab(0.135, 0.11, 0.31, 0, -0.475, 0.06), plate], [slab(0.12, 0.022, 0.28, 0, -0.53, 0.06), glow]]);
+      [slab(0.135, 0.11, 0.31, 0, -0.475, 0.06), plate], [slab(0.12, 0.022, 0.28, 0, -0.53, 0.06), glow], [slab(0.016, 0.2, 0.014, 0, -0.16, 0.088), glow]]);
   }
 
   // Animation state: presentation only, safe to discard at any time.
@@ -166,7 +182,7 @@ export function createSidekickFigure(scene: Scene) {
     head.rotation.x = ready * -0.2 + rest * -0.3 + toss * -0.45;
     head.rotation.y = reducedMotion ? 0 : wait * Math.sin(clock * 0.7) * 0.5;
     chest.rotation.y = s * 0.08 * run * (1 - posed) + stun * 0.3;
-    glow.emissiveColor.copyFrom(seamColor).scaleInPlace(1.1 + (reducedMotion ? 0 : Math.sin(clock * 1.9) * 0.15) + ready * (reducedMotion ? 0.5 : 0.5 + Math.sin(clock * 7) * 0.35) + flash * 2.2);
+    glow.emissiveColor.copyFrom(seamColor).scaleInPlace(0.8 + (reducedMotion ? 0 : Math.sin(clock * 1.9) * 0.1) + ready * (reducedMotion ? 0.3 : 0.3 + Math.sin(clock * 7) * 0.22) + flash * 2.2);
   }
 
   return {

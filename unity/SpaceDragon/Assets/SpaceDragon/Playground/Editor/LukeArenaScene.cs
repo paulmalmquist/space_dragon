@@ -45,8 +45,9 @@ namespace SpaceDragon.Playground.Editor
             public readonly Material hide = Glow("Arena-hide", new Color(0.54f, 0.64f, 1), 1.8f);
             public readonly Material shell = Lit("Arena-robot-shell", new Color(0.36f, 0.6f, 0.44f), 0.55f, 0.4f);
             public readonly Material mower = Lit("Arena-robot-mower", new Color(0.62f, 0.24f, 0.14f), 0.5f, 0.45f);
-            // Dad's armour is black and red (owner, SD-091). The black is the shared dark metal.
-            public readonly Material sidekick = Lit("Arena-sidekick-armour", new Color(0.65f, 0.13f, 0.11f), 0.64f, 0.5f);
+            // Dad's armour is always black with red glowing trim (owner, SD-092). The black is the shared dark metal; this is the trim.
+            // Kept modest and almost pure red: a brighter or pinker value can tone-map toward orange. Not yet seen in the Editor.
+            public readonly Material sidekick = Glow("Arena-sidekick-trim", new Color(1, 0.04f, 0.04f), 2.2f);
             public readonly Material eyeCalm = Glow("Arena-eye-calm", new Color(0.39f, 0.85f, 1), 3.4f);
             public readonly Material eyeCurious = Glow("Arena-eye-curious", new Color(1, 0.83f, 0.35f), 3.4f);
             public readonly Material eyeAlert = Glow("Arena-eye-alert", new Color(1, 0.35f, 0.29f), 3.6f);
