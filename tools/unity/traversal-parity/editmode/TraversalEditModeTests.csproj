@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Runs the Unity EditMode test source outside the Editor. The tests use only NUnit and the engine-free core. -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <IsPackable>false</IsPackable>
+    <TraversalRoot>$(MSBuildThisFileDirectory)../../../../unity/SpaceDragon/Assets/SpaceDragon/Traversal</TraversalRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(TraversalRoot)/Core/*.cs" Link="TraversalCore/%(Filename)%(Extension)" />
+    <Compile Include="$(TraversalRoot)/Tests/EditMode/*.cs" Link="TraversalTests/%(Filename)%(Extension)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+</Project>

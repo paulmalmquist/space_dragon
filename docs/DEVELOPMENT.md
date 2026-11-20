@@ -37,6 +37,9 @@ npm.cmd run doctor
 npm.cmd start
 ```
 
+When the pinned Playwright browser cannot be downloaded (for example in a cloud container), point both Playwright configs at an installed Chromium instead: set `SPACE_DRAGON_CHROMIUM_PATH` to its executable. Results from a different browser build are still software-rendered checks, not device evidence.
+
+
 The server binds to this computer at `http://127.0.0.1:5173/space-dragon/`. Stop it with Ctrl+C. The launcher performs `npm ci` if its Vite dependency is missing. If port 5173 is already in use, use that running workspace or stop it before starting another. It will not silently switch ports.
 
 The optional Windows media-tool setup is `powershell -NoProfile -ExecutionPolicy Bypass -File tools/setup-tools.ps1`. See [toolchain](TOOLCHAIN.md) for user-local installs, checksums, platform requirements, and optional art applications.
@@ -126,6 +129,14 @@ Keep the `/space-dragon` URL prefix. This is a standalone local client, not a re
 
 **SD-045 acceleration feel:** [the owner clarification](decisions/2026-10-30-acceleration-camera-sound.md) replaces speed-star trails with camera perspective and acceleration-responsive engine/airflow sound. R/F changes actual cruise speed; Shift supplies the existing finite boost. The lens widens smoothly with actual speed (61 degrees at cruise, 66 at normal top speed, up to 74 in boost). The close camera follows a stable travel-axis anchor, so speed does not add unintended trailing distance and barrel-roll corkscrews do not shake the view. Held RMB still takes priority at 40 degrees. Reduced motion fixes the lens at 61/40; ordinary environmental stars remain. [The combined receipt](reports/2026-10-30-dogfight-cockpit.md) records final technical evidence, separate from human sound/comfort review.
 
+
+## Luke's Arena — SD-093
+
+Run `npm.cmd start`, then open `/space-dragon/arena/` (or use the Luke's Arena link). It is a lab for Luke's abilities and stealth, not a story mission: an ability course to the west, a three-wave battle ring in the middle and a stealth yard to the east, each started by stepping over its glowing line. Keyboard: WASD/arrows move, Space jump, Shift sprint or tether, walk into a lit wall to climb, **F** (or J/Enter) the one-button action, **G** (or K) pounce, **T** (or L) ask the sidekick, Q/E or drag to look, R recenter, Esc/P pause. A standard controller works: left stick, A jump, a trigger or bumper for suit power, X action, Y pounce, B the sidekick, Start pause.
+
+The sidekick (SD-094) is Dad as a placeholder figure, not a likeness. He follows on his own. Inside the ring on the floor around him, his button is an alley-oop: he throws Luke, time slows at the top, and Luke dives onto the nearest robots. Anywhere else it stuns a robot so Luke can finish it. In the stealth yard he waits at the gate. [Decision](decisions/2026-11-17-lukes-sidekick-and-first-alley-oop.md).
+
+Nobody is hurt and nothing can be lost; stars are saved on the device under `space-dragon.arena.v1` and only ever go up. The rules live in `src/game/arena/arena.ts` (pure, fixed-step) over the level in `arena-world.ts`; `arena-view.ts` only draws them. `node --test --experimental-strip-types tests/arena.test.ts tests/arena-sidekick.test.ts tests/arena-save.test.ts tests/arena-input.test.ts tests/climb.test.ts` runs the rules; `npm test -- tests/arena.spec.ts` drives the page with real keys (slow under software rendering: about eight minutes). After changing the level or a number, run `npm run unity:arena:export` so the C# copy and its recorded runs follow. [Decision](decisions/2026-11-16-lukes-arena-abilities-and-stealth.md).
 
 ## Town Drive Lab — SD-046
 

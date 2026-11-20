@@ -15,7 +15,7 @@
     button:focus-visible{outline:2px solid #f6b26b;outline-offset:3px}
   </style>
 </head>
-<body>
+<body tabindex="-1">
   <canvas id="unity-canvas" width="1280" height="720" tabindex="0" aria-label="Space Dragon dogfight game"></canvas>
   <div class="overlay" id="loading" role="status" aria-live="polite">
     <h1>SPACE DRAGON</h1><p id="loading-label">Preparing the dragon… 0%</p><progress id="loading-progress" max="1" value="0"></progress>
@@ -45,6 +45,13 @@
     };
     canvas.addEventListener('contextmenu', event => event.preventDefault());
     canvas.addEventListener('pointerdown', () => canvas.focus());
+    // Browsers do not consistently forward canvas/tab focus to Unity. Pause
+    // idempotently at both boundaries, and require an explicit player resume.
+    const pauseForFocusLoss = () => { if (api.ready) api.send('PauseForFocusLoss'); };
+    canvas.addEventListener('blur', pauseForFocusLoss);
+    window.addEventListener('blur', pauseForFocusLoss);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) pauseForFocusLoss(); });
+    window.addEventListener('pagehide', pauseForFocusLoss);
     canvas.addEventListener('keydown', event => {
       if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Tab','F1'].includes(event.key)) event.preventDefault();
     });

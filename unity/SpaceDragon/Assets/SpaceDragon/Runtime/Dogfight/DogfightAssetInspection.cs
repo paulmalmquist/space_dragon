@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 namespace SpaceDragon.Dogfight
@@ -17,7 +18,10 @@ namespace SpaceDragon.Dogfight
         GameObject inspected;
         Camera cameraView;
         Cubemap reflection;
+        VolumeProfile inspectionGrade;
+        WingPropulsion wingPropulsion;
         string selectedView;
+        string selectedPresentation = "source";
         string rigProfile;
         bool Oscar => rigProfile == "oscar-creativo-flight";
         float frameTotal, framePeak;
@@ -52,8 +56,29 @@ namespace SpaceDragon.Dogfight
             host.inspected = clone;
             host.rigProfile = encounter.DragonProfileId;
             host.selectedView = Query("inspectionview");
+            if (Query("presentation") == "spacecraft") host.ConfigureSpacecraftInspection();
             host.ConfigureScene();
             SceneManager.UnloadSceneAsync(originalScene);
+        }
+
+        void ConfigureSpacecraftInspection()
+        {
+            if (!Oscar)
+            {
+                Debug.LogWarning("Spacecraft inspection requires the measured Oscar asset; retaining source presentation.");
+                return;
+            }
+            Transform left = null, right = null;
+            foreach (var node in inspected.GetComponentsInChildren<Transform>(true))
+            {
+                if (node.name == "socket_wing_l") left = node;
+                else if (node.name == "socket_wing_r") right = node;
+            }
+            wingPropulsion = new WingPropulsion(inspected.transform,left,right);
+            selectedPresentation = "spacecraft";
+            // Deliberately no DragonPresentation/flight clock here: compare the
+            // imported bind/rest pose to the source still. The material/nozzle
+            // adapter is identical to gameplay, with static cruise exhaust.
         }
 
         static string Query(string key)
@@ -75,30 +100,52 @@ namespace SpaceDragon.Dogfight
             RenderSettings.ambientEquatorColor = new Color(.18f,.19f,.21f);
             RenderSettings.ambientGroundColor = new Color(.075f,.075f,.085f);
             RenderSettings.ambientIntensity = 1;
+            if (Oscar)
+            {
+                // Match the reference's uniform (.30,.32,.36) world at strength
+                // .45 instead of inventing bright overhead reflection panels.
+                RenderSettings.ambientMode = AmbientMode.Flat;
+                RenderSettings.ambientLight = new Color(.30f,.32f,.36f) * .45f;
+            }
             reflection = new Cubemap(16, TextureFormat.RGBAHalf, false) { name = "Inspection neutral reflection", wrapMode = TextureWrapMode.Clamp };
             for (int face = 0; face < 6; face++)
             {
                 float value = face == (int)CubemapFace.PositiveY ? .65f : face == (int)CubemapFace.NegativeY ? .10f : .30f;
                 var pixels = new Color[16*16];
-                for (int i = 0; i < pixels.Length; i++) pixels[i] = new Color(value,value,value,1);
+                for (int i = 0; i < pixels.Length; i++) pixels[i] = Oscar
+                    ? new Color(.30f * .45f,.32f * .45f,.36f * .45f,1) : new Color(value,value,value,1);
                 reflection.SetPixels(pixels, (CubemapFace)face);
             }
             reflection.Apply(false, true);
             RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
-            RenderSettings.customReflectionTexture = reflection; RenderSettings.reflectionIntensity = .75f;
+            RenderSettings.customReflectionTexture = reflection; RenderSettings.reflectionIntensity = Oscar ? 1 : .75f;
             Directional("Inspection key", new Vector3(-5,8,-5), 2.1f, Color.white, true);
             Directional("Inspection fill", new Vector3(5,3,-1), .55f, new Color(.88f,.93f,1), false);
             Directional("Inspection rim", new Vector3(1,5,6), 1.2f, Color.white, false);
 
             cameraView = new GameObject("Inspection.Camera.50mm").AddComponent<Camera>();
             cameraView.tag = "MainCamera"; cameraView.clearFlags = CameraClearFlags.SolidColor;
-            cameraView.backgroundColor = new Color(.105f,.115f,.135f);
+            // Camera colors are authored in sRGB. Use the source-world radiance
+            // here too; the old dark backdrop becomes nearly black under ACES
+            // and hides the silhouette rather than helping inspection.
+            cameraView.backgroundColor = Oscar
+                ? new Color(.30f * .45f,.32f * .45f,.36f * .45f).gamma
+                : new Color(.105f,.115f,.135f);
             cameraView.nearClipPlane = .05f; cameraView.farClipPlane = 200;
             cameraView.allowHDR = true; cameraView.allowMSAA = true;
             cameraView.usePhysicalProperties = true; cameraView.sensorSize = new Vector2(36,24);
             cameraView.focalLength = 50; cameraView.gateFit = Camera.GateFitMode.Vertical;
-            // A fresh camera has no postprocessing enabled; the isolated scene
-            // contains no gameplay volume. Keep this adapter engine-only.
+            if (Oscar)
+            {
+                // Blender's AgX reference compresses highlights. ACES is the
+                // available URP approximation, not an AgX/pixel-parity claim.
+                // No bloom, vignette or gameplay grade hides the surface here.
+                inspectionGrade = ScriptableObject.CreateInstance<VolumeProfile>();
+                inspectionGrade.Add<Tonemapping>(true).mode.Override(TonemappingMode.ACES);
+                var grade = new GameObject("Inspection.highlight-rolloff.ACES").AddComponent<Volume>();
+                grade.isGlobal = true; grade.sharedProfile = inspectionGrade;
+                cameraView.GetUniversalAdditionalCameraData().renderPostProcessing = true;
+            }
             Vector3 position;
             switch (selectedView)
             {
@@ -116,6 +163,7 @@ namespace SpaceDragon.Dogfight
             cameraView.transform.LookAt(new Vector3(0,.1f,0));
             Application.targetFrameRate = 60;
             Debug.Log("SPACE_DRAGON_INSPECTION_READY " + inspected.name + " view=" + selectedView
+                + " presentation=" + selectedPresentation + "; pose=imported bind/rest (no flight animation)"
                 + "; use1200x800 capture for matching Blender framing; neutral lighting is an approximation, not Cycles parity.");
         }
 
@@ -131,9 +179,9 @@ namespace SpaceDragon.Dogfight
         void Update() { frames++; frameTotal += Time.unscaledDeltaTime; framePeak = Mathf.Max(framePeak, Time.unscaledDeltaTime); }
         [Serializable] sealed class InspectionSnapshot
         {
-            public string mode, view, model, lighting, sourceCamera, graphics, device, rigProfile;
+            public string mode, view, model, lighting, sourceCamera, graphics, device, rigProfile, presentation, pose;
             public bool combatActive, savesWritten;
-            public int width, height, renderers, skinnedRenderers, frameSamples;
+            public int width, height, renderers, skinnedRenderers, frameSamples, wingMaterialCount, propulsionTriangles;
             public long modelTriangles;
             public float frameMeanMs, framePeakMs, focalLength, verticalFov;
             public Vector3 cameraPosition, cameraTarget;
@@ -149,8 +197,12 @@ namespace SpaceDragon.Dogfight
             foreach (var mesh in inspected.GetComponentsInChildren<MeshFilter>(true))
                 if (mesh.sharedMesh != null) for (int i=0;i<mesh.sharedMesh.subMeshCount;i++) triangles += mesh.sharedMesh.GetIndexCount(i)/3;
             var snapshot = new InspectionSnapshot { mode = "asset-inspection", view = selectedView, model = inspected.name, rigProfile = rigProfile,
+                presentation = selectedPresentation, pose = "Imported bind/rest pose; no animation or gameplay timers; spacecraft exhaust is static cruise",
+                wingMaterialCount = wingPropulsion?.WingMaterialCount ?? 0, propulsionTriangles = wingPropulsion?.Triangles ?? 0,
                 graphics = SystemInfo.graphicsDeviceType.ToString(), device = SystemInfo.graphicsDeviceName,
-                combatActive = false, savesWritten = false, lighting = "Neutral real-time studio approximation; no gameplay sky, fog or postprocessing",
+                combatActive = false, savesWritten = false, lighting = Oscar
+                    ? "Oscar neutral-v002: source-world radiance approximation and ACES highlight rolloff; no gameplay sky/fog/bloom; not AgX parity"
+                    : "Neutral real-time studio approximation; no gameplay sky, fog or postprocessing",
                 sourceCamera = Oscar ? "Blender (10,-12,6), target(0,0,.1),50mm/36x24mm; matching capture1200x800" : "Blender (10,12,6), target(0,0,.1),50mm/36x24mm; matching capture1200x800", width = Screen.width, height = Screen.height,
                 renderers = inspected.GetComponentsInChildren<Renderer>(true).Length, skinnedRenderers = inspected.GetComponentsInChildren<SkinnedMeshRenderer>(true).Length,
                 modelTriangles = triangles, frameSamples = frames, frameMeanMs = frames > 0 ? frameTotal/frames*1000 : 0, framePeakMs = framePeak*1000,
@@ -162,7 +214,16 @@ namespace SpaceDragon.Dogfight
 #if UNITY_WEBGL && !UNITY_EDITOR
         [DllImport("__Internal")] static extern void SD_DogfightSnapshot(string json);
 #endif
-        void OnDestroy() { if (reflection != null) Destroy(reflection); }
+        void OnDestroy()
+        {
+            wingPropulsion?.Dispose(); wingPropulsion = null;
+            if (reflection != null) Destroy(reflection);
+            if (inspectionGrade != null)
+            {
+                foreach (var component in inspectionGrade.components) Destroy(component);
+                Destroy(inspectionGrade);
+            }
+        }
 #endif
     }
 }

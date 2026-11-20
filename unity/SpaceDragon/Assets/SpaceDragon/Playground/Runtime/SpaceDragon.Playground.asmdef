@@ -1,0 +1,6 @@
+{
+  "name": "SpaceDragon.Playground",
+  "rootNamespace": "SpaceDragon.Playground",
+  "references": ["SpaceDragon.Traversal.Core", "Unity.InputSystem"],
+  "autoReferenced": true
+}

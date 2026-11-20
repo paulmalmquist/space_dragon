@@ -163,6 +163,34 @@ namespace SpaceDragon.Dogfight
             lockClock = .7f; Play(tones["lockStart"],.5f,1);
         }
         public void PlayLockConfirmed() { if (CanPlay) Play(tones["locked"],.65f,1); }
+        public void PlayPerfectRoll()
+        {
+            if (!CanPlay) return;
+            // Reuse the recorded surge as a short dodge whoosh and an existing
+            // quiet confirmation tone; both stay within the bounded effects bus.
+            Play(boost != null ? boost : tones["launch"],.65f,1.15f);
+            Play(tones["locked"],.22f,1);
+        }
+        public void PlayEnemyRole(EnemyRole role)
+        {
+            if(!CanPlay)return;
+            // Distinct existing pulse shapes/pitches, no extra voices or imported
+            // sounds. Caller announces role entry, never calls this every frame.
+            switch(role)
+            {
+                case EnemyRole.Fighter: Play(tones["fire"],.28f,1);break;
+                case EnemyRole.Racer: Play(tones["lockStart"],.44f,1.4f);break;
+                case EnemyRole.Grappler: Play(metal!=null?metal:tones["repair"],.48f,.72f);break;
+                case EnemyRole.Gunship: Play(tones["critical"],.5f,.70f);break;
+            }
+        }
+        public void PlayGasHiss(float gain)
+        {
+            if(!CanPlay||float.IsNaN(gain)||float.IsInfinity(gain))return;
+            // Spatial/rate eligibility belongs to the encounter. Reuse the
+            // existing breath recording within the bounded transient mixer.
+            Play(breath!=null?breath:tones["launch"],Mathf.Clamp01(gain),.85f);
+        }
         public void PlayBreathWindup()
         {
             if (!CanPlay) return;

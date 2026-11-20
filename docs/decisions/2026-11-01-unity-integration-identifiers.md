@@ -1,5 +1,7 @@
 # November 1, 2026 — reconcile Unity integration idea identifiers
 
+**Later same-day allocation correction:** [combat/controller crosswalk](2026-11-01-combat-controller-identifiers.md) preserves concurrent Town Drive SD-088, reserves controller SD-089 and renames this worktree's combat request SD-090. Next unused is SD-091; the tables and earlier next-ID checkpoint below retain their historical meanings.
+
 **Authority:** engineering reconciliation under the owner's instruction to commit, push and merge all current work. Identifier changes preserve creative authority, original wording and verification scope.
 
 **Scope:** integrate local snapshot `70e424d` with `origin/main@5121e1d` in `integrate/unity-dogfight-and-town-20261101`. The [October 31 crosswalk](2026-10-31-merge-idea-identifiers.md) already established main's SD-062–071 meanings. Parallel local work used three of those numbers before reconciliation. Preserve both histories; apply aliases by source branch and subject, never by global number replacement.

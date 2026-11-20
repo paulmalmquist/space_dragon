@@ -5,7 +5,8 @@ using UnityEngine.Rendering;
 
 namespace SpaceDragon.Dogfight.Editor
 {
-    // Deterministic, local source artwork. Generated PNGs are derivatives; no external assets.
+    // Decorative environment artwork. Rocks are local; planet imagery is a pinned NASA derivative.
+    // See assets/source/environments/near-orbit-nasa-v001 for source, recipe and credits.
     // All geometry here is decorative. Encounter placement/collision and tuning are untouched.
     internal static class DogfightEnvironmentArt
     {
@@ -21,7 +22,7 @@ namespace SpaceDragon.Dogfight.Editor
             float a = u * Mathf.PI * 2, b = v * Mathf.PI;
             return new Vector3(Mathf.Sin(b) * Mathf.Cos(a), Mathf.Cos(b), Mathf.Sin(b) * Mathf.Sin(a));
         }
-        static Texture2D Write(string name, Color[] pixels, int width, int height, bool linear = false, bool normal = false, int maxSize = 1024, bool repeatV = false)
+        static Texture2D Write(string name, Color[] pixels, int width, int height, bool linear = false, bool normal = false, int maxSize = 1024, bool repeatV = false, int anisotropy = 1)
         {
             Directory.CreateDirectory(Folder);
             var image = new Texture2D(width, height, TextureFormat.RGBA32, false, linear);
@@ -33,7 +34,7 @@ namespace SpaceDragon.Dogfight.Editor
             importer.textureType = normal ? TextureImporterType.NormalMap : TextureImporterType.Default;
             importer.sRGBTexture = !linear && !normal; importer.mipmapEnabled = true;
             importer.wrapModeU = TextureWrapMode.Repeat; importer.wrapModeV = repeatV ? TextureWrapMode.Repeat : TextureWrapMode.Clamp;
-            importer.anisoLevel = repeatV ? 4 : 1;
+            importer.anisoLevel = Mathf.Max(anisotropy, repeatV ? 4 : 1);
             importer.textureCompression = TextureImporterCompression.Compressed; importer.maxTextureSize = maxSize;
             importer.SaveAndReimport(); return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }
@@ -77,37 +78,30 @@ namespace SpaceDragon.Dogfight.Editor
 
         public static void Planet(GameObject planet, Material surface)
         {
-            // A broad near-orbit horizon needs more angular detail than the old small disk.
-            // Two local 2K atlases, two sphere draws and one ring draw replace volume marching.
-            const int width = 2048, height = 1024;
-            var pixels = new Color[width * height]; var cloudPixels = new Color[pixels.Length];
-            for (int y = 0; y < height; y++) for (int x = 0; x < width; x++)
-            {
-                float u = (float)x / (width - 1), v = (float)y / (height - 1);
-                Vector3 p = Sphere(u, v);
-                Vector3 warp = new Vector3(Noise(p * 5), Noise(p * 5 + Vector3.one * 17), Noise(p * 5 + Vector3.one * 31)) - Vector3.one * .5f;
-                Vector3 curls = p + warp * .18f;
-                float turbulence = Noise(curls * 13), fine = Noise(curls * 120), filaments = Noise(curls * 48);
-                float latitude = v + (turbulence - .5f) * .06f + (filaments - .5f) * .008f;
-                float bands = .5f + .5f * Mathf.Sin(latitude * 75 + Noise(p * 3) * 7);
-                float largeStorm = Storm(u, v, .73f, .19f) + Storm(u, v, .36f, .44f) + Storm(u, v, .17f, .64f);
-                bands = Mathf.Clamp01(bands * .78f + fine * .22f + largeStorm * .18f);
-                Color tint = Color.Lerp(new Color(.13f,.23f,.30f), new Color(.51f,.56f,.57f), bands);
-                tint = Color.Lerp(tint, new Color(.57f,.48f,.35f), Mathf.Clamp01((Noise(p * 4 + Vector3.one * 9) - .53f) * 2.2f));
-                pixels[y * width + x] = tint * (.86f + fine * .24f);
-                float upper = Mathf.SmoothStep(0, 1, Mathf.Clamp01((filaments * .65f + turbulence * .35f - .44f) * 4.5f));
-                cloudPixels[y * width + x] = new Color(upper, upper, upper, 1);
-            }
+            // Satellite macro geography with a detailed regional crop: bounded imagery,
+            // three sphere draws, no raymarch, displacement, terrain physics or network.
             surface.shader = Shader.Find("SpaceDragon/Dogfight/Near Orbit Surface") ?? throw new InvalidDataException("Near Orbit Surface shader is missing.");
-            surface.SetTexture("_BaseMap", Write("gas-giant-v002-near-orbit", pixels, width, height, maxSize: 2048));
-            surface.SetTexture("_CloudMap", Write("upper-clouds-v001", cloudPixels, width, height, true, maxSize: 2048));
-            surface.SetTexture("_DetailCloudMap", CloudDetail());
-            surface.SetFloat("_DetailRepeat", 48); surface.SetFloat("_DetailStrength", .22f);
-            surface.SetColor("_HazeColor", new Color(.17f,.25f,.33f));
-            planet.transform.rotation = Quaternion.Euler(0, 0, -19);
+            surface.SetTexture("_BaseMap", SatelliteTexture("earth-global-color-land-v001",2048,true,false));
+            surface.SetTexture("_RegionMap",SatelliteTexture("earth-regional-color-land-v001",4096,true,true));
+            surface.SetTexture("_TerrainMap",SatelliteTexture("earth-regional-relief-v001",2048,false,true));
+            surface.SetVector("_RegionUv",new Vector4(156f/360,36f/180,72f/360,36f/180));
+            var clouds = SatelliteTexture("earth-cloud-density-slopes-v001",4096,false,false);
+            var cloudDetail = CloudDetail();
+            surface.SetTexture("_CloudMap",clouds); surface.SetTexture("_CloudDetailMap",cloudDetail);
+            surface.SetFloat("_CloudRepeat",128);
+            surface.SetFloat("_CloudHeight",140); surface.SetFloat("_PlanetRadius",26000);
+            surface.SetColor("_HazeColor",new Color(.13f,.23f,.32f));
+            // Compose the visible cap around 36N/12E. The detailed crop contains the
+            // entire camera-visible horizon. Geographic north maps to world +Z.
+            // This Earth reference is visual scenery, not a new canonical destination.
+            Vector3 location = Sphere(192f/360,54f/180);
+            float longitude = 192f/360*Mathf.PI*2, colatitude=54f/180*Mathf.PI;
+            Vector3 north = new Vector3(-Mathf.Cos(colatitude)*Mathf.Cos(longitude),Mathf.Sin(colatitude),-Mathf.Cos(colatitude)*Mathf.Sin(longitude));
+            planet.transform.rotation = Quaternion.Inverse(Quaternion.LookRotation(north,location));
             Mesh horizonMesh = HorizonMesh();
             planet.GetComponent<MeshFilter>().sharedMesh = horizonMesh;
             var backdrop = planet.AddComponent<NearOrbitBackdrop>(); backdrop.CameraOffset = planet.transform.position;
+            CreateClouds(planet.transform,horizonMesh,clouds,cloudDetail);
             CreateAtmosphere(planet.transform, horizonMesh);
             const int segments = 512, radial = 256, angular = 128;
             var ringPixels = new Color[radial * angular];
@@ -198,7 +192,50 @@ namespace SpaceDragon.Dogfight.Editor
                 // R height, GB signed tangent slopes, A shallow cavity density. One shader read.
                 packed[y * size + x] = new Color(h, Mathf.Clamp01(du * .5f + .5f), Mathf.Clamp01(dv * .5f + .5f), cavity);
             }
-            return Write("cloud-billows-v001", packed, size, size, true, maxSize: size, repeatV: true);
+            return Write("cloud-billows-v002", packed, size, size, true, maxSize: size, repeatV: true, anisotropy:8);
+        }
+
+        static Texture2D SatelliteTexture(string name,int maxSize,bool srgb,bool region)
+        {
+            string path="Assets/SpaceDragon/Dogfight/Imported/PlanetSatellite-v001/"+name+".png";
+            if(!File.Exists(path)) throw new FileNotFoundException("Prepare the pinned NASA derivatives with tools/prepare_near_orbit_satellite.py before building.",path);
+            AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
+            var importer=(TextureImporter)AssetImporter.GetAtPath(path);
+            importer.textureType=TextureImporterType.Default;
+            importer.sRGBTexture=srgb; importer.alphaSource=TextureImporterAlphaSource.FromInput;
+            importer.alphaIsTransparency=false; importer.mipmapEnabled=true; importer.isReadable=false;
+            importer.wrapModeU=region?TextureWrapMode.Clamp:TextureWrapMode.Repeat;
+            importer.wrapModeV=TextureWrapMode.Clamp; importer.anisoLevel=8;
+            importer.npotScale=TextureImporterNPOTScale.None;
+            importer.maxTextureSize=maxSize; importer.textureCompression=TextureImporterCompression.CompressedHQ;
+            // The current Lenovo/Chrome build already verifies BC7 for Oscar. Keep a
+            // bounded desktop target; a mobile build needs its own ASTC/ETC decision.
+            foreach(string platform in new[]{"Standalone","WebGL"})
+                importer.SetPlatformTextureSettings(new TextureImporterPlatformSettings{
+                    name=platform,overridden=true,maxTextureSize=maxSize,
+                    format=TextureImporterFormat.BC7,textureCompression=TextureImporterCompression.CompressedHQ,
+                    compressionQuality=80});
+            importer.SaveAndReimport();
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+        }
+
+        static void CreateClouds(Transform planet,Mesh mesh,Texture2D atlas,Texture2D detail)
+        {
+            const string path=Folder+"/Near orbit clouds.satellite-v001.mat";
+            var material=AssetDatabase.LoadAssetAtPath<Material>(path);
+            if(material==null)
+            {
+                material=new Material(Shader.Find("SpaceDragon/Dogfight/Near Orbit Clouds") ?? throw new InvalidDataException("Near Orbit Clouds shader is missing."));
+                AssetDatabase.CreateAsset(material,path);
+            }
+            material.SetTexture("_CloudMap",atlas); material.SetTexture("_CloudDetailMap",detail);
+            material.SetFloat("_CloudRepeat",128); material.SetColor("_HazeColor",new Color(.13f,.23f,.32f));
+            var shell=new GameObject("Cloud layer.140m.visual-only",typeof(MeshFilter),typeof(MeshRenderer));
+            shell.transform.SetParent(planet,false); shell.transform.localScale=Vector3.one*(1+140f/26000);
+            shell.GetComponent<MeshFilter>().sharedMesh=mesh;
+            var renderer=shell.GetComponent<MeshRenderer>();renderer.sharedMaterial=material;
+            renderer.shadowCastingMode=ShadowCastingMode.Off;renderer.receiveShadows=false;
+            EditorUtility.SetDirty(material);
         }
 
         static float Storm(float u, float v, float centerU, float centerV)
@@ -246,8 +283,8 @@ namespace SpaceDragon.Dogfight.Editor
                 material = new Material(Shader.Find("SpaceDragon/Dogfight/Near Orbit Atmosphere") ?? throw new InvalidDataException("Near Orbit Atmosphere shader is missing."));
                 AssetDatabase.CreateAsset(material, path);
             }
-            material.SetColor("_AtmosphereColor", new Color(.17f,.27f,.38f));
-            material.SetFloat("_PlanetRadius", 26000); material.SetFloat("_AtmosphereRadius", 26208); material.SetFloat("_Density", .45f);
+            material.SetColor("_AtmosphereColor", new Color(.16f,.31f,.46f));
+            material.SetFloat("_PlanetRadius", 26000); material.SetFloat("_AtmosphereRadius", 26208); material.SetFloat("_Density", .36f);
             var shell = new GameObject("Atmospheric limb.visual-only", typeof(MeshFilter), typeof(MeshRenderer));
             shell.transform.SetParent(planet, false); shell.transform.localScale = Vector3.one * 1.008f;
             shell.GetComponent<MeshFilter>().sharedMesh = mesh;

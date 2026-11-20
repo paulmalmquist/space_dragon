@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Runs the Unity Dogfight state rules and their EditMode tests outside the Editor.
+
+    Only classes that hold rules and use nothing from the engine but math are listed here:
+    no MonoBehaviour, scene object, physics query, input device, shader or asset. The Unity
+    math types come from Shim/UnityMathShim.cs, a hand-written stand-in, because the public
+    UnityEngine reference assemblies cannot execute outside the engine.
+
+    A pass proves the listed rules hold under the stand-in arithmetic. It does not prove a
+    Unity import, a scene, a build, anything drawn or heard, or the adapters that connect
+    these rules to the scene: those need the pinned Editor (npm run unity:dogfight:test).
+
+    When you add a state class, add it and its test file to the two lists below.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <IsPackable>false</IsPackable>
+    <NoWarn>$(NoWarn);CS0649;CS0169;CS0414;CS0660;CS0661</NoWarn>
+    <DogfightRuntime>$(MSBuildThisFileDirectory)../../../unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight</DogfightRuntime>
+    <DogfightTests>$(MSBuildThisFileDirectory)../../../unity/SpaceDragon/Assets/SpaceDragon/Tests/EditMode/Dogfight</DogfightTests>
+  </PropertyGroup>
+  <ItemGroup>
+    <StateClass Include="BreathState;ChaseCameraState;ClawFinisherState;CollisionImpact;CombatGeometry;ComebackState;DogfightTuning;EnemyPilot;EnemyRoleState;FlightState;HomingMissile;PerfectRollState;RepairCodeState;RocksWeaponState;RolePilotState;TacticalState;WaveState;WingLaserQuery;WingmanAttackPose;WingmanState" />
+    <StateTest Include="BreathStateTests;ChaseCameraTests;ClawFinisherStateTests;CollisionImpactTests;CombatGeometryTests;ComebackStateTests;EnemyPilotTests;EnemyRoleStateTests;FlightStateTests;HomingMissileTests;MultiBreathTests;PerfectRollTests;RepairCodeStateTests;RocksWeaponStateTests;RolePilotStateTests;TacticalStateTests;WaveStateTests;WingLaserQueryTests;WingmanAttackPoseTests;WingmanStateTests" />
+    <Compile Include="@(StateClass->'$(DogfightRuntime)/%(Identity).cs')" Link="Runtime/%(Filename)%(Extension)" />
+    <Compile Include="@(StateTest->'$(DogfightTests)/%(Identity).cs')" Link="Tests/%(Filename)%(Extension)" />
+    <Compile Include="Shim/*.cs" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+</Project>

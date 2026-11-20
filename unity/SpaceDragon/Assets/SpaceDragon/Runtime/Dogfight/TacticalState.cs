@@ -30,6 +30,8 @@ namespace SpaceDragon.Dogfight
         readonly float[] health = new float[3];
         readonly int[] patches = new int[3];
         double repairElapsed, rechargeProgress, lockProgress, lockLossSeconds;
+        bool repairBonusApplied;
+        bool comebackHullRestored;
         string trackingId = "";
         LockCandidate candidate;
 
@@ -43,6 +45,8 @@ namespace SpaceDragon.Dogfight
         public bool IsRepairing { get; private set; }
         public DragonSystem RepairSystem { get; private set; }
         public float RepairProgress => IsRepairing ? Mathf.Clamp01((float)(repairElapsed / RepairDuration)) : 0;
+        public bool RepairBonusApplied => repairBonusApplied;
+        public float RepairSecondsRemaining => IsRepairing ? (float)Math.Max(0, RepairDuration - repairElapsed) : 0;
         public int Salvage { get; private set; }
         public int RepairsRemaining { get; private set; }
         public int RepairsCompleted { get; private set; }
@@ -85,7 +89,7 @@ namespace SpaceDragon.Dogfight
             MissileCharges = ChargeCapacity;
             IsRepairing = IncomingLockedMissile = false;
             RepairSystem = DragonSystem.Hull;
-            repairElapsed = rechargeProgress = 0;
+            repairElapsed = rechargeProgress = 0; repairBonusApplied = false; comebackHullRestored=false;
             candidate = default;
             ClearLock();
             LastNotice = "";
@@ -111,11 +115,31 @@ namespace SpaceDragon.Dogfight
             if (RepairsRemaining == 0) return Fail("No field repairs remaining");
             if (Salvage == 0) return Fail("Salvage required");
             if (health[index] >= MaximumHealth) return Fail("System already intact");
-            IsRepairing = true; RepairSystem = system; repairElapsed = 0; LastNotice = "";
+            IsRepairing = true; RepairSystem = system; repairElapsed = 0; repairBonusApplied = false; LastNotice = "";
             return true;
         }
 
-        public void CancelRepair() { IsRepairing = false; repairElapsed = 0; }
+        public void CancelRepair() { IsRepairing = false; repairElapsed = 0; repairBonusApplied = false; }
+
+        /// <summary>Called only for the one successful ComebackState event. No system,
+        /// salvage or repair resource is replenished, and a second restore is rejected.</summary>
+        public bool RestoreComebackHull(float amount)
+        {
+            if(!tuning.EnableComeback||!IsDestroyed||comebackHullRestored||!Finite(amount)||amount<=0)return false;
+            comebackHullRestored=true;health[0]=Mathf.Min(MaximumHealth,amount);ClearLock();return true;
+        }
+
+        /// <summary>Optional code bonus; never commits resources or heals here. Advancing
+        /// virtual elapsed time preserves the original progress denominator. The existing
+        /// hit-before-Tick rule still lets a substantial hit interrupt at completion.</summary>
+        public bool ApplyRepairSpeedBonus(float remainingMultiplier)
+        {
+            if (!tuning.EnableRepairCode || !IsRepairing || IsDestroyed || repairBonusApplied ||
+                !Finite(remainingMultiplier) || remainingMultiplier <= 0 || remainingMultiplier >= 1) return false;
+            double remaining = Math.Max(0, RepairDuration - repairElapsed);
+            repairElapsed = RepairDuration - remaining * remainingMultiplier;
+            repairBonusApplied = true; return true;
+        }
         public bool PickupSalvage() => AddSalvage();
         public bool AddSalvage(int amount = 1)
         {

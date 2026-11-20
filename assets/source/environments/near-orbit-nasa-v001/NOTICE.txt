@@ -1,0 +1,35 @@
+Near-orbit planet imagery — Space Dragon game derivatives, v001
+
+Credit: NASA Earth Observatory; NASA Goddard Space Flight Center,
+Reto Stockli (Blue Marble land surface and clouds); GEBCO (topography).
+
+Surface: Blue Marble: Next Generation, August 2004, cloud-free base map.
+Clouds: The Blue Marble (2002) composite (visible and polar infrared imagery).
+Terrain: NASA Earth Observatory distribution of GEBCO_08 elevation display data.
+
+NASA source and usage guidance (checked November 1, 2026):
+https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-map/
+https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/topography-bathymetry-maps/
+https://science.nasa.gov/earth/earth-observatory/the-blue-marble-true-color-global-imagery-at-1km-resolution/
+https://science.nasa.gov/earth/faq/
+https://www.nasa.gov/nasa-brand-center/images-and-media/
+
+NASA Earth Observatory materials may be reused, including commercially,
+unless a specific copyright restriction is indicated; retain NASA credit.
+No such restriction was indicated for these source images. NASA logos and
+identity marks are not included. Use does not imply NASA endorsement.
+
+GEBCO terms:
+https://www.gebco.net/data-products/gridded-bathymetry/terms-of-use
+GEBCO permits copying, adapting and commercial use with source acknowledgement,
+without implying official status or endorsement by GEBCO, IHO or IOC. Its data
+are provided as-is and must not be used for navigation or safety at sea.
+
+Space Dragon modifications: resized global imagery; a Mediterranean regional
+crop; color-derived water mask; terrain slopes from display topography; cloud
+density/slopes; vertically flipped encoding for the game's sphere UVs.
+The source imagery is historical. Scale, cloud height, relief and lighting are
+artistic. This decorative game backdrop is not a scientific or navigation map.
+
+Exact download URLs, input/output SHA-256 hashes, byte sizes and preparation
+recipe: assets/source/environments/near-orbit-nasa-v001/provenance.json.

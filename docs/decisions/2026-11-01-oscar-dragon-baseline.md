@@ -1,6 +1,6 @@
 # Oscar Creativo dragon baseline — SD-086
 
-**Date:** October 31, 2026, America/New_York / November 1 UTC. **Authority:** CONFIRMED owner selection. **Work state:** verified for the bounded Lenovo/Chrome baseline integration: preserved source/export, full-weight setup, 86 Unity tests, BC7 Web build and 11/11 cases per WebGPU/WebGL2 path. Six matched source/player views REVIEWED; remaining visual differences and historical failures are recorded. Owner final quality/release approval remains open. Hosted CI and merge delivery are recorded by the resulting PR.
+**Date:** October 31, 2026, America/New_York / November 1 UTC. **Authority:** CONFIRMED owner selection. **Work state:** verified for the bounded Lenovo/Chrome baseline integration: preserved source/export, full-weight setup, 86 Unity tests, BC7 Web build and 11/11 cases per WebGPU/WebGL2 path. The root AI agent compared six matched source/player screenshots (human review NOT REVIEWED); remaining visual differences and historical failures are recorded. Owner final quality/release approval remains open. Hosted CI and merge delivery are recorded by the resulting PR.
 
 Owner wording:
 
@@ -15,3 +15,9 @@ Prepare a recoverable Blender source with the original and game candidate separa
 Retain a stable gameplay root, independent simple collision, named effect/camera attachments, flight/combat rules, active dodging during spelling and save boundaries. A new rig needs its own measured contract; it cannot inherit v007's 15-bone or v005's nine-bone validation. Keep gameplay and render adaptation separate. Verify neutral and flight appearance, flap/glide/roll/jaw/tail, aiming, ordinary fire and charged beam, then measure the actual Lenovo/Chrome player on both rendering paths.
 
 [The verification receipt](../reports/2026-11-01-oscar-dragon-baseline.md) records the actual implementation, tests, measured player runs and reviewed comparison. Owner baseline selection alone did not establish those results; the bounded evidence now does. Final visual quality and release approval remain separate.
+
+## November 1 presentation continuation
+
+The owner said **“continue polish”**. Continue SD-086 with a bounded lighting/material response and lower HUD overlap pass, preserving the selected source/anatomy and gameplay. [Separate verification receipt](../reports/2026-11-01-oscar-presentation-polish.md). The baseline above remains verified; this follow-on is in progress and needs its own actual checks. No final owner art/release approval is inferred.
+
+The later November 1 [mechanical/near-orbit decision](2026-11-01-oscar-mechanical-and-near-orbit-polish.md) expands that scope to fitted additive plates/joint details and planetary surface/cloud/atmosphere polish. It authorizes a separate mechanical derivative while preserving Oscar anatomy/animation and original source recovery. Earlier lighting/HUD-only tests are intermediate evidence, not expanded-artifact verification.

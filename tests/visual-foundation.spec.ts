@@ -69,10 +69,14 @@ test('visual review returns to walking and invalid preferences fail safely', asy
   const initial = (await snapshot(page)).navigation.state.player;
   await page.locator('#game').focus();
   await page.keyboard.down('w');
-  await page.waitForTimeout(500);
-  await page.keyboard.up('w');
-  const after = (await snapshot(page)).navigation.state.player;
-  expect(Math.hypot(after.x - initial.x, after.z - initial.z)).toBeGreaterThan(0.15);
+  try {
+    // The hero accelerates from rest and software rendering advances capped simulation
+    // frames slower than wall time, so wait for the distance instead of a fixed delay.
+    await expect.poll(async () => {
+      const after = (await snapshot(page)).navigation.state.player;
+      return Math.hypot(after.x - initial.x, after.z - initial.z);
+    }, { timeout: 15_000 }).toBeGreaterThan(0.15);
+  } finally { await page.keyboard.up('w'); }
   await page.locator('#visual-quality').selectOption('high');
   expect((await snapshot(page)).navigation.enabled).toBe(true);
   // Walking owns its independent save; visual controls cannot create campaign rewards.

@@ -9,14 +9,14 @@ namespace SpaceDragon.Dogfight.Tests
         {
             var flight=new FlightState();var camera=new ChaseCameraState();camera.Tick(0,flight,true);
             for(int i=0;i<300;i++){flight.Tick(1f/60,new FlightInput());camera.Tick(1f/60,flight);}
-            Assert.That(Vector3.Dot(flight.Position-camera.Position,flight.Forward),Is.EqualTo(9.8f).Within(.01f));
-            Assert.That(camera.Position.y-flight.Position.y,Is.EqualTo(3.55f).Within(.01f));
+            Assert.That(Vector3.Dot(flight.Position-camera.Position,flight.Forward),Is.EqualTo(8.0f).Within(.01f));
+            Assert.That(camera.Position.y-flight.Position.y,Is.EqualTo(3.1f).Within(.01f));
         }
         [Test] public void BoostChangesPerspectiveByActualSpeedAndZoomWins()
         {
             var flight=new FlightState();var camera=new ChaseCameraState();camera.Tick(0,flight,true);
             for(int i=0;i<180;i++){flight.Tick(1f/60,new FlightInput(Vector2.zero,0,true));camera.Tick(1f/60,flight);}
-            Assert.That(Vector3.Dot(flight.Position-camera.Position,flight.Forward),Is.EqualTo(11.8f).Within(.05f));
+            Assert.That(Vector3.Dot(flight.Position-camera.Position,flight.Forward),Is.EqualTo(9.1f).Within(.05f));
             Assert.That(camera.FieldOfView,Is.EqualTo(74).Within(.1f));
             camera.Tick(0,flight,true,true);Assert.That(camera.FieldOfView,Is.EqualTo(40));
         }

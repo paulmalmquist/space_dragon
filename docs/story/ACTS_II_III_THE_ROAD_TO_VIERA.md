@@ -171,6 +171,8 @@ Every trip between worlds is a flight level, and they borrow the set pieces peop
 | The Last Hold | The final battle against Morrow, with the whole fleet as wingmen | Fleet battle against a colossal dragon | Powers on his back |
 | Final Landing | Lead the fleet down to Farport | Victory flyover | — |
 
+**Owner idea, November 17 (SD-091), BOOKMARKED:** "The Tunnel Run". The dragon reaches a tunnel it is too large to enter; Dad ejects and flies it himself in his black-and-red armor, with the camera following him from the cinematic into play. It could be the owner's version of the **Forge strike run**, where this draft already features Dad, or of the run along **the Barge**. Which one is OPEN. [Routing and open questions](../decisions/2026-11-17-tunnel-run-and-dads-flight.md).
+
 ### The dragon's upgrades
 
 | When | Upgrade | What it does |

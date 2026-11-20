@@ -16,11 +16,15 @@ namespace SpaceDragon.Dogfight
         TacticalWarning lastWarning;
         float warningAge;
         float width, height, scale;
+        string PrimaryLabel => encounter.UseSpacecraftDragon ? "TWIN LASERS" : "PLASMA";
+        bool UsingController => encounter.UsingController;
         public void Configure(DogfightEncounter owner) => encounter = owner;
+        public void ResetClock(){clock=warningAge=0;lastWarning=TacticalWarning.None;}
         void Update()
         {
             if (encounter == null || encounter.Paused) return;
-            clock += Time.deltaTime; warningAge += Time.deltaTime;
+            float dt=Time.deltaTime*encounter.CurrentCombatTimeScale;
+            clock += dt; warningAge += dt;
             if (encounter.Tactics != null && lastWarning != encounter.Tactics.HighestWarning)
             { lastWarning = encounter.Tactics.HighestWarning; warningAge = 0; }
         }
@@ -45,12 +49,12 @@ namespace SpaceDragon.Dogfight
             GUI.matrix = Matrix4x4.Scale(new Vector3(scale,scale,1)); GUI.color = Color.white;
             try
             {
-                DrawCanopy(); DrawTargets(); DrawAim(); DrawHeader(); DrawWarning(); DrawRadar(); DrawSystems(); DrawMissiles(); DrawWord(); DrawFlight();
+                DrawCanopy(); DrawTargets(); DrawAim(); DrawHeader(); DrawWarning(); DrawRadar(); DrawSystems(); DrawWingman(); DrawMissiles(); DrawWord(); DrawFlight();
                 if (!string.IsNullOrEmpty(encounter.Toast))
                 { Panel(new Rect(width/2-270,130,540,36),Cyan,.45f); Text(new Rect(width/2-260,134,520,28),encounter.Toast,Cyan,center); }
                 if (encounter.Tactics.IsRepairing) DrawRepairProgress();
-                if (encounter.RepairSelectorOpen && !encounter.Paused && !encounter.Dead) DrawRepairSelector();
-                if (encounter.Won && !encounter.Paused && !encounter.Dead)
+                if (encounter.RepairSelectorOpen && !encounter.Paused && !encounter.Dead && !encounter.Comeback.Active) DrawRepairSelector();
+                if (encounter.Won && !encounter.Paused && !encounter.Dead && !encounter.Comeback.Active)
                 {
                     Panel(new Rect(width/2-225,175,450,52),Cyan,.68f);
                     Text(new Rect(width/2-215,179,430,24),"SQUADRON DISABLED",Cyan,center);
@@ -75,6 +79,14 @@ namespace SpaceDragon.Dogfight
             Line(new Vector2(10,height-100),new Vector2(90,height-10),Muted,.8f);
             Line(new Vector2(width-10,height-100),new Vector2(width-90,height-10),Muted,.8f);
         }
+        void DrawWingman()
+        {
+            if(!encounter.Tuning.EnableWingman)return;
+            float y=height>=750&&width>=1320?(UsingController?316:266):106;
+            var ally=encounter.Wingman;var p=new Vector2(36,y);Diamond(p,11,Cyan,1.5f);
+            Text(new Rect(25,y-11,24,24),UsingController?"↓":"T",Cyan,center);
+            Text(new Rect(53,y-11,270,24),ally.Running?"ALLY STRAFING":ally.Ready?(UsingController?"DPAD DOWN / WINGMAN READY":"WINGMAN READY"): "WINGMAN "+Mathf.CeilToInt(ally.CooldownRemaining)+" s",Muted,small);
+        }
         void DrawHeader()
         {
             Diamond(new Vector2(38,40),9,Amber,1.8f);
@@ -92,11 +104,11 @@ namespace SpaceDragon.Dogfight
                 if (!enemy.Dead) { acquired = Mathf.Max(acquired,enemy.TargetProgress); enemyLocked |= enemy.Locked; }
             string message; Color color; bool showLockProgress = false;
             if (warning == TacticalWarning.HullImminent) { message = "HULL FAILURE IMMINENT  —  BREAK AWAY / REPAIR"; color = Red; }
-            else if (warning == TacticalWarning.IncomingMissile) { message = "INCOMING MISSILE  —  Q / E ROLL  ·  B BREAK"; color = Red; }
-            else if (warning == TacticalWarning.Critical) { message = "CRITICAL SYSTEM DAMAGE  —  HOLD TAB TO REPAIR"; color = Red; }
+            else if (warning == TacticalWarning.IncomingMissile) { message = UsingController?"INCOMING MISSILE — L1 / R1 ROLL · CIRCLE TURN":"INCOMING MISSILE  —  Q / E ROLL  ·  HOLD B TURN"; color = Red; }
+            else if (warning == TacticalWarning.Critical) { message = UsingController?"CRITICAL SYSTEM DAMAGE — HOLD SHARE / CREATE":"CRITICAL SYSTEM DAMAGE  —  HOLD TAB TO REPAIR"; color = Red; }
             else if (encounter.AsteroidClearance >= 0 && !encounter.Dead) { message = "ASTEROID  /  "+Mathf.CeilToInt(encounter.AsteroidClearance)+" m  —  PULL CLEAR"; color = Amber; }
-            else if (enemyLocked || acquired > .15f) { message = enemyLocked ? "ENEMY LOCK  —  Q / E EVADE" : "ENEMY TRACKING  —  KEEP MOVING"; color = Amber; showLockProgress = true; }
-            else if (warning == TacticalWarning.Caution && warningAge < 3) { message = "SYSTEM CAUTION  —  HOLD TAB TO INSPECT"; color = Amber; }
+            else if (enemyLocked || acquired > .15f) { message = enemyLocked ? (UsingController?"ENEMY LOCK — L1 / R1 EVADE":"ENEMY LOCK  —  Q / E EVADE") : "ENEMY TRACKING  —  KEEP MOVING"; color = Amber; showLockProgress = true; }
+            else if (warning == TacticalWarning.Caution && warningAge < 3) { message = UsingController?"SYSTEM CAUTION — HOLD SHARE / CREATE":"SYSTEM CAUTION  —  HOLD TAB TO INSPECT"; color = Amber; }
             else return;
             var rect = new Rect(width/2-235,55,470,53); Panel(rect,color,.88f);
             Text(new Rect(rect.x+12,rect.y+7,rect.width-24,26),message,color,center);
@@ -121,7 +133,7 @@ namespace SpaceDragon.Dogfight
             Line(p+Vector2.down*7,p+Vector2.down*(size+8),color,1.4f);
             Fill(new Rect(p.x-1,p.y-1,2,2),color);
             if (encounter.Tactics.LockProgress > 0) Arc(p,30,-90,360*encounter.Tactics.LockProgress,Amber,2,16);
-            if (encounter.Tactics.HasConfirmedLock) Text(new Rect(p.x-85,p.y+38,170,24),"ENTER  /  MISSILE",Amber,center);
+            if (encounter.Tactics.HasConfirmedLock) Text(new Rect(p.x-85,p.y+38,170,24),UsingController?"SQUARE / MISSILE":"ENTER  /  MISSILE",Amber,center);
             else if (encounter.Tactics.LockProgress > 0) Text(new Rect(p.x-85,p.y+38,170,24),"ACQUIRING",Amber,center);
         }
         void DrawTargets()
@@ -137,12 +149,24 @@ namespace SpaceDragon.Dogfight
                 if (onScreen)
                 {
                     Brackets(new Rect(p.x-22,p.y-20,44,40),color);
-                    Text(new Rect(p.x-65,p.y-43,130,22),enemy.Id.ToUpperInvariant(),color,center);
+                    Text(new Rect(p.x-85,p.y-43,170,22),encounter.Tuning.EnableEnemyRoles?enemy.Combat.Role.ToString().ToUpperInvariant():enemy.Id.ToUpperInvariant(),color,center);
+                    var locked=encounter.Breath.LockedIds;for(int mark=0;mark<locked.Length;mark++)if(locked[mark]==enemy.CombatId)
+                    {Diamond(p+Vector2.up*-57,5,Cyan,2);Text(new Rect(p.x-40,p.y-85,80,20),"BREATH "+(mark+1),Cyan,small);}
+                    if(enemy.Combat.ShieldIntact){Arc(p,36,-175,170,Cyan,3,12);Text(new Rect(p.x-65,p.y-65,130,20),"SHIELDED",Cyan,small);}
+                    if(encounter.Tuning.EnableClawFinisher&&!enemy.Combat.ShieldIntact&&enemy.Health/enemy.Combat.MaximumHealth<encounter.Tuning.FinisherHealthFraction)
+                    {float radius=encounter.ReducedMotion?29:29+3*Mathf.Sin(clock*6);Diamond(p,radius,Amber,3);Text(new Rect(p.x-100,p.y+48,200,22),UsingController?"WOUNDED — CROSS BOOST":"WOUNDED — BOOST THROUGH",Amber,center);}
+                    if(enemy.Combat.Latched)Text(new Rect(p.x-85,p.y+48,170,22),UsingController?"LATCHED — L1 / R1":"LATCHED — ROLL",Red,center);
                     float distance = Vector3.Distance(encounter.Flight.Position,enemy.Position);
                     Text(new Rect(p.x-55,p.y+25,110,22),Mathf.RoundToInt(distance)+" m",color,center);
                     if (enemy.Id == encounter.Tactics.TrackingTargetId) Bar(new Rect(p.x-22,p.y+20,44,3),encounter.Tactics.LockProgress,color);
                 }
                 else Diamond(p,5,color,1.5f);
+            }
+            if(encounter.Tuning.EnableRockWeapons)foreach(var gas in encounter.GasPockets)
+            {
+                if(gas.Detonated)continue;var view=encounter.GameCamera.WorldToViewportPoint(gas.Position);
+                if(view.z<=0)continue;Vector2 point=ViewportPoint(view);Diamond(point,13,Amber,2);
+                Text(new Rect(point.x-40,point.y+16,80,22),"GAS",Amber,center);
             }
             if (encounter.SalvageItems != null) foreach (var item in encounter.SalvageItems)
             {
@@ -194,7 +218,7 @@ namespace SpaceDragon.Dogfight
             SystemBar(x,y,"HULL",t.Hull); SystemBar(x,y+42,"PROPULSION",t.Propulsion); SystemBar(x,y+84,"WEAPONS",t.Weapons);
             Text(new Rect(x,y+134,230,22),"SALVAGE  "+t.Salvage+" / "+encounter.Tuning.SalvageCapacity,Cyan,label);
             Text(new Rect(x,y+160,230,22),"FIELD REPAIRS  "+t.RepairsRemaining+" / "+encounter.Tuning.MaximumRepairs,t.RepairsRemaining>0?Cyan:Amber,label);
-            Text(new Rect(x,y+189,240,22),"HOLD TAB  /  SYSTEM REPAIR",Muted,small);
+            Text(new Rect(x,y+189,240,22),UsingController?"HOLD SHARE / CREATE TO REPAIR":"HOLD TAB  /  SYSTEM REPAIR",Muted,small);
         }
         void SystemBar(float x,float y,string name,float value)
         {
@@ -211,7 +235,7 @@ namespace SpaceDragon.Dogfight
                 Rect r = new Rect(x+i*53,163,43,12); Fill(r,i<t.MissileCharges?Amber:new Color(.2f,.3f,.32f,.6f));
                 if (i==t.MissileCharges && t.MissileCharges<encounter.Tuning.MaximumMissileCharges) Fill(new Rect(r.x,r.y,r.width*t.RechargeProgress,r.height),Cyan);
             }
-            string status = t.IsRepairing ? "REPAIRING / LAUNCH INHIBITED" : t.MissileCharges==0 ? "RECHARGING" : t.HasConfirmedLock ? "LOCKED / ENTER TO LAUNCH" : t.LockProgress>0 ? "ACQUIRING / HOLD ON TARGET" : "TRACK A BOGEY TO LOCK";
+            string status = t.IsRepairing ? "REPAIRING / LAUNCH INHIBITED" : t.MissileCharges==0 ? "RECHARGING" : t.HasConfirmedLock ? (UsingController?"LOCKED / SQUARE TO LAUNCH":"LOCKED / ENTER TO LAUNCH") : t.LockProgress>0 ? "ACQUIRING / HOLD ON TARGET" : "TRACK A BOGEY TO LOCK";
             Text(new Rect(x,182,275,22),status,t.HasConfirmedLock?Amber:Muted,small);
             if (t.MissileCharges<encounter.Tuning.MaximumMissileCharges)
             {
@@ -222,6 +246,7 @@ namespace SpaceDragon.Dogfight
         }
         void DrawWord()
         {
+            if(encounter.Comeback.Active){DrawComebackWord();return;}
             var b = encounter.Breath; var rect = new Rect(width-300,height-308,272,176); Panel(rect,Cyan,.91f);
             Text(new Rect(rect.x+16,rect.y+10,240,25),"WORD CHARGE / FIRE BEAM",Cyan,label);
             for (int i=0;i<4;i++)
@@ -244,7 +269,7 @@ namespace SpaceDragon.Dogfight
             else if (b.Phase==BreathPhase.Ready)
             {
                 int locked = b.LockedIds.Length;
-                Text(new Rect(rect.x+13,rect.y+83,246,30),locked>0?"SPACE  /  FIRE BEAM":"CHARGED / TRACK TARGET",Amber,center);
+                Text(new Rect(rect.x+13,rect.y+83,246,30),locked>0?(UsingController?"TRIANGLE / FIRE BEAM":"SPACE  /  FIRE BEAM"):"CHARGED / TRACK TARGET",Amber,center);
                 Text(new Rect(rect.x+13,rect.y+120,246,25),locked>0?locked+" TARGET LOCKED":"Hold the reticle on a bogey",Muted,center);
             }
             else
@@ -253,7 +278,20 @@ namespace SpaceDragon.Dogfight
                 Text(new Rect(rect.x+13,rect.y+82,246,34),burst!=null&&burst.Stage=="windup"?"DRAGON WINDUP":"FIRE BEAM",Amber,center);
                 if(burst!=null) Bar(new Rect(rect.x+20,rect.y+129,232,5),burst.Progress,Amber);
             }
-            Text(new Rect(rect.x+17,rect.y+151,238,21),"F1  /  CHARGE TOGETHER",Muted,small);
+            Text(new Rect(rect.x+17,rect.y+151,238,21),UsingController?"DPAD UP / CHARGE TOGETHER":"F1  /  CHARGE TOGETHER",Muted,small);
+        }
+        void DrawComebackWord()
+        {
+            var recovery=encounter.Comeback;var rect=new Rect(width/2-215,height/2-100,430,200);Panel(rect,Amber,.94f);
+            Text(new Rect(rect.x+12,rect.y+8,406,30),"REAWAKEN  /  "+recovery.Remaining.ToString("0.0")+" s",Amber,center);
+            for(int i=0;i<ComebackState.Word.Length;i++)
+            {
+                Text(new Rect(rect.x+104+i*56,rect.y+43,48,30),i<recovery.LetterIndex?ComebackState.Word[i].ToString():"_",Cyan,center);
+            }
+            Brackets(new Rect(rect.x+100,rect.y+82,64,64),Amber);
+            Text(new Rect(rect.x+100,rect.y+78,64,72),recovery.ExpectedLetter?.ToString()??"",Amber,letter);
+            Text(new Rect(rect.x+181,rect.y+97,208,35),"PRESS "+recovery.ExpectedLetter,Cyan,title);
+            Text(new Rect(rect.x+12,rect.y+162,406,25),UsingController?"DPAD UP / WAKE TOGETHER · ONE RECOVERY":"F1 / WAKE TOGETHER   ·   ONE RECOVERY",Muted,center);
         }
         void DrawFlight()
         {
@@ -264,33 +302,70 @@ namespace SpaceDragon.Dogfight
             Text(new Rect(width-278,height-70,242,18),"BOOST",Muted,small);
             Bar(new Rect(width-278,height-46,242,4),f.EvasionEnergy/f.Tuning.EvasionCapacity,Amber);
             Text(new Rect(width-278,height-36,242,18),"EVASION",Muted,small);
-            float x = 500,available = width-825;
-            if (available < 350) return;
-            Panel(new Rect(x-6,height-104,available+12,89),Cyan,.82f);
-            Text(new Rect(x,height-97,available,24),"MOUSE: "+(encounter.MouseAimMode?"AIM":"FLY")+"   /   M TO SWITCH",Cyan,center);
-            Text(new Rect(x,height-70,available,24),"ARROWS FLY   WADZ AIM   LMB PLASMA   RMB ZOOM",Muted,center);
-            Text(new Rect(x,height-45,available,24),"SHIFT BOOST   Q/E ROLL   B BREAK   ESC PAUSE",Muted,center);
+            DrawFlightControls();
+        }
+        void DrawFlightControls()
+        {
+            // Short canvases need the left column for radar and system health.
+            // The complete control legend remains available in the pause menu.
+            if (height < 750) return;
+            // Keep the lower center clear for the dragon's torso and tail. The
+            // control placard stays in the left instrument column; a narrow
+            // aspect moves it below the central warning/repair banner region.
+            bool compact = width < 1320;
+            if(UsingController)
+            {
+                var padRect=new Rect(32,compact?322:98,compact?270:340,196);Panel(padRect,Cyan,.9f);
+                Text(new Rect(padRect.x+12,padRect.y+7,padRect.width-24,23),"LS FLY / RS AIM / R3 CENTER",Cyan,label);
+                string[] controls={"R2 "+PrimaryLabel+" / L2 ZOOM","L1/R1 ROLL / L2+L1/R1 BANK","CROSS BOOST / CIRCLE TURN",
+                    "SQUARE MISSILE / TRIANGLE BEAM","DPAD UP HELP / DOWN WINGMAN","OPTIONS PAUSE / FULL CONTROLS","DPAD LEFT / RIGHT THROTTLE"};
+                for(int i=0;i<controls.Length;i++)Text(new Rect(padRect.x+12,padRect.y+33+i*22,padRect.width-24,21),controls[i],Muted,small);
+                return;
+            }
+            var r = new Rect(32,compact?322:98,compact?252:340,146);
+            Panel(r,Cyan,.9f);
+            Text(new Rect(r.x+12,r.y+7,r.width-24,23),"MOUSE: "+(encounter.MouseAimMode?"AIM":"FLY")+"  /  M SWITCH",Cyan,label);
+            Text(new Rect(r.x+12,r.y+33,r.width-24,21),"ARROWS FLY  /  WADZ AIM",Muted,small);
+            Text(new Rect(r.x+12,r.y+55,r.width-24,21),"LMB "+PrimaryLabel+"  /  RMB ZOOM",Muted,small);
+            if (compact)
+            {
+                Text(new Rect(r.x+12,r.y+77,r.width-24,21),"SHIFT BOOST  /  Q/E TIMED ROLL",Muted,small);
+                Text(new Rect(r.x+12,r.y+99,r.width-24,21),"RMB+Q/E BANK / HOLD B TURN",Muted,small);
+                Text(new Rect(r.x+12,r.y+121,r.width-24,21),"ESC PAUSE / CONTROLS",Cyan,small);
+            }
+            else
+            {
+                Text(new Rect(r.x+12,r.y+77,r.width-24,21),"SHIFT BOOST / Q/E TIMED ROLL",Muted,small);
+                Text(new Rect(r.x+12,r.y+99,r.width-24,21),"RMB+Q/E BANK / HOLD B TURN",Muted,small);
+                Text(new Rect(r.x+12,r.y+121,r.width-24,21),"ESC PAUSE / CONTROLS",Cyan,small);
+            }
         }
         void DrawRepairProgress()
         {
             // Keep the work area and both maintenance drones visible in the
             // closer chase view. Leave room for the optional victory banner.
-            var t = encounter.Tactics; var r = new Rect(width/2-218,encounter.Won?238:175,436,73); Panel(r,Cyan,.82f);
+            var t = encounter.Tactics; var r = new Rect(width/2-218,encounter.Won?238:175,436,encounter.RepairCode.Active?120:73); Panel(r,Cyan,.82f);
             Text(new Rect(r.x+12,r.y+8,r.width-24,24),"MAINTENANCE DRONES / "+t.RepairSystem.ToString().ToUpperInvariant(),Cyan,center);
             Bar(new Rect(r.x+19,r.y+39,r.width-38,5),t.RepairProgress,Cyan);
             Text(new Rect(r.x+12,r.y+48,r.width-24,22),"MANEUVERING AVAILABLE  ·  BOOST / MISSILES INHIBITED",Muted,small);
+            if(encounter.RepairCode.Active)
+            {
+                string prompt="OPTIONAL "+encounter.RepairCode.Prompt+"  ["+(encounter.RepairCode.Index+1)+"/"+encounter.RepairCode.Length+"]";
+                Text(new Rect(r.x+12,r.y+76,r.width-24,28),prompt,encounter.ReducedMotion||Mathf.Sin(clock*6)>0?Amber:Cyan,center);
+            }
         }
         void DrawRepairSelector()
         {
             var t = encounter.Tactics; var r = new Rect(width/2-310,height/2-125,620,270); Panel(r,Cyan,.98f);
-            Text(new Rect(r.x+20,r.y+13,r.width-40,28),"FIELD REPAIR  /  CHOOSE A SYSTEM",Cyan,title);
+            Text(new Rect(r.x+20,r.y+13,r.width-40,28),UsingController?"HOLD SHARE / CREATE — CHOOSE A SYSTEM":"FIELD REPAIR  /  CHOOSE A SYSTEM",Cyan,title);
             Text(new Rect(r.x+20,r.y+45,r.width-40,24),"1 SALVAGE  ·  "+encounter.Tuning.RepairSeconds.ToString("0")+" SECONDS  ·  "+t.RepairsRemaining+" ACTIVATIONS REMAIN",Amber,small);
             for (int i=0;i<3;i++)
             {
                 float health = t.GetHealth((DragonSystem)i);
                 float gain = Mathf.Min(encounter.Tuning.RepairAmount,encounter.Tuning.MaxSystemHealth-health);
                 float y = r.y+82+i*52;
-                Text(new Rect(r.x+20,y+8,180,24),(i+1)+"  "+((DragonSystem)i).ToString().ToUpperInvariant(),Cyan,label);
+                string key=UsingController?(i==0?"LEFT":i==1?"UP":"RIGHT"):(i+1).ToString();
+                Text(new Rect(r.x+20,y+8,180,24),key+"  "+((DragonSystem)i).ToString().ToUpperInvariant(),Cyan,label);
                 Text(new Rect(r.x+198,y+8,210,24),Mathf.CeilToInt(health)+" → "+Mathf.CeilToInt(health+gain)+"  (+"+Mathf.CeilToInt(gain)+")",Muted,label);
                 bool wasEnabled = GUI.enabled;
                 GUI.enabled = gain>0&&t.Salvage>0&&t.RepairsRemaining>0&&!t.IsRepairing&&!t.IsDestroyed;
@@ -303,26 +378,53 @@ namespace SpaceDragon.Dogfight
         {
             Fill(new Rect(0,0,width,height),new Color(.005f,.015f,.025f,.72f));
             bool hasCredit = encounter.DragonAttribution != null;
-            float panelHeight = hasCredit ? 500 : 372;
+            float helpExtra=UsingController?88:0;
+            float panelHeight = (hasCredit ? 676 : 548)+helpExtra;
             var r = new Rect(width/2-250,height/2-panelHeight/2,500,panelHeight); Panel(r,encounter.Dead?Red:Cyan,.98f);
             string heading = encounter.Dead?"DRAGON DISABLED":"FLIGHT PAUSED";
             Text(new Rect(r.x+20,r.y+24,r.width-40,40),heading,encounter.Dead?Amber:Cyan,overlayTitle);
-            Text(new Rect(r.x+20,r.y+72,r.width-40,26),encounter.Dead?"Recovery simulation / restart to fly again":"Simulation, repair and recharge timers are stopped",Muted,center);
-            if (!encounter.Dead&&GUI.Button(new Rect(r.x+65,r.y+115,370,43),"RESUME FLIGHT",button)) encounter.TogglePause();
+            Text(new Rect(r.x+20,r.y+72,r.width-40,26),UsingController?"DPAD SELECT / CROSS ACTIVATE / CIRCLE BACK":encounter.Dead?"Recovery simulation / restart to fly again":"Simulation, repair and recharge timers are stopped",Muted,center);
+            if (!encounter.Dead&&MenuButton(new Rect(r.x+65,r.y+115,370,43),"RESUME FLIGHT",0)) encounter.TogglePause();
             float y = r.y+169;
-            if (GUI.Button(new Rect(r.x+65,y,370,40),"SOUND: "+(encounter.SoundEnabled?"ON":"OFF — ENABLE"),button)) encounter.SetSoundEnabled(encounter.SoundEnabled?"false":"true");
-            if (GUI.Button(new Rect(r.x+65,y+48,370,40),"REDUCED MOTION: "+(encounter.ReducedMotion?"ON":"OFF"),button)) encounter.SetReducedMotion(encounter.ReducedMotion?"false":"true");
-            if (GUI.Button(new Rect(r.x+65,y+96,370,40),"RESTART ENCOUNTER",button)) encounter.RestartEncounter();
-            Text(new Rect(r.x+30,r.y+325,r.width-60,26),"Local lab. Campaign progress and family saves stay separate.",Muted,small);
+            if (MenuButton(new Rect(r.x+65,y,370,40),"SOUND: "+(encounter.SoundEnabled?"ON":"OFF — ENABLE"),1)) encounter.SetSoundEnabled(encounter.SoundEnabled?"false":"true");
+            if (MenuButton(new Rect(r.x+65,y+48,370,40),"REDUCED MOTION: "+(encounter.ReducedMotion?"ON":"OFF"),2)) encounter.SetReducedMotion(encounter.ReducedMotion?"false":"true");
+            if (MenuButton(new Rect(r.x+65,y+96,370,40),"REPAIR BONUS: "+encounter.RepairMode,3)) encounter.CycleRepairCodeMode();
+            if (MenuButton(new Rect(r.x+65,y+144,370,40),"RESTART ENCOUNTER",4)) encounter.RestartEncounter();
+            // Always keep the complete legend available, including on canvases
+            // where the compact flight instruments cannot show every reminder.
+            Fill(new Rect(r.x+25,r.y+366,r.width-50,1),new Color(.58f,.91f,.94f,.3f));
+            if(UsingController)
+            {
+                string[] controls={"PLAYSTATION / LS FLY / RS AIM / R3 CENTER","R2 "+PrimaryLabel+" / L2 ZOOM",
+                    "L1/R1 ROLL / L2 + L1/R1 BANK","CROSS BOOST / CIRCLE SHARP TURN","SQUARE MISSILE / TRIANGLE FIRE BEAM",
+                    "DPAD UP HELP / DPAD DOWN WINGMAN","DPAD LEFT / RIGHT THROTTLE","HOLD SHARE/CREATE + DPAD LEFT / UP / RIGHT",
+                    "REPAIR: HULL / PROPULSION / WEAPONS"};
+                for(int i=0;i<controls.Length;i++)Text(new Rect(r.x+25,r.y+376+i*22,r.width-50,21),controls[i],i==0?Cyan:Muted,small);
+            }
+            else
+            {
+                Text(new Rect(r.x+25,r.y+376,r.width-50,21),"ARROWS / MOUSE FLY  /  WADZ AIM",Cyan,small);
+                Text(new Rect(r.x+25,r.y+398,r.width-50,21),"M SWITCH MOUSE MODE  /  LMB "+PrimaryLabel+"  /  RMB ZOOM",Muted,small);
+                Text(new Rect(r.x+25,r.y+420,r.width-50,21),"SHIFT BOOST / Q/E ROLL / RMB+Q/E BANK / B TURN",Muted,small);
+                Text(new Rect(r.x+25,r.y+442,r.width-50,21),"ENTER MISSILE  /  SPACE BEAM  /  HOLD TAB REPAIR",Muted,small);
+                Text(new Rect(r.x+25,r.y+464,r.width-50,21),"T WINGMAN  /  F1 HELP  /  ESC PAUSE OR RESUME",Muted,small);
+            }
+            Text(new Rect(r.x+30,r.y+501+helpExtra,r.width-60,26),"Local lab. Campaign progress and family saves stay separate.",Muted,small);
             if (hasCredit)
             {
-                Text(new Rect(r.x+25,r.y+363,r.width-50,22),"Free Dragon Character 3D by Oscar Creativo",Cyan,small);
-                Text(new Rect(r.x+25,r.y+386,r.width-50,22),"OSCAR CREATIVO · CC BY 4.0 · Modified for Space Dragon",Muted,small);
-                if (GUI.Button(new Rect(r.x+25,r.y+427,218,36),"ORIGINAL MODEL / CREDIT",button))
+                Text(new Rect(r.x+25,r.y+539+helpExtra,r.width-50,22),"Free Dragon Character 3D by Oscar Creativo",Cyan,small);
+                Text(new Rect(r.x+25,r.y+562+helpExtra,r.width-50,22),"OSCAR CREATIVO · CC BY 4.0 · Modified for Space Dragon",Muted,small);
+                if (GUI.Button(new Rect(r.x+25,r.y+603+helpExtra,218,36),"ORIGINAL MODEL / CREDIT",button))
                     Application.OpenURL("https://sketchfab.com/3d-models/free-dragon-character-3d-by-oscar-creativo-443971c0f42a49e5bedc0bfe2b544407");
-                if (GUI.Button(new Rect(r.x+257,r.y+427,218,36),"CC BY 4.0 LICENSE",button))
+                if (GUI.Button(new Rect(r.x+257,r.y+603+helpExtra,218,36),"CC BY 4.0 LICENSE",button))
                     Application.OpenURL("https://creativecommons.org/licenses/by/4.0/");
             }
+        }
+        bool MenuButton(Rect r,string text,int index)
+        {
+            bool selected=UsingController&&encounter.ControllerMenuIndex==index;
+            if(selected)Brackets(new Rect(r.x-5,r.y-4,r.width+10,r.height+8),Amber);
+            return GUI.Button(r,selected?"> "+text:text,button);
         }
         static void Fill(Rect r,Color c) { Color old=GUI.color; GUI.color=c; GUI.DrawTexture(r,Texture2D.whiteTexture); GUI.color=old; }
         void Text(Rect r,string value,Color c,GUIStyle style) { Color old=GUI.color; GUI.color=c; GUI.Label(r,value,style); GUI.color=old; }

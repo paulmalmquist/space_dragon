@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { EXPLORATION_SAVE_KEY } from '../src/game/exploration-save.ts';
 
 test('built exploration accepts keyboard movement and saves one nearby pickup without developer APIs', async ({ page }) => {
+  test.setTimeout(180_000);
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   // A valid previous visit just outside pickup range keeps this production smoke short.
@@ -18,10 +19,17 @@ test('built exploration accepts keyboard movement and saves one nearby pickup wi
   expect(await page.evaluate(() => typeof (window as unknown as Record<string, unknown>).__SPACE_DRAGON__)).toBe('undefined');
   await expect(page.locator('#nav-inventory')).toHaveAttribute('data-count', '0');
   await page.locator('#game').focus();
+  // Out of reach, Space is a jump and picks nothing up. Software rendering advances the same
+  // fixed steps in far fewer frames per second, so each wait is for something that happens in
+  // the game, with room for a slow renderer; the walk starts only after the jump has landed.
+  const slow = { timeout: 40_000 };
+  await expect(page.locator('#nav-target')).toHaveAttribute('data-state', 'idle');
   await page.keyboard.press('Space');
+  await expect(page.locator('#nav-target')).not.toHaveAttribute('data-state', 'idle', slow);
+  await expect(page.locator('#nav-target')).toHaveAttribute('data-state', 'idle', slow);
   await expect(page.locator('#nav-inventory')).toHaveAttribute('data-count', '0');
   await page.keyboard.down('d');
-  try { await expect(page.locator('#nav-target')).toContainText('Practice module'); }
+  try { await expect(page.locator('#nav-target')).toContainText('Practice module', slow); }
   finally { await page.keyboard.up('d'); }
   await page.keyboard.press('Enter');
   await expect(page.locator('#nav-inventory')).toHaveAttribute('data-count', '1');

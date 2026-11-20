@@ -18,6 +18,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', required=True)
     parser.add_argument('--collection', required=True)
+    parser.add_argument('--accessory-collection')
     parser.add_argument('--out', required=True)
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
     source = Path(args.source).resolve()
@@ -32,6 +33,15 @@ def main():
         raise RuntimeError('Missing explicitly selected game collection: ' + args.collection)
     scene = bpy.data.scenes.new('Oscar neutral inspection - temporary')
     scene.collection.children.link(collection)
+    if args.accessory_collection:
+        accessory = bpy.data.collections.get(args.accessory_collection)
+        if accessory is None:
+            raise RuntimeError('Missing explicitly selected accessory collection')
+        scene.collection.children.link(accessory)
+        accessory.hide_render = False
+        for obj in accessory.all_objects:
+            obj.hide_render = False
+            obj.hide_set(False)
     bpy.context.window.scene = scene
     collection.hide_render = False
     collection.hide_viewport = False

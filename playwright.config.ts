@@ -3,10 +3,12 @@ import { defineConfig } from '@playwright/test';
 const testPort = Number(process.env.SPACE_DRAGON_TEST_PORT ?? 5175);
 // Opt-in local device verification; CI keeps deterministic software rendering.
 const nativeChrome = process.env.SPACE_DRAGON_NATIVE_CHROME === '1' && !process.env.CI;
+// Opt-in for hosts that preinstall a Chromium build other than this Playwright's pinned revision.
+const chromiumPath = process.env.SPACE_DRAGON_CHROMIUM_PATH;
 
 export default defineConfig({
   testDir: './tests',
-  testMatch: ['first-contact.spec.ts', 'visual-foundation.spec.ts', 'navigation.spec.ts', 'gamepad.spec.ts', 'dogfight.spec.ts', 'word-lock.spec.ts', 'cockpit.spec.ts', 'drive.spec.ts', 'drive-traffic.spec.ts', 'mechanical.spec.ts', 'asteroid-crash.spec.ts'],
+  testMatch: ['first-contact.spec.ts', 'visual-foundation.spec.ts', 'navigation.spec.ts', 'traversal.spec.ts', 'arena.spec.ts', 'gamepad.spec.ts', 'dogfight.spec.ts', 'word-lock.spec.ts', 'cockpit.spec.ts', 'drive.spec.ts', 'drive-traffic.spec.ts', 'mechanical.spec.ts', 'asteroid-crash.spec.ts'],
   fullyParallel: false,
   workers: 1,
   timeout: process.env.CI ? 90_000 : 45_000,
@@ -24,7 +26,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
     // Deterministic software rendering in automation; not a hardware benchmark.
-    launchOptions: nativeChrome ? {} : { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
+    launchOptions: nativeChrome ? {} : { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'], ...(chromiumPath ? { executablePath: chromiumPath } : {}) },
   },
   webServer: {
     command: `npm run dev -- --port ${testPort}`,

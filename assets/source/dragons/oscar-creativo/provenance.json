@@ -1,7 +1,7 @@
 {
   "assetId": "dragon-oscar-baseline",
   "ideaId": "SD-086",
-  "status": "IMPLEMENTED and VERIFIED for bounded Lenovo/Chrome baseline integration; six matched neutral views REVIEWED. Owner quality/release approval remains open. Hosted CI and merge delivery are recorded by the resulting PR.",
+  "status": "IMPLEMENTED and VERIFIED for bounded Lenovo/Chrome baseline integration; six matched neutral screenshots compared by the root AI agent, not human review. Owner quality/release approval remains open. Hosted CI and merge delivery are recorded by the resulting PR.",
   "ownerSelectionDateLocal": "2026-10-31",
   "ownerSelectionTimezone": "America/New_York",
   "recordDateUtc": "2026-11-01",
@@ -248,7 +248,7 @@
     "exportReceiptSha256": "65d315b98afbb9aefde530f71205e2d36d335769c2e4cf1722392a73114ddf96",
     "khronosValidation": "Zero errors; parented-skin warnings and empty-node/unused-tangent notices recorded",
     "intake": "Additive preparation and --verify PASS; v005 chains v004, NOTICE and editor-only sidecars",
-    "unityStatus": "Setup/pose, 86 EditMode tests, BC7 Web build and actual Chrome 11/11 cases on both paths PASS; six matched neutral views REVIEWED, final owner quality/release approval open."
+    "unityStatus": "Setup/pose, 86 EditMode tests, BC7 Web build and actual Chrome 11/11 cases on both paths PASS; six matched screenshots compared by the root AI agent, human review NOT REVIEWED, final owner quality/release approval open."
   },
   "sourceReview": {
     "report": "artifacts/blender/oscar-dragon-v001/report.json",
@@ -335,7 +335,7 @@
     "fps": null
   },
   "textureMemoryRevision": {
-    "status": "Editor setup, 86 tests, BC7 Web build and 11/11 Chrome cases on each WebGPU/WebGL2 path PASS; six matched neutral views REVIEWED.",
+    "status": "Editor setup, 86 tests, BC7 Web build and 11/11 Chrome cases on each WebGPU/WebGL2 path PASS; six matched screenshots compared by the root AI agent; human review NOT REVIEWED.",
     "method": "BC7 generated derivatives preserving candidate image dimensions, mips, color space, samplers and source data",
     "setupReceiptSha256": "920a4080a767f028a6771835117a2d54c010b0effdf56a6ed8bb735d6e22e074",
     "uniqueTextures": 89,
@@ -442,7 +442,7 @@
     "memoryCaveat": "Unity counters, not driver VRAM or total browser memory. BC7 payload is 79,344,624 bytes; WebGPU counter undercounts."
   },
   "neutralVisualReview": {
-    "status": "REVIEWED, not owner quality/release approval",
+    "status": "Root AI-agent screenshot observation; human review NOT REVIEWED, owner quality/release approval not granted",
     "captureReport": "artifacts/unity/oscar-inspection/runs/2026-11-01T04-18-48-885Z/report.json",
     "captureReportSha256": "86abe170d92028c5b19d6cd157a069fefe516dbcb9750e97d5b48e56c36d13c8",
     "supplementaryReview": "artifacts/unity/oscar-inspection/visual-review.json",
@@ -463,5 +463,279 @@
       "No human sound/comfort, endurance, physical-controller/mobile or owner final-quality/release approval.",
       "Hosted CI and merge delivery are recorded by the resulting PR."
     ]
+  },
+  "mechanicalAdditionV004": {
+    "ideaId": "SD-086",
+    "ownerDirectionDateLocal": "2026-11-01",
+    "timezone": "America/New_York",
+    "status": "IMPLEMENTED / VERIFIED for bounded Lenovo/Chrome integration: source/intake/setup/build, final 86 EditMode tests, both 11-case Chrome suites and matched neutral/HUD captures. AI observations only; human art/sound/comfort and release approval remain NOT REVIEWED / NOT APPROVED.",
+    "decision": "docs/decisions/2026-11-01-oscar-mechanical-and-near-orbit-polish.md",
+    "receipt": "docs/reports/2026-11-01-oscar-presentation-polish.md",
+    "modificationNotice": "assets/source/dragons/oscar-creativo/mechanical-v004-NOTICE.txt",
+    "source": {
+      "path": "C:\\Projects\\space_dragon\\assets\\source\\local\\spacecraft\\oscar-dragon\\Oscar Dragon-v009-mechanical-light.blend",
+      "bytes": 527967685,
+      "sha256": "91f54072de3e6055d614f6c783c9a82dac9b0ab9d36d33bfcdae335908c8ce0e"
+    },
+    "preservedOriginal": {
+      "path": "C:\\Projects\\space_dragon\\assets\\source\\local\\spacecraft\\oscar-dragon\\Oscar Dragon-v003-game-fullweights.blend",
+      "bytes": 526071862,
+      "sha256": "72d4f006c2ce891f47b52553690cb8ce3cb246f3be609c3b35255280f245aabd"
+    },
+    "candidate": {
+      "path": "C:\\Projects\\space_dragon_oscar_dragon\\assets\\game\\local\\spacecraft\\oscar-dragon\\mechanical-v004\\dragon-oscar-mechanical-v004.glb",
+      "bytes": 455820,
+      "sha256": "b0600d36229760bc7a044c48a658c68a34efa701f2264b684d22cb08a88199e0"
+    },
+    "triangles": 11728,
+    "vertices": 7433,
+    "positiveInfluences": 13678,
+    "maximumInfluences": 4,
+    "sourceSkinnedMeshes": 1,
+    "materialCount": 4,
+    "changes": [
+      "Separate rear-saddle gunmetal/crimson armor, amber vents, wing/tail collars and cheek guards.",
+      "Named editable components and separate joined game collection; original anatomy, wing membranes, textures, clips and sockets unchanged.",
+      "New fitted shells transfer and normalize up to four weights; rigid collars retain one. Original body retains all positive influences up to twelve.",
+      "Separate accessory GLB with original 165-bone rest hierarchy/inverse binds; no duplicate clips or textures."
+    ],
+    "khronos": {
+      "status": "PASS",
+      "validatorVersion": "2.0.0-dev.3.10",
+      "numErrors": 0,
+      "numWarnings": 1,
+      "numInfos": 0
+    },
+    "sourceImages": {
+      "report": "artifacts/blender/oscar-mechanical-v004/report.json",
+      "reportSha256": "2b2560bcd49d9d0dd057dec7302996cff8fc92714d55330da18a5d24fb852d37",
+      "renderer": "BLENDER_EEVEE",
+      "viewTransform": "AgX",
+      "sourceUnchanged": true,
+      "observer": "Root AI agent inspected all three matching rest renders and live close-ups; not human review.",
+      "views": [
+        {
+          "name": "neutral",
+          "cameraBlender": [
+            10,
+            -12,
+            6
+          ],
+          "file": "neutral.png",
+          "sha256": "3da6c356f71b222a05cf1b241191959df3d0138ed5a6e7dde6fec34a55ec655e"
+        },
+        {
+          "name": "front",
+          "cameraBlender": [
+            0,
+            -16,
+            2
+          ],
+          "file": "front.png",
+          "sha256": "ff0cfd71dcc5d99f6ed3b9279c21ac0aa5b295df517bf38257a31406eb3e7e14"
+        },
+        {
+          "name": "side",
+          "cameraBlender": [
+            16,
+            0,
+            3
+          ],
+          "file": "side.png",
+          "sha256": "1421d7a1b2e4a8680e30fa75c4dacec99cd95393527b00e6557b9774c9ae4ced"
+        }
+      ]
+    },
+    "limitations": [
+      "Earlier v001/v002/v003 armor fits were rejected and retained; v004 removes the problematic forward/neck/brow shells.",
+      "Structural validation does not establish animated fit, Unity appearance, performance or owner art approval.",
+      "Unity ACES/Blender AgX material and lighting differences remain, including darker/glossier membranes and broader red/rust chest.",
+      "Partly occluded armor, underside darkness and beam bloom limit full clearance claims.",
+      "Short frame samples and Unity allocation counters do not establish sustained performance or total GPU memory.",
+      "Planet is a visual layered backdrop, not traversable terrain.",
+      "Human art, sound, comfort, family usability and release review remain open."
+    ],
+    "unitySetup": {
+      "result": "PASS",
+      "log": "artifacts/unity/dogfight-web-20261101-190436-530-44152.log",
+      "marker": "OSCAR_ACCESSORIES_REBOUND",
+      "unityVersion": "6000.6.7f1",
+      "retainedBones": 165,
+      "renderers": 1,
+      "materialCount": 4,
+      "vertices": 7433,
+      "positiveInfluences": 13678,
+      "maximumInfluences": 4,
+      "triangles": 11728,
+      "maximumRestDifference": 4.470348358154297e-08,
+      "maximumBindDifference": 0.0,
+      "maximumRebindVertexDifferenceMetres": 4.5099096723788534e-07,
+      "scope": "One-to-four-weight accessory rest/hierarchy/bind validation and CPU BakeMesh rebind parity. Original body data is untouched. Authored-clip collision/appearance and player performance require separate review.",
+      "playerVerification": "v003 WebGPU checkpoint PASS; final v004 pending",
+      "snapshot": "artifacts/oscar-polish/build-oscar-orbit-v003-20261101T190911Z/dogfight-setup-receipt.json",
+      "snapshotSha256": "8bf705c940a45a60956d439d1ff165139a1883342caa1107f5c301e495577568",
+      "completedLogSha256": "85b5429e11bb0b2c873d2c67b8a1e793e7ed2ac90a784d5e50ffc2be53316549"
+    },
+    "webBuild": {
+      "result": "Succeeded",
+      "createdUtc": "2026-11-01T19:09:11.0468345Z",
+      "presentationVersion": "oscar-orbit-v003",
+      "bytes": 176363717,
+      "durationSeconds": 129.1109206,
+      "snapshot": "artifacts/oscar-polish/build-oscar-orbit-v003-20261101T190911Z/build-receipt.json",
+      "snapshotSha256": "8b1a38c53c56586d67436f16afc19ae141aad4eb2d8e4a4777d2a575103ae064",
+      "identityManifest": "artifacts/oscar-polish/build-oscar-orbit-v003-20261101T190911Z/identity.json",
+      "modificationNotice": {
+        "playerFile": "dragon-mechanical-NOTICE.txt",
+        "bytes": 1409,
+        "sha256": "42c781d3005b9f0ae6d1d3d1d99f4109d92b4bfcc5d603c8955dad3dab6c970e",
+        "matchesTrackedSource": true
+      },
+      "browserVerification": "v003 WebGPU checkpoint PASS; final v004 pending"
+    },
+    "webGpuCheckpointV003": {
+      "report": "artifacts/unity/oscar-polish-final/runs/2026-11-01T19-09-51-036Z/report.json",
+      "reportSha256": "4033283ebe96a6d368e00d1467ff8e2eba9fcbb9c8b93d4663005391ce28277c",
+      "passed": 11,
+      "failed": 0,
+      "meanFrameMs": 20.12026023864746,
+      "p95FrameMs": 27.9998779296875,
+      "approximateFps": 49.701146413562626,
+      "drawCallsLastFrame": 398,
+      "trianglesLastFrame": 624646,
+      "selectedModelTriangles": 229193,
+      "skinnedMeshes": 27,
+      "positiveInfluences": 459956,
+      "maxInfluences": 12,
+      "modelBc7TextureCount": 89,
+      "isolatedStorageUnchanged": true,
+      "scope": "Intermediate v003 checkpoint; later v004 shader correction needs new verification. Root inspected natural-flight and flight-controls; not human review."
+    },
+    "finalWebBuildV004": {
+      "result": "Succeeded",
+      "createdUtc": "2026-11-01T19:15:11.6130342Z",
+      "presentationVersion": "oscar-orbit-v004",
+      "bytes": 176364429,
+      "directoryBytes": 176367365,
+      "durationSeconds": 29.1673089,
+      "buildSnapshot": "artifacts/oscar-polish/build-oscar-orbit-v004-20261101T191511Z/build-receipt.json",
+      "buildSnapshotSha256": "9abb7161bcd9383881fa1401acc8e3e40ffcab76d21f2a52e21f9c2ad6376f5c",
+      "setupSnapshot": "artifacts/oscar-polish/build-oscar-orbit-v004-20261101T191511Z/dogfight-setup-receipt.json",
+      "setupSnapshotSha256": "9a5e2ae3096a0ec024cd5581779846b434e74ea1115189b585cc079a375ef811",
+      "logSnapshot": "artifacts/oscar-polish/build-oscar-orbit-v004-20261101T191511Z/dogfight-web-20261101-191308-124-18184.log",
+      "logSha256": "7e7dd54d1e038848be18b55520e88e453c501b0b6f6e157e7943c42eb428f56e",
+      "identityManifest": "artifacts/oscar-polish/build-oscar-orbit-v004-20261101T191511Z/identity.json",
+      "browserVerification": "WebGPU 11/11 PASS; WebGL2 11/11 PASS. Matching neutral and HUD images observed by AI agents; human review open."
+    },
+    "finalWebGpuV004": {
+      "report": "artifacts/unity/oscar-polish-v004-webgpu/runs/2026-11-01T19-15-48-289Z/report.json",
+      "reportSha256": "a95100c513c250e349eed3efc48dacb3d8007b746618b47649a9a70d81c6658e",
+      "passed": 11,
+      "failed": 0,
+      "meanFrameMs": 17.0236759185791,
+      "p95FrameMs": 20.999908447265625,
+      "observedFrames": 589,
+      "approximateFps": 58.741719754464526,
+      "drawCallsLastFrame": 398,
+      "trianglesLastFrame": 624646,
+      "selectedModelTriangles": 229193,
+      "consoleErrors": 0,
+      "pageErrors": 0,
+      "requestFailures": 0,
+      "externalRequests": 0,
+      "isolatedStorageUnchanged": true,
+      "visualObservation": "Root AI agent inspected natural-flight: softer cloud interior variation and stronger ground folds; still layered scenery. Not human review."
+    },
+    "finalWebGl2V004": {
+      "report": "artifacts/unity/oscar-polish-v004-webgl2/runs/2026-11-01T19-18-19-417Z/report.json",
+      "reportSha256": "7f5f5e9ec72034bc55021aa26f0b9f2065e13ade736028490f2ddef496c5aea8",
+      "passed": 11,
+      "failed": 0,
+      "meanFrameMs": 20.595090866088867,
+      "p95FrameMs": 29.000282287597656,
+      "observedFrames": 489,
+      "approximateFps": 48.55526040171854,
+      "drawCallsLastFrame": 399,
+      "trianglesLastFrame": 625478,
+      "selectedModelTriangles": 229193,
+      "modelTextureAllocatedBytes": 79397757,
+      "sceneTextureAllocatedMiB": 142.14059448242188,
+      "memoryCaveat": "Unity allocation counters, not total driver VRAM or browser memory.",
+      "consoleErrors": 0,
+      "pageErrors": 0,
+      "requestFailures": 0,
+      "externalRequests": 0,
+      "isolatedStorageUnchanged": true,
+      "mouthOriginErrorsMetres": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "finalNeutralV004": {
+      "report": "artifacts/unity/oscar-polish-v004-inspection/runs/2026-11-01T19-20-43-230Z/report.json",
+      "reportSha256": "5fdd8272e331ed43aedd8a80cd0bc8c7b68ef4abe006e11479adf58e6303e2d9",
+      "captureResult": "CAPTURED_REQUIRES_VISUAL_REVIEW",
+      "observer": "Root AI agent: three-quarter pair. Independent AI review agent: all six matching source/player images.",
+      "preserved": [
+        "Silhouette, rest pose, framing and visible armor placement align.",
+        "No obvious detached pieces in sampled views."
+      ],
+      "differences": [
+        "Unity membranes/underside darker and glossier.",
+        "Unity chest broader red/rust; source orange crack detail.",
+        "Sharper Unity metal/ridge highlights and deeper shadows.",
+        "Background pixel RGB: Blender 101/106/111; Unity 75/79/86. ACES/AgX parity not claimed."
+      ],
+      "limitations": [
+        "Rear plates partly occluded in neutral views.",
+        "AI observation is not human/owner review or complete motion clearance."
+      ],
+      "consoleErrors": 0,
+      "pageErrors": 0,
+      "requestFailures": 0,
+      "externalRequests": 0,
+      "humanReview": "NOT REVIEWED"
+    },
+    "finalEditMode": {
+      "result": "PASS",
+      "xml": "artifacts/unity/dogfight-editmode-20261101-192247-137-34832.xml",
+      "sha256": "21d06ee872cb901940a1ee44afb7cfbcee52c2958b72b1803c9446eee7497bd2",
+      "total": 86,
+      "passed": 86,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 0.8537189,
+      "settingsRestored": "Root verified empty ProjectSettings diff and no remaining Unity processes."
+    },
+    "finalHudV004": {
+      "report": "artifacts/oscar-polish/hud-review/runs/2026-11-01T19-21-38-524Z/report.json",
+      "reportSha256": "b5a74e63e80e1bd78071a7f9ad2c0107b061de42ab0889a14e25ebb08e6ed76b",
+      "result": "PASS",
+      "observer": "Root AI agent inspected all six gameplay/pause images; not human review.",
+      "viewports": [
+        [
+          1366,
+          768
+        ],
+        [
+          960,
+          600
+        ],
+        [
+          600,
+          300
+        ]
+      ],
+      "observations": [
+        "1366x768/960x600: clear central dragon, no placard/radar overlap; full pause controls/credits fit.",
+        "600x300: compact placard suppressed, controls inside; pause backing beyond top/bottom and text tiny. Diagnostic only, not touch/usability approval."
+      ],
+      "consoleErrors": 0,
+      "pageErrors": 0,
+      "requestFailures": 0,
+      "externalRequests": 0
+    }
   }
 }

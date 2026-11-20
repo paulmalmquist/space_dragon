@@ -1,49 +1,113 @@
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
 import { Vector3 } from '@babylonjs/core/Maths/math';
 import type { Scene } from '@babylonjs/core/scene';
-import { clipCameraPosition, WORLD_COLLIDERS } from './navigation';
-import type { PlayerPosition } from './navigation';
+import { HOME_BLOCK } from './traversal/home-block';
+import { HERO_EVENT } from './traversal/hero';
+import type { HeroState } from './traversal/hero';
+import { clipBoom } from './traversal/world';
+import type { TraversalWorld } from './traversal/world';
 
-/** A damped boom camera. Mouse and keyboard rotate the same camera-relative movement frame. */
-export function createThirdPersonCamera(scene: Scene) {
-  // Collision matches the visible dollhouse walls. The walking boundary is still full-height.
-  const cameraColliders = WORLD_COLLIDERS.map(box => box.id.startsWith('house-') ? { ...box, maxY: 0.65 } : box);
-  for (const z of [-1, 1]) cameraColliders.push({ id: `door-post.${z}`, minX: -0.61, maxX: -0.39, minZ: z - 0.075, maxZ: z + 0.075, minY: 0, maxY: 2.6 });
-  cameraColliders.push({ id: 'door-header', minX: -0.625, maxX: -0.375, minZ: -1.075, maxZ: 1.075, minY: 2.56, maxY: 2.74 });
+export interface CameraSubject {
+  hero: HeroState;
+  /** Interpolated feet position. */
+  x: number; y: number; z: number;
+  events: number;
+  /** The player's house is drawn cut open; the boom may rise over its low walls. */
+  cutaway: boolean;
+  /** Extra metres of boom a scene asks for while something big needs to stay in frame. */
+  pull?: number;
+}
+
+const BASE_FOV = 1.03;
+/** Framing for a lab that needs to see more of the floor around the hero. */
+export interface CameraFraming { distance?: number; pitch?: number; }
+/**
+ * Above an ordinary run (4.6 m/s) and an ordinary jump (5.2 m/s): only sprints, hops, bounces
+ * and swings turn the camera. Otherwise a jump while strafing would rotate the view, and with
+ * it the meaning of "right", curving the hero.
+ */
+const FOLLOW_SPEED = 5.6;
+
+/**
+ * A damped chase camera. Mouse and keyboard turn it; while the hero runs on suit power,
+ * flies or swings it eases behind the direction of travel, widens with speed and never
+ * passes through the level. It observes the hero and owns no gameplay state.
+ */
+export function createThirdPersonCamera(scene: Scene, world: TraversalWorld = HOME_BLOCK, framing: CameraFraming = {}) {
+  const BASE_DISTANCE = framing.distance ?? 3.8;
+  const BASE_PITCH = framing.pitch ?? 0.39;
   const camera = new FreeCamera('navigation.follow-camera', new Vector3(0, 2.4, -4), scene);
   camera.inputs.clear();
-  camera.minZ = 0.045;
-  camera.fov = 1.03;
+  camera.minZ = 0.08;
+  camera.maxZ = 900;
+  camera.fov = BASE_FOV;
   let yaw = 0;
-  let pitch = 0.39;
-  const focus = new Vector3();
-  let initialized = false;
+  let pitch = BASE_PITCH;
+  let distance = BASE_DISTANCE;
+  let boom = BASE_DISTANCE;
+  let manual = 0;
+  let dip = 0;
   let clipped = false;
+  let initialized = false;
+  const focus = new Vector3();
+  const wrap = (angle: number) => Math.atan2(Math.sin(angle), Math.cos(angle));
   return {
     camera,
     get yaw() { return yaw; },
     rotate(deltaYaw: number, deltaPitch = 0) {
-      yaw = Math.atan2(Math.sin(yaw + deltaYaw), Math.cos(yaw + deltaYaw));
-      pitch = Math.max(0.18, Math.min(0.95, pitch + deltaPitch));
+      yaw = wrap(yaw + deltaYaw);
+      pitch = Math.max(0.12, Math.min(1.05, pitch + deltaPitch));
+      manual = 1.6;
     },
-    recenter(player: PlayerPosition) { yaw = player.yaw; pitch = 0.39; initialized = false; },
-    update(player: PlayerPosition, delta: number, snap = false) {
-      const target = new Vector3(player.x, 1.25, player.z);
-      const easing = 1 - Math.exp(-Math.max(0, delta) * 12);
+    recenter(player: { yaw: number }) { yaw = player.yaw; pitch = BASE_PITCH; manual = 0; initialized = false; },
+    update(subject: CameraSubject, delta: number, reducedMotion: boolean, snap = false) {
+      const { hero } = subject;
+      const dt = Math.max(0, delta);
+      const flat = Math.hypot(hero.vx, hero.vz);
+      const speed = Math.hypot(flat, hero.vy);
+      const fast = Math.max(0, Math.min(1, (flat - 5) / 9));
+      manual = Math.max(0, manual - dt);
+      // Ease behind the direction of travel only for deliberate fast movement, so a walk
+      // with plain keys keeps a steady frame and camera-relative keys stay predictable.
+      const driven = hero.mode !== 'ground' || hero.powerHeld;
+      if (driven && manual <= 0 && flat > FOLLOW_SPEED && !snap) {
+        const follow = (1.1 + fast * 1.5) * (hero.mode === 'swing' ? 1.25 : 1);
+        yaw = wrap(yaw + wrap(Math.atan2(hero.vx, hero.vz) - yaw) * (1 - Math.exp(-follow * dt)));
+      }
+      if (subject.events & HERO_EVENT.land) dip = Math.min(0.5, hero.impact * 0.02);
+      dip = Math.max(0, dip - dt * 1.9);
+      const lead = reducedMotion ? 0 : Math.min(1.5, flat * 0.1);
+      const target = new Vector3(
+        subject.x + (flat > 0.01 ? hero.vx / flat * lead : 0),
+        subject.y + 1.4 - (reducedMotion ? 0 : dip),
+        subject.z + (flat > 0.01 ? hero.vz / flat * lead : 0));
       if (!initialized || snap) focus.copyFrom(target);
-      else Vector3.LerpToRef(focus, target, easing, focus);
-      const distance = 3.8;
-      const horizontal = Math.cos(pitch) * distance;
-      const desired = new Vector3(focus.x - Math.sin(yaw) * horizontal, focus.y + Math.sin(pitch) * distance, focus.z - Math.cos(yaw) * horizontal);
-      const safe = clipCameraPosition(focus, desired, cameraColliders);
-      clipped = Vector3.DistanceSquared(desired, new Vector3(safe.x, safe.y, safe.z)) > 0.001;
-      // Clip each frame after smoothing so interpolation cannot carry the camera through a wall.
-      const candidate = initialized && !snap ? Vector3.Lerp(camera.position, new Vector3(safe.x, safe.y, safe.z), easing) : new Vector3(safe.x, safe.y, safe.z);
-      const final = clipCameraPosition(focus, candidate, cameraColliders);
-      camera.position.set(final.x, final.y, final.z);
+      else {
+        const side = 1 - Math.exp(-12 * dt);
+        const rise = 1 - Math.exp(-(hero.mode === 'ground' ? 14 : 8) * dt);
+        focus.x += (target.x - focus.x) * side;
+        focus.z += (target.z - focus.z) * side;
+        focus.y += (target.y - focus.y) * rise;
+      }
+      const wantDistance = BASE_DISTANCE + fast * 1.6 + (hero.mode === 'swing' ? 0.9 : 0) + Math.max(0, subject.pull ?? 0);
+      distance = !initialized || snap ? wantDistance : distance + (wantDistance - distance) * (1 - Math.exp(-3 * dt));
+      // Look slightly up the arc while rising and down while falling fast.
+      const tilt = reducedMotion ? 0 : Math.max(-0.14, Math.min(0.2, -hero.vy * 0.008));
+      const angle = Math.max(0.1, Math.min(1.1, pitch + tilt));
+      const horizontal = Math.cos(angle) * distance;
+      const desired = { x: focus.x - Math.sin(yaw) * horizontal, y: focus.y + Math.sin(angle) * distance, z: focus.z - Math.cos(yaw) * horizontal };
+      const clear = clipBoom(world, focus, desired, subject.cutaway);
+      clipped = clear < 0.999;
+      const allowed = Math.max(0.35, distance * clear);
+      // Pull in at once, ease back out, so the camera never rests inside a wall.
+      boom = !initialized || snap || allowed < boom ? allowed : boom + (allowed - boom) * (1 - Math.exp(-5 * dt));
+      const scale = boom / distance;
+      camera.position.set(focus.x + (desired.x - focus.x) * scale, focus.y + (desired.y - focus.y) * scale, focus.z + (desired.z - focus.z) * scale);
       camera.setTarget(focus);
+      const wantFov = reducedMotion ? BASE_FOV : BASE_FOV + Math.min(0.24, Math.max(0, speed - 5.5) * 0.022);
+      camera.fov = !initialized || snap ? wantFov : camera.fov + (wantFov - camera.fov) * (1 - Math.exp(-4 * dt));
       initialized = true;
     },
-    snapshot: () => ({ yaw, pitch, clipped, position: { x: camera.position.x, y: camera.position.y, z: camera.position.z }, focus: { x: focus.x, y: focus.y, z: focus.z } }),
+    snapshot: () => ({ yaw, pitch, clipped, distance: boom, fov: camera.fov, position: { x: camera.position.x, y: camera.position.y, z: camera.position.z }, focus: { x: focus.x, y: focus.y, z: focus.z } }),
   };
 }
