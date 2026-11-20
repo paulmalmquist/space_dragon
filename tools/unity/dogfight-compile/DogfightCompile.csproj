@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Compiles the Unity Dogfight runtime and EditMode test sources outside the Editor to catch
+    C# errors early. UnityEngine comes from the public 2021.3 reference modules and
+    UnityEditor from the public 2021.1 SDK package; the Input System is a small hand-written
+    stub of the members used (Stubs/).
+
+    It proves the code compiles against those shapes. It runs nothing. It does not prove a
+    Unity 6 import, a scene setup, a build or anything drawn or heard: those need the pinned
+    Editor. The state rules are run separately by ../dogfight-statetest.
+
+    Left out, because the public reference packages lack what they use:
+    - DogfightAssetInspection.cs, the development-only inspection scene
+      (RenderSettings.customReflectionTexture, URP volume internals).
+    - OscarFullWeightMeshTests.cs and OscarCompressedTextureTests.cs (the Dogfight Editor
+      assembly, which needs glTFast and the Unity 6 build API).
+    - ControllerInputTests.cs (the Input System's low-level test devices).
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);CS0649;CS0169;CS0414;MSB3277;MSB3243</NoWarn>
+    <DefineConstants>$(DefineConstants);UNITY_EDITOR;SPACE_DRAGON_REFERENCE_2021</DefineConstants>
+    <DogfightRuntime>$(MSBuildThisFileDirectory)../../../unity/SpaceDragon/Assets/SpaceDragon/Runtime/Dogfight</DogfightRuntime>
+    <DogfightTests>$(MSBuildThisFileDirectory)../../../unity/SpaceDragon/Assets/SpaceDragon/Tests/EditMode/Dogfight</DogfightTests>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageDownload Include="UnityEngine.Modules" Version="[2021.3.33]" />
+    <PackageDownload Include="Unity3D.SDK" Version="[2021.1.14.1]" />
+    <Reference Include="$(NuGetPackageRoot)unityengine.modules/2021.3.33/lib/net45/*.dll" Private="false" />
+    <Reference Include="$(NuGetPackageRoot)unity3d.sdk/2021.1.14.1/lib/UnityEditor.dll" Private="false" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(DogfightRuntime)/*.cs" Link="Runtime/%(Filename)%(Extension)" />
+    <Compile Remove="$(DogfightRuntime)/DogfightAssetInspection.cs" />
+    <Compile Include="$(DogfightTests)/*.cs" Link="Tests/%(Filename)%(Extension)" />
+    <Compile Remove="$(DogfightTests)/OscarFullWeightMeshTests.cs;$(DogfightTests)/OscarCompressedTextureTests.cs;$(DogfightTests)/ControllerInputTests.cs" />
+    <Compile Include="Stubs/*.cs" />
+  </ItemGroup>
+</Project>

@@ -42,7 +42,7 @@ namespace SpaceDragon.Dogfight
             if (targets != null) foreach (var target in targets)
             {
                 if (target.Index < 0 || !Finite(target.Position) || !FlightState.Finite(target.Radius) || target.Radius <= 0) continue;
-                if (DogfightEncounter.SegmentSphere(origin, end, target.Position, target.Radius, out float t) && t < nearest)
+                if (CombatGeometry.SegmentSphere(origin, end, target.Position, target.Radius, out float t) && t < nearest)
                 { nearest = t; hit = target.Index; }
             }
             return new WingLaserHit(hit, origin + direction * (nearest * Range), hit < 0 && limit < Range);

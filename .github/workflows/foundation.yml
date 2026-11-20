@@ -24,6 +24,35 @@ jobs:
       - name: Verify approved reference inventory
         run: python3 tools/verify_family_references.py
 
+  unity-csharp:
+    runs-on: ubuntu-24.04
+    # Runs Unity C# outside the Editor with the runner's own .NET SDK. It proves that the
+    # state rules hold and that the sources compile against public reference assemblies.
+    # It does not run Unity: no import, scene, build, picture or sound is checked here.
+    timeout-minutes: 15
+    env:
+      DOTNET_NOLOGO: '1'
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      # The projects target .NET 8. Let them run on a newer runtime if the runner has no 8.
+      DOTNET_ROLL_FORWARD: Major
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Report the .NET SDK
+        run: dotnet --version
+      - name: Run the Dogfight state rules outside Unity
+        run: dotnet test tools/unity/dogfight-statetest/DogfightStateTests.csproj --nologo
+      - name: Compile the Dogfight runtime and tests against reference assemblies
+        run: dotnet build tools/unity/dogfight-compile/DogfightCompile.csproj --nologo
+      - name: Run the traversal and arena rules outside Unity
+        run: dotnet test tools/unity/traversal-parity/editmode/TraversalEditModeTests.csproj --nologo
+      - name: Check the hero rules against the recorded TypeScript runs
+        run: dotnet run --project tools/unity/traversal-parity/harness/TraversalParity.csproj --configuration Release
+      - name: Compile the playground and arena sources against reference assemblies
+        run: dotnet build tools/unity/playground-compile/PlaygroundCompile.csproj --nologo
+
   game:
     runs-on: ubuntu-24.04
     # Independent runners keep the rendered driving route from delaying every

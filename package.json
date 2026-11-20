@@ -45,7 +45,9 @@
     "unity:dogfight:test": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/unity/run-dogfight.ps1 -Action test",
     "unity:dogfight:build": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/unity/run-dogfight.ps1 -Action web",
     "unity:dogfight": "node tools/unity/serve-dogfight.mjs",
-    "unity:dogfight:verify": "node tools/unity/verify-dogfight.mjs"
+    "unity:dogfight:verify": "node tools/unity/verify-dogfight.mjs",
+    "unity:dogfight:statetest": "dotnet test tools/unity/dogfight-statetest/DogfightStateTests.csproj --nologo",
+    "unity:dogfight:compile": "dotnet build tools/unity/dogfight-compile/DogfightCompile.csproj --nologo"
   },
   "dependencies": {
     "@babylonjs/core": "9.33.0",

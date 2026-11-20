@@ -564,11 +564,7 @@ namespace SpaceDragon.Dogfight
         static float ObstacleFraction(Vector3 from,Vector3 to,float radius,out Vector3 point)
         {Vector3 delta=to-from;point=to;if(delta.sqrMagnitude>.000001f&&Physics.SphereCast(from,radius,delta.normalized,out RaycastHit hit,delta.magnitude,EnvironmentMask,QueryTriggerInteraction.Ignore)){point=hit.point;return hit.distance/delta.magnitude;}return 2;}
         public static bool SegmentSphere(Vector3 from,Vector3 to,Vector3 center,float radius,out float fraction)
-        {
-            Vector3 d=to-from,m=from-center;float c=Vector3.Dot(m,m)-radius*radius;fraction=0;if(c<=0)return true;
-            float a=Vector3.Dot(d,d);if(a<1e-10f)return false;float b=Vector3.Dot(m,d),disc=b*b-a*c;if(disc<0)return false;
-            float t=(-b-Mathf.Sqrt(disc))/a;if(t<0||t>1)return false;fraction=t;return true;
-        }
+            => CombatGeometry.SegmentSphere(from,to,center,radius,out fraction);
         void ClearProjectiles(){foreach(var b in bolts)Destroy(b.Visual.gameObject);bolts.Clear();foreach(var m in missiles)Destroy(m.Visual.gameObject);missiles.Clear();IncomingThreatWorld=null;}
         void Message(string text){toast=text;toastTime=3.5f;}
         public void TogglePause()=>SetPaused(!Paused);
