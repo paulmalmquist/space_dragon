@@ -595,6 +595,74 @@
         "geometryBaselineSha256": "4d1a735cd2c20daa1941626f4522f41ebfc768b014020923e1db6495eb1684a5",
         "animationSource": "Blender5.2 glTF action export; seven quaternion-only channels per clip"
       }
+    },
+    {
+      "id": "playground-hero",
+      "version": "v001",
+      "status": "runtime candidate; generic licensed stand-in, owner visual review pending",
+      "runtimePath": "assets/playground/hero/playground-kid.gltf",
+      "provenance": "MIT Microsoft Rocketbox child avatar and clips; processing recorded in PROVENANCE.json. Not a family likeness.",
+      "license": "MIT",
+      "triangles": 6660,
+      "joints": 80,
+      "animationClips": [
+        "idle",
+        "walk",
+        "run",
+        "sprint"
+      ],
+      "files": [
+        {
+          "path": "assets/playground/hero/LICENSE-Microsoft-Rocketbox.txt",
+          "bytes": 1066,
+          "sha256": "17474e386e0b9e1a700cc3d06b2b0882a2c376d9c6b49c7f8274409b8f8d2352"
+        },
+        {
+          "path": "assets/playground/hero/PROVENANCE.json",
+          "bytes": 18011,
+          "sha256": "710183ac0e66d4339aec2b6fbf121b6e7a6af59e0e717cc883013000fffce1a4"
+        },
+        {
+          "path": "assets/playground/hero/playground-kid-body-color.png",
+          "bytes": 1230329,
+          "sha256": "5e1ef5b376f2363fe1d916b3a9619f7a02919eed7eef7b4e5af04c39b8df6bcd"
+        },
+        {
+          "path": "assets/playground/hero/playground-kid-body-normal.png",
+          "bytes": 1117810,
+          "sha256": "9d2ec0e1dae0fe104855e1c6f664c7592be8ddef1a51d079b38361a3e49e7f69"
+        },
+        {
+          "path": "assets/playground/hero/playground-kid-body-roughness.png",
+          "bytes": 366757,
+          "sha256": "a2de038765fb864363ae5a9a87aa2fedda9b762bf885098c66e64874d3b1da81"
+        },
+        {
+          "path": "assets/playground/hero/playground-kid-head-color.png",
+          "bytes": 938707,
+          "sha256": "ac525423de6fc4b60d1ad4a4e398e9a2b2518c5fcf5bf4f16868749217e5b0c2"
+        },
+        {
+          "path": "assets/playground/hero/playground-kid-head-normal.png",
+          "bytes": 914511,
+          "sha256": "c4aa4b2140b24ad281ff761a440bfc381c7e006c138bf334e146c68254675da4"
+        },
+        {
+          "path": "assets/playground/hero/playground-kid-head-roughness.png",
+          "bytes": 437189,
+          "sha256": "538d561865786ae7bb62b868831a66c0fbd0f345f02c237b705c7a7a8f4957d9"
+        },
+        {
+          "path": "assets/playground/hero/playground-kid.bin",
+          "bytes": 1385848,
+          "sha256": "488f8ff3e01ed05f3f10f163aba2c6b0622dfa632d486e5e76bcaa9406e8ad04"
+        },
+        {
+          "path": "assets/playground/hero/playground-kid.gltf",
+          "bytes": 76896,
+          "sha256": "f346a976a8b4f4ca3985094407941ff3f60edf8a689d8c79f27d64749f64b9ad"
+        }
+      ]
     }
   ],
   "decoder": {

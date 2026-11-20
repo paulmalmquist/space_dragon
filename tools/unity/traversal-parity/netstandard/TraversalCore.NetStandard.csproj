@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Compile-only check against the .NET Standard 2.1 profile Unity uses for player scripts. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TraversalRoot>$(MSBuildThisFileDirectory)../../../../unity/SpaceDragon/Assets/SpaceDragon/Traversal</TraversalRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(TraversalRoot)/Core/*.cs" Link="TraversalCore/%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

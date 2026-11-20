@@ -14,6 +14,7 @@ interface NavigationSnapshot {
   focusPosition: { x: number; y: number; z: number };
   cameraClipped: boolean;
   moving: boolean;
+  status: { mode: string };
 }
 interface Snapshot { navigation: NavigationSnapshot; paused: boolean; }
 const snapshot = (page: Page) => page.evaluate(() =>
@@ -51,6 +52,9 @@ async function walkAxis(page: Page, axis: 'x' | 'z', destination: number) {
 }
 
 async function expectStopped(page: Page, before?: ExplorationState['player']) {
+  // The hero now carries a short stride of momentum after a key is released. Wait for
+  // rest first, then require stillness: a stuck key would never come to rest at all.
+  await expect.poll(async () => (await navigation(page)).moving, { timeout: 15_000 }).toBe(false);
   const initial = before ?? (await navigation(page)).state.player;
   await page.waitForTimeout(250);
   const after = (await navigation(page)).state.player;
@@ -68,9 +72,14 @@ test('third-person movement stops at a wall and passes through the actual doorwa
   expect((await navigation(page)).state.collected).toEqual([]);
   await expect(page.locator('body')).toHaveAttribute('data-phase', 'living-room');
 
+  // Space with nothing to use is now a jump. The press is applied on the next simulation
+  // step, so wait for take-off and then for the landing before the wall approach.
+  await expect.poll(async () => (await navigation(page)).status.mode, { timeout: 20_000, intervals: [30, 50, 80] }).toBe('air');
+  await expect.poll(async () => (await navigation(page)).status.mode, { timeout: 20_000, intervals: [30, 50, 80] }).toBe('ground');
+
   // The solid east wall blocks this route until the player lines up with its opening.
   await page.keyboard.down('ArrowRight');
-  await expect.poll(async () => (await navigation(page)).state.player.x, { timeout: 5_000 }).toBeGreaterThan(-1.05);
+  await expect.poll(async () => (await navigation(page)).state.player.x, { timeout: 20_000 }).toBeGreaterThan(-1.05);
   await page.waitForTimeout(350);
   await page.keyboard.up('ArrowRight');
   const atWall = await navigation(page);
@@ -138,6 +147,9 @@ test('nearby actions and one practice pickup persist independently of the story 
   await expect(page.locator('#nav-message')).toContainText('collected');
   for (let press = 0; press < 3; press++) await page.keyboard.press('Space');
   expect((await navigation(page)).state.collected).toEqual(['training-module']);
+  // With nothing left to use here, Space jumps. Let the hero land and settle so the pose
+  // compared after the reload is the one that was saved at rest.
+  await expectStopped(page);
   const beforeReload = (await navigation(page)).state;
   expect(await page.evaluate(key => localStorage.getItem(key), storySaveKey)).toBe(story);
   const saved = JSON.parse((await page.evaluate(key => localStorage.getItem(key), EXPLORATION_SAVE_KEY))!);

@@ -1,0 +1,7 @@
+{
+  "name": "SpaceDragon.Traversal.Core",
+  "rootNamespace": "SpaceDragon.Traversal",
+  "references": [],
+  "autoReferenced": true,
+  "noEngineReferences": true
+}

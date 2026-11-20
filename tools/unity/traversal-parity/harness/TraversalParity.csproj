@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <!-- Unity compiles this core as C# 9; newer syntax must fail here first. -->
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TraversalRoot>$(MSBuildThisFileDirectory)../../../../unity/SpaceDragon/Assets/SpaceDragon/Traversal</TraversalRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Compile the actual Unity core: the harness contains no replacement physics. -->
+    <Compile Include="$(TraversalRoot)/Core/*.cs" Link="TraversalCore/%(Filename)%(Extension)" />
+    <Compile Include="Program.cs" />
+    <Content Include="$(TraversalRoot)/Tests/EditMode/Fixtures/traversal-fixtures-v001.json" Link="traversal-fixtures-v001.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="RequireTraversalCore" BeforeTargets="BeforeBuild">
+    <Error Condition="!Exists('$(TraversalRoot)/Core/HeroSimulation.cs')" Text="Traversal core is missing from the Unity project." />
+    <Error Condition="!Exists('$(TraversalRoot)/Tests/EditMode/Fixtures/traversal-fixtures-v001.json')" Text="Golden fixtures are missing. Run tools/unity/export-traversal.mjs." />
+  </Target>
+</Project>
