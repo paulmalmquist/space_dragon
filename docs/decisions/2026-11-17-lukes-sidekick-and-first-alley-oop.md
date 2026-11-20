@@ -1,4 +1,4 @@
-# Luke's sidekick and the first alley-oop — SD-090
+# Luke's sidekick and the first alley-oop — SD-094
 
 November 17, 2026. **The sidekick and the alley-oop are CONFIRMED concepts; this slice and every detail in it are PROPOSED agent choices. Browser reference IMPLEMENTED and VERIFIED for the named software-rendered checks; Unity IMPLEMENTED, NOT TESTED.** No canon changed.
 

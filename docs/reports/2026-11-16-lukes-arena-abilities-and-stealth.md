@@ -1,6 +1,6 @@
 # Luke's Arena: abilities and stealth — verification receipt
 
-SD-089, November 16, 2026. **Browser reference: IMPLEMENTED / VERIFIED for the named software-rendered checks. Unity: IMPLEMENTED; import, play and builds NOT TESTED.** Not played by a person. Not reviewed. Not approved for release. Rules and numbers are PROPOSED.
+SD-093, November 16, 2026. **Browser reference: IMPLEMENTED / VERIFIED for the named software-rendered checks. Unity: IMPLEMENTED; import, play and builds NOT TESTED.** Not played by a person. Not reviewed. Not approved for release. Rules and numbers are PROPOSED.
 
 ## Scope
 

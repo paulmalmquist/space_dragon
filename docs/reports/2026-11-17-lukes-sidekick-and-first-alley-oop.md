@@ -1,6 +1,6 @@
 # Luke's sidekick and the first alley-oop — verification receipt
 
-SD-090, November 17, 2026. **Browser reference: IMPLEMENTED / VERIFIED for the named software-rendered checks. Unity: IMPLEMENTED; import, play and builds NOT TESTED.** Not played by a person. Not reviewed. Not approved for release. Every detail is PROPOSED, and **the owner did not ask for this slice by name**: see the [decision](../decisions/2026-11-17-lukes-sidekick-and-first-alley-oop.md).
+SD-094, November 17, 2026. **Browser reference: IMPLEMENTED / VERIFIED for the named software-rendered checks. Unity: IMPLEMENTED; import, play and builds NOT TESTED.** Not played by a person. Not reviewed. Not approved for release. Every detail is PROPOSED, and **the owner did not ask for this slice by name**: see the [decision](../decisions/2026-11-17-lukes-sidekick-and-first-alley-oop.md).
 
 ## Scope
 

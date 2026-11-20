@@ -1,4 +1,4 @@
-# Luke's Playground and Luke's Arena — Unity runbook (SD-088, SD-089)
+# Luke's Playground and Luke's Arena — Unity runbook (SD-088, SD-093)
 
 Status: **IMPLEMENTED; Unity import, play and builds NOT TESTED**, for both scenes. Written in cloud sessions with no Unity Editor. Read the [playground decision](../decisions/2026-11-15-unity-native-lukes-playground.md) and the [arena decision](../decisions/2026-11-16-lukes-arena-abilities-and-stealth.md) first. The arena has [its own section](#lukes-arena-sd-089) below; generate the playground first, because the arena reuses its pipeline and hero. Coordinate exclusive Editor ownership as for every other channel in `unity/SpaceDragon`.
 
@@ -64,7 +64,7 @@ Saves use PlayerPrefs key `space-dragon.playground.v1` with a backup key. Sparks
 
 Open the First Contact scene, select `Player.proxy-no-family-likeness`, and run **Space Dragon > Luke's Playground > Dress the selected player as the stand-in**. It adds the stand-in as a follower and hides the capsule's renderer; that scene's generator and state are untouched. Review, then save or discard. Folding this into `FirstContactProject` is a follow-up for whoever owns that generator, after the stand-in has been seen.
 
-## Luke's Arena (SD-089)
+## Luke's Arena (SD-093)
 
 A second generated scene in the same project: an ability course, a three-wave battle ring and a stealth yard. It shares the playground's render pipeline, hero stand-in and helpers, and writes only `Playground/Generated/LukeArena.unity`, `ArenaSpark.asset` and `Arena-*` materials.
 
@@ -84,7 +84,7 @@ With the Editor open: **Space Dragon > Luke's Arena > Generate scene**, then Pla
 | Climb | walk into a wall with lit hand-holds; push toward it to go up, away to come down; Space jumps off | the same with the stick and A / Cross |
 | The one-button action: quiet pounce, pounce or snare, whichever counts | F, J or Enter | X / Square |
 | Always pounce | G or K | Y / Triangle |
-| Ask the sidekick: a throw inside his ring, a stun anywhere else (SD-090) | T or L | B / Circle |
+| Ask the sidekick: a throw inside his ring, a stun anywhere else (SD-094) | T or L | B / Circle |
 
 Step over a glowing line to start a trial and back out to stop. There is no fail state: robots power down, Luke is bonked for a moment or set back in hiding, and stars only ever go up.
 
@@ -96,7 +96,7 @@ What to check first:
 4. **The ring.** Walk north from the start into the middle zone. Two robots rise after a moment; a red lane on the floor shows each lunge for a full second before it lands. `F` at the ringed robot.
 5. **The course.** Walk into the lit wall on the west tower. Luke should grab it, climb with alternating reaches and pull up onto the top.
 6. **The HUD** is plain immediate-mode text in built-in fonts: `*` earned star, `o` still possible this try, `-` out of reach.
-7. **The sidekick (SD-090).** A helmeted figure built from primitives should stand beside Luke at the start and follow him, with a gold ring on the floor around him. Stand in the ring and press `T`: Luke should be thrown about five metres up, the camera should back off, and with robots below everything should slow for a second before he dives. Away from him `T` should stun a robot (three stars circle it). In the stealth yard he should stop at the gate. He is drawn by `BuildSidekick` and posed by `PoseSidekick` in `ArenaGame.cs`, both written blind: expect limbs that bend the wrong way before anything else. He should be black with red glowing trim, with a sheathed sword across his back and a red disc at the end of each fist (the owner's look for Dad, SD-092). The trim's brightness (2.2) was chosen blind: if it looks orange or pink, lower it in `LukeArenaScene.cs`. The trim pieces and the sword were placed blind too; expect some to float or sink into the armour. If the scene was generated before the trim material existed, the trim falls back to the red of an alerted robot's eye; generate again.
+7. **The sidekick (SD-094).** A helmeted figure built from primitives should stand beside Luke at the start and follow him, with a gold ring on the floor around him. Stand in the ring and press `T`: Luke should be thrown about five metres up, the camera should back off, and with robots below everything should slow for a second before he dives. Away from him `T` should stun a robot (three stars circle it). In the stealth yard he should stop at the gate. He is drawn by `BuildSidekick` and posed by `PoseSidekick` in `ArenaGame.cs`, both written blind: expect limbs that bend the wrong way before anything else. He should be black with red glowing trim, with a sheathed sword across his back and a red disc at the end of each fist (the owner's look for Dad, SD-092). The trim's brightness (2.2) was chosen blind: if it looks orange or pink, lower it in `LukeArenaScene.cs`. The trim pieces and the sword were placed blind too; expect some to float or sink into the armour. If the scene was generated before the trim material existed, the trim falls back to the red of an alerted robot's eye; generate again.
 
 | Piece | Where | Notes |
 | --- | --- | --- |

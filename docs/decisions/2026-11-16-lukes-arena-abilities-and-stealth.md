@@ -1,4 +1,4 @@
-# Luke's Arena: a lab for his abilities, and stealth — SD-089
+# Luke's Arena: a lab for his abilities, and stealth — SD-093
 
 November 16, 2026. **CONFIRMED direction / browser reference IMPLEMENTED and VERIFIED for the named software-rendered checks; Unity IMPLEMENTED, NOT TESTED.** Rules and numbers are PROPOSED. No canon changed.
 

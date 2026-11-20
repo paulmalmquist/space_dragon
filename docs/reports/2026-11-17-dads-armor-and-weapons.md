@@ -16,7 +16,7 @@ SD-092, November 17, 2026. **Records: written. Placeholder redraw: browser refer
 
 | Check or exact command | Result | Evidence and limitation |
 | --- | --- | --- |
-| `npm run test:unit` | PASS | 333 of 333. The count is unchanged from SD-090. |
+| `npm run test:unit` | PASS | 333 of 333. The count is unchanged from SD-094. |
 | `npm run build` (typecheck, then the four-page production build) | PASS | |
 | `npm run unity:playground:verify` | PASS | The arena export reports the same source fingerprint as before this change, `8f462934…`: 16 recorded runs, 50,198 steps, 472 checkpoints. The rules did not move. |
 | `npm run unity:playground:compile` | PASS | 0 warnings, 0 errors, against public reference assemblies and stubs. Language-level only: it says nothing about how the figure looks. |
