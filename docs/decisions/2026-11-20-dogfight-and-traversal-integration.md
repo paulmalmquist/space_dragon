@@ -34,7 +34,7 @@ The earlier allocation keeps its numbers, which follows the [November 1 crosswal
 
 Commit messages on the traversal line from before this change, and the title of PR #36, still say SD-089 for the arena and SD-090 for the sidekick. Read those as SD-093 and SD-094. History was not rewritten. File names did not change, so existing links still work. SD-093 and SD-094 are out of date order in the ledger; the dates in each row are correct.
 
-**Next unused ID: SD-095**, subject to a fresh check across channels.
+**Next unused ID at the time of the join: SD-095.** It was allocated the same day to the owner's request to continue the Dogfight line; the [ledger](../project/IDEA_LEDGER.md) holds the current next number.
 
 ## One allocation that cannot be checked from here
 

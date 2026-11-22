@@ -139,3 +139,40 @@ Optional repair codes run while maneuvering and taking damage; a wrong or ignore
 Normal rolls retain finite energy and leave nonqualifying projectiles dangerous. The local slow-motion/freeze feedback never changes global Unity time. Reduced motion removes these effects while preserving rule outcomes at equal simulation time. Pause/focus suspends state and clears transient slowdown; Restart resets all encounter rewards, event guards and one-use recovery.
 
 Verification: `node tools/unity/verify-combat-upgrades.mjs` exercises the new systems. `SPACE_DRAGON_DOGFIGHT_BASELINE=1` with the original verifier separately checks all-off parity. Run both on actual Chrome WebGPU and WebGL2; report human fun, difficulty, comfort, sound and sustained performance separately.
+
+## SD-095 feel and clarity pass
+
+**State: rules VERIFIED outside Unity; scene code and HUD IMPLEMENTED and compiled only; NOT TESTED in Unity; not played.** [Decision](../decisions/2026-11-20-dogfight-feel-and-clarity-pass.md), [receipt and first-run steps](../reports/2026-11-20-dogfight-presentation-continuation.md). Build identifier `combat-feel-v001`.
+
+Presentation only. No control, rule, reward or number above changes. Four more switches in `Generated/DogfightTuning.asset`, all on by default:
+
+| Switch | What you see | Reduced motion |
+| --- | --- | --- |
+| `EnableImpactCamera` | A short shake when the dragon is hit, when an enemy or gas pocket goes up nearby, and on the claw finisher. A small lens punch on the finisher, the perfect roll and the start of a boost. A light rumble while the breath beam fires. | None of it. |
+| `EnableKillSequence` | A disabled enemy flashes, drifts and tumbles for about half a second, then goes in a shockwave ring with debris. The explosion sound plays as it goes. A gas pocket draws a ring at the radius that hurts enemies. | The enemy disappears at once, as before, with a small still ring. The sound is immediate. |
+| `EnableHitConfirm` | A marker on the reticle: four short ticks for a hit, larger ticks and a diamond for a kill, two upright bars for a shot stopped by a shield. | Shown without growing. |
+| `EnableHudClarity` | Each enemy shows its name and one status: latched, else wounded, else shielded, else breath lock, else distance for the one you are working on. Words never overlap. During the SONG comeback only the prompt, the radar, the systems panel and enemy brackets remain, and the prompt says what to spell with a bar for the time left. During a crash the warnings and prompts go. | Unchanged. |
+
+The kill, its count and its one salvage drop happen at the moment of the last shot, exactly as before. Only the picture and the timing of the explosion sound differ.
+
+The shake never reaches the rules. Aim, missile lock and breath lock are worked out from the camera, so the offset is added to the drawn camera at the end of a frame and removed before the next step and before a QA snapshot. `fov`, `cameraTrailingDistance` and the enemy screen positions in the snapshot therefore stay free of it.
+
+QA additions:
+- Snapshot fields `feelFlags`, `cameraTrauma`, `cameraShakeMetres`, `cameraLensOffset`, `cameraImpacts`, `killSequencesActive`, `killSequencesStarted`, `hitConfirm`, `hitConfirms`, `hudMode`.
+- Fixtures `feel:off` and `feel:on` set these four switches and restart. `upgrades:off` and `upgrades:on` now set them too, so that all off is still the encounter as it played before any combat work.
+- The existing browser verifiers do not read the new fields yet.
+
+Strengths and durations are starting guesses under "Impact camera", "Kill sequence" and "Hit confirmation" in the tuning. New effects are code-built lines on the existing Weapon Energy shader, in objects named `PLACEHOLDER kill sequence - cosmetic only`.
+
+## Checks that need no Editor
+
+Two commands work anywhere the .NET 8 SDK is installed, and a hosted job runs both on every push:
+
+```sh
+npm run unity:dogfight:statetest   # runs the state rules and their EditMode tests
+npm run unity:dogfight:compile     # compiles the runtime and tests; runs nothing
+```
+
+`statetest` covers only classes that use nothing from the engine but math, and supplies the math from a hand-written stand-in (`tools/unity/dogfight-statetest/Shim/UnityMathShim.cs`). When you add such a class, add it and its test file to the two lists in `DogfightStateTests.csproj`. `compile` uses the public 2021.3 reference assemblies and leaves out four files that need more than those provide; its project file names them.
+
+Neither replaces `npm run unity:dogfight:test`. They cannot see an import, the scene, a build, a picture or a sound.

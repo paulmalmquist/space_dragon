@@ -1,5 +1,14 @@
 # What comes next
 
+**Dogfight — next for SD-095, in order.** The first three need the Lenovo; the fourth needs the owner.
+
+1. **Run it in Unity.** `npm run unity:dogfight:setup`, `npm run unity:dogfight:test`, `npm run unity:dogfight:build`, then `npm run unity:dogfight` and `npm run unity:dogfight:verify` on both backends. Expect a first-run fix or two: the new scene code has only been compiled. The [receipt](../reports/2026-11-20-dogfight-presentation-continuation.md) lists what to look at first and what each switch does.
+2. **Confirm all switches off still matches `combat-upgrades-v002`.** The 11-case baseline in `verify-dogfight.mjs` covers it.
+3. **Extend the browser checks** to read the new snapshot fields (`feelFlags`, `cameraTrauma`, `killSequencesStarted`, `hitConfirm`, `hudMode`).
+4. **The owner looks and plays.** Is the shake welcome or too much, does a kill now read as a kill, can a child tell hit from blocked, is the SONG screen calm enough. Then the physical PlayStation and family test that has been waiting since November 1.
+
+Still waiting on the Editor and the owner's eye, and not started here: the planet's detail, fire that reads as fire, the torso, the mouth and tail framing, finished art for the placeholder ships, and sound for the many events that have none. [Decision](../decisions/2026-11-20-dogfight-feel-and-clarity-pass.md).
+
 **Toward a playable game — the owner's November 16 question, answered in order.** Each step names what would prove it. Steps 1 and 2 need a person and the Lenovo; the rest can start now but should not outrun them.
 
 1. **See both Unity scenes actually run.** On the Lenovo: `npm run unity:playground:setup`, then `npm run unity:arena:setup`, read the receipts, press Play. Everything Unity-side from SD-088 and SD-093 is still unseen: imports, materials, lighting, the stand-in, the see-through sight fans, the floodlight. Expect a first-run fix or two; the [runbook](../engineering/UNITY_PLAYGROUND_HANDOFF.md) lists what to look at first. Sharing that computer's folder with a cloud session would let an agent do this loop. *Proof: setup receipts, 30-plus EditMode tests inside Unity, a Windows build, screenshots.*
