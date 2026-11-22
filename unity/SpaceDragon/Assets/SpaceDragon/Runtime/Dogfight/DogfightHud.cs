@@ -59,7 +59,7 @@ namespace SpaceDragon.Dogfight
             try
             {
                 // With the clarity switch off every block shows, in the original order.
-                clarity = encounter.Tuning.EnableHudClarity; mode = HudClarity.ModeFor(encounter.Comeback.Active, encounter.Crashing);
+                clarity = encounter.Tuning.EnableHudClarity; mode = HudClarity.ModeFor(encounter.Comeback.Active, encounter.Dead);
                 if (Shows(HudElement.Canopy)) DrawCanopy();
                 if (Shows(HudElement.TargetShapes)) { if (clarity) DrawTargetsClear(Shows(HudElement.TargetWords)); else DrawTargets(); }
                 if (Shows(HudElement.Reticle)) DrawAim(); if (Shows(HudElement.Header)) DrawHeader(); if (Shows(HudElement.Warning)) DrawWarning();
@@ -245,7 +245,7 @@ namespace SpaceDragon.Dogfight
                 labelEnemies.Add(enemy);
             }
             // With nothing tracked, the enemy nearest the reticle is the one being worked on.
-            int nearest = TargetLabelLayout.FocusIndex(labelRequests,aim.x,aim.y);
+            int nearest = TargetLabelLayout.FocusIndex(labelRequests,aim.x,aim.y,encounter.Tuning.HudAimRadius);
             if (nearest >= 0 && !labelRequests[nearest].Focus)
             {
                 var r = labelRequests[nearest];

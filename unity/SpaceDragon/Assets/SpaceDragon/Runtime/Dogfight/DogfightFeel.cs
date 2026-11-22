@@ -19,11 +19,13 @@ namespace SpaceDragon.Dogfight
         readonly Vector3[] blastHullScales=new Vector3[BlastSlots];
         readonly Quaternion[] blastHullRotations=new Quaternion[BlastSlots];
         bool cameraOffsetApplied,wasBoosting;
+        int killSequencesBegun,gasRingsBegun;
         public CameraImpactState CameraImpact=>cameraImpact;
         public HitConfirmState HitConfirm=>hitConfirm;
         public string FeelFlags=>$"impactCamera={tuning.EnableImpactCamera};killSequence={tuning.EnableKillSequence};hitConfirm={tuning.EnableHitConfirm};hudClarity={tuning.EnableHudClarity}";
         public int ActiveKillSequences{get{int n=0;foreach(var state in blastStates)if(state!=null&&state.Active)n++;return n;}}
-        public int KillSequencesStarted{get{int n=0;foreach(var state in blastStates)if(state!=null)n+=state.Serial;return n;}}
+        public int KillSequencesStarted=>killSequencesBegun;
+        public int GasRingsStarted=>gasRingsBegun;
 
         void InitializeFeel()
         {
@@ -34,7 +36,7 @@ namespace SpaceDragon.Dogfight
         void ResetFeel()
         {
             if(cameraImpact==null)return;
-            cameraImpact.Clear();hitConfirm.Reset();wasBoosting=false;
+            cameraImpact.Reset();hitConfirm.Reset();wasBoosting=false;killSequencesBegun=gasRingsBegun=0;
             for(int i=0;i<BlastSlots;i++){blastStates[i].Reset();blastVisuals[i].Hide();blastHulls[i]=null;}
         }
         // Pause and focus loss: no shake or marker is left frozen on screen. A kill sequence simply
@@ -85,7 +87,8 @@ namespace SpaceDragon.Dogfight
             if(!tuning.EnableKillSequence)return;
             int slot=FreeBlastSlot();
             // The ring is drawn at the radius that really hurts enemies.
-            if(slot>=0)blastStates[slot].BeginBlast(point,Mathf.Max(0,tuning.GasEnemyRadius),gasDetonations,ReducedMotion);
+            if(slot<0)return;
+            blastStates[slot].BeginBlast(point,Mathf.Max(0,tuning.GasEnemyRadius),gasDetonations,ReducedMotion);gasRingsBegun++;
         }
 
         // Only the pilot's own weapons are confirmed. The wingman's hits are not theirs, and
@@ -96,6 +99,8 @@ namespace SpaceDragon.Dogfight
             hitConfirm.Register(kind);
         }
 
+        /// <summary>True while this enemy's hull is being shown as a wreck by a kill sequence.</summary>
+        bool HullHeld(Transform visual){if(visual==null)return false;for(int i=0;i<BlastSlots;i++)if(blastHulls[i]==visual)return true;return false;}
         int FreeBlastSlot(){for(int i=0;i<BlastSlots;i++)if(!blastStates[i].Active&&blastHulls[i]==null)return i;return -1;}
 
         /// <summary>
@@ -111,9 +116,13 @@ namespace SpaceDragon.Dogfight
                 !FlightState.Finite(velocity.x)||!FlightState.Finite(velocity.y)||!FlightState.Finite(velocity.z))return false;
             int slot=FreeBlastSlot();if(slot<0)return false;
             var state=blastStates[slot];
-            state.Begin(enemy.Position,velocity,enemy.CombatId,ReducedMotion);
+            state.Begin(enemy.Position,velocity,enemy.CombatId,ReducedMotion);killSequencesBegun++;
             if(state.HullVisible)
-            {blastHulls[slot]=enemy.Visual;blastHullScales[slot]=enemy.Visual.localScale;blastHullRotations[slot]=enemy.Visual.rotation;}
+            {
+                blastHulls[slot]=enemy.Visual;blastHullScales[slot]=enemy.Visual.localScale;blastHullRotations[slot]=enemy.Visual.rotation;
+                // The role silhouette is a child of the hull: it tumbles with it and goes when it goes.
+                enemy.RoleVisual?.ShowAsWreck();
+            }
             else enemy.Visual.gameObject.SetActive(false);
             // Reduced motion owes its explosion at once, as before this pass.
             if(state.TakeBlast())BlastCue(state.Position);

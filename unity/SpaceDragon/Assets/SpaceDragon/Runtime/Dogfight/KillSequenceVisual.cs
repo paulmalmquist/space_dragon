@@ -23,7 +23,7 @@ namespace SpaceDragon.Dogfight
         DogfightTuning tuning;
         bool built;
         public bool Visible {get;private set;}
-        public bool RingVisible=>built&&ring.enabled;
+        public bool RingVisible=>built&&ring!=null&&ring.enabled;
         public int VisibleSpikes {get;private set;}
         public int VisibleShards {get;private set;}
         public float DrawnRingRadius {get;private set;}
@@ -75,6 +75,8 @@ namespace SpaceDragon.Dogfight
         public void Show(KillSequenceState state,Vector3 cameraPosition,Vector3 cameraRight,Vector3 cameraUp)
         {
             if(tuning==null||state==null||!state.Active){Hide();return;}
+            // The root is not parented, so a scene change can remove it before its owner.
+            if(built&&root==null)built=false;
             if(!built)Build();
             Visible=true;
             Vector3 centre=state.Position;
@@ -126,7 +128,7 @@ namespace SpaceDragon.Dogfight
         {
             Visible=false;VisibleSpikes=VisibleShards=0;DrawnRingRadius=0;
             if(!built)return;
-            ring.enabled=false;
+            if(ring!=null)ring.enabled=false;
             foreach(var line in spikes)if(line!=null)line.enabled=false;
             foreach(var line in shards)if(line!=null)line.enabled=false;
         }

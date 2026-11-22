@@ -161,13 +161,14 @@ namespace SpaceDragon.Dogfight.Tests
                 Assert.That(HudClarity.Shows(kept, HudMode.Comeback, true), Is.True, kept.ToString());
         }
 
-        [Test] public void CrashKeepsItsClosingMessageAndDropsWarningsAndPrompts()
+        [Test] public void DownedShipKeepsItsClosingMessageAndDropsWarningsAndPrompts()
         {
-            Assert.That(HudClarity.ModeFor(false, true), Is.EqualTo(HudMode.Crashing));
+            // "Down" lasts from the moment the ship is disabled until Restart, not only the first seconds.
+            Assert.That(HudClarity.ModeFor(false, true), Is.EqualTo(HudMode.Down));
             Assert.That(HudClarity.ModeFor(false, false), Is.EqualTo(HudMode.Flight));
-            Assert.That(HudClarity.Shows(HudElement.Toast, HudMode.Crashing, true), Is.True);
+            Assert.That(HudClarity.Shows(HudElement.Toast, HudMode.Down, true), Is.True);
             foreach (var hidden in new[] { HudElement.Warning, HudElement.Reticle, HudElement.TargetWords, HudElement.Missiles, HudElement.Wingman, HudElement.FlightPanel, HudElement.Word })
-                Assert.That(HudClarity.Shows(hidden, HudMode.Crashing, true), Is.False, hidden.ToString());
+                Assert.That(HudClarity.Shows(hidden, HudMode.Down, true), Is.False, hidden.ToString());
         }
 
         [Test] public void ManyEnemiesInOnePlaceStayReadableAndRepeatable()
@@ -203,13 +204,17 @@ namespace SpaceDragon.Dogfight.Tests
 
         [Test] public void FocusIsTheFlaggedEnemyElseTheOneNearestTheReticle()
         {
+            const float radius = 140;
             var requests = new List<TargetLabelRequest> { new TargetLabelRequest(100, 100, 50), new TargetLabelRequest(700, 420, 300), new TargetLabelRequest(660, 400, 500) };
-            Assert.That(TargetLabelLayout.FocusIndex(requests, 640, 400), Is.EqualTo(2), "Nearest on screen, not nearest in space.");
-            Assert.That(TargetLabelLayout.FocusIndex(requests, 1300, 50), Is.EqualTo(-1), "Nothing near the reticle means no focus.");
+            Assert.That(TargetLabelLayout.FocusIndex(requests, 640, 400, radius), Is.EqualTo(2), "Nearest on screen, not nearest in space.");
+            Assert.That(TargetLabelLayout.FocusIndex(requests, 1300, 50, radius), Is.EqualTo(-1), "Nothing near the reticle means no focus.");
+            Assert.That(TargetLabelLayout.FocusIndex(requests, 640, 400, 10), Is.EqualTo(-1), "A smaller radius asks for closer aim.");
             requests[0] = new TargetLabelRequest(100, 100, 50, focus: true);
-            Assert.That(TargetLabelLayout.FocusIndex(requests, 640, 400), Is.EqualTo(0), "A tracked or locked enemy wins.");
-            Assert.That(TargetLabelLayout.FocusIndex(null, 0, 0), Is.EqualTo(-1));
-            Assert.That(TargetLabelLayout.FocusIndex(new List<TargetLabelRequest>(), 0, 0), Is.EqualTo(-1));
+            Assert.That(TargetLabelLayout.FocusIndex(requests, 640, 400, radius), Is.EqualTo(0), "A tracked or locked enemy wins.");
+            Assert.That(TargetLabelLayout.FocusIndex(null, 0, 0, radius), Is.EqualTo(-1));
+            Assert.That(TargetLabelLayout.FocusIndex(new List<TargetLabelRequest>(), 0, 0, radius), Is.EqualTo(-1));
+            Assert.That(TargetLabelLayout.FocusIndex(requests, 640, 400, float.NaN), Is.EqualTo(-1));
+            Assert.That(TargetLabelLayout.FocusIndex(requests, 640, 400, -1), Is.EqualTo(-1));
         }
 
         [Test] public void BoxesTouchingEdgeToEdgeDoNotCountAsOverlapping()

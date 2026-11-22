@@ -46,8 +46,6 @@ namespace SpaceDragon.Dogfight
         /// <summary>A shielded enemy's name sits above its shield arc instead of under it.</summary>
         public const float ShieldedNameOffset = -62;
         public const float ActionOffset = 48, DistanceOffset = 25, RaisedGap = 24;
-        /// <summary>How close to the reticle, in HUD units, an enemy must be to count as the one being aimed at.</summary>
-        public const float AimRadius = 140;
 
         /// <summary>Latched needs a roll now; wounded invites a finisher; shielded needs the breath.</summary>
         public static TargetStatus StatusFor(TargetLabelRequest request) =>
@@ -69,12 +67,13 @@ namespace SpaceDragon.Dogfight
 
         /// <summary>
         /// The enemy the pilot is working on: the one the caller already flagged (tracked or locked),
-        /// otherwise the nearest to the reticle within <see cref="AimRadius"/>. Returns -1 for none.
+        /// otherwise the nearest to the reticle within <paramref name="aimRadius"/> HUD units.
+        /// Returns -1 for none.
         /// </summary>
-        public static int FocusIndex(IReadOnlyList<TargetLabelRequest> requests, float reticleX, float reticleY)
+        public static int FocusIndex(IReadOnlyList<TargetLabelRequest> requests, float reticleX, float reticleY, float aimRadius)
         {
-            if (requests == null) return -1;
-            int nearest = -1; float best = AimRadius * AimRadius;
+            if (requests == null || !Finite(aimRadius) || aimRadius < 0) return -1;
+            int nearest = -1; float best = aimRadius * aimRadius;
             for (int i = 0; i < requests.Count; i++)
             {
                 var r = requests[i];
@@ -146,7 +145,7 @@ namespace SpaceDragon.Dogfight
     }
 
     /// <summary>What the pilot is doing, as far as the HUD is concerned.</summary>
-    public enum HudMode { Flight = 0, Comeback = 1, Crashing = 2 }
+    public enum HudMode { Flight = 0, Comeback = 1, Down = 2 }
 
     /// <summary>The blocks the HUD draws during flight.</summary>
     public enum HudElement
@@ -156,14 +155,15 @@ namespace SpaceDragon.Dogfight
 
     /// <summary>
     /// Decides which HUD blocks belong on screen. It changes no rule and hides nothing during
-    /// ordinary flight. While the SONG comeback prompt is up, or the ship is going down, it keeps
+    /// ordinary flight. While the SONG comeback prompt is up, or once the ship is down, it keeps
     /// only what still means something, so that one instruction is not buried under others that
     /// ask for actions the pilot cannot take.
     /// </summary>
     public static class HudClarity
     {
-        public static HudMode ModeFor(bool comebackActive, bool crashing) =>
-            comebackActive ? HudMode.Comeback : crashing ? HudMode.Crashing : HudMode.Flight;
+        /// <summary><paramref name="down"/> is true from the moment the ship is disabled until Restart.</summary>
+        public static HudMode ModeFor(bool comebackActive, bool down) =>
+            comebackActive ? HudMode.Comeback : down ? HudMode.Down : HudMode.Flight;
 
         public static bool Shows(HudElement element, HudMode mode, bool clarityEnabled)
         {
@@ -174,10 +174,10 @@ namespace SpaceDragon.Dogfight
                 case HudElement.Canopy: case HudElement.TargetShapes: case HudElement.Header:
                 case HudElement.Radar: case HudElement.Systems:
                     return true;
-                // The word panel becomes the SONG prompt during a comeback. It has no use in a crash.
+                // The word panel becomes the SONG prompt during a comeback. A downed ship has no use for it.
                 case HudElement.Word: return mode == HudMode.Comeback;
-                // The crash keeps its closing message. The comeback panel carries its own instruction.
-                case HudElement.Toast: return mode == HudMode.Crashing;
+                // A downed ship keeps its closing message. The comeback panel carries its own instruction.
+                case HudElement.Toast: return mode == HudMode.Down;
                 // Aiming, weapons, the wingman, flight controls, warnings and enemy text all ask for
                 // actions that are not available now.
                 default: return false;

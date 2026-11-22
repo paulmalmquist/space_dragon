@@ -149,20 +149,20 @@ Presentation only. No control, rule, reward or number above changes. Four more s
 | Switch | What you see | Reduced motion |
 | --- | --- | --- |
 | `EnableImpactCamera` | A short shake when the dragon is hit, when an enemy or gas pocket goes up nearby, and on the claw finisher. A small lens punch on the finisher, the perfect roll and the start of a boost. A light rumble while the breath beam fires. | None of it. |
-| `EnableKillSequence` | A disabled enemy flashes, drifts and tumbles for about half a second, then goes in a shockwave ring with debris. The explosion sound plays as it goes. A gas pocket draws a ring at the radius that hurts enemies. | The enemy disappears at once, as before, with a small still ring. The sound is immediate. |
+| `EnableKillSequence` | A disabled enemy flashes, drifts and tumbles for about half a second, then goes in a shockwave ring with debris. The explosion sound plays as it goes. A gas pocket draws a ring at the radius that hurts enemies. | The enemy disappears at once, as before, with a small still ring. The sound is immediate. A gas pocket's ring is still but drawn at its full reach. |
 | `EnableHitConfirm` | A marker on the reticle: four short ticks for a hit, larger ticks and a diamond for a kill, two upright bars for a shot stopped by a shield. | Shown without growing. |
-| `EnableHudClarity` | Each enemy shows its name and one status: latched, else wounded, else shielded, else breath lock, else distance for the one you are working on. Words never overlap. During the SONG comeback only the prompt, the radar, the systems panel and enemy brackets remain, and the prompt says what to spell with a bar for the time left. During a crash the warnings and prompts go. | Unchanged. |
+| `EnableHudClarity` | Each enemy shows its name and one status: latched, else wounded, else shielded, else breath lock, else distance for the one you are working on. Words never overlap. During the SONG comeback only the prompt, the radar, the systems panel and enemy brackets remain, and the prompt says what to spell with a bar for the time left. Once the ship is down the warnings and prompts go, and stay gone under the closing overlay. | Unchanged. |
 
 The kill, its count and its one salvage drop happen at the moment of the last shot, exactly as before. Only the picture and the timing of the explosion sound differ.
 
 The shake never reaches the rules. Aim, missile lock and breath lock are worked out from the camera, so the offset is added to the drawn camera at the end of a frame and removed before the next step and before a QA snapshot. `fov`, `cameraTrailingDistance` and the enemy screen positions in the snapshot therefore stay free of it.
 
 QA additions:
-- Snapshot fields `feelFlags`, `cameraTrauma`, `cameraShakeMetres`, `cameraLensOffset`, `cameraImpacts`, `killSequencesActive`, `killSequencesStarted`, `hitConfirm`, `hitConfirms`, `hudMode`.
+- Snapshot fields `feelFlags`, `cameraTrauma`, `cameraShakeMetres`, `cameraLensOffset`, `cameraImpacts`, `killSequencesActive`, `killSequencesStarted`, `gasRingsStarted`, `hitConfirm`, `hitConfirms`, `hudMode`. All counts return to zero on Restart.
 - Fixtures `feel:off` and `feel:on` set these four switches and restart. `upgrades:off` and `upgrades:on` now set them too, so that all off is still the encounter as it played before any combat work.
 - The existing browser verifiers do not read the new fields yet.
 
-Strengths and durations are starting guesses under "Impact camera", "Kill sequence" and "Hit confirmation" in the tuning. New effects are code-built lines on the existing Weapon Energy shader, in objects named `PLACEHOLDER kill sequence - cosmetic only`.
+Strengths and durations are starting guesses under "Impact camera", "Kill sequence", "Hit confirmation" and "HUD clarity" in the tuning. A role enemy keeps its silhouette while its wreck tumbles; only its shield and stun cues are dropped. New effects are code-built lines on the existing Weapon Energy shader, in objects named `PLACEHOLDER kill sequence - cosmetic only`.
 
 ## Checks that need no Editor
 

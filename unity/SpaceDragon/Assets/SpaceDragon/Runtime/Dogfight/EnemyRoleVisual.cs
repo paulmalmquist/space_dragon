@@ -149,6 +149,15 @@ namespace SpaceDragon.Dogfight
             VisibleShield=VisibleStun=LatchedPose=false;
             if(root!=null)root.gameObject.SetActive(false);
         }
+        /// <summary>The hull is being shown as a wreck for a moment. Keep the silhouette so that it
+        /// still looks like the ship that was shot, and drop the cues that only a live ship has.</summary>
+        public void ShowAsWreck()
+        {
+            VisibleShield=VisibleStun=LatchedPose=false;
+            if(!configured||root==null)return;
+            foreach(var line in shieldLines)if(line!=null)line.enabled=false;
+            foreach(var star in stunStars)if(star!=null)star.gameObject.SetActive(false);
+        }
         static bool Finite(float value)=>!float.IsNaN(value)&&!float.IsInfinity(value);
         static void AddWedge(List<Vector3> verts,List<int> tris,Vector3 a,Vector3 b,Vector3 c,float thickness)
         {

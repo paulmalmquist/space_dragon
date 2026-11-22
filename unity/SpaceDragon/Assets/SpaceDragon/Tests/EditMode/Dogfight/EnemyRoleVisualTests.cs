@@ -31,6 +31,28 @@ namespace SpaceDragon.Dogfight.Tests
             Assert.AreEqual(0,visual.transform.childCount);
         }
 
+        [Test] public void WreckKeepsTheSilhouetteAndDropsOnlyTheLiveCues()
+        {
+            var state=new EnemyRoleState(EnemyRole.Gunship,tuning);helper.Setup(visual.transform,state.Role,tuning);
+            helper.Tick(state,1,false);Assert.True(helper.VisibleShield);
+            var root=visual.transform.Find("PLACEHOLDER Gunship silhouette - removable");
+            var shield=root.Find("Gunship forward hexagonal shield").GetComponent<LineRenderer>();
+            int renderers=helper.OwnedRendererCount;
+            helper.ShowAsWreck();
+            Assert.True(root.gameObject.activeSelf,"The shoulders stay on the tumbling hull.");
+            Assert.False(helper.VisibleShield);Assert.False(shield.enabled);Assert.AreEqual(renderers,helper.OwnedRendererCount);
+            // A dead ship's ordinary tick still clears everything, as before.
+            state.ApplyDamage(WeaponKind.Environment,state.Health);helper.Tick(state,2,false);
+            Assert.False(root.gameObject.activeSelf);
+        }
+
+        [Test] public void WreckOnAFighterOrBeforeSetupDoesNothing()
+        {
+            Assert.DoesNotThrow(()=>helper.ShowAsWreck());
+            helper.Setup(visual.transform,EnemyRole.Fighter,tuning);
+            Assert.DoesNotThrow(()=>helper.ShowAsWreck());Assert.AreEqual(0,visual.transform.childCount);
+        }
+
         [Test] public void GunshipShieldTracksAuthoritativeStateAndUsesVisualMinusZWithoutChangingDamage()
         {
             var position=visual.transform.position;var rotation=visual.transform.rotation;

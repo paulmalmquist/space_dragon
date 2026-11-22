@@ -154,6 +154,16 @@ namespace SpaceDragon.Dogfight.Tests
             Assert.That(camera.PositionOffset, Is.EqualTo(fresh.PositionOffset), "After a clear the motion starts from the same place as a new state.");
         }
 
+        [Test] public void ResetAlsoForgetsTheCountButClearDoesNot()
+        {
+            camera.AddTrauma(.5f); camera.Punch(2); camera.Tick(Step, false);
+            camera.Clear();
+            Assert.That(camera.Serial, Is.EqualTo(2), "Pause and a camera snap clear the motion and keep the count.");
+            camera.AddTrauma(.5f); camera.Reset();
+            Assert.That(camera.Serial, Is.Zero, "Restart begins a fresh encounter."); Assert.That(camera.AtRest, Is.True);
+            Assert.That(camera.HasOffset, Is.False);
+        }
+
         [Test] public void LongFrameIsTreatedAsAShortOne()
         {
             camera.AddTrauma(1); camera.Tick(10, false);

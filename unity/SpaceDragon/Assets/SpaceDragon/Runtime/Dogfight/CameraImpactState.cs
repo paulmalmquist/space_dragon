@@ -99,6 +99,9 @@ namespace SpaceDragon.Dogfight
             PositionOffset = Vector3.zero; EulerOffset = Vector3.zero;
         }
 
+        /// <summary>Restart: back to rest and forget the count as well.</summary>
+        public void Reset() { Clear(); Serial = 0; }
+
         /// <summary>1 at or inside <paramref name="near"/>, 0 at or beyond <paramref name="far"/>, smooth between.</summary>
         public static float DistanceFalloff(float distance, float near, float far)
         {

@@ -156,7 +156,8 @@ namespace SpaceDragon.Dogfight.Tests
             kill.Begin(start, new Vector3(80, 0, 0), 5, true);
             Assert.That(kill.HullVisible, Is.False); Assert.That(kill.Stage, Is.EqualTo(KillStage.Blast));
             Assert.That(kill.TakeBlast(), Is.True, "With reduced motion the explosion cue is immediate, as before this pass.");
-            float radius = kill.RingRadius; Assert.That(radius, Is.EqualTo(tuning.KillRingRadius * .3f).Within(.001f));
+            float radius = kill.RingRadius; Assert.That(radius, Is.EqualTo(tuning.KillRingRadius * tuning.KillReducedRingFraction).Within(.001f));
+            Assert.That(radius, Is.LessThan(tuning.KillRingRadius), "A kill's ring is decoration and is kept small.");
             float seconds = 0;
             while (kill.Active)
             {
@@ -179,7 +180,7 @@ namespace SpaceDragon.Dogfight.Tests
             Vector3 where = kill.Position;
             kill.Tick(Step, true);
             Assert.That(kill.HullVisible, Is.False); Assert.That(kill.TakeBlast(), Is.True); Assert.That(kill.TakeBlast(), Is.False);
-            Assert.That(kill.Position, Is.EqualTo(where)); Assert.That(kill.RingRadius, Is.EqualTo(tuning.KillRingRadius * .3f).Within(.001f));
+            Assert.That(kill.Position, Is.EqualTo(where)); Assert.That(kill.RingRadius, Is.EqualTo(tuning.KillRingRadius * tuning.KillReducedRingFraction).Within(.001f));
             Assert.That(kill.ShardOpacity, Is.Zero);
         }
 
@@ -190,7 +191,7 @@ namespace SpaceDragon.Dogfight.Tests
             Assert.That(kill.Stage, Is.EqualTo(KillStage.Blast)); Assert.That(kill.TakeBlast(), Is.True);
             kill.Tick(Step, true);
             Assert.That(kill.TakeBlast(), Is.False); Assert.That(kill.ShardOpacity, Is.Zero);
-            Assert.That(kill.RingRadius, Is.EqualTo(tuning.KillRingRadius * .3f).Within(.001f));
+            Assert.That(kill.RingRadius, Is.EqualTo(tuning.KillRingRadius * tuning.KillReducedRingFraction).Within(.001f));
         }
 
         [Test] public void GasBlastStartsAtTheBlastWithItsOwnRadiusAndOwesNoCue()
@@ -203,8 +204,13 @@ namespace SpaceDragon.Dogfight.Tests
             Assert.That(largest, Is.EqualTo(120).Within(3f), "The ring shows how far the blast really reaches.");
             Assert.That(seconds, Is.EqualTo(tuning.KillBlastSeconds + tuning.KillEmberSeconds).Within(Step * 1.5f));
             Assert.That(kill.TakeBlast(), Is.False); Assert.That(kill.Serial, Is.EqualTo(1));
+            // With reduced motion the ring is still, but it must still show the true reach: here
+            // the radius is information, not decoration.
             kill.BeginBlast(Vector3.zero, 120, 0, true);
-            Assert.That(kill.RingRadius, Is.EqualTo(36).Within(.001f)); Assert.That(kill.ShardOpacity, Is.Zero);
+            Assert.That(kill.RingRadius, Is.EqualTo(120).Within(.001f)); Assert.That(kill.ShardOpacity, Is.Zero);
+            float still = kill.RingRadius; kill.Tick(.2f, true);
+            Assert.That(kill.RingRadius, Is.EqualTo(still), "Still means it does not grow.");
+            Assert.That(kill.RingOpacity, Is.LessThan(1));
         }
 
         [Test] public void ClearDropsAnOwedCueAndBeginStartsCleanly()
@@ -256,6 +262,7 @@ namespace SpaceDragon.Dogfight.Tests
             Assert.That(kill.Active, Is.False, "A rejected start leaves nothing running.");
             tuning.KillBlastSeconds = float.NaN; Assert.Throws<ArgumentException>(() => new KillSequenceState(tuning));
             tuning.KillBlastSeconds = .3f; tuning.KillShardLength = -1; Assert.Throws<ArgumentException>(() => new KillSequenceState(tuning));
+            tuning.KillShardLength = 6; tuning.KillReducedRingFraction = float.NaN; Assert.Throws<ArgumentException>(() => new KillSequenceState(tuning));
             Assert.Throws<ArgumentException>(() => kill.BeginBlast(Vector3.zero, float.NaN, 0, false));
             Assert.Throws<ArgumentException>(() => kill.BeginBlast(Vector3.zero, -5, 0, false));
         }

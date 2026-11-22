@@ -16,11 +16,10 @@ namespace SpaceDragon.Dogfight
     /// </summary>
     public sealed class KillSequenceState
     {
-        const float ReducedRingFraction = .3f;
         readonly DogfightTuning tuning;
         Vector3 velocity, spinRate;
         float flashEnd, breakupEnd, blastEnd, total, ringReach;
-        bool blastFired, blastOwed, reduced;
+        bool blastFired, blastOwed, reduced, reachIsInformation;
 
         public bool Active { get; private set; }
         public KillStage Stage { get; private set; }
@@ -54,7 +53,8 @@ namespace SpaceDragon.Dogfight
                 !NonNegative(tuning.KillHullSwell) || !NonNegative(tuning.KillHullShrink) ||
                 !NonNegative(tuning.KillDriftDrag) || !Finite(tuning.KillSpinDegreesPerSecond) ||
                 !NonNegative(tuning.KillFlashRadius) || !NonNegative(tuning.KillRingRadius) ||
-                !NonNegative(tuning.KillShardLength) || !NonNegative(tuning.KillShardReach))
+                !NonNegative(tuning.KillShardLength) || !NonNegative(tuning.KillShardReach) ||
+                !NonNegative(tuning.KillReducedRingFraction))
                 throw new ArgumentException("Kill sequence tuning requires finite, nonnegative values.", nameof(tuning));
         }
 
@@ -79,7 +79,8 @@ namespace SpaceDragon.Dogfight
             if (!Finite(position) || !NonNegative(ringRadius))
                 throw new ArgumentException("A blast needs a finite position and a nonnegative radius.");
             Start(position, variant, ringRadius);
-            reduced = reducedMotion;
+            // Here the radius tells the pilot how far the blast reaches, so it is never shrunk.
+            reduced = reducedMotion; reachIsInformation = true;
             SkipToBlast(false);
         }
 
@@ -132,7 +133,7 @@ namespace SpaceDragon.Dogfight
         // The timeline has run out. A cue that became due on this last step stays owed until taken.
         void Finish()
         {
-            Active = false; Stage = KillStage.Idle; Age = 0; reduced = false;
+            Active = false; Stage = KillStage.Idle; Age = 0; reduced = reachIsInformation = false;
             velocity = spinRate = SpinEuler = Vector3.zero;
             HullScale = 1; HullVisible = false;
             FlashRadius = FlashOpacity = ShardDistance = ShardLength = ShardOpacity = RingRadius = RingOpacity = 0;
@@ -166,7 +167,8 @@ namespace SpaceDragon.Dogfight
                 if (reduced)
                 {
                     FlashRadius = FlashOpacity = ShardDistance = ShardLength = ShardOpacity = 0;
-                    RingRadius = ringReach * ReducedRingFraction; RingOpacity = 1 - whole;
+                    // Still, not growing. A kill's ring is decoration and is kept small.
+                    RingRadius = reachIsInformation ? ringReach : ringReach * tuning.KillReducedRingFraction; RingOpacity = 1 - whole;
                 }
                 else
                 {

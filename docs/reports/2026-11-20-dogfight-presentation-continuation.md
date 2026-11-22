@@ -14,7 +14,7 @@ Work ran from November 20 to November 22, 2026, in a cloud container. **Nothing 
 
 | Check or exact command | Result | Evidence and limitation |
 | --- | --- | --- |
-| `npm run unity:dogfight:statetest` | PASS | **268 of 268.** 187 are the Dogfight line's own state tests, unchanged. Four cover the moved swept-sphere test. 77 are new: impact camera, kill sequence, hit confirmation, label layout and HUD mode. The Unity math types come from a hand-written stand-in, not from Unity. |
+| `npm run unity:dogfight:statetest` | PASS | **269 of 269** on the final code. 187 are the Dogfight line's own state tests, unchanged. Four cover the moved swept-sphere test. 78 are new: impact camera, kill sequence, hit confirmation, label layout and HUD mode. The Unity math types come from a hand-written stand-in, not from Unity. |
 | `npm run unity:dogfight:compile` | PASS | 0 errors, 0 warnings. Whole Dogfight runtime (one file left out) and 36 of 39 EditMode test files, against public UnityEngine 2021.3 reference assemblies. **Compiles only; runs nothing.** Does not prove a Unity 6 import. |
 | The existing state tests on the Dogfight line's unchanged sources | PASS | Run before any source was edited: 183 of 183 across 18 test classes. A nineteenth, the wing laser query, joined after the change described below. These tests passed in Unity on the Lenovo on November 1, so their passing here is the evidence that the stand-in agrees with Unity for what they cover. |
 | `npm run unity:playground:coretest` | PASS | 31 of 31, traversal and arena rules. Unchanged code; run to check the joined tree. |
@@ -26,7 +26,7 @@ Work ran from November 20 to November 22, 2026, in a cloud container. **Nothing 
 | Hosted CI on `c494bdc` | PASS | 16 of 16 check runs, including the new `unity-csharp` job and the Earth, Arena, Town Drive, Dogfight and production browser suites. Software-rendered Chromium; it does not run Unity. |
 | Hosted CI on the feature commit | See the pull request | Not finished when this receipt was written. |
 | Unity Editor setup, `npm run unity:dogfight:test`, Web build, `npm run unity:dogfight:verify` on WebGPU and WebGL2 | NOT TESTED | No Editor here. |
-| The seven new `KillSequenceVisualTests` | NOT TESTED | They build real LineRenderers and need the Editor. Compiled only. |
+| The seven new `KillSequenceVisualTests` and two new `EnemyRoleVisualTests` | NOT TESTED | They build real scene objects and need the Editor. Compiled only. |
 | The joined tree (Dogfight plus Playground and Arena) importing in Unity 6000.6.7f1 | NOT TESTED | Never opened. |
 | All switches off equals `combat-upgrades-v002` | NOT TESTED | Argued line by line from the code; the 11-case baseline browser run would prove it. |
 | Browser suites on this machine | NOT TESTED | Left to hosted CI. |
@@ -42,7 +42,26 @@ Work ran from November 20 to November 22, 2026, in a cloud container. **Nothing 
 
 ## Independent review of the feature commit
 
-Two reviewers read the commit without running it. Their findings and what was done about each are listed in the pull request description, which is written after this file.
+Two reviewers read commit `5d61101` without running it, one for Unity runtime behaviour and one for rules, resets and compatibility. Neither could run anything either.
+
+**Found sound, by reading:** no rule reads a shaken camera; every unpaused path re-applies the camera; all four switches off is equal to the earlier code line for line; the two existing tests that drive an encounter that was never started are unaffected; neither browser verifier has an assertion whose outcome changes with the new defaults; pause, focus loss and Restart clear the new state.
+
+**Found and fixed in the commit that follows this one:**
+
+| Finding | What was done |
+| --- | --- |
+| On leaving play or unloading the scene, one unguarded line in the kill visual could throw, and the encounter's existing cleanup after it would then be skipped. Conditional on the order Unity destroys objects in, which cannot be known from the code. | The line is guarded, the visual rebuilds if its objects are gone, and the new cleanup now runs last, after the old. |
+| A Racer, Grappler or Gunship lost its role silhouette the instant it was disabled, so the wreck tumbled as a bare drone. | A wreck keeps its silhouette and drops only its shield and stun cues. Two Unity tests added. |
+| The impact count in the QA snapshot survived Restart. | Restart now clears it. State test added. |
+| The kill-sequence count in the snapshot also counted gas rings. | Counted separately: `killSequencesStarted` and `gasRingsStarted`. |
+| With reduced motion, a gas pocket's ring was drawn at 30 percent of the real blast reach. | It is still, but at full reach. A kill's ring stays small. State test changed to say so. |
+| The clearer HUD ended 3.2 seconds after the ship went down, so the hidden prompts came back under the closing overlay. | The mode now lasts until Restart. |
+| The new presentation calls ran before a kill was counted and its salvage dropped. Nothing was found that makes them fail, but none of them has ever run. | The count and the drop now happen first, so a presentation fault cannot change a result. |
+| Two values that act like tuning were constants in code. | The reduced-motion ring fraction and the aim radius are now in `DogfightTuning`. |
+
+**Not changed:** the pool of six blast slots and the label box sizes stay as constants, like the HUD layout numbers already in the code.
+
+The fixes were checked the same way as the rest: 269 state tests and a clean compile. **They have not been run in Unity either.**
 
 ## Review and release
 

@@ -443,14 +443,13 @@ namespace SpaceDragon.Dogfight
             if(result.Blocked){ConfirmHit(weapon,HitConfirmKind.Blocked);Message("SHIELDED — word breath breaks the front shield");return;}
             if(result.ShieldBroken){ConfirmHit(weapon,HitConfirmKind.Hit);Message("SHIELD BROKEN — all weapons effective");sound.PlayExplosion();return;}
             if(!result.DisabledNow){if(result.AppliedDamage>0)ConfirmHit(weapon,HitConfirmKind.Hit);return;}
-            ConfirmHit(weapon,HitConfirmKind.Kill);
-            // The rules are finished by here: the enemy is disabled, counted once and drops its one
-            // salvage below. Only how the wreck is shown differs when the kill sequence is on.
-            bool sequence=BeginKillSequence(e);
-            if(!sequence)e.Visual.gameObject.SetActive(false);
+            // Rules first: the enemy is counted once and drops its one salvage before any
+            // presentation runs, so nothing below can change a result.
             e.TargetProgress=0;e.Locked=false;enemiesDestroyed++;
             salvage.Drop(e.Id,e.Position,e.RolePilot.Velocity);
-            if(!sequence){damageVfx.Burst(e.Position,36);sound.PlayExplosion();FeelKill(e.Position);}
+            ConfirmHit(weapon,HitConfirmKind.Kill);
+            // Only how the wreck is shown differs when the kill sequence is on.
+            if(!BeginKillSequence(e)){e.Visual.gameObject.SetActive(false);damageVfx.Burst(e.Position,36);sound.PlayExplosion();FeelKill(e.Position);}
             Message("Bogey disabled — recover salvage");
         }
         DragonSystem LocalSystem(Vector3 world)
@@ -505,7 +504,8 @@ namespace SpaceDragon.Dogfight
         {
             TickSceneryWeapons(dt);
             combatFeedback.Tick(dt,ReducedMotion);
-            foreach(var enemy in enemies)enemy.RoleVisual?.Tick(enemy.Combat,elapsed,ReducedMotion);
+            // A wreck held by a kill sequence keeps its silhouette until the hull itself goes.
+            foreach(var enemy in enemies)if(!HullHeld(enemy.Visual))enemy.RoleVisual?.Tick(enemy.Combat,elapsed,ReducedMotion);
             var burst=Breath.Burst;bool beamActive=burst!=null&&burst.Stage=="beam";
             float jaw=burst==null?(!UseSpacecraftDragon&&fireClock>0?-.18f:-.025f):burst.Stage=="windup"?-.04f-.30f*Mathf.SmoothStep(0,1,burst.Progress):-.36f;
             presentation.SetPropulsion(Mathf.InverseLerp(20,100,Flight.Speed),Flight.Boosting,Flight.BreakActive,ReducedMotion);
@@ -588,7 +588,7 @@ namespace SpaceDragon.Dogfight
         public void SetSoundEnabled(string value){SoundEnabled=value=="true"||value=="1";if(sound!=null)sound.SetEnabled(SoundEnabled);}
         public void SetReducedMotion(string value){ReducedMotion=value=="true"||value=="1";}
         public void SetMouseMode(){MouseAimMode=!MouseAimMode;pointerActive=false;Message(MouseAimMode?"Mouse aims — arrows fly":"Mouse flies and aims — arrows override");}
-        void OnDestroy(){DisposeFeel();foreach(var gas in gasVisuals)gas.Dispose();wingmanVisual?.Dispose();foreach(var enemy in enemies)enemy.RoleVisual?.Dispose();draws.Dispose();triangles.Dispose();foreach(var mesh in generatedMeshes)Destroy(mesh);}
+        void OnDestroy(){foreach(var gas in gasVisuals)gas.Dispose();wingmanVisual?.Dispose();foreach(var enemy in enemies)enemy.RoleVisual?.Dispose();draws.Dispose();triangles.Dispose();foreach(var mesh in generatedMeshes)Destroy(mesh);DisposeFeel();}
 
         [Serializable] sealed class Snapshot
         {
@@ -608,7 +608,7 @@ namespace SpaceDragon.Dogfight
             public int perfectRolls; public float combatTimeScale,slowRemaining; public string combatFlags,qaCondition;
             // SD-095 presentation evidence. fov and cameraTrailingDistance above stay free of the impact offset.
             public string feelFlags,hitConfirm,hudMode;public float cameraTrauma,cameraShakeMetres,cameraLensOffset;
-            public int cameraImpacts,killSequencesActive,killSequencesStarted,hitConfirms;
+            public int cameraImpacts,killSequencesActive,killSequencesStarted,gasRingsStarted,hitConfirms;
             public bool controllerConnected,usingController,controllerArmed;
             public int controllerMenuIndex;
             public string controllerDeviceName;
@@ -674,8 +674,8 @@ namespace SpaceDragon.Dogfight
 #endif
             s.comebackActive=comeback.Active;s.comebackUsed=comeback.Used;s.comebackAssisted=comeback.Assisted;s.comebackLetterIndex=comeback.LetterIndex;s.comebackSucceeded=comeback.SucceededSerial;s.comebackRemaining=comeback.Remaining;s.comebackProtection=comeback.ProtectionRemaining;s.repairCodeIndex=repairCode.Index;s.repairCodeExpected=repairCode.ExpectedDigit??-1;s.repairBonus=Tactics.RepairBonusApplied;s.repairCodePrompt=repairCode.Prompt;s.repairCodeMode=RepairMode.ToString();s.rockShots=rockShotCount;s.gasDetonations=gasDetonations;s.gasPockets=rockWeapons.Pockets.Count;s.wingmanRuns=wingman.RunsSent;s.wingmanRunning=wingman.Running;s.wingmanCooldown=wingman.CooldownRemaining;s.finishers=finisher.Serial;s.freezeRemaining=finisher.FreezeRemaining;s.independentBankInput=independentBankInput;s.independentBankEnabled=tuning.EnableIndependentBank;s.wave=waveState.Index+1;s.waveCount=waveState.Count;s.perfectRolls=perfectRoll.Serial;s.combatTimeScale=CurrentCombatTimeScale;s.slowRemaining=perfectRoll.SlowRemaining;s.combatFlags=CombatFlags;s.qaCondition=qaCondition;
             s.controllerConnected=ControllerConnected;s.usingController=UsingController;s.controllerArmed=ControllerArmed;s.controllerMenuIndex=ControllerMenuIndex;s.controllerDeviceName=ControllerDeviceName;
-            s.feelFlags=FeelFlags;s.hudMode=HudClarity.ModeFor(comeback.Active,Crashing).ToString();
-            s.killSequencesActive=ActiveKillSequences;s.killSequencesStarted=KillSequencesStarted;
+            s.feelFlags=FeelFlags;s.hudMode=HudClarity.ModeFor(comeback.Active,Dead).ToString();
+            s.killSequencesActive=ActiveKillSequences;s.killSequencesStarted=KillSequencesStarted;s.gasRingsStarted=GasRingsStarted;
             if(cameraImpact!=null)
             {
                 s.cameraTrauma=cameraImpact.Trauma;s.cameraShakeMetres=cameraImpact.PositionOffset.magnitude;s.cameraLensOffset=cameraImpact.FieldOfViewOffset;s.cameraImpacts=cameraImpact.Serial;

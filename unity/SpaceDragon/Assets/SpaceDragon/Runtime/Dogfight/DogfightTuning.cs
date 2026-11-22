@@ -75,8 +75,11 @@ namespace SpaceDragon.Dogfight
         public float KillHullSwell = 1.12f, KillHullShrink = .85f, KillDriftDrag = 1.4f, KillSpinDegreesPerSecond = 220f;
         public float KillFlashRadius = 9f, KillRingRadius = 30f, KillShardLength = 6f, KillShardReach = .75f;
         public float KillRingWidth = .5f, KillSpikeWidth = .28f, KillWidthPerMetre = .004f, KillEffectOpacity = .9f;
+        public float KillReducedRingFraction = .3f;
         [Header("Hit confirmation — reticle marker only, no score")]
         public float HitConfirmSeconds = .12f, HitConfirmKillSeconds = .38f, HitConfirmBlockedSeconds = .22f;
+        [Header("HUD clarity — how near the reticle an enemy must be to count as the one aimed at")]
+        public float HudAimRadius = 140f;
 
         /// <summary>Runs once for old serialized assets; subsequent setup preserves owner overrides.</summary>
         public bool EnsureCombatDefaults()
