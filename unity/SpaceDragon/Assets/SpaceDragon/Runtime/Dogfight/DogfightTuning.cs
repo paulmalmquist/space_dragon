@@ -60,6 +60,24 @@ namespace SpaceDragon.Dogfight
         public float ComebackSeconds = 5f, ComebackHull = 30f, ComebackProtectionSeconds = 2f;
         public float ComebackDriftMultiplier=.35f, ComebackDriftDrag=.2f, ComebackPitchDegrees=15f, ComebackRollDegrees=55f;
 
+        [Header("Feel and clarity pass — presentation only, all optional")]
+        public bool EnableImpactCamera = true, EnableKillSequence = true, EnableHitConfirm = true, EnableHudClarity = true;
+        [Header("Impact camera — shake and lens punch; reduced motion removes both")]
+        public float ImpactCameraDecayPerSecond = 1.7f, ImpactCameraMaxMetres = .32f, ImpactCameraMaxDegrees = 1.4f,
+            ImpactCameraMaxRollDegrees = 2f, ImpactCameraFrequency = 19f;
+        public float ImpactCameraLensPunchMax = 5f, ImpactCameraLensRecovery = 7f;
+        public float ImpactHitTrauma = .34f, ImpactHitTraumaPerDamage = .012f, ImpactKillTrauma = .5f,
+            ImpactGasTrauma = .7f, ImpactMissileTrauma = .3f, ImpactFinisherTrauma = .6f, ImpactBeamRumble = .22f;
+        public float ImpactNearMetres = 60f, ImpactFarMetres = 420f;
+        public float ImpactPerfectRollLensPunch = 3f, ImpactFinisherLensPunch = -4f, ImpactBoostLensPunch = 2.5f;
+        [Header("Kill sequence — shown after the rules have already disabled an enemy")]
+        public float KillFlashSeconds = .08f, KillBreakupSeconds = .38f, KillBlastSeconds = .30f, KillEmberSeconds = .55f;
+        public float KillHullSwell = 1.12f, KillHullShrink = .85f, KillDriftDrag = 1.4f, KillSpinDegreesPerSecond = 220f;
+        public float KillFlashRadius = 9f, KillRingRadius = 30f, KillShardLength = 6f, KillShardReach = .75f;
+        public float KillRingWidth = .5f, KillSpikeWidth = .28f, KillWidthPerMetre = .004f, KillEffectOpacity = .9f;
+        [Header("Hit confirmation — reticle marker only, no score")]
+        public float HitConfirmSeconds = .12f, HitConfirmKillSeconds = .38f, HitConfirmBlockedSeconds = .22f;
+
         /// <summary>Runs once for old serialized assets; subsequent setup preserves owner overrides.</summary>
         public bool EnsureCombatDefaults()
         {

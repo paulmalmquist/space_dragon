@@ -25,8 +25,8 @@
     <DogfightTests>$(MSBuildThisFileDirectory)../../../unity/SpaceDragon/Assets/SpaceDragon/Tests/EditMode/Dogfight</DogfightTests>
   </PropertyGroup>
   <ItemGroup>
-    <StateClass Include="BreathState;ChaseCameraState;ClawFinisherState;CollisionImpact;CombatGeometry;ComebackState;DogfightTuning;EnemyPilot;EnemyRoleState;FlightState;HomingMissile;PerfectRollState;RepairCodeState;RocksWeaponState;RolePilotState;TacticalState;WaveState;WingLaserQuery;WingmanAttackPose;WingmanState" />
-    <StateTest Include="BreathStateTests;ChaseCameraTests;ClawFinisherStateTests;CollisionImpactTests;CombatGeometryTests;ComebackStateTests;EnemyPilotTests;EnemyRoleStateTests;FlightStateTests;HomingMissileTests;MultiBreathTests;PerfectRollTests;RepairCodeStateTests;RocksWeaponStateTests;RolePilotStateTests;TacticalStateTests;WaveStateTests;WingLaserQueryTests;WingmanAttackPoseTests;WingmanStateTests" />
+    <StateClass Include="BreathState;CameraImpactState;ChaseCameraState;ClawFinisherState;CollisionImpact;CombatGeometry;ComebackState;DogfightTuning;EnemyPilot;EnemyRoleState;FlightState;HitConfirmState;HomingMissile;KillSequenceState;PerfectRollState;RepairCodeState;RocksWeaponState;RolePilotState;TacticalState;TargetLabelLayout;WaveState;WingLaserQuery;WingmanAttackPose;WingmanState" />
+    <StateTest Include="BreathStateTests;CameraImpactStateTests;ChaseCameraTests;ClawFinisherStateTests;CollisionImpactTests;CombatGeometryTests;ComebackStateTests;EnemyPilotTests;EnemyRoleStateTests;FlightStateTests;HitConfirmStateTests;HomingMissileTests;KillSequenceStateTests;MultiBreathTests;PerfectRollTests;RepairCodeStateTests;RocksWeaponStateTests;RolePilotStateTests;TacticalStateTests;TargetLabelLayoutTests;WaveStateTests;WingLaserQueryTests;WingmanAttackPoseTests;WingmanStateTests" />
     <Compile Include="@(StateClass->'$(DogfightRuntime)/%(Identity).cs')" Link="Runtime/%(Filename)%(Extension)" />
     <Compile Include="@(StateTest->'$(DogfightTests)/%(Identity).cs')" Link="Tests/%(Filename)%(Extension)" />
     <Compile Include="Shim/*.cs" />

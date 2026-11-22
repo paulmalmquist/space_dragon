@@ -44,7 +44,7 @@ namespace SpaceDragon.Dogfight
             foreach(var enemy in enemies)if(!enemy.Dead&&gas.ContainsEnemy(enemy.Position))
                 DamageEnemy(enemy,gas.EnemyDamage,WeaponKind.Environment,gas.Position);
             if(gas.ContainsPlayer(Flight.Position))HitPlayer(DragonSystem.Hull,gas.PlayerDamage,gas.Position);
-            damageVfx.Burst(gas.Position,48);sound.PlayExplosion();Message("GAS POCKET — blast radius! Asteroid remains solid.");return true;
+            damageVfx.Burst(gas.Position,48);sound.PlayExplosion();FeelGasBlast(gas.Position);Message("GAS POCKET — blast radius! Asteroid remains solid.");return true;
         }
         void MissileRockImpact(MissileView missile,Vector3 point)
         {

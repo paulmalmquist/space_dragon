@@ -76,7 +76,7 @@ namespace SpaceDragon.Dogfight
                     Flight.Position,Flight.Forward,enemy.Position,Flight.Boosting,ReducedMotion))continue;
                 DamageEnemy(enemy,enemy.Health,WeaponKind.Finisher);
                 Flight.RefillBoost();Flight.AddEvasion(tuning.FinisherEvasionReward);
-                finisherFeedback.Trigger(enemy.Position);sound.PlayHit();sound.PlayExplosion();
+                finisherFeedback.Trigger(enemy.Position);FeelFinisher();sound.PlayHit();sound.PlayExplosion();
                 Message("CLAW FINISH — boost full, evasion restored");
                 break;
             }
@@ -123,12 +123,13 @@ namespace SpaceDragon.Dogfight
             foreach(var enemy in enemies)if(enemy.Combat.ShakeOff()){Message("Grappler shaken off — stunned");enemy.Pilot.BreakLock();}
             if (perfectRoll.Serial != before)
             {
-                combatFeedback.PerfectRoll(); sound.PlayPerfectRoll(); Message("PERFECT ROLL — evasion restored");
+                combatFeedback.PerfectRoll(); FeelPerfectRoll(); sound.PlayPerfectRoll(); Message("PERFECT ROLL — evasion restored");
             }
         }
 
         void SpawnWave(EnemyRole[] specifiedRoles=null)
         {
+            ReleaseBlastHulls();
             foreach(var enemy in enemies){enemy.RoleVisual?.Dispose();Destroy(enemy.Visual.gameObject);}
             enemies.Clear();
             var roles=specifiedRoles??waveState.CurrentRoles;
@@ -182,6 +183,13 @@ namespace SpaceDragon.Dogfight
                 tuning.EnablePerfectRoll=tuning.EnableEnemyRoles=tuning.EnableClawFinisher=tuning.EnableWingman=
                     tuning.EnableRockWeapons=tuning.EnableMultiTargetBreath=tuning.EnableRepairCode=tuning.EnableComeback=enabled;
                 tuning.EnableIndependentBank=enabled;
+                // All off must still be the encounter as it played before any of this work.
+                SetFeelSwitches(enabled);
+                RestartEncounter(); qaCondition=action; return true;
+            }
+            if (action == "feel:off" || action == "feel:on")
+            {
+                SetFeelSwitches(action.EndsWith(":on"));
                 RestartEncounter(); qaCondition=action; return true;
             }
             if (action == "perfect:bolt" || action == "perfect:early" || action == "perfect:missile")

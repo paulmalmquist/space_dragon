@@ -58,6 +58,7 @@ namespace SpaceDragon.Dogfight
                 }
             }
             else if(comeback.Failed)OnDestroyed();
+            TickFeelBackground(dt);
             MoveCamera(dt,false);
         }
     }

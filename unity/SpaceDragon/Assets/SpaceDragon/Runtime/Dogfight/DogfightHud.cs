@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SpaceDragon.Dogfight
@@ -16,6 +17,14 @@ namespace SpaceDragon.Dogfight
         TacticalWarning lastWarning;
         float warningAge;
         float width, height, scale;
+        // SD-095 clarity pass. Reused every frame so that drawing allocates nothing new.
+        readonly List<TargetLabelRequest> labelRequests = new List<TargetLabelRequest>();
+        readonly List<TargetLabelPlan> labelPlans = new List<TargetLabelPlan>();
+        readonly List<LabelBox> labelBoxes = new List<LabelBox>();
+        readonly List<int> labelOrder = new List<int>();
+        readonly List<EnemyView> labelEnemies = new List<EnemyView>();
+        bool clarity; HudMode mode;
+        bool Shows(HudElement element) => HudClarity.Shows(element, mode, clarity);
         string PrimaryLabel => encounter.UseSpacecraftDragon ? "TWIN LASERS" : "PLASMA";
         bool UsingController => encounter.UsingController;
         public void Configure(DogfightEncounter owner) => encounter = owner;
@@ -49,8 +58,14 @@ namespace SpaceDragon.Dogfight
             GUI.matrix = Matrix4x4.Scale(new Vector3(scale,scale,1)); GUI.color = Color.white;
             try
             {
-                DrawCanopy(); DrawTargets(); DrawAim(); DrawHeader(); DrawWarning(); DrawRadar(); DrawSystems(); DrawWingman(); DrawMissiles(); DrawWord(); DrawFlight();
-                if (!string.IsNullOrEmpty(encounter.Toast))
+                // With the clarity switch off every block shows, in the original order.
+                clarity = encounter.Tuning.EnableHudClarity; mode = HudClarity.ModeFor(encounter.Comeback.Active, encounter.Crashing);
+                if (Shows(HudElement.Canopy)) DrawCanopy();
+                if (Shows(HudElement.TargetShapes)) { if (clarity) DrawTargetsClear(Shows(HudElement.TargetWords)); else DrawTargets(); }
+                if (Shows(HudElement.Reticle)) DrawAim(); if (Shows(HudElement.Header)) DrawHeader(); if (Shows(HudElement.Warning)) DrawWarning();
+                if (Shows(HudElement.Radar)) DrawRadar(); if (Shows(HudElement.Systems)) DrawSystems(); if (Shows(HudElement.Wingman)) DrawWingman();
+                if (Shows(HudElement.Missiles)) DrawMissiles(); if (Shows(HudElement.Word)) DrawWord(); if (Shows(HudElement.FlightPanel)) DrawFlight();
+                if (Shows(HudElement.Toast) && !string.IsNullOrEmpty(encounter.Toast))
                 { Panel(new Rect(width/2-270,130,540,36),Cyan,.45f); Text(new Rect(width/2-260,134,520,28),encounter.Toast,Cyan,center); }
                 if (encounter.Tactics.IsRepairing) DrawRepairProgress();
                 if (encounter.RepairSelectorOpen && !encounter.Paused && !encounter.Dead && !encounter.Comeback.Active) DrawRepairSelector();
@@ -135,6 +150,32 @@ namespace SpaceDragon.Dogfight
             if (encounter.Tactics.LockProgress > 0) Arc(p,30,-90,360*encounter.Tactics.LockProgress,Amber,2,16);
             if (encounter.Tactics.HasConfirmedLock) Text(new Rect(p.x-85,p.y+38,170,24),UsingController?"SQUARE / MISSILE":"ENTER  /  MISSILE",Amber,center);
             else if (encounter.Tactics.LockProgress > 0) Text(new Rect(p.x-85,p.y+38,170,24),"ACQUIRING",Amber,center);
+            var confirm = encounter.HitConfirm;
+            if (confirm != null && confirm.Visible) DrawHitConfirm(p, confirm);
+        }
+        /// <summary>The pilot's own shot landed, was stopped by a shield, or finished a target.
+        /// Each has its own shape, so it does not depend on colour or on reading.</summary>
+        void DrawHitConfirm(Vector2 p, HitConfirmState confirm)
+        {
+            float grow = encounter.ReducedMotion ? 0 : confirm.Progress;
+            if (confirm.Kind == HitConfirmKind.Blocked)
+            {
+                // Two upright bars: a wall.
+                float gap = 13 + 3*grow;
+                Line(p+new Vector2(-gap,-11),p+new Vector2(-gap,11),Cyan,2.5f);
+                Line(p+new Vector2(gap,-11),p+new Vector2(gap,11),Cyan,2.5f);
+                return;
+            }
+            // Four diagonal ticks between the reticle arms. A kill is larger and adds a diamond.
+            bool kill = confirm.Kind == HitConfirmKind.Kill;
+            float inner = (kill?12:10) + (kill?7:4)*grow, length = kill?12:7;
+            Color color = kill ? Amber : Color.white;
+            for (int i=0;i<4;i++)
+            {
+                Vector2 d = new Vector2(i%2==0?1:-1,i<2?1:-1)*.7071f;
+                Line(p+d*inner,p+d*(inner+length),color,kill?2.6f:1.8f);
+            }
+            if (kill) Diamond(p,(inner+length)*.7071f+9,Amber,2);
         }
         void DrawTargets()
         {
@@ -162,19 +203,79 @@ namespace SpaceDragon.Dogfight
                 }
                 else Diamond(p,5,color,1.5f);
             }
+            DrawGasAndSalvage(true);
+        }
+        void DrawGasAndSalvage(bool words)
+        {
             if(encounter.Tuning.EnableRockWeapons)foreach(var gas in encounter.GasPockets)
             {
                 if(gas.Detonated)continue;var view=encounter.GameCamera.WorldToViewportPoint(gas.Position);
                 if(view.z<=0)continue;Vector2 point=ViewportPoint(view);Diamond(point,13,Amber,2);
-                Text(new Rect(point.x-40,point.y+16,80,22),"GAS",Amber,center);
+                if(words)Text(new Rect(point.x-40,point.y+16,80,22),"GAS",Amber,center);
             }
             if (encounter.SalvageItems != null) foreach (var item in encounter.SalvageItems)
             {
                 var v = encounter.GameCamera.WorldToViewportPoint(item.Position);
                 if (v.z <= 0) continue;
                 Vector2 p = ViewportPoint(v); Diamond(p,7,Cyan,1.5f);
-                Text(new Rect(p.x-85,p.y+10,170,22),"SALVAGE "+Mathf.RoundToInt(Vector3.Distance(encounter.Flight.Position,item.Position))+" m",Cyan,center);
+                if(words)Text(new Rect(p.x-85,p.y+10,170,22),"SALVAGE "+Mathf.RoundToInt(Vector3.Distance(encounter.Flight.Position,item.Position))+" m",Cyan,center);
             }
+        }
+        /// <summary>
+        /// The clarity pass. Shapes are drawn for every enemy as before. Words come from
+        /// TargetLabelLayout: a name and one status each, never on top of one another.
+        /// </summary>
+        void DrawTargetsClear(bool words)
+        {
+            if (encounter.GameCamera == null) return;
+            labelRequests.Clear(); labelEnemies.Clear();
+            var tactics = encounter.Tactics; var locked = encounter.Breath.LockedIds;
+            Vector2 aim = new Vector2((encounter.AimScreen.x*.5f+.5f)*width,(.5f-encounter.AimScreen.y*.5f)*height);
+            if (encounter.Enemies != null) foreach (var enemy in encounter.Enemies)
+            {
+                if (enemy.Dead) continue;
+                var v = encounter.GameCamera.WorldToViewportPoint(enemy.Position);
+                bool onScreen = v.z > 0 && v.x > .035f && v.x < .965f && v.y > .10f && v.y < .90f;
+                if (!onScreen) { Diamond(ViewportPoint(v),5,enemy.Id == tactics.LockedTargetId ? Cyan : Amber,1.5f); continue; }
+                int mark = 0; for (int i=0;i<locked.Length;i++) if (locked[i]==enemy.CombatId) mark = i+1;
+                bool wounded = encounter.Tuning.EnableClawFinisher&&!enemy.Combat.ShieldIntact&&enemy.Health/enemy.Combat.MaximumHealth<encounter.Tuning.FinisherHealthFraction;
+                bool focus = enemy.Id == tactics.TrackingTargetId || enemy.Id == tactics.LockedTargetId;
+                labelRequests.Add(new TargetLabelRequest(v.x*width,(1-v.y)*height,Vector3.Distance(encounter.Flight.Position,enemy.Position),
+                    focus,enemy.Combat.ShieldIntact,wounded,enemy.Combat.Latched,mark));
+                labelEnemies.Add(enemy);
+            }
+            // With nothing tracked, the enemy nearest the reticle is the one being worked on.
+            int nearest = TargetLabelLayout.FocusIndex(labelRequests,aim.x,aim.y);
+            if (nearest >= 0 && !labelRequests[nearest].Focus)
+            {
+                var r = labelRequests[nearest];
+                labelRequests[nearest] = new TargetLabelRequest(r.X,r.Y,r.Distance,true,r.Shielded,r.Wounded,r.Latched,r.BreathMark);
+            }
+            LabelBox? reserved = null;
+            if (Shows(HudElement.Reticle) && (tactics.HasConfirmedLock || tactics.LockProgress > 0)) reserved = new LabelBox(aim.x-85,aim.y+38,170,24);
+            TargetLabelLayout.Plan(labelRequests,labelPlans,reserved,words,labelBoxes,labelOrder);
+            for (int i=0;i<labelRequests.Count;i++)
+            {
+                var enemy = labelEnemies[i]; var request = labelRequests[i]; var plan = labelPlans[i];
+                Vector2 p = new Vector2(request.X,request.Y);
+                Color color = enemy.Id == tactics.LockedTargetId ? Cyan : Amber;
+                Brackets(new Rect(p.x-22,p.y-20,44,40),color);
+                if (request.Shielded) Arc(p,36,-175,170,Cyan,3,12);
+                if (request.Wounded) { float radius = encounter.ReducedMotion?29:29+3*Mathf.Sin(clock*6); Diamond(p,radius,Amber,3); }
+                // The breath tick sits beside the brackets, clear of the name and the shield arc.
+                if (request.BreathMark > 0) Diamond(p+new Vector2(48,-30),5,Cyan,2);
+                if (enemy.Id == tactics.TrackingTargetId) Bar(new Rect(p.x-22,p.y+20,44,3),tactics.LockProgress,color);
+                if (plan.ShowName)
+                    Text(new Rect(p.x-85,plan.NameY,170,22),encounter.Tuning.EnableEnemyRoles?enemy.Combat.Role.ToString().ToUpperInvariant():enemy.Id.ToUpperInvariant(),color,center);
+                if (!plan.ShowStatus) continue;
+                float w = TargetLabelLayout.WidthOf(plan.Status); var box = new Rect(p.x-w*.5f,plan.StatusY,w,22);
+                if (plan.Status == TargetStatus.Latched) Text(box,UsingController?"LATCHED — L1 / R1":"LATCHED — ROLL",Red,center);
+                else if (plan.Status == TargetStatus.Wounded) Text(box,UsingController?"WOUNDED — CROSS BOOST":"WOUNDED — BOOST THROUGH",Amber,center);
+                else if (plan.Status == TargetStatus.Shielded) Text(box,"SHIELDED",Cyan,center);
+                else if (plan.Status == TargetStatus.BreathLock) Text(box,"BREATH "+request.BreathMark,Cyan,center);
+                else Text(box,Mathf.RoundToInt(request.Distance)+" m",color,center);
+            }
+            DrawGasAndSalvage(words);
         }
         Vector2 ViewportPoint(Vector3 v)
         {
@@ -283,7 +384,13 @@ namespace SpaceDragon.Dogfight
         void DrawComebackWord()
         {
             var recovery=encounter.Comeback;var rect=new Rect(width/2-215,height/2-100,430,200);Panel(rect,Amber,.94f);
-            Text(new Rect(rect.x+12,rect.y+8,406,30),"REAWAKEN  /  "+recovery.Remaining.ToString("0.0")+" s",Amber,center);
+            if (encounter.Tuning.EnableHudClarity)
+            {
+                // The instruction lives in the panel, and the time left is a bar rather than a number to read.
+                Text(new Rect(rect.x+12,rect.y+6,406,30),"WAKE THE SHIP  /  SPELL "+ComebackState.Word,Amber,center);
+                Bar(new Rect(rect.x+30,rect.y+37,rect.width-60,4),recovery.Remaining/Mathf.Max(.01f,encounter.Tuning.ComebackSeconds),Amber);
+            }
+            else Text(new Rect(rect.x+12,rect.y+8,406,30),"REAWAKEN  /  "+recovery.Remaining.ToString("0.0")+" s",Amber,center);
             for(int i=0;i<ComebackState.Word.Length;i++)
             {
                 Text(new Rect(rect.x+104+i*56,rect.y+43,48,30),i<recovery.LetterIndex?ComebackState.Word[i].ToString():"_",Cyan,center);
