@@ -48,16 +48,17 @@ Two reviewers read the commit without running it. Their findings and what was do
 
 - **Implemented outcome:** as described in the [decision](../decisions/2026-11-20-dogfight-feel-and-clarity-pass.md) and the [guide](../engineering/UNITY_DOGFIGHT.md).
 - **Human review:** NOT REVIEWED. Nobody has seen or played any of it.
-- **Publication or deployment approval:** NOT GRANTED. PR #35 was opened for review only by owner instruction; PR #37 is a draft and merges nothing.
-- **Rollback:** turn off any of `EnableImpactCamera`, `EnableKillSequence`, `EnableHitConfirm`, `EnableHudClarity` in `Generated/DogfightTuning.asset`. All four off is the earlier encounter. `feat/dogfight-combat-upgrades` at `a30a162` is untouched and still holds the verified `combat-upgrades-v002` sources.
+- **Merge to `main`:** done on November 22 on the owner's instruction, "Can you push all work to main". `main` moved from `5b86dda` to `ea1fc65` as a fast-forward. PR #35, PR #36 and PR #37 closed as merged. This replaces the November 1 review-only instruction on PR #35.
+- **Publication or deployment approval:** NOT GRANTED. The repository has no deployment step and none was run.
+- **Rollback:** turn off any of `EnableImpactCamera`, `EnableKillSequence`, `EnableHitConfirm`, `EnableHudClarity` in `Generated/DogfightTuning.asset`. All four off is the earlier encounter. Commit `a30a162` (the branch `feat/dogfight-combat-upgrades`) still holds the verified `combat-upgrades-v002` sources, and `main` before this work is `5b86dda`.
 
 ## First run on the Lenovo
 
 One Editor at a time on this project. From the repository root:
 
 ```powershell
-git fetch origin claude/blissful-fermi-3ir80u
-git switch claude/blissful-fermi-3ir80u
+git switch main
+git pull
 git lfs pull
 npm run unity:dogfight:statetest
 $env:SPACE_DRAGON_DOGFIGHT_ASSET = 'oscar-v001'

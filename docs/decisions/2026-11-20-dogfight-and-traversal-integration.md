@@ -13,7 +13,9 @@ Two lines of work were open against `main` at `5b86dda` and neither had been mer
 
 The owner asked on November 20 to continue the Dogfight line and allowed merging the work in flight. Branch `claude/blissful-fermi-3ir80u` now holds both lines. No source file conflicted. Five records did, because each line had added its entries at the same place: the status, the roadmap, the current milestone, the ledger and the inbox. Both sides were kept in each.
 
-The owner's instruction on PR #35 was to open it for review only, with no merge and no deployment. Joining the lines on a working branch does not merge either one into `main` and deploys nothing.
+The owner's instruction on PR #35 was to open it for review only, with no merge and no deployment. Joining the lines on a working branch did not merge either one into `main` and deployed nothing.
+
+**Later owner instruction, November 22:** "Can you push all work to main". The joined branch was pushed to `main` that day as a fast-forward from `5b86dda` to `ea1fc65`, with no history rewritten. GitHub then closed PR #35, PR #36 and PR #37 as merged. This replaces the review-only instruction for merging. It is not a deployment and none was made.
 
 ## The identifier collision
 

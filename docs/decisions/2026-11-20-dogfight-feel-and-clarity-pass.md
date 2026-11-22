@@ -61,6 +61,10 @@ Reduced motion removes the shake, the lens punch and the wreck's drift and tumbl
 - Both of the owner's own tests in group 1.
 - Sound. Many events still have no cue, and none was added here because none can be heard here.
 
+## Delivery
+
+On November 22 the owner asked: "Can you push all work to main". It was pushed that day. Nothing is deployed.
+
 ## Records
 
 [Verification receipt](../reports/2026-11-20-dogfight-presentation-continuation.md) · [how the two lines were joined](2026-11-20-dogfight-and-traversal-integration.md) · [switches and controls](../engineering/UNITY_DOGFIGHT.md) · [the owner's combat brief, whose rules this pass follows](../../ideas/2026-11-01-dogfight-combat-upgrades-source.md)
