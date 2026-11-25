@@ -269,3 +269,40 @@ test('same-state saves are idempotent and reset preserves the previous valid che
   assert.deepEqual(JSON.parse(storage.getItem(BACKUP_SAVE_KEY)!), progressed);
   assert.deepEqual(loadCheckpoint(storage).state, createInitialState());
 });
+
+test('draft v2 checkpoints preserve progress and assisted outcomes without writing on load', () => {
+  const makeDraft = (step: string, demonstrated: number, scan = 'pending', scanHelp = false) =>
+    JSON.stringify({ version: 2, step, demonstrated, scan, scanHelp });
+  const cases = [
+    [makeDraft('computer', 0), 'living-room', 0, false, 0],
+    [makeDraft('backyard', 0), 'backyard', 0, false, 0],
+    [makeDraft('pod', 0), 'suits', 0, false, 0],
+    [makeDraft('suits', 0), 'suits', 0, false, 0],
+    [makeDraft('suits', 4), 'suits', 4, false, 0],
+    [makeDraft('scan', 5, 'pending', true), 'scan', 5, false, 1],
+    [makeDraft('map', 5, 'direct'), 'map', 5, false, 0],
+    [makeDraft('map', 5, 'assisted', true), 'map', 5, true, 0],
+  ] as const;
+  for (const [raw, phase, demonstrated, assisted, hintLevel] of cases) {
+    const storage = {
+      getItem: (key: string) => key === SAVE_KEY ? raw : null,
+      setItem: () => assert.fail('load must not write'),
+    };
+    const { state } = loadCheckpoint(storage);
+    assert.equal(state.phase, phase);
+    assert.equal(state.suits.length, demonstrated);
+    assert.equal(state.scanAssisted, assisted);
+    assert.equal(state.hintLevel, hintLevel);
+    assert.equal(state.flags.archiveCardSymbol, phase === 'map');
+  }
+
+  const impossible = [
+    makeDraft('suits', -1), makeDraft('suits', 5), makeDraft('scan', 4),
+    makeDraft('scan', 5, 'direct'), makeDraft('map', 5, 'direct', true),
+    makeDraft('map', 5, 'assisted', false), makeDraft('map', 5), makeDraft('pod', 1),
+  ];
+  for (const raw of impossible) {
+    const storage = { getItem: (key: string) => key === SAVE_KEY ? raw : null, setItem: () => assert.fail('load must not write') };
+    assert.deepEqual(loadCheckpoint(storage).state, createInitialState());
+  }
+});

@@ -87,6 +87,36 @@ Source: owner, repo-attached chat with a screenshot. Exact wording:
 
 Routing receipt: **CONFIRMED expansion / verified for named local checks**. [Decision](../docs/decisions/2026-11-01-oscar-mechanical-and-near-orbit-polish.md), [active receipt](../docs/reports/2026-11-01-oscar-presentation-polish.md). Add fitted mechanical plates/joint details to a recoverable Oscar derivative while retaining anatomy/animation, and refine near-orbit surface/cloud/atmosphere detail. Original source, baseline and intermediate lighting/HUD evidence remain preserved. Gameplay, collision and saves remain unchanged. The final v009 source/v004 armor with `oscar-orbit-v004` passes source/intake/setup/build, 86 Unity tests and 11/11 WebGPU plus 11/11 WebGL2 cases (~58.7 / 48.6 fps short samples). AI agents inspected matched neutral/HUD/gameplay images; material/lighting differences, occlusion and human art/sound/comfort/release review remain open. Keep SD-086; do not reuse the concurrent Luke SD-087.
 
+### October 29, 2026 — continue coding from the recent story
+
+Source: owner, Space Dragon chat.
+
+> “Continue coding based on the recent updates to the story”
+
+Earlier owner direction preserved with the supplied mission document:
+
+> “Keep going on missions
+> I want it to evolve to planet to planet composing the sos”
+
+Receipt: **SD-097** · CONFIRMED First Contact implementation request. **SD-098** · CONFIRMED SOS composition direction, with staging PROPOSED under the [current campaign](../docs/story/CAMPAIGN_STRUCTURE.md). The retained browser story already has the suit demonstrations, supported scan, archive and saved town map. [Historical draft receipt](../docs/reports/2026-10-29-first-contact-suits.md) and [story reconciliation](../docs/story/RECENT_STORY_INTEGRATION.md).
+
+
+### October 29, 2026 — explain and plan the musical portion
+
+Source: owner, Space Dragon chat.
+
+> “Explain where we are with the musical portion…plan that out if we’re nowhere”
+
+Receipt: **SD-099** · CONFIRMED planning request. The [music plan](../docs/audio/MUSIC_PLAN.md) covers the SOS motif, family voices, adaptive First Contact and world contributions. Composition and adaptive score implementation remain planned.
+
+### October 30, 2026 — powers morph the family voices into synth
+
+Source: owner, Space Dragon chat.
+
+> “As we get powers morph them into synth”
+
+Receipt: **SD-100** · CONFIRMED musical direction. The [decision](../docs/decisions/2026-10-30-powers-to-synth.md) records the change from instrumental to synth voices as powers develop. Exact timbres and unlock staging remain PROPOSED.
+
 <!-- Add your next thought here. No form required. -->
 
 ## Captured and connected

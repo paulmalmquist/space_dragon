@@ -24,6 +24,10 @@ The old-ID column is explicitly namespaced to the incoming source; it is not an 
 
 The `PR #15` entries are provenance references to a separate concurrent branch, not imported local ledger entries. [PR #15](https://github.com/paulmalmquist/space_dragon/pull/15) is open at head `b4e76bf` on `origin/codex/first-contact-suits-and-story`; its ledger contains those two meanings. The full branch is not included in this merge. Preserve that attribution explicitly and reconcile its IDs when the branch is merged. This decision does not invent source wording or merge PR #15.
 
+## November 25 integration
+
+PR #15 now maps its original SD-019–SD-022 to SD-097–SD-100. PR #28 originally used SD-078 for VR readiness, which now uses SD-096. See the [current ledger](../project/IDEA_LEDGER.md) for authority and work state.
+
 ## Continuing rules
 
 - The local SD-001–SD-026 meanings remain unchanged. SD-027 is reserved for the preserved planet-missions filing, rather than curriculum.

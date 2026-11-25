@@ -62,7 +62,7 @@ Every family member has an instrument **voice**. Every action their suit perform
 | **The Hush** | A very low, breathy drone, felt more than heard (optional controller rumble) | Ends as a warm sustained pad under the restored song: the "rest." |
 | **The Caller** | A lone, hoarse whistle singing the SOS | Gains backing instruments as worlds wake. |
 | **The Quiet** | A muffling filter over everything, with Morrow's held note underneath | Pulls back as color returns. |
-| **The family's powers** | Each instrument voice morphs into synth (PR #15 / SD-022) | A new song: sounds the old song never had, which Morrow can't hold. |
+| **The family's powers** | Each instrument voice morphs into synth ([SD-100](../decisions/2026-10-30-powers-to-synth.md)) | A new song: sounds the old song never had, which Morrow can't hold. |
 
 ### 2.4 Adaptive music states
 

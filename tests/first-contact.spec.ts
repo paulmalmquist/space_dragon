@@ -54,6 +54,24 @@ function savedStateAt(target: Phase): GameState {
   return state;
 }
 
+test('resumes a draft First Contact suit checkpoint and saves the current format', async ({ page }) => {
+  const draft = JSON.stringify({ version: 2, step: 'suits', demonstrated: 2, scan: 'pending', scanHelp: false });
+  await seedSaves(page, { [saveKey]: draft });
+  await begin(page);
+  await phase(page, 'suits');
+  await expect(page.locator('#suit-card')).toContainText('Luke');
+  expect(await page.evaluate(key => localStorage.getItem(key), saveKey)).toBe(draft);
+
+  await page.keyboard.press('Space');
+  await expect(page.locator('body')).toHaveAttribute('data-suits-count', '3');
+  expect(await page.evaluate(key => localStorage.getItem(key), backupKey)).toBe(draft);
+  await page.reload();
+  await page.locator('#begin-quiet').click();
+  await phase(page, 'suits');
+  await expect(page.locator('#suit-card')).toContainText('Luna');
+  expect((await snapshot(page)).state.suits).toEqual(['paul', 'maria', 'luke']);
+});
+
 test('renders the compressed pod and completes First Contact with keyboard checkpoints', async ({ page }) => {
   const errors: string[] = [];
   const externalRequests: string[] = [];
