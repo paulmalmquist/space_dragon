@@ -14,7 +14,7 @@ Identify the requested player-visible outcome, acceptance checks and exclusions.
 ## Procedure
 
 1. Choose the smallest reversible change that produces the requested behavior. Preserve current Act I authority and open decisions. State assumptions without reopening settled choices.
-2. Identify authoritative state, semantic input, presentation and save boundaries. Use stable IDs; guard unique rewards against repeated events. Keep learner, avatar and action-assistance independent.
+2. Identify authoritative state, semantic input, presentation and save boundaries. Use stable IDs; guard unique rewards against repeated events. Keep learner, avatar and action-assistance independent. For Unity camera, input, HUD, shader, cinematic or view-motion changes, apply the `docs/engineering/VR_READINESS.md` checklist without adding XR packages.
 3. Add a failing regression test where feasible. For new interactions, cover success, help/failure, repeated trigger, interruption and reload at the relevant checkpoint.
 4. Implement with existing conventions. Do not introduce a general engine, server, paid service or full-town system to solve a local task. Leave future systems as boundaries, not speculative implementations.
 5. Run relevant logic/build checks and the foundation checks when their files change. Exercise the actual interaction using `sd-playtest`; compilation alone is insufficient. When a required tool/device is unavailable, mark that coverage NOT TESTED.

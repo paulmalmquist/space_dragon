@@ -96,6 +96,10 @@ The v004 reference pass owns thin road-paint ribbons and shared Blender plant me
 
 Keyboard and review-driver input feed the same semantic driving rules. Focus/pause releases held input; traffic/pedestrian animation observes simulation time. Checkpoint persistence uses separate `space-dragon.unity.drive.v1`/backup keys, ordered-progress validation and future-version protection, with no automatic browser/campaign save migration. Native-core parity, generated-scene validation, actual player behavior and visual/performance acceptance remain separate evidence in the [active scene receipt](../reports/2026-10-31-unity-town-drive-scene.md). The dedicated Development Web player passed its full route/reload and two-backend checks; human quality, full feature parity and release remain separate. The browser Drive Lab remains available as a reference.
 
+## Unity VR readiness — SD-096
+
+New or ported Unity gameplay follows the [VR readiness standard](VR_READINESS.md). Simulation uses semantic actions and aim rays, and presentation owns the camera rig, HUD and view motion. The standard governs new work and ports. Headset behavior remains NOT TESTED.
+
 ## Unity Dogfight encounter — SD-075
 
 The owner selected a fully playable Unity Dogfight port for this pass. The separate runtime assembly `SpaceDragon.Dogfight` owns pure flight, breath, enemy pilot, tactical damage/repairs, salvage, missile and collision state. `DogfightEncounter` adapts Input System events, current visibility and swept collisions; presentation/HUD/audio observe state. A separate scene/builder/template uses the same Unity project and existing versioned GLB. Gameplay +Z, the single imported-source Y180 adapter, sockets and simple colliders are documented in [the Unity Dogfight guide](UNITY_DOGFIGHT.md). No campaign, learner or PlayerPrefs writes; restart is encounter-local. [The receipt](../reports/2026-10-31-unity-dogfight.md) distinguishes implemented source, EditMode checks, development fixtures and actual player evidence. This supersedes the handoff-only state of SD-072 for Dogfight; other scenes remain independently owned.
